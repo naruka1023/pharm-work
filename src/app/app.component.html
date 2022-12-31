@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/assets/logo.png" alt="" width="160" height="48">
+          </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar" style="justify-content:space-between">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ร้านยา</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">งานร้านยา Full-time</a>
+                    <li><a class="dropdown-item" href="#">งานร้านยา Part-time</a>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">โรงพยาบาล</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">งานโรงพยาบาล Full-time</a>
+                    <li><a class="dropdown-item" href="#">งานโรงพยาบาล Part-time</a>
+                </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">โรงงาน</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">บริษัทยา</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">อื่นๆ</a></li>
+        </ul>
+        <div class="d-flex flex-row-reverse bd-highlight">
+            <div class="p-2 bd-highlight">
+                <button class="btn btn-success" style="margin-left:1em">ลงทะเบียน</button>
+            </div>
+            <div class="p-2 bd-highlight">
+                <form class="d-flex">
+                    <input class="form-control me-2" type="text" placeholder="Search">
+                    <button class="btn btn-primary" type="button">ค้นหา</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+<router-outlet></router-outlet>

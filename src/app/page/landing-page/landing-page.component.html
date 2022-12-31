@@ -1,0 +1,23 @@
+<swiper
+    [navigation]="true"
+    [loop]="true"
+    [slidesPerView]="2.5"
+    [centeredSlides]="true"
+    [watchSlidesProgress] = "true"
+    [spaceBetween]="25"
+    [pagination]="true"
+    [autoplay]="true"
+    style="margin-top: 3em; text-align: center"
+>
+<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+</swiper>
+<div class="container pt-6">
+    <div *ngFor="let header of headerArray">
+        <app-swiper-module [header]="header"></app-swiper-module>
+    </div>
+</div>
