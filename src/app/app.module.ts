@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './page/landing-page/landing-page.component';
 import { SwiperModuleComponent } from './common/swiper-module/swiper-module.component';
+import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
-    SwiperModuleComponent
+    SwiperModuleComponent,
+    JobPostDetailsComponent
   ],
   imports: [
     BrowserModule,
