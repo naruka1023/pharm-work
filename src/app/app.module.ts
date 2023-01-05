@@ -8,13 +8,17 @@ import { AppComponent } from './app.component';
 import { LandingPageComponent } from './page/landing-page/landing-page.component';
 import { SwiperModuleComponent } from './common/swiper-module/swiper-module.component';
 import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
+import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
+import { JobPostSmallCardComponent } from './common/job-post-small-card/job-post-small-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
     SwiperModuleComponent,
-    JobPostDetailsComponent
+    JobPostDetailsComponent,
+    JobPostNormalCardComponent,
+    JobPostSmallCardComponent
   ],
   imports: [
     BrowserModule,

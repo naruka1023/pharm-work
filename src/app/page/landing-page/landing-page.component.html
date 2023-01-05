@@ -16,8 +16,14 @@
 <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
 <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
 </swiper>
-<div class="container pt-6">
-    <div *ngFor="let header of headerArray">
-        <app-swiper-module [header]="header"></app-swiper-module>
+<div style="background:lightgrey">
+    <div class="container pt-6">
+        <div class="py-5">
+            <app-job-post-normal-card></app-job-post-normal-card>
+            <app-job-post-small-card></app-job-post-small-card>
+        </div>
+        <div *ngFor="let header of headerArray">
+            <app-swiper-module [header]="header"></app-swiper-module>
+        </div>
     </div>
 </div>

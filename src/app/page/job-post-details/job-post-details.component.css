@@ -1,22 +1,18 @@
 div.img-container {
-    width: 100%;
-    margin: 0 auto;
-    height: 150px;
-    position: relative;
-    display: block;
-    z-index: 1;
-    overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  height: 150px;
+  position: relative;
+  display: block;
+  z-index: 1;
+  overflow: hidden;
 }
 
-.job-post_text-label{
-  font-size:1.25rem
-}
-
-.job-post_profile-picture{
-    position: relative;
-    top: -75px;
-    z-index: 2;
-    left: 22px;
+.job-post_profile-picture {
+  position: relative;
+  top: -75px;
+  z-index: 2;
+  left: 22px;
 }
 
 div.img-container > img {
@@ -24,14 +20,25 @@ div.img-container > img {
   object-fit: cover;
   object-position: center top;
 }
-  @media (min-width: 576px) {
-    div.img-container {
-      height: 225px;
-    }
+@media (min-width: 576px) {
+  div.img-container {
+    height: 225px;
   }
-  
-  @media (min-width: 768px) {
-    div.img-container {
-      height: 270px;
-    }
+}
+
+@media (min-width: 768px) {
+  div.img-container {
+    height: 270px;
   }
+}
+.grid {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  row-gap: 2rem;
+  font-size: 1.5rem;
+}
+.gridContact {
+  display: grid;
+  width:10vw;
+  grid-template-columns: auto auto;
+}
