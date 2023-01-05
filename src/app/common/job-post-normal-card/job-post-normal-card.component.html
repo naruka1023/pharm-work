@@ -1,5 +1,14 @@
-<div class="card w-100 my-3">
+<div class="card rounded w-100 my-3">
 	<div class="card-body">
+		<div *ngIf="urgentFlag === true" class="d-flex justify-content-between mb-2">
+			<div class="p-3 d-flex align-items-center" style="text-align: center">
+				<h4><b>ร้านยา</b></h4>
+			</div>
+			<div class="d-flex align-items-center">
+				<h4 class="card-title d-flex flex-row"><b>ต้องการตำแหน่งวันที่ </b><p class="ms-2">06/25/23</p></h4>
+			</div>
+			<button type="button" class="btn btn-primary"><h4>สมัครงาน</h4></button>
+		</div>
 		<div class="d-flex justify-content-start">
 			<div>
 				<img class="border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
@@ -21,8 +30,18 @@
 					<div class="my-3">
 						<h4 class="card-title">เภสัชกรประจำร้านยา</h4>
 					</div>
-					<div class="rounded-pill p-3 d-flex align-items-center" style="background:lightgreen">
-						<b>Full-Time</b>
+					<div *ngIf="urgentFlag === false">
+						<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
+						<ng-template #fullBlock>
+							<div class="rounded-pill p-3 d-flex align-items-center" style="background:lightgreen">
+								<b>Full-Time</b>
+							</div>
+						</ng-template>
+						<ng-template #partBlock>
+							<div class="rounded-pill p-3 d-flex align-items-center" style="background:yellow">
+								<b>Part-Time</b>
+							</div>
+						</ng-template>
 					</div>
 				</div>
 				<div class="container text-center">
@@ -59,26 +78,27 @@
 							</div>
 						</div>
 						<div class="col d-flex">
-							<p class="me-2">
-								<b>เงินเดือน:</b>
-							</p>
-							<p> 24,000 - 40,000 บาท/เดือน ตามตกลง</p>
+							<ng-container *ngIf="fullTimeFlag === true; then fullPriceBlock; else partPriceBlock"></ng-container>
+							<ng-template #fullPriceBlock>
+								<p class="me-2">
+									<b>เงินเดือน:</b>
+								</p>
+								<p> 24,000 - 40,000 บาท/เดือน ตามตกลง</p>
+							</ng-template>
+							<ng-template #partPriceBlock>
+								<p class="me-2">
+									<b>ค่าตอบแทน:</b>
+								</p>
+								<p>180 บาท/ชม</p>
+							</ng-template>
 						</div>
 					</div>
 					<div class="row">
-						<div class="d-flex col">
-							<p class="me-2">
-								<b>ค่าตอบแทน:</b>
-							</p>
-							<p>180 บาท/ชม</p>
-						</div>
 						<div class="d-flex col">
 							<p class="me-2">
 								<b>นัดสัมภาษณ์งานออนไลน์</b>
 							</p>
 						</div>
-					</div>
-					<div class="row">
 						<div class="d-flex col">
 							<p class="me-2">
 								<b>ใกล้ BTS:</b>

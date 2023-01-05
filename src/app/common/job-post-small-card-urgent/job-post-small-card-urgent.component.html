@@ -1,13 +1,8 @@
 <div class="card rounded" style="width: fit-content;">
-    <div class="d-flex justify-content-between">
-      <div *ngIf="fullTimeFlag as true; else elseBlock" class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightgreen">
-          <b>Full-Time</b>
+    <div class="d-flex justify-content-center">
+      <div class="p-3 d-flex align-items-center" style="text-align: center">
+          <b>ร้านยา</b>
       </div>
-      <ng-template #elseBlock>
-        <div class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightyellow">
-            <b>Part-Time</b>
-        </div>
-      </ng-template>
         <div>
             <button type="button" class="btn">
                 <h1>
@@ -21,15 +16,30 @@
             </button>
         </div>
     </div>
-    <img src="assets/watsons.png" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
     <div class="card-body pb-0">
+      <div class="d-flex justify-content-start">
+        <img src="assets/watsons.png" class="card-img-top" style="width:fit-content" height="50" width="50">
+        <div class="d-flex flex-column align-items-center ms-3">
+          <b>ต้องการเภสัชวันที่</b>
+          <hr class="solid my-1" style="width:100%">
+          <p>06/25/23</p>
+        </div>
+      </div>
+      <div class="d-flex flex-row">
+        <p><b>ชื่อสถานที่:</b></p>
+        <p class="ms-3">Watsons</p>
+      </div>
+      <div class="d-flex flex-row">
+        <p><b>สาขา:</b></p>
+        <p class="ms-3">เอกมัย</p>
+      </div>
       <div class="d-flex flex-row">
         <p><b>ชื่องาน:</b></p>
         <p class="ms-3">เภสัชกรประจำร้านยา</p>
       </div>
       <div class="d-flex flex-row">
-        <p><b>ชื่อสถานที่:</b></p>
-        <p class="ms-3">Watsons</p>
+        <p><i class="bi bi-people-fill"></i></p>
+        <p class="ms-3">2 ตำแหน่ง</p>
       </div>
       <div class="d-flex flex-row">
         <p><i class="bi bi-map"></i></p>

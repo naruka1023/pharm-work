@@ -1,20 +1,38 @@
 <p class="h3 mt-4">{{ header }}</p>
     <swiper
         [navigation]="true"
-        [slidesPerView]="3.5"
+        [slidesPerView]="4.5"
         [spaceBetween]="15"
         [pagination]="true"
         [autoplay]="true"
         style="margin-top: 3em; text-align: center"
     >
-    <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
-    </swiper>
+    <ng-container
+        *ngIf="header !== 'งานเภสัชด่วนรายวัน'; then ifBlock; else elseBlock">
+    </ng-container>
+    <ng-template #ifBlock>
+        <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+    </ng-template>
+    <ng-template #elseBlock>
+        <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
+        <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
+
+    </ng-template>
+</swiper>

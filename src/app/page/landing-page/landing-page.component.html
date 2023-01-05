@@ -9,18 +9,19 @@
     [autoplay]="true"
     style="margin-top: 3em; text-align: center"
 >
-<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-<ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
 </swiper>
-<div style="background:lightgrey">
+<div>
     <div class="container pt-6">
         <div class="py-5">
             <app-job-post-normal-card></app-job-post-normal-card>
-            <app-job-post-small-card></app-job-post-small-card>
+            <div class="d-flex flex-row">
+            </div>
         </div>
         <div *ngFor="let header of headerArray">
             <app-swiper-module [header]="header"></app-swiper-module>
