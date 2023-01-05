@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-job-post-small-card',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./job-post-small-card.component.css']
 })
 export class JobPostSmallCardComponent {
-
+  @Input() fullTimeFlag = true 
 }
