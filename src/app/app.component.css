@@ -1,3 +1,6 @@
 .landing-page_pharmacy-dropdown{
     list-style-type: disclosure-closed;
 }
+html {
+    scroll-behavior: auto;
+  }

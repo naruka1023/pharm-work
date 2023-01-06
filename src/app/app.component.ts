@@ -10,6 +10,16 @@ export class AppComponent {
   constructor(private modalService: NgbModal) {
   }
 
+  onActivate() {
+    // window.scroll(0,0);
+ 
+    window.scroll({ 
+            top: 0, 
+            left: 0, 
+            behavior:"auto"
+     });
+ }
+
   public open(modal: any): void {
     this.modalService.open(modal);
   }

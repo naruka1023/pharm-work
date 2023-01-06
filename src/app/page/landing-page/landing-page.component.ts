@@ -7,5 +7,5 @@ SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent {
-  headerArray: string[] = ['งานเภสัชด่วนรายวัน',  'งานร้านยาทั่วไป (Stand alone)', 'งานร้านยา Brand (Chain)',  'แนะนำ Brand ร้านยาทั้งหมด ', 'งานโรงพยาบาล', 'งานโรงงาน', 'งานบริษัทยา', 'แนะนำโรงงานและบริษัทยาทั้งหมด'];
+  headerArray: string[] = ['งานเภสัชด่วนรายวัน',  'งานร้านยาทั่วไป (Stand alone)', 'งานร้านยา Brand (Chain)',  'แนะนำ Brand ร้านยาทั้งหมด ', 'งานคลินิก', 'งานโรงงาน', 'งานวิจัย','งานอื่นๆ', 'แนะนำโรงงานและบริษัทยาทั้งหมด'];
 }

@@ -1,61 +1,63 @@
 <div class="card rounded" style="width: fit-content;">
-    <div class="d-flex justify-content-between">
-      <div *ngIf="fullTimeFlag as true; else elseBlock" class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightgreen">
-          <b>Full-Time</b>
-      </div>
-      <ng-template #elseBlock>
-        <div class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightyellow">
+  <div class="d-flex justify-content-between">
+    <div *ngIf="fullTimeFlag as true; else elseBlock" class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightgreen">
+      <b>Full-Time</b>
+        </div>
+        <ng-template #elseBlock>
+          <div class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightyellow">
             <b>Part-Time</b>
-        </div>
-      </ng-template>
+          </div>
+        </ng-template>
         <div>
-            <button type="button" class="btn">
-                <h1>
+          <button type="button" class="btn">
+                  <h1>
                     <i class="bi bi-share-fill"></i>
-                </h1>
-            </button>
-            <button type="button" class="btn">
+                  </h1>
+                </button>
+              <button type="button" class="btn">
                 <h1>
-                    <i class="bi bi-bookmark-fill"></i>
+                  <i class="bi bi-bookmark-fill"></i>
                 </h1>
-            </button>
-        </div>
-    </div>
-    <img src="assets/watsons.png" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
-    <div class="card-body pb-0">
-      <div class="d-flex flex-row">
-        <p><b>ชื่องาน:</b></p>
-        <p class="ms-3">เภสัชกรประจำร้านยา</p>
-      </div>
-      <div class="d-flex flex-row">
-        <p><b>ชื่อสถานที่:</b></p>
-        <p class="ms-3">Watsons</p>
-      </div>
-      <div class="d-flex flex-row">
-        <p><i class="bi bi-map"></i></p>
-        <div class="addressList mb-3">
-            <div class="d-flex flex-row">
-                <b>เขต:</b>
-                <div class="ms-3"> คลองตัน</div>
+              </button>
             </div>
-            <div class="d-flex flex-row">
-                <b>จังหวัด:</b>
-                <div class="ms-3"> กรุงเทพ</div>
-            </div>
-        </div>
-      </div>
-      <div *ngIf="fullTimeFlag as true; else elseBlock2"  class="d-flex flex-row">
-        <p><i class="bi bi-currency-bitcoin"></i></p>
-        <p class="ms-3 d-flex align-items-center"> 24,000 - 40,000 บาท/เดือน</p>
-      </div>
-      <ng-template #elseBlock2>
+          </div>
+      <a routerLink="/job-post" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <img src="assets/watsons.png" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+      </a>
+      <div class="card-body pb-0">
         <div class="d-flex flex-row">
-          <p><i class="bi bi-currency-bitcoin"></i></p>
-          <p class="ms-3 d-flex align-items-center"> 180 บาท/ชม</p>
+          <p><b>ชื่องาน:</b></p>
+          <p class="ms-3">เภสัชกรประจำร้านยา</p>
         </div>
-      </ng-template>
-      <div class="d-flex align-items-end justify-content-end">
-        <p style="font-size:0.75rem">อัพเดทล่าสุด 10 นาทีที่แล้ว</p>
+        <div class="d-flex flex-row">
+          <p><b>ชื่อสถานที่:</b></p>
+          <p class="ms-3">Watsons</p>
+        </div>
+        <div class="d-flex flex-row">
+          <p><i class="bi bi-map"></i></p>
+          <div class="addressList mb-3">
+              <div class="d-flex flex-row">
+                  <b>เขต:</b>
+                  <div class="ms-3"> คลองตัน</div>
+              </div>
+              <div class="d-flex flex-row">
+                  <b>จังหวัด:</b>
+                  <div class="ms-3"> กรุงเทพ</div>
+              </div>
+          </div>
+        </div>
+        <div *ngIf="fullTimeFlag as true; else elseBlock2"  class="d-flex flex-row">
+          <p><i class="bi bi-currency-bitcoin"></i></p>
+          <p class="ms-3 d-flex align-items-center"> 24,000 - 40,000 บาท/เดือน</p>
+        </div>
+        <ng-template #elseBlock2>
+          <div class="d-flex flex-row">
+            <p><i class="bi bi-currency-bitcoin"></i></p>
+            <p class="ms-3 d-flex align-items-center"> 180 บาท/ชม</p>
+          </div>
+        </ng-template>
+        <div class="d-flex align-items-end justify-content-end">
+          <p style="font-size:0.75rem">อัพเดทล่าสุด 10 นาทีที่แล้ว</p>
+        </div>
       </div>
     </div>
-  </div>

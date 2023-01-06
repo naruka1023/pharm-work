@@ -11,6 +11,7 @@ import { JobPostDetailsComponent } from './page/job-post-details/job-post-detail
 import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
 import { JobPostSmallCardComponent } from './common/job-post-small-card/job-post-small-card.component';
 import { JobPostSmallCardUrgentComponent } from './common/job-post-small-card-urgent/job-post-small-card-urgent.component';
+import { JobsListComponent } from './pages/jobs-list/jobs-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { JobPostSmallCardUrgentComponent } from './common/job-post-small-card-ur
     JobPostDetailsComponent,
     JobPostNormalCardComponent,
     JobPostSmallCardComponent,
-    JobPostSmallCardUrgentComponent
+    JobPostSmallCardUrgentComponent,
+    JobsListComponent
   ],
   imports: [
     BrowserModule,

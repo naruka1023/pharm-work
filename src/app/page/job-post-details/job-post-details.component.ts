@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./job-post-details.component.css']
 })
 export class JobPostDetailsComponent {
-
+  
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
+  }
 }

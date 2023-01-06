@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" routerLink="">
             <img src="/assets/logo.png" alt="" width="160" height="48">
           </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,9 +18,10 @@
                             <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" href="#">ร้านยา Brand (Chain)</a></li>
                         </ul>    
                     </li>
-                    <li><a class="dropdown-item" href="#">งานโรงพยาบาล</a></li>
+                    <li><a class="dropdown-item" href="#">งานคลินิก</a></li>
                     <li><a class="dropdown-item" href="#">งานโรงงาน</a></li>
-                    <li><a class="dropdown-item" href="#">งานบริษัทยา</a></li>
+                    <li><a class="dropdown-item" href="#">งานวิจัย</a></li>
+                    <li><a class="dropdown-item" href="#">งานอื่นๆ</a></li>
                 </ul>
             </li>
             <li class="nav-item"><a class="nav-link" href="#">เข้าสู่ระบบ</a></li>
@@ -31,4 +32,4 @@
       </div>
     </div>
   </nav>
-<router-outlet></router-outlet>
+<router-outlet (activate)="onActivate()"></router-outlet>
