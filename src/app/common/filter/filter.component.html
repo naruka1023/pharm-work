@@ -1,0 +1,72 @@
+<form class="mt-3"  *ngIf="filterFlags.filterFlag">
+    <div class="d-flex justify-content-between align-items-end">
+        <div class="d-flex justify-content-around">
+
+            <div *ngIf="filterFlags.dateFilter" class="d-flex me-3">
+                <label for="exampleFormControlInput1" class="d-flex align-items-end h5 me-3 form-label">วันที่:</label>
+                <input style="width:fit-content" type="date" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <div *ngIf="filterFlags.JobType" class="me-3 form-check ps-0">
+                <label class="form-label h5">
+                    ประเภทงาน: 
+                </label>
+                <div class="btn-group ms-3">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        โรงพยาบาล
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item">โรงพยาบาล</a></li>
+                      <li><a class="dropdown-item">คลินิก</a></li>
+                    </ul>
+                  </div>
+            </div>
+            <div *ngIf="filterFlags.JobTypeTwo" class="me-3 form-check ps-0">
+                <label class="form-label h5">
+                    ประเภทงาน: 
+                </label>
+                <div class="btn-group ms-3">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        โรงงาน
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item">โรงงาน</a></li>
+                      <li><a class="dropdown-item">บริษํท</a></li>
+                      <li><a class="dropdown-item">วิจัย</a></li>
+                    </ul>
+                  </div>
+            </div>
+            <div *ngIf="filterFlags.location" class="me-3 form-check ps-0">
+                <label class="form-label h5">
+                    พื้นที่: 
+                </label>
+                <div class="btn-group ms-3">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        งานใกล้ฉัน
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item">งานใกล้ฉัน</a></li>
+                      <li><a class="dropdown-item">ทั้งหมด</a></li>
+                    </ul>
+                  </div>
+            </div>
+            <div *ngIf="filterFlags.timeFrame" class="me-3 form-check ps-0">
+                <label class="form-label h5">
+                    ลักษณะงาน: 
+                </label>
+                <div class="btn-group ms-3">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Full-Time
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item">Full-Time</a></li>
+                      <li><a class="dropdown-item">Part-Time</a></li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        <button type="button" class="ms-3 btn btn-success d-flex flex-row align-items-center">
+            <p class="h5 d-flex align-items-center me-3">ค้นหา</p>
+            <i class="d-flex bi bi-arrow-right-square align-items-center" style="font-size:1.5rem"></i>
+        </button>
+    </div>
+</form>

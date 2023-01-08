@@ -1,10 +1,11 @@
-<div class="d-flex justify-content-between mt-5">
-    <p class="h3  d-flex align-items-end">{{ header }}</p>
-    <button routerLink="job-post" type="button" class="btn btn-light d-flex flex-row align-items-center">
+<div class="d-flex justify-content-between" style="margin-top:5rem">
+    <p class="h3  d-flex align-items-end">{{ filterFlags.header }}</p>
+    <button (click)="goToList()" type="button" class="btn btn-light d-flex flex-row align-items-center">
         <p class="h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
         <i class="d-flex bi bi-arrow-right-square align-items-center" style="font-size:1.5rem"></i>
     </button>
 </div>
+    <app-filter [filterFlags]="filterFlags"></app-filter>
 <swiper
     [navigation]="true"
     [slidesPerView]="4.5"
@@ -14,7 +15,7 @@
     style="margin-top: 3em; text-align: center"
 >
 <ng-container
-    *ngIf="header !== 'งานเภสัชด่วนรายวัน'; then ifBlock; else elseBlock">
+    *ngIf="filterFlags.header !== 'งานเภสัชด่วนรายวัน'; then ifBlock; else elseBlock">
 </ng-container>
 <ng-template #ifBlock>
     <ng-template swiperSlide><app-job-post-small-card></app-job-post-small-card></ng-template>
