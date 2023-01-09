@@ -8,7 +8,7 @@ import { filterConditions } from 'src/app/model/filter-conditions/filter-conditi
 })
 export class FilterComponent {
   @Input() filterFlags!: filterConditions;
-  
+
   ngOnInit(){
     console.log(this.filterFlags);
   }

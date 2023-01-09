@@ -8,8 +8,14 @@ import { filterConditions } from 'src/app/model/filter-conditions/filter-conditi
 })
 export class SwiperModuleComponent {
   @Input()filterFlags!: filterConditions;
+  filterVisibleFlag: boolean = false;
+  
   constructor(private router: Router){
     
+  }
+
+  toggleFilter(){
+    this.filterVisibleFlag = !this.filterVisibleFlag
   }
 
   goToList(){

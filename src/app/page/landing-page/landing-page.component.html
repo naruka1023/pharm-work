@@ -20,6 +20,7 @@
     <div class="container pt-6">
         <div class="py-5">
         </div>
+        <app-job-post-normal-card [urgentFlag]="true" [fullTimeFlag]="true"></app-job-post-normal-card>
         <div *ngFor="let header of headerArray">
             <app-swiper-module [filterFlags]="header"></app-swiper-module>
         </div>

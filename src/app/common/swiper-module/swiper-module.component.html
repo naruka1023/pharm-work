@@ -1,11 +1,21 @@
 <div class="d-flex justify-content-between" style="margin-top:5rem">
-    <p class="h3  d-flex align-items-end">{{ filterFlags.header }}</p>
+    <div class="d-flex flex-row align-items-end mb-0">
+        <div class="d-flex flex-row">
+            <div class=" my-auto me-3">
+                <div type="button" (click)="toggleFilter()">
+                    <i class=" h2 bi bi-justify"></i>
+                </div>
+            </div>
+            <p class="h3  d-flex align-items-end">{{ filterFlags.header }}</p>
+        </div>
+        <p class="text-secondary-emphasis text-opacity-50 fs-5 my-auto ms-3">(350)</p>
+    </div>
     <button (click)="goToList()" type="button" class="btn btn-light d-flex flex-row align-items-center">
         <p class="h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
         <i class="d-flex bi bi-arrow-right-square align-items-center" style="font-size:1.5rem"></i>
     </button>
 </div>
-    <app-filter [filterFlags]="filterFlags"></app-filter>
+    <app-filter *ngIf="filterVisibleFlag" [filterFlags]="filterFlags"></app-filter>
 <swiper
     [navigation]="true"
     [slidesPerView]="4.5"

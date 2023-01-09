@@ -1,13 +1,14 @@
 <div class="card rounded w-100 my-3">
 	<div class="card-body">
+		<button type="button" class="position-absolute bottom-0 end-0 btn btn-primary m-4"><h4>สมัครงาน</h4></button>
 		<div *ngIf="urgentFlag === true" class="d-flex justify-content-between mb-2">
 			<div class="p-3 d-flex align-items-center" style="text-align: center">
 				<h4><b>ร้านยา</b></h4>
 			</div>
 			<div class="d-flex align-items-center">
-				<h4 class="card-title d-flex flex-row"><b>ต้องการตำแหน่งวันที่ </b><p class="ms-2">06/25/23</p></h4>
+				<h4 class="card-title d-flex flex-row align-items-center"><b>ต้องการตำแหน่งวันที่ </b><p class="my-auto ms-2">06/25/23</p></h4>
 			</div>
-			<button type="button" class="btn btn-primary"><h4>สมัครงาน</h4></button>
+			<p class="h4 my-auto">อัพเดทล่าสุด 10 นาทีที่แล้ว</p>
 		</div>
 		<div class="d-flex justify-content-start">
 			<div>
@@ -45,64 +46,44 @@
 					</div>
 				</div>
 				<div class="container text-center">
-					<div class="row">
+					<div class="row mb-3">
 						<div class="col d-flex">
-							<p class="me-2">
-								<b>สถานที่ปฏิบัติงาน:</b>
+							<p class="my-auto me-2">
+								<i class="my-auto h2 bi bi-building-fill"></i>
 							</p>
-							<p> Watsons</p>
+							<p class="my-auto"> Watsons</p>
 						</div>
 						<div class="col d-flex">
-							<p class="me-2">
-								<b>สาขา:</b>
+							<p class="my-auto me-2">
+								<i class="h2 my-auto bi bi-currency-bitcoin"></i>
 							</p>
-							<p> เอกมัย</p>
+							<div class="d-flex flex-row my-auto">
+								<div class="mx-2">35,000 บาท/เดือน</div>
+							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-3">
 						<div class="col d-flex">
-							<p class="me-2">
-								<b>พื้นที่ปฏิบัติงาน:</b>
+							<p class="my-auto me-2">
+								<i class="my-auto h2 bi bi-clock-fill"></i>
 							</p>
-							<div class="d-flex flex-row">
-								<b>แขวง:</b>
-								<div class="mx-2"> วัฒนา</div>
-							</div>
-							<div class="d-flex flex-row">
-								<b>เขต:</b>
-								<div class="mx-2"> คลองตัน</div>
-							</div>
-							<div class="d-flex flex-row">
-								<b>จังหวัด:</b>
-								<div class="mx-2"> กรุงเทพ</div>
-							</div>
+							<p class="my-auto">8.00 - 18.00 น.</p>
 						</div>
 						<div class="col d-flex">
-							<ng-container *ngIf="fullTimeFlag === true; then fullPriceBlock; else partPriceBlock"></ng-container>
-							<ng-template #fullPriceBlock>
-								<p class="me-2">
-									<b>เงินเดือน:</b>
-								</p>
-								<p> 24,000 - 40,000 บาท/เดือน ตามตกลง</p>
-							</ng-template>
-							<ng-template #partPriceBlock>
-								<p class="me-2">
-									<b>ค่าตอบแทน:</b>
-								</p>
-								<p>180 บาท/ชม</p>
-							</ng-template>
+							<p class="my-auto me-2">
+								<i class="h2 my-auto bi bi-map-fill"></i>
+							</p>
+							<div class="d-flex flex-row my-auto">
+								<div class="mx-2">พญาไท, กทม.</div>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="d-flex col">
-							<p class="me-2">
-								<b>นัดสัมภาษณ์งานออนไลน์</b>
+					<div class="row mb-3">
+						<div class="col d-flex">
+							<p class="my-auto me-2">
+								<i class="my-auto h2 bi bi-tv"></i>
 							</p>
-						</div>
-						<div class="d-flex col">
-							<p class="me-2">
-								<b>ใกล้ BTS:</b>
-							</p>
+							<p class="my-auto">สัมภาษณ์งานทางออนไลน์</p>
 						</div>
 					</div>
 				</div>
