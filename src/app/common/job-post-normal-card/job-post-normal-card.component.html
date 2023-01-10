@@ -1,14 +1,30 @@
 <div class="card rounded w-100 my-3">
 	<div class="card-body">
-		<button type="button" class="position-absolute bottom-0 end-0 btn btn-primary m-4"><h4>สมัครงาน</h4></button>
-		<div *ngIf="urgentFlag === true" class="d-flex justify-content-between mb-2">
-			<div class="p-3 d-flex align-items-center" style="text-align: center">
-				<h4><b>ร้านยา</b></h4>
+			<div *ngIf="urgentFlag === true" class="d-flex justify-content-between mb-2">
+				<div class="p-3 d-flex align-items-center" style="text-align: center">
+					<div><b>ร้านยา</b></div>
+				</div>
+				<div class="d-flex align-items-center">
+					<div class="d-flex flex-row align-items-center "><b>ต้องการตำแหน่งวันที่ </b><p class="my-auto ms-2">06/25/23</p></div>
+				</div>
+				<p class=" my-auto">อัพเดทล่าสุด 10 นาทีที่แล้ว</p>
 			</div>
-			<div class="d-flex align-items-center">
-				<h4 class="card-title d-flex flex-row align-items-center"><b>ต้องการตำแหน่งวันที่ </b><p class="my-auto ms-2">06/25/23</p></h4>
+		<div class="d-flex justify-content-between" *ngIf="!urgentFlag">
+			<div>
+						<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
+						<ng-template #fullBlock>
+							<div class="p-3" style="text-align: center; width:150px">
+								<b class="fs-4">Full-Time</b>
+							</div>
+						</ng-template>
+						<ng-template #partBlock>
+							<div class="p-3" style="text-align: center; width:150px">
+								<b class="fs-4">Part-Time</b>
+							</div>
+						</ng-template>
+					</div>
+			<div class="my-auto">อัพเดทล่าสุด 10 นาทีที่แล้ว
 			</div>
-			<p class="h4 my-auto">อัพเดทล่าสุด 10 นาทีที่แล้ว</p>
 		</div>
 		<div class="d-flex justify-content-start">
 			<div>
@@ -27,22 +43,9 @@
 				</div>
 			</div>
 			<div class="m-auto ms-3" style="width:-webkit-fill-available">
-				<div class="d-flex justify-content-between me-2">
+				<div class="d-flex flex-row me-2">
 					<div class="my-3">
 						<h4 class="card-title">เภสัชกรประจำร้านยา</h4>
-					</div>
-					<div *ngIf="urgentFlag === false">
-						<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
-						<ng-template #fullBlock>
-							<div class="rounded-pill p-3 d-flex align-items-center" style="background:lightgreen">
-								<b>Full-Time</b>
-							</div>
-						</ng-template>
-						<ng-template #partBlock>
-							<div class="rounded-pill p-3 d-flex align-items-center" style="background:yellow">
-								<b>Part-Time</b>
-							</div>
-						</ng-template>
 					</div>
 				</div>
 				<div class="container text-center">
@@ -58,7 +61,10 @@
 								<i class="h2 my-auto bi bi-currency-bitcoin"></i>
 							</p>
 							<div class="d-flex flex-row my-auto">
-								<div class="mx-2">35,000 บาท/เดือน</div>
+								<div class="mx-2">35,000 </div>
+								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
+								<ng-template #fullSub>บาท/เดือน</ng-template>
+								<ng-template #partSub>บาท/ชม</ng-template>
 							</div>
 						</div>
 					</div>
@@ -79,7 +85,13 @@
 						</div>
 					</div>
 					<div class="row mb-3">
-						<div class="col d-flex">
+						<div *ngIf="urgentFlag === false" class="col d-flex">
+							<p class="my-auto me-2">
+								<i class="my-auto h2 bi bi-people-fill"></i>
+							</p>
+							<p class="my-auto">5 ตำแหน่ง</p>
+						</div>
+						<div class="col d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
 								<i class="my-auto h2 bi bi-tv"></i>
 							</p>
@@ -88,6 +100,9 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="d-flex flex-row-reverse">
+			<button *ngIf="urgentFlag === true" type="button" class=" btn btn-success"><h4>สมัครงาน</h4></button>
 		</div>
 	</div>
 </div>

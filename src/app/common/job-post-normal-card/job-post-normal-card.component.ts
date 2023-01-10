@@ -6,6 +6,12 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./job-post-normal-card.component.css']
 })
 export class JobPostNormalCardComponent {
-  @Input()urgentFlag = false;
-  @Input()fullTimeFlag = true;
+  @Input() urgentFlag = true;
+  @Input() fullTimeFlag = true;
+
+  ngOnInit(){
+    if(this.urgentFlag){
+      this.fullTimeFlag = false;
+    }
+  }
 }

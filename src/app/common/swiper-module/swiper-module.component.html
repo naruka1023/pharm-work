@@ -1,21 +1,23 @@
 <div class="d-flex justify-content-between" style="margin-top:5rem">
     <div class="d-flex flex-row align-items-end mb-0">
         <div class="d-flex flex-row">
-            <div class=" my-auto me-3">
-                <div type="button" (click)="toggleFilter()">
+            <div *ngIf="filterFlags.filterFlag" class=" my-auto me-3">
+                <a class="text-body" type="button" data-bs-toggle="collapse" [href]=collapseButton>
                     <i class=" h2 bi bi-justify"></i>
-                </div>
+                </a>
             </div>
-            <p class="h3  d-flex align-items-end">{{ filterFlags.header }}</p>
+            <p class="h3 d-flex align-items-end">{{ filterFlags.header }}</p>
         </div>
         <p class="text-secondary-emphasis text-opacity-50 fs-5 my-auto ms-3">(350)</p>
     </div>
-    <button (click)="goToList()" type="button" class="btn btn-light d-flex flex-row align-items-center">
+    <button *ngIf="filterFlags.filterFlag" (click)="goToList()" type="button" class="btn btn-light d-flex flex-row align-items-center">
         <p class="h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
         <i class="d-flex bi bi-arrow-right-square align-items-center" style="font-size:1.5rem"></i>
     </button>
 </div>
-    <app-filter *ngIf="filterVisibleFlag" [filterFlags]="filterFlags"></app-filter>
+    <div class="collapse" [id]="filterFlags.categorySymbol">
+        <app-filter [filterFlags]="filterFlags"></app-filter>
+    </div>
 <swiper
     [navigation]="true"
     [slidesPerView]="4.5"
@@ -40,16 +42,16 @@
     <ng-template swiperSlide><app-job-post-small-card [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
 </ng-template>
 <ng-template #elseBlock>
-    <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent></app-job-post-small-card-urgent></ng-template>
-    <ng-template swiperSlide><app-job-post-small-card-urgent [fullTimeFlag]="false"></app-job-post-small-card-urgent></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true" [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true" [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true" [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true" [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true"></app-job-post-small-card></ng-template>
+    <ng-template swiperSlide><app-job-post-small-card [urgentFlag]="true" [fullTimeFlag]="false"></app-job-post-small-card></ng-template>
 
 </ng-template>
 </swiper>

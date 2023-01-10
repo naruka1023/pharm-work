@@ -10,9 +10,9 @@ import { SwiperModuleComponent } from './common/swiper-module/swiper-module.comp
 import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
 import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
 import { JobPostSmallCardComponent } from './common/job-post-small-card/job-post-small-card.component';
-import { JobPostSmallCardUrgentComponent } from './common/job-post-small-card-urgent/job-post-small-card-urgent.component';
 import { JobsListComponent } from './page/jobs-list/jobs-list.component';
 import { FilterComponent } from './common/filter/filter.component';
+import { FilterListComponent } from './common/filter-list/filter-list.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +22,9 @@ import { FilterComponent } from './common/filter/filter.component';
     JobPostDetailsComponent,
     JobPostNormalCardComponent,
     JobPostSmallCardComponent,
-    JobPostSmallCardUrgentComponent,
     JobsListComponent,
     FilterComponent,
+    FilterListComponent,
   ],
   imports: [
     BrowserModule,

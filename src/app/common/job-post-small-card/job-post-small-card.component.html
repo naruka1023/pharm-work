@@ -1,63 +1,109 @@
-<div class="card rounded" style="width: fit-content;">
-  <div class="d-flex justify-content-between">
-    <div *ngIf="fullTimeFlag as true; else elseBlock" class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightgreen">
-      <b>Full-Time</b>
-        </div>
-        <ng-template #elseBlock>
-          <div class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightyellow">
-            <b>Part-Time</b>
-          </div>
-        </ng-template>
+<div class="card rounded" style="width: -webkit-fill-available;">
+  <ng-container *ngIf="urgentFlag; then cardUrgentHeader; else cardHeader">
+
+  </ng-container>
+  <ng-template #cardUrgentHeader>
+    <div class="d-flex justify-content-center">
+      <div class="p-3 d-flex align-items-center" style="text-align: center">
+          <b>ร้านยา</b>
+      </div>
         <div>
-          <button type="button" class="btn">
-                  <h1>
+            <button type="button" class="btn">
+                <h1>
                     <i class="bi bi-share-fill"></i>
+                </h1>
+            </button>
+            <button type="button" class="btn">
+                <h1>
+                    <i class="bi bi-bookmark-fill"></i>
+                </h1>
+            </button>
+        </div>
+    </div>
+  </ng-template>
+  <ng-template #cardHeader>
+    <div class="d-flex justify-content-between">
+      <div *ngIf="fullTimeFlag as true; else elseBlock" class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightgreen">
+        <b>Full-Time</b>
+          </div>
+          <ng-template #elseBlock>
+            <div class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightyellow">
+              <b>Part-Time</b>
+            </div>
+          </ng-template>
+          <div>
+            <button type="button" class="btn">
+                    <h1>
+                      <i class="bi bi-share-fill"></i>
+                    </h1>
+                  </button>
+                <button type="button" class="btn">
+                  <h1>
+                    <i class="bi bi-bookmark-fill"></i>
                   </h1>
                 </button>
-              <button type="button" class="btn">
-                <h1>
-                  <i class="bi bi-bookmark-fill"></i>
-                </h1>
-              </button>
+              </div>
             </div>
-          </div>
-      <a routerLink="/job-post" routerLinkActive="active" ariaCurrentWhenActive="page">
-        <img src="assets/watsons.png" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
-      </a>
-      <div class="card-body pb-0">
-        <div class="d-flex flex-row">
-          <p><b>ชื่องาน:</b></p>
-          <p class="ms-3">เภสัชกรประจำร้านยา</p>
-        </div>
-        <div class="d-flex flex-row">
-          <p><b>ชื่อสถานที่:</b></p>
-          <p class="ms-3">Watsons</p>
-        </div>
-        <div class="d-flex flex-row">
-          <p><i class="bi bi-map"></i></p>
-          <div class="addressList mb-3">
-              <div class="d-flex flex-row">
-                  <b>เขต:</b>
-                  <div class="ms-3"> คลองตัน</div>
-              </div>
-              <div class="d-flex flex-row">
-                  <b>จังหวัด:</b>
-                  <div class="ms-3"> กรุงเทพ</div>
-              </div>
+        <a routerLink="/job-post" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <img src="assets/watsons.png" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+        </a>
+  </ng-template>
+  <div class="card-body pb-0">
+        <div *ngIf="urgentFlag === true" class="d-flex justify-content-start">
+          <a routerLink="/job-post">
+            <img src="assets/watsons.png" class="card-img-top" style="width:fit-content" height="50" width="50">
+          </a>
+          <div class="d-flex flex-column align-items-center ms-3">
+            <b>ต้องการเภสัชวันที่</b>
+            <hr class="solid my-1" style="width:100%">
+            <p>06/25/23</p>
           </div>
         </div>
-        <div *ngIf="fullTimeFlag as true; else elseBlock2"  class="d-flex flex-row">
-          <p><i class="bi bi-currency-bitcoin"></i></p>
-          <p class="ms-3 d-flex align-items-center"> 24,000 - 40,000 บาท/เดือน</p>
+        <div>
+          <p class="text-center fs-4">เภสัชกร</p>
         </div>
-        <ng-template #elseBlock2>
+        <div class="d-flex flex-row">
+          <i class="my-auto h2 bi bi-building-fill"></i>
+          <p class="my-auto ms-3">Watsons</p>
+        </div>
+        <div class="d-flex flex-row my-2">
+          <i class="my-auto h2 bi bi-clock-fill"></i>
+          <p class="my-auto">8.00 - 18.00 น.</p>
+        </div>
+        <div class="d-flex flex-row my-2">
+          <p class="my-auto me-2">
+            <i class="h2 my-auto bi bi-currency-bitcoin"></i>
+          </p>
           <div class="d-flex flex-row">
-            <p><i class="bi bi-currency-bitcoin"></i></p>
-            <p class="ms-3 d-flex align-items-center"> 180 บาท/ชม</p>
+            190
+            <ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container> 
+            <ng-template #fullSub>
+              <div class="ms-1">บาท/เดือน</div>
+            </ng-template>
+            <ng-template #partSub>
+              <div class="ms-1">บาท/ชม</div>
+            </ng-template>
+        </div>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+          <div><i class="bi bi-map"></i></div>
+          <div class="addressList">
+              <div>พญาไท, กทม.</div>
+          </div>
+        </div>
+        <ng-container *ngIf="urgentFlag; then urgentFeature; else notUrgentFeature"></ng-container>
+        <ng-template #notUrgentFeature>
+          <div class="d-flex flex-row my-3">
+            <div class="my-auto me-2">
+                <i class="my-auto h2 bi bi-tv"></i>
+            </div>
+            <div class="my-auto">สัมภาษณ์งานออนไลน์</div>
           </div>
         </ng-template>
-        <div class="d-flex align-items-end justify-content-end">
-          <p style="font-size:0.75rem">อัพเดทล่าสุด 10 นาทีที่แล้ว</p>
-        </div>
+        <ng-template #urgentFeature>
+          <div class="btn btn-success text-center my-2" style="width:-webkit-fill-available" type="button">
+            <div class="fs-5">สมัครงาน</div>
+          </div>
+        </ng-template>
       </div>
     </div>

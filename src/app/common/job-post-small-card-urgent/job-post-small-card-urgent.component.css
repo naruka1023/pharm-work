@@ -1,9 +1,0 @@
-.card-body > .d-flex, .addressList > .d-flex{
-    justify-content: space-between;
-}
-.bi{
-    font-size:1.5rem
-}
-hr.solid {
-    border-top: 3px solid black;
-  }

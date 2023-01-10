@@ -17,7 +17,8 @@ export class LandingPageComponent {
       dateFilter: true,
       JobType: false,
       timeFrame: false,
-      location: true
+      location: true,
+      categorySymbol:"AA"
     },  
     { 
       header: 'งานร้านยาทั่วไป (Stand alone)',
@@ -25,7 +26,8 @@ export class LandingPageComponent {
       dateFilter: false,
       JobType: false,
       timeFrame: true,
-      location: true
+      location: true,
+      categorySymbol:"AB"
     }, 
     { 
       header: 'งานร้านยา Brand (Chain)',
@@ -33,7 +35,8 @@ export class LandingPageComponent {
       dateFilter: false,
       JobType: false,
       timeFrame: true,
-      location: true
+      location: true,
+      categorySymbol:"AC"
     },  
     { 
       header: 'แนะนำ Brand ร้านยาทั้งหมด ',
@@ -41,7 +44,8 @@ export class LandingPageComponent {
       dateFilter: false,
       JobType: false,
       timeFrame: false,
-      location: false
+      location: false,
+      categorySymbol:"BA"
     }, 
     { 
       header: 'งานโรงพยาบาล/งานคลินิก',
@@ -49,16 +53,18 @@ export class LandingPageComponent {
       dateFilter: false,
       JobType: true,
       timeFrame: true,
-      location: true
+      location: true,
+      categorySymbol:"BB"
     }, 
     { 
-      header: 'งานโรงงาน/งานบริษัท/งานิจัย',
+      header: 'งานโรงงาน/งานบริษัท/งาวิจัย',
       filterFlag: true,
       dateFilter: true,
       JobType: false,
       JobTypeTwo: true,
       timeFrame: false,
-      location: true
+      location: true,
+      categorySymbol:"BC"
     },
     { 
       header: 'งานอื่นๆ',
@@ -66,15 +72,17 @@ export class LandingPageComponent {
       dateFilter: false,
       JobType: false,
       timeFrame: true,
-      location: true
+      location: true,
+      categorySymbol:"CA"
     }, 
     { 
       header: 'แนะนำโรงงานและบริษัทยาทั้งหมด',
-      filterFlag: true,
-      dateFilter: true,
+      filterFlag: false,
+      dateFilter: false,
       JobType: false,
       timeFrame: false,
-      location: true
+      location: false,
+      categorySymbol:"CB"
     }
   ];
 }

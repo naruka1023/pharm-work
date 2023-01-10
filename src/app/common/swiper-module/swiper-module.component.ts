@@ -9,9 +9,14 @@ import { filterConditions } from 'src/app/model/filter-conditions/filter-conditi
 export class SwiperModuleComponent {
   @Input()filterFlags!: filterConditions;
   filterVisibleFlag: boolean = false;
+  collapseButton!: string
   
   constructor(private router: Router){
     
+  }
+
+  ngOnInit(){
+    this.collapseButton = "#" + this.filterFlags.categorySymbol;
   }
 
   toggleFilter(){
@@ -20,6 +25,12 @@ export class SwiperModuleComponent {
 
   goToList(){
     const dsa = {id: 1};
-    this.router.navigate(['jobs-list'],{queryParams: {header: this.filterFlags.header}})
+    this.router.navigate(['jobs-list'],
+    {
+      queryParams: 
+      {
+        header: this.filterFlags.header, fullTimeFlag: this.filterFlags.timeFrame
+      }
+    })
   }
 }

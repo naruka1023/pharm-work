@@ -1,4 +1,19 @@
-<p class="h2 m-5">{{ header }}</p>
-<div>
-    
+<p class="h2 m-5">
+    <a class="text-body" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+        <i class="ms-4 bi bi-justify"></i>
+      </a>
+    {{ header }}
+</p>
+<div class="container">
+    <div class="row row-cols-2">
+        <app-job-post-normal-card [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+        <app-job-post-normal-card [fullTimeFlag]="false" [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+        <app-job-post-normal-card [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+        <app-job-post-normal-card [fullTimeFlag]="false" [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+        <app-job-post-normal-card [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+        <app-job-post-normal-card [fullTimeFlag]="false" [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+        <app-job-post-normal-card [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+        <app-job-post-normal-card [fullTimeFlag]="false" [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" class="col"></app-job-post-normal-card>
+    </div>
 </div>
+<app-filter-list [header]="header"></app-filter-list>

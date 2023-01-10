@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "gen": "ng generate component model/filterConditions"
+    "gen": "ng generate component common/filterList"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +23,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "git": "^0.1.5",
+    "popper": "^1.0.1",
     "rxjs": "~7.5.0",
     "swiper": "^8.4.5",
     "tslib": "^2.3.0",

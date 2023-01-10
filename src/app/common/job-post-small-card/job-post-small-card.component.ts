@@ -7,4 +7,11 @@ import { Component, Input } from '@angular/core';
 })
 export class JobPostSmallCardComponent {
   @Input() fullTimeFlag = true 
+  @Input() urgentFlag = false;
+
+  ngOnInit(){
+    if(this.urgentFlag){
+      this.fullTimeFlag = false;
+    }
+  }
 }
