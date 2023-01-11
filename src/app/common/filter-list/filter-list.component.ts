@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class FilterListComponent {
   @Input() header!:string
+  @Input() brandToCategory: string = '';
   nearLocationFlag: boolean = false 
 
   onChangeEvent(event: any){

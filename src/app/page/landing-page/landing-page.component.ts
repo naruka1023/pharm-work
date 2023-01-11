@@ -27,6 +27,7 @@ export class LandingPageComponent {
       JobType: false,
       timeFrame: true,
       location: true,
+      brandToCategory:"แนะนำร้านยาใกล้คุณ",
       categorySymbol:"AB"
     }, 
     { 
@@ -36,6 +37,7 @@ export class LandingPageComponent {
       JobType: false,
       timeFrame: true,
       location: true,
+      brandToCategory: "แนะนำร้านยาแบรน์ทั้งหมด",
       categorySymbol:"AC"
     },  
     { 
@@ -54,6 +56,7 @@ export class LandingPageComponent {
       JobType: true,
       timeFrame: true,
       location: true,
+      brandToCategory: 'แนะนำโรงพยาบาลและคลินิกใกล้คุณ',
       categorySymbol:"BB"
     }, 
     { 
@@ -63,6 +66,7 @@ export class LandingPageComponent {
       JobType: false,
       JobTypeTwo: true,
       timeFrame: false,
+      brandToCategory: ' แนะนำโรงงานและบริษัททั้งหมด',
       location: true,
       categorySymbol:"BC"
     },
@@ -85,4 +89,11 @@ export class LandingPageComponent {
       categorySymbol:"CB"
     }
   ];
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
+  }
 }

@@ -5,6 +5,7 @@ export interface filterConditions{
     JobTypeTwo?: boolean
     timeFrame?: boolean; 
     location?: boolean;
+    brandToCategory?: string;
     filterFlag?: boolean;
     header: string
 }

@@ -10,16 +10,16 @@ SwiperCore.use([Grid, Pagination, Navigation]);
   selector: 'app-jobs-list',
   templateUrl: './jobs-list.component.html',
   styleUrls: ['./jobs-list.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class JobsListComponent {
   header!: string
-
+  brandToCategory!: string
   constructor(private route: ActivatedRoute){
   }
 
   ngOnInit(){
     this.header = this.route.snapshot.queryParamMap.get('header')!;
+    this.brandToCategory = this.route.snapshot.queryParamMap.get('brandToCategory')!;
   }
 
 }
