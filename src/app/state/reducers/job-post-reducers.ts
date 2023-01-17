@@ -1,5 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { getJobs, retrievedJobSuccess } from '../actions/job-post.actions';
+import * as _ from 'lodash';
+import { AppState, filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSuccess } from '../actions/job-post.actions';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -12,11 +14,27 @@ export const initialState: any = {
 export const jobPostReducer = createReducer(
   initialState,
   on(getJobs, (state) => state),
+  on(getJobCategory, (state) => state),
   on(retrievedJobSuccess, (state, { jobs }) => {
     return {
       ...state,
       loading: false,
       JobPost: jobs
+    }
+  }),
+  on(retrievedJobCategorySuccess, (state:AppState, { jobs }) => {
+    let newState: AppState =  _.cloneDeep(state);
+    newState.JobPost = newState.JobPost.map((job) =>{
+      let newJob = _.cloneDeep(job);
+      if(job.CategorySymbol == jobs.CategorySymbol){
+        newJob.allContent = jobs.JobsPost
+        return newJob;
+      }
+      return job;
+    })
+    console.log(newState)
+    return {
+      ...newState,
     }
   })
 );

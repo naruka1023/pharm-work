@@ -9,7 +9,7 @@ const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: false,
       location: true,
-      categorySymbol:"AA"
+      CategorySymbol:"AA"
     },  
     { 
       header: 'งานร้านยาทั่วไป (Stand alone)',
@@ -19,7 +19,7 @@ const headerArray: filterConditions [] = [
       timeFrame: true,
       location: true,
       brandToCategory:"แนะนำร้านยาใกล้คุณ",
-      categorySymbol:"AB"
+      CategorySymbol:"AB"
     }, 
     { 
       header: 'งานร้านยา Brand (Chain)',
@@ -29,7 +29,7 @@ const headerArray: filterConditions [] = [
       timeFrame: true,
       location: true,
       brandToCategory: "แนะนำร้านยาแบรน์ทั้งหมด",
-      categorySymbol:"AC"
+      CategorySymbol:"AC"
     },  
     { 
       header: 'แนะนำ Brand ร้านยาทั้งหมด ',
@@ -38,7 +38,7 @@ const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: false,
       location: false,
-      categorySymbol:"BA"
+      CategorySymbol:"BA"
     }, 
     { 
       header: 'งานโรงพยาบาล/งานคลินิก',
@@ -48,7 +48,7 @@ const headerArray: filterConditions [] = [
       timeFrame: true,
       location: true,
       brandToCategory: 'แนะนำโรงพยาบาลและคลินิกใกล้คุณ',
-      categorySymbol:"BB"
+      CategorySymbol:"BB"
     }, 
     { 
       header: 'งานโรงงาน/งานบริษัท/งาวิจัย',
@@ -59,7 +59,7 @@ const headerArray: filterConditions [] = [
       timeFrame: false,
       brandToCategory: ' แนะนำโรงงานและบริษัททั้งหมด',
       location: true,
-      categorySymbol:"BC"
+      CategorySymbol:"BC"
     },
     { 
       header: 'งานอื่นๆ',
@@ -68,7 +68,7 @@ const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: true,
       location: true,
-      categorySymbol:"CA"
+      CategorySymbol:"CA"
     }, 
     { 
       header: 'แนะนำโรงงานและบริษัทยาทั้งหมด',
@@ -77,7 +77,7 @@ const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: false,
       location: false,
-      categorySymbol:"CB"
+      CategorySymbol:"CB"
     }
   ];
 

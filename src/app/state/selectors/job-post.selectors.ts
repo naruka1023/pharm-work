@@ -1,14 +1,23 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
-import { AppState, filterConditions } from "src/app/model/typescriptModel/job-post-model/jobPost.model";
+import { AppState, filterConditions, jobPostModel } from "src/app/model/typescriptModel/job-post-model/jobPost.model";
 
-// export const state = createFeatureSelector<AppState>("jobpost")
+export const state = createFeatureSelector<AppState>("jobpost")
 
 export const selectJobPost = createSelector(
-  (state: AppState) => state.JobPosts,
-  (JobPosts: Array<filterConditions>) => JobPosts
+  state,
+  (JobPosts: AppState) => JobPosts.JobPosts
 );
-export const selectLoading = createSelector(
-  (state: AppState) => state.loading,
+export const selectLoading = createSelector(    
+    state,
+    (state: AppState) => state.loading,
+);
+
+export const profile = (props: { id: string, categorySymbol: string }) => 
+  createSelector(
+    state,
+    (state: AppState) => {
+
+    }
 );
 
 // export const selectBookCollection = createSelector(

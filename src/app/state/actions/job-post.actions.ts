@@ -1,13 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import { filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
 
 export const getJobs = createAction(
   '[Job-Post] Get Jobs',
   );
   
-export const getJobProfile = createAction(
-  '[Job-Post] Get Job Profile',
-  props<{ id: string }>()
+export const getJobCategory = createAction(
+  '[Job-Post] Get Job Category',
+  props<{ CategorySymbol: string }>()
   );
   
   export const filterJobs = createAction(
@@ -18,7 +18,12 @@ export const getJobProfile = createAction(
     export const retrievedJobSuccess = createAction(
     '[Job-Post] Retrieve Jobs Success',
     props<{ jobs: filterConditions[] }>()
-);
+    );
+    
+    export const retrievedJobCategorySuccess = createAction(
+    '[Job-Post] Retrieve Jobs Category Success',
+    props<{ jobs: any }>()
+    );
 
 
 /*

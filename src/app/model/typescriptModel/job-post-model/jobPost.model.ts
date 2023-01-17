@@ -1,19 +1,20 @@
 export interface filterConditions{
     dateFilter?: boolean;
     JobType?: boolean;
-    categorySymbol: string;
+    CategorySymbol: string;
     JobTypeTwo?: boolean
     timeFrame?: boolean; 
     location?: boolean;
     brandToCategory?: string;
     filterFlag?: boolean;
     header: string;
+    allContent?: jobPostModel [];
     content?: jobPostModel []
 }
 
 export interface AppState{
     loading: boolean;
-    JobPosts: filterConditions []
+    JobPost: filterConditions []
 }
 
 export interface jobPostPayload {

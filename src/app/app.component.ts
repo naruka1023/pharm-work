@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { filterJobs, getJobProfile, getJobs } from './state/actions/job-post.actions';
 
 @Component({
   selector: 'app-root',
@@ -11,22 +10,12 @@ import { filterJobs, getJobProfile, getJobs } from './state/actions/job-post.act
 })
 export class AppComponent {
   
-  constructor(private store: Store, private modalService: NgbModal, db: AngularFirestore) {
+  constructor(private store: Store, private modalService: NgbModal, private db: AngularFirestore) {
 
   }
 
   ngOnInit(){
-  }
   
-
-  
-  dispatchProfile() {
-    this.store.dispatch(getJobProfile({ id:'something' }));
-  }
-
-  
-  dispatchFilter() {
-    this.store.dispatch(filterJobs({ id: 'something', CategorySymbol: 'AC'}));
   }
   
   onActivate() {

@@ -4,7 +4,7 @@
   <ng-template #cardUrgentHeader>
     <div class="d-flex justify-content-center">
       <div class="p-3 d-flex align-items-center" style="text-align: center">
-          <b>ร้านยา</b>
+          <b>{{content.JobType}}</b>
       </div>
         <div>
             <button type="button" class="btn">
@@ -43,19 +43,15 @@
                 </button>
               </div>
             </div>
-        <a routerLink="/job-post" routerLinkActive="active" ariaCurrentWhenActive="page">
-          <img src="assets/watsons.png" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
-        </a>
+          <img src="assets/watsons.png" (click)="goToProfile()" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
   </ng-template>
   <div class="card-body pb-0">
-        <div *ngIf="urgentFlag === true" class="d-flex justify-content-start">
-          <a routerLink="/job-post">
-            <img src="assets/watsons.png" class="card-img-top" style="width:fit-content" height="50" width="50">
-          </a>
+        <div *ngIf="urgentFlag === true" class="d-flex justify-content-center">
+            <img (click)="goToProfile()" src="assets/watsons.png" class="card-img-top" style="width:fit-content" height="50" width="50">
           <div class="d-flex flex-column align-items-center ms-3">
             <b>ต้องการเภสัชวันที่</b>
             <hr class="solid my-1" style="width:100%">
-            <p>06/25/23</p>
+            <p>{{ content.DateOfJob }}</p>
           </div>
         </div>
         <div>
@@ -67,7 +63,7 @@
         </div>
         <div class="d-flex flex-row my-2">
           <i class="my-auto h2 bi bi-clock-fill"></i>
-          <p class="my-auto">8.00 - 18.00 น.</p>
+          <p class="my-auto">{{content.Duration}}</p>
         </div>
         <div class="d-flex flex-row my-2">
           <p class="my-auto me-2">

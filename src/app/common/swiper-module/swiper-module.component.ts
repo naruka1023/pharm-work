@@ -18,7 +18,7 @@ export class SwiperModuleComponent {
   }
 
   ngOnInit(){
-    this.collapseButton = "#" + this.filterFlags.categorySymbol;
+    this.collapseButton = "#" + this.filterFlags.CategorySymbol;
     if(this.filterFlags.header === 'งานเภสัชด่วนรายวัน'){
       this.urgentFlag = true;
     }
@@ -29,14 +29,11 @@ export class SwiperModuleComponent {
   }
 
   goToList(){
-    const dsa = {id: 1};
-    const brandToCategory = this.filterFlags.brandToCategory !== undefined? this.filterFlags.brandToCategory : '';
     this.router.navigate(['jobs-list'],
     {
       queryParams: 
       {
-        header: this.filterFlags.header,
-        brandToCategory: brandToCategory
+        CategorySymbol: this.filterFlags.CategorySymbol,
       }
     })
   }

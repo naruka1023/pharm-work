@@ -1,7 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { getJobCategory } from 'src/app/state/actions/job-post.actions';
 import SwiperCore, { Grid, Navigation, Pagination } from "swiper";
-declare var bootstrap: any;
 SwiperCore.use([Grid, Pagination, Navigation]);
 
 
@@ -12,14 +15,32 @@ SwiperCore.use([Grid, Pagination, Navigation]);
   styleUrls: ['./jobs-list.component.css'],
 })
 export class JobsListComponent {
-  header!: string
-  brandToCategory!: string
-  constructor(private route: ActivatedRoute){
+  CategorySymbol!: string;
+  header!: string;
+  brandToCategory!: string;
+  content$!: Observable<jobPostModel[] | undefined>;
+  loading$!: Observable<boolean>;
+  constructor(private route: ActivatedRoute, private store: Store, private router: Router){
   }
 
   ngOnInit(){
-    this.header = this.route.snapshot.queryParamMap.get('header')!;
-    this.brandToCategory = this.route.snapshot.queryParamMap.get('brandToCategory')!;
+    this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
+    this.store.dispatch(getJobCategory({CategorySymbol: this.CategorySymbol}));
+    this.content$ = this.store.select((state: any) =>{
+      const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{
+        return res.CategorySymbol == this.CategorySymbol
+      });
+      this.header = jobList.header;
+      this.brandToCategory = (jobList.brandToCategory !== undefined)? jobList.brandToCategory : '';
+      return jobList.allContent
+    });
+    this.loading$ = this.store.select((state: any)=>
+    state.jobpost.loading);
+    this.loading$.subscribe((res)=>{
+      if(res){
+        this.router.navigate([''])
+      }
+    })
   }
 
 }

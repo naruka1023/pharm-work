@@ -8,20 +8,32 @@ import { filterConditions, jobPostModel, jobPostPayload } from '../model/typescr
   providedIn: 'root'
 })
 export class JobPostService {
-
+  
   constructor( private db: AngularFirestore) { }
+  getJobCategory(CategorySymbol:string) {
+    return this.db.collection('job-post', ref => ref.where('CategorySymbol', '==', CategorySymbol)).valueChanges({ idField: 'custom_doc_id' }).pipe(
+      map((src)=>{
+        let res = {
+          JobsPost: src,
+          CategorySymbol: CategorySymbol
+        }
+        return res;
+      })
+    );
+  }
 
   getAllJobPost(): Observable<filterConditions[]>{
     return this.db.collection('job-post').valueChanges({ idField: 'custom_doc_id' }).pipe(
       map((src)=>{
         let payload: any[] = src;
         let hA : filterConditions [] = headerArray.map((header) =>{
-          let filteredPayload = payload.filter((item: jobPostModel) => {
-            return (item.CategorySymbol === header.categorySymbol)? true : false 
+          let filteredPayload : jobPostModel[] = payload.filter((item: jobPostModel) => {
+            return (item.CategorySymbol === header.CategorySymbol)? true : false 
           })
           return {
             ...header,
-            content:filteredPayload
+            content:filteredPayload,
+            allContent: []
           }
         })
         return hA;
