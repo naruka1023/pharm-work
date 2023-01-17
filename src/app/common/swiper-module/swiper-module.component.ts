@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { filterConditions } from 'src/app/model/filter-conditions/filter-conditions';
+import { filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
 @Component({
   selector: 'app-swiper-module',
   templateUrl: './swiper-module.component.html',

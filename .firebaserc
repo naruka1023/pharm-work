@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pharm-work": {
+      "hosting": {
+        "pharm-work": [
+          "pharm-work"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pharm-work"
+  }
+}

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
 
 @Component({
   selector: 'app-job-post-small-card',
@@ -8,7 +9,7 @@ import { Component, Input } from '@angular/core';
 export class JobPostSmallCardComponent {
   @Input() fullTimeFlag = true 
   @Input() urgentFlag = false;
-
+  @Input() content!: jobPostModel
   ngOnInit(){
     if(this.urgentFlag){
       this.fullTimeFlag = false;

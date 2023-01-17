@@ -11,6 +11,7 @@
 npm-debug.log
 yarn-error.log
 
+
 # IDEs and editors
 .idea/
 .project
@@ -36,7 +37,13 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+extracode.ts
 
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

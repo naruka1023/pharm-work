@@ -13,6 +13,22 @@ import { JobPostSmallCardComponent } from './common/job-post-small-card/job-post
 import { JobsListComponent } from './page/jobs-list/jobs-list.component';
 import { FilterComponent } from './common/filter/filter.component';
 import { FilterListComponent } from './common/filter-list/filter-list.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAnalytics,getAnalytics,ScreenTrackingService,UserTrackingService } from '@angular/fire/analytics';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideFunctions,getFunctions } from '@angular/fire/functions';
+import { provideMessaging,getMessaging } from '@angular/fire/messaging';
+import { providePerformance,getPerformance } from '@angular/fire/performance';
+import { provideStorage,getStorage } from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { JobPostEffects } from './state/effects/job-post.effects';
+import { jobPostReducer } from './state/reducers/job-post-reducers';
 
 @NgModule({
   declarations: [
@@ -30,9 +46,29 @@ import { FilterListComponent } from './common/filter-list/filter-list.component'
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    SwiperModule
+    SwiperModule,
+    EffectsModule.forRoot([JobPostEffects]),
+    StoreModule.forRoot({
+      jobpost:jobPostReducer
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAnalytics(() => getAnalytics()),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideFunctions(() => getFunctions()),
+    provideMessaging(() => getMessaging()),
+    providePerformance(() => getPerformance()),
+    provideStorage(() => getStorage()),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
   ],
-  providers: [],
+  providers: [
+    ScreenTrackingService,UserTrackingService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

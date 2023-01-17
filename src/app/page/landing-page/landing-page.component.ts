@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
-import { filterConditions } from 'src/app/model/filter-conditions/filter-conditions';
 import SwiperCore, { Autoplay, Mousewheel, Navigation, Pagination } from "swiper";
+import { collection, getDocs } from "firebase/firestore";
+import headerArray from 'src/app/model/data/uiKeys';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+import { JobPostService } from 'src/app/service/job-post.service';
+import { AppState, filterConditions, jobPostModel, jobPostPayload } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { Store } from '@ngrx/store';
+import { getJobs } from 'src/app/state/actions/job-post.actions';
+import { selectJobPost, selectLoading } from 'src/app/state/selectors/job-post.selectors';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 
@@ -10,85 +18,31 @@ SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent {
-  headerArray: filterConditions [] = [
-    { 
-      header: 'งานเภสัชด่วนรายวัน',
-      filterFlag: true,
-      dateFilter: true,
-      JobType: false,
-      timeFrame: false,
-      location: true,
-      categorySymbol:"AA"
-    },  
-    { 
-      header: 'งานร้านยาทั่วไป (Stand alone)',
-      filterFlag: true,
-      dateFilter: false,
-      JobType: false,
-      timeFrame: true,
-      location: true,
-      brandToCategory:"แนะนำร้านยาใกล้คุณ",
-      categorySymbol:"AB"
-    }, 
-    { 
-      header: 'งานร้านยา Brand (Chain)',
-      filterFlag: true,
-      dateFilter: false,
-      JobType: false,
-      timeFrame: true,
-      location: true,
-      brandToCategory: "แนะนำร้านยาแบรน์ทั้งหมด",
-      categorySymbol:"AC"
-    },  
-    { 
-      header: 'แนะนำ Brand ร้านยาทั้งหมด ',
-      filterFlag: false,
-      dateFilter: false,
-      JobType: false,
-      timeFrame: false,
-      location: false,
-      categorySymbol:"BA"
-    }, 
-    { 
-      header: 'งานโรงพยาบาล/งานคลินิก',
-      filterFlag: true,
-      dateFilter: false,
-      JobType: true,
-      timeFrame: true,
-      location: true,
-      brandToCategory: 'แนะนำโรงพยาบาลและคลินิกใกล้คุณ',
-      categorySymbol:"BB"
-    }, 
-    { 
-      header: 'งานโรงงาน/งานบริษัท/งาวิจัย',
-      filterFlag: true,
-      dateFilter: true,
-      JobType: false,
-      JobTypeTwo: true,
-      timeFrame: false,
-      brandToCategory: ' แนะนำโรงงานและบริษัททั้งหมด',
-      location: true,
-      categorySymbol:"BC"
-    },
-    { 
-      header: 'งานอื่นๆ',
-      filterFlag: true,
-      dateFilter: false,
-      JobType: false,
-      timeFrame: true,
-      location: true,
-      categorySymbol:"CA"
-    }, 
-    { 
-      header: 'แนะนำโรงงานและบริษัทยาทั้งหมด',
-      filterFlag: false,
-      dateFilter: false,
-      JobType: false,
-      timeFrame: false,
-      location: false,
-      categorySymbol:"CB"
-    }
-  ];
+
+  loadingFlag$!: Observable<boolean>;
+  items$!: Observable<filterConditions[]>;
+  constructor(private store: Store, private db: AngularFirestore, private jobPostService: JobPostService){
+  }
+  
+  ngOnInit(){
+  
+    this.dispatchJobs();
+    this.loadingFlag$ = this.store.select((state: any)=>
+    state.jobpost.loading);
+    this.loadingFlag$.subscribe(()=>{
+      console.log(this.loadingFlag$);
+    })
+    this.items$ = this.store.select((state: any)=>
+    state.jobpost.JobPost);
+    this.items$.subscribe((res)=>{
+      console.log(this.items$);
+    })
+  }
+  
+  dispatchJobs() {
+    this.store.dispatch(getJobs());
+  }
+
   scrollUp(){
     window.scroll({ 
       top: 0, 

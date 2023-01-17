@@ -1,0 +1,1016 @@
+[
+    {
+        "Amount":2,
+        "CategorySymbol":"AA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาทั่วไป",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": true
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "วิจัย",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": true
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "บริษัท",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": true
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงพยาบาล",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": true
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงพยาบาล",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": true
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาทั่วไป",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาทั่วไป",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาทั่วไป",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาทั่วไป",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาทั่วไป",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาแบรนด์",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาแบรนด์",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาแบรนด์",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาแบรนด์",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"AC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "ร้านยาแบรนด์",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :""
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงพยาบาล",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงพยาบาล",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงพยาบาล",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงพยาบาล",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงพยาบาล",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "คลินิก",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "คลินิก",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "คลินิก",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "คลินิก",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BB",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "คลินิก",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงงาน",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงงาน",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงงาน",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงงาน",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "โรงงาน",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "วิจัย",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "วิจัย",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "วิจัย",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "วิจัย",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"BC",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "วิจัย",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"CA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "อื่นๆ",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"CA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "อื่นๆ",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "เอกมัย"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"CA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "อื่นๆ",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    },
+    {
+        "Amount":2,
+        "CategorySymbol":"CA",
+        "Establishment": "Watson",
+        "Franchise": "เอกมัย",
+        "JobName": "เภสัชกรประจำร้านยา",
+        "JobType": "อื่นๆ",
+        "Location": {
+            "District": "คลองตัน",
+            "Province": "กรุงเทพ",
+            "Section": "วัฒนา"
+        },
+        "BTS": 
+        {
+            "Near": true,
+            "Station" :"เอกมัย"
+        },
+        "MRT": {
+            "Near": false,
+            "Station": "Phetchaburi"
+        },
+        "OnlineInterview": true,
+        "Salary": "35,000",
+        "TimeFrame": "Full-Time",
+        "Urgency": false
+    }
+]

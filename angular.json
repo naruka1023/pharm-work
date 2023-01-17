@@ -98,6 +98,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "pharm-work:build:production",
+            "firebaseProject": "pharm-work",
+            "firebaseHostingSite": "pharm-work"
+          }
         }
       }
     }

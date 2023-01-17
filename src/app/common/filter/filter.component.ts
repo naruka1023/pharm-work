@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { filterConditions } from 'src/app/model/filter-conditions/filter-conditions';
+import { filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
 
 @Component({
   selector: 'app-filter',

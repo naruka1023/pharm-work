@@ -1,6 +1,5 @@
 <div class="card rounded" style="width: -webkit-fill-available;">
   <ng-container *ngIf="urgentFlag; then cardUrgentHeader; else cardHeader">
-
   </ng-container>
   <ng-template #cardUrgentHeader>
     <div class="d-flex justify-content-center">
@@ -24,11 +23,11 @@
   <ng-template #cardHeader>
     <div class="d-flex justify-content-between">
       <div *ngIf="fullTimeFlag as true; else elseBlock" class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightgreen">
-        <b>Full-Time</b>
+        <b>{{content.TimeFrame}}</b>
           </div>
           <ng-template #elseBlock>
             <div class="p-3 d-flex justify-content-center flex-fill align-items-center" style="text-align: center; background:lightyellow">
-              <b>Part-Time</b>
+              <b>{{content.TimeFrame}}</b>
             </div>
           </ng-template>
           <div>
@@ -60,11 +59,11 @@
           </div>
         </div>
         <div>
-          <p class="text-center fs-4">เภสัชกร</p>
+          <p class="text-center fs-4">{{content.JobName}}</p>
         </div>
         <div class="d-flex flex-row">
           <i class="my-auto h2 bi bi-building-fill"></i>
-          <p class="my-auto ms-3">Watsons</p>
+          <p class="my-auto ms-3">{{content.Establishment}}</p>
         </div>
         <div class="d-flex flex-row my-2">
           <i class="my-auto h2 bi bi-clock-fill"></i>
@@ -75,7 +74,7 @@
             <i class="h2 my-auto bi bi-currency-bitcoin"></i>
           </p>
           <div class="d-flex flex-row">
-            190
+            {{content.Salary}}
             <ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container> 
             <ng-template #fullSub>
               <div class="ms-1">บาท/เดือน</div>
@@ -88,7 +87,7 @@
         <div class="d-flex flex-row align-items-center">
           <div><i class="bi bi-map"></i></div>
           <div class="addressList">
-              <div>พญาไท, กทม.</div>
+              <div>{{content.Location.Section}}, {{content.Location.Province}}.</div>
           </div>
         </div>
         <ng-container *ngIf="urgentFlag; then urgentFeature; else notUrgentFeature"></ng-container>
@@ -97,7 +96,7 @@
             <div class="my-auto me-2">
                 <i class="my-auto h2 bi bi-tv"></i>
             </div>
-            <div class="my-auto">สัมภาษณ์งานออนไลน์</div>
+            <div class="my-auto" *ngIf="content.OnlineInterview">สัมภาษณ์งานออนไลน์</div>
           </div>
         </ng-template>
         <ng-template #urgentFeature>

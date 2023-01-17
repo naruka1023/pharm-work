@@ -1,6 +1,6 @@
 
-.brandIcon{
-    width:-webkit-fill-available;
+.brandIcon > img{
+    width:-webkit-fill-available !important;
     border-radius:100%
   }
 
