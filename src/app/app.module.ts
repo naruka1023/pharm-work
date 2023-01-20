@@ -29,6 +29,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { JobPostEffects } from './state/effects/job-post.effects';
 import { jobPostReducer } from './state/reducers/job-post-reducers';
+import { LoginPageComponent } from './page/login-page/login-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,11 +43,13 @@ import { jobPostReducer } from './state/reducers/job-post-reducers';
     JobsListComponent,
     FilterComponent,
     FilterListComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    ReactiveFormsModule,
     SwiperModule,
     EffectsModule.forRoot([JobPostEffects]),
     StoreModule.forRoot({

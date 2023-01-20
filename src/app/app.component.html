@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="collapse navbar-collapse d-flex p-2 flex-row-reverse" id="collapsibleNavbar" style="justify-content:space-between">
-        <ul class="fs-5 navbar-nav">
+        <ul class="fs-5 navbar-nav d-flex align-items-center">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">หางาน</a>
                 <ul class="dropdown-menu p-2">
@@ -37,10 +37,16 @@
                     <li><a class="dropdown-item" href="#">งานอื่นๆ</a></li>
                 </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#">เข้าสู่ระบบ</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">ลงทะเบียนเภสัชกร</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">ลงทะเบียนผู้ประกอบการ</a></li>
             <li class="nav-item"><a class="nav-link" href="#">ติดต่อเรา</a></li>
+            <li class="nav-item ms-1">
+              <button type="button" routerLink="login" class="btn btn-primary" >
+                เข้าสู่ระบบ
+              </button>
+            <li class="nav-item ms-3">
+              <button type="button" class="btn btn-success" >
+                ลงทะเบียน
+              </button>
+            </li>
         </ul>
       </div>
     </div>

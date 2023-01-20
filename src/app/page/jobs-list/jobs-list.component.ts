@@ -20,10 +20,18 @@ export class JobsListComponent {
   brandToCategory!: string;
   content$!: Observable<jobPostModel[] | undefined>;
   loading$!: Observable<boolean>;
+  
   constructor(private route: ActivatedRoute, private store: Store, private router: Router){
   }
-
+  
   ngOnInit(){
+    this.loading$ = this.store.select((state: any)=>
+    state.jobpost.loading);
+    this.loading$.subscribe((res)=>{
+      if(res){
+        this.router.navigate([''])
+      }
+    })
     this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
     this.store.dispatch(getJobCategory({CategorySymbol: this.CategorySymbol}));
     this.content$ = this.store.select((state: any) =>{
@@ -34,13 +42,5 @@ export class JobsListComponent {
       this.brandToCategory = (jobList.brandToCategory !== undefined)? jobList.brandToCategory : '';
       return jobList.allContent
     });
-    this.loading$ = this.store.select((state: any)=>
-    state.jobpost.loading);
-    this.loading$.subscribe((res)=>{
-      if(res){
-        this.router.navigate([''])
-      }
-    })
   }
-
 }

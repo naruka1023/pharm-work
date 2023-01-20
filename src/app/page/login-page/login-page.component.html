@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-center align-items-center flex-column" style="height:90vh">
+    <div style="width: 30vw;">
+        <!-- <div class="m-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" (click)="changeRoles();" role="switch" id="flexSwitchCheckDefault">
+              </div>
+        </div> -->
+        <div class="card my-auto">
+            <div class="card-body">
+                <h5 class="text-center card-title">เข้าสู่ระบบผู้</h5>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <ng-container *ngIf="!loginForm.valid && loginForm.touched; then error; else invisible"></ng-container>
+                    <ng-template #error>
+                        <span class="help-block">
+                         please enter valid data
+                       </span>
+
+                    </ng-template>                        
+                    <ng-template #invisible>
+                        <span style='visibility:hidden'class="help-block">
+                         please enter valid data
+                       </span>
+
+                    </ng-template>                        
+                    <div class="form-group">
+                        <label for="userName">Email</label>
+                        <input type="text" class="form-control"
+                        id="userName" formControlName = "userName">
+                    </div>
+            
+                      <div class="form-group">
+                         <label for="password">Password</label>
+                         <input type="password" type="password" class="form-control" 
+                         id="password" formControlName = "password">
+                      </div>
+            
+                       <div class="mt-3 d-flex justify-content-between">
+                           <div><a href="#">ลืมรหัสผ่าน</a></div>
+                           <div>ยังไม่ได้เป็นสมาชิก? <a href="#">สมัครสมาชิก</a></div>
+                       </div>
+                    <button class="btn btn-primary my-1" style="width:-webkit-fill-available" type="submit">Submit</button> 
+                  </form>
+            </div>
+        </div>
+    </div>
+        <!-- <div style="width: 40vw"> 
+            <swiper
+                [slidesPerView]="1"
+                [spaceBetween]="50"
+            >
+                <ng-template swiperSlide><img class="img-fluid" src="assets/operator.jpg"></ng-template>
+                <ng-template swiperSlide><img class="img-fluid" src="assets/pharmacist.jpg"></ng-template>
+            </swiper>
+        </div> -->
+</div>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
 import headerArray from '../model/data/uiKeys';
