@@ -9,45 +9,76 @@
             <span class="navbar-toggler-icon"></span>
           </button>
         </div>
-        <div class="fs-3 me-3">
+        <div class="fs-2 me-3">
           <i class="bi bi-file-earmark-text-fill"></i> 345
         </div>
-        <div class="fs-3 me-3">
+        <div class="fs-2 me-3">
           <i class="bi bi-people-fill"></i> 100
         </div>
-        <div class="fs-3 me-3">
+        <div class="fs-2 me-3">
           <i class="bi bi-building-fill"></i> 23
         </div>
       </div>
       <div class="collapse navbar-collapse d-flex p-2 flex-row-reverse" id="collapsibleNavbar" style="justify-content:space-between">
-        <ul class="fs-5 navbar-nav d-flex align-items-center">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">หางาน</a>
+        <ng-container *ngIf="loginFlag; then loginNav; else normalNav"></ng-container>
+        <ng-template #loginNav>
+          <ul class="fs-5 navbar-nav d-flex align-items-center">
+            <li class="nav-item fs-2 me-2"><a class="nav-link" href="#"><i class="bi bi-search"></i></a></li>
+            <li class="nav-item fs-2 me-2">
+              <div class="dropdown">
+                <a class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-file-earmark-text-fill"></i>
+                </a>
                 <ul class="dropdown-menu p-2">
-                    <li><a class="dropdown-item" href="#">งานด่วนเภสัชกร Part-time รายวัน</a></li>
-                    <li><a class="dropdown-item" href="#">งานร้านยา</a>
-                        <ul>
-                            <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" href="#">ร้านยาทั่วไป (Stand alone)</a></li>
-                            <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" href="#">ร้านยา Brand (Chain)</a></li>
-                        </ul>    
-                    </li>
-                    <li><a class="dropdown-item" href="#">งานคลินิก</a></li>
-                    <li><a class="dropdown-item" href="#">งานโรงงาน</a></li>
-                    <li><a class="dropdown-item" href="#">งานวิจัย</a></li>
-                    <li><a class="dropdown-item" href="#">งานอื่นๆ</a></li>
+                  <li><a class="dropdown-item" (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
+                  <li><a class="dropdown-item">งานร้านยา</a>
+                      <ul>
+                          <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AB')">ร้านยาทั่วไป (Stand alone)</a></li>
+                          <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AC')">ร้านยา Brand (Chain)</a></li>
+                      </ul>    
+                  </li>
+                  <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
+                  <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งาวิจัย</a></li>
+                  <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
                 </ul>
+              </div>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#">ติดต่อเรา</a></li>
-            <li class="nav-item ms-1">
-              <button type="button" routerLink="login" class="btn btn-primary" >
-                เข้าสู่ระบบ
-              </button>
-            <li class="nav-item ms-3">
-              <button type="button" class="btn btn-success" >
-                ลงทะเบียน
-              </button>
-            </li>
+            <li class="nav-item fs-2 me-2"><a class="nav-link" data-bs-toggle="tooltip" data-bs-title="Default tooltip"><i class="bi bi-chat-left-dots-fill"></i></a></li>
+            <li class="nav-item fs-2 me-2"><a class="nav-link" data-bs-toggle="tooltip" data-bs-title="Default tooltip"><i class="bi bi-calendar-event-fill"></i></a></li>
+            <li class="nav-item fs-2 me-2"><a class="nav-link" data-bs-toggle="tooltip" data-bs-title="Default tooltip"><i class="bi bi-bell-fill"></i></a></li>
+            <li class="nav-item fs-2 me-2"><a class="nav-link" data-bs-toggle="tooltip" data-bs-title="Default tooltip"><i class="bi bi-person-circle"></i></a></li>
+            <li class="nav-item fs-2 me-2"><a class="nav-link" data-bs-toggle="tooltip" data-bs-title="Default tooltip" (click)="signOut()"><i class="bi bi-box-arrow-right"></i></a></li>
         </ul>
+        </ng-template>
+        <ng-template #normalNav>
+          <ul class="fs-5 navbar-nav d-flex align-items-center">
+              <li class="nav-item dropdown ms-3">
+                  <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางาน</a>
+                  <ul class="dropdown-menu p-2">
+                      <li><a class="dropdown-item" (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
+                      <li><a class="dropdown-item">งานร้านยา</a>
+                          <ul>
+                              <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AB')">ร้านยาทั่วไป (Stand alone)</a></li>
+                              <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AC')">ร้านยา Brand (Chain)</a></li>
+                          </ul>    
+                      </li>
+                      <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
+                      <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งาวิจัย</a></li>
+                      <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
+                    </ul>
+              </li>
+              <li class="nav-item ms-3"><a class="nav-link" href="#">ติดต่อเรา</a></li>
+              <li class="nav-item ms-3">
+                <button type="button" routerLink="login" class="btn btn-primary" >
+                  เข้าสู่ระบบ
+                </button>
+              <li class="nav-item ms-3">
+                <button type="button" class="btn btn-success" >
+                  ลงทะเบียน
+                </button>
+              </li>
+          </ul>
+        </ng-template>
       </div>
     </div>
   </nav>

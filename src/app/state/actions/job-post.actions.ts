@@ -1,6 +1,15 @@
 import { createAction, props } from '@ngrx/store';
 import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
 
+
+export const setLogin = createAction(
+  '[Login] set Login State',
+  props<{ loginState: boolean }>()
+  );
+
+export const getLogin = createAction(
+  '[Login] get Login State',
+  );
 export const getJobs = createAction(
   '[Job-Post] Get Jobs',
   );

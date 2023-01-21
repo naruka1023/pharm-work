@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { entries } from 'lodash';
 import { Observable } from 'rxjs';
 import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
 import { getJobCategory } from 'src/app/state/actions/job-post.actions';
@@ -33,7 +34,6 @@ export class JobsListComponent {
       }
     })
     this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
-    this.store.dispatch(getJobCategory({CategorySymbol: this.CategorySymbol}));
     this.content$ = this.store.select((state: any) =>{
       const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{
         return res.CategorySymbol == this.CategorySymbol
@@ -42,5 +42,10 @@ export class JobsListComponent {
       this.brandToCategory = (jobList.brandToCategory !== undefined)? jobList.brandToCategory : '';
       return jobList.allContent
     });
+    this.content$.subscribe((content) =>{
+      if(content!.length === 0){
+        this.store.dispatch(getJobCategory({CategorySymbol: this.CategorySymbol}));
+      }
+    })
   }
 }

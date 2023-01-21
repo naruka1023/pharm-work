@@ -18,4 +18,13 @@ export class RoutingService {
       }
     })
   }
+  goToPageWithLogin(url: string, loginFlag:boolean){
+    this.router.navigate([url]),
+    {
+      queryParams:
+      {
+        loginFlag: loginFlag
+      }
+    }
+  }
 }

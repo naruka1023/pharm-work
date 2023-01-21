@@ -9,10 +9,10 @@
             <div class="card-body">
                 <h5 class="text-center card-title">เข้าสู่ระบบผู้</h5>
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <ng-container *ngIf="!loginForm.valid && loginForm.touched; then error; else invisible"></ng-container>
+                    <ng-container *ngIf="errorFlag; then error; else invisible"></ng-container>
                     <ng-template #error>
-                        <span class="help-block">
-                         please enter valid data
+                        <span class="help-block text-danger">
+                         {{this.errorMessage}}
                        </span>
 
                     </ng-template>                        
@@ -23,33 +23,77 @@
 
                     </ng-template>                        
                     <div class="form-group">
-                        <label for="userName">Email</label>
+                        <div class="d-flex justify-content-between">
+                            <label for="userName">Email</label>
+                            <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
+                        </div>
                         <input type="text" class="form-control"
                         id="userName" formControlName = "userName">
                     </div>
             
                       <div class="form-group">
-                         <label for="password">Password</label>
-                         <input type="password" type="password" class="form-control" 
+                        <div class="d-flex justify-content-between">
+                            <label for="password">Password</label>
+                            <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
+                        </div>
+                            <input type="password" type="password" class="form-control" 
                          id="password" formControlName = "password">
                       </div>
             
                        <div class="mt-3 d-flex justify-content-between">
-                           <div><a href="#">ลืมรหัสผ่าน</a></div>
+                           <div><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">ลืมรหัสผ่าน</a></div>
                            <div>ยังไม่ได้เป็นสมาชิก? <a href="#">สมัครสมาชิก</a></div>
                        </div>
-                    <button class="btn btn-primary my-1" style="width:-webkit-fill-available" type="submit">Submit</button> 
+                    <button class="btn btn-primary mb-1 mt-2" style="width:-webkit-fill-available" type="submit">Submit</button> 
                   </form>
             </div>
         </div>
     </div>
-        <!-- <div style="width: 40vw"> 
-            <swiper
-                [slidesPerView]="1"
-                [spaceBetween]="50"
-            >
-                <ng-template swiperSlide><img class="img-fluid" src="assets/operator.jpg"></ng-template>
-                <ng-template swiperSlide><img class="img-fluid" src="assets/pharmacist.jpg"></ng-template>
-            </swiper>
-        </div> -->
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Forgot your password?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <ng-container *ngIf="resetSuccessful; then resetMessage; else normalBody"></ng-container>
+            <ng-template #resetMessage>
+                <label>Password reset is successful!</label>
+            </ng-template>
+            <ng-template #normalBody>
+                <div style="text-align:center" *ngIf="modalLoadingFlag">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <p>Please enter your email to reset your password</p>
+                <ng-container *ngIf="modalErrorFlag; then errorModal; else invisibleModal"></ng-container>
+                        <ng-template #errorModal>
+                            <span class="help-block text-danger">
+                                Email is invalid
+                           </span>
+    
+                        </ng-template>                        
+                        <ng-template #invisibleModal>
+                            <span style='visibility:hidden'class="help-block">
+                             please enter valid data
+                           </span>
+    
+                        </ng-template> 
+              <form class="mt-2">
+                  <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input class="form-control" id="email" type="text" [formControl]="email">
+                  </div>
+              </form>
+            </ng-template>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="closeButton" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" *ngIf="resetButtonFlag" (click)="onForgetPassword()"[disabled]="!this.email.valid">Get reset email</button>
+        </div>
+      </div>
+    </div>
+  </div>

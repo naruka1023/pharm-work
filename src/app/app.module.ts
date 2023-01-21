@@ -31,6 +31,7 @@ import { JobPostEffects } from './state/effects/job-post.effects';
 import { jobPostReducer } from './state/reducers/job-post-reducers';
 import { LoginPageComponent } from './page/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [

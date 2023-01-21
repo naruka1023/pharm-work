@@ -12,7 +12,8 @@ export class JobPostService {
   
   constructor( private db: AngularFirestore) { }
   getJobCategory(CategorySymbol:string) {
-    return this.db.collection('job-post', ref => ref.where('CategorySymbol', '==', CategorySymbol)).valueChanges({ idField: 'custom_doc_id' }).pipe(
+    return this.db.collection('job-post', ref => ref.where('CategorySymbol', '==', CategorySymbol)).valueChanges({ idField: 'custom_doc_id' })
+    .pipe(
       map((src)=>{
         let res = {
           JobsPost: src,

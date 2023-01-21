@@ -24,9 +24,13 @@ export class LandingPageComponent {
   
   ngOnInit(){
   
-    this.dispatchJobs();
     this.loadingFlag$ = this.store.select((state: any)=>
     state.jobpost.loading);
+    this.loadingFlag$.subscribe((flag)=>{
+      if(flag){
+        this.dispatchJobs();
+      }
+    })
     this.items$ = this.store.select((state: any)=>
     state.jobpost.JobPost);
   }

@@ -1,13 +1,15 @@
+import { state } from '@angular/animations';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppState, filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
-import { getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSuccess } from '../actions/job-post.actions';
+import { getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSuccess, setLogin } from '../actions/job-post.actions';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
 
-export const initialState: any = {
+export const initialState: AppState = {
   loading: true,
+  loginState: false,
   JobPost: []
 };
 
@@ -15,6 +17,12 @@ export const jobPostReducer = createReducer(
   initialState,
   on(getJobs, (state) => state),
   on(getJobCategory, (state) => state),
+  on(setLogin, (state, { loginState }) => {
+    return {
+      ...state,
+      loginState: loginState
+    }
+  }),
   on(retrievedJobSuccess, (state, { jobs }) => {
     return {
       ...state,
