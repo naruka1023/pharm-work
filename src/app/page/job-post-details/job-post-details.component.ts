@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,7 +12,7 @@ import { jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPo
 })
 export class JobPostDetailsComponent {
 
-  constructor(private route: ActivatedRoute, private router: Router, private store: Store){}
+  constructor(private route: ActivatedRoute,private auth: AngularFireAuth, private router: Router, private store: Store){}
 
   profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
@@ -42,6 +43,15 @@ export class JobPostDetailsComponent {
     })
     this.profilePayload$.subscribe((res: jobPostModel)=>{
       this.profile = res;
+    })
+  }
+
+  acceptJob(){
+    this.auth.user.subscribe((user)=>{
+      if(user){
+      }else{
+        this.router.navigate(['login'])
+      }
     })
   }
   

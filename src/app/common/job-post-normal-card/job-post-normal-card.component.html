@@ -29,18 +29,7 @@
 		<div class="d-flex justify-content-start">
 			<div>
 				<img (click)="goToProfile()" class="border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
-				<div>
-					<button type="button" class="btn">
-						<h1>
-							<i class="bi bi-share-fill"></i>
-						</h1>
-					</button>
-					<button type="button" class="btn">
-						<h1>
-							<i class="bi bi-bookmark-fill"></i>
-						</h1>
-					</button>
-				</div>
+				
 			</div>
 			<div class="m-auto ms-3" style="width:-webkit-fill-available">
 				<div class="d-flex flex-row me-2">
@@ -101,8 +90,20 @@
 				</div>
 			</div>
 		</div>
-		<div class="d-flex flex-row-reverse">
-			<button *ngIf="urgentFlag === true" type="button" class=" btn btn-success"><h4>สมัครงาน</h4></button>
+		<div class="d-flex justify-content-between">
+			<div>
+				<button type="button" class="btn">
+					<h1>
+						<i class="bi bi-share-fill"></i>
+					</h1>
+				</button>
+				<button type="button" class="btn">
+					<h1>
+						<i class="bi bi-bookmark-fill"></i>
+					</h1>
+				</button>
+			</div>
+			<button *ngIf="urgentFlag === true" type="button" (click)="acceptJob()" class=" btn btn-success"><h4>สมัครงาน</h4></button>
 		</div>
 	</div>
 </div>

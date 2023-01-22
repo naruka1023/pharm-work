@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
 @Component({
@@ -13,7 +14,7 @@ export class SwiperModuleComponent {
   urgentFlag: boolean = false;
   collapseButton!: string
   
-  constructor(private router: Router){
+  constructor(private router: Router, private auth: AngularFireAuth){
     
   }
 
@@ -29,12 +30,19 @@ export class SwiperModuleComponent {
   }
 
   goToList(){
-    this.router.navigate(['jobs-list'],
-    {
-      queryParams: 
-      {
-        CategorySymbol: this.filterFlags.CategorySymbol,
+    this.auth.user.subscribe((user) =>{
+      if(user){
+        this.router.navigate(['jobs-list'],
+        {
+          queryParams: 
+          {
+            CategorySymbol: this.filterFlags.CategorySymbol,
+          }
+        })
+      }else{
+        this.router.navigate(['login'])
       }
     })
+    
   }
 }

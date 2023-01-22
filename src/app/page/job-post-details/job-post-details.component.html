@@ -8,36 +8,69 @@
 	<div class="d-flex justify-content-between">
 		<div class="d-flex justify-content-between">
 			<img class="job-post_profile-picture border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
-			<h2 class="m-4">{{profile.Establishment}}</h2>
+			<div>
+				<div class="d-flex">
+					<h3 class="m-4 mb-0 me-2">{{profile.Establishment}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
+				</div>
+				<div>
+					<h6 class="mx-4"><i>{{profile.JobType}}</i></h6>
+				</div>
+			</div>
 		</div>
 		<div class="mt-4">
 			<div class="d-flex justify-content-between">
-				<p class="lead auto m-auto me-3"> อัพเดทล่าสุด {{profile.dateUpdated}} </p>
-				<button type="button" class="btn">
-					<h1>
-						<i class="bi bi-share-fill"></i>
-					</h1>
+				<button class="btn ms-3 btn-primary">
+					<h4>ติดตาม</h4>
 				</button>
+				
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="d-flex justify-content-between mb-5">
+			<div class="d-flex justify-content-start">
+				<div class="fs-1">{{profile.JobName}}</div>
+				<ng-container *ngIf="profile.TimeFrame === 'Part-Time'; then partTimeFlag; else fullTimeFlag"></ng-container>
+				<ng-template #partTimeFlag>
+					<div class="fs-1 ms-3">
+						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+						<ng-template #urgentFlag>
+							<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+						</ng-template>
+						<ng-template #notUrgentFlag>
+							<span class="badge bg-warning text-dark">Part-Time</span>
+						</ng-template>
+					</div>
+				</ng-template>
+				<ng-template #fullTimeFlag>
+					<div class="fs-1 ms-3">
+						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+						<ng-template #urgentFlag>
+							<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+						</ng-template>
+						<ng-template #notUrgentFlag>
+							<span class="badge bg-success">Full-Time</span>
+						</ng-template>
+					</div>
+				</ng-template>
+			</div>
+			<div class="d-flex justify-content-start">
 				<button type="button" class="btn">
 					<h1>
 						<i class="bi bi-bookmark-fill"></i>
 					</h1>
 				</button>
-				<button class="btn ms-3 btn-primary">
-					<h4>ติดตาม</h4>
+				<button type="button" class="btn">
+					<h1>
+						<i class="bi bi-share-fill"></i>
+					</h1>
 				</button>
-				<button class="btn ms-3 btn-success">
+				<button (click)="acceptJob()" class="btn ms-3 btn-success" style="height: fit-content; align-self: center">
 					<h4>สมัครงาน</h4>
 				</button>
 			</div>
 		</div>
-	</div>
-	<div>
 		<div class="grid">
-			<div>
-				<b>ตำแหน่งงาน:</b>
-			</div>
-			<div>{{profile.JobName}}</div>
 			<div>
 				<b>ประเภทงาน:</b>
 			</div>
@@ -93,6 +126,9 @@
 				<div class="ms-2"> {{profile.MRT.Station}}</div>
 			</div>
 		</div>
+		<div class="mt-5 d-flex justify-content-end">
+			<p class="lead"> อัพเดทล่าสุด {{profile.dateUpdated}} </p>
+		</div>
 	</div>
 	<div class="my-5">
 		<h2 class="my-5">รายละเอียดงาน</h2>
@@ -122,6 +158,8 @@
 			<li>รางวัลอายุงาน 10 ปี</li>
 			<li>ทำงานจันทร์- ศุกร์ (หยุดเสาร์ - อาทิตย์)</li>
 		</ul>
+		<h2 class="my-5">วิธีสมัครงาน</h2>
+		<p> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br> - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. <br> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
 	</div>
 	<div>
 		<img src="assets/poster.jpg">

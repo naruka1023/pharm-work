@@ -3,8 +3,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Store } from '@ngrx/store';
-import { RoutingService } from './service/routing.service';
+declare var bootstrap: any;
+
 
 @Component({
   selector: 'app-root',
@@ -14,21 +14,26 @@ import { RoutingService } from './service/routing.service';
 export class AppComponent {
   
   loginFlag: boolean = false;
-  constructor(private route: Router, private auth: AngularFireAuth, private modalService: NgbModal, private db: AngularFirestore) {
+  constructor(private route: Router, private auth: AngularFireAuth, private modalService: NgbModal) {
 
+  }
+  
+  ngOnInit(){
+    
     this.auth.onAuthStateChanged((user)=>{
       if(user){
         this.loginFlag = true;
         localStorage.setItem('loginState', 'true')
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('navbar-collapse navbar-nav || nav-item nav-link [data-bs-toggle="tooltip"]'))
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
       }else{
         this.loginFlag = false;
         localStorage.setItem('loginState', 'false')
-        // this.route.navigate([''])
+        this.route.navigate([''])
       }
     })
-  }
-
-  ngOnInit(){
     this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
   }
   signOut(){
@@ -37,11 +42,17 @@ export class AppComponent {
   }
 
   redirectToList(categorySymbol: string){
-    this.route.navigate(['jobs-list'],
-    {
-      queryParams: 
-      {
-        CategorySymbol: categorySymbol,
+    this.auth.user.subscribe((user) =>{
+      if(user){
+        this.route.navigate(['jobs-list'],
+        {
+          queryParams: 
+          {
+            CategorySymbol: categorySymbol,
+          }
+        })
+      }else{
+        this.route.navigate(['login'])
       }
     })
   }
