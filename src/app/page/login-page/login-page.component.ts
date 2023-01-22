@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
-import SwiperCore, { Navigation, Swiper } from 'swiper';
+import SwiperCore, { Navigation } from 'swiper';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 

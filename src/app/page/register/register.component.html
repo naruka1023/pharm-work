@@ -1,0 +1,38 @@
+<div class="container">
+    <div style="display:block; padding: 15vh 0">
+        <div class="d-flex justify-content-between">
+            <div class="col-6">
+
+                <div class="card my-auto me-4" style="width:-webkit-fill-available">
+                    <div class="card-body">
+                        <h5 class="text-center card-title">ลงทะเบียน</h5>
+                        <form>
+                            <div class="mb-3 form-check form-switch">
+                                <label for="role" class="form-label">{{role}}</label>
+                                <input class="form-check-input" formControlName = "role" type="checkbox" (click)="changeRoles();" role="switch" id="flexSwitchCheckDefault">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Password</label>
+                                <input type="password" class="form-control" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" >
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <swiper #swiper [virtual]="true">
+                    <ng-template swiperSlide><img style="width:-webkit-fill-available" src="assets/pharmacist.jpg"></ng-template>
+                    <ng-template swiperSlide><img style="width:-webkit-fill-available" src="assets/operator.jpg"></ng-template>
+                  </swiper>
+            </div>
+        </div>
+    </div>
+</div>

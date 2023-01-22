@@ -23,9 +23,10 @@ export class JobPostEffects {
   loadJobsCategory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getJobCategory),
-      concatMap((action) => 
-      this.jobPostService.getJobCategory(action.CategorySymbol)
+      switchMap((action) => 
+      this.jobPostService.getJobCategoryService(action.CategorySymbol)
       .pipe(
+        take(1),
         map(jobPosts => (
           retrievedJobCategorySuccess({jobs:jobPosts})),
         catchError((err) => {

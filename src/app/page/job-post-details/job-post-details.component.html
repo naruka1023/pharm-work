@@ -71,38 +71,34 @@
 			</div>
 		</div>
 		<div class="grid">
-			<div>
-				<b>ประเภทงาน:</b>
-			</div>
-			<div>{{profile.JobType}}</div>
-			<div>
-				<b>ลักษณะงาน:</b>
-			</div>
-			<div>{{profile.TimeFrame}}</div>
-			<div>
-				<b>สถานที่ปฏิบัติงาน:</b>
+			<div class="d-flex flex-row" >
+				<i class="bi bi-building-fill me-2"></i><b>สถานที่ปฏิบัติงาน:</b>
 			</div>
 			<div>{{profile.Establishment}}</div>
-			<div>
-				<b>จำนวนที่รับสมัคร:</b>
-			</div>
-			<div>{{profile.Amount}} ตำแหน่ง</div>
 			<div *ngIf="profile.Franchise !== ''">
 				<b>สาขา:</b>
 			</div>
 			<div *ngIf="profile.Franchise !== ''">{{profile.Franchise}}</div>
-			<div *ngIf="profile.TimeFrame == 'Full-Time'">
-				<b>เงินเดือน:</b>
+			<div class="d-flex flex-row" >
+				<i class="bi bi-clock-fill me-2"></i><b>วงเวลาปฏิบัติงาน:</b>
+			</div>
+			<div>{{profile.Duration}}</div>
+			<div class="d-flex flex-row" >
+				<i class="bi bi-people-fill me-2"></i><b>จำนวนที่รับสมัคร:</b>
+			</div>
+			<div>{{profile.Amount}} ตำแหน่ง</div>
+			<div class="d-flex flex-row" *ngIf="profile.TimeFrame == 'Full-Time'">
+				<i class="bi bi-currency-bitcoin me-2"></i><b>เงินเดือน:</b>
 			</div>
 			<div *ngIf="profile.TimeFrame == 'Full-Time'">{{profile.Salary}} บาท/เดือน</div>
-			<div *ngIf="profile.TimeFrame == 'Part-Time'">
-				<b>ค่าตอบแทน:</b>
+			<div class="d-flex flex-row" *ngIf="profile.TimeFrame == 'Part-Time'">
+				<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน:</b>
 			</div>
 			<div  *ngIf="profile.TimeFrame == 'Part-Time'">{{profile.Salary}} บาท/ชม</div>
-			<div>
-				<b>พื้นที่ปฏิบัติงาน:</b>
+			<div class="d-flex flex-row" >
+				<i class="bi bi-pin-map-fill me-2"></i><b>พื้นที่ปฏิบัติงาน:</b>
 			</div>
-			<div class="d-flex flex-row">
+			<div class="d-flex flex-row" class="d-flex flex-row">
 				<b>แขวง:</b>
 				<div class="ms-2">{{profile.Location.District}}</div>
 			</div>
@@ -114,16 +110,19 @@
 				<b>จังหวัด:</b>
 				<div class="ms-2"> {{profile.Location.Province}}</div>
 			</div>
-			<div *ngIf="profile.OnlineInterview">
-				<b>นัดสัมภาษณ์งานออนไลน์</b>
-			</div>
 			<div *ngIf="profile.BTS.Near"  class="d-flex flex-row">
-				<b>ใกล้ BTS</b>
+				<i class="bi bi-train-front-fill me-2"></i> <b>ใกล้ BTS</b>
 				<div class="ms-2"> {{profile.BTS.Station}}</div>
 			</div>
 			<div *ngIf="profile.MRT.Near"  class="d-flex flex-row">
-				<b>ใกล้ MRT</b>
+				<i class="bi bi-train-front me-2"></i> <b>ใกล้ MRT</b>
 				<div class="ms-2"> {{profile.MRT.Station}}</div>
+			</div>
+			<div class="d-flex flex-row" *ngIf="profile.OnlineInterview">
+				<i class="bi bi-display me-2"></i><b>นัดสัมภาษณ์งานออนไลน์</b>
+			</div>
+			<div class="d-flex flex-row" *ngIf="profile.OnlineInterview">
+				<i class="bi bi-house-fill me-2"></i><b>work from home</b>
 			</div>
 		</div>
 		<div class="mt-5 d-flex justify-content-end">

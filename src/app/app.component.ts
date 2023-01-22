@@ -24,10 +24,6 @@ export class AppComponent {
       if(user){
         this.loginFlag = true;
         localStorage.setItem('loginState', 'true')
-        let tooltipTriggerList = [].slice.call(document.querySelectorAll('navbar-collapse navbar-nav || nav-item nav-link [data-bs-toggle="tooltip"]'))
-        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
       }else{
         this.loginFlag = false;
         localStorage.setItem('loginState', 'false')

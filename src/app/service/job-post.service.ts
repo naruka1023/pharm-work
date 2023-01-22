@@ -11,7 +11,7 @@ import { filterConditions, jobPostModel, jobPostPayload } from '../model/typescr
 export class JobPostService {
   
   constructor( private db: AngularFirestore) { }
-  getJobCategory(CategorySymbol:string) {
+  getJobCategoryService(CategorySymbol:string) {
     return this.db.collection('job-post', ref => ref.where('CategorySymbol', '==', CategorySymbol)).valueChanges({ idField: 'custom_doc_id' })
     .pipe(
       map((src)=>{
