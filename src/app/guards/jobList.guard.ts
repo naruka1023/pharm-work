@@ -4,7 +4,6 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { RoutingService } from '../service/routing.service';
-import { setLogin } from '../state/actions/job-post.actions';
 
 @Injectable({
   providedIn: 'root'

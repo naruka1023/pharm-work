@@ -2,30 +2,7 @@
 	<i class="pe-auto bi bi-arrow-up-square"></i>
 </div>
 <div class="container">
-	<div class="img-container mh-100">
-		<img src="https://www.animationmagazine.net/wordpress/wp-content/uploads/One-Piece-1000-Commemorative-Battle-of-Onigashima-Visual-1000x600.jpg" />
-	</div>
-	<div class="d-flex justify-content-between">
-		<div class="d-flex justify-content-between">
-			<img class="job-post_profile-picture border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
-			<div>
-				<div class="d-flex">
-					<h3 class="m-4 mb-0 me-2">{{profile.Establishment}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
-				</div>
-				<div>
-					<h6 class="mx-4"><i>{{profile.JobType}}</i></h6>
-				</div>
-			</div>
-		</div>
-		<div class="mt-4">
-			<div class="d-flex justify-content-between">
-				<button class="btn ms-3 btn-primary">
-					<h4>ติดตาม</h4>
-				</button>
-				
-			</div>
-		</div>
-	</div>
+	<app-profileheader [profileInformation]="profileHeader" profileType="job-post"></app-profileheader>
 	<div>
 		<div class="d-flex justify-content-between mb-5">
 			<div class="d-flex justify-content-start">

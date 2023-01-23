@@ -61,7 +61,7 @@ export class LoginPageComponent implements AfterViewInit{
   onSubmit(){
     this.auth.signInWithEmailAndPassword(this.loginForm.value.userName, this.loginForm.value.password)
     .then(() => {
-      this.route.navigate([''])
+      this.route.navigate(['']);
     })
     .catch((error) => {
       this.errorFlag = true;

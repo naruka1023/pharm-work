@@ -38,6 +38,7 @@
                                             />
                                             <div *ngIf="submitted && fP['password'].errors" class="invalid-feedback">
                                                 <div *ngIf="fP['password'].errors['required']">Password is required</div>
+                                                <div *ngIf="fP['password'].errors['minlength']">Password needs to be at least 6 characters long</div>
                                             </div>
                                         </div>
                                     </div>
@@ -49,9 +50,10 @@
                                                 formControlName="confirmPassword"
                                                 class="form-control"
                                                 [ngClass]="{ 'is-invalid': submitted && fP['confirmPassword'].errors }"
-                                            />
+                                                />
                                             <div *ngIf="submitted && fP['confirmPassword'].errors" class="invalid-feedback">
                                                 <div *ngIf="fP['confirmPassword'].errors['required']">Confirm Password is required</div>
+                                                <div *ngIf="fP['confirmPassword'].errors['minlength']">Confirm Password needs to be at least 6 characters long</div>
                                                 <div *ngIf="fP['confirmPassword'].errors['matching']">
                                                     Confirm Password does not match
                                                 </div>
@@ -129,6 +131,7 @@
                                         />
                                         <div *ngIf="submitted && fO['password'].errors" class="invalid-feedback">
                                             <div *ngIf="fO['password'].errors['required']">Password is required</div>
+                                            <div *ngIf="fO['password'].errors['minlength']">Password needs to be at least 6 characters long</div>
                                         </div>
                                     </div>
                                 </div>
@@ -144,6 +147,7 @@
                                         <div *ngIf="submitted && fO['confirmPassword'].errors" class="invalid-feedback">
                                             <div *ngIf="fO['confirmPassword'].errors['required']">Confirm Password is required</div>
                                             <div *ngIf="fO['confirmPassword'].errors['matching']">
+                                                <div *ngIf="fO['confirmPassword'].errors['minlength']">Confirm Password needs to be at least 6 characters long</div>
                                                 Confirm Password does not match
                                             </div>
                                         </div>

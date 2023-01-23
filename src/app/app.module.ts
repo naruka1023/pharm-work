@@ -28,11 +28,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { JobPostEffects } from './state/effects/job-post.effects';
-import { jobPostReducer } from './state/reducers/job-post-reducers';
+import {  usersReducer } from './state/reducers/users-reducers';
 import { LoginPageComponent } from './page/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { RegisterComponent } from './page/register/register.component';
+import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
+import { ProfileheaderComponent } from './common/profileheader/profileheader.component';
+import { jobPostReducer } from './state/reducers/job-post-reducers';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { RegisterComponent } from './page/register/register.component';
     FilterListComponent,
     LoginPageComponent,
     RegisterComponent,
+    PharmaProfileComponent,
+    ProfileheaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +60,8 @@ import { RegisterComponent } from './page/register/register.component';
     SwiperModule,
     EffectsModule.forRoot([JobPostEffects]),
     StoreModule.forRoot({
-      jobpost:jobPostReducer
+      jobpost:jobPostReducer,
+      user:usersReducer
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states

@@ -1,11 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { SwiperComponent } from "swiper/angular";
-import SwiperCore, { Swiper, Virtual } from 'swiper';
+import SwiperCore, { Virtual } from 'swiper';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Validation from 'src/app/utils/validation';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { registerFormOperator, registerFormPharmacist } from 'src/app/model/typescriptModel/users.model';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { UserServiceService } from 'src/app/service/user-service.service';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -14,7 +17,7 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
+  constructor(private userService: UserServiceService, private route: Router, private store: Store, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
   registerFormPharmacist!:FormGroup;
   registerFormOperator!:FormGroup;
@@ -27,8 +30,8 @@ export class RegisterComponent {
   ngOnInit(){
     this.registerFormPharmacist = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       name: ['', [Validators.required]],
       surname: ['', [Validators.required]],
       license: ['', [Validators.required]],
@@ -38,8 +41,8 @@ export class RegisterComponent {
     });
     this.registerFormOperator = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       companyName: ['', [Validators.required]],
       jobType: ['', [Validators.required]],
       companyID: ['', [Validators.required]],
@@ -60,9 +63,8 @@ export class RegisterComponent {
   }
   
   async onSubmit(){
-  
     this.submitted = true;
-    let newUser: registerFormPharmacist;
+    let newUser: registerFormPharmacist | registerFormOperator;
     if (this.role === 'เภสัชกร') {
       if(this.registerFormPharmacist.invalid ){
         return;
@@ -86,10 +88,19 @@ export class RegisterComponent {
 
         this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
         .then((value)=>{
-
+          this.userService.passUserData(this.role, newUser);
+          this.route.navigate(['profile-pharma'])
         });
         }).catch((error)=>{
-          console.log(error)
+          const code = error.code;
+          switch(code){
+            case 'auth/weak-password':
+              this.errorMessage = 'Password needs to be at least 6 characters long';
+              break;
+            case 'auth/email-already-in-use':
+              this.errorMessage = 'Email already exists';
+              break;
+          }
         });
   }
   changeRoles(){

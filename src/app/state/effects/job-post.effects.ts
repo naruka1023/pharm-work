@@ -13,6 +13,7 @@ export class JobPostEffects {
       mergeMap(() => 
       this.jobPostService.getAllJobPost()
       .pipe(
+        take(1),
         map((jobPosts) => (
           retrievedJobSuccess({jobs:jobPosts})),
         catchError(() => EMPTY)

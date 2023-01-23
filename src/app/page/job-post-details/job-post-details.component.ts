@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { profileHeaderJobPost } from 'src/app/model/typescriptModel/header.model';
 import { jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
 
 @Component({
@@ -18,7 +19,8 @@ export class JobPostDetailsComponent {
   loading$!:Observable<boolean>;
   id!: string;
   categorySymbol!: string;
-  profile!:jobPostModel
+  profile!:jobPostModel;
+  profileHeader!: profileHeaderJobPost;
 
   ngOnInit(){
     this.id = this.route.snapshot.queryParamMap.get('id')!;
@@ -43,6 +45,10 @@ export class JobPostDetailsComponent {
     })
     this.profilePayload$.subscribe((res: jobPostModel)=>{
       this.profile = res;
+      this.profileHeader = {
+        Establishment: this.profile.Establishment,
+        JobType: this.profile.JobType
+      }
     })
   }
 

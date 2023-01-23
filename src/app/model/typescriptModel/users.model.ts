@@ -18,3 +18,16 @@ export interface registerFormPharmacist{
     license: string,
     role: string
 }
+
+export interface User{
+    role: string;
+    email: string;
+    companyName?: string
+    name?: string;
+    surname?: string;
+    Location: {
+        Section: string;
+        District: string;
+        Province: string;
+    }
+}

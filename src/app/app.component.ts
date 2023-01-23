@@ -3,6 +3,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs';
+import { UserServiceService } from './service/user-service.service';
 declare var bootstrap: any;
 
 
@@ -14,7 +16,7 @@ declare var bootstrap: any;
 export class AppComponent {
   
   loginFlag: boolean = false;
-  constructor(private route: Router, private auth: AngularFireAuth, private modalService: NgbModal) {
+  constructor(private userService: UserServiceService,private route: Router, private auth: AngularFireAuth, private db: AngularFirestore, private modalService: NgbModal) {
 
   }
   
@@ -23,7 +25,11 @@ export class AppComponent {
     this.auth.onAuthStateChanged((user)=>{
       if(user){
         this.loginFlag = true;
-        localStorage.setItem('loginState', 'true')
+        this.db.collection("users").doc(user.uid).valueChanges()
+        .subscribe((src: any)=>{
+          this.userService.passUserData(src.role, src)
+          localStorage.setItem('loginState', 'true')
+        })
       }else{
         this.loginFlag = false;
         localStorage.setItem('loginState', 'false')
