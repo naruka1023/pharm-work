@@ -1,4 +1,4 @@
-import { filterConditions } from "../typescriptModel/job-post-model/jobPost.model";
+import { filterConditions } from "../typescriptModel/jobPost.model";
 
 
 const headerArray: filterConditions [] = [

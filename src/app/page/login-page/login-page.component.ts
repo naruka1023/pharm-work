@@ -79,9 +79,4 @@ export class LoginPageComponent implements AfterViewInit{
       console.log(error.code);
     });
   }
-
-  changeRoles(){
-    this.loginFlag? this.swiper.swiper.slideNext() : this.swiper.swiper.slidePrev() 
-    this.loginFlag = !this.loginFlag;
-  }
 }

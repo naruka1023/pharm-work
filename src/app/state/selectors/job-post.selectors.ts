@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
-import { AppState, filterConditions, jobPostModel } from "src/app/model/typescriptModel/job-post-model/jobPost.model";
+import { AppState, filterConditions, jobPostModel } from "src/app/model/typescriptModel/jobPost.model";
 
 export const state = createFeatureSelector<AppState>("jobpost")
 

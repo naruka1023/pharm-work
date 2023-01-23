@@ -1,7 +1,7 @@
 import { state } from '@angular/animations';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as _ from 'lodash';
-import { AppState, filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { AppState, filterConditions } from 'src/app/model/typescriptModel/jobPost.model';
 import { getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSuccess, setLogin } from '../actions/job-post.actions';
 
 // import { retrievedBookList } from './books.actions';

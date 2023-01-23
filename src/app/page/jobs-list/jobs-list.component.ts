@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { entries } from 'lodash';
 import { Observable } from 'rxjs';
-import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
 import { getJobCategory } from 'src/app/state/actions/job-post.actions';
 import SwiperCore, { Grid, Navigation, Pagination } from "swiper";
 SwiperCore.use([Grid, Pagination, Navigation]);

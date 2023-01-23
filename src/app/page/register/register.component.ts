@@ -1,6 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { SwiperComponent } from "swiper/angular";
 import SwiperCore, { Swiper, Virtual } from 'swiper';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Validation from 'src/app/utils/validation';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { registerFormOperator, registerFormPharmacist } from 'src/app/model/typescriptModel/users.model';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -9,10 +14,90 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  constructor(private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
-  role: string = 'เภสัชกร'
+  registerFormPharmacist!:FormGroup;
+  registerFormOperator!:FormGroup;
+  role: string = 'เภสัชกร';
+  errorMessage: string = '';
+  submitted:boolean = false;
+  
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
+
+  ngOnInit(){
+    this.registerFormPharmacist = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      surname: ['', [Validators.required]],
+      license: ['', [Validators.required]],
+    },
+    {
+      validators: [Validation.match('password', 'confirmPassword')]
+    });
+    this.registerFormOperator = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
+      companyName: ['', [Validators.required]],
+      jobType: ['', [Validators.required]],
+      companyID: ['', [Validators.required]],
+      nameOfPerson: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required]],
+    },
+    {
+      validators: [Validation.match('password', 'confirmPassword')]
+    });
+    this.registerFormOperator.reset()
+    this.registerFormPharmacist.reset()
+  }
+  get fP(): { [key: string]: AbstractControl } {
+    return this.registerFormPharmacist.controls;
+  }
+  get fO(): { [key: string]: AbstractControl } {
+    return this.registerFormOperator.controls;
+  }
+  
+  async onSubmit(){
+  
+    this.submitted = true;
+    let newUser: registerFormPharmacist;
+    if (this.role === 'เภสัชกร') {
+      if(this.registerFormPharmacist.invalid ){
+        return;
+      }else{
+        newUser = this.registerFormPharmacist.value;
+        newUser['role'] = 'เภสัชกร';
+      }
+    }else{
+      if (this.registerFormOperator.invalid) {
+        return;
+      }else{
+        newUser = this.registerFormOperator.value;
+        newUser['role'] = 'ผู้ประกอบการ'
+      }
+    }
+    this.auth.createUserWithEmailAndPassword(newUser.email, newUser.password as string)
+    .then((user: any)=>{
+        delete newUser.password
+        delete newUser.confirmPassword
+        console.log(user.user?.multiFactor.user.uid);
+
+        this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
+        .then((value)=>{
+
+        });
+        }).catch((error)=>{
+          console.log(error)
+        });
+  }
   changeRoles(){
+    this.errorMessage = '';
+    this.submitted = false;
+    this.registerFormOperator.reset()
+    this.registerFormPharmacist.reset()
+    this.registerFormOperator.patchValue({jobType:'ร้านยาทั่วไป'})
     this.loginFlag? this.swiper?.swiperRef.slideNext() : this.swiper?.swiperRef.slidePrev() 
     this.role = this.loginFlag? 'ผู้ประกอบการ' : 'เภสัชกร';
     this.loginFlag = !this.loginFlag;

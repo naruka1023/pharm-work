@@ -3,7 +3,7 @@ import SwiperCore, { Autoplay, Mousewheel, Navigation, Pagination } from "swiper
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { JobPostService } from 'src/app/service/job-post.service';
-import { filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { filterConditions } from 'src/app/model/typescriptModel/jobPost.model';
 import { Store } from '@ngrx/store';
 import { getJobs } from 'src/app/state/actions/job-post.actions';
 // import { selectJobPost, selectLoading } from 'src/app/state/selectors/job-post.selectors';

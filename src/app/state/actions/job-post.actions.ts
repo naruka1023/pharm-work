@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
 
 
 export const setLogin = createAction(

@@ -3,7 +3,7 @@ import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
 import headerArray from '../model/data/uiKeys';
-import { filterConditions, jobPostModel, jobPostPayload } from '../model/typescriptModel/job-post-model/jobPost.model';
+import { filterConditions, jobPostModel, jobPostPayload } from '../model/typescriptModel/jobPost.model';
 
 @Injectable({
   providedIn: 'root'

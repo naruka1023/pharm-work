@@ -1,7 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { filterConditions } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { filterConditions } from 'src/app/model/typescriptModel/jobPost.model';
 @Component({
   selector: 'app-swiper-module',
   templateUrl: './swiper-module.component.html',

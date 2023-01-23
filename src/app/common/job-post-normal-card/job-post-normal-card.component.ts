@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { jobPostModel } from 'src/app/model/typescriptModel/job-post-model/jobPost.model';
+import { jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
 import { JobPostService } from 'src/app/service/job-post.service';
 import { RoutingService } from 'src/app/service/routing.service';
 
