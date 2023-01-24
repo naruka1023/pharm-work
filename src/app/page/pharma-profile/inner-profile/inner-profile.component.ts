@@ -13,7 +13,7 @@ export class InnerProfileComponent{
   
   subject!: Subscription
   innerProfileInformation!: User
-  localProfileFlag: boolean = true;
+  localProfileFlag: boolean = false;
   loadingFlag: boolean = true;
   firstFlag: boolean = true;
   constructor(private userService: UserServiceService, private store: Store){}
