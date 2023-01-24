@@ -14,6 +14,10 @@ div.img-container {
     z-index: 2;
     left: 22px;
   }
+
+  .user-buttons:hover{
+    color:grey
+  }
   
   div.img-container > img {
     width: 100%;

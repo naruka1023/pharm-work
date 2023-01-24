@@ -8,7 +8,6 @@ import { getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSucce
 
 export const initialState: AppState = {
   loading: true,
-  loginState: false,
   JobPost: []
 };
 
@@ -33,7 +32,6 @@ export const jobPostReducer = createReducer(
       }
       return job;
     })
-    console.log(newState)
     return {
       ...newState,
     }

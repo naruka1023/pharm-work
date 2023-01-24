@@ -13,7 +13,7 @@ SwiperCore.use([Navigation]);
 
 export class LoginPageComponent implements AfterViewInit{
   
-  loginFlag:boolean = true;
+  loginFlag:boolean = false;
   modalErrorFlag: boolean = false;
   modalLoadingFlag:boolean = false;
   errorFlag:boolean = false;
@@ -59,11 +59,14 @@ export class LoginPageComponent implements AfterViewInit{
   }
 
   onSubmit(){
+    this.loginFlag = true;
     this.auth.signInWithEmailAndPassword(this.loginForm.value.userName, this.loginForm.value.password)
     .then(() => {
+      this.loginFlag = false
       this.route.navigate(['']);
     })
     .catch((error) => {
+      this.loginFlag = false
       this.errorFlag = true;
       const errorCode = error.code;
       switch(errorCode){
@@ -72,6 +75,9 @@ export class LoginPageComponent implements AfterViewInit{
           break;
         case 'auth/wrong-password':
           this.errorMessage = 'The password you entered is incorrect.'
+          break;
+        case 'auth/user-not-found':
+          this.errorMessage = 'Username not found'
           break;
         default:
           break;

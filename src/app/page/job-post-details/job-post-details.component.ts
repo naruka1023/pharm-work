@@ -53,12 +53,9 @@ export class JobPostDetailsComponent {
   }
 
   acceptJob(){
-    this.auth.user.subscribe((user)=>{
-      if(user){
-      }else{
-        this.router.navigate(['login'])
-      }
-    })
+    if(localStorage.getItem('loginState') == 'false'){
+      this.router.navigate(['login'])
+    }
   }
   
   scrollUp(){

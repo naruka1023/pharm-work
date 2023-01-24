@@ -19,6 +19,7 @@ SwiperCore.use([Virtual]);
 export class RegisterComponent {
   constructor(private userService: UserServiceService, private route: Router, private store: Store, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
+  loadingFlag: boolean = false;
   registerFormPharmacist!:FormGroup;
   registerFormOperator!:FormGroup;
   role: string = 'เภสัชกร';
@@ -64,18 +65,21 @@ export class RegisterComponent {
   
   async onSubmit(){
     this.submitted = true;
-    let newUser: registerFormPharmacist | registerFormOperator;
+    let newUser: any;
     if (this.role === 'เภสัชกร') {
       if(this.registerFormPharmacist.invalid ){
         return;
       }else{
+        this.loadingFlag = true;
         newUser = this.registerFormPharmacist.value;
         newUser['role'] = 'เภสัชกร';
+        newUser['showProfileFlag'] = false;
       }
     }else{
       if (this.registerFormOperator.invalid) {
         return;
       }else{
+        this.loadingFlag = true;
         newUser = this.registerFormOperator.value;
         newUser['role'] = 'ผู้ประกอบการ'
       }
@@ -84,14 +88,16 @@ export class RegisterComponent {
     .then((user: any)=>{
         delete newUser.password
         delete newUser.confirmPassword
+        delete newUser.showProfileFlag
         console.log(user.user?.multiFactor.user.uid);
-
         this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
         .then((value)=>{
           this.userService.passUserData(this.role, newUser);
+          this.loadingFlag = false;
           this.route.navigate(['profile-pharma'])
         });
-        }).catch((error)=>{
+      }).catch((error)=>{
+          this.loadingFlag = false;
           const code = error.code;
           switch(code){
             case 'auth/weak-password':

@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { map } from 'rxjs';
+import { of, Subscription, switchMap } from 'rxjs';
 import { UserServiceService } from './service/user-service.service';
 declare var bootstrap: any;
 
@@ -16,20 +16,25 @@ declare var bootstrap: any;
 export class AppComponent {
   
   loginFlag: boolean = false;
+  subject!: Subscription;
   constructor(private userService: UserServiceService,private route: Router, private auth: AngularFireAuth, private db: AngularFirestore, private modalService: NgbModal) {
 
   }
   
   ngOnInit(){
     
-    this.auth.onAuthStateChanged((user)=>{
+    this.auth.user.subscribe((user)=>{
       if(user){
-        this.loginFlag = true;
-        this.db.collection("users").doc(user.uid).valueChanges()
-        .subscribe((src: any)=>{
-          this.userService.passUserData(src.role, src)
-          localStorage.setItem('loginState', 'true')
+        this.db.collection("users").doc(user.uid).valueChanges().pipe(
+          switchMap((src: any)=>{
+              this.userService.passUserData(src.role, src)
+            return of(src);
+         })
+        ).subscribe((src)=>{
+          console.log(src);
         })
+        this.loginFlag = true;
+        localStorage.setItem('loginState', 'true')
       }else{
         this.loginFlag = false;
         localStorage.setItem('loginState', 'false')
@@ -44,19 +49,17 @@ export class AppComponent {
   }
 
   redirectToList(categorySymbol: string){
-    this.auth.user.subscribe((user) =>{
-      if(user){
-        this.route.navigate(['jobs-list'],
+    if(localStorage.getItem('loginState') == 'true'){
+      this.route.navigate(['jobs-list'],
+      {
+        queryParams: 
         {
-          queryParams: 
-          {
-            CategorySymbol: categorySymbol,
-          }
-        })
-      }else{
-        this.route.navigate(['login'])
-      }
-    })
+          CategorySymbol: categorySymbol,
+        }
+      })
+    }else{
+      this.route.navigate(['login'])
+    }
   }
 
   onActivate() {

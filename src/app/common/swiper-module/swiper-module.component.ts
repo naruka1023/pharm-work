@@ -1,6 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { filterConditions } from 'src/app/model/typescriptModel/jobPost.model';
 @Component({
   selector: 'app-swiper-module',
@@ -12,6 +13,7 @@ export class SwiperModuleComponent {
   @Input()filterFlags!: filterConditions;
   filterVisibleFlag: boolean = false;
   urgentFlag: boolean = false;
+  subject!: Subscription;
   collapseButton!: string
   
   constructor(private router: Router, private auth: AngularFireAuth){
@@ -28,10 +30,8 @@ export class SwiperModuleComponent {
   toggleFilter(){
     this.filterVisibleFlag = !this.filterVisibleFlag
   }
-
   goToList(){
-    this.auth.user.subscribe((user) =>{
-      if(user){
+      if(localStorage.getItem('loginState') == 'true'){
         this.router.navigate(['jobs-list'],
         {
           queryParams: 
@@ -42,7 +42,5 @@ export class SwiperModuleComponent {
       }else{
         this.router.navigate(['login'])
       }
-    })
-    
   }
 }

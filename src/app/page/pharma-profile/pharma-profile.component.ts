@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -11,9 +8,7 @@ import { Store } from '@ngrx/store';
 })
 export class PharmaProfileComponent {
 
-
   ngOnInit(){
-
   }
 
 }

@@ -16,13 +16,26 @@ export interface registerFormPharmacist{
     name: string,
     surname: string,
     license: string,
-    role: string
+    role: string,
+    showProfileFlag: boolean
 }
 
 export interface User{
     role: string;
     email: string;
-    companyName?: string
+    companyID?: string;
+    license?: string;
+    gender?: string;
+    education?: string;
+    birthday?: string;
+    age?: string;
+    companyName?: string;
+    contacts?: {
+        phone: string;
+        email: string;
+        line: string;
+        facebook: string;
+    }
     name?: string;
     surname?: string;
     Location: {

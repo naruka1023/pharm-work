@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
 import { RoutingService } from 'src/app/service/routing.service';
 
@@ -16,18 +17,16 @@ export class JobPostSmallCardComponent {
   @Input() fullTimeFlag = true 
   @Input() urgentFlag = false;
   @Input() content!: jobPostModel
+  subject!: Subscription
   ngOnInit(){
     if(this.urgentFlag){
       this.fullTimeFlag = false;
     }
   }
   acceptJob(){
-    this.auth.user.subscribe((user)=>{
-      if(user){
-      }else{
-        this.router.navigate(['login'])
-      }
-    })
+    if(localStorage.getItem('loginState') == 'false'){
+      this.router.navigate(['login'])
+    }
   }
   goToProfile(){
     this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol)

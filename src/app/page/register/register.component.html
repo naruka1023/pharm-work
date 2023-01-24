@@ -7,9 +7,17 @@
                     <div class="card-body">
                         <h5 class="text-center card-title">ลงทะเบียน</h5>
                         <div class="my-2 text-center text-danger">{{errorMessage}}</div>
-                        <div class="mb-3 form-check form-switch">
-                            <label for="role" class="form-label">{{role}}</label>
-                            <input class="form-check-input" type="checkbox" (click)="changeRoles();" role="switch">
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div class="form-check form-switch">
+                                <label for="role" class="form-label">{{role}}</label>
+                                <input class="form-check-input" type="checkbox" (click)="changeRoles();" role="switch">
+                            </div>
+                            <div style="text-align:center" *ngIf="loadingFlag">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                            <div style="visibility:hidden">fdsafdsasdffd</div>
                         </div>
                         <ng-container *ngIf="role === 'เภสัชกร'; then pharmacistForm; else operatorForm"></ng-container>
                         <ng-template #pharmacistForm>

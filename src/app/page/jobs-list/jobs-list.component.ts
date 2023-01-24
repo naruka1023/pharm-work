@@ -16,6 +16,7 @@ SwiperCore.use([Grid, Pagination, Navigation]);
   styleUrls: ['./jobs-list.component.css'],
 })
 export class JobsListComponent {
+  loadingFlag:boolean = true;
   CategorySymbol!: string;
   header!: string;
   brandToCategory!: string;
@@ -45,6 +46,8 @@ export class JobsListComponent {
     this.content$.subscribe((content) =>{
       if(content!.length === 0){
         this.store.dispatch(getJobCategory({CategorySymbol: this.CategorySymbol}));
+      }else{
+        this.loadingFlag = false;
       }
     })
   }

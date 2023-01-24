@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'swiper/angular';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './page/landing-page/landing-page.component';
@@ -35,6 +34,9 @@ import { RegisterComponent } from './page/register/register.component';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import { ProfileheaderComponent } from './common/profileheader/profileheader.component';
 import { jobPostReducer } from './state/reducers/job-post-reducers';
+import { InnerProfileComponent } from './page/pharma-profile/inner-profile/inner-profile.component';
+import { BookmarkComponent } from './page/pharma-profile/bookmark/bookmark.component';
+import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-jobs/recently-seen-jobs.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,9 @@ import { jobPostReducer } from './state/reducers/job-post-reducers';
     RegisterComponent,
     PharmaProfileComponent,
     ProfileheaderComponent,
+    InnerProfileComponent,
+    BookmarkComponent,
+    RecentlySeenJobsComponent,
   ],
   imports: [
     BrowserModule,

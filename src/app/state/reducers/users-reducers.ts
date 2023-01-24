@@ -14,7 +14,7 @@ export const initialState: User = {
       Section: '',
       District: '',
       Province: '',
-  }
+  },
 };
 
 export const usersReducer = createReducer(

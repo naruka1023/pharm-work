@@ -14,7 +14,6 @@ export interface filterConditions{
 
 export interface AppState{
     loading: boolean;
-    loginState: boolean;
     JobPost: filterConditions []
 }
 

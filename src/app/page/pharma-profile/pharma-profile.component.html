@@ -1,1 +1,30 @@
 <app-profileheader profileType="pharmacist-profile"></app-profileheader>
+<div class="container mt-3">
+    <ul class="nav nav-pills nav-justified mb-5">
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="inner-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab" aria-current="page">โปรไฟล์ของท่าน</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="bookmark" data-bs-toggle="tab" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab">Bookmark</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="recently-seen-job" data-bs-toggle="tab" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab">งานที่ดูล่าสุด</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">งานที่กดสมัคร</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">คำขอดูข้อมูล</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab">ตารางงานด่วน</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabSeven" aria-controls="tabSeven" type="button" role="tab">ประวัติการรับงานด่วน</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab">กำลังติดตาม</a>
+        </li>
+      </ul>
+      <router-outlet></router-outlet>
+</div>
