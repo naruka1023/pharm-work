@@ -1,7 +1,7 @@
 import { filterConditions } from "../typescriptModel/jobPost.model";
 
 
-const headerArray: filterConditions [] = [
+export const headerArray: filterConditions [] = [
     { 
       header: 'งานเภสัชด่วนรายวัน',
       filterFlag: true,
@@ -9,7 +9,8 @@ const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: false,
       location: true,
-      CategorySymbol:"AA"
+      CategorySymbol:"AA",
+      allContent: []
     },  
     { 
       header: 'งานร้านยาทั่วไป (Stand alone)',
@@ -19,7 +20,8 @@ const headerArray: filterConditions [] = [
       timeFrame: true,
       location: true,
       brandToCategory:"แนะนำร้านยาใกล้คุณ",
-      CategorySymbol:"AB"
+      CategorySymbol:"AB",
+      allContent: []
     }, 
     { 
       header: 'งานร้านยา Brand (Chain)',
@@ -29,7 +31,8 @@ const headerArray: filterConditions [] = [
       timeFrame: true,
       location: true,
       brandToCategory: "แนะนำร้านยาแบรน์ทั้งหมด",
-      CategorySymbol:"AC"
+      CategorySymbol:"AC",
+      allContent: []
     },  
     { 
       header: 'แนะนำ Brand ร้านยาทั้งหมด ',
@@ -38,7 +41,8 @@ const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: false,
       location: false,
-      CategorySymbol:"BA"
+      CategorySymbol:"BA",
+      allContent: []
     }, 
     { 
       header: 'งานโรงพยาบาล/งานคลินิก',
@@ -48,7 +52,8 @@ const headerArray: filterConditions [] = [
       timeFrame: true,
       location: true,
       brandToCategory: 'แนะนำโรงพยาบาลและคลินิกใกล้คุณ',
-      CategorySymbol:"BB"
+      CategorySymbol:"BB",
+      allContent: []
     }, 
     { 
       header: 'งานโรงงาน/งานบริษัท/งาวิจัย',
@@ -59,7 +64,8 @@ const headerArray: filterConditions [] = [
       timeFrame: false,
       brandToCategory: ' แนะนำโรงงานและบริษัททั้งหมด',
       location: true,
-      CategorySymbol:"BC"
+      CategorySymbol:"BC",
+      allContent: []
     },
     { 
       header: 'งานอื่นๆ',
@@ -68,7 +74,8 @@ const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: true,
       location: true,
-      CategorySymbol:"CA"
+      CategorySymbol:"CA",
+      allContent: []
     }, 
     { 
       header: 'แนะนำโรงงานและบริษัทยาทั้งหมด',

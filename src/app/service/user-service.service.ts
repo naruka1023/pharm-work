@@ -11,6 +11,24 @@ export class UserServiceService {
 
   constructor(private store: Store) { }
   editSubject: Subject<boolean> = new Subject();
+  leaveEditSubject: Subject<string> = new Subject();
+  revertTabSubject: Subject<void> = new Subject();
+
+  getRevertTabSubject(): Observable<void>{
+    return this.revertTabSubject.asObservable();
+  }
+  
+  sendRevertTabSubject(){
+    return this.revertTabSubject.next();
+  }
+
+  getLeaveEditSubject(): Observable<string>{
+    return this.leaveEditSubject.asObservable();
+  }
+  
+  sendLeaveEditSubject(url: string){
+    return this.leaveEditSubject.next(url);
+  }
 
   getEditSubject(): Observable<boolean>{
     return this.editSubject.asObservable();

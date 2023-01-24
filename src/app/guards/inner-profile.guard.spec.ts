@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { JobListGuard } from './jobList.guard';
+import { InnerProfileGuard } from './inner-profile.guard';
 
-describe('JobListGuard', () => {
-  let guard: JobListGuard;
+describe('InnerProfileGuard', () => {
+  let guard: InnerProfileGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(JobListGuard);
+    guard = TestBed.inject(InnerProfileGuard);
   });
 
   it('should be created', () => {

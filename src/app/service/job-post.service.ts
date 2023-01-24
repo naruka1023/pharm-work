@@ -34,8 +34,7 @@ export class JobPostService {
           })
           return {
             ...header,
-            content:filteredPayload,
-            allContent: []
+            content:filteredPayload
           }
         })
         return hA;

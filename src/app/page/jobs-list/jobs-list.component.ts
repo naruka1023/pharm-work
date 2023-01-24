@@ -27,13 +27,6 @@ export class JobsListComponent {
   }
   
   ngOnInit(){
-    this.loading$ = this.store.select((state: any)=>
-    state.jobpost.loading);
-    this.loading$.subscribe((res)=>{
-      if(res){
-        this.router.navigate([''])
-      }
-    })
     this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
     this.content$ = this.store.select((state: any) =>{
       const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{

@@ -3,8 +3,10 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
 import { of, Subscription, switchMap } from 'rxjs';
 import { UserServiceService } from './service/user-service.service';
+import { removeCurrentUser } from './state/actions/users.action';
 declare var bootstrap: any;
 
 
@@ -17,7 +19,7 @@ export class AppComponent {
   
   loginFlag: boolean = false;
   subject!: Subscription;
-  constructor(private userService: UserServiceService,private route: Router, private auth: AngularFireAuth, private db: AngularFirestore, private modalService: NgbModal) {
+  constructor(private store: Store ,private userService: UserServiceService,private route: Router, private auth: AngularFireAuth, private db: AngularFirestore, private modalService: NgbModal) {
 
   }
   
@@ -45,6 +47,7 @@ export class AppComponent {
   }
   signOut(){
     this.auth.signOut()
+    this.store.dispatch(removeCurrentUser());
     this.route.navigate([''])
   }
 

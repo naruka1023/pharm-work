@@ -121,16 +121,13 @@
         <div class="mx-4">
             <div class="my-5 h1"><b>ตัดต่อ</b></div>
             <div class="fs-3 my-3">
-                <!-- <div class="mb-3">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div> -->
                 <div class="row">
                     <div class="col-3">
                         <label class="form-label">
                             <b>ชื่อ:</b>
                         </label>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                         <input type="text" style="width:-fill-webkit-available" class="form-control me-3">
                     </div>
                 </div>
@@ -138,7 +135,7 @@
                     <div class="col-3">
                         <label for="exampleFormControlTextarea1" class="form-label"><b>นามสกุล:</b></label>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                         <input type="text" class="form-control me-3">
                     </div>
                 </div>
@@ -146,7 +143,7 @@
                     <div class="col-3">
                         <label class="form-label"><b>เพศ:</b></label>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                         <select class="fs-3 form-select mb-3" aria-label="Default select example">
                             <option selected value="ชาย">ชาย</option>
                             <option value="หญิง">หญิง</option>
@@ -157,7 +154,7 @@
                     <div class="col-3">
                         <label class="form-label"><b>วันเกิด:</b></label>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                         <input type="date" style="width:fit-content "class="fs-3 mb-3 form-control">
                     </div>
                 </div>
@@ -165,7 +162,14 @@
                     <div class="col-3">
                         <div><b>ที่อยู่:</b></div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" row="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label"><b>แขวง:</b></label>
@@ -195,7 +199,7 @@
                 <div>
                     <div class="row">
                         <div class="col-3 mb-3"><b>ปักหมุด:</b></div>
-                        <div class="col-5">
+                        <div class="col-7">
                         </div>
                     </div>
                 </div>
@@ -203,7 +207,7 @@
                     <div class="col-3">
                         <div class="me-3"><b>ระดับการศึกษา:</b></div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                         <select class="fs-3 form-select mb-3" aria-label="Default select example">
                             <option selected value="ปริญญาตรี">ปริญญาตรี</option>
                             <option value="ปริญญาโท">ปริญญาโท</option>
@@ -217,7 +221,7 @@
                         <div class="col-3">
                             <label class="form-label ms-3">เบอร์โทร:</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-7">
                             <input type="text" class="form-control">
                         </div>
                     </div>
@@ -225,7 +229,7 @@
                         <div class="col-3">
                             <label class="form-label ms-3">Email:</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-7">
                             <input type="text" class="form-control">
                         </div>
                     </div>
@@ -233,7 +237,7 @@
                         <div class="col-3">
                             <label class="form-label ms-3">LINE:</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-7">
                             <input type="text" class="form-control">
                         </div>
                     </div>
@@ -241,7 +245,7 @@
                         <div class="col-3">
                             <label class="form-label ms-3">Facebook:</label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-7">
                             <input type="text" class="form-control">
                         </div>
                     </div>
@@ -250,17 +254,17 @@
                     <div class="col-3">
                         <label class="form-label"><b>เลขที่ใบประกอบ ภ:</b></label>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngFor="let number of numbersEducation; let i = index">
                     <div class="col-3">
-                        <label class="form-label"><b>ประวัติการศึกษา:</b></label>
+                        <label *ngIf='i == 0' class="form-label"><b>ประวัติการศึกษา: </b></label>
                     </div>
-                    <div class="col-5 mb-3">
+                    <div class="col-6 mb-3">
                         <div class="row">
-                            <div class="col-5">
+                            <div class="col-4">
                                 <label class="form-label"><b>ชื่อสถาบัน:</b></label>
                             </div>
                             <div class="col">
@@ -284,39 +288,83 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col" *ngIf='i == 0'>
+                        <i (click)="addEducation()" class="button bi bi-plus-circle-fill"></i>
+                        <i (click)="removeEducation(i)" *ngIf="numbersEducation.length > 1" class=" ms-3 button bi bi-trash-fill"></i>
+                    </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngFor="let number of numbersOccupation; let i = index">
                     <div class="col-3">
                         <label class="form-label"><b>ประวัติการทำงาน:</b></label>
                     </div>
-                    <div class="col-5">
+                    <div class="col-6">
                         <div class="row">
                             <div class="col-4">
-                                <label class="form-label"><b>แขวง:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control me-3">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>เขต:</b></label>
+                                <label class="form-label"><b>ตำแหน่ง:</b></label>
                             </div>
                             <div class="col">
                                 <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-5">
-                                <label class="form-label"><b>จังหวัด:</b></label>
+                            <div class="col-4">
+                                <label class="form-label"><b>ชื่อบริษัท:</b></label>
                             </div>
                             <div class="col">
                                 <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label"><b>ระยะเวลา:</b></label>
+                            </div>
+                            <div class="col">
+                                <label class="form-label ">วันที่เริ่มต้น:</label>
+                                <input type="date" class="fs-3 form-control mb-3">
+                                <label class="form-label">วันที่สิ้นสุด:</label>
+                                <input type="date" class="fs-3 form-control mb-3">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="mb-3 form-label"><b>อธิบายงาน:</b></label>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" row="10"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
+                        <div class="col-1">
+                            <div class="d-flex flex-start" *ngIf='i == 0'>
+                                <i (click)="addOccupation()" class="button bi bi-plus-circle-fill"></i>
+                                <i (click)="removeOccupation(i)" *ngIf="numbersOccupation.length > 1" class=" ms-3 button bi bi-trash-fill"></i>
+                            </div>
+                        </div>
+                        <div class="col form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <label class="text-center fs-5 form-check-label" for="flexRadioDefault2">
+                                ยังอยู่ในตำแหน่งนี้
+                            </label>
+                        </div>
                 </div>
             </div>
         </div>
     </ng-template>
+</ng-template>
+<ng-template #myModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Save Changes?</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Do you want to save your changes before exit?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="discardClick()">Discard</button>
+        <button type="button" class="btn btn-success">Save</button>
+    </div>
 </ng-template>

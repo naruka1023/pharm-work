@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
+import headerArray from 'src/app/model/data/uiKeys';
 import { AppState } from 'src/app/model/typescriptModel/jobPost.model';
 import { getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSuccess } from '../actions/job-post.actions';
 
@@ -8,7 +9,7 @@ import { getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSucce
 
 export const initialState: AppState = {
   loading: true,
-  JobPost: []
+  JobPost: headerArray
 };
 
 export const jobPostReducer = createReducer(

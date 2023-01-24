@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { JobListGuard } from './guards/jobList.guard';
+import { InnerProfileGuard } from './guards/inner-profile.guard';
+import { ProfilePharmaGuard } from './guards/profile-pharma.guard';
 import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
 import { JobsListComponent } from './page/jobs-list/jobs-list.component';
 import { LandingPageComponent } from './page/landing-page/landing-page.component';
@@ -17,9 +18,9 @@ const routes: Routes = [
   { path: 'jobs-list', component: JobsListComponent},
   { path: 'login', component: LoginPageComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'profile-pharma', component: PharmaProfileComponent, children:[
+  { path: 'profile-pharma', component: PharmaProfileComponent,canActivate:[InnerProfileGuard], children:[
     { path: '',   redirectTo: 'inner-profile', pathMatch: 'full' },
-    {path:'inner-profile', component:InnerProfileComponent},
+    {path:'inner-profile', component:InnerProfileComponent, canDeactivate:[ProfilePharmaGuard]},
     {path:'bookmark', component:BookmarkComponent},
     {path:'recently-seen-job', component:RecentlySeenJobsComponent}
   ]},
