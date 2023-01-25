@@ -30,15 +30,17 @@ export interface User{
     birthday?: string;
     age?: string;
     companyName?: string;
+    educationLevel?: string;
     contacts?: {
-        phone: string;
-        email: string;
-        line: string;
-        facebook: string;
+        phone?: string;
+        email?: string;
+        line?: string;
+        facebook?: string;
     }
     name?: string;
     surname?: string;
     Location: {
+        address?: string;
         Section: string;
         District: string;
         Province: string;

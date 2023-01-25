@@ -45,15 +45,15 @@
                     <div><b>ที่อยู่:</b></div>
                     <div class="d-flex flex-row ms-3">
                         <div><b>แขวง:</b></div>
-                        <div class="mx-3">พญาไท</div>
+                        <div class="mx-3">{{innerProfileInformation.Location.Section}}</div>
                     </div>
                     <div class="d-flex flex-row ms-3">
                         <div><b>เขต:</b></div>
-                        <div class="mx-3">สามเสนใน</div>
+                        <div class="mx-3">{{innerProfileInformation.Location.District}}</div>
                     </div>
                     <div class="d-flex flex-row ms-3">
                         <div><b>จังหวัด:</b></div>
-                        <div class="mx-3">กรุงเทพ</div>                    
+                        <div class="mx-3">{{innerProfileInformation.Location.Province}}</div>                    
                     </div>
                 </div>
             </div>
@@ -120,236 +120,241 @@
     <ng-template #editProfile>
         <div class="mx-4">
             <div class="my-5 h1"><b>ตัดต่อ</b></div>
-            <div class="fs-3 my-3">
-                <div class="row">
-                    <div class="col-3">
-                        <label class="form-label">
-                            <b>ชื่อ:</b>
-                        </label>
-                    </div>
-                    <div class="col-7">
-                        <input type="text" style="width:-fill-webkit-available" class="form-control me-3">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <label for="exampleFormControlTextarea1" class="form-label"><b>นามสกุล:</b></label>
-                    </div>
-                    <div class="col-7">
-                        <input type="text" class="form-control me-3">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <label class="form-label"><b>เพศ:</b></label>
-                    </div>
-                    <div class="col-7">
-                        <select class="fs-3 form-select mb-3" aria-label="Default select example">
-                            <option selected value="ชาย">ชาย</option>
-                            <option value="หญิง">หญิง</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <label class="form-label"><b>วันเกิด:</b></label>
-                    </div>
-                    <div class="col-7">
-                        <input type="date" style="width:fit-content "class="fs-3 mb-3 form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <div><b>ที่อยู่:</b></div>
-                    </div>
-                    <div class="col-7">
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" row="10"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>แขวง:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control me-3">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>เขต:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>จังหวัด:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="row">
-                        <div class="col-3 mb-3"><b>ปักหมุด:</b></div>
-                        <div class="col-7">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="me-3"><b>ระดับการศึกษา:</b></div>
-                    </div>
-                    <div class="col-7">
-                        <select class="fs-3 form-select mb-3" aria-label="Default select example">
-                            <option selected value="ปริญญาตรี">ปริญญาตรี</option>
-                            <option value="ปริญญาโท">ปริญญาโท</option>
-                            <option value="ปริญญาโท">ปริญญาเอก</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="my-3">
-                    <div class="me-3"><b>ข้อมูลการติดต่อ:</b></div>
+            <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
+                <div class="fs-3 my-3">
                     <div class="row">
                         <div class="col-3">
-                            <label class="form-label ms-3">เบอร์โทร:</label>
-                        </div>
-                        <div class="col-7">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="form-label ms-3">Email:</label>
-                        </div>
-                        <div class="col-7">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="form-label ms-3">LINE:</label>
-                        </div>
-                        <div class="col-7">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="form-label ms-3">Facebook:</label>
-                        </div>
-                        <div class="col-7">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <label class="form-label"><b>เลขที่ใบประกอบ ภ:</b></label>
-                    </div>
-                    <div class="col-7">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="row" *ngFor="let number of numbersEducation; let i = index">
-                    <div class="col-3">
-                        <label *ngIf='i == 0' class="form-label"><b>ประวัติการศึกษา: </b></label>
-                    </div>
-                    <div class="col-6 mb-3">
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>ชื่อสถาบัน:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control me-3">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>สาขา:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4 mb-3">
-                                <label class="form-label"><b>ปีที่จบ:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" *ngIf='i == 0'>
-                        <i (click)="addEducation()" class="button bi bi-plus-circle-fill"></i>
-                        <i (click)="removeEducation(i)" *ngIf="numbersEducation.length > 1" class=" ms-3 button bi bi-trash-fill"></i>
-                    </div>
-                </div>
-                <div class="row" *ngFor="let number of numbersOccupation; let i = index">
-                    <div class="col-3">
-                        <label class="form-label"><b>ประวัติการทำงาน:</b></label>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>ตำแหน่ง:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>ชื่อบริษัท:</b></label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="form-label"><b>ระยะเวลา:</b></label>
-                            </div>
-                            <div class="col">
-                                <label class="form-label ">วันที่เริ่มต้น:</label>
-                                <input type="date" class="fs-3 form-control mb-3">
-                                <label class="form-label">วันที่สิ้นสุด:</label>
-                                <input type="date" class="fs-3 form-control mb-3">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="mb-3 form-label"><b>อธิบายงาน:</b></label>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" row="10"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="col-1">
-                            <div class="d-flex flex-start" *ngIf='i == 0'>
-                                <i (click)="addOccupation()" class="button bi bi-plus-circle-fill"></i>
-                                <i (click)="removeOccupation(i)" *ngIf="numbersOccupation.length > 1" class=" ms-3 button bi bi-trash-fill"></i>
-                            </div>
-                        </div>
-                        <div class="col form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                            <label class="text-center fs-5 form-check-label" for="flexRadioDefault2">
-                                ยังอยู่ในตำแหน่งนี้
+                            <label for="name" class="form-label">
+                                <b>ชื่อ:</b>
                             </label>
                         </div>
+                        <div class="col-7">
+                            <input formControlName="name" type="text" style="width:-fill-webkit-available" class="form-control me-3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="surname" class="form-label"><b>นามสกุล:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="surname" type="text" class="form-control me-3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="gender" class="form-label"><b>เพศ:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <select formControlName="gender" class="form-select mb-3" aria-label="Default select example">
+                                <option selected value="ชาย">ชาย</option>
+                                <option value="หญิง">หญิง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="birthDate" class="form-label"><b>วันเกิด:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="birthDate" type="date" style="width:fit-content "class="mb-3 form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="address" class="form-label"><b>ที่อยู่:</b></label>
+                        </div>
+                        <div class="col-7" formGroupName="location">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <textarea formControlName="address" class="form-control" id="exampleFormControlTextarea1" row="10"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="section" class="form-label"><b>แขวง:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input formControlName="section" type="text" class="form-control me-3">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="district" class="form-label"><b>เขต:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input formControlName="district" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="province" class="form-label"><b>จังหวัด:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input formControlName="province" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <label for="googleLocation" class="col-3 mb-3 form-label"><b>ปักหมุด:</b></label>
+                            <div class="col-7">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="educationLevel" class="me-3 form-label"><b>ระดับการศึกษา:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <select formControlName="educationLevel" class="form-select mb-3" aria-label="Default select example">
+                                <option selected value="ปริญญาตรี">ปริญญาตรี</option>
+                                <option value="ปริญญาโท">ปริญญาโท</option>
+                                <option value="ปริญญาโท">ปริญญาเอก</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="my-3" formGroupName="contacts">
+                        <label class="me-3 form-label"><b>ข้อมูลการติดต่อ:</b></label>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="phone" class="form-label ms-3">เบอร์โทร:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="phone" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="email" class="form-label ms-3">Email:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="email" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="line" class="form-label ms-3">LINE:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="line" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="facebook" class="form-label ms-3">Facebook:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="facebook" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="license" class="form-label"><b>เลขที่ใบประกอบ ภ:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="license" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row" *ngFor="let number of numbersEducation; let i = index">
+                        <div class="col-3">
+                            <label *ngIf='i == 0' class="form-label"><b>ประวัติการศึกษา: </b></label>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-label"><b>ชื่อสถาบัน:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control me-3">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-label"><b>สาขา:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 mb-3">
+                                    <label class="form-label"><b>ปีที่จบ:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" *ngIf='i == 0'>
+                            <i (click)="addEducation()" class="button bi bi-plus-circle-fill"></i>
+                            <i (click)="removeEducation(i)" *ngIf="numbersEducation.length > 1" class=" ms-3 button bi bi-trash-fill"></i>
+                        </div>
+                    </div>
+                    <div class="row" *ngFor="let number of numbersOccupation; let i = index">
+                        <div class="col-3">
+                            <label class="form-label"><b>ประวัติการทำงาน:</b></label>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-label"><b>ตำแหน่ง:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-label"><b>ชื่อบริษัท:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-label"><b>ระยะเวลา:</b></label>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label ">วันที่เริ่มต้น:</label>
+                                    <input type="date" class="form-control mb-3">
+                                    <label class="form-label">วันที่สิ้นสุด:</label>
+                                    <input type="date" class="form-control mb-3">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="mb-3 form-label"><b>อธิบายงาน:</b></label>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" row="10"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-1">
+                                <div class="d-flex flex-start" *ngIf='i == 0'>
+                                    <i (click)="addOccupation()" class="button bi bi-plus-circle-fill"></i>
+                                    <i (click)="removeOccupation(i)" *ngIf="numbersOccupation.length > 1" class=" ms-3 button bi bi-trash-fill"></i>
+                                </div>
+                            </div>
+                            <div class="col form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                <label class="text-center fs-5 form-check-label" for="flexRadioDefault2">
+                                    ยังอยู่ในตำแหน่งนี้
+                                </label>
+                            </div>
+                    </div>
                 </div>
-            </div>
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-success" type="submit">SAVE</button>
+                </div>
+            </form>
         </div>
     </ng-template>
 </ng-template>

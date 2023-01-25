@@ -17,7 +17,7 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private userService: UserServiceService, private route: Router, private store: Store, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
+  constructor(private userService: UserServiceService, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   registerFormPharmacist!:FormGroup;

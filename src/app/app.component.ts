@@ -4,7 +4,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { of, Subscription, switchMap } from 'rxjs';
+import { distinctUntilChanged, exhaustMap, map, of, Subscription, switchMap } from 'rxjs';
+import { User } from './model/typescriptModel/users.model';
 import { UserServiceService } from './service/user-service.service';
 import { removeCurrentUser } from './state/actions/users.action';
 declare var bootstrap: any;
@@ -27,13 +28,14 @@ export class AppComponent {
     
     this.auth.user.subscribe((user)=>{
       if(user){
-        this.db.collection("users").doc(user.uid).valueChanges().pipe(
-          switchMap((src: any)=>{
-              this.userService.passUserData(src.role, src)
-            return of(src);
+        this.db.collection("users").doc(user.uid).get().pipe(
+          distinctUntilChanged(),   
+          map((src: any)=>{
+              this.userService.passUserData(src.data().role, src.data())
+            return src.data();
          })
         ).subscribe((src)=>{
-          console.log(src);
+          // console.log(src);
         })
         this.loginFlag = true;
         localStorage.setItem('loginState', 'true')
