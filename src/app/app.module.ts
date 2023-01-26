@@ -29,7 +29,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { JobPostEffects } from './state/effects/job-post.effects';
 import {  usersReducer } from './state/reducers/users-reducers';
 import { LoginPageComponent } from './page/login-page/login-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './page/register/register.component';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import { ProfileheaderComponent } from './common/profileheader/profileheader.component';
@@ -62,6 +62,7 @@ import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-j
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
+    FormsModule,
     SwiperModule,
     EffectsModule.forRoot([JobPostEffects]),
     StoreModule.forRoot({

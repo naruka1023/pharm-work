@@ -32,10 +32,10 @@ export interface User{
     companyName?: string;
     educationLevel?: string;
     contacts?: {
-        phone?: string;
-        email?: string;
-        line?: string;
-        facebook?: string;
+        phone: string;
+        email: string;
+        line: string;
+        facebook: string;
     }
     name?: string;
     surname?: string;
@@ -44,5 +44,20 @@ export interface User{
         Section: string;
         District: string;
         Province: string;
-    }
+    },
+    active?:string;
+    educationHistory?: {
+        universityName: string;
+        franchise: string;
+        yearGraduated: string;
+    } [],
+    jobHistory?: {
+        jobName: string;
+        companyName: string;
+        dateStarted: string;
+        activeFlag: string;
+        dateEnded: string;
+        description: string;
+    } [],
+
 }

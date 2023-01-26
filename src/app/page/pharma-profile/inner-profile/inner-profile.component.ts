@@ -1,9 +1,9 @@
 import { Component, TemplateRef, ViewChild} from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/model/typescriptModel/users.model';
 import { UserServiceService } from 'src/app/service/user-service.service';
 
@@ -24,7 +24,7 @@ export class InnerProfileComponent{
   numbersOccupation: number[] = [1];
   @ViewChild('myModal') modal!:TemplateRef<any>;
   constructor(private route: Router,private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){
-
+    
   }
   
   ngOnInit(){
@@ -34,7 +34,6 @@ export class InnerProfileComponent{
     }).subscribe((value: any)=>{
       this.innerProfileInformation = value;
       if(this.innerProfileInformation.role !== ''){
-
         this.initializeFormGroup();
         this.resetFormGroup();
         this.loadingFlag = false;
@@ -61,22 +60,58 @@ export class InnerProfileComponent{
     })
   }
   onSave(){
+    let control = this.profileEdit.get('jobHistory') as FormArray;
+    let controlGroup = control.controls as FormGroup[];
+    controlGroup.forEach((group)=>{
+      group.get('activeFlag')?.setValue('');
+    })
+
     console.log(this.profileEdit.value);
-  }
-  addEducation(){
-    this.numbersEducation.push(1)
   }
   ngOnDestroy(){
     this.subject.unsubscribe();
   }
-  removeEducation(index: number){
-    this.numbersEducation.splice(index, 1);
+  addEducation(){
+    let educationToAdd = this.fb.group({
+      universityName: [''],
+      franchise: [''],
+      yearGraduated: [''],
+    });
+    let newValue: FormArray = this.profileEdit.controls['educationHistory'] as FormArray;
+    newValue.push(educationToAdd);
+    this.profileEdit.controls['educationHistory'].setValue(newValue.value);
   }
+  removeEducation(index: number){
+    if(index > 0){
+      let newValue: FormArray = this.profileEdit.controls['educationHistory'] as FormArray;
+      newValue.removeAt(index);
+      this.profileEdit.controls['educationHistory'].setValue(newValue.value);
+    }
+  }
+
   addOccupation(){
-    this.numbersOccupation.push(1)
+    let jobToAdd = this.fb.group({
+      jobName: [''],
+      activeFlag: [''],
+      companyName: [''],
+      description: [''],
+      dateStarted: [''],
+      dateEnded: [''],
+    });
+    let newValue: FormArray = this.profileEdit.controls['jobHistory'] as FormArray;
+    newValue.push(jobToAdd)
   }
   removeOccupation(index: number){
-    this.numbersOccupation.splice(index, 1);
+    if(index > 0){
+      let newValue: FormArray = this.profileEdit.controls['jobHistory'] as FormArray;
+      newValue.removeAt(index);
+      let control: FormArray = this.profileEdit.get('jobHistory') as FormArray
+      let controlGroup = control.controls as FormGroup[]
+        controlGroup.forEach((group: FormGroup)=>{
+        group.get('activeFlag')?.setValue(false);
+      })
+      this.profileEdit.get('active')?.setValue('')
+    }
   }
   initializeFormGroup(){
     this.profileEdit = this.fb.group({
@@ -98,13 +133,43 @@ export class InnerProfileComponent{
         facebook: [''],
       }),
       license: [''],
+      active: ['true'],
+      educationHistory: this.fb.array([
+        this.fb.group({
+          universityName: [''],
+          franchise: [''],
+          yearGraduated: [''],
+        })
+      ]),
+      jobHistory: this.fb.array([
+        this.fb.group({
+          jobName: [''],
+          companyName: [''],
+          description: [''],
+          dateStarted: [''],
+          dateEnded: [''],
+          activeFlag: [''],
+        })
+      ]),
     });
+  }
+  get FormEduData(){
+    let entity = this.profileEdit.get('educationHistory') as FormArray;
+    return entity.controls;
+  }
+
+  get FormJobData(){
+    let entity = this.profileEdit.get('jobHistory') as FormArray;
+    return entity.controls;
+  }
+  changeDetected(e: any, index: number){
+    this.profileEdit.get('active')?.setValue('active'+ index)
   }
   resetFormGroup(){
     this.profileEdit.reset();
-    this.profileEdit.setValue({
-      name: this.innerProfileInformation.name,
-      surname: this.innerProfileInformation.surname,
+    this.profileEdit.patchValue({
+      name: this.innerProfileInformation.name || '',
+      surname: this.innerProfileInformation.surname || '',
       gender: this.innerProfileInformation.gender || '',
       birthDate: this.innerProfileInformation.birthday || '',
       location: {
@@ -121,26 +186,47 @@ export class InnerProfileComponent{
         facebook: this.innerProfileInformation.contacts?.facebook || ''
       },
       license: this.innerProfileInformation.license || '',
+      active:this.innerProfileInformation.active || '',
+      educationHistory: this.innerProfileInformation.educationHistory ||    
+      [{
+        universityName:'',
+        franchise:'',
+        yearGraduated:'',
+      }],
+      jobHistory: this.innerProfileInformation.jobHistory ||  
+      [{
+        jobName:'',
+        companyName:'',
+        dateStarted:'',
+        dateEnded:'',
+        description:'',
+        activeFlag: '',
+      }]
     })
   }
   discardClick(){
     this.localProfileFlag = true;
     this.resetFormGroup()
     if(this.url.indexOf('profile-pharma') === -1){
-      const parsedUrl = this.url.split('?')[1].split('&');
-      let queryParams: any = {
-        queryParams:{}
-      };
-      parsedUrl.forEach((param)=>{
-        const paramKeyValue = param.split('=');
-        queryParams.queryParams[paramKeyValue[0]] = paramKeyValue[1];
-      })
-      console.log(queryParams);
-      this.url = '..'.concat(this.url.split('?')[0]);
-      this.route.navigate([this.url], queryParams)
+      if(this.url == '' || this.url == '/'){
+        this.route.navigate(['']);
+      }else{
+        const parsedUrl = this.url.split('?')[1].split('&');
+        let queryParams: any = {
+          queryParams:{}
+        };
+        parsedUrl.forEach((param)=>{
+          const paramKeyValue = param.split('=');
+          queryParams.queryParams[paramKeyValue[0]] = paramKeyValue[1];
+        })
+        console.log(queryParams);
+        this.url = '..'.concat(this.url.split('?')[0]);
+        this.route.navigate([this.url], queryParams)
+      }
     }else{
       this.route.navigate([this.url])
     }
     this.modalService.dismissAll()
   }
 }
+
