@@ -9,6 +9,7 @@ import { registerFormOperator, registerFormPharmacist } from 'src/app/model/type
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { UserServiceService } from 'src/app/service/user-service.service';
+import { setCurrentUser } from 'src/app/state/actions/users.action';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -17,7 +18,7 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private userService: UserServiceService, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
+  constructor(private store: Store,private userService: UserServiceService, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   registerFormPharmacist!:FormGroup;
@@ -92,7 +93,7 @@ export class RegisterComponent {
         console.log(user.user?.multiFactor.user.uid);
         this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
         .then((value)=>{
-          this.userService.passUserData(this.role, newUser);
+          this.store.dispatch(setCurrentUser(newUser));
           this.loadingFlag = false;
           this.route.navigate(['profile-pharma'])
         });

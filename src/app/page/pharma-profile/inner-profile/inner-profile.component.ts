@@ -1,11 +1,13 @@
 import { Component, TemplateRef, ViewChild} from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Route, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/model/typescriptModel/users.model';
 import { UserServiceService } from 'src/app/service/user-service.service';
+import { setCurrentUser } from 'src/app/state/actions/users.action';
 
 @Component({
   selector: 'app-inner-profile',
@@ -23,7 +25,7 @@ export class InnerProfileComponent{
   url: string = 'profile-pharma';
   numbersOccupation: number[] = [1];
   @ViewChild('myModal') modal!:TemplateRef<any>;
-  constructor(private route: Router,private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){
+  constructor(private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){
     
   }
   
@@ -65,7 +67,16 @@ export class InnerProfileComponent{
     controlGroup.forEach((group)=>{
       group.get('activeFlag')?.setValue('');
     })
-
+    this.loadingFlag = true
+    const payload = {
+      ...this.profileEdit.value,
+      uid: this.innerProfileInformation.uid
+    }
+    this.userService.updateUser(payload).then(()=>{
+      this.store.dispatch(setCurrentUser({user: payload}))
+      this.loadingFlag = false;
+      this.localProfileFlag = true;
+    })
     console.log(this.profileEdit.value);
   }
   ngOnDestroy(){
@@ -173,10 +184,10 @@ export class InnerProfileComponent{
       gender: this.innerProfileInformation.gender || '',
       birthDate: this.innerProfileInformation.birthday || '',
       location: {
-        address: this.innerProfileInformation.Location.address || '',
-        section: this.innerProfileInformation.Location.Section || '',
-        district: this.innerProfileInformation.Location.District || '',
-        province: this.innerProfileInformation.Location.Province || '',
+        address: this.innerProfileInformation.Location?.address || '',
+        section: this.innerProfileInformation.Location?.Section || '',
+        district: this.innerProfileInformation.Location?.District || '',
+        province: this.innerProfileInformation.Location?.Province || '',
       },
       educationLevel: this.innerProfileInformation.educationLevel || '',
       contacts: {

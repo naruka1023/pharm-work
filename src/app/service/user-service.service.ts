@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { registerFormPharmacist, registerFormOperator, User } from '../model/typescriptModel/users.model';
-import { setCurrentUser } from '../state/actions/users.action';
+import { distinctUntilChanged, map, Observable, of, Subject } from 'rxjs';
+import { User } from '../model/typescriptModel/users.model';
+import { getCurrentUser } from '../state/actions/users.action';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserServiceService {
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private db: AngularFirestore) { }
   editSubject: Subject<boolean> = new Subject();
   leaveEditSubject: Subject<string> = new Subject();
   revertTabSubject: Subject<void> = new Subject();
@@ -37,27 +38,20 @@ export class UserServiceService {
   sendEditSubject(){
     return this.editSubject.next(true);
   }
-
-  passUserData(role: string, newUser: User){
-    let argument: any = {
-      userState: {
-        role: role,
-        email: newUser.email,
-        Location: {
-          Section: 'Wattana',
-          District: 'Klongton',
-          Province: 'Bangkok'
+  getUser(uid: string) : Observable<User>{
+    return this.db.collection("users").doc(uid).get().pipe(
+      distinctUntilChanged(),
+      map((src: any) => {
+        let result: User = {
+          ...src.data(),
+          uid:uid
         }
-      }
-    }
-    if(role == 'เภสัชกร'){
-      argument.userState['name'] = ('name' in newUser)?newUser['name']: ''
-      argument.userState['surname'] = ('surname' in newUser)?newUser['surname']: ''
-      argument.userState['license'] = ('license' in newUser)?newUser['license']: ''
-    }else{
-      argument.userState['companyName'] = ('companyName' in newUser)?newUser['companyName']: ''
-      argument.userState['companyID'] = ('companyID' in newUser)?newUser['companyID']: ''
-    }
-    this.store.dispatch(setCurrentUser(argument))
+        return result;
+      })
+    );
+  }
+  updateUser(user: User) : Promise<void>{
+     return this.db.collection("users").doc(user.uid).set(user)
+
   }
 }

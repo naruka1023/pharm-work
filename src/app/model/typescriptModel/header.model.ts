@@ -5,7 +5,7 @@ export interface profileHeaderJobPost {
 
 export interface profileHeaderPharma {
     name: string;
-    Location: {
+    Location?: {
         Section: string;
         District: string;
         Province: string

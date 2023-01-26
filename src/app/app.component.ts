@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { distinctUntilChanged, exhaustMap, map, of, Subscription, switchMap } from 'rxjs';
 import { User } from './model/typescriptModel/users.model';
 import { UserServiceService } from './service/user-service.service';
-import { removeCurrentUser } from './state/actions/users.action';
+import { getCurrentUser, removeCurrentUser } from './state/actions/users.action';
 declare var bootstrap: any;
 
 
@@ -28,15 +28,8 @@ export class AppComponent {
     
     this.auth.user.subscribe((user)=>{
       if(user){
-        this.db.collection("users").doc(user.uid).get().pipe(
-          distinctUntilChanged(),   
-          map((src: any)=>{
-              this.userService.passUserData(src.data().role, src.data())
-            return src.data();
-         })
-        ).subscribe((src)=>{
-          // console.log(src);
-        })
+        this.userService.getUser(user.uid);
+        this.store.dispatch(getCurrentUser({uid:user.uid}));
         this.loginFlag = true;
         localStorage.setItem('loginState', 'true')
       }else{

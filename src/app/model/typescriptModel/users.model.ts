@@ -23,13 +23,12 @@ export interface registerFormPharmacist{
 export interface User{
     role: string;
     email: string;
-    companyID?: string;
+    uid: string;
     license?: string;
     gender?: string;
     education?: string;
     birthday?: string;
     age?: string;
-    companyName?: string;
     educationLevel?: string;
     contacts?: {
         phone: string;
@@ -39,7 +38,7 @@ export interface User{
     }
     name?: string;
     surname?: string;
-    Location: {
+    Location?: {
         address?: string;
         Section: string;
         District: string;

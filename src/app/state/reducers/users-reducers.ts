@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppState } from 'src/app/model/typescriptModel/jobPost.model';
 import { User } from 'src/app/model/typescriptModel/users.model';
-import { removeCurrentUser, setCurrentUser } from '../actions/users.action';
+import { getCurrentUser, removeCurrentUser, setCurrentUser } from '../actions/users.action';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -10,18 +10,19 @@ import { removeCurrentUser, setCurrentUser } from '../actions/users.action';
 export const initialState: User = {
   role: '',
   email: '',
-  Location: {
-      Section: '',
-      District: '',
-      Province: '',
-  },
+  uid: '',
 };
 
 export const usersReducer = createReducer(
   initialState,
-  on(setCurrentUser, (state, { userState }) => {
+  on(setCurrentUser, (state, { user }) => {
     return {
-      ...userState
+      ...user
+    }
+  }),
+  on(getCurrentUser, (state) => {
+    return {
+      ...state
     }
   }),
   on(removeCurrentUser, (state) => {

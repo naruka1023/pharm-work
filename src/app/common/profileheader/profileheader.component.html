@@ -9,7 +9,7 @@
                 <div>
                     <div class="d-flex">
                         <h3 class="m-4 mb-0 me-2">{{result.name}}</h3>
-                         <h5 style='align-self:end' class="my-4 mb-0 ms-3"> <b>เขต:</b> {{result.Location.District}} <b>จังหวัด:</b> {{result.Location.Province}}</h5>
+                         <h5 *ngIf="result.Location" style='align-self:end' class="my-4 mb-0 ms-3"> <b>เขต:</b> {{result.Location?.District}} <b>จังหวัด:</b> {{result.Location?.Province}}</h5>
                     </div>
                     <div>
                         <!-- <h6 class="mx-4"><i>{{profileInformation.JobType}}</i ></h6> -->

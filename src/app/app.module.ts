@@ -37,6 +37,7 @@ import { jobPostReducer } from './state/reducers/job-post-reducers';
 import { InnerProfileComponent } from './page/pharma-profile/inner-profile/inner-profile.component';
 import { BookmarkComponent } from './page/pharma-profile/bookmark/bookmark.component';
 import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-jobs/recently-seen-jobs.component';
+import { UsersEffect } from './state/effects/users.effects';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-j
     ReactiveFormsModule,
     FormsModule,
     SwiperModule,
-    EffectsModule.forRoot([JobPostEffects]),
+    EffectsModule.forRoot([JobPostEffects, UsersEffect]),
     StoreModule.forRoot({
       jobpost:jobPostReducer,
       user:usersReducer
