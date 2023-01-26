@@ -70,7 +70,9 @@ export class InnerProfileComponent{
     this.loadingFlag = true
     const payload = {
       ...this.profileEdit.value,
-      uid: this.innerProfileInformation.uid
+      uid: this.innerProfileInformation.uid,
+      role: this.innerProfileInformation.role,
+      email: this.innerProfileInformation.email
     }
     this.userService.updateUser(payload).then(()=>{
       this.store.dispatch(setCurrentUser({user: payload}))
@@ -129,12 +131,12 @@ export class InnerProfileComponent{
       name: [''],
       surname: [''],
       gender: [''],
-      birthDate: [''],
-      location: this.fb.group({
+      birthday: [''],
+      Location: this.fb.group({
         address: [''],
-        section: [''],
-        district: [''],
-        province: [''],
+        Section: [''],
+        District: [''],
+        Province: [''],
       }),
       educationLevel: [''],
       contacts: this.fb.group({
@@ -182,12 +184,12 @@ export class InnerProfileComponent{
       name: this.innerProfileInformation.name || '',
       surname: this.innerProfileInformation.surname || '',
       gender: this.innerProfileInformation.gender || '',
-      birthDate: this.innerProfileInformation.birthday || '',
-      location: {
+      birthday: this.innerProfileInformation.birthday || '',
+      Location: {
         address: this.innerProfileInformation.Location?.address || '',
-        section: this.innerProfileInformation.Location?.Section || '',
-        district: this.innerProfileInformation.Location?.District || '',
-        province: this.innerProfileInformation.Location?.Province || '',
+        Section: this.innerProfileInformation.Location?.Section || '',
+        District: this.innerProfileInformation.Location?.District || '',
+        Province: this.innerProfileInformation.Location?.Province || '',
       },
       educationLevel: this.innerProfileInformation.educationLevel || '',
       contacts: {

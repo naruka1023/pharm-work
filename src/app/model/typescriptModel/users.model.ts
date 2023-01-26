@@ -24,7 +24,7 @@ export interface User{
     role: string;
     email: string;
     uid: string;
-    license?: string;
+    license: string;
     gender?: string;
     education?: string;
     birthday?: string;
@@ -36,8 +36,8 @@ export interface User{
         line: string;
         facebook: string;
     }
-    name?: string;
-    surname?: string;
+    name: string;
+    surname: string;
     Location?: {
         address?: string;
         Section: string;

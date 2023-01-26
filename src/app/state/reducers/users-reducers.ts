@@ -11,6 +11,9 @@ export const initialState: User = {
   role: '',
   email: '',
   uid: '',
+  name: '',
+  surname: '',
+  license: '',
 };
 
 export const usersReducer = createReducer(

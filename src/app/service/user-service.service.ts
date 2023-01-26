@@ -51,7 +51,6 @@ export class UserServiceService {
     );
   }
   updateUser(user: User) : Promise<void>{
-     return this.db.collection("users").doc(user.uid).set(user)
-
+     return this.db.collection("users").doc(user.uid).update(user)
   }
 }

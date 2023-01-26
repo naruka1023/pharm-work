@@ -5,11 +5,9 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import Validation from 'src/app/utils/validation';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { registerFormOperator, registerFormPharmacist } from 'src/app/model/typescriptModel/users.model';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { UserServiceService } from 'src/app/service/user-service.service';
-import { setCurrentUser } from 'src/app/state/actions/users.action';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -93,7 +91,6 @@ export class RegisterComponent {
         console.log(user.user?.multiFactor.user.uid);
         this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
         .then((value)=>{
-          this.store.dispatch(setCurrentUser(newUser));
           this.loadingFlag = false;
           this.route.navigate(['profile-pharma'])
         });
