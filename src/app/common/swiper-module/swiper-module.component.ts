@@ -2,7 +2,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { filterConditions } from 'src/app/model/typescriptModel/jobPost.model';
+import { filterConditions, jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
 @Component({
   selector: 'app-swiper-module',
   templateUrl: './swiper-module.component.html',
@@ -11,6 +11,7 @@ import { filterConditions } from 'src/app/model/typescriptModel/jobPost.model';
 })
 export class SwiperModuleComponent {
   @Input()filterFlags!: filterConditions;
+  content: jobPostModel[] = []
   filterVisibleFlag: boolean = false;
   urgentFlag: boolean = false;
   subject!: Subscription;
@@ -21,6 +22,9 @@ export class SwiperModuleComponent {
   }
 
   ngOnInit(){
+    for (const [key, value] of Object.entries(this.filterFlags.content!)) {
+      this.content.push(value);
+    }
     this.collapseButton = "#" + this.filterFlags.CategorySymbol;
     if(this.filterFlags.header === 'งานเภสัชด่วนรายวัน'){
       this.urgentFlag = true;

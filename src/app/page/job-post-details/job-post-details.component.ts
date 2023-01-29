@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { profileHeaderJobPost } from 'src/app/model/typescriptModel/header.model';
-import { jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
+import { AppState, Bookmark, filterConditions, jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
+import { JobPostService } from 'src/app/service/job-post.service';
+import { removeBookmark, addBookmark } from 'src/app/state/actions/job-post.actions';
 
 @Component({
   selector: 'app-job-post-details',
@@ -13,7 +15,7 @@ import { jobPostModel } from 'src/app/model/typescriptModel/jobPost.model';
 })
 export class JobPostDetailsComponent {
 
-  constructor(private route: ActivatedRoute, private auth: AngularFireAuth, private router: Router, private store: Store){}
+  constructor(private jobPostService:JobPostService, private route: ActivatedRoute, private auth: AngularFireAuth, private router: Router, private store: Store){}
 
   profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
@@ -21,8 +23,20 @@ export class JobPostDetailsComponent {
   categorySymbol!: string;
   profile!:jobPostModel;
   profileHeader!: profileHeaderJobPost;
+  bookmarkLoadingFlag: boolean = false;
+  bookmarkFlag$:Observable<boolean> = of(true);
+  userID!: string
+  bookmarkID!: string; 
+  localFlag: boolean = true;
 
   ngOnInit(){
+    this.store.select((state: any)=>{
+      return state.user.uid
+    }).subscribe((value)=>{
+      if(value !== ''){
+        this.userID = value
+      }
+    })
     this.id = this.route.snapshot.queryParamMap.get('id')!;
     this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
     this.loading$ = this.store.select((state: any) =>{
@@ -50,6 +64,42 @@ export class JobPostDetailsComponent {
         JobType: this.profile.JobType
       }
     })
+    this.bookmarkFlag$ = this.store.select((state: any) =>{
+      let flag = true;
+      if(this.userID !== ''){
+        let newState: AppState = state.jobpost
+        let bookmark: Bookmark = newState.Bookmarks[this.profile.custom_doc_id + '-' + this.userID]
+        if(bookmark === undefined){
+          flag = false;
+        }else{
+          this.bookmarkID = bookmark.bookmarkUID!
+        }
+        this.localFlag = flag;
+      }
+      return flag 
+    })
+  }
+
+  getBookmarkPayload(){
+    return {jobUID: this.profile.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID, JobPost:this.profile};
+  }
+
+  toggleBookmark(){
+    if(localStorage.getItem('loginState') === 'true'){
+      this.bookmarkLoadingFlag = true
+      if(this.localFlag === true){
+        this.jobPostService.removeBookMarkService(this.bookmarkID).then((value: any)=>{
+          this.store.dispatch(removeBookmark(this.getBookmarkPayload()));
+          this.bookmarkLoadingFlag = false
+        })
+      }else{
+        this.jobPostService.addBookmarkService(this.profile.custom_doc_id,this.userID).then((value)=>{
+          this.bookmarkID = value.id
+          this.store.dispatch(addBookmark(this.getBookmarkPayload()))
+          this.bookmarkLoadingFlag = false
+        })
+      }
+    }
   }
 
   acceptJob(){

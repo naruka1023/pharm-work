@@ -9,6 +9,8 @@ import { UserServiceService } from '../service/user-service.service';
 })
 export class ProfilePharmaGuard implements CanDeactivate<unknown> {
   constructor(private userService: UserServiceService){}
+  signOutCall: boolean = true;
+
   canDeactivate(
     component: InnerProfileComponent,
     currentRoute: ActivatedRouteSnapshot,

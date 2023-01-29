@@ -2,8 +2,9 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Injectable} from '@angular/core';
 import {catchError, concatMap, map, mergeMap, switchMap, take} from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
-import { filterJobs, getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSuccess,  } from '../actions/job-post.actions';
+import { filterJobs, getBookmarks, getJobCategory, getJobs, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess,  } from '../actions/job-post.actions';
 import { JobPostService } from 'src/app/service/job-post.service';
+import { jobPostPayload } from 'src/app/model/typescriptModel/jobPost.model';
 
 @Injectable()
 export class JobPostEffects {
@@ -21,14 +22,48 @@ export class JobPostEffects {
       )
     )
   );
+
+  loadBookmarks$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getBookmarks),
+      switchMap((action) =>
+        this.jobPostService.getUserBookmark(action.userUID)
+        .pipe(
+          take(1),
+          switchMap((bookmark: any)=> {
+            return this.jobPostService.getListofJobFromBookmark(bookmark).pipe(
+              map((bookmark: any)=>(
+                retrievedUserBookmarkSuccess({Bookmarks: bookmark})),
+              )
+            );
+          })
+        )
+      )
+    )
+    // this.actions$.pipe(
+    //   ofType(getBookmarks),
+    //   switchMap((action) => 
+    //     this.jobPostService.getUserBookmark(action.userUID)
+    //     .pipe(
+    //       take(1),
+    //       map(bookmarks =>{
+    //         retrievedUserBookmarkSuccess({Bookmarks:bookmarks}),
+    //       catchError((err) => {
+    //         return err
+    //       })
+    //       })
+    //     )
+    //   )
+    // )
+  );
   loadJobsCategory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getJobCategory),
       switchMap((action) => 
-      this.jobPostService.getJobCategoryService(action.CategorySymbol)
+        this.jobPostService.getJobCategoryService(action.CategorySymbol)
       .pipe(
         take(1),
-        map(jobPosts => (
+        map((jobPosts:any) => (
           retrievedJobCategorySuccess({jobs:jobPosts})),
         catchError((err) => {
           return err

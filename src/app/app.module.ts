@@ -38,6 +38,7 @@ import { InnerProfileComponent } from './page/pharma-profile/inner-profile/inner
 import { BookmarkComponent } from './page/pharma-profile/bookmark/bookmark.component';
 import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-jobs/recently-seen-jobs.component';
 import { UsersEffect } from './state/effects/users.effects';
+import { recentlySeenReducer } from './state/reducers/recently-seen-reducers';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { UsersEffect } from './state/effects/users.effects';
     EffectsModule.forRoot([JobPostEffects, UsersEffect]),
     StoreModule.forRoot({
       jobpost:jobPostReducer,
-      user:usersReducer
+      user:usersReducer,
+      recentlySeen:recentlySeenReducer
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states

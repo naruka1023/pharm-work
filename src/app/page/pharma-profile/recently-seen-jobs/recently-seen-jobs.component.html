@@ -1,1 +1,4 @@
-<p>recently-seen-jobs works!</p>
+<div class="row row-cols-2">
+    <app-job-post-normal-card *ngFor="let bookmark of recentlySeen$ | async" [content]="bookmark!" [urgentFlag]="bookmark!.Urgency" [fullTimeFlag]="bookmark!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+</div>
+

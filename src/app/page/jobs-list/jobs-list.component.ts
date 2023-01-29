@@ -8,8 +8,6 @@ import { getJobCategory } from 'src/app/state/actions/job-post.actions';
 import SwiperCore, { Grid, Navigation, Pagination } from "swiper";
 SwiperCore.use([Grid, Pagination, Navigation]);
 
-
-
 @Component({
   selector: 'app-jobs-list',
   templateUrl: './jobs-list.component.html',
@@ -32,12 +30,16 @@ export class JobsListComponent {
       const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{
         return res.CategorySymbol == this.CategorySymbol
       });
-      this.header = jobList.header;
-      this.brandToCategory = (jobList.brandToCategory !== undefined)? jobList.brandToCategory : '';
-      return jobList.allContent
+      if(jobList !== undefined){
+        this.header = jobList.header;
+        this.brandToCategory = (jobList.brandToCategory !== undefined)? jobList.brandToCategory : '';
+        return jobList.allContent
+      }
+      return []
     });
     this.content$.subscribe((content) =>{
       if(content!.length === 0){
+        console.log('workaround');
         this.store.dispatch(getJobCategory({CategorySymbol: this.CategorySymbol}));
       }else{
         this.loadingFlag = false;

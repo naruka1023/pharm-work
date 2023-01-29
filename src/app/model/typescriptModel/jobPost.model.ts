@@ -8,18 +8,30 @@ export interface filterConditions{
     brandToCategory?: string;
     filterFlag?: boolean;
     header: string;
-    allContent?: jobPostModel [];
-    content?: jobPostModel []
+    allContent?: jobPostModel[];
+    content?: jobPostModel[]
+}
+
+export interface BookmarkList{
+    [key: string]: Bookmark
+}
+
+export interface Bookmark{
+    jobUID: string,
+    userUID: string,
+    bookmarkUID: string
+    JobPost?: jobPostModel
 }
 
 export interface AppState{
     loading: boolean;
-    JobPost: filterConditions []
+    JobPost: filterConditions[];
+    Bookmarks: BookmarkList;
 }
 
 export interface jobPostPayload {
     CategorySymbol: string;
-    JobPostModel: jobPostModel [];
+    JobsPost: jobPostModel[];
 }
 
 export interface jobPostModel {

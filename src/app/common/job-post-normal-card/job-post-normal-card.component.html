@@ -97,9 +97,28 @@
 						<i class="bi bi-share-fill"></i>
 					</h1>
 				</button>
-				<button type="button" class="btn">
+				<button (click)="toggleBookmark()" type="button" class="btn">
 					<h1>
-						<i class="bi bi-bookmark-fill"></i>
+						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
+						<ng-template #loading>
+							<div>
+								<div style="text-align:center">
+									<div class="spinner-border text-primary" role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+						<ng-template #notLoading>
+							<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
+							<ng-template #black>
+								<i class="bi bi-bookmark-fill"></i>
+								
+							</ng-template>
+							<ng-template #red>
+								<i style="color:red" class="bi bi-bookmark-fill"></i>
+							</ng-template>
+						</ng-template>
 					</h1>
 				</button>
 			</div>

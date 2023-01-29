@@ -8,7 +8,7 @@
             </div>
             <p class="h3 d-flex align-items-end">{{ filterFlags.header }}</p>
         </div>
-        <p class="text-secondary-emphasis text-opacity-50 fs-5 my-auto ms-3">({{ filterFlags.content!.length }})</p>
+        <p class="text-secondary-emphasis text-opacity-50 fs-5 my-auto ms-3">({{ content!.length }})</p>
     </div>
     <button *ngIf="filterFlags.filterFlag" (click)="goToList()" type="button" class="btn btn-light d-flex flex-row align-items-center">
         <p class="h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
@@ -99,7 +99,7 @@
             [autoplay]="true"
             style="margin-top: 3em; text-align: center"
         >
-            <ng-template swiperSlide *ngFor="let item of filterFlags.content">
+            <ng-template swiperSlide *ngFor="let item of content">
 				<app-job-post-small-card 
 					[urgentFlag]="item.Urgency" 
 					[fullTimeFlag]="item.TimeFrame === 'Full-Time'?true:false"
