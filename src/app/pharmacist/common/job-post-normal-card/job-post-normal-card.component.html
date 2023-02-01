@@ -1,0 +1,128 @@
+<div class="card rounded w-100 my-3">
+	<div class="card-body">
+			<div *ngIf="urgentFlag === true" class="d-flex justify-content-between mb-2">
+				<div class="p-3 d-flex align-items-center" style="text-align: center">
+					<div><b>{{content.JobType}}</b></div>
+				</div>
+				<div class="d-flex align-items-center">
+					<div class="d-flex flex-row align-items-center "><b>ต้องการตำแหน่งวันที่ </b><p class="my-auto ms-2">{{content.DateOfJob}}</p></div>
+				</div>
+				<p class=" my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p>
+			</div>
+		<div class="d-flex justify-content-between" *ngIf="!urgentFlag">
+			<div>
+						<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
+						<ng-template #fullBlock>
+							<div class="p-3" style="text-align: center; width:150px">
+								<b class="fs-4">Full-Time</b>
+							</div>
+						</ng-template>
+						<ng-template #partBlock>
+							<div class="p-3" style="text-align: center; width:150px">
+								<b class="fs-4">Part-Time</b>
+							</div>
+						</ng-template>
+					</div>
+			<div class="my-auto">อัพเดทล่าสุด {{content.dateUpdated}}
+			</div>
+		</div>
+		<div class="d-flex justify-content-start">
+			<div>
+				<img (click)="goToProfile()" class="border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
+				
+			</div>
+			<div class="m-auto ms-3" style="width:-webkit-fill-available">
+				<div class="d-flex flex-row me-2">
+					<div class="mb-3">
+						<h4 class="card-title"> {{content.JobName}}</h4>
+					</div>
+				</div>
+				<div class="container text-center">
+					<div class="row mb-3">
+						<div class="col d-flex">
+							<p class="my-auto me-2">
+								<i class="my-auto h2 bi bi-building-fill"></i>
+							</p>
+							<p class="my-auto"> {{content.Establishment}}</p>
+						</div>
+						<div class="col d-flex">
+							<p class="my-auto me-2">
+								<i class="h2 my-auto bi bi-currency-bitcoin"></i>
+							</p>
+							<div class="d-flex flex-row my-auto">
+								<div class="mx-2">{{content.Salary}}</div>
+								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
+								<ng-template #fullSub>บาท/เดือน</ng-template>
+								<ng-template #partSub>บาท/ชม</ng-template>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col d-flex">
+							<p class="my-auto me-2">
+								<i class="my-auto h2 bi bi-clock-fill"></i>
+							</p>
+							<p class="my-auto">{{content.Duration}} </p>
+						</div>
+						<div class="col d-flex">
+							<p class="my-auto me-2">
+								<i class="h2 my-auto bi bi-pin-map-fill"></i>
+							</p>
+							<div class="d-flex flex-row my-auto">
+								<div class="mx-2">{{content.Location.Section}}, {{content.Location.Province}}.</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div *ngIf="urgentFlag === false" class="col d-flex">
+							<p class="my-auto me-2">
+								<i class="my-auto h2 bi bi-people-fill"></i>
+							</p>
+							<p class="my-auto">{{content.Amount}} ตำแหน่ง</p>
+						</div>
+						<div class="col d-flex" *ngIf="!urgentFlag">
+							<p class="my-auto me-2" *ngIf="content.OnlineInterview">
+								<i class="my-auto h2 bi bi-tv"></i>
+							</p>
+							<p class="my-auto">สัมภาษณ์งานทางออนไลน์</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="d-flex justify-content-between">
+			<div>
+				<button type="button" class="btn">
+					<h1>
+						<i class="bi bi-share-fill"></i>
+					</h1>
+				</button>
+				<button (click)="toggleBookmark()" type="button" class="btn">
+					<h1>
+						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
+						<ng-template #loading>
+							<div>
+								<div style="text-align:center">
+									<div class="spinner-border text-primary" role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+						<ng-template #notLoading>
+							<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
+							<ng-template #black>
+								<i class="bi bi-bookmark-fill"></i>
+								
+							</ng-template>
+							<ng-template #red>
+								<i style="color:red" class="bi bi-bookmark-fill"></i>
+							</ng-template>
+						</ng-template>
+					</h1>
+				</button>
+			</div>
+			<button *ngIf="urgentFlag === true" type="button" (click)="acceptJob()" class=" btn btn-success"><h4>สมัครงาน</h4></button>
+		</div>
+	</div>
+</div>

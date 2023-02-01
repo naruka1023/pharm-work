@@ -1,0 +1,203 @@
+<div (click)="scrollUp()"class="position-fixed bottom-0 end-0 m-3" style="font-size:5rem">
+	<i class="pe-auto bi bi-arrow-up-square"></i>
+</div>
+<app-profileheader [profileInformation]="profileHeader" profileType="job-post"></app-profileheader>
+<div class="container">
+	<div>
+		<div class="d-flex justify-content-between mb-5">
+			<div class="d-flex justify-content-start">
+				<div class="fs-1">{{profile.JobName}}</div>
+				<ng-container *ngIf="profile.TimeFrame === 'Part-Time'; then partTimeFlag; else fullTimeFlag"></ng-container>
+				<ng-template #partTimeFlag>
+					<div class="fs-1 ms-3">
+						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+						<ng-template #urgentFlag>
+							<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+						</ng-template>
+						<ng-template #notUrgentFlag>
+							<span class="badge bg-warning text-dark">Part-Time</span>
+						</ng-template>
+					</div>
+				</ng-template>
+				<ng-template #fullTimeFlag>
+					<div class="fs-1 ms-3">
+						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+						<ng-template #urgentFlag>
+							<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+						</ng-template>
+						<ng-template #notUrgentFlag>
+							<span class="badge bg-success">Full-Time</span>
+						</ng-template>
+					</div>
+				</ng-template>
+			</div>
+			<div class="d-flex justify-content-start">
+				<button (click)="toggleBookmark()" type="button" class="btn">
+                    <h1>
+                        <ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
+                        <ng-template #loading>
+                          <div>
+                            <div style="text-align:center">
+                              <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template #notLoading>
+                          <ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
+                            <ng-template #black>
+                              <i class="bi bi-bookmark-fill"></i>
+                              
+                            </ng-template>
+                            <ng-template #red>
+                              <i style="color:red" class="bi bi-bookmark-fill"></i>
+                            </ng-template>
+                        </ng-template>
+                    </h1>
+                </button>
+				<button type="button" class="btn">
+					<h1>
+						<i class="bi bi-share-fill"></i>
+					</h1>
+				</button>
+				<button (click)="acceptJob()" class="btn ms-3 btn-success" style="height: fit-content; align-self: center">
+					<h4>สมัครงาน</h4>
+				</button>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="d-flex flex-row" >
+				<i class="bi bi-building-fill me-2"></i><b>สถานที่ปฏิบัติงาน:</b>
+			</div>
+			<div>{{profile.Establishment}}</div>
+			<div *ngIf="profile.Franchise !== ''">
+				<b>สาขา:</b>
+			</div>
+			<div *ngIf="profile.Franchise !== ''">{{profile.Franchise}}</div>
+			<div class="d-flex flex-row" >
+				<i class="bi bi-clock-fill me-2"></i><b>วงเวลาปฏิบัติงาน:</b>
+			</div>
+			<div>{{profile.Duration}}</div>
+			<div class="d-flex flex-row" >
+				<i class="bi bi-people-fill me-2"></i><b>จำนวนที่รับสมัคร:</b>
+			</div>
+			<div>{{profile.Amount}} ตำแหน่ง</div>
+			<div class="d-flex flex-row" *ngIf="profile.TimeFrame == 'Full-Time'">
+				<i class="bi bi-currency-bitcoin me-2"></i><b>เงินเดือน:</b>
+			</div>
+			<div *ngIf="profile.TimeFrame == 'Full-Time'">{{profile.Salary}} บาท/เดือน</div>
+			<div class="d-flex flex-row" *ngIf="profile.TimeFrame == 'Part-Time'">
+				<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน:</b>
+			</div>
+			<div  *ngIf="profile.TimeFrame == 'Part-Time'">{{profile.Salary}} บาท/ชม</div>
+			<div class="d-flex flex-row" >
+				<i class="bi bi-pin-map-fill me-2"></i><b>พื้นที่ปฏิบัติงาน:</b>
+			</div>
+			<div class="d-flex flex-row" class="d-flex flex-row">
+				<b>แขวง:</b>
+				<div class="ms-2">{{profile.Location.District}}</div>
+			</div>
+			<div class="d-flex flex-row">
+				<b>เขต:</b>
+				<div class="ms-2"> {{profile.Location.Section}}</div>
+			</div>
+			<div class="d-flex flex-row">
+				<b>จังหวัด:</b>
+				<div class="ms-2"> {{profile.Location.Province}}</div>
+			</div>
+			<div *ngIf="profile.BTS.Near"  class="d-flex flex-row">
+				<i class="bi bi-train-front-fill me-2"></i> <b>ใกล้ BTS</b>
+				<div class="ms-2"> {{profile.BTS.Station}}</div>
+			</div>
+			<div *ngIf="profile.MRT.Near"  class="d-flex flex-row">
+				<i class="bi bi-train-front me-2"></i> <b>ใกล้ MRT</b>
+				<div class="ms-2"> {{profile.MRT.Station}}</div>
+			</div>
+			<div class="d-flex flex-row" *ngIf="profile.OnlineInterview">
+				<i class="bi bi-display me-2"></i><b>นัดสัมภาษณ์งานออนไลน์</b>
+			</div>
+			<div class="d-flex flex-row" *ngIf="profile.OnlineInterview">
+				<i class="bi bi-house-fill me-2"></i><b>work from home</b>
+			</div>
+		</div>
+		<div class="mt-5 d-flex justify-content-end">
+			<p class="lead"> อัพเดทล่าสุด {{profile.dateUpdated}} </p>
+		</div>
+	</div>
+	<div class="my-5">
+		<h2 class="my-5">รายละเอียดงาน</h2>
+		<p> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br> - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. <br> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+		<h2 class="my-5">คุณสมบัติผู้สมัครงาน</h2>
+		<ul>
+			<li>Bachelor's Degree in Pharmacy.</li>
+			<li>5 years of minimum work experience in pharmaceutical business.</li>
+			<li>Knowledge of marketing concepts, strategic thinking, strong interpersonal and communication skills.</li>
+			<li>Good marketing analysis and good business planning skills.</li>
+			<li>Good computer skills especially MS Office (MS Project shall be great).</li>
+			<li>Good in writing and verbal communication.</li>
+			<li>Good command of English Language.</li>
+		</ul>
+		<h2 class="my-5">สวัสดิการ</h2>
+		<ul>
+			<li>ชุดพนักงาน</li>
+			<li>เบี้ยขยัน</li>
+			<li>กองทุนสำรองเลี้ยงชีพ</li>
+			<li>ประกันสังคม/ประกันอุบัติเหตุ</li>
+			<li>โบนัสประจำปี</li>
+			<li>การปรับค่าจ้างประจำปี</li>
+			<li>กิจกรรมท่องเที่ยวและงานเลี้ยงปีใหม่ประจำปี</li>
+			<li>เงินช่วยเหลืองานแต่งงาน</li>
+			<li>เงินช่วยเหลืองานอุปสมบท</li>
+			<li>เงินช่วยเหลืองานฌาปนกิจศพ</li>
+			<li>รางวัลอายุงาน 10 ปี</li>
+			<li>ทำงานจันทร์- ศุกร์ (หยุดเสาร์ - อาทิตย์)</li>
+		</ul>
+		<h2 class="my-5">วิธีสมัครงาน</h2>
+		<p> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br> - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. <br> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+	</div>
+	<div>
+		<img src="assets/poster.jpg">
+	</div>
+	<div class="my-5">
+		<h2 class="my-5">ติดต่อเพิ่มเติมได้ที่</h2>
+		<div class="gridContact">
+			<span>
+				<b>โทร: </b>
+			</span>
+			<span class="ms-2">081-234-5678</span>
+			<span>
+				<b>Email: </b>
+			</span>
+			<span class="ms-2">pan@peeaomkak.com</span>
+			<span>
+				<b>Line: </b>
+			</span>
+			<span class="ms-2">@peeaomsuck</span>
+			<span>
+				<b>Web: </b>
+			</span>
+			<span class="ms-2">www.peeaomkak.com</span>
+			<span>
+				<b>อื่นๆ: </b>
+			</span>
+			<span class="ms-2">fdsafcdsavrfeqb</span>
+		</div>
+	</div>
+	<div class="my-5">
+		<h2 class="my-5">วิธีการเดินทาง</h2>
+		<p>การเดินทางมาบริษัทฯ สามารถเข้าได้ 2 ทาง สาขาปากเกร็ด</p>
+		<ul style="list-style-type:decimal">
+			<li>ซอยสุขาประชาสรรค์ 3 (ซอยข้างรร.อัมพรไพศาล) ฝั่งถนนติวานนท์ (เยื้องทางเข้าเมืองทองธานี)</li>
+			<li>ซอยสุขาประชาสรรค์ 2 (ซอยวัดกู้) ฝั่งถนนแจ้งวัฒนะ</li>
+		</ul>
+		<p>การเดินทางสำหรับตำแหน่งงานที่ปฏิบัติงานสาขาสำโรง (สัมภาษณ์ที่สาขาสำโรง)</p>
+		<ul style="list-style-type:decimal">
+			<li>BTS ลงสถานีปู่เจ้า แล้วเข้าซอยสุขุมวิท 117 ระยะทางจากปากซอยประมาณ 400 เมตร</li>
+			<li>รถเมลล์สาย สาย 25 ปอ.23 ปอ.102 ปอ.142 ปอ.136 ปอ.129 หรือรถสองแถวประจำทาง ไปปากน้ำ ทุกสาย โดยลงที่ป้ายหน้าบริษัท พานาโซนิค (ใต้สถานีรถไฟฟ้าปู่เจ้า) แล้วเดินเข้าซอยสุขุมวิท 117</li>
+		</ul>
+	</div>
+	<div style="text-align:center" class="my-5">
+		<img src="assets/map.png">
+	</div>
+</div>
