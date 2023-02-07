@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { User } from "../../model/typescriptModel/users.model";
+import { User } from "../../pharmacist/model/typescriptModel/users.model";
 
 export const getCurrentUser = createAction(
     '[User] get Current User',

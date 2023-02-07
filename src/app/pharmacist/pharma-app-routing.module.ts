@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InnerProfileGuard } from './guards/inner-profile.guard';
 import { ProfilePharmaGuard } from './guards/profile-pharma.guard';
-import { HomePageComponent } from './home-page/home-page.component';
 import { LandingPageComponent } from './landing-page.component';
 import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
 import { JobsListComponent } from './page/jobs-list/jobs-list.component';

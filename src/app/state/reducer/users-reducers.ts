@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
-import { User } from '../../model/typescriptModel/users.model';
+import { User } from '../../pharmacist/model/typescriptModel/users.model';
 import { getCurrentUser, removeCurrentUser, setCurrentUser } from '../actions/users.action';
 
 // import { retrievedBookList } from './books.actions';
@@ -13,6 +13,12 @@ export const initialState: User = {
   name: '',
   surname: '',
   license: '',
+  contacts:{
+    facebook: '',
+    line: '',
+    phone: '',
+    email: ''
+  }
 };
 
 export const usersReducer = createReducer(

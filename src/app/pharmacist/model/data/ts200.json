@@ -1,1202 +1,2122 @@
 [
-    {
-        "Amount":3,
-        "Establishment": "โรงพยาบาลตราด",
-        "Franchise": "",
-        "JobName": "หัวหน้าห้องยา",
-        "JobType": "โรงพยาบาล",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองตราด",
-            "Province": "ตราด",
-            "Section": "วังกระแจะ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "60,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": true,
-        "Duration": "8:00 - 17:00",
-        "DateOfJob": "3/09/23",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+  {
+    "Amount": 3,
+    "Establishment": "โรงพยาบาลตราด",
+    "Franchise": "",
+    "JobName": "หัวหน้าห้องยา",
+    "JobType": "โรงพยาบาล",
+    "CategorySymbol": "AA",
+    "Location": {
+      "District": "เมืองตราด",
+      "Province": "ตราด",
+      "Section": "วังกระแจะ"
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท สวัสดิราษฎร์ จำกัด",
-        "Franchise": "",
-        "JobName": "เภสัชกร",
-        "JobType": "คลินิก",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองนครราชสีมา",
-            "Province": "นครราชสีมา",
-            "Section": "ในเมือง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "150",
-        "TimeFrame": "Part-Time",
-        "Urgency": true,
-        "Duration": "8:00 - 17:00",
-        "DateOfJob": "3/09/23",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท โหยวไท่ คอสเมติกส์ อินเตอร์เนชั่นแนล จำกัด",
-        "Franchise": "",
-        "JobName": "นักวิจัยและพัฒนาผลิตภัณฑ์เสริมอาหาร(R&D Food)",
-        "JobType": "วิจัย",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "เมืองสมุทรสาคร",
-            "Province": "สมุทรสาคร",
-            "Section": "ท่าจีน"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "30,000-40,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": true,
-        "Duration": "8:00 - 17:00",
-        "DateOfJob": "3/09/23",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":4,
-        "Establishment": "โรงพยาบาลเจ้าพระยาอภัยภูเบศร",
-        "Franchise": "",
-        "JobName": "หน่วยผสมยามะเร็ง",
-        "JobType": "โรงพยาบาล",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองปราจีนบุรี",
-            "Province": "ปราจีนบุรี",
-            "Section": "ท่างาม"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "1550",
-        "TimeFrame": "Part-Time",
-        "Urgency": true,
-        "Duration": "8:00 - 17:00",
-        "DateOfJob": "3/09/23",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "SRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "นานาเภสัช",
-        "Franchise": "",
-        "JobName": "เภสัชกร",
-        "JobType": "ร้านยาทั่วไป",
-        "CategorySymbol":"AB",
-        "Location": {
-            "District": "พญาไท",
-            "Province": "กรุงเทพ",
-            "Section": "สามเสนใน"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "150",
-        "TimeFrame": "Part-Time",
-        "Urgency": true,
-        "Duration": "8:00 - 17:00",
-        "DateOfJob": "3/09/23",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "BTS": {
+      "Near": true,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "นานาเภสัช",
-        "Franchise": "",
-        "JobName": "เภสัชกร",
-        "JobType": "ร้านยาทั่วไป",
-        "CategorySymbol":"AB",
-        "Location": {
-            "District": "พญาไท",
-            "Province": "กรุงเทพ",
-            "Section": "สามเสนใน"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "150",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "MRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "บีบีเภสัช",
-        "JobName": "เภสัชกรร้านยา",
-        "JobType": "ร้านยาทั่วไป",
-        "CategorySymbol":"AB",
-        "Location": {
-            "District": "ดุสิต",
-            "Province": "กรุงเทพ",
-            "Section": "ถนนนครไชยศรี"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"ทองหล่อ"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "200",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
     },
-    {
-        "Amount":1,
-        "Establishment": "คลังยาชลบุรี",
-        "Franchise": "",
-        "JobName": "เภสัชกรประจำร้านยา",
-        "JobType": "ร้านยาทั่วไป",
-        "CategorySymbol":"AB",
-        "Location": {
-            "District": "เมือง",
-            "Province": "ชลบุรี",
-            "Section": "แสนสุข"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "45,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "TimeFrame": "Full-Time",
+    "Urgency": true,
+    "Duration": "8:00 - 17:00",
+    "DateOfJob": "3/09/23",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท สวัสดิราษฎร์ จำกัด",
+    "Franchise": "",
+    "JobName": "เภสัชกร",
+    "JobType": "คลินิก",
+    "CategorySymbol": "AA",
+    "Location": {
+      "District": "เมืองนครราชสีมา",
+      "Province": "นครราชสีมา",
+      "Section": "ในเมือง"
     },
-    {
-        "Amount":1,
-        "Establishment": "เอเอเภสัช",
-        "Franchise": "",
-        "JobName": "เภสัชกรร้านยา",
-        "JobType": "ร้านยาทั่วไป",
-        "CategorySymbol":"AB",
-        "Location": {
-            "District": "ทวีวัฒนา",
-            "Province": "กรุงเทพ",
-            "Section": "คลองเตยเหนือ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"อโศก"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": "สุขุมวิท"
-        },
-        "OnlineInterview": true,
-        "Salary": "30,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
     },
-    {
-        "Amount":2,
-        "Establishment": "เชียงดงเภสัช",
-        "Franchise": "",
-        "JobName": "เภสัชกรร้านยา",
-        "JobType": "ร้านยาทั่วไป",
-        "CategorySymbol":"AB",
-        "Location": {
-            "District": "เมือง",
-            "Province": "เชียงใหม่",
-            "Section": "ช้างเผือก"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "65,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "Watson",
-        "Franchise": "เกตเวย์เอกมัย",
-        "JobName": "เภสัชกรประจำร้านยา",
-        "JobType": "ร้านยาแบรนด์",
-        "CategorySymbol":"AC",
-        "Location": {
-            "District": "คลองเตย",
-            "Province": "กรุงเทพ",
-            "Section": "พระขโนง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"เอกมัย"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "76,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "SRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":2,
-        "Establishment": "Watson",
-        "Franchise": "สยามสแควน์",
-        "JobName": "เภสัชกรประจำร้านยา",
-        "JobType": "ร้านยาแบรนด์",
-        "CategorySymbol":"AC",
-        "Location": {
-            "District": "ปทุมวัน",
-            "Province": "กรุงเทพ",
-            "Section": "ปทุมวัน"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"สยาม"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "32,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "BTS": {
+      "Near": true,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "แลปฟามาซี",
-        "Franchise": "people park",
-        "JobName": "เภสัชกรประจำร้านยา",
-        "JobType": "ร้านยาแบรนด์",
-        "CategorySymbol":"AC",
-        "Location": {
-            "District": "สวยหลวง",
-            "Province": "กรุงเทพ",
-            "Section": "สวนหลวง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "55,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "MRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "Watson",
-        "Franchise": "เซ็นทรัล นครศรีธรรมราช",
-        "JobName": "เภสัชกรประจำร้านยา",
-        "JobType": "ร้านยาแบรนด์",
-        "CategorySymbol":"AC",
-        "Location": {
-            "District": "พะพรหม",
-            "Province": "นครศรีธรรมราช",
-            "Section": "นาสาร"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "30,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "CorporateStructure"
     },
-    {
-        "Amount":1,
-        "Establishment": "Boots",
-        "Franchise": "เทสโก้ขอนแก่น",
-        "JobName": "เภสัชกรประจำร้านยา",
-        "JobType": "ร้านยาแบรนด์",
-        "CategorySymbol":"AC",
-        "Location": {
-            "District": "เมืองขอนแก่น",
-            "Province": "ขอนแก่น",
-            "Section": "ศิลา"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "170",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "TimeFrame": "Part-Time",
+    "Urgency": true,
+    "Duration": "8:00 - 17:00",
+    "DateOfJob": "3/09/23",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท โหยวไท่ คอสเมติกส์ อินเตอร์เนชั่นแนล จำกัด",
+    "Franchise": "",
+    "JobName": "นักวิจัยและพัฒนาผลิตภัณฑ์เสริมอาหาร(R&D Food)",
+    "JobType": "วิจัย",
+    "CategorySymbol": "AA",
+    "Location": {
+      "District": "เมืองสมุทรสาคร",
+      "Province": "สมุทรสาคร",
+      "Section": "ท่าจีน"
     },
-    {
-        "Amount":4,
-        "Establishment": "โรงพยาบาลศิริราช ปิยมหาราชการุณย์",
-        "Franchise": "",
-        "JobName": "เภสัชกรห้องยา",
-        "JobType": "โรงพยาบาล",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "บางกอกน้อย",
-            "Province": "กรุงเทพ",
-            "Section": "ศิริราช"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "65,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
     },
-    {
-        "Amount":2,
-        "Establishment": "โรงพยาบาลศรีสังวาลย์",
-        "Franchise": "",
-        "JobName": "เภสัชกรห้องจ่ายยา",
-        "JobType": "โรงพยาบาล",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองแม่ฮ่องสอน",
-            "Province": "แม่ฮ่องสอน",
-            "Section": "จองคำ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "30,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":3,
-        "Establishment": "โรงพยาบาลตราด",
-        "Franchise": "",
-        "JobName": "หัวหน้าห้องยา",
-        "JobType": "โรงพยาบาล",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองตราด",
-            "Province": "ตราด",
-            "Section": "วังกระแจะ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "60,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "SRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "โรงพยาบาลยะลาสิริรัตนรักษ์",
-        "Franchise": "",
-        "JobName": "เภสัชกร",
-        "JobType": "โรงพยาบาล",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองยะลา",
-            "Province": "ยะลา",
-            "Section": "สะเตง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "250",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "BTS": {
+      "Near": true,
+      "Station": ""
     },
-    {
-        "Amount":4,
-        "Establishment": "โรงพยาบาลเจ้าพระยาอภัยภูเบศร",
-        "Franchise": "",
-        "JobName": "หน่วยผสมยามะเร็ง",
-        "JobType": "โรงพยาบาล",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองปราจีนบุรี",
-            "Province": "ปราจีนบุรี",
-            "Section": "ท่างาม"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "1550",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "MRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "บริษัท พานาซี เมดิคอลเซ็นเตอร์ จำกัด",
-        "Franchise": "",
-        "JobName": "เภสัชกรประจำคลินิก เอกมัย",
-        "JobType": "คลินิก",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "คลองเตบ",
-            "Province": "กรุงเทพ",
-            "Section": "พระขโนง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"เอกมัย"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "55,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "CorporateStructure"
     },
-    {
-        "Amount":2,
-        "Establishment": "เอ็มไพร์ วิลล่า เมดิก้า จำกัด",
-        "Franchise": "",
-        "JobName": "เภสัชกร",
-        "JobType": "คลินิก",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "ปทุมวัน",
-            "Province": "กรุงเทพ",
-            "Section": "ปทุมวัน"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"ชิดลม"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "75,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "TimeFrame": "Full-Time",
+    "Urgency": true,
+    "Duration": "8:00 - 17:00",
+    "DateOfJob": "3/09/23",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 4,
+    "Establishment": "โรงพยาบาลเจ้าพระยาอภัยภูเบศร",
+    "Franchise": "",
+    "JobName": "หน่วยผสมยามะเร็ง",
+    "JobType": "โรงพยาบาล",
+    "CategorySymbol": "AA",
+    "Location": {
+      "District": "เมืองปราจีนบุรี",
+      "Province": "ปราจีนบุรี",
+      "Section": "ท่างาม"
     },
-    {
-        "Amount":1,
-        "Establishment": "บริษัท สมิหลา เฮลท์ คอมมูนิตี้ จำกัด",
-        "Franchise": "",
-        "JobName": "เภสัชกร",
-        "JobType": "คลินิก",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองสงขลา",
-            "Province": "กรุงเทพ",
-            "Section": "บ่อยาง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "300",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
     },
-    {
-        "Amount":1,
-        "Establishment": "SLCclinic",
-        "Franchise": "",
-        "JobName": "เภสัชกร SLCclinic",
-        "JobType": "คลินิก",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "วัฒนา",
-            "Province": "กรุงเทพ",
-            "Section": "คลองตันเหนือ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "43,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท สวัสดิราษฎร์ จำกัด",
-        "Franchise": "",
-        "JobName": "เภสัชกร",
-        "JobType": "คลินิก",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "เมืองนครราชสีมา",
-            "Province": "นครราชสีมา",
-            "Section": "ในเมือง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "150",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "SRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท ฮีโร่มัยซิน ฟาร์ม่า จำกัด",
-        "Franchise": "",
-        "JobName": "เภสัชกรฝ่ายประกันคุณภาพ (QA)",
-        "JobType": "โรงงาน",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "ยานนาวา",
-            "Province": "กรุงเทพ",
-            "Section": "ช่องนนทรี"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"ช่องนนทรี"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "35,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "BTS": {
+      "Near": true,
+      "Station": ""
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท เจริญเภสัชแล็บ จำกัด",
-        "Franchise": "",
-        "JobName": "QA Pharmacist",
-        "JobType": "โรงงาน",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "ภาษีเจริญ",
-            "Province": "กรุงเทพ",
-            "Section": "ปากคลองภาษีเจริญ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"บางหว้า"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "ตามตกลง",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "MRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":5,
-        "Establishment": "Advance Pharmaceutical manufacturing Co., Ltd.",
-        "Franchise": "",
-        "JobName": "เภสัชกรฝ่ายควบคุมคุณภาพ/ฝ่ายประกันคุณภาพ/ฝ่ายผลิต",
-        "JobType": "โรงงาน",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "อุทัย",
-            "Province": "พระนครศรีอยุธยา",
-            "Section": "อุทัย"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "ตามตกลง",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "CorporateStructure"
     },
-    {
-        "Amount":2,
-        "Establishment": "T.P. Drug Laboratories (1969)",
-        "Franchise": "",
-        "JobName": "Product Manager",
-        "JobType": "โรงงาน",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "พระขโนง",
-            "Province": "กรุงเทพ",
-            "Section": "พระขโนงใต้"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"บางจาก"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "ตามตกลง",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "TimeFrame": "Part-Time",
+    "Urgency": true,
+    "Duration": "8:00 - 17:00",
+    "DateOfJob": "3/09/23",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "นานาเภสัช",
+    "Franchise": "",
+    "JobName": "เภสัชกร",
+    "JobType": "ร้านยาทั่วไป",
+    "CategorySymbol": "AA",
+    "Location": {
+      "District": "พญาไท",
+      "Province": "กรุงเทพ",
+      "Section": "สามเสนใน"
     },
-    {
-        "Amount":1,
-        "Establishment": "Medicine Products Company Limited",
-        "Franchise": "",
-        "JobName": "**ด่วน** รับสมัคร เภสัชกรฝ่ายผลิต 2 ตำแหน่ง (ยินดีรับเด็กจบใหม่)",
-        "JobType": "โรงงาน",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "นครชัยศรี",
-            "Province": "นครปฐม",
-            "Section": "ท่าตำหนัก"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "45,000-ตามตกลง",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท มิตรไมตรีการแพทย์ จำกัด",
-        "Franchise": "",
-        "JobName": "เภสัชกร บริษัท มิตรไมตรีการแพทย์ จำกัด",
-        "JobType": "คลินิก",
-        "CategorySymbol":"BB",
-        "Location": {
-            "District": "บางบัวทอง",
-            "Province": "นนทบุรี",
-            "Section": "บางคูรัด"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "35,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท DCH(Auriga) Thailand",
-        "Franchise": "",
-        "JobName": "Officer, Regulatory Affairs",
-        "JobType": "บริษัท",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "ปทุมวัน",
-            "Province": "กรุงเทพ",
-            "Section": "ลุมพินี"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"เพลินจิต"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "25,000-35,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "SRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "บริษัท ออล รีเสิร์ช จำกัด",
-        "Franchise": "",
-        "JobName": "Clinical Study Coordinator",
-        "JobType": "วิจัย",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "พระขโนง",
-            "Province": "กรุงเทพ",
-            "Section": "พระขโนงใต้"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"บางจาก"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "ตามตกลง",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "BTS": {
+      "Near": true,
+      "Station": ""
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัท โหยวไท่ คอสเมติกส์ อินเตอร์เนชั่นแนล จำกัด",
-        "Franchise": "",
-        "JobName": "นักวิจัยและพัฒนาผลิตภัณฑ์เสริมอาหาร(R&D Food)",
-        "JobType": "วิจัย",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "เมืองสมุทรสาคร",
-            "Province": "สมุทรสาคร",
-            "Section": "ท่าจีน"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "30,000-40,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "MRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "ชามเบิลเท็ค",
-        "Franchise": "",
-        "JobName": "เภสัชกร Telepharmacy",
-        "JobType": "บริษัท",
-        "CategorySymbol":"CA",
-        "Location": {
-            "District": "คอลงเตย",
-            "Province": "กรุงเทพ",
-            "Section": "คลองตันเหนือ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"อโศก"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "65,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "CorporateStructure"
     },
-    {
-        "Amount":1,
-        "Establishment": "ฟาม่าเท็คแอนเทคโนโลยี",
-        "Franchise": "",
-        "JobName": "งาน Telepharmacy",
-        "JobType": "บริษัท",
-        "CategorySymbol":"CA",
-        "Location": {
-            "District": "จตุจักร",
-            "Province": "กรุงเทพ",
-            "Section": "จอมพล"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"หมอชิต"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": "สวนจตุจักร"
-        },
-        "OnlineInterview": true,
-        "Salary": "1200 บาท/วัน",
-        "TimeFrame": "Part-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "TimeFrame": "Part-Time",
+    "Urgency": true,
+    "Duration": "8:00 - 17:00",
+    "DateOfJob": "3/09/23",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "นานาเภสัช",
+    "Franchise": "",
+    "JobName": "เภสัชกร",
+    "JobType": "ร้านยาทั่วไป",
+    "CategorySymbol": "AB",
+    "Location": {
+      "District": "พญาไท",
+      "Province": "กรุงเทพ",
+      "Section": "สามเสนใน"
     },
-    {
-        "Amount":1,
-        "Establishment": "มหาวิทยาลัยหัวเฉียวเฉลิมพระเกียรติ",
-        "Franchise": "",
-        "JobName": "อาจารย์ประจำคณะเภสัชศาสตร์",
-        "JobType": "บริษัท",
-        "CategorySymbol":"CA",
-        "Location": {
-            "District": "บางพลี",
-            "Province": "กรุงเทพ",
-            "Section": "บางโฉลง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"อุดมสุข"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "35,000 หรือ ตามตกลง",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
-        
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
     },
-    {
-        "Amount":1,
-        "Establishment": "โรงพยาบาลกรุงเทพซอยศูนย์วิจัย",
-        "Franchise": "",
-        "JobName": "รับสมัคร Clinical Pharmacist โรงพยาบาลกรุงเทพซอยศูนย์วิจัย รับหลายตำแหน่ง",
-        "JobType": "บริษัท",
-        "CategorySymbol":"BC",
-        "Location": {
-            "District": "ห้วยขวาง",
-            "Province": "กรุงเทพ",
-            "Section": "บางกะปิ"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "ตามตกลง",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":1,
-        "Establishment": "บริษัททาเคดะ",
-        "Franchise": "",
-        "JobName": "ผู้บรรยายผลิตภัณฑ์หรือ product specialist",
-        "JobType": "บริษัท",
-        "CategorySymbol":"CA",
-        "Location": {
-            "District": "ปทุมวัน",
-            "Province": "กรุงเทพ",
-            "Section": "ปทุมวัน"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :"สยาม"
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "95,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
+    "SRT": {
+      "Near": false,
+      "Station": ""
     },
-    {
-        "Amount":2,
-        "Establishment": "บริษัทประกันเอไอเอ",
-        "Franchise": "",
-        "JobName": "เภสัชกรออนไลน์",
-        "JobType": "บริษัท",
-        "CategorySymbol":"CA",
-        "Location": {
-            "District": "ดินแดง",
-            "Province": "กรุงเทพ",
-            "Section": "ดินแดง"
-        },
-        "BTS": 
-        {
-            "Near": true,
-            "Station" :""
-        },
-        "MRT": {
-            "Near": false,
-            "Station": ""
-        },
-        "OnlineInterview": true,
-        "Salary": "25,000",
-        "TimeFrame": "Full-Time",
-        "Urgency": false,
-        "DateOfJob": "3/09/23",
-        "Duration": "8:00 - 17:00",
-        "dateCreated": "3/10/23",
-        "dateUpdated": "3/11/23"
-    }
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "CorporateStructure"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "บีบีเภสัช",
+    "Franchise": "",
+    "JobName": "เภสัชกรร้านยา",
+    "JobType": "ร้านยาทั่วไป",
+    "CategorySymbol": "AB",
+    "Location": {
+      "District": "ดุสิต",
+      "Province": "กรุงเทพ",
+      "Section": "ถนนนครไชยศรี"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "ทองหล่อ"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "CorporateStructure"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "คลังยาชลบุรี",
+    "Franchise": "",
+    "JobName": "เภสัชกรประจำร้านยา",
+    "JobType": "ร้านยาทั่วไป",
+    "CategorySymbol": "AB",
+    "Location": {
+      "District": "เมือง",
+      "Province": "ชลบุรี",
+      "Section": "แสนสุข"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "เอเอเภสัช",
+    "Franchise": "",
+    "JobName": "เภสัชกรร้านยา",
+    "JobType": "ร้านยาทั่วไป",
+    "CategorySymbol": "AB",
+    "Location": {
+      "District": "ทวีวัฒนา",
+      "Province": "กรุงเทพ",
+      "Section": "คลองเตยเหนือ"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "อโศก"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": "สุขุมวิท"
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "เชียงดงเภสัช",
+    "Franchise": "",
+    "JobName": "เภสัชกรร้านยา",
+    "JobType": "ร้านยาทั่วไป",
+    "CategorySymbol": "AB",
+    "Location": {
+      "District": "เมือง",
+      "Province": "เชียงใหม่",
+      "Section": "ช้างเผือก"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "Watson",
+    "Franchise": "เกตเวย์เอกมัย",
+    "JobName": "เภสัชกรประจำร้านยา",
+    "JobType": "ร้านยาแบรนด์",
+    "CategorySymbol": "AC",
+    "Location": {
+      "District": "คลองเตย",
+      "Province": "กรุงเทพ",
+      "Section": "พระขโนง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "เอกมัย"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "Watson",
+    "Franchise": "สยามสแควน์",
+    "JobName": "เภสัชกรประจำร้านยา",
+    "JobType": "ร้านยาแบรนด์",
+    "CategorySymbol": "AC",
+    "Location": {
+      "District": "ปทุมวัน",
+      "Province": "กรุงเทพ",
+      "Section": "ปทุมวัน"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "สยาม"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "แลปฟามาซี",
+    "Franchise": "people park",
+    "JobName": "เภสัชกรประจำร้านยา",
+    "JobType": "ร้านยาแบรนด์",
+    "CategorySymbol": "AC",
+    "Location": {
+      "District": "สวยหลวง",
+      "Province": "กรุงเทพ",
+      "Section": "สวนหลวง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "Watson",
+    "Franchise": "เซ็นทรัล นครศรีธรรมราช",
+    "JobName": "เภสัชกรประจำร้านยา",
+    "JobType": "ร้านยาแบรนด์",
+    "CategorySymbol": "AC",
+    "Location": {
+      "District": "พะพรหม",
+      "Province": "นครศรีธรรมราช",
+      "Section": "นาสาร"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "Boots",
+    "Franchise": "เทสโก้ขอนแก่น",
+    "JobName": "เภสัชกรประจำร้านยา",
+    "JobType": "ร้านยาแบรนด์",
+    "CategorySymbol": "AC",
+    "Location": {
+      "District": "เมืองขอนแก่น",
+      "Province": "ขอนแก่น",
+      "Section": "ศิลา"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 4,
+    "Establishment": "โรงพยาบาลศิริราช ปิยมหาราชการุณย์",
+    "Franchise": "",
+    "JobName": "เภสัชกรห้องยา",
+    "JobType": "โรงพยาบาล",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "บางกอกน้อย",
+      "Province": "กรุงเทพ",
+      "Section": "ศิริราช"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "โรงพยาบาลศรีสังวาลย์",
+    "Franchise": "",
+    "JobName": "เภสัชกรห้องจ่ายยา",
+    "JobType": "โรงพยาบาล",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "เมืองแม่ฮ่องสอน",
+      "Province": "แม่ฮ่องสอน",
+      "Section": "จองคำ"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 3,
+    "Establishment": "โรงพยาบาลตราด",
+    "Franchise": "",
+    "JobName": "หัวหน้าห้องยา",
+    "JobType": "โรงพยาบาล",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "เมืองตราด",
+      "Province": "ตราด",
+      "Section": "วังกระแจะ"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "โรงพยาบาลยะลาสิริรัตนรักษ์",
+    "Franchise": "",
+    "JobName": "เภสัชกร",
+    "JobType": "โรงพยาบาล",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "เมืองยะลา",
+      "Province": "ยะลา",
+      "Section": "สะเตง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 4,
+    "Establishment": "โรงพยาบาลเจ้าพระยาอภัยภูเบศร",
+    "Franchise": "",
+    "JobName": "หน่วยผสมยามะเร็ง",
+    "JobType": "โรงพยาบาล",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "เมืองปราจีนบุรี",
+      "Province": "ปราจีนบุรี",
+      "Section": "ท่างาม"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "บริษัท พานาซี เมดิคอลเซ็นเตอร์ จำกัด",
+    "Franchise": "",
+    "JobName": "เภสัชกรประจำคลินิก เอกมัย",
+    "JobType": "คลินิก",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "คลองเตบ",
+      "Province": "กรุงเทพ",
+      "Section": "พระขโนง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "เอกมัย"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "เอ็มไพร์ วิลล่า เมดิก้า จำกัด",
+    "Franchise": "",
+    "JobName": "เภสัชกร",
+    "JobType": "คลินิก",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "ปทุมวัน",
+      "Province": "กรุงเทพ",
+      "Section": "ปทุมวัน"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "ชิดลม"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "บริษัท สมิหลา เฮลท์ คอมมูนิตี้ จำกัด",
+    "Franchise": "",
+    "JobName": "เภสัชกร",
+    "JobType": "คลินิก",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "เมืองสงขลา",
+      "Province": "กรุงเทพ",
+      "Section": "บ่อยาง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "SLCclinic",
+    "Franchise": "",
+    "JobName": "เภสัชกร SLCclinic",
+    "JobType": "คลินิก",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "วัฒนา",
+      "Province": "กรุงเทพ",
+      "Section": "คลองตันเหนือ"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท สวัสดิราษฎร์ จำกัด",
+    "Franchise": "",
+    "JobName": "เภสัชกร",
+    "JobType": "คลินิก",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "เมืองนครราชสีมา",
+      "Province": "นครราชสีมา",
+      "Section": "ในเมือง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท ฮีโร่มัยซิน ฟาร์ม่า จำกัด",
+    "Franchise": "",
+    "JobName": "เภสัชกรฝ่ายประกันคุณภาพ (QA)",
+    "JobType": "โรงงาน",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "ยานนาวา",
+      "Province": "กรุงเทพ",
+      "Section": "ช่องนนทรี"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "ช่องนนทรี"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท เจริญเภสัชแล็บ จำกัด",
+    "Franchise": "",
+    "JobName": "QA Pharmacist",
+    "JobType": "โรงงาน",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "ภาษีเจริญ",
+      "Province": "กรุงเทพ",
+      "Section": "ปากคลองภาษีเจริญ"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "บางหว้า"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 5,
+    "Establishment": "Advance Pharmaceutical manufacturing Co., Ltd.",
+    "Franchise": "",
+    "JobName": "เภสัชกรฝ่ายควบคุมคุณภาพ/ฝ่ายประกันคุณภาพ/ฝ่ายผลิต",
+    "JobType": "โรงงาน",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "อุทัย",
+      "Province": "พระนครศรีอยุธยา",
+      "Section": "อุทัย"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "T.P. Drug Laboratories (1969)",
+    "Franchise": "",
+    "JobName": "Product Manager",
+    "JobType": "โรงงาน",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "พระขโนง",
+      "Province": "กรุงเทพ",
+      "Section": "พระขโนงใต้"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "บางจาก"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "Medicine Products Company Limited",
+    "Franchise": "",
+    "JobName": "**ด่วน** รับสมัคร เภสัชกรฝ่ายผลิต 2 ตำแหน่ง (ยินดีรับเด็กจบใหม่)",
+    "JobType": "โรงงาน",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "นครชัยศรี",
+      "Province": "นครปฐม",
+      "Section": "ท่าตำหนัก"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท มิตรไมตรีการแพทย์ จำกัด",
+    "Franchise": "",
+    "JobName": "เภสัชกร บริษัท มิตรไมตรีการแพทย์ จำกัด",
+    "JobType": "คลินิก",
+    "CategorySymbol": "BB",
+    "Location": {
+      "District": "บางบัวทอง",
+      "Province": "นนทบุรี",
+      "Section": "บางคูรัด"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": ""
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท DCH(Auriga) Thailand",
+    "Franchise": "",
+    "JobName": "Officer, Regulatory Affairs",
+    "JobType": "บริษัท",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "ปทุมวัน",
+      "Province": "กรุงเทพ",
+      "Section": "ลุมพินี"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "เพลินจิต"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "บริษัท ออล รีเสิร์ช จำกัด",
+    "Franchise": "",
+    "JobName": "Clinical Study Coordinator",
+    "JobType": "วิจัย",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "พระขโนง",
+      "Province": "กรุงเทพ",
+      "Section": "พระขโนงใต้"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "บางจาก"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัท โหยวไท่ คอสเมติกส์ อินเตอร์เนชั่นแนล จำกัด",
+    "Franchise": "",
+    "JobName": "นักวิจัยและพัฒนาผลิตภัณฑ์เสริมอาหาร(R&D Food)",
+    "JobType": "วิจัย",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "เมืองสมุทรสาคร",
+      "Province": "สมุทรสาคร",
+      "Section": "ท่าจีน"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "ชามเบิลเท็ค",
+    "Franchise": "",
+    "JobName": "เภสัชกร Telepharmacy",
+    "JobType": "บริษัท",
+    "CategorySymbol": "CA",
+    "Location": {
+      "District": "คอลงเตย",
+      "Province": "กรุงเทพ",
+      "Section": "คลองตันเหนือ"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "อโศก"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "ฟาม่าเท็คแอนเทคโนโลยี",
+    "Franchise": "",
+    "JobName": "งาน Telepharmacy",
+    "JobType": "บริษัท",
+    "CategorySymbol": "CA",
+    "Location": {
+      "District": "จตุจักร",
+      "Province": "กรุงเทพ",
+      "Section": "จอมพล"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "หมอชิต"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": "สวนจตุจักร"
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Part-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "มหาวิทยาลัยหัวเฉียวเฉลิมพระเกียรติ",
+    "Franchise": "",
+    "JobName": "อาจารย์ประจำคณะเภสัชศาสตร์",
+    "JobType": "บริษัท",
+    "CategorySymbol": "CA",
+    "Location": {
+      "District": "บางพลี",
+      "Province": "กรุงเทพ",
+      "Section": "บางโฉลง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "อุดมสุข"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "โรงพยาบาลกรุงเทพซอยศูนย์วิจัย",
+    "Franchise": "",
+    "JobName": "รับสมัคร Clinical Pharmacist โรงพยาบาลกรุงเทพซอยศูนย์วิจัย รับหลายตำแหน่ง",
+    "JobType": "บริษัท",
+    "CategorySymbol": "BC",
+    "Location": {
+      "District": "ห้วยขวาง",
+      "Province": "กรุงเทพ",
+      "Section": "บางกะปิ"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 1,
+    "Establishment": "บริษัททาเคดะ",
+    "Franchise": "",
+    "JobName": "ผู้บรรยายผลิตภัณฑ์หรือ product specialist",
+    "JobType": "บริษัท",
+    "CategorySymbol": "CA",
+    "Location": {
+      "District": "ปทุมวัน",
+      "Province": "กรุงเทพ",
+      "Section": "ปทุมวัน"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": "สยาม"
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  },
+  {
+    "Amount": 2,
+    "Establishment": "บริษัทประกันเอไอเอ",
+    "Franchise": "",
+    "JobName": "เภสัชกรออนไลน์",
+    "JobType": "บริษัท",
+    "CategorySymbol": "CA",
+    "Location": {
+      "District": "ดินแดง",
+      "Province": "กรุงเทพ",
+      "Section": "ดินแดง"
+    },
+    "Active": true,
+    "Contacts": {
+      "phone": "asdf",
+      "email": "asdf",
+      "line": "asdf",
+      "facebook": "asdf"
+    },
+    "OperatorUID": "jklg;43niwq9op",
+    "TravelInstructions": "asdf",
+    "qualityApplicants": "asdf",
+    "jobBenefits": "asdf",
+    "applyInstructions": "asdf",
+    "JobDetails": "fdsa",
+    "ARL": {
+      "Near": false,
+      "Station": ""
+    },
+    "SRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "BTS": {
+      "Near": true,
+      "Station": ""
+    },
+    "MRT": {
+      "Near": false,
+      "Station": ""
+    },
+    "OnlineInterview": true,
+    "Salary": {
+      "Amount": "13000 - 15000",
+      "Suffix": "Negotiable"
+    },
+    "TimeFrame": "Full-Time",
+    "Urgency": false,
+    "DateOfJob": "3/09/23",
+    "Duration": "8:00 - 17:00",
+    "dateCreated": "3/10/23",
+    "dateUpdated": "3/11/23"
+  }
 ]

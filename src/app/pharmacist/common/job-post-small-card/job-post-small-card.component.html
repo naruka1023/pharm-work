@@ -107,7 +107,7 @@
             <i class="h2 my-auto bi bi-currency-bitcoin"></i>
           </p>
           <div class="d-flex flex-row">
-            {{content.Salary}}
+            {{content.Salary.Amount}}
             <ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container> 
             <ng-template #fullSub>
               <div class="ms-1">บาท/เดือน</div>
@@ -126,10 +126,15 @@
         <ng-container *ngIf="urgentFlag; then urgentFeature; else notUrgentFeature"></ng-container>
         <ng-template #notUrgentFeature>
           <div class="d-flex flex-row my-3">
-            <div class="my-auto me-2">
-                <i class="my-auto h2 bi bi-tv"></i>
-            </div>
-            <div class="my-auto" *ngIf="content.OnlineInterview">สัมภาษณ์งานออนไลน์</div>
+            <ng-container *ngIf="content.OnlineInterview; then visible; else notVisible"></ng-container>
+            <ng-template #visible>
+              <div class="my-auto me-2">
+                  <i class="my-auto h2 bi bi-tv"></i>
+              </div>
+              <div class="my-auto" *ngIf="content.OnlineInterview">สัมภาษณ์งานออนไลน์</div>
+            </ng-template>
+            <ng-template #notVisible>
+            </ng-template>
           </div>
         </ng-template>
         <ng-template #urgentFeature>

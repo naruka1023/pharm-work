@@ -50,7 +50,7 @@
 								<i class="h2 my-auto bi bi-currency-bitcoin"></i>
 							</p>
 							<div class="d-flex flex-row my-auto">
-								<div class="mx-2">{{content.Salary}}</div>
+								<div class="mx-2">{{content.Salary.Amount}}</div>
 								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 								<ng-template #fullSub>บาท/เดือน</ng-template>
 								<ng-template #partSub>บาท/ชม</ng-template>

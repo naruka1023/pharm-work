@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {catchError, map, mergeMap, switchMap, take} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 import { getCurrentUser, setCurrentUser } from '../actions/users.action';
-import { UserServiceService } from '../../service/user-service.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Injectable()
 export class UsersEffect {
@@ -25,6 +25,6 @@ export class UsersEffect {
 
   constructor(
     private actions$: Actions,
-    private userService: UserServiceService
+    private userService: UserService
   ) {}
 }

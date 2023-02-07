@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
-import { setCurrentUser } from 'src/app/pharmacist/state/actions/users.action';
+import { setCurrentUser } from 'src/app/state/actions/users.action';
 
 @Component({
   selector: 'app-inner-profile',
@@ -24,8 +24,7 @@ export class InnerProfileComponent{
   url: string = 'profile-pharma';
   numbersOccupation: number[] = [1];
   @ViewChild('myModal') modal!:TemplateRef<any>;
-  constructor(private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){
-    
+  constructor(private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
   }
   
   ngOnInit(){
@@ -78,7 +77,7 @@ export class InnerProfileComponent{
       this.loadingFlag = false;
       this.localProfileFlag = true;
     })
-    console.log(this.profileEdit.value);
+    this.beginNavigation();
   }
   ngOnDestroy(){
     this.subject.unsubscribe();
@@ -179,48 +178,11 @@ export class InnerProfileComponent{
   }
   resetFormGroup(){
     this.profileEdit.reset();
-    this.profileEdit.patchValue({
-      name: this.innerProfileInformation.name || '',
-      surname: this.innerProfileInformation.surname || '',
-      gender: this.innerProfileInformation.gender || '',
-      birthday: this.innerProfileInformation.birthday || '',
-      Location: {
-        address: this.innerProfileInformation.Location?.address || '',
-        Section: this.innerProfileInformation.Location?.Section || '',
-        District: this.innerProfileInformation.Location?.District || '',
-        Province: this.innerProfileInformation.Location?.Province || '',
-      },
-      educationLevel: this.innerProfileInformation.educationLevel || '',
-      contacts: {
-        phone: this.innerProfileInformation.contacts?.phone || '',
-        email: this.innerProfileInformation.contacts?.email || '',
-        line: this.innerProfileInformation.contacts?.line || '',
-        facebook: this.innerProfileInformation.contacts?.facebook || ''
-      },
-      license: this.innerProfileInformation.license || '',
-      active:this.innerProfileInformation.active || '',
-      educationHistory: this.innerProfileInformation.educationHistory ||    
-      [{
-        universityName:'',
-        franchise:'',
-        yearGraduated:'',
-      }],
-      jobHistory: this.innerProfileInformation.jobHistory ||  
-      [{
-        jobName:'',
-        companyName:'',
-        dateStarted:'',
-        dateEnded:'',
-        description:'',
-        activeFlag: '',
-      }]
-    })
+    this.profileEdit.patchValue(this.innerProfileInformation)
   }
-  discardClick(){
-    this.localProfileFlag = true;
-    this.resetFormGroup()
+  beginNavigation(){
     if(this.url.indexOf('profile-pharma') === -1){
-      if(this.url == '' || this.url == '/'){
+      if(this.url == '/pharma'){
         this.route.navigate(['pharma']);
       }else{
         const parsedUrl = this.url.split('?')[1].split('&');
@@ -238,6 +200,11 @@ export class InnerProfileComponent{
     }else{
       this.route.navigate([this.url])
     }
+  }
+  discardClick(){
+    this.localProfileFlag = true;
+    this.resetFormGroup()
+    this.beginNavigation();
     this.modalService.dismissAll()
   }
 }

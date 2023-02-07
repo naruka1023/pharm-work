@@ -45,7 +45,9 @@ export class SwiperModuleComponent {
           }
         })
       }else{
-        this.router.navigate(['login'])
+        this.router.navigate(['login'],{
+          relativeTo:this.activatedRoute
+        })
       }
   }
 }

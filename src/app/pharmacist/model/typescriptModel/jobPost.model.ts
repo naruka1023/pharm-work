@@ -54,12 +54,36 @@ export interface jobPostModel {
         Near: false;
         Station: string;
     };
-    OnlineInterview: true;
-    Salary: string;
+    SRT: {
+        Near: false;
+        Station: string;
+    };
+    ARL: {
+        Near: false;
+        Station: string;
+    };
+    OnlineInterview: boolean;
+    WorkFromHome: boolean;
+    Salary: {
+        Amount: string;
+        Suffix: string
+    };
+    Contacts: {
+        phone: string,
+        email: string,
+        line: string,
+        facebook: string
+    },
+    JobDetails: string,
+    TravelInstructions: string,
+    qualityApplicants: string,
+    jobBenefits: string,
+    applyInstructions: string,
+    OperatorUID: string;
     TimeFrame: string;
-    Urgency: true;
+    Urgency: boolean;
     Duration: string;
-    DateOfJob: string;
+    DateOfJob: Date [];
     dateCreated: string;
     dateUpdated: string;
     custom_doc_id: string

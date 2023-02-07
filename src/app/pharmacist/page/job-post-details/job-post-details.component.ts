@@ -37,13 +37,6 @@ export class JobPostDetailsComponent {
         this.userID = value
       }
     })
-    // this.loadingFlag$ = this.store.select((state: any)=>
-    // state.jobpost.loading);
-    // this.loadingFlag$.subscribe((flag)=>{
-    //   if(flag){
-    //     this.dispatchJobs();
-    //   }
-    // })
     this.id = this.route.snapshot.queryParamMap.get('id')!;
     this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
     this.loading$ = this.store.select((state: any) =>{
@@ -51,7 +44,7 @@ export class JobPostDetailsComponent {
     });
     this.loading$.subscribe((res)=>{
       if(res){
-        this.router.navigate([''])
+        this.router.navigate(['/pharma'])
       }
     })
     this.profilePayload$ = this.store.select((state: any)=>{
@@ -60,15 +53,18 @@ export class JobPostDetailsComponent {
         return job.CategorySymbol == this.categorySymbol
       })
 
-      return jobPost?.content?.find((profile: any) =>{
+      let newJob:jobPostModel = jobPost?.content?.find((profile: any) =>{
           return profile.custom_doc_id == this.id
       })
+      return newJob
     })
     this.profilePayload$.subscribe((res: jobPostModel)=>{
-      this.profile = res;
-      this.profileHeader = {
-        Establishment: this.profile.Establishment,
-        JobType: this.profile.JobType
+      if(res !== undefined){
+        this.profile = res;
+        this.profileHeader = {
+          Establishment: this.profile.Establishment,
+          JobType: this.profile.JobType
+        }
       }
     })
     this.bookmarkFlag$ = this.store.select((state: any) =>{

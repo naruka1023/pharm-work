@@ -27,8 +27,8 @@ export class BookmarkComponent {
       map((array)=>{
         return array
       })
-      )
-    }
-  
+    )
+  }
+
 
 }

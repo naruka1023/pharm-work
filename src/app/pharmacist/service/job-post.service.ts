@@ -39,7 +39,6 @@ export class JobPostService {
     let newSrc = array.map((value: Bookmark)=>{ return value.jobUID});
     const reads = newSrc.map((id:string) => this.db.collection('job-post').doc(id).get());
     let join$ = forkJoin(reads);
-    let response: Bookmark[] = []
     return join$.pipe(
       map((value)=>{
         return value.map((value)=>{
@@ -72,7 +71,7 @@ export class JobPostService {
   }
 
   getJobCategoryService(CategorySymbol:string) {
-    return this.db.collection('job-post', ref => ref.where('CategorySymbol', '==', CategorySymbol)).valueChanges({ idField: 'custom_doc_id' })
+    return this.db.collection('job-post', ref => ref.where('Active', '==', true).where('CategorySymbol', '==', CategorySymbol)).valueChanges({ idField: 'custom_doc_id' })
     .pipe(
       map((src: any)=>{
         let res :jobPostPayload = {
@@ -88,7 +87,7 @@ export class JobPostService {
   }
   
   getAllJobPost(): Observable<filterConditions[]>{
-    return this.db.collection('job-post').valueChanges({ idField: 'custom_doc_id' }).pipe(
+    return this.db.collection('job-post', ref => ref.where('Active', '==', true)).valueChanges({ idField: 'custom_doc_id' }).pipe(
       map((src)=>{
         let payload: any[] = src;
         let hA : filterConditions [] = headerArray.map((header) =>{

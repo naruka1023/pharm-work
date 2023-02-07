@@ -8,7 +8,6 @@ import { FilterComponent } from './common/filter/filter.component';
 import { JobPostSmallCardComponent } from './common/job-post-small-card/job-post-small-card.component';
 import { ProfileheaderComponent } from './common/profileheader/profileheader.component';
 import { SwiperModuleComponent } from './common/swiper-module/swiper-module.component';
-import { HomePageComponent } from './home-page/home-page.component';
 import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
 import { JobsListComponent } from './page/jobs-list/jobs-list.component';
 import { LoginPageComponent } from './page/login-page/login-page.component';
@@ -21,15 +20,11 @@ import { RegisterComponent } from './page/register/register.component';
 import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
 import { jobPostReducer } from './state/reducers/job-post-reducers';
 import { JobPostEffects } from './state/effects/job-post.effects';
-import { UsersEffect } from './state/effects/users.effects';
 import { recentlySeenReducer } from './state/reducers/recently-seen-reducers';
-import { usersReducer } from './state/reducers/users-reducers';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'swiper/angular';
-import { AppRoutingModule } from '../app-routing.module';
 import { CommonModule } from '@angular/common';
 
 
@@ -44,13 +39,11 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     SwiperModule,
     PharmaAppRoutingModule,
-    EffectsModule.forFeature([JobPostEffects, UsersEffect]),
+    EffectsModule.forFeature([JobPostEffects]),
     StoreModule.forFeature('jobpost', jobPostReducer),
-    StoreModule.forFeature('user', usersReducer),
     StoreModule.forFeature('recentlySeen', recentlySeenReducer),
   ],
   declarations: [
-    HomePageComponent,
     LandingPageComponent,
     PharmaHomeComponent,
     SwiperModuleComponent,

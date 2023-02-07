@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
 import { jobPostModel, AppState, Bookmark } from '../../model/typescriptModel/jobPost.model';
@@ -15,7 +15,7 @@ import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 })
 export class JobPostSmallCardComponent {
 
-  constructor( private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
+  constructor(private activatedRoute:ActivatedRoute, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
 
   @Input() fullTimeFlag = true 
   @Input() urgentFlag = false;
@@ -86,6 +86,6 @@ export class JobPostSmallCardComponent {
     if(this.router.url !== '/profile-pharma/recently-seen-job'){
       this.store.dispatch(addRecentlySeen({JobPost: this.content}));
     }
-    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol)
+    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.activatedRoute)
   }
 }

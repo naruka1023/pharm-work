@@ -8,9 +8,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, EffectSources } from '@ngrx/effects';
 
-import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { DemoLandingComponent } from './demo-landing/demo-landing.component';
+import { usersReducer } from './state/reducer/users-reducers';
+import { UsersEffect } from './state/effect/users.effects';
+import { addressReducer } from './state/reducer/address-reducer';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,14 @@ import { DemoLandingComponent } from './demo-landing/demo-landing.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    EffectsModule.forRoot(),
-    StoreModule.forRoot(),
+    EffectsModule.forRoot([UsersEffect]),
+    StoreModule.forRoot({
+      user: usersReducer,
+      address: addressReducer
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
+      // logOnly: environment.production, // Restrict extension to log-only mode
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

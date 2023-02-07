@@ -63,7 +63,7 @@ export class LoginPageComponent implements AfterViewInit{
     this.auth.signInWithEmailAndPassword(this.loginForm.value.userName, this.loginForm.value.password)
     .then(() => {
       this.loginFlag = false
-      this.route.navigate(['pharma']);
+      this.route.navigate(['']);
     })
     .catch((error) => {
       this.loginFlag = false

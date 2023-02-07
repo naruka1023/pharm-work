@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoutingService {
 
-  constructor(private router: Router, private activatedRoute:ActivatedRoute) { }
+  constructor(private router: Router) { }
 
-  goToJobProfile(custom_doc_id: string, CategorySymbol: string){
+  goToJobProfile(custom_doc_id: string, CategorySymbol: string, activatedRoute:ActivatedRoute){
     this.router.navigate(['pharma/job-post'],
     {
-      relativeTo:this.activatedRoute,
       queryParams: 
       {
         id: custom_doc_id,

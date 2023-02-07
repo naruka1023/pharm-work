@@ -15,6 +15,13 @@ export class PharmaProfileComponent {
     this.sub.add(this.userService.getRevertTabSubject().subscribe(()=>{
       document.getElementById('profileTab')?.click();
     }));
+    this.scrollUp();
   }
-
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
+  }
 }

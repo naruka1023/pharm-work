@@ -1,0 +1,55 @@
+<div class="container" [ngSwitch]="profileType">
+    <div *ngSwitchCase="'operator-profile'">
+        <div class="img-container mh-100">
+            <img src="https://www.animationmagazine.net/wordpress/wp-content/uploads/One-Piece-1000-Commemorative-Battle-of-Onigashima-Visual-1000x600.jpg" />
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between">
+                <img class="job-post_profile-picture border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
+                <div>
+                    <div class="d-flex">
+                        <h3 class="m-4 mb-0 me-2">{{result.name}}</h3>
+                         <h5 *ngIf="result.Location" style='align-self:end' class="my-4 mb-0 ms-3"> <b>เขต:</b> {{result.Location?.District}} <b>จังหวัด:</b> {{result.Location?.Province}}</h5>
+                    </div>
+                    <div>
+                        <!-- <h6 class="mx-4"><i>{{profileInformation.JobType}}</i ></h6> -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="fs-2 d-flex justify-content-end">
+                    <div class="ms-3"><a><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye-fill"></i></a></div>
+                    <div class="ms-3"><a (click)="editProfileClicked()"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square"></i></a></div>
+                    <div class="ms-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear-fill"></i></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="fs-5" style="text-indent: 20px"><i>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</i></div>
+    </div>
+    <div *ngSwitchCase="'job-post'">
+        <div class="img-container mh-100">
+            <img src="https://www.animationmagazine.net/wordpress/wp-content/uploads/One-Piece-1000-Commemorative-Battle-of-Onigashima-Visual-1000x600.jpg" />
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between">
+                <img class="job-post_profile-picture border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
+                <div>
+                    <div class="d-flex">
+                        <h3 class="m-4 mb-0 me-2">{{result.Establishment}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
+                    </div>
+                    <div>
+                        <h6 class="mx-4"><i>{{result.JobType}}</i></h6>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="d-flex justify-content-between">
+                    <button class="btn ms-3 btn-primary">
+                        <h4>ติดตาม</h4>
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { jobPostModel } from '../../model/typescriptModel/jobPost.model';
 import { addRecentlySeen, removeRecentlySeen } from '../actions/recently-seen.actions';
-import { getCurrentUser, removeCurrentUser, setCurrentUser } from '../actions/users.action';
+import { getCurrentUser, removeCurrentUser, setCurrentUser } from '../../../state/actions/users.action';
 
 
 export const initialState: jobPostModel[] = [];

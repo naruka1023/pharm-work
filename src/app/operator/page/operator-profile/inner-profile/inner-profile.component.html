@@ -1,0 +1,293 @@
+<ng-container *ngIf="loadingFlag; then loading; else notLoading"></ng-container>
+<ng-template #loading>
+    <div style="text-align:center" class="mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</ng-template>
+<ng-template #notLoading>
+    <ng-container *ngIf="!profileEditState; then displayProfile; else editProfile"></ng-container>
+    <ng-template #displayProfile>
+        <div class="mx-4 fs-3">
+            <div class="row mb-3">
+                <div class="col-3 ">
+                    <div class="me-3"><b>ชื่อบริษัท:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{innerProfileInformation.companyName}}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3">
+                    <div class="me-3"><b>ประเภทธุรกิจ:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{innerProfileInformation.jobType}}</div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-3">
+                        <div><b>ที่อยู่:</b></div>
+                    </div>
+                    <div class="col">
+                        <div class="row mb-3">
+                            <div class="col">
+                                {{innerProfileInformation.Location?.address}}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <div><b>แขวง:</b></div>
+                            </div>
+                            <div class="col d-flex flex-row">
+                                <div class="">{{innerProfileInformation.Location?.Section}}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <div><b>เขต:</b></div>
+                            </div>
+                            <div class="col d-flex flex-row">
+                                <div class="">{{innerProfileInformation.Location?.District}}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <div><b>จังหวัด:</b></div>
+                            </div>
+                            <div class="col d-flex flex-row">
+                                <div class="">{{innerProfileInformation.Location?.Province}}</div>                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>ปักหมุด:</b></div>
+                    </div>
+                    <div class="col">
+                        <div class="mt-3 me-3"></div>
+                    </div>
+                </div>
+        </div>
+        <div class="m-4 mt-5 fs-3">
+            <div class="row mb-3">
+                <div class="col-3">
+                    <div class="me-3"><b>ข้อมูลการติดต่อ:</b></div>
+                </div>
+                <div class="col">
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <div><b>เบอร์โทร:</b></div>
+                        </div>
+                        <div class="col">
+                            <div class="me-3">{{innerProfileInformation.contacts?.phone}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <div><b>Email:</b></div>
+                        </div>
+                        <div class="col">
+                            <div class="me-3">{{innerProfileInformation.contacts?.email}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <div><b>LINE:</b></div>
+                        </div>
+                        <div class="col">
+                            <div class="me-3">{{innerProfileInformation.contacts?.line}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <div><b>Facebook:</b></div>
+                        </div>
+                        <div class="col">
+                            <div class="me-3">{{innerProfileInformation.contacts?.facebook}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-4 mt-5 fs-3">
+            <div class="row mb-3">
+                <div class="col-3 ">
+                    <div class="me-3"><b>เลขจดทะเบียนบริษัท:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{innerProfileInformation.companyID}}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3 ">
+                    <div class="me-3"><b>ชื่อผู้ติดต่อ:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{innerProfileInformation.nameOfPerson}}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3 ">
+                    <div class="me-3"><b>เบอร์โทรผู้ติดต่อ:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{innerProfileInformation.phoneNumber}}</div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #editProfile>
+        <div class="mx-4">
+            <div class="my-5 h1"><b>ตัดต่อ</b></div>
+            <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
+                <div class="fs-3 my-3">
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="companyName" class="form-label">
+                                <b>ชื่อบริษัท:</b>
+                            </label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="companyName" type="text" style="width:-fill-webkit-available" class="form-control me-3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="jobType" class="form-label"><b>ประเภทธุรกิจ:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="jobType" type="text" class="form-control me-3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="address" class="form-label"><b>ที่อยู่:</b></label>
+                        </div>
+                        <div class="col-7" formGroupName="Location">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <textarea formControlName="address" class="form-control" id="exampleFormControlTextarea1" row="10"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="Section" class="form-label"><b>แขวง:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input formControlName="Section" type="text" class="form-control me-3">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="District" class="form-label"><b>เขต:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input formControlName="District" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="Province" class="form-label"><b>จังหวัด:</b></label>
+                                </div>
+                                <div class="col">
+                                    <input formControlName="Province" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="form-label"><b>ปักหมุด:</b></label>
+                        </div>
+                    </div>
+                    <div class="my-3" formGroupName="contacts">
+                        <label class="me-3 form-label"><b>ข้อมูลการติดต่อ:</b></label>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="phone" class="form-label ms-3">เบอร์โทร:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="phone" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="email" class="form-label ms-3">Email:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="email" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="line" class="form-label ms-3">LINE:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="line" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="facebook" class="form-label ms-3">Facebook:</label>
+                            </div>
+                            <div class="col-7">
+                                <input formControlName="facebook" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="companyID" class="form-label"><b>เลขจดทะเบียนบริษัท:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="companyID" type="text" class="form-control me-3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="nameOfPerson" class="form-label"><b>ชื่อผู้ติดต่อ:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="nameOfPerson" type="text" class="form-control me-3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="phoneNumber" class="form-label"><b>เบอร์โทรผู้ติดต่อ:</b></label>
+                        </div>
+                        <div class="col-7">
+                            <input formControlName="phoneNumber" type="text" class="form-control me-3">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-success fs-2 my-5" (click)="onSave()" type="submit">SAVE</button>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+</ng-template>
+<ng-template #myModal let-c="close" let-d="dismiss">
+    <div class="vertical-alignment-helper">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Save Changes?</h4>
+                    <button type="button" class="btn btn-white close" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to save your changes before exit?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" (click)="discardClick()">Discard</button>
+                    <button type="button" class="btn btn-success" (click)="onSave()">Save</button>
+                </div>
+            </div>
+    </div>
+</ng-template>

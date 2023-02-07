@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, map, Observable, of, Subject } from 'rxjs';
 import { User } from '../model/typescriptModel/users.model';
-import { getCurrentUser } from '../state/actions/users.action';
+import { getCurrentUser } from '../../state/actions/users.action';
 
 @Injectable({
   providedIn: 'root'
@@ -37,18 +37,6 @@ export class UserServiceService {
   
   sendEditSubject(){
     return this.editSubject.next(true);
-  }
-  getUser(uid: string) : Observable<User>{
-    return this.db.collection("users").doc(uid).get().pipe(
-      distinctUntilChanged(),
-      map((src: any) => {
-        let result: User = {
-          ...src.data(),
-          uid:uid
-        }
-        return result;
-      })
-    );
   }
   updateUser(user: User) : Promise<void>{
      return this.db.collection("users").doc(user.uid).update(user)

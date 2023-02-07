@@ -11,7 +11,7 @@ import { UserServiceService } from '../../service/user-service.service';
   styleUrls: ['./profileheader.component.css']
 })
 export class ProfileheaderComponent {
-@Input() profileInformation!: profileHeaderJobPost | profileHeaderJobPost
+@Input() profileInformation!: profileHeaderJobPost | profileHeaderPharma
 @Input() profileType! : string;
 result!: any
 profileInformation$!: User

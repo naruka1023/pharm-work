@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { JobPostService } from './service/job-post.service';
 import { UserServiceService } from './service/user-service.service';
 import { getBookmarks, emptyBookmark } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
-import { getCurrentUser, setCurrentUser, removeCurrentUser } from './state/actions/users.action';
+import { getCurrentUser, setCurrentUser, removeCurrentUser } from '../state/actions/users.action';
 
 @Component({
   selector: 'app-landing-page',
@@ -21,11 +21,12 @@ export class LandingPageComponent {
   
   loginFlag: boolean = false;
   subject!: Subscription;
-  constructor(private jobPostService:JobPostService,private store: Store ,private userService: UserServiceService,private route: Router, private auth: AngularFireAuth, private db: AngularFirestore, private modalService: NgbModal) {
+  constructor(private activatedRoute:ActivatedRoute,private store: Store ,private route: Router, private auth: AngularFireAuth) {
 
   }
   
   ngOnInit(){
+    
     this.store.select((state: any)=>{
       return state.recentlySeen
     }).subscribe((recentlySeen)=>{
@@ -34,39 +35,25 @@ export class LandingPageComponent {
       }
     })
 
-    this.auth.user.subscribe((user)=>{
+    this.subject = this.auth.user.subscribe((user)=>{
       if(user){
-        this.userService.getUser(user.uid);
-        this.store.dispatch(getCurrentUser({uid:user.uid}));
         this.store.dispatch(getBookmarks({userUID:user.uid}))
         this.loginFlag = true;
-        localStorage.setItem('loginState', 'true')
       }else{
-        const emptyUser: User = {
-          role: '',
-          email: '',
-          uid: '',
-          license: '',
-          name: '',
-          surname: ''
-        };
-        this.store.dispatch(setCurrentUser({user: emptyUser}));
         this.store.dispatch(emptyBookmark());
-        this.loginFlag = false;
-        localStorage.setItem('loginState', 'false')
-        this.route.navigate(['pharma'])
       }
     })
     this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
   }
+  
 
   signOut(){
     if(this.route.url == '/pharma'){
-      this.route.navigate(['pharma']).then(()=>{
+      this.route.navigate(['']).then(()=>{
           this.confirmSignout();
       })
     }else{
-      this.route.navigate(['pharma']).then((bool:boolean)=>{
+      this.route.navigate(['']).then((bool:boolean)=>{
         if(bool){
           this.confirmSignout();
         }
@@ -83,13 +70,17 @@ export class LandingPageComponent {
     if(localStorage.getItem('loginState') == 'true'){
       this.route.navigate(['jobs-list'],
       {
+        relativeTo:this.activatedRoute,
         queryParams: 
         {
           CategorySymbol: categorySymbol,
         }
       })
     }else{
-      this.route.navigate(['login'])
+      this.route.navigate(['login'],
+      {
+        relativeTo:this.activatedRoute
+      })
     }
   }
 
