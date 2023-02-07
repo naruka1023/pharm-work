@@ -39,7 +39,6 @@ export class JobService {
         map((actions: any) => actions.map((a: any) => {
           const data = a.payload.doc.data() as jobPostModel;
           const id = a.payload.doc.id;
-          console.log(a)
           return { id, ...data,};
         }))
       ) as unknown as Observable<jobPostModel[]>
