@@ -13,6 +13,7 @@ export const initialState: User = {
   uid: '',
   name: '',
   surname: '',
+  showProfileFlag:true,
   license: '',
   contacts:{
     facebook: '',

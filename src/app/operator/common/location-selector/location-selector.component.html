@@ -1,1 +1,39 @@
-<p>location-selector works!</p>
+<div [formGroup]="parentFormGroup">
+    <div class="row mt-3" formGroupName="Location">
+        <div [class]="col">
+            <div class="me-3"><b>พื้นที่ปฏิบัติงาน</b>:</div>
+        </div>
+        <div class="col-5">
+            <div class="row">
+                <div class="col-4">
+                    <label class="me-3"><b>แขวง: </b></label>
+                </div>
+                <div class="col">
+                    <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3">
+                        <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label class="me-3"><b>เขต: </b></label>
+                </div>
+                <div class="col">
+                    <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3">
+                        <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label class="me-3"><b>จังหวด: </b></label>
+                </div>
+                <div class="col">
+                    <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3">
+                        <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

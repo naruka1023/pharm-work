@@ -131,43 +131,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3" formGroupName="Location">
-            <div class="col-3">
-                <div class="me-3">พื้นที่ปฏิบัติงาน:</div>
-            </div>
-            <div class="col-5">
-                <div class="row">
-                    <div class="col-3">
-                        <label class="me-3">แขวง: </label>
-                    </div>
-                    <div class="col">
-                        <select  formControlName="Section" (change)="sectionSelected()" name="section" class="form-select mb-3">
-                            <option *ngFor="let section of section$ | async" [value]="section">{{section}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <label class="me-3">เขต: </label>
-                    </div>
-                    <div class="col">
-                        <select  formControlName="District" (change)="districtSelected()" name="district" class="form-select mb-3">
-                            <option *ngFor="let district of district$ | async" [value]="district">{{district}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <label class="me-3">จังหวด: </label>
-                    </div>
-                    <div class="col">
-                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3">
-                            <option *ngFor="let province of province$ | async" [value]="province">{{province}}</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-location-selector [parentFormGroup]="newJobForm"></app-location-selector>
         <div class="row mt-3">
             <div class="col-3">
                 <label for="OnlineInterview" class="me-3 fs-4">นัทสัมภาษณ์ทางออนไลน์:</label>

@@ -19,9 +19,6 @@ export class OperatorHomeComponent {
   userJobType$!: Observable<string>;
   loading$!: Observable<boolean>;
   newUserForm!: FormGroup;
-  province$!: Observable<string[]>;
-  district$!: Observable<string[]>;
-  section$!: Observable<string[]>;
   ngOnInit(){
     this.loading$ = this.store.select((state:any)=>{
       return state.user.loading
@@ -29,46 +26,7 @@ export class OperatorHomeComponent {
     this.userJobType$ = this.store.select((state:any)=>{
       return state.user.jobType
     })
-    this.province$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
-      return result
-    })
-    this.district$ = this.store.select((state: any)=>{
-      if(this.newUserForm.value.Location.Province === ''){
-        return [];
-      }
-      return Object.keys(state.address.list[this.newUserForm.value.Location.Province])
-    })
-    this.section$ = this.store.select((state: any)=>{
-      if(this.newUserForm.value.Location.District === ''){
-        return [];
-      }
-      let section: string[] = state.address.list[this.newUserForm.value.Location.Province][this.newUserForm.value.Location.District].map((section: any)=>section.section);
-      return section
-    })
     this.initializeFormGroup();
-  }
-  provinceSelected($event:any){
-    this.newUserForm.patchValue({
-      Location:{
-        ...this.newUserForm.value.Location,
-        District:'',
-        Section:'',
-      }
-    })
-    this.store.dispatch(toggleAddressChange())
-  }
-  districtSelected($event:any){
-    this.newUserForm.patchValue({
-      Location:{
-        ...this.newUserForm.value.Location,
-        Section:'',
-      }
-    })
-    this.store.dispatch(toggleAddressChange())
-  }
-  sectionSelected($event:any){
-    this.store.dispatch(toggleAddressChange())
   }
   initializeFormGroup(){
     this.newUserForm = this.fb.group({

@@ -25,9 +25,6 @@ export class AddNewJobComponent {
   newJobForm!: FormGroup;
   urgency!: any;
   sub!: Promise<any>;
-  province$!: Observable<string[]>;
-  district$!: Observable<string[]>;
-  section$!: Observable<string[]>;
   nearBTSFlag: boolean = false
   nearARLFlag: boolean = false
   nearMRTFlag: boolean = false
@@ -94,23 +91,6 @@ export class AddNewJobComponent {
     })
     this.mrtStations$ = this.store.select((state: any)=>{
       return state.address.mrt
-    })
-    this.province$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
-      return result
-    })
-    this.district$ = this.store.select((state: any)=>{
-      if(this.newJobForm.value.Location.Province === ''){
-        return [];
-      }
-      return Object.keys(state.address.list[this.newJobForm.value.Location.Province])
-    })
-    this.section$ = this.store.select((state: any)=>{
-      if(this.newJobForm.value.Location.District === ''){
-        return [];
-      }
-      let section: string[] = state.address.list[this.newJobForm.value.Location.Province][this.newJobForm.value.Location.District].map((section: any)=>section.section);
-      return section
     })
     this.user$ = this.store.select((state: any)=>{
       return state.user
@@ -236,29 +216,6 @@ export class AddNewJobComponent {
       this.newJobForm.addControl('jobBenefits', this.fb.control('')); 
       this.newJobForm.addControl('applyInstructions', this.fb.control('')); 
     }
-  }
-  
-  provinceSelected(){
-    this.newJobForm.patchValue({
-      Location:{
-        ...this.newJobForm.value.Location,
-        District:'',
-        Section:''
-      }
-    })
-    this.store.dispatch(toggleAddressChange())
-  }
-  districtSelected(){
-    this.newJobForm.patchValue({
-      Location:{
-        ...this.newJobForm.value.Location,
-        Section:''
-      }
-    })
-    this.store.dispatch(toggleAddressChange())
-  }
-  sectionSelected(){
-    this.store.dispatch(toggleAddressChange())
   }
   onSave(){
     let processedInfo = {};

@@ -28,32 +28,12 @@ export class RegisterComponent {
   errorMessage: string = '';
   submitted:boolean = false;
   pharmaForm:boolean = true;
-  province$!: Observable<string[]>;
-  district$!: Observable<string[]>;
-  section$!: Observable<string[]>;
   
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   @ViewChild('swiperFormPharma', { static: false }) swiperFormPharma?: SwiperComponent;
 
   ngOnInit(){
     this.initializeFormGroup()
-    this.province$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
-      return result
-    })
-    this.district$ = this.store.select((state: any)=>{
-      if(this.registerFormPharmacist.value.preferredLocation.Province === ''){
-        return [];
-      }
-      return Object.keys(state.address.list[this.registerFormPharmacist.value.preferredLocation.Province])
-    })
-    this.section$ = this.store.select((state: any)=>{
-      if(this.registerFormPharmacist.value.preferredLocation.District === ''){
-        return [];
-      }
-      let section: string[] = state.address.list[this.registerFormPharmacist.value.preferredLocation.Province][this.registerFormPharmacist.value.preferredLocation.District].map((section: any)=>section.section);
-      return section
-    })
   }
 
   initializeFormGroup(){
@@ -71,6 +51,7 @@ export class RegisterComponent {
         BC: [false],
         CA: [false]
       }),
+      showProfileFlag: true,
       preferredTimeFrame: [''],
       preferredLocation: this.fb.group({
         Section: [''],
@@ -98,28 +79,6 @@ export class RegisterComponent {
     });
   }
 
-  provinceSelected(){
-    this.registerFormPharmacist.patchValue({
-      Location:{
-        ...this.registerFormPharmacist.value.Location,
-        District:'',
-        Section:''
-      }
-    })
-    this.store.dispatch(toggleAddressChange())
-  }
-  districtSelected(){
-    this.registerFormPharmacist.patchValue({
-      Location:{
-        ...this.registerFormPharmacist.value.Location,
-        Section:''
-      }
-    })
-    this.store.dispatch(toggleAddressChange())
-  }
-  sectionSelected(){
-    this.store.dispatch(toggleAddressChange())
-  }
   get fP(): { [key: string]: AbstractControl } {
     return this.registerFormPharmacist.controls;
   }
@@ -131,6 +90,7 @@ export class RegisterComponent {
     this.pharmaForm = !this.pharmaForm;
   }
   async onSubmit(){
+    console.log(this.registerFormPharmacist.value.preferredLocation)
     this.submitted = true;
     let newUser: any;
     if (this.role === 'เภสัชกร') {

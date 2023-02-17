@@ -167,21 +167,7 @@
                                                 <option value="Part-Time">Part-Time</option>
                                             </select>
                                         </div>
-                                        <div class="form-group" formGroupName="preferredLocation">
-                                            <div><label class="my-3">หางานพื้นที่</label></div>
-                                            <label for="section" class="form-label">แขวง:</label>
-                                            <select formControlName="Section" (change)="sectionSelected()" name="section" class="form-select mb-3">
-                                                <option *ngFor="let section of section$ | async" [value]="section">{{section}}</option>
-                                            </select>
-                                            <label for="district" class="form-label">เขต:</label>
-                                            <select formControlName="District" (change)="districtSelected()" name="district" class="form-select mb-3">
-                                                <option *ngFor="let district of district$ | async" [value]="district">{{district}}</option>
-                                            </select>
-                                            <label for="province" class="form-label">จังหวด:</label>
-                                            <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3">
-                                                <option *ngFor="let province of province$ | async" [value]="province">{{province}}</option>
-                                            </select>
-                                        </div>
+                                        <app-location [parentFormGroup]="registerFormPharmacist" [formGroupName]="'preferredLocation'"></app-location>
                                         <div class="form-group">
                                             <label for="preferredSalary" class="form-label">เงินเดือนที่ต้องการ</label>
                                             <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3">

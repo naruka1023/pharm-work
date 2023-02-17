@@ -49,6 +49,7 @@ export class AppComponent {
           license: '',
           name: '',
           surname: '',
+          showProfileFlag: true,
           loading:true
         };
         this.store.dispatch(setCurrentUser({user: emptyUser}));

@@ -43,6 +43,7 @@ export interface User{
     birthday?: string;
     age?: string;
     educationLevel?: string;
+    showProfileFlag: boolean;
     contacts?: {
         phone: string;
         email: string;

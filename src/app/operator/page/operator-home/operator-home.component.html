@@ -35,7 +35,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-4 me-3">
-                    ประเภทของงานคุณ:
+                    <b>ประเภทของงานคุณ:</b>
                 </div>
                 <div class="col">
                     {{userJobType$ | async}}
@@ -43,7 +43,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-4 me-3">
-                    เลือกชนิดของงานคุณ:
+                    <b>เลือกชนิดของงานคุณ:</b>
                 </div>
                 <div class="col-5">
                     <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
@@ -52,46 +52,10 @@
                     </select>
                 </div>
             </div>
+            <app-location-selector [parentFormGroup]="newUserForm" [col]="'col-4'"></app-location-selector>
             <div class="row my-3">
                 <div class="col-4 me-3">
-                    พื้นที่ปฏิบัติงานของคุณ:
-                </div>
-                <div class="col-5" formGroupName="Location">
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="me-3">แขวง: </label>
-                        </div>
-                        <div class="col">
-                            <select formControlName="Section" (change)="sectionSelected($event)" class="form-select mb-3">
-                                <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="me-3">เขต: </label>
-                        </div>
-                        <div class="col">
-                            <select formControlName="District" (change)="districtSelected($event)" class="form-select mb-3">
-                                <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="me-3">จังหวด: </label>
-                        </div>
-                        <div class="col">
-                            <select formControlName="Province" (change)="provinceSelected($event)" class="form-select mb-3">
-                                <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-4 me-3">
-                    ประสบการณ์การทำงาน:
+                    <b>ประสบการณ์การทำงาน:</b>
                 </div>
                 <div class="col-5 d-flex flex-row-start">
                     <input type="number" class="form-control" formControlName="WorkExperience">
@@ -100,7 +64,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-4 me-3">
-                    เลือกเฉพาะเภสัชที่ยืนยันตัวตนกับทาง pharmwork สำเร็จแล้ว:
+                    <b>เลือกเฉพาะเภสัชที่ยืนยันตัวตนกับทาง pharmwork สำเร็จแล้ว:</b>
                 </div>
                 <div class="col-5 form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
@@ -108,7 +72,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-4 me-3">
-                    เลือกเฉพาะเภสัชที่ยืนยันตัวตนกับทาง pharmwork สำเร็จแล้ว:
+                    <b>เลือกเฉพาะเภสัชที่ยืนยันตัวตนกับทาง pharmwork สำเร็จแล้ว:</b>
                 </div>
                 <div class="col-5 form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
