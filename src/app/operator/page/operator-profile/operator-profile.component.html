@@ -5,10 +5,10 @@
           <a class="nav-link active" id="profileTab" routerLink="inner-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab" aria-current="page">โปรไฟล์ของท่าน</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="bookmark" routerLink="all-jobs-posts" data-bs-toggle="tab" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab">ประกาศงานทั้งหมด</a>
+          <a class="nav-link" routerLink="all-jobs-posts" data-bs-toggle="tab" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab">ประกาศงานทั้งหมด</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="recently-seen-job" data-bs-toggle="tab" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab">คำขอสมัครงาน</a>
+          <a class="nav-link" routerLink="request-jobs" data-bs-toggle="tab" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab">คำขอสมัครงาน</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">ขอดูข้อมูล</a>
@@ -24,5 +24,17 @@
         </li>
       </ul>
       <router-outlet></router-outlet>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-body">
+          <app-operator-page></app-operator-page>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 

@@ -14,9 +14,10 @@ import { ProfileService } from '../../service/profile.service';
 export class ProfileHeaderComponent {
 @Input() profileInformation!: profileHeaderJobPost | profileHeaderOperator
 @Input() profileType! : string;
+@Input() viewFlag: boolean = false;
 result!: any
 profileInformation$!: User
-headerInformation!: Observable<OperatorProfileComponent>
+headerInformation!: Observable<profileHeaderOperator>
 
 constructor(private store: Store, private profileService: ProfileService){}
 
@@ -31,12 +32,16 @@ constructor(private store: Store, private profileService: ProfileService){}
           return{
             name: this.profileInformation$.companyName!,
             Location: this.profileInformation$.Location,
+            JobType: this.profileInformation$.jobType!,
           }
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
         })
     }
+  }
+  openPageView(){
+    this.profileService.sendCallView();
   }
   editProfileClicked(){
     this.profileService.sendEditSubject();

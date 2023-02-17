@@ -11,6 +11,7 @@ import { BookmarkComponent } from './page/pharma-profile/bookmark/bookmark.compo
 import { InnerProfileComponent } from './page/pharma-profile/inner-profile/inner-profile.component';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-jobs/recently-seen-jobs.component';
+import { RequestJobsComponent } from './page/pharma-profile/request-jobs/request-jobs.component';
 import { RegisterComponent } from './page/register/register.component';
 
 const routes: Routes = [
@@ -24,7 +25,8 @@ const routes: Routes = [
       { path: '',   redirectTo: 'inner-profile', pathMatch: 'full' },
       {path:'inner-profile', component:InnerProfileComponent, canDeactivate:[ProfilePharmaGuard]},
       {path:'bookmark', component:BookmarkComponent},
-      {path:'recently-seen-job', component:RecentlySeenJobsComponent}
+      {path:'recently-seen-job', component:RecentlySeenJobsComponent},
+      {path:'request-jobs', component:RequestJobsComponent}
     ]},
   ]},
 ];

@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/operator/model/user.model';
 import { ProfileService } from 'src/app/operator/service/profile.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
-
+declare var window: any;
 @Component({
   selector: 'app-inner-profile',
   templateUrl: './inner-profile.component.html',
@@ -19,14 +19,24 @@ export class InnerProfileComponent {
   profileEditState!: boolean;
   innerProfileInformation!: User;
   profileEdit!:FormGroup;
-  @ViewChild('myModal') modal!:TemplateRef<any>;
+  modal!:any;
   subject: Subscription = new Subscription();
-  url: string = 'profile-operator';
+  url: string = 'operator/profile-operator';
   
   constructor(private profileService:ProfileService, private store: Store, private fb: FormBuilder, private modalService: NgbModal, private route:Router){}
 
   ngOnInit(){
     this.profileEditState = false;
+    this.modal = new window.bootstrap.Modal(
+      document.getElementById('saveModal')
+    );
+    var modal = document.getElementById('saveModal');
+    
+    window.onclick = (event: { target: HTMLElement; }) =>{
+      if (event.target == modal) {
+        this.cancelEventClick()
+      }
+    }
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((value: any)=>{
@@ -42,11 +52,19 @@ export class InnerProfileComponent {
     }));
     this.subject.add(this.profileService.getEditSubject().subscribe((value: boolean)=>{
       if(this.profileEditState){
-        let modal = this.modalService.open(this.modal);
+        this.openModal()
       }else{
         this.profileEditState = !this.profileEditState;
       }
     }))
+  }
+
+  cancelEventClick(){
+    if(this.profileEditState){
+      this.url = 'operator/profile-operator';
+      this.profileService.sendRevertTabSubject();
+      this.closeModal()
+    }
   }
 
   initializeFormGroup(){
@@ -71,33 +89,38 @@ export class InnerProfileComponent {
     });
   }
   openModal(){
-    let modalActive = this.modalService.open(this.modal);
-    modalActive.hidden.subscribe(()=>{
-      if(this.profileEditState){
-        this.url = 'profile-pharma';
-        this.profileService.sendRevertTabSubject();
-      }
-    })
+    this.modal.show();
   }  
+
+  closeModal(){
+    this.modal.hide();
+  }
   
   resetFormGroup(){
     this.profileEdit.reset();
     this.profileEdit.patchValue(this.innerProfileInformation)
   }
   beginNavigation(){
-    if(this.url.indexOf('profile-operator') === -1){
-      if(this.url === '/operator'){
-        this.route.navigate(['operator'])
-      }
+    if(this.url.indexOf('?') === -1){
+      this.route.navigate([this.url]);
     }else{
-      this.route.navigate([this.url])
+      const parsedUrl = this.url.split('?')[1].split('&');
+      let queryParams: any = {
+        queryParams:{}
+      };
+      parsedUrl.forEach((param)=>{
+        const paramKeyValue = param.split('=');
+        queryParams.queryParams[paramKeyValue[0]] = paramKeyValue[1];
+      })
+      this.url = '..'.concat(this.url.split('?')[0]);
+      this.route.navigate([this.url], queryParams)
     }
   }
   discardClick(){
     this.profileEditState = false;
     this.resetFormGroup()
     this.beginNavigation()
-    this.modalService.dismissAll()
+    this.closeModal();
   }
   onSave(){
     this.loadingFlag = true
@@ -112,7 +135,7 @@ export class InnerProfileComponent {
       this.beginNavigation()
       this.loadingFlag = false;
       this.profileEditState = false;
-      this.modalService.dismissAll()
+      this.closeModal();
     })
   }
   ngOnDestroy(){

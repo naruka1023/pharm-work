@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
-import { AppState, BookmarkList } from '../../model/typescriptModel/jobPost.model';
-import { addBookmark, emptyBookmark, getJobCategory, getJobs, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess } from '../actions/job-post.actions';
+import { AppState, BookmarkList, jobPostModel, jobRequest } from '../../model/typescriptModel/jobPost.model';
+import { addBookmark, emptyBookmark, emptyRequestedJobs, getJobCategory, getRequestedJobs, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess } from '../actions/job-post.actions';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -10,18 +10,34 @@ import { addBookmark, emptyBookmark, getJobCategory, getJobs, removeBookmark, re
 export const initialState: AppState = {
   loading: true,
   JobPost: headerArray,
-  Bookmarks: {}
+  Bookmarks: {},
+  JobRequests:{}
 };
 
 export const jobPostReducer = createReducer(
   initialState,
-  on(getJobs, (state) => state),
   on(getJobCategory, (state) => state),
   on(removeBookmark, (state, {jobUID, userUID}) =>{
     let newState: AppState =  _.cloneDeep(state);
     let keys = jobUID + "-" + userUID
     delete newState.Bookmarks[keys];
     return {...newState}
+  }),
+  on(getRequestedJobs, (state, {jobRequest}) =>{
+    let newState: AppState =  _.cloneDeep(state);
+    let newJobRequest: any = {};
+    jobRequest.forEach((jr: jobRequest)=>{
+      let keys = jr.jobUID + '-' + jr.userUID
+      newJobRequest[keys] = {
+        ...jr
+      }
+
+    })
+    return {
+      ...newState,
+      JobRequests:newJobRequest
+      
+    }
   }),
   on(addBookmark, (state, {jobUID, userUID, bookmarkUID, JobPost}) =>{
     let newState: AppState =  _.cloneDeep(state);
@@ -47,6 +63,12 @@ export const jobPostReducer = createReducer(
     return {
       ...state, 
       Bookmarks: {}
+    }
+  }),
+  on(emptyRequestedJobs, (state)=>{
+    return {
+      ...state,
+      JobRequests : {}
     }
   }),
   on(retrievedUserBookmarkSuccess, (state, { Bookmarks }) => {

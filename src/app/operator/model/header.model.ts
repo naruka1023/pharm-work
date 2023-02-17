@@ -5,6 +5,7 @@ export interface profileHeaderJobPost {
 
 export interface profileHeaderOperator {
     name: string;
+    JobType: string;
     Location?: {
         Section: string;
         District: string;

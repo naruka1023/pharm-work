@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
-import { jobPostModel, AppState, Bookmark } from '../../model/typescriptModel/jobPost.model';
+import { jobPostModel, AppState, Bookmark, jobRequest } from '../../model/typescriptModel/jobPost.model';
 import { JobPostService } from '../../service/job-post.service';
 import { RoutingService } from '../../service/routing.service';
 import { removeBookmark, addBookmark } from '../../state/actions/job-post.actions';
@@ -20,7 +20,9 @@ export class JobPostNormalCardComponent{
   subscription: Subscription = new Subscription();
   bookmarkLoadingFlag: boolean = false;
   bookmarkFlag$:Observable<boolean> = of(true);
+  requestFlag$!:Observable<boolean>;  
   userID!: string
+  Active$!:Observable<boolean>;
   bookmarkID!: string; 
   localFlag: boolean = true;
   
@@ -33,6 +35,14 @@ export class JobPostNormalCardComponent{
       if(value !== ''){
         this.userID = value
       }
+    })
+    
+    this.requestFlag$ = this.store.select((state:any)=>{
+      return state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID] !== undefined?true:false
+    })
+    this.Active$ = this.store.select((state:any)=>{
+      const active: jobRequest = state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID]
+      return (active === undefined)? false: !active.JobPost?.Active!;
     })
     this.bookmarkFlag$ = this.store.select((state: any) =>{
       let flag = true;
@@ -52,6 +62,16 @@ export class JobPostNormalCardComponent{
       this.fullTimeFlag = false;
     }
   }
+
+  requestJob(){
+    if(localStorage.getItem('loginState') == 'false'){
+      this.router.navigate(['pharma/login'])
+    }else{
+      this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then(()=>{
+      })
+    }
+  }
+              
   getBookmarkPayload(){
     return {jobUID: this.content.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID,JobPost: this.content};
   }
@@ -72,11 +92,6 @@ export class JobPostNormalCardComponent{
       }
     }
   }
-  acceptJob(){
-    if(localStorage.getItem('loginState') == 'false'){
-      this.router.navigate(['login'])
-    }
-  }
 
   ngOnDestroy(){
     this.subscription.unsubscribe()
@@ -84,7 +99,7 @@ export class JobPostNormalCardComponent{
 
 
   goToProfile(){
-    if(this.router.url !== '/profile-pharma/recently-seen-job'){
+    if(this.router.url !== 'pharma/profile-pharma/recently-seen-job'){
       this.store.dispatch(addRecentlySeen({JobPost: this.content}));
     }
     this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.activatedRoute)

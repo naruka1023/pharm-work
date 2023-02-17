@@ -16,7 +16,10 @@ export class UsersEffect {
     .pipe(
       take(1),
       map((user) => (
-        setCurrentUser({user:user})),
+        setCurrentUser({user:{
+          ...user,
+          loading:false
+        }})),
       catchError(() => EMPTY)
       ))
     )

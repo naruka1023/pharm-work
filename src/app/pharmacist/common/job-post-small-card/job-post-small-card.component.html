@@ -138,9 +138,17 @@
           </div>
         </ng-template>
         <ng-template #urgentFeature>
-          <div (click)="acceptJob()" class="btn btn-success text-center my-2" style="width:-webkit-fill-available" type="button">
-            <div class="fs-5">สมัครงาน</div>
-          </div>
+          <ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+          <ng-template #alreadyRequest>
+              <div (click)="requestJob()" class="btn btn-success text-center my-2" style="width:-webkit-fill-available" type="button">
+                <div class="fs-5">สมัครงาน</div>
+              </div>
+            </ng-template>
+            <ng-template #requestButton>
+              <div class="btn btn-success text-center my-2" style="width:-webkit-fill-available" type="button">
+                <div class="fs-5">สมัครแล้ว</div>
+              </div>
+            </ng-template>
         </ng-template>
       </div>
     </div>

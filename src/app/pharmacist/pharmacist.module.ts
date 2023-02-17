@@ -26,6 +26,8 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'swiper/angular';
 import { CommonModule } from '@angular/common';
+import { RequestJobsComponent } from './page/pharma-profile/request-jobs/request-jobs.component';
+import { LocationComponent } from './common/location/location.component';
 
 
 
@@ -60,6 +62,8 @@ import { CommonModule } from '@angular/common';
     InnerProfileComponent,
     BookmarkComponent,
     RecentlySeenJobsComponent,
+    RequestJobsComponent,
+    LocationComponent,
   ],
   bootstrap:[LandingPageComponent]
 })

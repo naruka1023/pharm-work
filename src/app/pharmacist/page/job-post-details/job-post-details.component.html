@@ -61,9 +61,17 @@
 						<i class="bi bi-share-fill"></i>
 					</h1>
 				</button>
-				<button (click)="acceptJob()" class="btn ms-3 btn-success" style="height: fit-content; align-self: center">
-					<h4>สมัครงาน</h4>
-				</button>
+				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+				<ng-template #alreadyRequest>
+					<button (click)="requestJob(true)" class="btn btn-success text-center my-2" type="button">
+					  <div class="fs-5">สมัครงาน</div>
+					</button>
+				  </ng-template>
+				  <ng-template #requestButton>
+					<button class="btn btn-success text-center my-2" type="button">
+					  <div class="fs-5">สมัครแล้ว</div>
+					</button>
+				  </ng-template>
 			</div>
 		</div>
 		<div class="grid">

@@ -7,7 +7,7 @@
                 <h3 class="my-3">สร้างประกาศงานด่วนรายวัน</h3>
             </ng-template>
             <ng-template #notUrgentTitle>
-                <h3 class="my-3">สร้างประกาศงาน</h3>
+                <h3 class="my-3">สร้างประกาศงานทั่วไป</h3>
                 
             </ng-template>
             <div class="d-flex align-items-center">
@@ -48,7 +48,6 @@
                       mwlFlatpickr
                       mode="multiple"
                       class="form-control"
-                      formControlName="asdf"
                       [convertModelValue]="true"
                       (flatpickrValueUpdate)="handleCalendarChange($event)"
                   />
@@ -132,7 +131,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3" formGroupName="Location">
             <div class="col-3">
                 <div class="me-3">พื้นที่ปฏิบัติงาน:</div>
             </div>
@@ -142,7 +141,7 @@
                         <label class="me-3">แขวง: </label>
                     </div>
                     <div class="col">
-                        <select  [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedSection" (change)="sectionSelected()" name="section" class="form-select mb-3">
+                        <select  formControlName="Section" (change)="sectionSelected()" name="section" class="form-select mb-3">
                             <option *ngFor="let section of section$ | async" [value]="section">{{section}}</option>
                         </select>
                     </div>
@@ -152,7 +151,7 @@
                         <label class="me-3">เขต: </label>
                     </div>
                     <div class="col">
-                        <select  [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedDistrict" (change)="districtSelected()" name="district" class="form-select mb-3">
+                        <select  formControlName="District" (change)="districtSelected()" name="district" class="form-select mb-3">
                             <option *ngFor="let district of district$ | async" [value]="district">{{district}}</option>
                         </select>
                     </div>
@@ -162,7 +161,7 @@
                         <label class="me-3">จังหวด: </label>
                     </div>
                     <div class="col">
-                        <select   [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedProvince" (change)="provinceSelected()" name="province" class="form-select mb-3">
+                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3">
                             <option *ngFor="let province of province$ | async" [value]="province">{{province}}</option>
                         </select>
                     </div>

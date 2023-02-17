@@ -1,0 +1,345 @@
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <ng-container *ngIf="urgency; then urgentTitle; else notUrgentTitle">
+            </ng-container>
+            <ng-template #urgentTitle>
+                <h3 class="my-3">แก้ไขประกาศงานด่วนรายวัน</h3>
+            </ng-template>
+            <ng-template #notUrgentTitle>
+                <h3 class="my-3">แก้ไขประกาศงานทั่วไป</h3>
+                
+            </ng-template>
+            <div class="d-flex align-items-center">
+                <img src="assets/watsons.png" class="card-img-top" style="width:fit-content" height="150" width="150">
+                <h3 class="ms-3">{{ userState.companyName }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="my-5 border-top border-bottom border-secondary py-3">
+    <h3 class="ms-4">รายละเอียดการสมัครงาน</h3>
+</div>
+<form class="fs-3" [formGroup]="newJobForm" (ngSubmit)="onUpdate()">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="me-3">ชนิดของงาน:</div>
+            </div>
+            <div class="col">
+                {{ userState.jobType }}
+            </div>
+        </div>
+        <div class="row" *ngIf="userState.jobType === 'ร้านยาแบรนด์'">
+            <div class="col-3">
+                <div class="me-3">สาขา:</div>
+            </div>
+            <div class="col">
+                <input class="form-control" type="text" formControlName="Franchise">
+            </div>
+        </div>
+        <div *ngIf="urgency" class="row mt-3">
+            <div class="col-3">
+                <div class="me-3">ต้องการหาเภสัชกรวันที่:</div>
+            </div>
+            <div class="col-5">
+                <input
+                      type="date"
+                      mwlFlatpickr
+                      class="form-control"
+                      [convertModelValue]="true"
+                      [ngModel]="dateOfJob"
+                      [ngModelOptions]="{standalone: true}"
+                      (flatpickrValueUpdate)="handleCalendarChange($event)"
+                  />
+            </div>
+        </div>
+        <div *ngIf="!urgency" class="row mt-3">
+            <div class="col-3">
+                <div class="me-3">ประเภทงาน:</div>
+            </div>
+            <div class="col-5">
+                <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
+                    <option selected value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <div class="me-3">ชื่อตำแหน่งงาน:</div>
+            </div>
+            <div class="col-5">
+                <input type="text" formControlName="JobName" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <div class="me-3">จำนวนที่รับสมัคร:</div>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-6">
+                        <input formControlName="Amount" type="number" class="form-control">
+                    </div>
+                    <div class="col">
+                        <h3>อัตรา</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <div class="me-3">ช่วงเวลาทำงาน:</div>
+            </div>
+            <div class="col-5">
+                <div class="d-flex flex-row">
+                    <input [ngModelOptions]="{standalone: true}" [(ngModel)]="timeStart" type="time" class="form-control">
+                    <div class=mx-3>-</div>
+                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="timeEnd" type="time" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3" formGroupName="Salary">
+            <div class="col-3">
+                <div class="me-3">ค่าจ้าง:</div>
+            </div>
+            <div class="col-5">
+                <div class="d-flex flex-row">
+                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryStart" type="number" class="form-control">
+                    <div class=mx-3>-</div>
+                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryEnd" type="number" class="form-control">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <div class="d-flex">
+                        <input class="form-check-input" formControlName="Suffix" value="Negotiable" type="radio">
+                        <label class="ms-3" for="Negotiable">ตามตกลง</label>
+                    </div>
+                </div>
+                <div class="form-check" *ngIf="showCorporateStructureCheckbox">
+                    <div class="d-flex">
+                        <input class="form-check-input" formControlName="Suffix" value="CorporateStructure" type="radio">
+                        <label class="ms-3" for="CorporateStructure">ตามโครงสร้างองค์กร</label>
+                    </div>
+                </div>
+                <div class="form-check" *ngIf="showNegotiableCheckbox">
+                    <div class="d-flex">
+                        <input class="form-check-input" formControlName="Suffix" value="Hourly" type="radio">
+                        <label class="ms-3" for="Hourly">ค่าจ้างรายชั่วโมง</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3" formGroupName="Location">
+            <div class="col-3">
+                <div class="me-3">พื้นที่ปฏิบัติงาน:</div>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-3">
+                        <label class="me-3">แขวง: </label>
+                    </div>
+                    <div class="col">
+                        <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3">
+                            <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <label class="me-3">เขต: </label>
+                    </div>
+                    <div class="col">
+                        <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3">
+                            <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <label class="me-3">จังหวด: </label>
+                    </div>
+                    <div class="col">
+                        <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3">
+                            <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <label for="OnlineInterview" class="me-3 fs-4">นัทสัมภาษณ์ทางออนไลน์:</label>
+            </div>
+            <div class="col-5">
+                <input type="checkbox" class="form-check-input" formControlName="OnlineInterview" id="OnlineInterview">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <label for="WorkFromHome" class="me-3">work from home:</label>
+            </div>
+            <div class="col-5">
+                <input type="checkbox" class="form-check-input" formControlName="WorkFromHome" id="WorkFromHome">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <label for="nearBTS" class="me-3">ใกล้ BTS:</label>
+            </div>
+            <div class="col-5">
+                <div class="row" formGroupName="BTS">
+                    <div class="col-3">
+                        <input type="checkbox" formControlName="Near" class="form-check-input" name="nearBTS" id="nearBTS">
+                    </div>
+                    <div class="col">
+                        <select *ngIf="checkboxBTS" formControlName="Station" name="nearBTS" class="form-select">
+                            <option *ngFor="let btsStations of btsStations$ | async" [value]="btsStations">{{btsStations}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <label for="nearMRT" class="me-3">ใกล้ MRT:</label>
+            </div>
+            <div class="col-5">
+                <div class="row" formGroupName="MRT">
+                    <div class="col-3">
+                        <input type="checkbox" formControlName="Near" class="form-check-input" name="nearMRTFlag" id="nearMRT">
+                    </div>
+                    <div class="col">
+                        <select *ngIf="checkboxMRT" formControlName="Station" name="nearMRT" class="form-select">
+                            <option *ngFor="let mrtStations of mrtStations$ | async" [value]="mrtStations">{{mrtStations}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <label for="nearSRT" class="me-3">ใกล้ SRT:</label>
+            </div>
+            <div class="col-5">
+                <div class="row" formGroupName="SRT">
+                    <div class="col-3">
+                        <input type="checkbox"  formControlName="Near" class="form-check-input" name="nearSRT" id="nearSRT">
+                    </div>
+                    <div class="col">
+                        <select *ngIf="checkboxSRT" formControlName="Station" name="nearSRT" class="form-select">
+                            <option *ngFor="let srtStations of srtStations$ | async" [value]="srtStations">{{srtStations}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-3">
+                <label for="nearARL" class="me-3">ใกล้ ARL:</label>
+            </div>
+            <div class="col-5">
+                <div class="row" formGroupName="ARL">
+                    <div class="col-3">
+                        <input type="checkbox"  formControlName="Near" class="form-check-input" name="nearARLFlag" id="nearARL">
+                    </div>
+                    <div class="col">
+                        <select *ngIf="checkboxARL" formControlName="Station" name="nearARL" class="form-select">
+                            <option *ngFor="let arlStations of arlStations$ | async" [value]="arlStations">{{arlStations}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-5 border-top border-bottom border-secondary py-3">
+        <h3 class="ms-4">รายละเอียดงานเพิ่มเติม</h3>
+    </div>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="my-3">หน้าที่ความรับผิดชอบ</div>
+            <ckeditor formControlName="JobDetails" [editor]="jobDetailsEditor" name="editor"></ckeditor>
+        </div>
+        <div class="row mt-3" *ngIf="!urgency">
+            <div class="my-3">คุณสมบัติผู้สมัคร</div>
+            <ckeditor formControlName="qualityApplicants" [editor]="qualityEditor" name="editor"></ckeditor>
+        </div>
+        <div class="row mt-3" *ngIf="!urgency">
+            <div class="my-3">สวัสดิการ</div>
+            <ckeditor formControlName="jobBenefits" [editor]="jobBenefitsEditor" name="editor"></ckeditor>
+        </div>
+        <div class="row mt-3" *ngIf="!urgency">
+            <div class="my-3">วิธีสมัครงาน</div>
+            <ckeditor formControlName="applyInstructions" [editor]="applyInstructionsEditor" name="editor"></ckeditor>
+        </div>
+    </div>
+    <div class="my-5 border-top border-bottom border-secondary py-3">
+        <h3 class="ms-4">ข้อมูลติดต่อเพิ่มเติม</h3>
+    </div>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-3">
+                <label class="me-3">ข้อมูลติดต่อเพิ่มเติม</label>
+            </div>
+            <div class="col-5" formGroupName="Contacts">
+                <div class="row">
+                    <div class="col-4 mb-3">
+                        <label for="phone" class="me-3">เบอร์โทร:</label>
+                    </div>
+                    <div class="col">
+                        <input formControlName="phone" class="form-control" name="phone">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 mb-3">
+                        <label for="email" class="me-3">Email:</label>
+                    </div>
+                    <div class="col">
+                        <input formControlName="email" class="form-control" name="email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 mb-3">
+                        <label for="line" class="me-3">LINE:</label>
+                    </div>
+                    <div class="col">
+                        <input formControlName="line" class="form-control" name="line">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 mb-3">
+                        <label for="facebook" class="me-3">Facebook:</label>
+                    </div>
+                    <div class="col">
+                        <input formControlName="facebook" class="form-control" name="facebook">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class="my-3">วิธีเดินทาง</div>
+        </div>
+        <div class="row mt-3">
+            <ckeditor [editor]="travelEditor" formControlName="TravelInstructions" name="editor"></ckeditor>
+        </div>
+        <div class="row my-3">
+            <div class="col-3">
+                <label for="googleMaps">ปักหมุด google map</label>
+            </div>
+        </div>
+        <div class="row my-3">
+            <button [disabled]="updateLoading" class="fs-3 btn btn-primary d-flex align-items-center justify-content-center">
+                <ng-container *ngIf="updateLoading; then loading; else notLoading"></ng-container>
+                <ng-template #loading>
+                    <span class="spinner-border spinner-border-sm align-self-center fs-3 mx-3" role="status" aria-hidden="true"></span>
+                    Loading
+                </ng-template>
+                <ng-template #notLoading>
+                    Save
+                </ng-template>
+            </button>
+        </div>
+    </div>
+</form>

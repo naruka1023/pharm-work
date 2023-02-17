@@ -48,7 +48,8 @@ export class AppComponent {
           uid: '',
           license: '',
           name: '',
-          surname: ''
+          surname: '',
+          loading:true
         };
         this.store.dispatch(setCurrentUser({user: emptyUser}));
         localStorage.setItem('loginState', 'false')

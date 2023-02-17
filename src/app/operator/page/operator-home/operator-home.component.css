@@ -1,0 +1,14 @@
+
+.swiper-slide {
+    width: 80vw;
+  }
+  .landing-page_img{
+    border-radius: 20px;
+    width:100%
+  }
+  .landing-page_img2{
+    width:-webkit-fill-available;
+    border-radius: 20px
+  }
+  
+  

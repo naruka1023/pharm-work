@@ -7,6 +7,7 @@ import { getCurrentUser, removeCurrentUser, setCurrentUser } from '../actions/us
 // import { Book } from '../book-list/books.model';
 
 export const initialState: User = {
+  loading: true,
   role: '',
   email: '',
   uid: '',
@@ -25,7 +26,7 @@ export const usersReducer = createReducer(
   initialState,
   on(setCurrentUser, (state, { user }) => {
     return {
-      ...user
+      ...user,
     }
   }),
   on(getCurrentUser, (state) => {

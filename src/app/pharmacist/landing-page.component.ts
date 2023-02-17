@@ -8,9 +8,10 @@ import { Subscription } from 'rxjs';
 import { User } from './model/typescriptModel/users.model';
 import { JobPostService } from './service/job-post.service';
 import { UserServiceService } from './service/user-service.service';
-import { getBookmarks, emptyBookmark } from './state/actions/job-post.actions';
+import { getBookmarks, emptyBookmark, getRequestedJobs, emptyRequestedJobs } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
 import { getCurrentUser, setCurrentUser, removeCurrentUser } from '../state/actions/users.action';
+import { jobPostModel, jobRequest } from './model/typescriptModel/jobPost.model';
 
 @Component({
   selector: 'app-landing-page',
@@ -21,7 +22,7 @@ export class LandingPageComponent {
   
   loginFlag: boolean = false;
   subject!: Subscription;
-  constructor(private activatedRoute:ActivatedRoute,private store: Store ,private route: Router, private auth: AngularFireAuth) {
+  constructor(private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router, private auth: AngularFireAuth) {
 
   }
   
@@ -38,11 +39,25 @@ export class LandingPageComponent {
     this.subject = this.auth.user.subscribe((user)=>{
       if(user){
         this.store.dispatch(getBookmarks({userUID:user.uid}))
-        this.loginFlag = true;
+        this.jobService.getRequestJob(user.uid).subscribe((requestedJobs:any)=>{
+          let jobIDList = requestedJobs.map((request:any)=>{return request.jobUID})
+          this.jobService.getJobsFromJobRequest(jobIDList).subscribe((jobPayload)=>{
+            let payload = requestedJobs.map((requestedJob:jobRequest)=>{
+              let job = {
+                ...requestedJob,
+                JobPost:jobPayload[requestedJob.jobUID]
+              }
+              return job
+            })
+            this.store.dispatch(getRequestedJobs({ jobRequest:payload }))
+          })
+        })
       }else{
         this.store.dispatch(emptyBookmark());
+        this.store.dispatch(emptyRequestedJobs());
       }
     })
+    this.loginFlag = true;
     this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
   }
   

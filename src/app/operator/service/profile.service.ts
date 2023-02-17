@@ -13,13 +13,22 @@ export class ProfileService {
   editSubject: Subject<boolean> = new Subject();
   leaveEditSubject: Subject<string> = new Subject();
   revertTabSubject: Subject<void> = new Subject();
-
+  callView: Subject<void> = new Subject();
+  getCallView(): Observable<void>{
+    return this.callView.asObservable();
+  }
+  
   getRevertTabSubject(): Observable<void>{
     return this.revertTabSubject.asObservable();
   }
   
   sendRevertTabSubject(){
     return this.revertTabSubject.next();
+  }
+  
+  
+  sendCallView(){
+    return this.callView.next();
   }
 
   getLeaveEditSubject(): Observable<string>{

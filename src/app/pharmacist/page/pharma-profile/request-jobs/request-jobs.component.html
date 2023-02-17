@@ -1,0 +1,4 @@
+<div class="row row-cols-2">
+    <app-job-post-normal-card *ngFor="let jobRequest of jobRequests$ | async" [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+</div>
+

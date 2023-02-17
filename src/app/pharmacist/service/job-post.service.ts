@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { catchError, forkJoin, map, Observable, Subject } from 'rxjs';
+import { catchError, combineLatest, forkJoin, map, Observable, of, Subject, take, zip } from 'rxjs';
 import headerArray from '../model/data/uiKeys';
-import { Bookmark, filterConditions, jobPostModel, jobPostPayload } from '../model/typescriptModel/jobPost.model';
+import { Bookmark, filterConditions, jobPostModel, jobPostPayload, jobRequest } from '../model/typescriptModel/jobPost.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +32,6 @@ export class JobPostService {
       );
     }
 
-
-
-  
   getListofJobFromBookmark(array:Bookmark[]){
     let newSrc = array.map((value: Bookmark)=>{ return value.jobUID});
     const reads = newSrc.map((id:string) => this.db.collection('job-post').doc(id).get());
@@ -65,9 +62,43 @@ export class JobPostService {
   removeBookMarkService(bookmarkID: string) {
       let newID = _.cloneDeep(bookmarkID)
       return this.db.collection('bookmark').doc(newID).delete().catch((err)=>{
-        console.log(err);
         return err;
       })
+  }
+
+  getJobsFromJobRequest(jobIDList:string[]){
+    const reads = jobIDList.map((id:string) => this.db.collection('job-post').doc(id).snapshotChanges());
+    return combineLatest(reads).pipe(
+      map((value)=>{
+            let payload: any = {};
+            value.forEach((value)=>{
+              let payloadInner = value.payload.data() as jobPostModel
+              payload[value.payload.id] = {
+                ...payloadInner, 
+                custom_doc_id: value.payload.id
+              }
+            })
+            return payload
+      })
+    );
+  }
+
+  getRequestJob(userID:string){
+    return this.db.collection('job-request', ref => ref.where('userUID', '==', userID)).valueChanges({ idField: 'custom_doc_id' }).pipe()
+  }
+
+  requestJob(jobID:string, operatorID:string, userID:string){
+    let payload: jobRequest = {
+      operatorUID: operatorID,
+      userUID: userID,
+      jobUID: jobID
+    }
+    return this.db.collection('job-request').doc().set(payload).then(()=>{
+    });
+  }
+
+  cancelRequest(jobRequestUID: string){
+    return this.db.collection('job-request').doc(jobRequestUID).delete();
   }
 
   getJobCategoryService(CategorySymbol:string) {

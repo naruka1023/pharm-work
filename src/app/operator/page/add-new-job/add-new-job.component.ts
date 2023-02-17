@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { toggleAddressChange } from 'src/app/state/actions/address.action';
 import { Contacts, User } from '../../model/user.model';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { JobService } from '../../service/job.service';
+import { ActivatedRoute } from '@angular/router';
+import * as _ from 'lodash';
+import { jobPostModel } from '../../model/jobPost.model';
+import { toggleAddressChange } from '../../state/actions/address.actions';
 
 @Component({
   selector: 'app-add-new-job',
@@ -14,20 +17,17 @@ import { JobService } from '../../service/job.service';
   styleUrls: ['./add-new-job.component.css']
 })
 export class AddNewJobComponent {
-  constructor(private store: Store, private fb: FormBuilder,private newJobService : JobService){}
+  constructor(private store: Store, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute){}
 
   user$!: Observable<User>;
   userState!: User
   timeFrame!:string  
   newJobForm!: FormGroup;
-  urgency: boolean = true;
+  urgency!: any;
   sub!: Promise<any>;
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
-  selectedProvince: string = ''
-  selectedDistrict: string = ''
-  selectedSection: string = ''
   nearBTSFlag: boolean = false
   nearARLFlag: boolean = false
   nearMRTFlag: boolean = false
@@ -67,6 +67,9 @@ export class AddNewJobComponent {
   };
 
   ngOnInit(){ 
+    this.urgency = this.route.snapshot.queryParamMap.get('urgency')!;
+    
+    this.urgency = (this.urgency == 'false')?false: true;
     
     this.phone$ = this.store.select((state: any) =>{
       return state.user.contacts.phone
@@ -97,16 +100,16 @@ export class AddNewJobComponent {
       return result
     })
     this.district$ = this.store.select((state: any)=>{
-      if(this.selectedProvince === ''){
+      if(this.newJobForm.value.Location.Province === ''){
         return [];
       }
-      return Object.keys(state.address.list[this.selectedProvince])
+      return Object.keys(state.address.list[this.newJobForm.value.Location.Province])
     })
     this.section$ = this.store.select((state: any)=>{
-      if(this.selectedDistrict === ''){
+      if(this.newJobForm.value.Location.District === ''){
         return [];
       }
-      let section: string[] = state.address.list[this.selectedProvince][this.selectedDistrict].map((section: any)=>section.section);
+      let section: string[] = state.address.list[this.newJobForm.value.Location.Province][this.newJobForm.value.Location.District].map((section: any)=>section.section);
       return section
     })
     this.user$ = this.store.select((state: any)=>{
@@ -116,17 +119,25 @@ export class AddNewJobComponent {
       this.userState = user;
     })
     this.initializeFormGroup();
+
     this.newJobForm.valueChanges.subscribe((form) =>{
       if(!this.urgency){
         this.timeFrame = form.TimeFrame
       }
     })
+    this.scrollUp();
+  }
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
   }
   handleCalendarChange(value: any){
     this.newJobForm.patchValue({
       DateOfJob: value.selectedDates
     })
-    console.log(this.newJobForm.value.DateOfJob);
   }
   mapJobTypeToCategorySymbol(){
     let categorySymbol = ''
@@ -168,11 +179,11 @@ export class AddNewJobComponent {
       CategorySymbol: this.mapJobTypeToCategorySymbol(),
       dateCreated: [''],
       dateUpdated: [''],
-      asdf: [''],
       TimeFrame: [''],
       OperatorUID: [this.userState.uid],
       JobName: [''],
       Amount: [''],
+      DateOfJob: [''],
       Active: [false],
       Duration: [''],
       Urgency: [this.urgency],
@@ -216,7 +227,6 @@ export class AddNewJobComponent {
       this.newJobForm.addControl('Franchise', this.fb.control(['']));
     }
     if(this.urgency){
-      this.newJobForm.addControl('DateOfJob', this.fb.control([]))
       this.timeFrame = "Part-Time"
       this.newJobForm.patchValue({
         TimeFrame: "Part-Time"
@@ -229,18 +239,28 @@ export class AddNewJobComponent {
   }
   
   provinceSelected(){
-    this.selectedDistrict = ''
-    this.selectedSection = ''
+    this.newJobForm.patchValue({
+      Location:{
+        ...this.newJobForm.value.Location,
+        District:'',
+        Section:''
+      }
+    })
     this.store.dispatch(toggleAddressChange())
   }
   districtSelected(){
+    this.newJobForm.patchValue({
+      Location:{
+        ...this.newJobForm.value.Location,
+        Section:''
+      }
+    })
     this.store.dispatch(toggleAddressChange())
   }
   sectionSelected(){
     this.store.dispatch(toggleAddressChange())
   }
   onSave(){
-    this.newJobForm.removeControl('asdf');
     let processedInfo = {};
     if(this.salaryStart !== '' && this.salaryEnd !== ''){
       processedInfo = 
@@ -272,11 +292,6 @@ export class AddNewJobComponent {
       ARL:{
         Near: this.nearARLFlag
       },
-      Location:{
-        Section: this.selectedSection,
-        District: this.selectedDistrict,
-        Province: this.selectedProvince
-      },
       dateCreated: new Date().toISOString().split('T')[0],
       dateUpdated: new Date().toISOString().split('T')[0],
     }
@@ -298,7 +313,6 @@ export class AddNewJobComponent {
       this.sub = this.newJobService.addOneJob(this.newJobForm.value)
     }
     this.sub.then((job)=>{
-      console.log('job added')
     })
   }
 }

@@ -27,6 +27,7 @@ export class JobPostDetailsComponent {
   bookmarkFlag$:Observable<boolean> = of(true);
   userID!: string
   bookmarkID!: string; 
+  requestFlag$!: Observable<boolean>
   localFlag: boolean = true;
 
   ngOnInit(){
@@ -81,7 +82,20 @@ export class JobPostDetailsComponent {
       }
       return flag 
     })
+    this.requestFlag$ = this.store.select((state:any)=>{
+      return state.jobpost.JobRequests[this.profile.custom_doc_id + '-' + this.userID] !== undefined?true:false
+    })
     this.scrollUp();
+  }
+
+
+  requestJob(flag:boolean){
+    if(localStorage.getItem('loginState') == 'false'){
+      this.router.navigate(['pharma/login'])
+    }else{
+      this.jobPostService.requestJob(this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then(()=>{
+      })
+    }
   }
 
   getBookmarkPayload(){

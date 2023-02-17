@@ -1,11 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { jobPostModel, Bookmark, filterConditions, jobPostPayload } from '../../model/typescriptModel/jobPost.model';
+import { jobPostModel, Bookmark, filterConditions, jobPostPayload, jobRequest } from '../../model/typescriptModel/jobPost.model';
 
-
-export const getJobs = createAction(
-  '[Job-Post] Get Jobs',
-  );
-  
 export const getJobCategory = createAction(
   '[Job-Post] Get Job Category',
   props<{ CategorySymbol: string }>()
@@ -14,6 +9,15 @@ export const getJobCategory = createAction(
 export const addBookmark = createAction(
   '[Job-Post] Add Bookmark',
   props<{ jobUID: string, userUID: string, bookmarkUID: string, JobPost: jobPostModel}>()
+)
+
+export const getRequestedJobs = createAction(
+  '[Job-Post] Get Requested Jobs',
+  props<{ jobRequest:jobRequest[] }>()
+)
+
+export const emptyRequestedJobs = createAction(
+  '[Job-Post] Empty Requested Jobs'
 )
 
 export const getBookmarks = createAction(

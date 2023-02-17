@@ -21,6 +21,9 @@ import { JobPostEffects } from './state/effects/job-post.effects';
 import { jobPostReducer } from './state/reducer/job-post.reducer';
 import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
 import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
+import { EditJobComponent } from './page/edit-job/edit-job.component';
+import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
+import { OperatorPageComponent } from './page/operator-page/operator-page.component';
 
 
 
@@ -36,7 +39,10 @@ import { JobPostDetailsComponent } from './page/job-post-details/job-post-detail
     AddNewJobComponent,
     JobPostNormalCardComponent,
     OperatorHomeComponent,
-    LocationSelectorComponent
+    LocationSelectorComponent,
+    EditJobComponent,
+    RequestJobComponent,
+    OperatorPageComponent
   ],
   imports: [
     CommonModule,

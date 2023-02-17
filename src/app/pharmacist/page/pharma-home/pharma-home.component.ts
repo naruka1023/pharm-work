@@ -4,7 +4,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { filterConditions } from '../../model/typescriptModel/jobPost.model';
-import { getJobs } from '../../state/actions/job-post.actions';
+import { retrievedJobSuccess } from '../../state/actions/job-post.actions';
+import { JobPostService } from '../../service/job-post.service';
 // import { selectJobPost, selectLoading } from 'src/app/state/selectors/job-post.selectors';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
@@ -19,7 +20,7 @@ export class PharmaHomeComponent {
   loadingFlag$!: Observable<boolean>;
 
   items$!: Observable<filterConditions[]>;
-  constructor(private store: Store, private db: AngularFirestore){
+  constructor(private jobPostService:JobPostService, private store: Store, private db: AngularFirestore){
   }
   
   ngOnInit(){
@@ -43,7 +44,9 @@ export class PharmaHomeComponent {
   
   
   dispatchJobs() {
-    this.store.dispatch(getJobs());
+    this.jobPostService.getAllJobPost().subscribe((jobPosts)=>{
+      this.store.dispatch(retrievedJobSuccess({jobs:jobPosts}))
+    })
   }
 
   scrollUp(){

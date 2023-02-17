@@ -31,6 +31,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "firebase": "9.9.1",
+    "firebase-functions": "^4.2.1",
     "flatpickr": "^4.6.13",
     "git": "^0.1.5",
     "jquery": "^3.6.3",

@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
+declare var window: any;
 
 @Component({
   selector: 'app-inner-profile',
@@ -21,14 +22,24 @@ export class InnerProfileComponent{
   numbersEducation: number[] = [1];
   localProfileFlag: boolean = true;
   profileEdit!:FormGroup;
-  url: string = 'profile-pharma';
+  url: string = 'pharma/profile-pharma';
   numbersOccupation: number[] = [1];
-  @ViewChild('myModal') modal!:TemplateRef<any>;
+  modal!:any;
   constructor(private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
   }
   
   ngOnInit(){
     this.localProfileFlag = true;
+    this.modal = new window.bootstrap.Modal(
+      document.getElementById('saveModal')
+    );
+    var modal = document.getElementById('saveModal');
+    
+    window.onclick = (event: { target: HTMLElement }) =>{
+      if (event.target == modal) {
+        this.cancelEventClick()
+      }
+    }
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((value: any)=>{
@@ -44,21 +55,25 @@ export class InnerProfileComponent{
     }));
     this.subject.add(this.userService.getEditSubject().subscribe((value: boolean)=>{
       if(!this.localProfileFlag){
-        let modal = this.modalService.open(this.modal);
+        this.openModal()
       }else{
         this.localProfileFlag = !this.localProfileFlag;
       }
     }))
   }
   openModal(){
-    let modalActive = this.modalService.open(this.modal);
-    modalActive.hidden.subscribe(()=>{
-      if(!this.localProfileFlag){
-        this.url = 'profile-pharma';
-        this.userService.sendRevertTabSubject();
-      }
-    })
+    this.modal.show();
+  }  
+
+  closeModal(){
+    this.modal.hide();
   }
+  cancelEventClick() {
+      this.url = 'pharma/profile-pharma';
+      this.userService.sendRevertTabSubject();
+      this.closeModal()
+  }
+
   onSave(){
     let control = this.profileEdit.get('jobHistory') as FormArray;
     let controlGroup = control.controls as FormGroup[];
@@ -181,31 +196,26 @@ export class InnerProfileComponent{
     this.profileEdit.patchValue(this.innerProfileInformation)
   }
   beginNavigation(){
-    if(this.url.indexOf('profile-pharma') === -1){
-      if(this.url == '/pharma'){
-        this.route.navigate(['pharma']);
-      }else{
-        const parsedUrl = this.url.split('?')[1].split('&');
-        let queryParams: any = {
-          queryParams:{}
-        };
-        parsedUrl.forEach((param)=>{
-          const paramKeyValue = param.split('=');
-          queryParams.queryParams[paramKeyValue[0]] = paramKeyValue[1];
-        })
-        console.log(queryParams);
-        this.url = '..'.concat(this.url.split('?')[0]);
-        this.route.navigate([this.url], queryParams)
-      }
+    if(this.url.indexOf('?') === -1){
+      this.route.navigate([this.url]);
     }else{
-      this.route.navigate([this.url])
+      const parsedUrl = this.url.split('?')[1].split('&');
+      let queryParams: any = {
+        queryParams:{}
+      };
+      parsedUrl.forEach((param)=>{
+        const paramKeyValue = param.split('=');
+        queryParams.queryParams[paramKeyValue[0]] = paramKeyValue[1];
+      })
+      this.url = '..'.concat(this.url.split('?')[0]);
+      this.route.navigate([this.url], queryParams)
     }
   }
   discardClick(){
     this.localProfileFlag = true;
-    this.resetFormGroup()
+    this.resetFormGroup();
     this.beginNavigation();
-    this.modalService.dismissAll()
+    this.closeModal();
   }
 }
 

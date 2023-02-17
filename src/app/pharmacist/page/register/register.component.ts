@@ -9,6 +9,8 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../service/user-service.service';
 import { registerFormOperator } from '../../model/typescriptModel/users.model';
+import { Observable } from 'rxjs';
+import { toggleAddressChange } from '../../state/actions/address.actions';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -17,7 +19,7 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor( private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
+  constructor(private store:Store, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   registerFormPharmacist!:FormGroup;
@@ -25,17 +27,58 @@ export class RegisterComponent {
   role: string = 'เภสัชกร';
   errorMessage: string = '';
   submitted:boolean = false;
+  pharmaForm:boolean = true;
+  province$!: Observable<string[]>;
+  district$!: Observable<string[]>;
+  section$!: Observable<string[]>;
   
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
+  @ViewChild('swiperFormPharma', { static: false }) swiperFormPharma?: SwiperComponent;
 
   ngOnInit(){
+    this.initializeFormGroup()
+    this.province$ = this.store.select((state: any)=>{
+      let result = Object.keys(state.address.list);
+      return result
+    })
+    this.district$ = this.store.select((state: any)=>{
+      if(this.registerFormPharmacist.value.preferredLocation.Province === ''){
+        return [];
+      }
+      return Object.keys(state.address.list[this.registerFormPharmacist.value.preferredLocation.Province])
+    })
+    this.section$ = this.store.select((state: any)=>{
+      if(this.registerFormPharmacist.value.preferredLocation.District === ''){
+        return [];
+      }
+      let section: string[] = state.address.list[this.registerFormPharmacist.value.preferredLocation.Province][this.registerFormPharmacist.value.preferredLocation.District].map((section: any)=>section.section);
+      return section
+    })
+  }
+
+  initializeFormGroup(){
     this.registerFormPharmacist = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['fdsa', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       name: ['', [Validators.required]],
       surname: ['', [Validators.required]],
       license: ['', [Validators.required]],
+      preferredJobType: this.fb.group({
+        AB: [false],
+        AC: [false],
+        BB: [false],
+        BC: [false],
+        CA: [false]
+      }),
+      preferredTimeFrame: [''],
+      preferredLocation: this.fb.group({
+        Section: [''],
+        District: [''],
+        Province: [''], 
+      }),
+      preferredStartTime: [''],
+      preferredSalary: [''],
     },
     {
       validators: [Validation.match('password', 'confirmPassword')]
@@ -53,8 +96,29 @@ export class RegisterComponent {
     {
       validators: [Validation.match('password', 'confirmPassword')]
     });
-    this.registerFormOperator.reset()
-    this.registerFormPharmacist.reset()
+  }
+
+  provinceSelected(){
+    this.registerFormPharmacist.patchValue({
+      Location:{
+        ...this.registerFormPharmacist.value.Location,
+        District:'',
+        Section:''
+      }
+    })
+    this.store.dispatch(toggleAddressChange())
+  }
+  districtSelected(){
+    this.registerFormPharmacist.patchValue({
+      Location:{
+        ...this.registerFormPharmacist.value.Location,
+        Section:''
+      }
+    })
+    this.store.dispatch(toggleAddressChange())
+  }
+  sectionSelected(){
+    this.store.dispatch(toggleAddressChange())
   }
   get fP(): { [key: string]: AbstractControl } {
     return this.registerFormPharmacist.controls;
@@ -62,7 +126,10 @@ export class RegisterComponent {
   get fO(): { [key: string]: AbstractControl } {
     return this.registerFormOperator.controls;
   }
-  
+  nextSlide(){
+    this.pharmaForm? this.swiperFormPharma?.swiperRef.slideNext() : this.swiperFormPharma?.swiperRef.slidePrev() 
+    this.pharmaForm = !this.pharmaForm;
+  }
   async onSubmit(){
     this.submitted = true;
     let newUser: any;
@@ -73,7 +140,7 @@ export class RegisterComponent {
         this.loadingFlag = true;
         newUser = this.registerFormPharmacist.value;
         newUser['role'] = 'เภสัชกร';
-        newUser['showProfileFlag'] = false;
+        newUser['showProfileFlag'] = true;
       }
     }else{
       if (this.registerFormOperator.invalid) {
@@ -89,7 +156,6 @@ export class RegisterComponent {
         delete newUser.password
         delete newUser.confirmPassword
         delete newUser.showProfileFlag
-        console.log(user.user?.multiFactor.user.uid);
         this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
         .then((value)=>{
           this.loadingFlag = false;
@@ -111,8 +177,7 @@ export class RegisterComponent {
   changeRoles(){
     this.errorMessage = '';
     this.submitted = false;
-    this.registerFormOperator.reset()
-    this.registerFormPharmacist.reset()
+    this.initializeFormGroup();
     this.registerFormOperator.patchValue({jobType:'ร้านยาทั่วไป'})
     this.loginFlag? this.swiper?.swiperRef.slideNext() : this.swiper?.swiperRef.slidePrev() 
     this.role = this.loginFlag? 'ผู้ประกอบการ' : 'เภสัชกร';

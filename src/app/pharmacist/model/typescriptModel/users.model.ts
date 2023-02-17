@@ -17,7 +17,20 @@ export interface registerFormPharmacist{
     surname: string,
     license: string,
     role: string,
-    showProfileFlag: boolean
+    showProfileFlag: boolean,
+    preferredJobType:string[],
+    preferredTimeFrame: string,
+    preferredLocation: Location,
+    preferredStartTime: string,
+    preferredSalary: string
+}
+
+export interface Location
+{
+    address?: string;
+    Section: string;
+    District: string;
+    Province: string;
 }
 
 export interface User{
@@ -38,12 +51,7 @@ export interface User{
     }
     name: string;
     surname: string;
-    Location?: {
-        address?: string;
-        Section: string;
-        District: string;
-        Province: string;
-    },
+    Location?: Location,
     active?:string;
     educationHistory?: {
         universityName: string;
@@ -58,5 +66,10 @@ export interface User{
         dateEnded: string;
         description: string;
     } [],
-
+    loading: boolean,
+    preferredJobType?:string[],
+    preferredTimeFrame?: string,
+    preferredLocation?: Location,
+    preferredStartTime?: string,
+    preferredSalary?: string
 }

@@ -21,7 +21,17 @@
       </div>
       <div class="collapse navbar-collapse d-flex p-2 flex-row-reverse" id="collapsibleNavbar" style="justify-content:space-between">
           <ul class="fs-5 navbar-nav d-flex align-items-center">
-            <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="สร้างประกาศงาน" class="nav-link"aria-expanded="false" routerLink="add-new-jobs"><i class="bi bi-file-earmark-plus-fill"></i></a></li>
+            <li class="nav-item fs-2 me-2" data-bs-toggle="tooltip" title="สร้างประกาศงาน">
+              <div class="dropdown">
+                <a data-bs-toggle='dropdown' class="nav-link" aria-expanded="false">
+                    <i class="bi bi-file-earmark-plus-fill"></i>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" (click)="goToAddJob(false)">งานทั่วไป</a></li>
+                      <li><a class="dropdown-item" (click)="goToAddJob(true)">งานด่วนรายวัน</a></li>
+                    </ul>
+                </a>
+              </div>
+            </li>
             <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ประกาศงานทั้งหมด" class="nav-link"><i class="bi bi-inboxes-fill"></i></a></li>
             <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มแชท" class="nav-link"><i class="bi bi-chat-left-dots-fill"></i></a></li>
             <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ตารางงานด่วนรายวัน" class="nav-link"><i class="bi bi-calendar-event-fill"></i></a></li>

@@ -25,6 +25,7 @@ export class JobPostSmallCardComponent {
   userID!: string
   subscription: Subscription = new Subscription();
   bookmarkID!: string; 
+  requestFlag$!:Observable<boolean>;
   localFlag: boolean = true;
   
 
@@ -35,6 +36,9 @@ export class JobPostSmallCardComponent {
       if(value !== ''){
         this.userID = value
       }
+    })
+    this.requestFlag$ = this.store.select((state:any)=>{
+      return state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID] !== undefined?true:false
     })
     this.bookmarkFlag$ = this.store.select((state: any) =>{
       let flag = true;
@@ -57,6 +61,7 @@ export class JobPostSmallCardComponent {
   getBookmarkPayload(){
     return {jobUID: this.content.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID, JobPost:this.content};
   }
+  
   toggleBookmark(){
     if(localStorage.getItem('loginState') === 'true'){
       this.bookmarkLoadingFlag = true
@@ -76,9 +81,12 @@ export class JobPostSmallCardComponent {
     }
   }
 
-  acceptJob(){
+  requestJob(){
     if(localStorage.getItem('loginState') == 'false'){
-      this.router.navigate(['login'])
+      this.router.navigate(['pharma/login'])
+    }else{
+      this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then(()=>{
+      })
     }
   }
 

@@ -1,1 +1,121 @@
-<p>operator-home works!</p>
+<div (click)="scrollUp()"class="position-fixed bottom-0 end-0 m-3" style="font-size:5rem">
+	<i class="pe-auto bi bi-arrow-up-square"></i>
+</div>
+<swiper
+    [navigation]="true"
+    [loop]="true"
+    [slidesPerView]="2.5"
+    [centeredSlides]="true"
+    [watchSlidesProgress] = "true"
+    [spaceBetween]="25"
+    [pagination]="true"
+    [autoplay]="true"
+    style="margin-top: 3em; text-align: center"
+>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+</swiper>
+<div class="container">
+    <ng-container *ngIf="loading$ | async; then loading; else notLoading"></ng-container>
+    <ng-template #loading>
+        <div style="text-align:center" class="mt-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #notLoading>
+        <form  [formGroup]="newUserForm" class="fs-3">
+            <div class="my-5">
+                <label><b>ค้นหาเภสัชกรร่วมงานกับคุณ</b></label>
+            </div>
+            <div class="row my-3">
+                <div class="col-4 me-3">
+                    ประเภทของงานคุณ:
+                </div>
+                <div class="col">
+                    {{userJobType$ | async}}
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-4 me-3">
+                    เลือกชนิดของงานคุณ:
+                </div>
+                <div class="col-5">
+                    <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
+                        <option selected value="Full-Time">Full-Time</option>
+                        <option value="Part-Time">Part-Time</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-4 me-3">
+                    พื้นที่ปฏิบัติงานของคุณ:
+                </div>
+                <div class="col-5" formGroupName="Location">
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="me-3">แขวง: </label>
+                        </div>
+                        <div class="col">
+                            <select formControlName="Section" (change)="sectionSelected($event)" class="form-select mb-3">
+                                <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="me-3">เขต: </label>
+                        </div>
+                        <div class="col">
+                            <select formControlName="District" (change)="districtSelected($event)" class="form-select mb-3">
+                                <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="me-3">จังหวด: </label>
+                        </div>
+                        <div class="col">
+                            <select formControlName="Province" (change)="provinceSelected($event)" class="form-select mb-3">
+                                <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-4 me-3">
+                    ประสบการณ์การทำงาน:
+                </div>
+                <div class="col-5 d-flex flex-row-start">
+                    <input type="number" class="form-control" formControlName="WorkExperience">
+                    <label class="ms-3">ปี</label>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-4 me-3">
+                    เลือกเฉพาะเภสัชที่ยืนยันตัวตนกับทาง pharmwork สำเร็จแล้ว:
+                </div>
+                <div class="col-5 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-4 me-3">
+                    เลือกเฉพาะเภสัชที่ยืนยันตัวตนกับทาง pharmwork สำเร็จแล้ว:
+                </div>
+                <div class="col-5 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
+            </div>
+        </form>
+
+    </ng-template>
+</div>
+<div>

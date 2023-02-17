@@ -1,5 +1,9 @@
 <div class="card rounded w-100 my-3">
-	<div class="card-body">
+	  
+	  <div id="overlay" *ngIf="Active$ | async">
+		  <div id="text">Inactive</div>
+	   </div>
+	<div class="card-body" >
 			<div *ngIf="urgentFlag === true" class="d-flex justify-content-between mb-2">
 				<div class="p-3 d-flex align-items-center" style="text-align: center">
 					<div><b>{{content.JobType}}</b></div>
@@ -122,7 +126,19 @@
 					</h1>
 				</button>
 			</div>
-			<button *ngIf="urgentFlag === true" type="button" (click)="acceptJob()" class=" btn btn-success"><h4>สมัครงาน</h4></button>
+			<div *ngIf="urgentFlag === true">
+				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+				<ng-template #alreadyRequest>
+					<button (click)="requestJob()" class="btn btn-success text-center my-2" type="button">
+					  <div class="fs-5">สมัครงาน</div>
+					</button>
+				  </ng-template>
+				  <ng-template #requestButton>
+					<button class="btn btn-success text-center my-2" type="button">
+					  <div class="fs-5">สมัครแล้ว</div>
+					</button>
+				  </ng-template>
+			</div>
 		</div>
 	</div>
 </div>

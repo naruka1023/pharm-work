@@ -1,14 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
-import { AppState } from '../../model/jobPost.model';
-import {  getCreatedJobsSuccess } from '../actions/job-post.actions';
-
-// import { retrievedBookList } from './books.actions';
-// import { Book } from '../book-list/books.model';
+import { AppState, jobRequest } from '../../model/jobPost.model';
+import {  emptyRequestedJobs, getCreatedJobsSuccess, getRequestedJobs } from '../actions/job-post.actions';
 
 export const initialState: AppState = {
   loading: true,
   JobPost: [],
+  JobRequests: {}
 };
 
 export const jobPostReducer = createReducer(
@@ -18,6 +16,28 @@ export const jobPostReducer = createReducer(
       ...state,
       JobPost: jobs,
       loading: false
+    }
+  }),
+  on(getRequestedJobs, (state, {jobRequest}) =>{
+    let newState: AppState =  _.cloneDeep(state);
+    let newJobRequest: any = {};
+    jobRequest.forEach((jr: jobRequest)=>{
+      let keys = jr.jobUID + '-' + jr.userUID
+      newJobRequest[keys] = {
+        ...jr
+      }
+
+    })
+    return {
+      ...newState,
+      JobRequests:newJobRequest
+      
+    }
+  }),
+  on(emptyRequestedJobs, (state)=>{
+    return {
+      ...state,
+      JobRequests : {}
     }
   }),
 );

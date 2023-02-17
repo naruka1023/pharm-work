@@ -272,22 +272,22 @@
         </div>
     </ng-template>
 </ng-template>
-<ng-template #myModal let-c="close" let-d="dismiss">
-    <div class="vertical-alignment-helper">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Save Changes?</h4>
-                    <button type="button" class="btn btn-white close" aria-label="Close" (click)="d('Cross click')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Do you want to save your changes before exit?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" (click)="discardClick()">Discard</button>
-                    <button type="button" class="btn btn-success" (click)="onSave()">Save</button>
-                </div>
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Save Changes?</h4>
+                <button type="button" class="btn btn-white close" aria-label="Close" (click)="cancelEventClick()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <p>Do you want to save your changes before exit?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="discardClick()">Discard</button>
+                <button type="button" class="btn btn-success" (click)="onSave()">Save</button>
+            </div>
+        </div>
     </div>
-</ng-template>
+</div>

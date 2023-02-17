@@ -11,7 +11,7 @@ div.img-container {
   .job-post_profile-picture {
     position: relative;
     top: -75px;
-    z-index: 2;
+    z-index: 1;
     left: 22px;
   }
 

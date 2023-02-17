@@ -46,6 +46,7 @@ export interface jobPostModel {
     OperatorUID: string;
     TimeFrame: string;
     Urgency: boolean;
+    Active: boolean;
     Duration: string;
     DateOfJob: Date [];
     dateCreated: string;
@@ -53,7 +54,21 @@ export interface jobPostModel {
     custom_doc_id: string
 }
 
+export interface JobRequestList{
+    [key: string]: jobRequest
+}
+
+
+export interface jobRequest {
+    custom_doc_id?: string
+    JobPost?: jobPostModel
+    operatorUID: string,
+    userUID: string,
+    jobUID: string
+}
+
 export interface AppState{
     JobPost: jobPostModel[],
-    loading: boolean
+    loading: boolean,
+    JobRequests: JobRequestList
 }

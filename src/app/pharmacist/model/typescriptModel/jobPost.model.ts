@@ -12,6 +12,7 @@ export interface filterConditions{
     content?: jobPostModel[]
 }
 
+
 export interface BookmarkList{
     [key: string]: Bookmark
 }
@@ -23,10 +24,24 @@ export interface Bookmark{
     JobPost?: jobPostModel
 }
 
-export interface AppState{
+export interface AppState {
     loading: boolean;
     JobPost: filterConditions[];
     Bookmarks: BookmarkList;
+    JobRequests: JobRequestList
+}
+
+export interface JobRequestList{
+    [key: string]: jobRequest
+}
+
+
+export interface jobRequest {
+    custom_doc_id?: string
+    JobPost?: jobPostModel
+    operatorUID: string,
+    userUID: string,
+    jobUID: string
 }
 
 export interface jobPostPayload {
@@ -83,6 +98,7 @@ export interface jobPostModel {
     TimeFrame: string;
     Urgency: boolean;
     Duration: string;
+    Active:boolean;
     DateOfJob: Date [];
     dateCreated: string;
     dateUpdated: string;

@@ -82,7 +82,7 @@ export class LoginPageComponent implements AfterViewInit{
         default:
           break;
       }
-      console.log(error.code);
+      (error.code);
     });
   }
 }
