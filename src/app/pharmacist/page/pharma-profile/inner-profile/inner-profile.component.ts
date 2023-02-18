@@ -19,8 +19,11 @@ export class InnerProfileComponent{
   subject: Subscription = new Subscription();
   innerProfileInformation!: User
   loadingFlag: boolean = true;
+  showSwitch!: boolean;
+  showSwitchLoadingFlag:boolean = false;
   numbersEducation: number[] = [1];
   localProfileFlag: boolean = true;
+  resultPayload!: string[];
   profileEdit!:FormGroup;
   url: string = 'pharma/profile-pharma';
   numbersOccupation: number[] = [1];
@@ -42,10 +45,44 @@ export class InnerProfileComponent{
     }
     this.store.select((state: any)=>{
       return state.user
-    }).subscribe((value: any)=>{
+    }).subscribe((value: User)=>{
       this.innerProfileInformation = value;
       if(this.innerProfileInformation.role !== ''){
-        this.initializeFormGroup();
+        this.resultPayload = [];
+        let preferredJobType = Object.keys(this.innerProfileInformation.preferredJobType!);
+        preferredJobType.forEach((job: any)=>{
+          if(this.innerProfileInformation.preferredJobType![job] === true){
+            let jobLabel = ''
+            switch(job){
+              case "AA":
+                jobLabel = 'งานร้านยาทั่วไป'
+                break;
+              case "AB":
+                jobLabel = 'งานร้านยา Brand'
+                break;
+              case "AC":
+                jobLabel = 'งานโรงพยาบาล'
+                break;
+              case "BA":
+                jobLabel = 'งานคลินิก'
+                break;
+              case "BB":
+                jobLabel = 'งานโรงงาน'
+                break;
+              case "BC":
+                jobLabel = 'งานบริษัท'
+                break;
+              case "CA":
+                jobLabel = 'งาวิจัย'
+                break;
+              case "CB":
+                jobLabel = 'งานอื่นๆ'
+                break;
+            }
+            this.resultPayload.push(jobLabel)
+          }
+        })
+        this.showSwitch = value.showProfileFlag;
         this.resetFormGroup();
         this.loadingFlag = false;
       }
@@ -60,10 +97,21 @@ export class InnerProfileComponent{
         this.localProfileFlag = !this.localProfileFlag;
       }
     }))
+    this.resetFormGroup();
   }
   openModal(){
     this.modal.show();
   }  
+
+  switchShowProfile(events:any){
+    this.showSwitchLoadingFlag = true;
+    this.userService.updateUser({
+      ...this.innerProfileInformation,
+      showProfileFlag:this.showSwitch
+    }).then(()=>{
+      this.showSwitchLoadingFlag = false;
+    })
+  }
 
   closeModal(){
     this.modal.hide();
@@ -177,6 +225,25 @@ export class InnerProfileComponent{
           activeFlag: [''],
         })
       ]),
+      preferredJobType: this.fb.group({
+        AA: [false],
+        AB: [false],
+        AC: [false],
+        BA: [false],
+        BB: [false],
+        BC: [false],
+        CA: [false],
+        CB: [false],
+      }),
+      showProfileFlag: true,
+      preferredTimeFrame: [''],
+      preferredLocation: this.fb.group({
+        Section: [''],
+        District: [''],
+        Province: [''], 
+      }),
+      preferredStartTime: [''],
+      preferredSalary: [''],
     });
   }
   get FormEduData(){
@@ -192,7 +259,7 @@ export class InnerProfileComponent{
     this.profileEdit.get('active')?.setValue('active'+ index)
   }
   resetFormGroup(){
-    this.profileEdit.reset();
+    this.initializeFormGroup();
     this.profileEdit.patchValue(this.innerProfileInformation)
   }
   beginNavigation(){

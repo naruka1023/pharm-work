@@ -15,6 +15,7 @@ export class LocationComponent {
 
   @Input()parentFormGroup!: FormGroup;
   @Input()formGroupName : string = "Location";
+  @Input()registerFlag: boolean = false;
   genericFormGroup!:FormGroup;
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;

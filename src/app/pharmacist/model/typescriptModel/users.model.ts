@@ -22,7 +22,8 @@ export interface registerFormPharmacist{
     preferredTimeFrame: string,
     preferredLocation: Location,
     preferredStartTime: string,
-    preferredSalary: string
+    preferredSalary: string,
+    AmountCompleted: number
 }
 
 export interface Location
@@ -68,9 +69,10 @@ export interface User{
         description: string;
     } [],
     loading: boolean,
-    preferredJobType?:string[],
+    preferredJobType?:boolean[],
     preferredTimeFrame?: string,
     preferredLocation?: Location,
     preferredStartTime?: string,
-    preferredSalary?: string
+    preferredSalary?: string,
+    AmountCompleted: number
 }

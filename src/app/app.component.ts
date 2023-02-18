@@ -50,7 +50,8 @@ export class AppComponent {
           name: '',
           surname: '',
           showProfileFlag: true,
-          loading:true
+          loading:true,
+          AmountCompleted: 0
         };
         this.store.dispatch(setCurrentUser({user: emptyUser}));
         localStorage.setItem('loginState', 'false')

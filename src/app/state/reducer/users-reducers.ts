@@ -15,6 +15,7 @@ export const initialState: User = {
   surname: '',
   showProfileFlag:true,
   license: '',
+  AmountCompleted: 0,
   contacts:{
     facebook: '',
     line: '',

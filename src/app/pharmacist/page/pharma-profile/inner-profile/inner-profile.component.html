@@ -19,9 +19,12 @@
                 </div>
                 <div class="d-flex col flex-row-reverse">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <input class="form-check-input" [(ngModel)]="showSwitch" (change)="switchShowProfile($event)" type="checkbox" id="flexSwitchCheckDefault" >
                         <label class="form-check-label" for="flexSwitchCheckDefault">เปิดเผยข้อมูล</label>
-                      </div>
+                    </div>
+                    <div *ngIf="showSwitchLoadingFlag" class="spinner-border text-primary me-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -147,20 +150,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mx-4 fs-3">
             <div class="row mb-3">
                 <div class="col-3">
                     <div class="me-3"><b>เลขที่ใบประกอบ ภ:</b></div>
                 </div>
                 <div class="col">
                     <div class="me-3">{{innerProfileInformation.license}}</div>
-                </div>
-                <div class="col d-flex flex-row-reverse">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">เปิดเผยข้อมูล</label>
-                      </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -170,15 +165,15 @@
                 <div class="col">
                     <div *ngFor="let eduGroup of innerProfileInformation.educationHistory">
                         <div class="row mb-3">
-                            <div class="col-2">ชื่อสถาบัน:</div>
+                            <div class="col-2"><b>ชื่อสถาบัน:</b></div>
                             <div class="col">{{eduGroup.universityName}}:</div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-2">สาขา:</div>
+                            <div class="col-2"><b>สาขา:</b></div>
                             <div class="col">{{eduGroup.franchise}}:</div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-2">ปีที่จบ:</div>
+                            <div class="col-2"><b>ปีที่จบ:</b></div>
                             <div class="col">{{eduGroup.yearGraduated}}:</div>
                         </div>
                     </div>
@@ -191,27 +186,95 @@
                 <div class="col">
                     <div *ngFor="let jobGroup of innerProfileInformation.jobHistory">
                         <div class="row mb-3">
-                            <div class="col-2">ตำแหน่ง:</div>
+                            <div class="col-2"><b>ตำแหน่ง:</b></div>
                             <div class="col">{{jobGroup.jobName}}:</div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-2">ชื่อบริษัท:</div>
+                            <div class="col-2"><b>ชื่อบริษัท:</b></div>
                             <div class="col">{{jobGroup.companyName}}</div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-2">ระยะเวลา:</div>
+                            <div class="col-2"><b>ระยะเวลา:</b></div>
                             <div class="col">
                                 <div class="row mb-3">
-                                    <div class="col-3">วันที่เริ่มต้น:</div>
+                                    <div class="col-3"><b>วันที่เริ่มต้น:</b></div>
                                     <div class="col">{{jobGroup.dateStarted}}</div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-3">วันที่สิ้นสุด:</div>
+                                    <div class="col-3"><b>วันที่สิ้นสุด:</b></div>
                                     <div class="col">{{jobGroup.dateEnded}}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row my-5">
+                <div class="col my-5" style="text-align:center"><b>งานที่กำลังมองหาหรือสนใจ</b></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3">
+                    <div class="me-3"><b>ประเภทงานที่สนใจ:</b></div>
+                </div>
+                <div class="col">
+                    <div *ngFor="let jobType of resultPayload">
+                        {{jobType}}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3">
+                    <div class="me-3"><b>ชนิดของงานที่สนใจ:</b></div>
+                </div>
+                <div class="col">
+                        {{innerProfileInformation.preferredTimeFrame}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div><b>หางานพื้นที่ :</b></div>
+                </div>
+                <div class="col">
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <div><b>แขวง:</b></div>
+                        </div>
+                        <div class="col d-flex flex-row">
+                            <div class="">{{innerProfileInformation.preferredLocation?.Section}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <div><b>เขต:</b></div>
+                        </div>
+                        <div class="col d-flex flex-row">
+                            <div class="">{{innerProfileInformation.preferredLocation?.District}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <div><b>จังหวัด:</b></div>
+                        </div>
+                        <div class="col d-flex flex-row">
+                            <div class="">{{innerProfileInformation.preferredLocation?.Province}}</div>                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3">
+                    <div class="me-3"><b>เงินเดือนที่ต้องการ:</b></div>
+                </div>
+                <div class="col">
+                        {{innerProfileInformation.preferredStartTime}}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3">
+                    <div class="me-3"><b>สามารถเริ่มงานได้ :</b></div>
+                </div>
+                <div class="col">
+                        {{innerProfileInformation.preferredSalary}}
                 </div>
             </div>
         </div>
@@ -432,6 +495,110 @@
                             </div>
                         </ng-container>
                     </ng-container>
+                    <div class="row my-5">
+                        <div class="col my-5" style="text-align:center"><b>งานที่กำลังมองหาหรือสนใจ</b></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <div class="me-3"><b>ประเภทงานที่สนใจ:</b></div>
+                        </div>
+                        <div class="col" formGroupName="preferredJobType">
+                            <div class="row row-cols-2">
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="AA" class="me-3 form-check-input" type="checkbox" value="" id="AA">
+                                    <label class="form-check-label" for="AA">
+                                        งานร้านยาทั่วไป
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="AB" class="me-3 form-check-input" type="checkbox" value="" id="AB">
+                                    <label class="form-check-label" for="AB">
+                                        งานร้านยา Brand
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="AC" class="me-3 form-check-input" type="checkbox" value="" id="AC">
+                                    <label class="form-check-label" for="AC">
+                                        งานโรงพยาบาล
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="BA" class="me-3 form-check-input" type="checkbox" value="" id="BA">
+                                    <label class="form-check-label" for="BA">
+                                        งานคลินิก
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="BB" class="me-3 form-check-input" type="checkbox" value="" id="BB">
+                                    <label class="form-check-label" for="BB">
+                                        งานโรงงาน
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="BC" class="me-3 form-check-input" type="checkbox" value="" id="BC">
+                                    <label class="form-check-label" for="BC">
+                                        งานบริษัท
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="CA" class="me-3 form-check-input" type="checkbox" value="" id="CA">
+                                    <label class="form-check-label" for="CA">
+                                        งาวิจัย
+                                    </label>
+                                </div>
+                                <div class="d-flex flex-row-start mb-3">
+                                    <input formControlName="CB" class="me-3 form-check-input" type="checkbox" value="" id="CB">
+                                    <label class="form-check-label" for="CB">
+                                        งานอื่นๆ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <div class="me-3"><b>ชนิดของงานที่สนใจ:</b></div>
+                        </div>
+                        <div class="col">
+                            <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3">
+                                <option selected value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <app-location [parentFormGroup]="profileEdit" [formGroupName]="'preferredLocation'"></app-location>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <div class="me-3"><b>เงินเดือนที่ต้องการ:</b></div>
+                        </div>
+                        <div class="col">
+                            <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3">
+                                <option selected value="20,000">20,000</option>
+                                <option selected value="30,000">30,000</option>
+                                <option selected value="40,000">40,000</option>
+                                <option selected value="50,000">50,000</option>
+                                <option selected value="60,000">60,000</option>
+                                <option selected value="70,000">70,000</option>
+                                <option selected value="80,000">80,000</option>
+                                <option selected value="90,000">90,000</option>
+                                <option selected value="100,000+">100,000+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <div class="me-3"><b>สามารถเริ่มงานได้ :</b></div>
+                        </div>
+                        <div class="col">
+                            <select formControlName="preferredStartTime" name="preferredStartTime" class="form-select mb-3">
+                                <option selected value="ทันที">ทันที</option>
+                                <option selected value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
+                                <option selected value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
+                                <option selected value="ภายใน 3 สัปดาห์">ภายใน 3 สัปดาห์</option>
+                                <option selected value="ภายใน 1 เดือน">ภายใน 1 เดือน</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-success fs-2 my-5" type="submit">SAVE</button>

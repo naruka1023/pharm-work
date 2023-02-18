@@ -7,10 +7,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { UserServiceService } from '../../service/user-service.service';
-import { registerFormOperator } from '../../model/typescriptModel/users.model';
-import { Observable } from 'rxjs';
-import { toggleAddressChange } from '../../state/actions/address.actions';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -45,11 +41,14 @@ export class RegisterComponent {
       surname: ['', [Validators.required]],
       license: ['', [Validators.required]],
       preferredJobType: this.fb.group({
+        AA: [false],
         AB: [false],
         AC: [false],
+        BA: [false],
         BB: [false],
         BC: [false],
-        CA: [false]
+        CA: [false],
+        CB: [false],
       }),
       showProfileFlag: true,
       preferredTimeFrame: [''],
@@ -60,6 +59,7 @@ export class RegisterComponent {
       }),
       preferredStartTime: [''],
       preferredSalary: [''],
+      AmountCompleted: 0
     },
     {
       validators: [Validation.match('password', 'confirmPassword')]
@@ -115,11 +115,10 @@ export class RegisterComponent {
     .then((user: any)=>{
         delete newUser.password
         delete newUser.confirmPassword
-        delete newUser.showProfileFlag
         this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
         .then((value)=>{
           this.loadingFlag = false;
-          this.route.navigate([''])
+          this.route.navigate([newUser.role == 'ผู้ประกอบการ'?'operator':'pharma'])
         });
       }).catch((error)=>{
           this.loadingFlag = false;

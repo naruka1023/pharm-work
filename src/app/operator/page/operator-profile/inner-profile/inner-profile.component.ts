@@ -86,6 +86,7 @@ export class InnerProfileComponent {
       companyID: [''],
       nameOfPerson: [''],
       phoneNumber: [''],
+      AmountCompleted: [''],
     });
   }
   openModal(){
