@@ -11,6 +11,7 @@ export class UserListComponent {
   constructor(private route: ActivatedRoute, private converter:JobTypeConverterService){}
   type!: string;
   title!: string;
+  stuff!: string;
   ngOnInit(){
     this.type = this.route.snapshot.queryParamMap.get('type')!;
     this.title = this.converter.getTitleFromCategorySymbol(this.type);
