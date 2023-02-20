@@ -9,6 +9,9 @@ export const setCurrentUser = createAction(
     '[User] set Current User',
     props<{ user: User }>()
 );
+export const toggleLoading = createAction(
+    '[User] Toggle Loading',
+);
 export const removeCurrentUser = createAction(
     '[User] remove Current User',
 );

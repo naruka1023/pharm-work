@@ -10,10 +10,12 @@ import { AllJobsPostsComponent } from './page/operator-profile/all-jobs-posts/al
 import { InnerProfileComponent } from './page/operator-profile/inner-profile/inner-profile.component';
 import { OperatorProfileComponent } from './page/operator-profile/operator-profile.component';
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
+import { UserListComponent } from './page/user-list/user-list.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
     { path: '', component: OperatorHomeComponent},
+    { path: 'users-list', component: UserListComponent},
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'edit-jobs', component: EditJobComponent},

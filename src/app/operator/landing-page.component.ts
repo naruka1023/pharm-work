@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -14,7 +15,7 @@ import { emptyRequestedJobs, getRequestedJobs } from './state/actions/job-post.a
 })
 export class LandingPageComponent {
   subject!:Subscription
-  constructor(private jobService:JobService, private route:Router, private auth:AngularFireAuth, private store:Store){}
+  constructor(private db:AngularFirestore, private jobService:JobService, private route:Router, private auth:AngularFireAuth, private store:Store){}
 
   ngOnInit(){
     this.subject = this.auth.user.subscribe((user)=>{
@@ -47,11 +48,11 @@ export class LandingPageComponent {
   }
   signOut(){
     if(this.route.url == '/operator'){
-      this.route.navigate(['']).then(()=>{
+      this.route.navigate(['operator']).then(()=>{
           this.confirmSignout();
       })
     }else{
-      this.route.navigate(['']).then((bool:boolean)=>{
+      this.route.navigate(['pharma']).then((bool:boolean)=>{
         if(bool){
           this.confirmSignout();
         }

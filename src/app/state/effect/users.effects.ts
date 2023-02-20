@@ -18,7 +18,6 @@ export class UsersEffect {
       map((user) => (
         setCurrentUser({user:{
           ...user,
-          loading:false
         }})),
       catchError(() => EMPTY)
       ))

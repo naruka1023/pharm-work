@@ -1,6 +1,6 @@
 <app-profileheader profileType="operator-profile" [viewFlag]="viewFlag"></app-profileheader>
 <div class="container">
-    <div class="row row-cols-2 mb-5" style="height:75vh; overflow-y: scroll">
+    <div *ngIf="allJobsFlag$ | async"class="row row-cols-2 mb-5" style="height:75vh; overflow-y: scroll">
         <app-job-post-normal-card *ngFor="let job of allJobs$ | async" [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
     </div>
     <div class="row my-3 fs-3">
@@ -13,7 +13,7 @@
                     <div><b>เบอร์โทร:</b></div>
                 </div>
                 <div class="col">
-                    <div class="me-3">{{user.contacts!.phone}}</div>
+                    <div class="me-3">{{user.contacts?.phone}}</div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -21,7 +21,7 @@
                     <div><b>Email:</b></div>
                 </div>
                 <div class="col">
-                    <div class="me-3">{{user.contacts!.email}}</div>
+                    <div class="me-3">{{user.contacts?.email}}</div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -29,7 +29,7 @@
                     <div><b>LINE:</b></div>
                 </div>
                 <div class="col">
-                    <div class="me-3">{{user.contacts!.line}}</div>
+                    <div class="me-3">{{user.contacts?.line}}</div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -37,7 +37,7 @@
                     <div><b>Facebook:</b></div>
                 </div>
                 <div class="col">
-                    <div class="me-3">{{user.contacts!.facebook}}</div>
+                    <div class="me-3">{{user.contacts?.facebook}}</div>
                 </div>
             </div>
         </div>

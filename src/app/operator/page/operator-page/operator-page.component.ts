@@ -12,11 +12,18 @@ import { User } from '../../model/user.model';
 export class OperatorPageComponent {
   constructor(private store:Store){}
   allJobs$!: Observable<jobPostModel[]>
+  allJobsFlag$!: Observable<boolean>
   User$!: Observable<User>;
   user!: User;
   viewFlag:boolean = true
 
   ngOnInit(){
+    this.allJobsFlag$ = this.store.select((state:any)=>{
+      let jobPost: jobPostModel[] = state.createdJobs.JobPost
+      return jobPost.filter((job:jobPostModel)=>{
+        return job.Active === true
+      }).length !== 0
+    })
     this.allJobs$ = this.store.select((state:any)=>{
       let jobPost: jobPostModel[] = state.createdJobs.JobPost
       return jobPost.filter((job:jobPostModel)=>{

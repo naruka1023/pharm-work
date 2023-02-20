@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
+import { JobTypeConverterService } from 'src/app/pharmacist/service/job-type-converter.service';
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
 declare var window: any;
@@ -23,12 +24,12 @@ export class InnerProfileComponent{
   showSwitchLoadingFlag:boolean = false;
   numbersEducation: number[] = [1];
   localProfileFlag: boolean = true;
-  resultPayload!: string[];
+  resultPayload?: string[];
   profileEdit!:FormGroup;
   url: string = 'pharma/profile-pharma';
   numbersOccupation: number[] = [1];
   modal!:any;
-  constructor(private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
+  constructor(private converter: JobTypeConverterService,private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
   }
   
   ngOnInit(){
@@ -48,40 +49,7 @@ export class InnerProfileComponent{
     }).subscribe((value: User)=>{
       this.innerProfileInformation = value;
       if(this.innerProfileInformation.role !== ''){
-        this.resultPayload = [];
-        let preferredJobType = Object.keys(this.innerProfileInformation.preferredJobType!);
-        preferredJobType.forEach((job: any)=>{
-          if(this.innerProfileInformation.preferredJobType![job] === true){
-            let jobLabel = ''
-            switch(job){
-              case "AA":
-                jobLabel = 'งานร้านยาทั่วไป'
-                break;
-              case "AB":
-                jobLabel = 'งานร้านยา Brand'
-                break;
-              case "AC":
-                jobLabel = 'งานโรงพยาบาล'
-                break;
-              case "BA":
-                jobLabel = 'งานคลินิก'
-                break;
-              case "BB":
-                jobLabel = 'งานโรงงาน'
-                break;
-              case "BC":
-                jobLabel = 'งานบริษัท'
-                break;
-              case "CA":
-                jobLabel = 'งาวิจัย'
-                break;
-              case "CB":
-                jobLabel = 'งานอื่นๆ'
-                break;
-            }
-            this.resultPayload.push(jobLabel)
-          }
-        })
+        this.resultPayload = this.innerProfileInformation.preferredJobType;
         this.showSwitch = value.showProfileFlag;
         this.resetFormGroup();
         this.loadingFlag = false;
@@ -97,7 +65,6 @@ export class InnerProfileComponent{
         this.localProfileFlag = !this.localProfileFlag;
       }
     }))
-    this.resetFormGroup();
   }
   openModal(){
     this.modal.show();
@@ -133,7 +100,8 @@ export class InnerProfileComponent{
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       role: this.innerProfileInformation.role,
-      email: this.innerProfileInformation.email
+      email: this.innerProfileInformation.email,
+      preferredJobType: this.converter.objectToArray(this.profileEdit.value.preferredJobType)
     }
     this.userService.updateUser(payload).then(()=>{
       this.store.dispatch(setCurrentUser({user: payload}))
@@ -226,6 +194,7 @@ export class InnerProfileComponent{
         })
       ]),
       preferredJobType: this.fb.group({
+        S: [false],
         AA: [false],
         AB: [false],
         AC: [false],
@@ -260,7 +229,11 @@ export class InnerProfileComponent{
   }
   resetFormGroup(){
     this.initializeFormGroup();
-    this.profileEdit.patchValue(this.innerProfileInformation)
+    let resultObject = this.converter.arrayToObject(this.innerProfileInformation.preferredJobType)
+    this.profileEdit.patchValue({
+      ...this.innerProfileInformation,
+      preferredJobType:resultObject
+    })
   }
   beginNavigation(){
     if(this.url.indexOf('?') === -1){

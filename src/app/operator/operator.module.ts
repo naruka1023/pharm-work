@@ -24,6 +24,10 @@ import { JobPostDetailsComponent } from './page/job-post-details/job-post-detail
 import { EditJobComponent } from './page/edit-job/edit-job.component';
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
 import { OperatorPageComponent } from './page/operator-page/operator-page.component';
+import { usersReducer } from './state/reducer/user.reducer';
+import { UserByTypeComponent } from './common/user-by-type/user-by-type.component';
+import { SmallUserCardComponent } from './common/small-user-card/small-user-card.component';
+import { UserListComponent } from './page/user-list/user-list.component';
 
 
 
@@ -42,7 +46,10 @@ import { OperatorPageComponent } from './page/operator-page/operator-page.compon
     LocationSelectorComponent,
     EditJobComponent,
     RequestJobComponent,
-    OperatorPageComponent
+    OperatorPageComponent,
+    UserByTypeComponent,
+    SmallUserCardComponent,
+    UserListComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +62,7 @@ import { OperatorPageComponent } from './page/operator-page/operator-page.compon
     SwiperModule,
     EffectsModule.forFeature([JobPostEffects]),
     StoreModule.forFeature("createdJobs", jobPostReducer),
+    StoreModule.forFeature("users", usersReducer),
     OperatorAppRoutingModule,
   ],
   bootstrap:[LandingPageComponent]

@@ -69,7 +69,7 @@ export interface User{
         description: string;
     } [],
     loading: boolean,
-    preferredJobType?:boolean[],
+    preferredJobType?:string[],
     preferredTimeFrame?: string,
     preferredLocation?: Location,
     preferredStartTime?: string,

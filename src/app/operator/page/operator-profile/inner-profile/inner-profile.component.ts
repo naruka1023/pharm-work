@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/operator/model/user.model';
 import { ProfileService } from 'src/app/operator/service/profile.service';
-import { setCurrentUser } from 'src/app/state/actions/users.action';
+import { setCurrentUser, toggleLoading } from 'src/app/state/actions/users.action';
 declare var window: any;
 @Component({
   selector: 'app-inner-profile',
@@ -15,7 +15,7 @@ declare var window: any;
 })
 export class InnerProfileComponent {
 
-  loadingFlag: boolean = false;
+  loading$!: Observable<boolean>;
   profileEditState!: boolean;
   innerProfileInformation!: User;
   profileEdit!:FormGroup;
@@ -37,14 +37,15 @@ export class InnerProfileComponent {
         this.cancelEventClick()
       }
     }
+    this.loading$ = this.store.select((state:any)=>{
+      return state.user.loading
+    })
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((value: any)=>{
       this.innerProfileInformation = value;
       if(this.innerProfileInformation.role !== ''){
-        this.initializeFormGroup();
         this.resetFormGroup();
-        this.loadingFlag = false;
       }
     })
     this.subject.add(this.profileService.getLeaveEditSubject().subscribe((src)=>{
@@ -98,7 +99,7 @@ export class InnerProfileComponent {
   }
   
   resetFormGroup(){
-    this.profileEdit.reset();
+    this.initializeFormGroup()
     this.profileEdit.patchValue(this.innerProfileInformation)
   }
   beginNavigation(){
@@ -124,7 +125,7 @@ export class InnerProfileComponent {
     this.closeModal();
   }
   onSave(){
-    this.loadingFlag = true
+    this.store.dispatch(toggleLoading())
     const payload = {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
@@ -134,7 +135,6 @@ export class InnerProfileComponent {
     this.profileService.updateUser(payload).then(()=>{
       this.store.dispatch(setCurrentUser({user: payload}))
       this.beginNavigation()
-      this.loadingFlag = false;
       this.profileEditState = false;
       this.closeModal();
     })

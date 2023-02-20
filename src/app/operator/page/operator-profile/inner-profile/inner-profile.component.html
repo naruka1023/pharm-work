@@ -1,4 +1,4 @@
-<ng-container *ngIf="loadingFlag; then loading; else notLoading"></ng-container>
+<ng-container *ngIf="loading$ | async; then loading; else notLoading"></ng-container>
 <ng-template #loading>
     <div style="text-align:center" class="mt-5">
         <div class="spinner-border text-primary" role="status">

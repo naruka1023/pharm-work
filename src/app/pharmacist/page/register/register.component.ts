@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { JobTypeConverterService } from '../../service/job-type-converter.service';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -15,7 +16,7 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private store:Store, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
+  constructor(private converter:JobTypeConverterService,private store:Store, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   registerFormPharmacist!:FormGroup;
@@ -41,6 +42,7 @@ export class RegisterComponent {
       surname: ['', [Validators.required]],
       license: ['', [Validators.required]],
       preferredJobType: this.fb.group({
+        S: [false],
         AA: [false],
         AB: [false],
         AC: [false],
@@ -102,6 +104,7 @@ export class RegisterComponent {
         newUser['role'] = 'เภสัชกร';
         newUser['showProfileFlag'] = true;
       }
+      newUser.preferredJobType = this.converter.objectToArray(newUser.preferredJobType);
     }else{
       if (this.registerFormOperator.invalid) {
         return;

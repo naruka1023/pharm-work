@@ -70,7 +70,7 @@
                                                     formControlName="confirmPassword"
                                                     class="form-control"
                                                     [ngClass]="{ 'is-invalid': submitted && fP['confirmPassword'].errors }"
-                                                    />
+                                                />
                                                 <div *ngIf="submitted && fP['confirmPassword'].errors" class="invalid-feedback">
                                                     <div *ngIf="fP['confirmPassword'].errors['required']">Confirm Password is required</div>
                                                     <div *ngIf="fP['confirmPassword'].errors['minlength']">Confirm Password needs to be at least 6 characters long</div>
@@ -128,6 +128,12 @@
                                         <div class="form-group mb-3" formGroupName="preferredJobType">
                                             <label for="preferredJobType" class="form-label">ประเภทงานที่สนใจ</label>
                                             <div class="row row-cols-2">
+                                                <div class="d-flex flex-row-start mb-3">
+                                                    <input formControlName="S" class="me-3 form-check-input" type="checkbox" value="" id="S">
+                                                    <label class="form-check-label" for="S">
+                                                        งานด่วนรายวัน
+                                                    </label>
+                                                </div>
                                                 <div class="d-flex flex-row-start mb-3">
                                                     <input formControlName="AA" class="me-3 form-check-input" type="checkbox" value="" id="AA">
                                                     <label class="form-check-label" for="AA">

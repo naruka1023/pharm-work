@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { User } from '../../pharmacist/model/typescriptModel/users.model';
-import { getCurrentUser, removeCurrentUser, setCurrentUser } from '../actions/users.action';
+import { getCurrentUser, removeCurrentUser, setCurrentUser, toggleLoading } from '../actions/users.action';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -29,6 +29,13 @@ export const usersReducer = createReducer(
   on(setCurrentUser, (state, { user }) => {
     return {
       ...user,
+      loading:false
+    }
+  }),
+  on(toggleLoading, (state)=>{
+    return{
+      ...state,
+      loading:true
     }
   }),
   on(getCurrentUser, (state) => {

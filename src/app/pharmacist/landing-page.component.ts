@@ -10,8 +10,9 @@ import { JobPostService } from './service/job-post.service';
 import { UserServiceService } from './service/user-service.service';
 import { getBookmarks, emptyBookmark, getRequestedJobs, emptyRequestedJobs } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
-import { getCurrentUser, setCurrentUser, removeCurrentUser } from '../state/actions/users.action';
-import { jobPostModel, jobRequest } from './model/typescriptModel/jobPost.model';
+import { removeCurrentUser } from '../state/actions/users.action';
+import { jobRequest } from './model/typescriptModel/jobPost.model';
+import { JobTypeConverterService } from './service/job-type-converter.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -22,12 +23,12 @@ export class LandingPageComponent {
   
   loginFlag: boolean = false;
   subject!: Subscription;
-  constructor(private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router, private auth: AngularFireAuth) {
+  constructor(private converter:JobTypeConverterService, private db:AngularFirestore,private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router, private auth: AngularFireAuth) {
 
   }
   
   ngOnInit(){
-    
+
     this.store.select((state: any)=>{
       return state.recentlySeen
     }).subscribe((recentlySeen)=>{
