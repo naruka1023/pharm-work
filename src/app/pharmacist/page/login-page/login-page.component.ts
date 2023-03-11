@@ -64,6 +64,7 @@ export class LoginPageComponent implements AfterViewInit{
     .then(() => {
       this.loginFlag = false
       this.route.navigate(['']);
+      location.reload()
     })
     .catch((error) => {
       this.loginFlag = false

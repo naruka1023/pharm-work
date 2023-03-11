@@ -1,12 +1,14 @@
-import { Component, TemplateRef, ViewChild} from '@angular/core';
+import { Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
+import { JobHistory, User } from 'src/app/pharmacist/model/typescriptModel/users.model';
 import { JobTypeConverterService } from 'src/app/pharmacist/service/job-type-converter.service';
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
+import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
 declare var window: any;
 
@@ -15,7 +17,7 @@ declare var window: any;
   templateUrl: './inner-profile.component.html',
   styleUrls: ['./inner-profile.component.css']
 })
-export class InnerProfileComponent{
+export class InnerProfileComponent implements OnDestroy{
   
   subject: Subscription = new Subscription();
   innerProfileInformation!: User
@@ -29,7 +31,7 @@ export class InnerProfileComponent{
   url: string = 'pharma/profile-pharma';
   numbersOccupation: number[] = [1];
   modal!:any;
-  constructor(private converter: JobTypeConverterService,private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
+  constructor(private utilService: UtilService, private converter: JobTypeConverterService, private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
   }
   
   ngOnInit(){
@@ -47,8 +49,9 @@ export class InnerProfileComponent{
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((value: User)=>{
-      this.innerProfileInformation = value;
+      this.innerProfileInformation = _.cloneDeep(value);
       if(this.innerProfileInformation.role !== ''){
+        this.innerProfileInformation = this.utilService.populateLocationFieldsWithObject(this.innerProfileInformation);
         this.resultPayload = this.innerProfileInformation.preferredJobType;
         this.showSwitch = value.showProfileFlag;
         this.resetFormGroup();
@@ -96,13 +99,15 @@ export class InnerProfileComponent{
       group.get('activeFlag')?.setValue('');
     })
     this.loadingFlag = true
-    const payload = {
+    let payload = {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       role: this.innerProfileInformation.role,
       email: this.innerProfileInformation.email,
-      preferredJobType: this.converter.objectToArray(this.profileEdit.value.preferredJobType)
+      preferredJobType: this.converter.objectToArray(this.profileEdit.value.preferredJobType),
+      AmountCompleted: this.innerProfileInformation.AmountCompleted
     }
+    payload = this.utilService.populateObjectWithLocationFields(payload);
     this.userService.updateUser(payload).then(()=>{
       this.store.dispatch(setCurrentUser({user: payload}))
       this.loadingFlag = false;
@@ -204,6 +209,7 @@ export class InnerProfileComponent{
         CA: [false],
         CB: [false],
       }),
+      WorkExperience: [''],
       showProfileFlag: true,
       preferredTimeFrame: [''],
       preferredLocation: this.fb.group({
@@ -215,6 +221,22 @@ export class InnerProfileComponent{
       preferredSalary: [''],
     });
   }
+
+  dateStarted(index:number){
+    let value = this.profileEdit.get('jobHistory')?.value[index].dateStarted
+    return  value as number
+  }
+
+  dateEnded(index:number){
+    let value = this.profileEdit.get('jobHistory')?.value[index].dateEnded
+    return  value as number
+  }
+
+  get WorkExperience(){
+    let value = this.profileEdit.get('WorkExperience')?.value
+    return  value as number
+  }
+
   get FormEduData(){
     let entity = this.profileEdit.get('educationHistory') as FormArray;
     return entity.controls;
@@ -227,12 +249,29 @@ export class InnerProfileComponent{
   changeDetected(e: any, index: number){
     this.profileEdit.get('active')?.setValue('active'+ index)
   }
+  calculateDateDiff(startDate:string, endDate:string){
+    const date1 = new Date(startDate).valueOf();
+    const date2 = new Date(endDate).valueOf();
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    return diffDays
+  }
   resetFormGroup(){
     this.initializeFormGroup();
     let resultObject = this.converter.arrayToObject(this.innerProfileInformation.preferredJobType)
     this.profileEdit.patchValue({
       ...this.innerProfileInformation,
       preferredJobType:resultObject
+    })
+    this.profileEdit.get('jobHistory')?.valueChanges.subscribe((profile)=>{
+      let workExperience = 0
+      profile.forEach((pr:JobHistory)=>{
+        if(pr.dateStarted !== '' && pr.dateEnded !== ''){
+          workExperience += this.calculateDateDiff(pr.dateStarted, pr.dateEnded)
+        }
+      })
+      workExperience = Math.floor(workExperience/365)
+      this.profileEdit.patchValue({WorkExperience:workExperience})
     })
   }
   beginNavigation(){

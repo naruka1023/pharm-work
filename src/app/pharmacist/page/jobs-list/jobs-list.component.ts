@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { entries } from 'lodash';
@@ -13,7 +13,7 @@ SwiperCore.use([Grid, Pagination, Navigation]);
   templateUrl: './jobs-list.component.html',
   styleUrls: ['./jobs-list.component.css'],
 })
-export class JobsListComponent {
+export class JobsListComponent implements OnDestroy{
   loadingFlag:boolean = true;
   CategorySymbol!: string;
   header!: string;

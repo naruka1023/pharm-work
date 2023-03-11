@@ -4,41 +4,67 @@
 		  <div id="text">Inactive</div>
 	   </div>
 	<div class="card-body" >
-			<div *ngIf="urgentFlag === true" class="d-flex justify-content-between mb-2">
-				<div class="p-3 d-flex align-items-center" style="text-align: center">
-					<div><b>{{content.JobType}}</b></div>
+			<div *ngIf="urgentFlag === true" class="row mb-2">
+				<div class="p-3 col-sm-4 align-items-center" style="text-align: center">
+					<div><b class="fs-4">{{content.JobType}}</b></div>
 				</div>
-				<div class="d-flex align-items-center">
-					<div class="d-flex flex-row align-items-center "><b>ต้องการตำแหน่งวันที่ </b><p class="my-auto ms-2">{{content.DateOfJob}}</p></div>
+				<div class="col-sm d-flex w-100 justify-content-end align-items-center">
+					<b class="me-3">ต้องการตำแหน่งวันที่ </b><div>{{content.DateOfJob}}</div>
 				</div>
-				<p class=" my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p>
+				<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
 			</div>
-		<div class="d-flex justify-content-between" *ngIf="!urgentFlag">
-			<div>
-						<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
-						<ng-template #fullBlock>
-							<div class="p-3" style="text-align: center; width:150px">
-								<b class="fs-4">Full-Time</b>
-							</div>
-						</ng-template>
-						<ng-template #partBlock>
-							<div class="p-3" style="text-align: center; width:150px">
-								<b class="fs-4">Part-Time</b>
-							</div>
-						</ng-template>
+			<div class="row" *ngIf="!urgentFlag">
+				<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
+				<ng-template #fullBlock>
+					<div class="col-sm-4 text-center">
+						<b class="fs-4">Full-Time</b>
 					</div>
-			<div class="my-auto">อัพเดทล่าสุด {{content.dateUpdated}}
+				</ng-template>
+				<ng-template #partBlock>
+					<div class="col-sm-4 text-center">
+						<b class="fs-4">Part-Time</b>
+					</div>
+				</ng-template>
+				<div class="my-auto col-sm align-self-center text-end">อัพเดทล่าสุด {{content.dateUpdated}}</div>
 			</div>
-		</div>
-		<div class="d-flex justify-content-start">
-			<div>
-				<img (click)="goToProfile()" class="border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
+		<div class="row my-2">
+			<div class="col-sm-4 text-center align-self-center">
+				<img (click)="goToProfile()" class="w-100 border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture"/>
 				
 			</div>
-			<div class="m-auto ms-3" style="width:-webkit-fill-available">
-				<div class="d-flex flex-row me-2">
-					<div class="mb-3">
-						<h4 class="card-title"> {{content.JobName}}</h4>
+			<div class="col-sm w-100">
+				<div class="d-flex justify-content-between m-2">
+					<div class="fs-2">
+						{{content.JobName}}
+					</div>
+					<div class="d-flex justify-content-end">
+						<button type="button" class="btn">
+							<div>
+								<i class="fs-3 bi bi-share-fill"></i>
+							</div>
+						</button>
+						<button (click)="toggleBookmark()" type="button" class="btn">
+								<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
+								<ng-template #loading>
+									<div>
+										<div style="text-align:center">
+											<div class="spinner-border text-primary" role="status">
+												<span class="visually-hidden">Loading...</span>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+								<ng-template #notLoading>
+									<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
+									<ng-template #black>
+										<i class="fs-3 bi bi-bookmark-fill"></i>
+										
+									</ng-template>
+									<ng-template #red>
+										<i style="color:red" class="fs-3 bi bi-bookmark-fill"></i>
+									</ng-template>
+								</ng-template>
+						</button>
 					</div>
 				</div>
 				<div class="container text-center">
@@ -96,37 +122,14 @@
 		</div>
 		<div class="d-flex justify-content-between">
 			<div>
-				<button type="button" class="btn">
-					<h1>
-						<i class="bi bi-share-fill"></i>
-					</h1>
-				</button>
-				<button (click)="toggleBookmark()" type="button" class="btn">
-					<h1>
-						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
-						<ng-template #loading>
-							<div>
-								<div style="text-align:center">
-									<div class="spinner-border text-primary" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
-								</div>
-							</div>
-						</ng-template>
-						<ng-template #notLoading>
-							<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
-							<ng-template #black>
-								<i class="bi bi-bookmark-fill"></i>
-								
-							</ng-template>
-							<ng-template #red>
-								<i style="color:red" class="bi bi-bookmark-fill"></i>
-							</ng-template>
-						</ng-template>
-					</h1>
+				
+			</div>
+			<div *ngIf="cancelJobFlag">
+				<button (click)="cancelRequestJob()" class="btn btn-danger text-center my-2" type="button">
+				  <div class="fs-5">ยกเลิกสมัคร</div>
 				</button>
 			</div>
-			<div *ngIf="urgentFlag === true">
+			<div *ngIf="urgentFlag === true && requestButtonFlag">
 				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 				<ng-template #alreadyRequest>
 					<button (click)="requestJob()" class="btn btn-success text-center my-2" type="button">

@@ -1,0 +1,271 @@
+<div class="container">
+    <app-profileheader [profileInformation]="header" profileType="pharma-profile"></app-profileheader>
+    <div class="mx-4 fs-3">
+        <div class="row mb-3">
+            <div class="col-3 ">
+                <div class="me-3"><b>ชื่อ:</b></div>
+            </div>
+            <div class="col">
+                <div class="me-3">{{innerProfileInformation?.name}}</div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>นามสกุล:</b></div>
+            </div>
+            <div class="col">
+                <div class="me-3">{{innerProfileInformation?.surname}}</div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>เพศ:</b></div>
+            </div>
+            <div class="col-3">
+                <div class="me-3">{{innerProfileInformation?.gender}}</div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>วันเกิด:</b></div>
+            </div>
+            <div class="col">
+                <div class="me-3">{{innerProfileInformation?.birthday}}</div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>อายุ:</b></div>
+            </div>
+            <div class="col">
+                <div class="me-3">{{innerProfileInformation?.age}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div><b>ที่อยู่:</b></div>
+            </div>
+            <div class="col">
+                <div class="row mb-3">
+                    <div class="col">
+                        {{innerProfileInformation?.Location?.address}}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>แขวง:</b></div>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <div class="">{{innerProfileInformation?.Location?.Section}}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>เขต:</b></div>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <div class="">{{innerProfileInformation?.Location?.District}}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>จังหวัด:</b></div>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <div class="">{{innerProfileInformation?.Location?.Province}}</div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-2">
+                <div><b>ปักหมุด:</b></div>
+            </div>
+            <div class="col">
+                <div class="mt-3 me-3"></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ระดับการศึกษา:</b></div>
+            </div>
+            <div class="col">
+                <div class="me-3">{{innerProfileInformation?.educationLevel}}</div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ข้อมูลการติดต่อ:</b></div>
+            </div>
+            <div class="col">
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>เบอร์โทร:</b></div>
+                    </div>
+                    <div class="col">
+                        <div class="me-3">{{innerProfileInformation?.contacts?.phone}}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>Email:</b></div>
+                    </div>
+                    <div class="col">
+                        <div class="me-3">{{innerProfileInformation?.contacts?.email}}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>LINE:</b></div>
+                    </div>
+                    <div class="col">
+                        <div class="me-3">{{innerProfileInformation?.contacts?.line}}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>Facebook:</b></div>
+                    </div>
+                    <div class="col">
+                        <div class="me-3">{{innerProfileInformation?.contacts?.facebook}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>เลขที่ใบประกอบ ภ:</b></div>
+            </div>
+            <div class="col">
+                <div class="me-3">{{innerProfileInformation?.license}}</div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ประวัติการศึกษา:</b></div>
+            </div>
+            <div class="col">
+                <div *ngFor="let eduGroup of innerProfileInformation?.educationHistory">
+                    <div class="row mb-3">
+                        <div class="col-2"><b>ชื่อสถาบัน:</b></div>
+                        <div class="col">{{eduGroup.universityName}}:</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2"><b>สาขา:</b></div>
+                        <div class="col">{{eduGroup.franchise}}:</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2"><b>ปีที่จบ:</b></div>
+                        <div class="col">{{eduGroup.yearGraduated}}:</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ประสบการณ์งาน:</b></div>
+            </div>
+            <div class="col">
+                {{ innerProfileInformation?.WorkExperience }}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ประวัติการทำงาน:</b></div>
+            </div>
+            <div class="col">
+                <div *ngFor="let jobGroup of innerProfileInformation?.jobHistory">
+                    <div class="row mb-3">
+                        <div class="col-2"><b>ตำแหน่ง:</b></div>
+                        <div class="col">{{jobGroup.jobName}}:</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2"><b>ชื่อบริษัท:</b></div>
+                        <div class="col">{{jobGroup.companyName}}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2"><b>ระยะเวลา:</b></div>
+                        <div class="col">
+                            <div class="row mb-3">
+                                <div class="col-3"><b>วันที่เริ่มต้น:</b></div>
+                                <div class="col">{{jobGroup.dateStarted}}</div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-3"><b>วันที่สิ้นสุด:</b></div>
+                                <div class="col">{{jobGroup.dateEnded}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col my-5" style="text-align:center"><b>งานที่กำลังมองหาหรือสนใจ</b></div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ประเภทงานที่สนใจ:</b></div>
+            </div>
+            <div class="col">
+                <div *ngFor="let jobType of jobType">
+                    {{jobType}}
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ชนิดของงานที่สนใจ:</b></div>
+            </div>
+            <div class="col">
+                    {{innerProfileInformation?.preferredTimeFrame}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div><b>หางานพื้นที่ :</b></div>
+            </div>
+            <div class="col">
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>แขวง:</b></div>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <div class="">{{innerProfileInformation?.preferredSection}}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>เขต:</b></div>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <div class="">{{innerProfileInformation?.preferredDistrict}}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <div><b>จังหวัด:</b></div>
+                    </div>
+                    <div class="col d-flex flex-row">
+                        <div class="">{{innerProfileInformation?.preferredProvince}}</div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>เงินเดือนที่ต้องการ:</b></div>
+            </div>
+            <div class="col">
+                    {{innerProfileInformation?.preferredStartTime}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>สามารถเริ่มงานได้ :</b></div>
+            </div>
+            <div class="col">
+                    {{innerProfileInformation?.preferredSalary}}
+            </div>
+        </div>
+    </div>
+</div>

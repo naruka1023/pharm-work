@@ -14,6 +14,7 @@ export class UserServiceService {
   editSubject: Subject<boolean> = new Subject();
   leaveEditSubject: Subject<string> = new Subject();
   revertTabSubject: Subject<void> = new Subject();
+  callView: Subject<void> = new Subject();
 
   getRevertTabSubject(): Observable<void>{
     return this.revertTabSubject.asObservable();
@@ -21,6 +22,13 @@ export class UserServiceService {
   
   sendRevertTabSubject(){
     return this.revertTabSubject.next();
+  }
+
+  getCallView(): Observable<void>{
+    return this.callView.asObservable();
+  }
+  sendCallView(){
+    return this.callView.next();
   }
 
   getLeaveEditSubject(): Observable<string>{
@@ -38,7 +46,10 @@ export class UserServiceService {
   sendEditSubject(){
     return this.editSubject.next(true);
   }
+  getOperatorData(operatorUID:string){
+    return this.db.collection("users").doc(operatorUID).get()
+  }
   updateUser(user: User) : Promise<void>{
-     return this.db.collection("users").doc(user.uid).update(user)
+     return this.db.collection("users").doc(user.uid).set(user)
   }
 }

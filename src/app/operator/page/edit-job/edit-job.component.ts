@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,14 +9,13 @@ import { JobService } from '../../service/job.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as _ from 'lodash';
 import { jobPostModel } from '../../model/jobPost.model';
-import { toggleAddressChange } from '../../state/actions/address.actions';
 
 @Component({
   selector: 'app-edit-job',
   templateUrl: './edit-job.component.html',
   styleUrls: ['./edit-job.component.css']
 })
-export class EditJobComponent {
+export class EditJobComponent implements OnDestroy{
   constructor(private store: Store, private fb: FormBuilder,private editJobService : JobService, private router:Router, private route: ActivatedRoute){}
 
   user$!: Observable<User>;
@@ -101,7 +100,7 @@ export class EditJobComponent {
       behavior:"auto"
     });
   }
-  onDestroy(){
+  ngOnDestroy(){
     this.subToDestroy.unsubscribe();
   }
   handleCalendarChange(value: any){
@@ -253,6 +252,7 @@ export class EditJobComponent {
     this.updateLoading = true;
     this.editJobService.editJob(this.newJobForm.value).then(()=>{
       this.router.navigate(['operator/profile-operator/all-jobs-posts'])
+      this.updateLoading = false;
     })
   }
 }

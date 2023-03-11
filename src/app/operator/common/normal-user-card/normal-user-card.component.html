@@ -1,0 +1,94 @@
+<div class="card rounded p-3 m-3" style="width:100%">
+    <div class="d-flex justify-content-between">
+        <div class="fs-3">
+            <b>{{content.name}} {{content.surname}}</b>
+        </div>
+        <div class="text-danger fs-3 mx-3">
+            <button (click)="toggleFavorite()" type="button" class="btn">
+                <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
+                <ng-template #loading>
+                    <div>
+                        <div style="text-align:center">
+                            <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #notLoading>
+                    <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
+                    <ng-template #normal>
+                        <div class="fs-3"><i class="bi bi-heart-fill"></i></div>
+                    </ng-template>
+                    <ng-template #red>
+                        <div class="text-danger fs-3"><i class="bi bi-heart-fill"></i></div>
+                    </ng-template>
+                </ng-template>
+            </button>
+        </div>
+    </div>
+        <div class="d-flex justify-content-start">
+            <div>
+                <ng-container *ngIf="profileLinkPage; then link; else noLink"></ng-container>
+                <ng-template #link>
+                    <img src="assets/user-profile.jpg" (click)="goToProfile()" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+                    <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 20%;"><i class="bi bi-check-circle-fill"></i></div>
+                </ng-template>
+                <ng-template #noLink>
+                    <img src="assets/user-profile.jpg" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+                    <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 12%;"><i class="bi bi-check-circle-fill"></i></div>
+                </ng-template>
+
+            </div>
+        <div class="grid p-3">
+            <ng-container *ngIf="type == 'S'; then urgent; else notUrgent"></ng-container>
+            <ng-template #urgent>
+                <div class="fs-5">
+                    เลขใบประกอบ:
+                </div>
+                <div class="fs-5">
+                    {{content.license}}
+                </div>
+            </ng-template>
+            <ng-template #notUrgent>
+                <div class="fs-5">
+                    ประเภทงาน:
+                </div>
+                <div class="fs-5">
+                    {{content.preferredTimeFrame}}
+                </div>
+            </ng-template>
+            <div class="fs-5">
+                เขต: {{content.Location?.District}}
+            </div>
+            <div class="fs-5">
+                จังหวัด: {{content.Location?.Province}}
+            </div>
+            <ng-container *ngIf="type == 'S'; then urgentSecond; else notUrgentSecond"></ng-container>
+            <ng-template #urgentSecond>
+                <div class="fs-5">
+                    งานที่เคยรับสำเร็จ: 
+                </div>
+                <div class="fs-5">
+                    {{content.AmountCompleted}}
+                </div>
+            </ng-template>
+            <ng-template #notUrgentSecond>
+                <div class="fs-5">
+                    สามารถเริ่มงานได้: 
+                </div>
+                <div class="fs-5">
+                    {{content.preferredStartTime}}
+                </div>
+            </ng-template>
+            <ng-container *ngIf="type !== 'S'">
+                <div class="fs-5">
+                    ประสบการณ์การทำงาน:
+                </div>
+                <div class="fs-5">
+                    {{content.WorkExperience}}
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

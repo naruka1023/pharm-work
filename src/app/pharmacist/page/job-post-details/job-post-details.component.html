@@ -63,7 +63,7 @@
 				</button>
 				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 				<ng-template #alreadyRequest>
-					<button (click)="requestJob(true)" class="btn btn-success text-center my-2" type="button">
+					<button (click)="requestJob()" class="btn btn-success text-center my-2" type="button">
 					  <div class="fs-5">สมัครงาน</div>
 					</button>
 				  </ng-template>

@@ -2,10 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
-import { jobPostModel, AppState, Bookmark } from '../../model/typescriptModel/jobPost.model';
+import { jobPostModel, AppState, Bookmark, jobRequest } from '../../model/typescriptModel/jobPost.model';
 import { JobPostService } from '../../service/job-post.service';
 import { RoutingService } from '../../service/routing.service';
-import { removeBookmark, addBookmark } from '../../state/actions/job-post.actions';
+import { UtilService } from '../../service/util.service';
+import { removeBookmark } from '../../state/actions/job-post.actions';
 import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 
 @Component({
@@ -15,7 +16,7 @@ import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 })
 export class JobPostSmallCardComponent {
 
-  constructor(private activatedRoute:ActivatedRoute, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
+  constructor(private utilService: UtilService, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
 
   @Input() fullTimeFlag = true 
   @Input() urgentFlag = false;
@@ -72,9 +73,9 @@ export class JobPostSmallCardComponent {
           this.bookmarkLoadingFlag = false
         })
       }else{
-        this.jobPostService.addBookmarkService(this.content.custom_doc_id,this.userID).then((value)=>{
+        this.jobPostService.addBookmarkService(this.content.custom_doc_id,this.userID).then((value)=> {
           this.bookmarkID = value.id
-          this.store.dispatch(addBookmark(this.getBookmarkPayload()))
+          this.utilService.sendListenJobBookmark(this.getBookmarkPayload())
           this.bookmarkLoadingFlag = false
         })
       }
@@ -85,7 +86,15 @@ export class JobPostSmallCardComponent {
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['pharma/login'])
     }else{
-      this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then(()=>{
+      this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
+        let jobRequest:jobRequest = {
+          operatorUID: this.content.OperatorUID,
+          userUID: this.userID,
+          jobUID: this.content.custom_doc_id,
+          JobPost:this.content,
+          custom_doc_id: value.id
+        }
+        this.utilService.sendListenJobRequest(jobRequest)
       })
     }
   }
@@ -94,6 +103,6 @@ export class JobPostSmallCardComponent {
     if(this.router.url !== '/profile-pharma/recently-seen-job'){
       this.store.dispatch(addRecentlySeen({JobPost: this.content}));
     }
-    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.activatedRoute)
+    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol)
   }
 }

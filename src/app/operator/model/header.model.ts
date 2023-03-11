@@ -12,3 +12,11 @@ export interface profileHeaderOperator {
         Province: string
     }
 }
+export interface profileHeaderPharma {
+    name: string;
+    Location?: {
+        Section: string;
+        District: string;
+        Province: string
+    }
+}

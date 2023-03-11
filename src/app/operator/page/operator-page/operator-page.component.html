@@ -1,7 +1,7 @@
 <app-profileheader profileType="operator-profile" [viewFlag]="viewFlag"></app-profileheader>
 <div class="container">
     <div *ngIf="allJobsFlag$ | async"class="row row-cols-2 mb-5" style="height:75vh; overflow-y: scroll">
-        <app-job-post-normal-card *ngFor="let job of allJobs$ | async" [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+        <app-job-post-normal-card *ngFor="let job of allJobs$ | async" [profileLinkFlag]="profileLinkFlag" [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
     </div>
     <div class="row my-3 fs-3">
         <div class="col-3">

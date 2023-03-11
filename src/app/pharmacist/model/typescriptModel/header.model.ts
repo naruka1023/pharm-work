@@ -3,6 +3,17 @@ export interface profileHeaderJobPost {
     JobType: string;
 }
 
+export interface profileHeaderOperator {
+    name: string;
+    JobType: string;
+    Location?: {
+        Section: string;
+        District: string;
+        Province: string
+    }
+}
+
+
 export interface profileHeaderPharma {
     name: string;
     Location?: {

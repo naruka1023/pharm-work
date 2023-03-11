@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { profileHeaderJobPost, profileHeaderOperator } from '../../model/header.model';
+import { profileHeaderJobPost, profileHeaderOperator, profileHeaderPharma } from '../../model/header.model';
 import { User } from '../../model/user.model';
 import { OperatorProfileComponent } from '../../page/operator-profile/operator-profile.component';
-import { ProfileService } from '../../service/profile.service';
+import { UtilService } from '../../service/util.service';
 
 @Component({
   selector: 'app-profileheader',
@@ -12,17 +12,20 @@ import { ProfileService } from '../../service/profile.service';
   styleUrls: ['./profileheader.component.css']
 })
 export class ProfileHeaderComponent {
-@Input() profileInformation!: profileHeaderJobPost | profileHeaderOperator
+@Input() profileInformation!: profileHeaderJobPost | profileHeaderOperator | profileHeaderPharma
 @Input() profileType! : string;
 @Input() viewFlag: boolean = false;
 result!: any
 profileInformation$!: User
 headerInformation!: Observable<profileHeaderOperator>
 
-constructor(private store: Store, private profileService: ProfileService){}
+constructor(private store: Store, private profileService: UtilService){}
 
   ngOnInit(){
     switch(this.profileType){
+      case "pharma-profile":
+        this.result = this.profileInformation
+        break;
       case "job-post":
         this.result = this.profileInformation
         break;

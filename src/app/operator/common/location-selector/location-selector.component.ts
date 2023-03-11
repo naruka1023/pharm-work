@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 
 @Component({
@@ -11,7 +12,7 @@ import { toggleAddressChange } from '../../state/actions/address.actions';
 })
 export class LocationSelectorComponent {
 
-  constructor(private store:Store){}
+  constructor(private store:Store, private utilService:UtilService){}
 
   @Input()parentFormGroup!: FormGroup;
   @Input()formGroupName : string = "Location";
@@ -23,18 +24,21 @@ export class LocationSelectorComponent {
 
   ngOnInit(){
     this.genericFormGroup = this.parentFormGroup.get(this.formGroupName) as FormGroup;
+    this.initializeSelector();
+  }
+  initializeSelector(){
     this.province$ = this.store.select((state: any)=>{
       let result = Object.keys(state.address.list);
       return result
     })
     this.district$ = this.store.select((state: any)=>{
-      if(this.genericFormGroup.value.Province === ''){
+      if(this.genericFormGroup.value.Province === '' || this.genericFormGroup.value.Province === null){
         return [];
       }
       return Object.keys(state.address.list[this.genericFormGroup.value.Province])
     })
     this.section$ = this.store.select((state: any)=>{
-      if(this.genericFormGroup.value.District === ''){
+      if(this.genericFormGroup.value.District === '' || this.genericFormGroup.value.District === null){
         return [];
       }
       let section: string[] = state.address.list[this.genericFormGroup.value.Province][this.genericFormGroup.value.District].map((section: any)=>section.section);

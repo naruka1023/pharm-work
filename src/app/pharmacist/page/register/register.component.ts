@@ -8,6 +8,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { JobTypeConverterService } from '../../service/job-type-converter.service';
+import { UtilService } from '../../service/util.service';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -16,7 +17,7 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private converter:JobTypeConverterService,private store:Store, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
+  constructor(private converter:JobTypeConverterService,private utilService:UtilService,private store:Store, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   registerFormPharmacist!:FormGroup;
@@ -61,6 +62,7 @@ export class RegisterComponent {
       }),
       preferredStartTime: [''],
       preferredSalary: [''],
+      WorkExperience: 0,
       AmountCompleted: 0
     },
     {
@@ -92,7 +94,6 @@ export class RegisterComponent {
     this.pharmaForm = !this.pharmaForm;
   }
   async onSubmit(){
-    console.log(this.registerFormPharmacist.value.preferredLocation)
     this.submitted = true;
     let newUser: any;
     if (this.role === 'เภสัชกร') {
@@ -101,6 +102,7 @@ export class RegisterComponent {
       }else{
         this.loadingFlag = true;
         newUser = this.registerFormPharmacist.value;
+        newUser = this.utilService.populateObjectWithLocationFields(newUser);
         newUser['role'] = 'เภสัชกร';
         newUser['showProfileFlag'] = true;
       }
@@ -118,6 +120,7 @@ export class RegisterComponent {
     .then((user: any)=>{
         delete newUser.password
         delete newUser.confirmPassword
+        newUser.uid = user.user?.multiFactor.user.uid;
         this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
         .then((value)=>{
           this.loadingFlag = false;

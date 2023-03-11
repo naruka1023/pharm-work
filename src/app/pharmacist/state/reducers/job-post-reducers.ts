@@ -1,19 +1,39 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
-import { AppState, BookmarkList, jobPostModel, jobRequest } from '../../model/typescriptModel/jobPost.model';
-import { addBookmark, emptyBookmark, emptyRequestedJobs, getJobCategory, getRequestedJobs, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess } from '../actions/job-post.actions';
+import { AppState, BookmarkList, Follow } from '../../model/typescriptModel/jobPost.model';
+import { addBookmark, emptyOperatorData, getJobCategory, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, setOperatorData, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest } from '../actions/job-post.actions';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
 
+const emptyOperator = {
+  email: '',
+  role: '',
+  uid: '',
+  Location: {
+    Province: "",
+    District: '',
+    Section: ''
+  },
+  jobType: '',
+  companyName: '',
+  contacts:{
+    phone: '',
+    email: '',
+    line: '',
+    facebook: '',
+  }
+}
 export const initialState: AppState = {
   loading: true,
+  loadingOperator: true,
   JobPost: headerArray,
   Bookmarks: {},
-  JobRequests:{}
+  JobRequests:{},
+  Follows:{},
+  operator:emptyOperator
 };
-
 export const jobPostReducer = createReducer(
   initialState,
   on(getJobCategory, (state) => state),
@@ -23,21 +43,68 @@ export const jobPostReducer = createReducer(
     delete newState.Bookmarks[keys];
     return {...newState}
   }),
-  on(getRequestedJobs, (state, {jobRequest}) =>{
+  on(removeFollowers, (state, {userUID, operatorUID}) =>{
     let newState: AppState =  _.cloneDeep(state);
-    let newJobRequest: any = {};
-    jobRequest.forEach((jr: jobRequest)=>{
-      let keys = jr.jobUID + '-' + jr.userUID
-      newJobRequest[keys] = {
+    let keys = userUID + "-" + operatorUID
+    delete newState.Follows[keys];
+    return {...newState}
+  }),
+  on(addFollowers, (state, {operator})=>{
+    let newState: AppState =  _.cloneDeep(state);
+    let keys = operator.userUID + "-" + operator.operatorUID
+    newState.Follows[keys] = operator
+    return {
+      ...newState
+    }
+  }),
+  on(emptyOperatorData, (state)=>{
+    return {
+      ...state,
+      operator:emptyOperator,
+      loadingOperator: true
+    }
+  }),
+  on(setOperatorData, (state, {operator}) =>{
+    let newOperator = _.cloneDeep(operator);
+    newOperator = {
+      ...emptyOperator,
+      ...newOperator
+    }
+    return {
+      ...state,
+      loadingOperator: false,
+      operator:newOperator
+    }
+  }),
+  on(updateFollowersList, (state, {followers}) =>{
+    let newState: AppState =  _.cloneDeep(state);
+    let newFollowers: any = {};
+    followers.forEach((jr: Follow)=>{
+      let keys = jr.userUID + '-' + jr.operatorUID
+      newFollowers[keys] = {
         ...jr
       }
-
+      
     })
     return {
       ...newState,
-      JobRequests:newJobRequest
+      Follows:newFollowers
       
     }
+  }),
+  on(addJobRequest, (state, {jobRequest})=>{
+    let newState: AppState =  _.cloneDeep(state);
+    let keys = jobRequest.jobUID + "-" + jobRequest.userUID
+    newState.JobRequests[keys] = jobRequest
+    return {
+      ...newState
+    }
+  }),
+  on(removeJobRequest, (state, {jobRequest}) =>{
+    let newState: AppState =  _.cloneDeep(state);
+    let keys = jobRequest.jobUID + "-" + jobRequest.userUID
+    delete newState.JobRequests[keys];
+    return {...newState}
   }),
   on(addBookmark, (state, {jobUID, userUID, bookmarkUID, JobPost}) =>{
     let newState: AppState =  _.cloneDeep(state);
@@ -59,16 +126,10 @@ export const jobPostReducer = createReducer(
       JobPost: jobs
     }
   }),
-  on(emptyBookmark, (state) =>{
+
+  on(EmptyJobPostAppState, (state)=>{
     return {
-      ...state, 
-      Bookmarks: {}
-    }
-  }),
-  on(emptyRequestedJobs, (state)=>{
-    return {
-      ...state,
-      JobRequests : {}
+      ...initialState
     }
   }),
   on(retrievedUserBookmarkSuccess, (state, { Bookmarks }) => {

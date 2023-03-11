@@ -1,4 +1,4 @@
 <div class="row row-cols-2">
-    <app-job-post-normal-card *ngFor="let bookmark of bookmarks$ | async" [content]="bookmark.JobPost!" [urgentFlag]="bookmark.JobPost!.Urgency" [fullTimeFlag]="bookmark.JobPost!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+    <app-job-post-normal-card *ngFor="let bookmark of bookmarks$ | async" cardType="Bookmarks"[content]="bookmark.JobPost!" [urgentFlag]="bookmark.JobPost!.Urgency" [fullTimeFlag]="bookmark.JobPost!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
 </div>
 

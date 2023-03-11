@@ -1,20 +1,30 @@
-<div class="d-flex justify-content-between fs-3 my-5">
-    <div>{{title}}:</div>
-    <button class="btn btn-success d-flex" (click)="goToList()">ดูทั้งหมด <i class="ms-3 bi bi-arrow-right-square align-self-center"></i></button>
+<div *ngIf="userFlag">
+    <div class="d-flex justify-content-between fs-3 my-5">
+        <div>{{title}}:</div>
+        <button class="btn btn-success d-flex" (click)="goToList()">ดูทั้งหมด <i class="ms-3 bi bi-arrow-right-square align-self-center"></i></button>
+    </div>
+    <ng-container *ngIf="userLengthFlag; then noSwiper; else swiper"></ng-container>
+    <ng-template #noSwiper>
+        <div class="d-flex justify-content-around px-5">
+            <app-small-user-card *ngFor="let user of Users$ | async" [content]="user" [type]="type"></app-small-user-card>
+        </div>
+    </ng-template>
+    <ng-template #swiper>
+        <swiper
+            [navigation]="true"
+            [loop]="true"
+            [slidesPerView]="3.5"
+            [centeredSlides]="true"
+            [watchSlidesProgress] = "true"
+            [spaceBetween]="25"
+            [pagination]="true"
+            [autoplay]="true"
+            style="margin-top: 3em; text-align: center"
+            class="mb-3"
+        >
+        <ng-template swiperSlide *ngFor="let user of Users$ | async">
+            <app-small-user-card [content]="user" [type]="type"></app-small-user-card>
+        </ng-template>
+        </swiper>
+    </ng-template>
 </div>
-<swiper
-    [navigation]="true"
-    [loop]="true"
-    [slidesPerView]="3.5"
-    [centeredSlides]="true"
-    [watchSlidesProgress] = "true"
-    [spaceBetween]="25"
-    [pagination]="true"
-    [autoplay]="true"
-    style="margin-top: 3em; text-align: center"
-    class="mb-3"
->
-<ng-template swiperSlide *ngFor="let user of Users$ | async">
-    <app-small-user-card [content]="user" [type]="type"></app-small-user-card>
-</ng-template>
-</swiper>

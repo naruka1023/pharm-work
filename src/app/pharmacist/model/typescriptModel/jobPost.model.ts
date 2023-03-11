@@ -23,18 +23,53 @@ export interface Bookmark{
     bookmarkUID: string
     JobPost?: jobPostModel
 }
+export interface Follow{
+    userUID:string;
+    operatorUID: string;
+    followUID?: string;
+    user?:userOperator
+}
+export interface userOperator{
+    email: string,
+    companyName?: string,
+    jobType?: string,
+    companyID?: string,
+    nameOfPerson?: string,
+    phoneNumber?: string,
+    role: string,
+    contacts?: Contacts
+    Location?: {
+        address?: string;
+        Section: string;
+        District: string;
+        Province: string;
+    },
+    uid: string;
+}
+export interface Contacts{
+    phone: string;
+    email: string;
+    line: string;
+    facebook: string;
+}
 
 export interface AppState {
     loading: boolean;
+    loadingOperator: boolean;
     JobPost: filterConditions[];
     Bookmarks: BookmarkList;
-    JobRequests: JobRequestList
+    Follows: FollowList;
+    JobRequests: JobRequestList;
+    operator: userOperator;
 }
 
 export interface JobRequestList{
     [key: string]: jobRequest
 }
 
+export interface FollowList{
+    [key: string]: Follow
+}
 
 export interface jobRequest {
     custom_doc_id?: string

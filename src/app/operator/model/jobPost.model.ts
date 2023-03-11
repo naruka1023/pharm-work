@@ -1,3 +1,5 @@
+import { UserPharma } from "./user.model";
+
 export interface jobPostModel {
     Amount: 2;
     CategorySymbol: string;
@@ -53,15 +55,30 @@ export interface jobPostModel {
     dateUpdated: string;
     custom_doc_id: string
 }
-
+export interface jobUIDForUser{
+    userList?: {
+        [key:string]:UserPharma
+    },
+    user?: UserPharma,
+    userArray?:string[],
+    jobUID: string,
+    flag?: boolean
+}
 export interface JobRequestList{
-    [key: string]: jobRequest
+    [key: string]: collatedJobRequest
 }
 
+export interface collatedJobRequest {
+    jobRequest: jobRequest,
+    flag: boolean,
+    users: {
+        [key:string]:UserPharma
+    },
+    jobUID: string
+}
 
 export interface jobRequest {
     custom_doc_id?: string
-    JobPost?: jobPostModel
     operatorUID: string,
     userUID: string,
     jobUID: string
@@ -70,5 +87,9 @@ export interface jobRequest {
 export interface AppState{
     JobPost: jobPostModel[],
     loading: boolean,
+}
+
+export interface AppStateJobRequest{
+    loadingRequest:boolean,
     JobRequests: JobRequestList
 }

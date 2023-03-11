@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription} from 'rxjs';
 import { User } from './pharmacist/model/typescriptModel/users.model';
-import { JobPostService } from './pharmacist/service/job-post.service';
-import { UserServiceService } from './pharmacist/service/user-service.service';
-import { getBookmarks, emptyBookmark } from './pharmacist/state/actions/job-post.actions';
 import { removeDefaultKey } from './state/actions/address.action';
 import { getCurrentUser, setCurrentUser } from './state/actions/users.action';
 declare var bootstrap: any;
@@ -35,6 +30,8 @@ export class AppComponent {
         }else{
           this.route.navigate(['operator']);
         }
+      }else{
+        this.route.navigate([''])
       }
     })
     this.auth.user.subscribe((user)=>{
@@ -51,7 +48,8 @@ export class AppComponent {
           surname: '',
           showProfileFlag: true,
           loading:true,
-          AmountCompleted: 0
+          AmountCompleted: 0,
+          WorkExperience: 0
         };
         this.store.dispatch(setCurrentUser({user: emptyUser}));
         localStorage.setItem('loginState', 'false')

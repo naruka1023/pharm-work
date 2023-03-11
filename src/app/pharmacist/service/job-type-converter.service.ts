@@ -33,7 +33,7 @@ export class JobTypeConverterService {
       title: 'เภสัชกรที่สนใจงานโรงงาน'
     },
     {
-      categorySymbol: "BV",
+      categorySymbol: "BC",
       title: 'เภสัชกรที่สนใจงานบริษัท'
     },
     {
@@ -50,6 +50,40 @@ export class JobTypeConverterService {
     return this.placeHolderObject
   }
 
+  getCategorySymbolFromTitle(title:string){
+    let categorySymbol = '';
+    switch(title){
+      case "งานด่วนรายวัน":
+        title = 'S'
+        break;
+      case "งานร้านยาทั่วไป":
+        title = 'AA'
+        break;
+      case "งานร้านยา Brand":
+        title = 'AB'
+        break;
+      case "งานโรงพยาบาล":
+        title = 'AC'
+        break;
+      case "งานคลินิก":
+        title = 'BA'
+        break;
+      case "งานโรงงาน":
+        title = 'BB'
+        break;
+      case "งานบริษัท":
+        title = 'BC'
+        break;
+      case "งาวิจัย":
+        title = 'CA'
+        break;
+      case "งานอื่นๆ":
+        title = 'CB'
+        break;
+    }
+    return title;
+    
+  }
   getTitleFromCategorySymbol(categorySymbol:string){
     let title = '';
     switch(categorySymbol){

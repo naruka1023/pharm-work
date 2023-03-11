@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { jobPostModel } from '../../model/jobPost.model';
 import { JobService } from '../../service/job.service';
+import { UtilService } from '../../service/util.service';
 @Component({
   selector: 'app-job-post-normal-card',
   templateUrl: './job-post-normal-card.component.html',
@@ -13,33 +14,61 @@ export class JobPostNormalCardComponent{
   @Input() urgentFlag = true;
   @Input() fullTimeFlag = true;
   @Input() content!: jobPostModel
+  @Input() profileLinkFlag:boolean = true;
   subscription: Subscription = new Subscription();
   userID!: string
   bookmarkID!: string; 
-  loadingFlag: boolean = false;
+  userList?: string[];
+  userListFlag?: boolean;
+  deleteLoadingFlag: boolean = false;
   activeLoadingFlag: boolean = false;
+  userListLoadingFlag$!: Observable<boolean>;
   Active$!: Observable<boolean>
   activeFlag!:boolean;
   buttonSetFlag:boolean = false
+  usersRequestList: boolean = false
+  childrenPath?: string;
   
-  constructor(private store:Store, private router: Router, private jobService:JobService, private activatedRoute:ActivatedRoute){}
+  constructor(private store:Store, private utilService:UtilService, private router: Router, private jobService:JobService, private activatedRoute:ActivatedRoute){}
 
   ngOnInit(){
-    if(this.activatedRoute.snapshot.routeConfig?.path == 'all-jobs-posts'){
-      this.buttonSetFlag = true;
+    this.childrenPath = this.activatedRoute.snapshot.routeConfig!.path;
+    switch(this.activatedRoute.snapshot.routeConfig?.path){
+      case 'all-jobs-posts':
+        this.buttonSetFlag = true
+        break;
+      case 'request-jobs':
+        this.usersRequestList = true;
+        break;
     }
     if(this.urgentFlag){
       this.fullTimeFlag = false;
     }
+    this.store.select((state:any)=>{
+      if(this.childrenPath == 'request-jobs' && state.requestedJobs.JobRequests[this.content.custom_doc_id] !== undefined){
+        this.userListFlag = state.requestedJobs.JobRequests[this.content.custom_doc_id].flag
+        return state.requestedJobs.JobRequests[this.content.custom_doc_id].users
+      }
+      return null
+    }).subscribe((users:any)=>{
+      if(users !== null){
+        this.userList = Object.keys(users);
+      }
+    })
     this.Active$ = this.store.select((state:any)=>{
       const selectedJob = state.createdJobs.JobPost.find((job: jobPostModel)=>{
         return job.custom_doc_id == this.content.custom_doc_id
       })
-      return selectedJob.Active;
+      return selectedJob !== undefined?selectedJob.Active: true;
     })
     this.Active$.subscribe((active)=>{
+
       this.activeFlag = active;
     })
+  }
+
+  getUsers(){
+    this.utilService.sendUserRequestSubject({userArray: this.userList!,flag:this.userListFlag!, jobUID: this.content.custom_doc_id});
   }
 
   toggleActive(){
@@ -57,9 +86,9 @@ export class JobPostNormalCardComponent{
   }
 
   deleteCard(){
-    this.loadingFlag = true;
+    this.deleteLoadingFlag = true;
     this.jobService.removeJob(this.content.custom_doc_id).then(()=>{
-      this.loadingFlag = false;
+      this.deleteLoadingFlag = false;
     })
   }
 

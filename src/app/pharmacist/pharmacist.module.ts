@@ -28,6 +28,10 @@ import { SwiperModule } from 'swiper/angular';
 import { CommonModule } from '@angular/common';
 import { RequestJobsComponent } from './page/pharma-profile/request-jobs/request-jobs.component';
 import { LocationComponent } from './common/location/location.component';
+import { OperatorPageComponent } from './page/operator-page/operator-page.component';
+import { FollowersPageComponent } from './page/followers-page/followers-page.component';
+import { OperatorNormalCardComponent } from './common/operator-normal-card/operator-normal-card.component';
+import { pharmaProfileReducer } from './state/reducers/pharma-profile.reducers';
 
 
 
@@ -44,6 +48,7 @@ import { LocationComponent } from './common/location/location.component';
     EffectsModule.forFeature([JobPostEffects]),
     StoreModule.forFeature('jobpost', jobPostReducer),
     StoreModule.forFeature('recentlySeen', recentlySeenReducer),
+    StoreModule.forFeature('pharmaProfile', pharmaProfileReducer),
   ],
   declarations: [
     LandingPageComponent,
@@ -64,6 +69,9 @@ import { LocationComponent } from './common/location/location.component';
     RecentlySeenJobsComponent,
     RequestJobsComponent,
     LocationComponent,
+    OperatorPageComponent,
+    FollowersPageComponent,
+    OperatorNormalCardComponent,
   ],
   bootstrap:[LandingPageComponent]
 })

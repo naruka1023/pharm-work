@@ -1,0 +1,62 @@
+<app-profileheader profileType="operator-profile" [viewFlag]="viewFlag"></app-profileheader>
+<div class="container">
+    <ng-container *ngIf="userLoadingFlag; then loading; else notLoading"></ng-container>
+    <ng-template #loading>
+        <div class="loading mt-2">
+            <div style="text-align:center">
+                <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #notLoading>
+        <div *ngIf="allJobsFlag"class="row row-cols-2 mb-5" style="height:75vh; overflow-y: scroll">
+            <app-job-post-normal-card *ngFor="let job of allJobs$ | async" [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+        </div>
+    </ng-template>
+    <div class="row my-3 fs-3">
+        <div class="col-3">
+            <div class="me-3"><b>ข้อมูลการติดต่อ:</b></div>
+        </div>
+        <div class="col">
+            <div class="row mb-3">
+                <div class="col-2">
+                    <div><b>เบอร์โทร:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{operator?.contacts?.phone}}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-2">
+                    <div><b>Email:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{operator?.contacts?.email}}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-2">
+                    <div><b>LINE:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{operator?.contacts?.line}}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-2">
+                    <div><b>Facebook:</b></div>
+                </div>
+                <div class="col">
+                    <div class="me-3">{{operator?.contacts?.facebook}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row fs-3">
+        <div class="col-3">
+            <label class="form-label"><b>ปักหมุด:</b></label>
+        </div>
+    </div>
+</div>

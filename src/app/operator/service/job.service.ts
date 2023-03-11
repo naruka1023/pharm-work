@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import { concatMap, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import { jobPostModel, jobRequest } from '../model/jobPost.model';
+import { UserPharma } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -61,9 +62,26 @@ export class JobService {
       })
     );
   }
+  
 
   getRequestJob(operatorID:string){
-    return this.db.collection('job-request', ref => ref.where('operatorUID', '==', operatorID)).valueChanges({ idField: 'custom_doc_id' })
+    return this.db.collection('job-request', ref => ref.where('operatorUID', '==', operatorID)).stateChanges().pipe(
+      mergeMap((jobs:any)=> {
+        if(jobs.length == 0){
+          return of({})
+        }
+        return jobs.map((job:any)=>{
+            let newJob = job.payload.doc.data() as UserPharma
+            let id = job.payload.doc.id;
+
+            return {
+              ...newJob,
+              type:job.type,
+              custom_doc_id: id
+            }
+          })}
+      )
+    )
   }
 
   getJobsCreated(operatorUID: string):Observable<jobPostModel[]>{

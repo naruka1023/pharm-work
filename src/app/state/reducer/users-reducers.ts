@@ -16,6 +16,7 @@ export const initialState: User = {
   showProfileFlag:true,
   license: '',
   AmountCompleted: 0,
+  WorkExperience: 0,
   contacts:{
     facebook: '',
     line: '',

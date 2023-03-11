@@ -2,25 +2,25 @@
 <div class="container mt-3">
     <ul class="nav nav-pills nav-justified mb-5">
         <li class="nav-item">
-          <a class="nav-link active" id="profileTab" routerLink="inner-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab" aria-current="page">โปรไฟล์ของท่าน</a>
+          <a class="nav-link active" id="inner-profile" routerLink="inner-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab" aria-current="page">โปรไฟล์ของท่าน</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="all-jobs-posts" data-bs-toggle="tab" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab">ประกาศงานทั้งหมด</a>
+          <a class="nav-link"  id="all-jobs-posts" routerLink="all-jobs-posts" data-bs-toggle="tab" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab">ประกาศงานทั้งหมด</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="request-jobs" data-bs-toggle="tab" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab">คำขอสมัครงาน</a>
+          <a class="nav-link"  id="request-jobs" routerLink="request-jobs" data-bs-toggle="tab" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab">คำขอสมัครงาน</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">ขอดูข้อมูล</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">ที่ดูล่าสุด</a>
+          <a class="nav-link"  id="recently-seen-users" routerLink="recently-seen-users" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">ที่ดูล่าสุด</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabSeven" aria-controls="tabSeven" type="button" role="tab">ประวัติการรับงานด่วน</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab">Favorite</a>
+          <a class="nav-link"  id="favorites" routerLink="favorites"  data-bs-toggle="tab" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab">Favorite</a>
         </li>
       </ul>
       <router-outlet></router-outlet>

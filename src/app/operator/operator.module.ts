@@ -28,6 +28,13 @@ import { usersReducer } from './state/reducer/user.reducer';
 import { UserByTypeComponent } from './common/user-by-type/user-by-type.component';
 import { SmallUserCardComponent } from './common/small-user-card/small-user-card.component';
 import { UserListComponent } from './page/user-list/user-list.component';
+import { NormalUserCardComponent } from './common/normal-user-card/normal-user-card.component';
+import { FavoritesComponent } from './page/operator-profile/favorites/favorites.component';
+import { recentlySeenReducer } from './state/reducer/recently-seen.reducers';
+import { PharmaUserProfilePageComponent } from './page/pharma-user-profile-page/pharma-user-profile-page.component';
+import { RecentlySeenUsersComponent } from './page/recently-seen-users/recently-seen-users.component';
+import { operatorProfileReducer } from './state/reducer/operator-profile.reducers';
+import { jobRequestReducer } from './state/reducer/job-request.reducer';
 
 
 
@@ -49,7 +56,11 @@ import { UserListComponent } from './page/user-list/user-list.component';
     OperatorPageComponent,
     UserByTypeComponent,
     SmallUserCardComponent,
-    UserListComponent
+    UserListComponent,
+    NormalUserCardComponent,
+    FavoritesComponent,
+    PharmaUserProfilePageComponent,
+    RecentlySeenUsersComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +73,10 @@ import { UserListComponent } from './page/user-list/user-list.component';
     SwiperModule,
     EffectsModule.forFeature([JobPostEffects]),
     StoreModule.forFeature("createdJobs", jobPostReducer),
+    StoreModule.forFeature("requestedJobs", jobRequestReducer),
     StoreModule.forFeature("users", usersReducer),
+    StoreModule.forFeature("recentlySeen", recentlySeenReducer),
+    StoreModule.forFeature("operatorProfile", operatorProfileReducer),
     OperatorAppRoutingModule,
   ],
   bootstrap:[LandingPageComponent]

@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, EffectSources } from '@ngrx/effects';
@@ -28,11 +29,11 @@ import { addressReducer } from './state/reducer/address-reducer';
       address: addressReducer
     }),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
       // logOnly: environment.production, // Restrict extension to log-only mode
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

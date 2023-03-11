@@ -6,7 +6,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { JobService } from '../../service/job.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { jobPostModel } from '../../model/jobPost.model';
 import { toggleAddressChange } from '../../state/actions/address.actions';
@@ -17,7 +17,7 @@ import { toggleAddressChange } from '../../state/actions/address.actions';
   styleUrls: ['./add-new-job.component.css']
 })
 export class AddNewJobComponent {
-  constructor(private store: Store, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute){}
+  constructor(private store: Store, private router:Router, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute){}
 
   user$!: Observable<User>;
   userState!: User
@@ -43,6 +43,7 @@ export class AddNewJobComponent {
   btsStations$!: Observable<string[]>;
   mrtStations$!: Observable<string[]>;
   jobDetailsEditor = ClassicEditor;
+  loadingFlag: boolean = false;
   jobDetailsModel = {
     editorData: ''
   };
@@ -253,7 +254,7 @@ export class AddNewJobComponent {
       dateUpdated: new Date().toISOString().split('T')[0],
     }
     this.newJobForm.patchValue(processedInfo)
-    
+    this.loadingFlag = true;
     if(this.urgency){
       if(this.newJobForm.value.DateOfJob.length > 1){
         this.sub = this.newJobService.addMultipleJobs(this.newJobForm.value)
@@ -270,6 +271,8 @@ export class AddNewJobComponent {
       this.sub = this.newJobService.addOneJob(this.newJobForm.value)
     }
     this.sub.then((job)=>{
+      this.loadingFlag = false;
+      this.router.navigate(['operator/profile-operator/all-jobs-posts'])
     })
   }
 }

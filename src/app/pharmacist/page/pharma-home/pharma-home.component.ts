@@ -39,6 +39,7 @@ export class PharmaHomeComponent {
       }
       return content
   });
+    this.scrollUp()
   }
 
   

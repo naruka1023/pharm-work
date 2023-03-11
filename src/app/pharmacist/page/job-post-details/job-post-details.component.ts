@@ -4,9 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { profileHeaderJobPost } from '../../model/typescriptModel/header.model';
-import { AppState, Bookmark, jobPostModel } from '../../model/typescriptModel/jobPost.model';
+import { AppState, Bookmark, jobPostModel, jobRequest } from '../../model/typescriptModel/jobPost.model';
 import { JobPostService } from '../../service/job-post.service';
-import { removeBookmark, addBookmark } from '../../state/actions/job-post.actions';
+import { UtilService } from '../../service/util.service';
+import { removeBookmark, addBookmark, addJobRequest } from '../../state/actions/job-post.actions';
 
 @Component({
   selector: 'app-job-post-details',
@@ -15,7 +16,7 @@ import { removeBookmark, addBookmark } from '../../state/actions/job-post.action
 })
 export class JobPostDetailsComponent {
 
-  constructor(private jobPostService:JobPostService, private route: ActivatedRoute, private auth: AngularFireAuth, private router: Router, private store: Store){}
+  constructor(private jobPostService:JobPostService, private route: ActivatedRoute, private utilService:UtilService , private router: Router, private store: Store){}
 
   profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
@@ -59,8 +60,8 @@ export class JobPostDetailsComponent {
       })
       return newJob
     })
-    this.profilePayload$.subscribe((res: jobPostModel)=>{
-      if(res !== undefined){
+    this.profilePayload$.subscribe((res: jobPostModel)=> {
+      if(res !== undefined) {
         this.profile = res;
         this.profileHeader = {
           Establishment: this.profile.Establishment,
@@ -89,15 +90,23 @@ export class JobPostDetailsComponent {
   }
 
 
-  requestJob(flag:boolean){
+  requestJob(){
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['pharma/login'])
     }else{
-      this.jobPostService.requestJob(this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then(()=>{
+      this.jobPostService.requestJob(this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then((value: any)=>{
+        let jobRequest:jobRequest = {
+          operatorUID: this.profile.OperatorUID,
+          userUID: this.userID,
+          jobUID: this.profile.custom_doc_id,
+          JobPost:this.profile,
+          custom_doc_id: value.id
+        }
+        this.utilService.sendListenJobRequest(jobRequest)
       })
     }
   }
-
+  
   getBookmarkPayload(){
     return {jobUID: this.profile.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID, JobPost:this.profile};
   }
@@ -113,7 +122,7 @@ export class JobPostDetailsComponent {
       }else{
         this.jobPostService.addBookmarkService(this.profile.custom_doc_id,this.userID).then((value)=>{
           this.bookmarkID = value.id
-          this.store.dispatch(addBookmark(this.getBookmarkPayload()))
+          this.utilService.sendListenJobBookmark(this.getBookmarkPayload())
           this.bookmarkLoadingFlag = false
         })
       }

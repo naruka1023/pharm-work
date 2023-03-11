@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { UserPharma, UsersByType } from '../../model/user.model';
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper";
 import { ActivatedRoute, Router } from '@angular/router';
+import { UtilService } from '../../service/util.service';
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -18,43 +19,48 @@ export class UserByTypeComponent {
   @Input()type!: string;
   @Input()title!: string;
   Users$!: Observable<UserPharma[]>;
-  constructor(private store:Store, private router:Router, private route:ActivatedRoute){}
+  userFlag: boolean = true;
+  userLengthFlag!:boolean
+
+  constructor(private utilService:UtilService, private store:Store, private router:Router, private route:ActivatedRoute){}
 
   ngOnInit(){
     this.Users$ = this.store.select((state:any)=>{
       let user!: UserPharma[];
       let userToSelect = _.cloneDeep(state.users.users) as UsersByType;
-      switch(this.type){
+      switch(this.type) {
         case 'S':
-          user = userToSelect.S.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.S.short);
           break;
           case 'AA':
-          user = userToSelect.AA.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.AA.short);
           break;
           case 'AB':
-          user = userToSelect.AB.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.AB.short);
           break;
           case 'AC':
-          user = userToSelect.AC.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.AC.short);
           break;
           case 'BA':
-          user = userToSelect.BA.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.BA.short);
           break;
           case 'BB':
-          user = userToSelect.BB.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.BB.short);
           break;
           case 'BC':
-          user = userToSelect.BC.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.BC.short);
           break;
           case 'CA':
-          user = userToSelect.CA.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.CA.short);
           break;
           case 'CB':
-          user = userToSelect.CB.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.CB.short);
           break;
           default:
-          user = userToSelect.AA.short;
+          user = this.utilService.convertUserPharmaListToArray(userToSelect.AA.short);
         }
+        this.userLengthFlag = user.length <= 3?true:false
+        this.userFlag = user.length !== 0? true:false;
         return user;
       })
     }

@@ -1,25 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { InnerProfileComponent } from '../page/operator-profile/inner-profile/inner-profile.component';
-import { ProfileService } from '../service/profile.service';
+import { setURL } from '../state/actions/operator-profile.actions';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileOperatorGuard implements CanDeactivate<unknown> {
-  constructor(private profileService:ProfileService){}
-  canDeactivate(
-    component: InnerProfileComponent,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(component.profileEditState){
-        component.openModal();
-        this.profileService.sendLeaveEditSubject(nextState!.url)
-      }else{
-        return true;
-      }
-        return false;
+export class ProfileOperatorGuard implements CanActivate {
+  constructor(private store:Store){}
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      this.store.dispatch(setURL({url:state.url.split('/')[3]}))
+    return true;
   }
+  
 }

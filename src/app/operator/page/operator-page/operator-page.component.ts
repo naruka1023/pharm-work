@@ -15,6 +15,7 @@ export class OperatorPageComponent {
   allJobsFlag$!: Observable<boolean>
   User$!: Observable<User>;
   user!: User;
+  profileLinkFlag: boolean = false;
   viewFlag:boolean = true
 
   ngOnInit(){

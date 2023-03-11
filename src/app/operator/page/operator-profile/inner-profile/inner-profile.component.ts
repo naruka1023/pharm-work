@@ -1,11 +1,11 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/operator/model/user.model';
-import { ProfileService } from 'src/app/operator/service/profile.service';
+import { UtilService } from 'src/app/operator/service/util.service';
 import { setCurrentUser, toggleLoading } from 'src/app/state/actions/users.action';
 declare var window: any;
 @Component({
@@ -13,7 +13,7 @@ declare var window: any;
   templateUrl: './inner-profile.component.html',
   styleUrls: ['./inner-profile.component.css']
 })
-export class InnerProfileComponent {
+export class InnerProfileComponent implements OnDestroy {
 
   loading$!: Observable<boolean>;
   profileEditState!: boolean;
@@ -23,7 +23,7 @@ export class InnerProfileComponent {
   subject: Subscription = new Subscription();
   url: string = 'operator/profile-operator';
   
-  constructor(private profileService:ProfileService, private store: Store, private fb: FormBuilder, private modalService: NgbModal, private route:Router){}
+  constructor(private utilService: UtilService, private store: Store, private fb: FormBuilder, private modalService: NgbModal, private route:Router){}
 
   ngOnInit(){
     this.profileEditState = false;
@@ -43,15 +43,17 @@ export class InnerProfileComponent {
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((value: any)=>{
-      this.innerProfileInformation = value;
-      if(this.innerProfileInformation.role !== ''){
-        this.resetFormGroup();
+      if(!value.loading){
+        this.innerProfileInformation = value;
+        if(this.innerProfileInformation.role !== ''){
+          this.resetFormGroup();
+        }
       }
     })
-    this.subject.add(this.profileService.getLeaveEditSubject().subscribe((src)=>{
+    this.subject.add(this.utilService.getLeaveEditSubject().subscribe((src)=>{
       this.url = src;
     }));
-    this.subject.add(this.profileService.getEditSubject().subscribe((value: boolean)=>{
+    this.subject.add(this.utilService.getEditSubject().subscribe((value: boolean)=>{
       if(this.profileEditState){
         this.openModal()
       }else{
@@ -63,7 +65,7 @@ export class InnerProfileComponent {
   cancelEventClick(){
     if(this.profileEditState){
       this.url = 'operator/profile-operator';
-      this.profileService.sendRevertTabSubject();
+      this.utilService.sendRevertTabSubject();
       this.closeModal()
     }
   }
@@ -132,7 +134,7 @@ export class InnerProfileComponent {
       role: this.innerProfileInformation.role,
       email: this.innerProfileInformation.email
     }
-    this.profileService.updateUser(payload).then(()=>{
+    this.utilService.updateUser(payload).then(()=>{
       this.store.dispatch(setCurrentUser({user: payload}))
       this.beginNavigation()
       this.profileEditState = false;

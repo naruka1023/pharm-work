@@ -11,16 +11,14 @@ import { JobService } from 'src/app/operator/service/job.service';
 })
 export class AllJobsPostsComponent {
   constructor(private store: Store, private jobService:JobService){}
-  loadingFlag: boolean = true;
   allCreatedJobs$!: Observable<jobPostModel[]>;
-  sub:Subscription = new Subscription
+  loading$!: Observable<boolean>;
   ngOnInit(){
     this.allCreatedJobs$ = this.store.select((state:any)=>{
       return state.createdJobs.JobPost;
     })
-  }
-  
-  ngOnDestroy(){
-    this.sub.unsubscribe();
+    this.loading$ = this.store.select((state:any)=>{
+      return state.createdJobs.loading
+    })
   }
 }

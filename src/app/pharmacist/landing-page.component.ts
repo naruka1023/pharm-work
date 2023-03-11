@@ -1,18 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { User } from './model/typescriptModel/users.model';
 import { JobPostService } from './service/job-post.service';
-import { UserServiceService } from './service/user-service.service';
-import { getBookmarks, emptyBookmark, getRequestedJobs, emptyRequestedJobs } from './state/actions/job-post.actions';
+import { emptyRequestedJobs, updateFollowersList, addJobRequest, addBookmark, EmptyJobPostAppState, removeJobRequest, removeBookmark } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
 import { removeCurrentUser } from '../state/actions/users.action';
-import { jobRequest } from './model/typescriptModel/jobPost.model';
-import { JobTypeConverterService } from './service/job-type-converter.service';
+import { Bookmark, Follow, jobPostModel, jobRequest } from './model/typescriptModel/jobPost.model';
+import { UtilService } from './service/util.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { UserPharma } from '../operator/model/user.model';
 
 @Component({
   selector: 'app-landing-page',
@@ -20,48 +19,151 @@ import { JobTypeConverterService } from './service/job-type-converter.service';
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent {
+
+loginFlag: boolean = false;
+subject!: Subscription;
+i: number = 0;
+parsedJobs: jobPostModel[] = []
+subscription: any = {};
+bookmarkSubscription: any = {}
+
+
+constructor(private fs:FileSystem,private db:AngularFirestore, private storage:AngularFireStorage, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router, private auth: AngularFireAuth, private utilService:UtilService) {
   
-  loginFlag: boolean = false;
-  subject!: Subscription;
-  constructor(private converter:JobTypeConverterService, private db:AngularFirestore,private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router, private auth: AngularFireAuth) {
-
-  }
+}
+ngOnInit(){
   
-  ngOnInit(){
-
-    this.store.select((state: any)=>{
-      return state.recentlySeen
-    }).subscribe((recentlySeen)=>{
-      if(recentlySeen.length > 10){
-        this.store.dispatch(removeRecentlySeen());
-      }
-    })
-
-    this.subject = this.auth.user.subscribe((user)=>{
-      if(user){
-        this.store.dispatch(getBookmarks({userUID:user.uid}))
-        this.jobService.getRequestJob(user.uid).subscribe((requestedJobs:any)=>{
-          let jobIDList = requestedJobs.map((request:any)=>{return request.jobUID})
-          this.jobService.getJobsFromJobRequest(jobIDList).subscribe((jobPayload)=>{
-            let payload = requestedJobs.map((requestedJob:jobRequest)=>{
-              let job = {
-                ...requestedJob,
-                JobPost:jobPayload[requestedJob.jobUID]
-              }
-              return job
+  this.store.select((state: any)=>{
+    return state.recentlySeen
+  }).subscribe((recentlySeen)=>{
+    if(recentlySeen.length > 10){
+      this.store.dispatch(removeRecentlySeen());
+    }
+  })
+    // user/{userID}/profile-picture,cover-photo
+    // this.db.collection('users', ref=> ref.where('role', '==', 'เภสัชกร')).get().subscribe((users)=>{
+    //   console.log(users.docs.length)
+    //   users.docs.forEach((user)=>{
+    //     let parsedUser : UserPharma = user.data() as UserPharma;
+    //     parsedUser.preferredTimeFrame = parsedUser.preferredTimeFrame == 'Part-time'? 'Part-Time': 'Full-Time'
+    //     this.db.collection('users').doc(user.id).set(parsedUser).then(()=>{
+    //       console.log(`user ${user.id} updated`)
+    //     })
+    //   })
+    // })
+  this.subject = this.auth.user.subscribe((user)=>{
+    if(user){
+      this.jobService.getUserBookmark(user.uid).subscribe((bookmarks)=>{
+          bookmarks.forEach((bookmark: Bookmark)=>{
+            this.bookmarkSubscription[bookmark.jobUID] = this.jobService.getJobFromBookmark(bookmark).subscribe((bk)=>{
+                if(bk.type == "removed"){
+                  this.store.dispatch(removeBookmark({jobUID: bk.jobUID!, userUID: bk.userUID!}));
+                  this.utilService.sendRemoveBookmarkSubject(bk.userUID)
+                }else{
+                  this.store.dispatch(addBookmark({jobUID: bk.jobUID!, userUID: bk.userUID!, bookmarkUID: bk.bookmarkUID!, JobPost: bk.JobPost!}))
+                }
             })
-            this.store.dispatch(getRequestedJobs({ jobRequest:payload }))
+
           })
+      })
+      this.utilService.getRemoveBookmarkSubject().subscribe((value:any)=>{
+        this.bookmarkSubscription[value.jobUID].unsubscribe();
+        delete this.bookmarkSubscription[value.jobUID];
+      })
+      this.utilService.getListenJobBookmark().subscribe((value: any)=> {
+        this.bookmarkSubscription[value.jobUID] = this.jobService.getJobFromBookmark(value).subscribe((v:any)=>{
+            if(v.type == "removed"){
+              this.store.dispatch(removeBookmark({jobUID: v.jobUID!, userUID: v.userUID!}));
+              this.utilService.sendRemoveBookmarkSubject(v.userUID)
+            }else{
+              this.store.dispatch(addBookmark(v))
+            }
         })
-      }else{
-        this.store.dispatch(emptyBookmark());
-        this.store.dispatch(emptyRequestedJobs());
-      }
-    })
-    this.loginFlag = true;
-    this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
-  }
+      })
+      
+      this.jobService.getFollowers(user.uid).subscribe((followers:any)=>{
+        followers = followers.docs.map((follower:any)=> {
+          return {
+            ...follower.data(),
+            followUID:follower.id
+          }
+        })
+        let followIDList = followers.map((request:Follow)=>{return request.operatorUID})
+        this.jobService.getOperatorFromFollows(followIDList).subscribe((operators)=>{
+          let payload: Follow[] = followers.map((follower:Follow)=>{
+            let job = {
+              ...follower,
+              user:operators[follower.operatorUID]
+            }
+            return job
+          })
+          this.store.dispatch(updateFollowersList({ followers:payload }))
+        })
+
+      })
+      this.jobService.getRequestJob(user.uid).subscribe((requestedJobs:any)=>{
+        requestedJobs = requestedJobs.docs.map((requestedJob:any)=> {
+          return {
+            ...requestedJob.data(),
+            custom_doc_id:requestedJob.id
+          }
+        }) as jobRequest[]
+        let jobIDList:string[] = requestedJobs.map((request:any)=>{return request.jobUID})
+        jobIDList.forEach((jobUID:string)=>{
+          this.subscription[jobUID] = this.jobService.getJobFromJobRequest(jobUID).subscribe((jobPayload: any)=>{
+            let payload = requestedJobs.find((jobRequest:any)=>{
+              return jobRequest.jobUID == jobPayload.custom_doc_id
+            })
+            if(jobPayload.type == 'removed'){
+              this.store.dispatch(removeJobRequest({jobRequest:{
+                ...payload,
+              }}))
+              this.utilService.sendRemoveRequestSubject(jobPayload.custom_doc_id)
+            }else{
+              this.store.dispatch(addJobRequest({ 
+                jobRequest:{
+                  ...payload,
+                  JobPost:jobPayload 
+                } 
+              }))
+            }
+          })
+
+        })
+      })
+      this.utilService.getRemoveRequestSubject().subscribe((value:any)=>{
+        this.subscription[value].unsubscribe();
+        delete this.subscription[value]
+      })
+      this.utilService.getListenJobRequest().subscribe((value: any)=> {
+        this.subscription[value.jobUID] = this.jobService.getJobFromJobRequest(value.jobUID).subscribe((v:any)=>{
+          if(v.type == "removed"){
+            this.utilService.sendRemoveRequestSubject(value.jobUID)
+            this.store.dispatch(removeJobRequest({jobRequest:value}))
+          }else{
+            let newValue = {
+              ...value,
+              JobPost: v
+            }
+            this.store.dispatch(addJobRequest({jobRequest:newValue}))
+          }
+          })
+      })
+    }else{
+      this.store.dispatch(EmptyJobPostAppState());
+    }
+  })
+  this.loginFlag = true;
+  this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
   
+}
+
+uploadFile(event:any) {
+  const file = event.target.files[0];
+  const filePath = 'name-your-file-path-here';
+  const ref = this.storage.ref(filePath);
+  const task = ref.put(file);
+}
 
   signOut(){
     if(this.route.url == '/pharma'){
@@ -99,16 +201,13 @@ export class LandingPageComponent {
       })
     }
   }
-
-  onActivate() {
-    // window.scroll(0,0);
- 
+  scrollUp(){
     window.scroll({ 
-            top: 0, 
-            left: 0, 
-            behavior:"auto"
-     });
- }
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
+  }
 
 
 }

@@ -1,19 +1,35 @@
 import { createAction, props } from '@ngrx/store';
-import { jobPostModel, Bookmark, filterConditions, jobPostPayload, jobRequest } from '../../model/typescriptModel/jobPost.model';
+import { jobPostModel, Bookmark, filterConditions, jobPostPayload, jobRequest, userOperator, Follow } from '../../model/typescriptModel/jobPost.model';
 
 export const getJobCategory = createAction(
   '[Job-Post] Get Job Category',
   props<{ CategorySymbol: string }>()
   );
 
+  
+export const emptyOperatorData = createAction(
+  '[Job-Post] Empty Operator Data'
+);
+
+
 export const addBookmark = createAction(
   '[Job-Post] Add Bookmark',
   props<{ jobUID: string, userUID: string, bookmarkUID: string, JobPost: jobPostModel}>()
 )
 
-export const getRequestedJobs = createAction(
-  '[Job-Post] Get Requested Jobs',
-  props<{ jobRequest:jobRequest[] }>()
+export const addFollowers = createAction(
+  '[Job-Post] Add Followers',
+  props<{ operator: Follow}>()
+)
+
+export const removeFollowers = createAction(
+  '[Job-Post] Remove Followers',
+  props<{ userUID: string; operatorUID: string}>()
+)
+
+export const addJobRequest = createAction(
+  '[Job-Post] Add Job Request',
+  props<{ jobRequest:jobRequest }>()
 )
 
 export const emptyRequestedJobs = createAction(
@@ -27,8 +43,8 @@ export const getBookmarks = createAction(
 
 
 
-export const emptyBookmark = createAction(
-  '[Job-Post] empty Bookmark',
+export const EmptyJobPostAppState = createAction(
+  '[Job-Post] Empty Job Post App State',
 )
 
 export const removeBookmark = createAction(
@@ -36,25 +52,46 @@ export const removeBookmark = createAction(
   props<{ jobUID: string, userUID: string}>()
 )
 
+export const removeJobRequest = createAction(
+  '[Job-Post] Remove Job Request',
+  props<{ jobRequest: jobRequest}>()
+)
+
 export const retrievedUserBookmarkSuccess = createAction(
   '[Job-Post] Retrieve User Bookmark Success',
   props<{ Bookmarks: Bookmark[]}>()
 )
+
+export const setOperatorData = createAction(
+  '[Job-Post] Set Operator Data',
+  props<{ operator: userOperator}>()
+)
+
+export const followOperator = createAction(
+  '[Job-Post] Follow Operator',
+  props<{ follow:Follow }>()
+)
+
+
+export const updateFollowersList = createAction(
+  '[Job-Post] Update Followers List',
+  props<{ followers:Follow[] }>()
+)
+
+export const filterJobs = createAction(
+  '[Job-Post] Filter Jobs',
+  props<{ id: string; CategorySymbol: string }>()
+  );
   
-  export const filterJobs = createAction(
-    '[Job-Post] Filter Jobs',
-    props<{ id: string; CategorySymbol: string }>()
-    );
-    
-    export const retrievedJobSuccess = createAction(
-    '[Job-Post] Retrieve Jobs Success',
-    props<{ jobs: filterConditions[] }>()
-    );
-    
-    export const retrievedJobCategorySuccess = createAction(
-    '[Job-Post] Retrieve Jobs Category Success',
-    props<{ jobs: jobPostPayload }>()
-    );
+  export const retrievedJobSuccess = createAction(
+  '[Job-Post] Retrieve Jobs Success',
+  props<{ jobs: filterConditions[] }>()
+  );
+  
+  export const retrievedJobCategorySuccess = createAction(
+  '[Job-Post] Retrieve Jobs Category Success',
+  props<{ jobs: jobPostPayload }>()
+  );
 
 
 /*

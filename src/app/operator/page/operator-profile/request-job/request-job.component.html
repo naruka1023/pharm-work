@@ -1,4 +1,39 @@
-<div class="row row-cols-2">
-    <app-job-post-normal-card *ngFor="let jobRequest of jobRequests$ | async" [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
-</div>
-
+<ng-container *ngIf="loadingFlag$ | async; then loading; else notLoading"></ng-container>
+<ng-template #loading>
+  <div style="text-align:center" class="mt-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #notLoading>
+      <div class="row row-cols-2">
+        <app-job-post-normal-card *ngFor="let jobRequest of jobRequests$ | async" [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+      </div>
+  </ng-template>
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+            <ng-container *ngIf="modalLoadingFlag; then loadingUsers; else notLoadingUsers"></ng-container>
+            <ng-template #loadingUsers>
+              <div style="text-align:center" class="mt-5">
+                  <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+              </div>
+            </ng-template>
+            <ng-template #notLoadingUsers>
+              <div class="row row-cols-2 mb-5">
+                  <app-normal-user-card *ngFor="let user of usersPayload" [profileLinkPage]="profileLinkFlag" [content]="user!" ></app-normal-user-card>
+              </div>
+            </ng-template>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
