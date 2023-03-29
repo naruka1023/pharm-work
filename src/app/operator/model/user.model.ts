@@ -3,6 +3,10 @@ export interface User{
     companyName?: string,
     jobType?: string,
     companyID?: string,
+    coverPhotoOffset?: number,
+    profilePictureUrl?:string,
+    cropProfilePictureUrl?: string,
+    coverPhotoPictureUrl?:string
     nameOfPerson?: string,
     phoneNumber?: string,
     role: string,
@@ -73,7 +77,9 @@ export interface UserPharma{
     preferredSalary?: string,
     AmountCompleted: number,
     WorkExperience:number,
+    coverPhotoOffset?: number,
     profilePictureUrl?:string,
+    cropProfilePictureUrl?: string,
     coverPhotoPictureUrl?:string
 }
 

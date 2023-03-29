@@ -30,6 +30,7 @@
     "angularx-flatpickr": "^7.0.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
+    "cropperjs": "^1.5.13",
     "file-system": "^2.2.2",
     "firebase": "9.9.1",
     "firebase-functions": "^4.2.1",

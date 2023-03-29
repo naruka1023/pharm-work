@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { JobTypeConverterService } from '../../service/job-type-converter.service';
 import { UtilService } from '../../service/util.service';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -25,6 +26,7 @@ export class RegisterComponent {
   role: string = 'เภสัชกร';
   errorMessage: string = '';
   submitted:boolean = false;
+  storage = getStorage();
   pharmaForm:boolean = true;
   
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
@@ -121,12 +123,26 @@ export class RegisterComponent {
         delete newUser.password
         delete newUser.confirmPassword
         newUser.uid = user.user?.multiFactor.user.uid;
-        this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
-        .then((value)=>{
-          this.loadingFlag = false;
-          this.route.navigate([newUser.role == 'ผู้ประกอบการ'?'operator':'pharma'])
-        });
-      }).catch((error)=>{
+
+        let promises: Promise<any>[] = [];
+        promises.push(getDownloadURL(ref(this.storage, 'placeholder/profile-picture')))
+        promises.push(getDownloadURL(ref(this.storage, 'placeholder/cover-photo')))
+        Promise.all(promises).then((e:any)=>{
+          e.forEach((some: string)=>{
+            if(some.indexOf('profile-picture') !== -1){
+              newUser.profilePictureUrl = some
+            }else{
+              newUser.coverPhotoPictureUrl = some
+            }
+          })
+          this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
+          .then((value)=>{
+            this.loadingFlag = false;
+            this.route.navigate([newUser.role == 'ผู้ประกอบการ'?'operator':'pharma'])
+          });
+          })
+        })
+        .catch((error)=>{
           this.loadingFlag = false;
           const code = error.code;
           switch(code){

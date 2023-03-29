@@ -135,14 +135,17 @@ export class AddNewJobComponent {
         case 'โรงพยาบาล':
           categorySymbol = 'BB';
           break;
+        case 'คลินิก':
+          categorySymbol = 'BB';
+          break;
         case 'โรงงาน':
           categorySymbol = 'BC';
           break;
-        case 'บริษัทยา':
+        case 'บริษัท':
           categorySymbol = 'BC';
           break;
-        case 'มหาวิทยาลัย':
-          categorySymbol = 'CA';
+        case 'วิจัย':
+          categorySymbol = 'BC';
           break;
         case 'อื่นๆ':
           categorySymbol = 'CA';
@@ -203,6 +206,9 @@ export class AddNewJobComponent {
       }),
       JobDetails: [''],
       TravelInstructions: [''],
+      profilePictureUrl: this.userState.cropProfilePictureUrl !== undefined? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
+      coverPhotoPictureUrl:this.userState.coverPhotoPictureUrl,
+      coverPhotoOffset: this.userState.coverPhotoOffset
     });
     if(this.userState.jobType === 'ร้านยาแบรนด์'){
       this.newJobForm.addControl('Franchise', this.fb.control(['']));

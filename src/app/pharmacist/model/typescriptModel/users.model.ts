@@ -83,5 +83,9 @@ export interface User{
     preferredStartTime?: string,
     preferredSalary?: string,
     AmountCompleted: number,
-    WorkExperience:number
+    WorkExperience:number,
+    profilePictureUrl?:string,
+    coverPhotoOffset?: number,
+    coverPhotoPictureUrl?:string
+    cropProfilePictureUrl?: string,
 }

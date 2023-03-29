@@ -121,7 +121,7 @@ export const usersReducer = createReducer(
           case 'งานบริษัท': 
             newState.users.BC.short[user.uid] = user;
             break;
-          case 'งาวิจัย': 
+          case 'งานวิจัย': 
             newState.users.CA.short[user.uid] = user;
             break;
           case 'งานอื่นๆ': 
@@ -141,7 +141,9 @@ export const usersReducer = createReducer(
     let newJobType: any = _.cloneDeep(jobType);
     newState.users[newJobType].long = {};
     newUsers.forEach((newUser: UserPharma)=> {
-      newState.users[newJobType].long[newUser.uid] = newUser
+      newState.users[newJobType].long[newUser.uid] = {
+        ...newUser,
+      }
     })
     return {
       ...newState

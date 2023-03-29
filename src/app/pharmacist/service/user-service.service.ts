@@ -49,7 +49,7 @@ export class UserServiceService {
   getOperatorData(operatorUID:string){
     return this.db.collection("users").doc(operatorUID).get()
   }
-  updateUser(user: User) : Promise<void>{
-     return this.db.collection("users").doc(user.uid).set(user)
+  updateUser(user: Partial<User>) : Promise<void>{
+     return this.db.collection("users").doc(user.uid).update(user)
   }
 }

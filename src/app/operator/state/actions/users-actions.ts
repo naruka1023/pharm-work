@@ -4,6 +4,10 @@ import { Favorite, UserPharma } from "../../model/user.model";
 export const toggleLoading = createAction(
     '[Pharma-Users] Toggle Loading'
 );
+export const coverPhotoLoadingComplete = createAction(
+    '[Pharma-Users] Cover Photo Loading Complete',
+    props<{ userUID: string }>()
+);
 
 export const funnelUsers = createAction(
     '[Pharma-Users] Funnel Users',

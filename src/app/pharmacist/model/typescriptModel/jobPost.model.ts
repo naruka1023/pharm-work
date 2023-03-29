@@ -45,6 +45,8 @@ export interface userOperator{
         Province: string;
     },
     uid: string;
+    profilePictureUrl?:string;
+    coverPhotoPictureUrl?:string
 }
 export interface Contacts{
     phone: string;
@@ -137,5 +139,7 @@ export interface jobPostModel {
     DateOfJob: Date [];
     dateCreated: string;
     dateUpdated: string;
-    custom_doc_id: string
+    custom_doc_id: string;
+    profilePictureUrl?:string;
+    coverPhotoPictureUrl?:string
 }

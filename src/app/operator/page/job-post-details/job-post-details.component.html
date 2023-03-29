@@ -1,7 +1,7 @@
 <div (click)="scrollUp()"class="position-fixed bottom-0 end-0 m-3" style="font-size:5rem">
 	<i class="pe-auto bi bi-arrow-up-square"></i>
 </div>
-<app-profileheader [profileInformation]="profileHeader" profileType="job-post"></app-profileheader>
+<app-profileheader profileType="job-post"></app-profileheader>
 <div class="container">
 	<div>
 		<div class="d-flex justify-content-between mb-5">
@@ -15,7 +15,7 @@
 							<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
 						</ng-template>
 						<ng-template #notUrgentFlag>
-							<span class="badge bg-warning text-dark">Part-Time</span>
+							<span class="badge text-dark" style="background: #a2e3d9">Part-Time</span>
 						</ng-template>
 					</div>
 				</ng-template>
@@ -26,7 +26,7 @@
 							<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
 						</ng-template>
 						<ng-template #notUrgentFlag>
-							<span class="badge bg-success">Full-Time</span>
+							<span class="badge text-dark" style="background:#7fcae6">Full-Time</span>
 						</ng-template>
 					</div>
 				</ng-template>
@@ -96,7 +96,7 @@
 				<div class="ms-2"> {{profile.ARL.Station}}</div>
 			</div>
 			<div class="d-flex flex-row" *ngIf="profile.OnlineInterview">
-				<i class="bi bi-display me-2"></i><b>นัดสัมภาษณ์งานออนไลน์</b>
+				<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
 			</div>
 			<div class="d-flex flex-row" *ngIf="profile.WorkFromHome">
 				<i class="bi bi-house-fill me-2"></i><b>Work from home</b>

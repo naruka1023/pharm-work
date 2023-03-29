@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { JobTypeConverterService } from 'src/app/pharmacist/service/job-type-converter.service';
 import { UserPharma } from '../../model/user.model';
+import { JobTypeConverterService } from '../../service/job-type-converter.service';
 
 @Component({
   selector: 'app-recently-seen-users',

@@ -18,6 +18,7 @@ export class UsersEffect {
       map((user) => (
         setCurrentUser({user:{
           ...user,
+          coverPhotoFlag: true
         }})),
       catchError(() => EMPTY)
       ))

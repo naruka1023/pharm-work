@@ -33,7 +33,7 @@ import { addressReducer } from './state/reducer/address-reducer';
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

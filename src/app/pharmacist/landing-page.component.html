@@ -20,7 +20,6 @@
         </div>
       </div>
       <div class="collapse navbar-collapse d-flex p-2 flex-row-reverse" id="collapsibleNavbar" style="justify-content:space-between">
-        <input type="file" (change)="uploadFile($event)">
         <ng-container *ngIf="loginFlag; then loginNav; else normalNav"></ng-container>
         <ng-template #loginNav>
           <ul class="fs-5 navbar-nav d-flex align-items-center">
@@ -39,7 +38,7 @@
                       </ul>    
                   </li>
                   <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
-                  <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งาวิจัย</a></li>
+                  <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
                   <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
                 </ul>
               </div>
@@ -64,7 +63,7 @@
                           </ul>    
                       </li>
                       <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
-                      <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งาวิจัย</a></li>
+                      <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
                       <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
                     </ul>
               </li>

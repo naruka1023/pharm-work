@@ -188,12 +188,12 @@
 				</div>
 			</div>
 		</div>
-		<div *ngIf="header==='งานร้านยาทั่วไป (Stand alone)' || header === 'งานร้านยา Brand (Chain)' || header === 'งานโรงพยาบาล/งานคลินิก' || header === 'งานโรงงาน/งานบริษัท/งาวิจัย' || header==='งานอื่นๆ'">
+		<div *ngIf="header==='งานร้านยาทั่วไป (Stand alone)' || header === 'งานร้านยา Brand (Chain)' || header === 'งานโรงพยาบาล/งานคลินิก' || header === 'งานโรงงาน/งานบริษัท/งานวิจัย' || header==='งานอื่นๆ'">
 			<div class="mb-3 d-flex justify-content-between form-switch ps-0">
 				<label class="form-check-label" for="flexSwitchCheckDefault">งานใกล้ฉัน:</label>
 				<input class="form-check-input" (click)="onChangeEvent($event)" type="checkbox" role="switch" id="flexSwitchCheckDefault">
 			</div>
-			<div *ngIf="header === 'งานโรงงาน/งานบริษัท/งาวิจัย'" class="dropdown my-3 d-flex justify-content-between">
+			<div *ngIf="header === 'งานโรงงาน/งานบริษัท/งานวิจัย'" class="dropdown my-3 d-flex justify-content-between">
 				<label for="exampleFormControlInput1" class="d-flex align-items-end me-3">ประเภทงาน:</label>
 				<div class="d-flex justify-content-around">
 					<div>
@@ -411,7 +411,7 @@
 				<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
 			</div>
 		</div>
-		<div class="mt-5" *ngIf="header==='งานร้านยาทั่วไป (Stand alone)' || header === 'งานร้านยา Brand (Chain)' || header === 'งานโรงพยาบาล/งานคลินิก' || header === 'งานโรงงาน/งานบริษัท/งาวิจัย'">
+		<div class="mt-5" *ngIf="header==='งานร้านยาทั่วไป (Stand alone)' || header === 'งานร้านยา Brand (Chain)' || header === 'งานโรงพยาบาล/งานคลินิก' || header === 'งานโรงงาน/งานบริษัท/งานวิจัย'">
 		<div class="my-4 h3">{{ brandToCategory }}</div> 
 			<swiper [slidesPerView]="3" [grid]="{
         rows: 2

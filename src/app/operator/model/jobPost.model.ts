@@ -46,6 +46,10 @@ export interface jobPostModel {
     jobBenefits: string,
     applyInstructions: string,
     OperatorUID: string;
+    profilePictureUrl?: string;
+    cropProfilePictureUrl?: string,
+    coverPhotoPictureUrl?: string,
+    coverPhotoOffset?: number,
     TimeFrame: string;
     Urgency: boolean;
     Active: boolean;

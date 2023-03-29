@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { profileHeaderOperator } from '../../model/typescriptModel/header.model';
 import { jobPostModel, userOperator } from '../../model/typescriptModel/jobPost.model';
 import { User } from '../../model/typescriptModel/users.model';
 import { JobPostService } from '../../service/job-post.service';

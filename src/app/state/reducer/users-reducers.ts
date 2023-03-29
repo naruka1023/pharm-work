@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
-import { User } from '../../pharmacist/model/typescriptModel/users.model';
-import { getCurrentUser, removeCurrentUser, setCurrentUser, toggleLoading } from '../actions/users.action';
+import { User } from 'src/app/model/user.model';
+import { coverPhotoLoadSuccessful, getCurrentUser, removeCurrentUser, setCurrentUser, toggleLoading, updateCoverPhoto, updateCoverPhotoOffset, updateCropProfilePicture, updateProfilePicture } from '../actions/users.action';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -13,16 +13,20 @@ export const initialState: User = {
   uid: '',
   name: '',
   surname: '',
-  showProfileFlag:true,
+  showProfileFlag: true,
+  profilePictureUrl: '',
+  coverPhotoPictureUrl: '',
   license: '',
+  coverPhotoFlag: true,
   AmountCompleted: 0,
   WorkExperience: 0,
-  contacts:{
+  contacts: {
     facebook: '',
     line: '',
     phone: '',
     email: ''
-  }
+  },
+  cropProfilePictureUrl: ''
 };
 
 export const usersReducer = createReducer(
@@ -37,6 +41,37 @@ export const usersReducer = createReducer(
     return{
       ...state,
       loading:true
+    }
+  }),
+  on(updateCoverPhotoOffset, (state, { offset }: any) => {
+    return {
+      ...state,
+      coverPhotoOffset:offset
+    }
+  }),
+  on(updateCoverPhoto, (state, { coverPhotoPictureUrl, offset }: any) => {
+    return {
+      ...state,
+      coverPhotoOffset:offset,
+      coverPhotoPictureUrl: coverPhotoPictureUrl
+    }
+  }),
+  on(updateCropProfilePicture, (state, { cropProfilePictureUrl }: any) => {
+    return {
+      ...state,
+      cropProfilePictureUrl:cropProfilePictureUrl
+    }
+  }),
+  on(updateProfilePicture, (state, { profilePictureUrl }: any) => {
+    return {
+      ...state,
+      profilePictureUrl:profilePictureUrl
+    }
+  }),
+  on(coverPhotoLoadSuccessful, (state)=>{
+    return{
+      ...state,
+      coverPhotoFlag: false
     }
   }),
   on(getCurrentUser, (state) => {

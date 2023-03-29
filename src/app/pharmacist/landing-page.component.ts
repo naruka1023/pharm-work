@@ -1,17 +1,16 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { JobPostService } from './service/job-post.service';
-import { emptyRequestedJobs, updateFollowersList, addJobRequest, addBookmark, EmptyJobPostAppState, removeJobRequest, removeBookmark } from './state/actions/job-post.actions';
+import { updateFollowersList, addJobRequest, addBookmark, EmptyJobPostAppState, removeJobRequest, removeBookmark } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
 import { removeCurrentUser } from '../state/actions/users.action';
 import { Bookmark, Follow, jobPostModel, jobRequest } from './model/typescriptModel/jobPost.model';
 import { UtilService } from './service/util.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { UserPharma } from '../operator/model/user.model';
 
 @Component({
   selector: 'app-landing-page',
@@ -20,19 +19,17 @@ import { UserPharma } from '../operator/model/user.model';
 })
 export class LandingPageComponent {
 
-loginFlag: boolean = false;
-subject!: Subscription;
-i: number = 0;
-parsedJobs: jobPostModel[] = []
-subscription: any = {};
-bookmarkSubscription: any = {}
+  loginFlag: boolean = false;
+  subject!: Subscription;
+  i: number = 0;
+  parsedJobs: jobPostModel[] = []
+  subscription: any = {};
+  bookmarkSubscription: any = {}
 
-
-constructor(private fs:FileSystem,private db:AngularFirestore, private storage:AngularFireStorage, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router, private auth: AngularFireAuth, private utilService:UtilService) {
+constructor(private db:AngularFirestore, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router, private auth: AngularFireAuth, private utilService:UtilService) {
   
 }
-ngOnInit(){
-  
+ngOnInit(){  
   this.store.select((state: any)=>{
     return state.recentlySeen
   }).subscribe((recentlySeen)=>{
@@ -40,19 +37,15 @@ ngOnInit(){
       this.store.dispatch(removeRecentlySeen());
     }
   })
-    // user/{userID}/profile-picture,cover-photo
-    // this.db.collection('users', ref=> ref.where('role', '==', 'เภสัชกร')).get().subscribe((users)=>{
-    //   console.log(users.docs.length)
-    //   users.docs.forEach((user)=>{
-    //     let parsedUser : UserPharma = user.data() as UserPharma;
-    //     parsedUser.preferredTimeFrame = parsedUser.preferredTimeFrame == 'Part-time'? 'Part-Time': 'Full-Time'
-    //     this.db.collection('users').doc(user.id).set(parsedUser).then(()=>{
-    //       console.log(`user ${user.id} updated`)
-    //     })
-    //   })
-    // })
   this.subject = this.auth.user.subscribe((user)=>{
     if(user){
+      // this.db.collection("users", ref => ref.where('role', '==', "เภสัชกร")).get().subscribe((docs) =>{
+      //   docs.forEach((doc:any)=>{
+      //     this.db.collection("users").doc(doc.id).update({coverPhotoOffset: 0}).then((newDoc: any)=>{
+      //       console.log(`${newDoc.id} updatedSuccessfully`)
+      //     })
+      //   })
+      // })
       this.jobService.getUserBookmark(user.uid).subscribe((bookmarks)=>{
           bookmarks.forEach((bookmark: Bookmark)=>{
             this.bookmarkSubscription[bookmark.jobUID] = this.jobService.getJobFromBookmark(bookmark).subscribe((bk)=>{
@@ -156,13 +149,6 @@ ngOnInit(){
   this.loginFlag = true;
   this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
   
-}
-
-uploadFile(event:any) {
-  const file = event.target.files[0];
-  const filePath = 'name-your-file-path-here';
-  const ref = this.storage.ref(filePath);
-  const task = ref.put(file);
 }
 
   signOut(){

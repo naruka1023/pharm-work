@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
@@ -16,7 +17,7 @@ import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 })
 export class JobPostSmallCardComponent {
 
-  constructor(private utilService: UtilService, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
+  constructor(private storage: AngularFireStorage, private utilService: UtilService, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
 
   @Input() fullTimeFlag = true 
   @Input() urgentFlag = false;
@@ -28,8 +29,10 @@ export class JobPostSmallCardComponent {
   bookmarkID!: string; 
   requestFlag$!:Observable<boolean>;
   localFlag: boolean = true;
-  
-
+  limit = 25
+  establishmentLimit = 21;
+  jobName!: string;
+  establishmentName!: string;
   ngOnInit(){
     this.store.select((state: any)=>{
       return state.user.uid
@@ -58,6 +61,15 @@ export class JobPostSmallCardComponent {
     if(this.urgentFlag){
       this.fullTimeFlag = false;
     }
+}
+  limitMethod (string = '', limit = 0) {  
+    // let dot = ''
+    // if(document.getElementById('jobName' + this.content.custom_doc_id)!.clientHeight < document.getElementById('jobName' + this.content.custom_doc_id)!.scrollHeight){
+    //   console.log(string)
+    // }else{
+    //   dot = string
+    // }
+    return  string
   }
   getBookmarkPayload(){
     return {jobUID: this.content.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID, JobPost:this.content};

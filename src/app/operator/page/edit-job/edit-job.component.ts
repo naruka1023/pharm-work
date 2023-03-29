@@ -123,14 +123,17 @@ export class EditJobComponent implements OnDestroy{
         case 'โรงพยาบาล':
           categorySymbol = 'BB';
           break;
+        case 'คลินิก':
+          categorySymbol = 'BB';
+          break;
         case 'โรงงาน':
           categorySymbol = 'BC';
           break;
-        case 'บริษัทยา':
+        case 'บริษัท':
           categorySymbol = 'BC';
           break;
-        case 'มหาวิทยาลัย':
-          categorySymbol = 'CA';
+        case 'วิจัย':
+          categorySymbol = 'BC';
           break;
         case 'อื่นๆ':
           categorySymbol = 'CA';

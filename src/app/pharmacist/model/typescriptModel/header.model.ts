@@ -21,4 +21,5 @@ export interface profileHeaderPharma {
         District: string;
         Province: string
     }
+    coverPhotoOffset: number
 }

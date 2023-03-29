@@ -18,7 +18,7 @@
                 
             </ng-template>
             <div class="d-flex align-items-center">
-                <img src="assets/watsons.png" class="card-img-top" style="width:fit-content" height="150" width="150">
+                <img [src]="userState.cropProfilePictureUrl !== undefined? userState.cropProfilePictureUrl: userState.profilePictureUrl" class="card-img-top rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
                 <h3 class="ms-3">{{ userState.companyName }}</h3>
             </div>
         </div>
@@ -37,11 +37,11 @@
                 {{ userState.jobType }}
             </div>
         </div>
-        <div class="row" *ngIf="userState.jobType === 'ร้านยาแบรนด์'">
+        <div class="row mt-3" *ngIf="userState.jobType === 'ร้านยาแบรนด์'">
             <div class="col-3">
                 <div class="me-3">สาขา:</div>
             </div>
-            <div class="col">
+            <div class="col-5">
                 <input class="form-control" type="text" formControlName="Franchise">
             </div>
         </div>

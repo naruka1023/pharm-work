@@ -29,7 +29,7 @@ export class RequestJobComponent  implements OnDestroy {
   
   ngOnInit(){
     this.modal = new window.bootstrap.Modal(
-      document.getElementById('myModal')
+      document.getElementById('myModal2')
     );
     this.loadingFlag$ = this.store.select((state:any)=>{
       return state.requestedJobs.loadingRequest

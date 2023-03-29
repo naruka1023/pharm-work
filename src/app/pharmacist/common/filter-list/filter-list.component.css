@@ -1,5 +1,5 @@
 
-.brandIcon > img{
+.brandIcon {
     width:-webkit-fill-available !important;
     border-radius:100%
   }

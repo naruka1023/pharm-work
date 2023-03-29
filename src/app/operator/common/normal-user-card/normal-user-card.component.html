@@ -31,7 +31,7 @@
             <div>
                 <ng-container *ngIf="profileLinkPage; then link; else noLink"></ng-container>
                 <ng-template #link>
-                    <img src="assets/user-profile.jpg" (click)="goToProfile()" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+                    <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToProfile()" class="card-img-top m-auto my-3 rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
                     <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 20%;"><i class="bi bi-check-circle-fill"></i></div>
                 </ng-template>
                 <ng-template #noLink>

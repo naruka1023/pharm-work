@@ -52,16 +52,22 @@ export class NormalUserCardComponent {
   }
   goToProfile(){
     let pageType = 'long'
-    if(this.router.url !== '/operator/profile-operator/recently-seen-users'){
-      this.store.dispatch(addRecentlySeen({user: this.content}));
-      pageType = 'recently-seen'
+    switch(this.router.url){
+      case '/operator/profile-operator/recently-seen-users':
+        pageType = 'recently-seen'
+        break;
+      case '/operator/profile-operator/favorites':
+        pageType = 'favorites'
+      break;
+      default:
+        this.store.dispatch(addRecentlySeen({user: this.content}));
     }
     this.router.navigate(['/operator/pharma-user-profile'], {
       queryParams: 
       {
         userUID: this.content.uid,
         categorySymbol:this.type,
-        pageType:'recently-seen'
+        pageType:pageType
       }
     })
   }

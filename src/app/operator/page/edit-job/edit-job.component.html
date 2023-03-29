@@ -18,7 +18,7 @@
                 
             </ng-template>
             <div class="d-flex align-items-center">
-                <img src="assets/watsons.png" class="card-img-top" style="width:fit-content" height="150" width="150">
+                <img [src]="userState.cropProfilePictureUrl !== undefined? userState.cropProfilePictureUrl: userState.profilePictureUrl" class="card-img-top rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
                 <h3 class="ms-3">{{ userState.companyName }}</h3>
             </div>
         </div>

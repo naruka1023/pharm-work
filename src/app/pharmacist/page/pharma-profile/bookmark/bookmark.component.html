@@ -1,4 +1,7 @@
 <div class="row row-cols-2">
-    <app-job-post-normal-card *ngFor="let bookmark of bookmarks$ | async" cardType="Bookmarks"[content]="bookmark.JobPost!" [urgentFlag]="bookmark.JobPost!.Urgency" [fullTimeFlag]="bookmark.JobPost!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+    <div *ngFor="let bookmark of bookmarks$ | async">
+        <app-job-post-normal-card cardType="Bookmarks"[content]="bookmark.JobPost!" [urgentFlag]="bookmark.JobPost!.Urgency" [fullTimeFlag]="bookmark.JobPost!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+        <hr class="solid my-1" style="width:100%">
+    </div>
 </div>
 

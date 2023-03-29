@@ -66,8 +66,34 @@ export class UtilService {
   sendEditSubject(){
     return this.editSubject.next(true);
   }
-  updateUser(user: User) : Promise<void>{
+  updateUser(user: Partial<User>) : Promise<void>{
      return this.db.collection("users").doc(user.uid).update(user)
+  }
+  getUID(uid: string): Observable<any>{
+    return this.db.collection('job-post', ref=>ref.where("OperatorUID", "==", uid)).get()
+  }
+  updateUserJobsCoverPhoto(docs: any, coverPhotoPictureUrl: string, coverPhotoOffset: number){
+    const batch = this.db.firestore.batch();
+    docs.docs.forEach((doc:any)=>{
+        let ref = this.db.firestore.collection('job-post').doc(doc.id)
+        batch.update(ref ,{
+          ...doc.data(),
+          coverPhotoPictureUrl: coverPhotoPictureUrl,
+          coverPhotoOffset: coverPhotoOffset,
+        })
+    })
+    return batch.commit();
+  }
+  updateUserJobs(docs: any, cropProfilePictureUrl: string){
+    const batch = this.db.firestore.batch();
+    docs.docs.forEach((doc:any)=>{
+        let ref = this.db.firestore.collection('job-post').doc(doc.id)
+        batch.update(ref ,{
+          ...doc.data(),
+          profilePictureUrl: cropProfilePictureUrl,
+        })
+    })
+    return batch.commit();
   }
   populateLocationFieldsWithObject(userForm:UserPharma){
     userForm.preferredLocation = {

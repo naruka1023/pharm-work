@@ -14,7 +14,7 @@ export class RoutingService {
       queryParams: 
       {
         id: custom_doc_id,
-        categorySymbol: CategorySymbol
+        categorySymbol: CategorySymbol,
       }
     })
   }

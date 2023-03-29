@@ -1,11 +1,47 @@
 <div class="container" [ngSwitch]="profileType">
     <div *ngSwitchCase="'pharmacist-profile'">
-        <div class="img-container mh-100">
-            <img src="https://www.animationmagazine.net/wordpress/wp-content/uploads/One-Piece-1000-Commemorative-Battle-of-Onigashima-Visual-1000x600.jpg" />
+        <div style="position:relative">
+            <div *ngIf="editCoverPhotoFlag" class="dropdown" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '3'}">
+                <button data-bs-toggle="dropdown" 
+                        aria-expanded="false" 
+                        id='coverPhotoEditButtonPosition' 
+                        aria-expanded="false" 
+                        class="btn btn-secondary fs-3">
+                        <i class="bi bi-camera-fill me-1"></i> ปรับแต่งรูป
+                </button>
+                <ul class="dropdown-menu p-2">
+                    <li><a class="dropdown-item" (click)="uploadNewPhotoClick()"><i class="bi bi-cloud-upload-fill me-1"></i><input type="file" id="fileUpload"  (change)="repositionGuard($event)" hidden/>อัพโหลดรูป</a></li>
+                    <li><a class="dropdown-item" (click)="editCoverPhotoClick()"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li><a class="dropdown-item"><i class="bi bi-trash3-fill me-1"></i>ลบรูป</a></li>
+                </ul>
+            </div>
+            
+            <div *ngIf="!editCoverPhotoFlag" class="d-flex justify-content-end p-3" style=" position: absolute; z-index: 2; right: 0">
+                <div *ngIf="savePhotoLoadingFlag" class="align-self-center spinner-border text-primary me-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <button class="btn btn-primary me-3" *ngIf="pathToUploadPicture" (click)="uploadCoverPhotoClick()">Save</button>
+                <button class="btn btn-primary me-3" *ngIf="!pathToUploadPicture" (click)="saveCoverPhotoClick()">Save</button>
+                <button class="btn btn-secondary" (click)="cancelCoverPhotoClick()">Cancel</button>
+            </div>
+
+            <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+                <img id="innerPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl" />
+            </div>
         </div>
         <div class="d-flex justify-content-between">
             <div class="d-flex justify-content-between">
-                    <img class="job-post_profile-picture border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
+                <div>
+                    <img class="job-post_profile-picture border border-5 border-white rounded-circle" id="profilePicture" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
+                    <i data-bs-toggle="dropdown" class="bi bi-camera-fill fs-3 profileUploadButton"></i>
+                    <ul class="dropdown-menu p-2">
+                        <li><a class="dropdown-item" (click)="uploadProfilePictureClick()"><i class="bi bi-cloud-upload-fill me-1"></i>อัพโหลดรูป</a></li>
+                        <li><a class="dropdown-item" (click)="editProfilePictureClick($event, 'asdf')"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
+                    </ul>
+                    <input type="file" id="profilePictureFile" (change)="editProfilePictureClick($event, '')" hidden/>
+                </div>
+
                 <div>
                     <div class="d-flex">
                         <h3 class="m-4 mb-0 me-2">{{result.name}}</h3>
@@ -27,12 +63,12 @@
         <div class="fs-5 mb-5" style="text-indent: 20px"><i>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</i></div>
     </div>
     <div *ngSwitchCase="'job-post'">
-        <div class="img-container mh-100">
-            <img src="https://www.animationmagazine.net/wordpress/wp-content/uploads/One-Piece-1000-Commemorative-Battle-of-Onigashima-Visual-1000x600.jpg" />
+        <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+            <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
         </div>
         <div class="d-flex justify-content-between">
             <div class="d-flex justify-content-between">
-                <img class="job-post_profile-picture border border-5 border-white rounded-circle" (click)="goToOperatorProfile()" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
+                <img class="job-post_profile-picture border border-5 border-white rounded-circle" (click)="goToOperatorProfile()" [src]="result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                 <div>
                     <div class="d-flex">
                         <h3 class="m-4 mb-0 me-2">{{result.Establishment}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
@@ -60,7 +96,7 @@
                             <ng-template #loading>
                                 <div>
                                     <div style="text-align:center">
-                                        <div class="spinner-border text-primary" role="status">
+                                        <div class="spinner-border text-light" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
                                     </div>
@@ -82,12 +118,12 @@
         </div>
     </div>
     <div *ngSwitchCase="'operator-profile'">
-        <div class="img-container mh-100">
-            <img src="https://www.animationmagazine.net/wordpress/wp-content/uploads/One-Piece-1000-Commemorative-Battle-of-Onigashima-Visual-1000x600.jpg" />
+        <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+            <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
         </div>
         <div class="d-flex justify-content-between">
             <div class="d-flex justify-content-between">
-                <img class="job-post_profile-picture border border-5 border-white rounded-circle" src="assets/watsons.png" alt="Profile Picture" width="150" height="150" />
+                <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                 <div>
                     <div class="d-flex">
                         <h3 class="m-4 mb-0 me-2">{{result.name}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
@@ -125,3 +161,29 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+            <div [ngStyle]="{'align-items':'center', 'display': 'flex', 'justify-content':'center', 'overflow': 'hidden', 'height' : '50vh'}">
+                    <div class="loading" *ngIf="loadProfilePictureFlag">
+                        <div style="text-align:center">
+                            <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="imgContainer" [ngStyle]="{'display': loadProfilePictureFlag?'none': 'block'}">
+                    </div>
+            </div>
+            <input type="range" class="form-range" [(ngModel)]="dynamicScale" (ngModelChange)="valueChanges($event)" min="0" max="1" step="0.01" id="customRange2">
+        </div>
+        <div class="modal-footer">
+            <div class="d-flex flex-row-reverse">
+                <button type="button" class="btn btn-primary ms-3" (click)="uploadProfilePicture()">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

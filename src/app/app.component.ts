@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { User } from './pharmacist/model/typescriptModel/users.model';
+import { User } from './model/user.model';
 import { removeDefaultKey } from './state/actions/address.action';
 import { getCurrentUser, setCurrentUser } from './state/actions/users.action';
 declare var bootstrap: any;
@@ -49,7 +49,8 @@ export class AppComponent {
           showProfileFlag: true,
           loading:true,
           AmountCompleted: 0,
-          WorkExperience: 0
+          WorkExperience: 0,
+          coverPhotoFlag: true
         };
         this.store.dispatch(setCurrentUser({user: emptyUser}));
         localStorage.setItem('loginState', 'false')

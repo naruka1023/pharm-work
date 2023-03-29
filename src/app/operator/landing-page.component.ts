@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { getStorage, ref } from 'firebase/storage';
 import { Subscription } from 'rxjs';
 import { removeCurrentUser } from '../state/actions/users.action';
 import { JobService } from './service/job.service';
 import { UsersService } from './service/users.service';
-import { UtilService } from './service/util.service';
 import { emptyRequestedJobs } from './state/actions/job-request-actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
 import { clearFavorites, setFavorites } from './state/actions/users-actions';
@@ -18,10 +20,20 @@ import { clearFavorites, setFavorites } from './state/actions/users-actions';
 export class LandingPageComponent {
   subject!:Subscription
 
-  constructor(private userService:UsersService,private jobService:JobService, private route:Router,private utilService:UtilService, private auth:AngularFireAuth, private store:Store){}
+  constructor(private userService:UsersService, private route:Router, private auth:AngularFireAuth, private store:Store){}
 
   ngOnInit(){
     this.subject = this.auth.user.subscribe((user)=>{
+      // this.db.collection('job-post').get().subscribe((docs)=>{
+      //   docs.forEach((doc:any)=>{
+      //     this.db.collection('job-post').doc(doc.id).update({
+      //       coverPhotoPictureUrl:"https://firebasestorage.googleapis.com/v0/b/pharm-work.appspot.com/o/placeholder%2Fcover-photo?alt=media&token=e76b82e2-cf52-45d3-940a-96086661de07",
+      //       coverPhotoOffset:0
+      //     }).then(()=>{
+      //       console.log(`update ${doc.id} successful`)
+      //     })
+      //   })
+      // })
       if(user){
         this.store.select((state: any)=>{
           return state.recentlySeen
@@ -30,10 +42,9 @@ export class LandingPageComponent {
             this.store.dispatch(removeRecentlySeen());
           }
         })
-      
         this.userService.getFavorites(user.uid).subscribe((favorites1: any)=>{
           this.userService.getListOfUsersFromFavorites(favorites1).subscribe((favorites)=>{
-            this.store.dispatch(setFavorites({favorites:favorites}))
+            this.store.dispatch(setFavorites({favorites:favorites as any}))
           })
         })
       }else{

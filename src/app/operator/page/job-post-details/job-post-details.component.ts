@@ -18,9 +18,7 @@ export class JobPostDetailsComponent {
   profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
   id!: string;
-  categorySymbol!: string;
   profile!:jobPostModel;
-  profileHeader!: profileHeaderJobPost;
   bookmarkLoadingFlag: boolean = false;
   bookmarkFlag$:Observable<boolean> = of(true);
   bookmarkID!: string; 
@@ -47,10 +45,6 @@ export class JobPostDetailsComponent {
     this.profilePayload$.subscribe((res: jobPostModel)=>{
       if(res !== undefined){
         this.profile = res;
-        this.profileHeader = {
-          Establishment: this.profile.Establishment,
-          JobType: this.profile.JobType
-        }
       }
     })
     this.scrollUp();

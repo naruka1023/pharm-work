@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -20,10 +21,12 @@ export class SmallUserCardComponent {
   localFlag: boolean = true;
   favoriteID!: string;
   userID!: string
+  profilePictureID!: string;
 
-  constructor(private userService: UsersService, private store:Store, private router:Router){}
+  constructor(private storage: AngularFireStorage, private userService: UsersService, private store:Store, private router:Router){}
 
   ngOnInit(){
+    this.profilePictureID = `profilePicture${this.content.uid}`
     this.store.select((state: any)=>{
       return state.user.uid
     }).subscribe((value)=>{
@@ -31,6 +34,15 @@ export class SmallUserCardComponent {
         this.userID = value
       }
     })
+    // const ref = this.storage.ref(`users/${this.content.uid}/profile-picture`);
+    // console.log(`${this.content.name} begin upload`)
+    // ref.getDownloadURL().subscribe((url:string)=>{
+    //   const img = document.getElementById(this.profilePictureID);
+    //   img!.setAttribute('src', url);
+    //   console.log(`${this.content.name} upload successful`)
+    // }, (error:any)=>{
+    //   console.log(error)
+    // });
     this.favoriteFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userID !== ''){
@@ -49,9 +61,7 @@ export class SmallUserCardComponent {
     })
   }
   goToProfile(){
-    if(this.router.url !== 'operator/profile-operator/recently-seen-users'){
-      this.store.dispatch(addRecentlySeen({user: this.content}));
-    }
+    this.store.dispatch(addRecentlySeen({user: this.content}));
     this.router.navigate(['/operator/pharma-user-profile'], {
       queryParams: 
       {
