@@ -299,7 +299,7 @@
                             </label>
                         </div>
                         <div class="col-7">
-                            <input formControlName="name" type="text" style="width:-fill-webkit-available" class="form-control me-3">
+                            <input formControlName="name" type="text" style="width:-webkit-fill-available" class="form-control me-3">
                         </div>
                     </div>
                     <div class="row">
@@ -427,12 +427,12 @@
                                 <div class="col">
                                     <ng-container *ngIf="i == 0; then add; else noadd"></ng-container>
                                     <ng-template #add>
-                                        <i (click)="addEducation()" class="button bi bi-plus-circle-fill"></i>
+                                        <i (click)="addEducation()" class="button bi bi-plus-circle"></i>
                                     </ng-template>
                                     <ng-template #noadd>
-                                        <i style="visibility:hidden" class="button bi bi-plus-circle-fill"></i>
+                                        <i style="visibility:hidden" class="button bi bi-plus-circle"></i>
                                     </ng-template>
-                                    <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" ms-3 button bi bi-trash-fill"></i>
+                                    <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" ms-3 button bi bi-trash"></i>
                                 </div>
                             </div>
                         </ng-container>
@@ -500,12 +500,12 @@
                                         <div class="d-flex flex-start">
                                             <ng-container *ngIf="i == 0; then addOccupations; else noaddOccupations"></ng-container>
                                             <ng-template #addOccupations>
-                                                <i (click)="addOccupation()"class="button bi bi-plus-circle-fill"></i>
+                                                <i (click)="addOccupation()"class="button bi bi-plus-circle"></i>
                                             </ng-template>
                                             <ng-template #noaddOccupations>
-                                                <i style="visibility:hidden" class="button bi bi-plus-circle-fill"></i>
+                                                <i style="visibility:hidden" class="button bi bi-plus-circle"></i>
                                             </ng-template>
-                                            <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class=" ms-3 button bi bi-trash-fill"></i>
+                                            <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class=" ms-3 button bi bi-trash"></i>
                                         </div>
                                     </div>
                                     <div class="col form-check">

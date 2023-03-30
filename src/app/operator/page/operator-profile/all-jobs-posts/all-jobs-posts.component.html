@@ -10,7 +10,7 @@
     <div class="row row-cols-2">
         <div *ngFor="let content of allCreatedJobs$ | async">
             <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
-            <hr class="solid my-1" style="width:100%">
+            
         </div>
     </div>
 </ng-template>

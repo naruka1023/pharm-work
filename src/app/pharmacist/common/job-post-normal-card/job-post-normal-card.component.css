@@ -1,6 +1,11 @@
 .row > .col {
     padding-left: 0 !important
 }
+
+.rounded{
+  border-radius: 20px !important;
+}
+
 #overlay {
     position: absolute;
     display: block;

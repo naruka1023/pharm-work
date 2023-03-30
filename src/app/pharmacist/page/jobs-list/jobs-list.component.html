@@ -17,10 +17,12 @@
     </ng-template>
     <ng-template #jobsList>
         <div class="row row-cols-2">
-            <div *ngFor="let content of content$ | async" >
-                <app-job-post-normal-card [content]="content" [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" [fullTimeFlag]="content.TimeFrame =='Full-Time'" class="col"></app-job-post-normal-card>
-                <hr class="solid my-1" style="width:100%">
-            </div>
+            <ng-container *ngFor="let content of content$ | async ; index as i" >
+                <div>
+                    <app-job-post-normal-card [content]="content" [urgentFlag]="header === 'งานเภสัชด่วนรายวัน'" [fullTimeFlag]="content.TimeFrame =='Full-Time'" class="col"></app-job-post-normal-card>
+                </div>
+                <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+            </ng-container>
         </div>
 
     </ng-template>

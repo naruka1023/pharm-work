@@ -10,10 +10,10 @@
         </div>
         <p class="text-secondary-emphasis text-opacity-50 fs-5 my-auto ms-3">({{ content!.length }})</p>
     </div>
-    <button *ngIf="filterFlags.filterFlag" (click)="goToList()" type="button" class="btn btn-light d-flex flex-row align-items-center">
+    <div *ngIf="filterFlags.filterFlag" style="cursor: pointer; background-color:#f2f2f2" (click)="goToList()"class="d-flex flex-row align-items-center">
         <p class="h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
         <i class="d-flex bi bi-arrow-right-square align-items-center" style="font-size:1.5rem"></i>
-    </button>
+    </div>
 </div>
     <div class="collapse" [id]="filterFlags.CategorySymbol">
         <app-filter [filterFlags]="filterFlags"></app-filter>
@@ -37,7 +37,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-1.webp" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style="text-align:left" class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style="text-align:left" class="col">3 งานด่วน</div></div>
 					</div>
@@ -46,7 +46,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-2.webp" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style="text-align:left" class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style="text-align:left" class="col">3 งานด่วน</div></div>
 					</div>
@@ -55,7 +55,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-3.webp" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style="text-align:left" class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style="text-align:left" class="col">3 งานด่วน</div></div>
 					</div>
@@ -64,7 +64,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-4.jpg" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style="text-align:left" class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style="text-align:left" class="col">3 งานด่วน</div></div>
 					</div>
@@ -73,7 +73,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-5.webp" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style="text-align:left" class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style="text-align:left" class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style="text-align:left" class="col">3 งานด่วน</div></div>
 					</div>
@@ -82,7 +82,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-6.webp" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style='text-align:left' class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style='text-align:left' class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style='text-align:left' class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style='text-align:left' class="col">3 งานด่วน</div></div>
 					</div>
@@ -91,7 +91,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-7.png" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style='text-align:left'   class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style='text-align:left'   class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style='text-align:left'  class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style='text-align:left'  class="col">3 งานด่วน</div></div>
 					</div>
@@ -100,7 +100,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-8.png" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style='text-align:left'  class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style='text-align:left'  class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style='text-align:left'  class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style='text-align:left'  class="col">3 งานด่วน</div></div>
 					</div>
@@ -109,7 +109,7 @@
 					<div class="brandIcon">
 						<img src="assets/pharma-brand-9.png" class="brandIcon" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
 						<div class="fs-5"><b>P Aom Tood ti men ti sud nai lok</b></div>
-						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-pin-map"></i></div><div style='text-align:left'  class="col">Bangkok</div></div>
+						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-geo-alt"></i></div><div style='text-align:left'  class="col">Bangkok</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-briefcase"></i></div><div style='text-align:left'  class="col">5 ตำแหน่ง</div></div>
 						<div class="fs-6 row"><div class="col-4" style="text-align:right"><i class="bi bi-file-earmark-text"></i></div><div style='text-align:left'  class="col">3 งานด่วน</div></div>
 					</div>

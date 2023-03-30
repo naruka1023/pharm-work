@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { entries } from 'lodash';
-import { Observable, Subscription, take } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import SwiperCore, { Grid, Navigation, Pagination } from "swiper";
 import { jobPostModel, filterConditions } from '../../model/typescriptModel/jobPost.model';
 import { getJobCategory } from '../../state/actions/job-post.actions';

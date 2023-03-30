@@ -1,4 +1,7 @@
 <div class="row row-cols-2">
-    <app-job-post-normal-card *ngFor="let bookmark of recentlySeen$ | async" [content]="bookmark!" [urgentFlag]="bookmark!.Urgency" [fullTimeFlag]="bookmark!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+    <ng-container *ngFor="let bookmark of recentlySeen$ | async, index as i">
+        <app-job-post-normal-card  [content]="bookmark!" [urgentFlag]="bookmark!.Urgency" [fullTimeFlag]="bookmark!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+        <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+    </ng-container>
 </div>
 

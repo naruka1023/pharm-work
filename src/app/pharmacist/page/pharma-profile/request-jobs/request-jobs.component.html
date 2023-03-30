@@ -1,4 +1,9 @@
 <div class="row row-cols-2">
-    <app-job-post-normal-card *ngFor="let jobRequest of jobRequests$ | async" [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+    <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
+        <div>
+            <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+        </div>
+        <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+    </ng-container>
 </div>
 

@@ -1,6 +1,9 @@
 .card-body > .d-flex, .addressList > .d-flex{
     justify-content: space-between;
 }
+.rounded{
+    border-radius: 20px !important;
+  }
 .bi{
     font-size:1.5rem
 }

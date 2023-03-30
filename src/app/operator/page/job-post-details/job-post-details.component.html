@@ -34,14 +34,14 @@
 			<div class="d-flex justify-content-start">
 				<button type="button" class="btn">
 					<h1>
-						<i class="bi bi-share-fill"></i>
+						<i class="bi bi-share"></i>
 					</h1>
 				</button>
 			</div>
 		</div>
 		<div class="grid">
 			<div class="d-flex flex-row" >
-				<i class="bi bi-building-fill me-2"></i><b>สถานที่ปฏิบัติงาน:</b>
+				<i class="bi bi-building me-2"></i><b>สถานที่ปฏิบัติงาน:</b>
 			</div>
 			<div>{{profile.Establishment}}</div>
 			<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'">
@@ -49,11 +49,11 @@
 			</div>
 			<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise}}</div>
 			<div class="d-flex flex-row" >
-				<i class="bi bi-clock-fill me-2"></i><b>วงเวลาปฏิบัติงาน:</b>
+				<i class="bi bi-clock me-2"></i><b>วงเวลาปฏิบัติงาน:</b>
 			</div>
 			<div>{{profile.Duration}}</div>
 			<div class="d-flex flex-row" >
-				<i class="bi bi-people-fill me-2"></i><b>จำนวนที่รับสมัคร:</b>
+				<i class="bi bi-people me-2"></i><b>จำนวนที่รับสมัคร:</b>
 			</div>
 			<div>{{profile.Amount}} ตำแหน่ง</div>
 			<div class="d-flex flex-row" *ngIf="profile.TimeFrame == 'Full-Time'">
@@ -65,7 +65,7 @@
 			</div>
 			<div  *ngIf="profile.TimeFrame == 'Part-Time'">{{profile.Salary.Amount}} บาท/ชม</div>
 			<div class="d-flex flex-row" >
-				<i class="bi bi-pin-map-fill me-2"></i><b>พื้นที่ปฏิบัติงาน:</b>
+				<i class="bi bi-geo-alt me-2"></i><b>พื้นที่ปฏิบัติงาน:</b>
 			</div>
 			<div class="d-flex flex-row" class="d-flex flex-row">
 				<b>แขวง:</b>
@@ -80,7 +80,7 @@
 				<div class="ms-2"> {{profile.Location.Province}}</div>
 			</div>
 			<div *ngIf="profile.BTS.Near"  class="d-flex flex-row">
-				<i class="bi bi-train-front-fill me-2"></i> <b>ใกล้ BTS</b>
+				<i class="bi bi-train-front me-2"></i> <b>ใกล้ BTS</b>
 				<div class="ms-2"> {{profile.BTS.Station}}</div>
 			</div>
 			<div *ngIf="profile.MRT.Near"  class="d-flex flex-row">
@@ -88,7 +88,7 @@
 				<div class="ms-2"> {{profile.MRT.Station}}</div>
 			</div>
 			<div *ngIf="profile.SRT.Near"  class="d-flex flex-row">
-				<i class="bi bi-train-front-fill me-2"></i> <b>ใกล้ SRT</b>
+				<i class="bi bi-train-front me-2"></i> <b>ใกล้ SRT</b>
 				<div class="ms-2"> {{profile.SRT.Station}}</div>
 			</div>
 			<div *ngIf="profile.ARL.Near"  class="d-flex flex-row">
@@ -99,7 +99,7 @@
 				<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
 			</div>
 			<div class="d-flex flex-row" *ngIf="profile.WorkFromHome">
-				<i class="bi bi-house-fill me-2"></i><b>Work from home</b>
+				<i class="bi bi-house me-2"></i><b>Work from home</b>
 			</div>
 		</div>
 		<div class="mt-5 d-flex justify-content-end">
