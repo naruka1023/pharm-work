@@ -5,8 +5,8 @@ import { getDownloadURL, getMetadata, getStorage, listAll, ref, uploadString } f
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import Cropper from 'cropperjs';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { coverPhotoLoadSuccessful, updateCoverPhoto, updateCoverPhotoOffset, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
+import { Observable, Subject } from 'rxjs';
+import { coverPhotoLoadSuccessful, updateCoverPhoto, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
 import { profileHeaderJobPost, profileHeaderOperator, profileHeaderPharma } from '../../model/typescriptModel/header.model';
 import { AppState, Follow, jobPostModel, userOperator } from '../../model/typescriptModel/jobPost.model';
 import { User } from '../../model/typescriptModel/users.model';
@@ -83,7 +83,6 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
     })
     switch(this.profileType){
       case "job-post":
-        console.log('jobpost')
         this.id = this.route.snapshot.queryParamMap.get('id')!;
         this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
         this.store.select((state: any)=>{
@@ -100,7 +99,7 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
           this.result = newJob
         })
         this.loading$ = this.store.select((state:any) =>{
-          return state.jobpost.loadingOperator
+          return state.operator.loadingOperator
         })
         this.userService.getOperatorData(this.operatorUID).subscribe((operator)=>{
           this.operator = operator.data() as userOperator
@@ -111,7 +110,7 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
           console.log('operator-profile')
           this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
           this.store.select((state:any)=> {
-            return state.jobpost.operator
+            return state.operator
           }).subscribe((operator)=>{
           this.operator =  operator;
           this.operatorUID = operator.uid;
@@ -130,7 +129,6 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
         })
         break;
       case "pharmacist-profile":
-        console.log('pharmacist-profile')
         this.headerInformation = this.store.select((state: any)=>{
           this.profileInformation$ = state.user;
           return{
@@ -140,7 +138,14 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
             coverPhotoPictureUrl: this.profileInformation$.coverPhotoPictureUrl,
             cropProfilePictureUrl: this.profileInformation$.cropProfilePictureUrl,
             coverPhotoOffset: this.profileInformation$.coverPhotoOffset!,
-            uid: this.profileInformation$.uid
+            uid: this.profileInformation$.uid,
+            preferred:{
+              timeFrame: this.profileInformation$.preferredTimeFrame,
+              jobType: this.profileInformation$.preferredJobType,
+              province: this.profileInformation$.preferredProvince,
+              district: this.profileInformation$.preferredDistrict,
+              salary: this.profileInformation$.preferredSalary,
+            }
           }
         })
         this.headerInformation.subscribe((header)=>{

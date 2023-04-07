@@ -1,7 +1,6 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Injectable} from '@angular/core';
-import {catchError, concatMap, distinctUntilChanged, exhaustMap, map, mergeMap, switchMap, take} from 'rxjs/operators';
-import {EMPTY, of} from 'rxjs';
+import {catchError, map, switchMap, take} from 'rxjs/operators';
 import { getBookmarks, getJobCategory, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess,  } from '../actions/job-post.actions';
 import { JobPostService } from '../../service/job-post.service';
 
@@ -25,22 +24,7 @@ export class JobPostEffects {
       )
     )
   );
-  loadJobsCategory$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getJobCategory),
-      switchMap((action) => 
-        this.jobPostService.getJobCategoryService(action.CategorySymbol)
-      .pipe(
-        take(1),
-        map((jobPosts:any) => (
-          retrievedJobCategorySuccess({jobs:jobPosts})),
-        catchError((err) => {
-          return err
-        })
-        )),
-      )
-    )
-  );
+
   constructor(
     private actions$: Actions,
     private jobPostService: JobPostService

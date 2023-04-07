@@ -1,102 +1,167 @@
-<div class="container" [ngSwitch]="profileType">
-    <div *ngSwitchCase="'pharmacist-profile'">
-        <div style="position:relative">
-            <div *ngIf="editCoverPhotoFlag" class="dropdown" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '3'}">
-                <button data-bs-toggle="dropdown" 
-                        aria-expanded="false" 
-                        id='coverPhotoEditButtonPosition' 
-                        aria-expanded="false" 
-                        class="btn btn-secondary fs-3">
-                        <i class="bi bi-camera me-1"></i> ปรับแต่งรูป
-                </button>
-                <ul class="dropdown-menu p-2">
-                    <li><a class="dropdown-item" (click)="uploadNewPhotoClick()"><i class="bi bi-cloud-upload me-1"></i><input type="file" id="fileUpload"  (change)="repositionGuard($event)" hidden/>อัพโหลดรูป</a></li>
-                    <li><a class="dropdown-item" (click)="editCoverPhotoClick()"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
-                    <div class="dropdown-divider"></div>
-                    <li><a class="dropdown-item"><i class="bi bi-trash3 me-1"></i>ลบรูป</a></li>
-                </ul>
-            </div>
-            
-            <div *ngIf="!editCoverPhotoFlag" class="d-flex justify-content-end p-3" style=" position: absolute; z-index: 2; right: 0">
-                <div *ngIf="savePhotoLoadingFlag" class="align-self-center spinner-border text-primary me-3" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <button class="btn btn-primary me-3" *ngIf="pathToUploadPicture" (click)="uploadCoverPhotoClick()">Save</button>
-                <button class="btn btn-primary me-3" *ngIf="!pathToUploadPicture" (click)="saveCoverPhotoClick()">Save</button>
-                <button class="btn btn-secondary" (click)="cancelCoverPhotoClick()">Cancel</button>
-            </div>
-
-            <div id="coverPhoto"  class="coverPhoto img-container mh-100">
-                <img id="innerPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl" />
-            </div>
-        </div>
-        <div class="d-flex justify-content-between">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <img class="job-post_profile-picture border border-5 border-white rounded-circle" id="profilePicture" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
-                    <i data-bs-toggle="dropdown" class="bi bi-camera fs-3 profileUploadButton"></i>
-                    <ul class="dropdown-menu p-2">
-                        <li><a class="dropdown-item" (click)="uploadProfilePictureClick()"><i class="bi bi-cloud-upload me-1"></i>อัพโหลดรูป</a></li>
-                        <li><a class="dropdown-item" (click)="editProfilePictureClick($event, 'asdf')"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
-                    </ul>
-                    <input type="file" id="profilePictureFile" (change)="editProfilePictureClick($event, '')" hidden/>
-                </div>
-
-                <div>
-                    <div class="d-flex">
-                        <h3 class="m-4 mb-0 me-2">{{result.name}}</h3>
-                         <h5 *ngIf="result.Location" style='align-self:end' class="my-4 mb-0 ms-3"> <b>เขต:</b> {{result.Location?.District}} <b>จังหวัด:</b> {{result.Location?.Province}}</h5>
+    <div [ngSwitch]="profileType">
+        <div *ngSwitchCase="'pharmacist-profile'" >
+            <div class="container" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+                <div style="position:relative">
+                    <div *ngIf="editCoverPhotoFlag" class="dropdown" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '3'}">
+                        <button data-bs-toggle="dropdown" 
+                                aria-expanded="false" 
+                                id='coverPhotoEditButtonPosition' 
+                                aria-expanded="false" 
+                                class="btn btn-secondary fs-3">
+                                <i class="bi bi-camera me-1"></i> ปรับแต่งรูป
+                        </button>
+                        <ul class="dropdown-menu p-2">
+                            <li><a class="dropdown-item" (click)="uploadNewPhotoClick()"><i class="bi bi-cloud-upload me-1"></i><input type="file" id="fileUpload"  (change)="repositionGuard($event)" hidden/>อัพโหลดรูป</a></li>
+                            <li><a class="dropdown-item" (click)="editCoverPhotoClick()"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item"><i class="bi bi-trash3 me-1"></i>ลบรูป</a></li>
+                        </ul>
                     </div>
-                    <div>
-                        <!-- <h6 class="mx-4"><i>{{profileInformation.JobType}}</i ></h6> -->
+                    
+                    <div *ngIf="!editCoverPhotoFlag" class="d-flex justify-content-end p-3" style=" position: absolute; z-index: 2; right: 0">
+                        <div *ngIf="savePhotoLoadingFlag" class="align-self-center spinner-border text-primary me-3" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <button class="btn btn-primary me-3" *ngIf="pathToUploadPicture" (click)="uploadCoverPhotoClick()">Save</button>
+                        <button class="btn btn-primary me-3" *ngIf="!pathToUploadPicture" (click)="saveCoverPhotoClick()">Save</button>
+                        <button class="btn btn-secondary" (click)="cancelCoverPhotoClick()">Cancel</button>
+                    </div>
+        
+                    <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+                        <img id="innerPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl" />
                     </div>
                 </div>
-            </div>
-            <div class="mt-4">
-                <div class="fs-2 d-flex justify-content-end">
-                    <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>
-                    <div class="ms-3"><a (click)="editProfileClicked()"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square"></i></a></div>
-                    <div class="ms-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div>
-                </div>
-            </div>
-        </div>
-        <div class="fs-5 mb-5" style="text-indent: 20px"><i>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</i></div>
-    </div>
-    <div *ngSwitchCase="'job-post'">
-        <div id="coverPhoto"  class="coverPhoto img-container mh-100">
-            <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
-        </div>
-        <div class="d-flex justify-content-between">
-            <div class="d-flex justify-content-between">
-                <img class="job-post_profile-picture border border-5 border-white rounded-circle" (click)="goToOperatorProfile()" [src]="result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
-                <div>
-                    <div class="d-flex">
-                        <h3 class="m-4 mb-0 me-2">{{result.Establishment}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
-                    </div>
-                    <div>
-                        <h6 class="mx-4"><i>{{result.JobType}}</i></h6>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="d-flex justify-content-between">
-                    <ng-container *ngIf="loading$ | async; then loading; else notLoading"></ng-container>
-                    <ng-template #loading>
-                        <div class="loading">
-                            <div style="text-align:center">
-                                <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                                </div>
+                <div class="d-flex justify-content-between" style="height:6rem">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <img class="job-post_profile-picture border border-5 border-white rounded-circle" id="profilePicture" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
+                            <i data-bs-toggle="dropdown" class="bi bi-camera-fill fs-3 profileUploadButton"></i>
+                            <ul class="dropdown-menu p-2">
+                                <li><a class="dropdown-item" (click)="uploadProfilePictureClick()"><i class="bi bi-cloud-upload me-1"></i>อัพโหลดรูป</a></li>
+                                <li><a class="dropdown-item" (click)="editProfilePictureClick($event, 'asdf')"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
+                            </ul>
+                            <input type="file" id="profilePictureFile" (change)="editProfilePictureClick($event, '')" hidden/>
+                        </div>
+        
+                        <div>
+                            <div class="d-flex">
+                                <h3 class="m-4 mb-0 me-2">{{result.name}}</h3>
+                                 <h5 *ngIf="result.Location" style='align-self:end' class="my-4 mb-0 ms-3"> <b>เขต:</b> {{result.Location?.District}} <b>จังหวัด:</b> {{result.Location?.Province}}</h5>
+                            </div>
+                            <div>
+                                <!-- <h6 class="mx-4"><i>{{profileInformation.JobType}}</i ></h6> -->
                             </div>
                         </div>
-                    </ng-template>
-                    <ng-template #notLoading>
+                    </div>
+                    <div class="mt-4">
+                        <div class="fs-2 d-flex justify-content-end">
+                            <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>
+                            <div class="ms-3"><a (click)="editProfileClicked()"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square"></i></a></div>
+                            <div class="ms-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fs-5 mb-5" style="padding-left:178px">
+                    <div class="row my-2">
+                        <div class="col-4">
+                            <i class="bi bi-lightbulb me-3"></i>มองหางาน  {{result.preferred.timeFrame}}
+                        </div>
+                        <div class="col">
+                            <i class="bi bi-clipboard me-3"></i>งานที่สนใจ <span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferred.jobType">{{job}}</span>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-4">
+                            <i class="bi bi-geo-alt me-3"></i>หางานพื้นที่ {{result.preferred.district}}, {{result.preferred.province}}
+                        </div>
+                        <div class="col">
+                            <i class="bi bi-currency-bitcoin me-3"></i>เงินเดือนที่ต้องการ {{result.preferred.salary}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="fs-5 pb-5" style="padding: 0 6rem; text-indent: 20px"><i>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</i></div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'job-post'" class="container" >
+            <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+                <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
+                    <img class="job-post_profile-picture border border-5 border-white rounded-circle" (click)="goToOperatorProfile()" [src]="result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
+                    <div>
+                        <div class="d-flex">
+                            <h3 class="m-4 mb-0 me-2">{{result.Establishment}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
+                        </div>
+                        <div>
+                            <h6 class="mx-4"><i>{{result.JobType}}</i></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="d-flex justify-content-between">
+                        <ng-container *ngIf="loading$ | async; then loading; else notLoading"></ng-container>
+                        <ng-template #loading>
+                            <div class="loading">
+                                <div style="text-align:center">
+                                    <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #notLoading>
+                            <button (click)="toggleFollow()" class="btn ms-3 btn-primary">
+                                <ng-container *ngIf="followLoading; then loading; else notLoading"></ng-container>
+                                <ng-template #loading>
+                                    <div>
+                                        <div style="text-align:center">
+                                            <div class="spinner-border text-light" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template #notLoading>
+                                    <ng-container *ngIf="followFlag$ | async; then alreadyFollow; else follow"></ng-container>
+                                    <ng-template #alreadyFollow>
+                                        <h4>เลิกติดตาม</h4>
+                                    </ng-template>
+                                    <ng-template #follow>
+                                        <h4>ติดตาม</h4>
+                                    </ng-template>
+                                </ng-template>
+                            </button>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="'operator-profile'"  class="container">
+            <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+                <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
+                    <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
+                    <div>
+                        <div class="d-flex">
+                            <h3 class="m-4 mb-0 me-2">{{result.name}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
+                        </div>
+                        <div>
+                            <h6 class="mx-4"><i>{{result.JobType}}</i></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="d-flex justify-content-between">
                         <button (click)="toggleFollow()" class="btn ms-3 btn-primary">
                             <ng-container *ngIf="followLoading; then loading; else notLoading"></ng-container>
                             <ng-template #loading>
                                 <div>
                                     <div style="text-align:center">
-                                        <div class="spinner-border text-light" role="status">
+                                        <div class="spinner-border text-primary" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
                                     </div>
@@ -112,78 +177,34 @@
                                 </ng-template>
                             </ng-template>
                         </button>
-                    </ng-template>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div *ngSwitchCase="'operator-profile'">
-        <div id="coverPhoto"  class="coverPhoto img-container mh-100">
-            <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
-        </div>
-        <div class="d-flex justify-content-between">
-            <div class="d-flex justify-content-between">
-                <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
-                <div>
-                    <div class="d-flex">
-                        <h3 class="m-4 mb-0 me-2">{{result.name}}</h3> <h5 style='align-self:end' class="my-4 mb-0">(จำนวนผู้ติดตาม 45)</h5>
-                    </div>
-                    <div>
-                        <h6 class="mx-4"><i>{{result.JobType}}</i></h6>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="d-flex justify-content-between">
-                    <button (click)="toggleFollow()" class="btn ms-3 btn-primary">
-                        <ng-container *ngIf="followLoading; then loading; else notLoading"></ng-container>
-						<ng-template #loading>
-							<div>
-								<div style="text-align:center">
-									<div class="spinner-border text-primary" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
-								</div>
-							</div>
-						</ng-template>
-						<ng-template #notLoading>
-                            <ng-container *ngIf="followFlag$ | async; then alreadyFollow; else follow"></ng-container>
-                            <ng-template #alreadyFollow>
-                                <h4>เลิกติดตาม</h4>
-                            </ng-template>
-                            <ng-template #follow>
-                                <h4>ติดตาม</h4>
-                            </ng-template>
-                        </ng-template>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-body">
-            <div [ngStyle]="{'align-items':'center', 'display': 'flex', 'justify-content':'center', 'overflow': 'hidden', 'height' : '50vh'}">
-                    <div class="loading" *ngIf="loadProfilePictureFlag">
-                        <div style="text-align:center">
-                            <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-body">
+                <div [ngStyle]="{'align-items':'center', 'display': 'flex', 'justify-content':'center', 'overflow': 'hidden', 'height' : '50vh'}">
+                        <div class="loading" *ngIf="loadProfilePictureFlag">
+                            <div style="text-align:center">
+                                <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="imgContainer" [ngStyle]="{'display': loadProfilePictureFlag?'none': 'block'}">
-                    </div>
+                        <div id="imgContainer" [ngStyle]="{'display': loadProfilePictureFlag?'none': 'block'}">
+                        </div>
+                </div>
+                <input type="range" class="form-range" [(ngModel)]="dynamicScale" (ngModelChange)="valueChanges($event)" min="0" max="1" step="0.01" id="customRange2">
             </div>
-            <input type="range" class="form-range" [(ngModel)]="dynamicScale" (ngModelChange)="valueChanges($event)" min="0" max="1" step="0.01" id="customRange2">
-        </div>
-        <div class="modal-footer">
-            <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-primary ms-3" (click)="uploadProfilePicture()">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="modal-footer">
+                <div class="d-flex flex-row-reverse">
+                    <button type="button" class="btn btn-primary ms-3" (click)="uploadProfilePicture()">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>

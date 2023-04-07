@@ -115,6 +115,6 @@ export class JobPostSmallCardComponent {
     if(this.router.url !== '/profile-pharma/recently-seen-job'){
       this.store.dispatch(addRecentlySeen({JobPost: this.content}));
     }
-    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol)
+    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.content.OperatorUID)
   }
 }

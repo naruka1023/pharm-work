@@ -1,19 +1,19 @@
-<div class="card rounded border-light w-100" >
+<div class="card w-100" style="border-radius:20px">
 	
 	<div id="overlay" *ngIf="Active$ | async">
 		<div id="text">Inactive</div>
 	</div>
-	<div class="card-header">
+	<div class="card-header" [ngStyle]="{'background':!content.Urgency?fullTimeFlag?'#7fcae6':'#a2e3d9':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
 			<div class="col-sm-4 fs-5 align-items-center" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
 			</div>
 			<div class="col-sm fs-5 d-flex w-100 justify-content-center align-items-center">
-				<b class="me-3">วันที่ </b><div>{{content.DateOfJob}}</div>
+				<b class="me-3">ทำงานวันที่ </b><div>{{content.DateOfJob}}</div>
 			</div>
 			<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
 		</div>
-		<div class="row" *ngIf="!urgentFlag">
+		<div class="d-flex justify-content-center" *ngIf="!urgentFlag">
 			<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
 			<ng-template #fullBlock>
 				<div class="col-sm-4 fs-5 text-center">
@@ -25,7 +25,6 @@
 					<b>Part-Time</b>
 				</div>
 			</ng-template>
-			<div class="my-auto fs-5 col-sm align-self-center text-end">อัพเดทล่าสุด {{content.dateUpdated}}</div>
 		</div>
 	</div>
 	<div class="card-body" style="padding:0.5rem 1rem">
@@ -124,15 +123,15 @@
 				<div class="fs-5">ยกเลิกสมัคร</div>
 			</button>
 		</div>
-		<div *ngIf="urgentFlag === true && requestButtonFlag" class="btn btn-success justify-content-center my-2 align-items-center d-flex">
+		<div *ngIf="urgentFlag === true && requestButtonFlag" class="justify-content-center my-2 align-items-center d-flex">
 			<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 			<ng-template #alreadyRequest>
-				<button (click)="requestJob()" class="btn btn-success text-center" type="button">
+				<button (click)="requestJob()" class="btn text-center" style="background-color:#7fd858" type="button">
 					<div class="fs-5" style="width:6rem">รับงาน</div>
 				</button>
 			</ng-template>
 			<ng-template #requestButton>
-				<button class="btn btn-success text-center" type="button">
+				<button class="btn text-center btn-warning" type="button">
 					<div class="fs-5" style="width:6rem">รอ confirm</div>
 				</button>
 			</ng-template>
@@ -161,7 +160,7 @@
 							
 						</ng-template>
 						<ng-template #red>
-							<i style="color:red" class="fs-3 bi bi-bookmark"></i>
+							<i style="color:red" class="fs-3 bi bi-bookmark-fill"></i>
 						</ng-template>
 					</ng-template>
 			</button>

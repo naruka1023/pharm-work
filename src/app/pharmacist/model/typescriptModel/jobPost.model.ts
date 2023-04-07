@@ -8,6 +8,7 @@ export interface filterConditions{
     brandToCategory?: string;
     filterFlag?: boolean;
     header: string;
+    count: number;
     allContent?: jobPostModel[];
     content?: jobPostModel[]
 }
@@ -56,13 +57,11 @@ export interface Contacts{
 }
 
 export interface AppState {
-    loading: boolean;
-    loadingOperator: boolean;
+    loading: boolean;    
     JobPost: filterConditions[];
     Bookmarks: BookmarkList;
     Follows: FollowList;
     JobRequests: JobRequestList;
-    operator: userOperator;
 }
 
 export interface JobRequestList{
@@ -84,6 +83,7 @@ export interface jobRequest {
 export interface jobPostPayload {
     CategorySymbol: string;
     JobsPost: jobPostModel[];
+    count: number
 }
 
 export interface jobPostModel {

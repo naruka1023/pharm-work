@@ -32,6 +32,13 @@ import { OperatorPageComponent } from './page/operator-page/operator-page.compon
 import { FollowersPageComponent } from './page/followers-page/followers-page.component';
 import { OperatorNormalCardComponent } from './common/operator-normal-card/operator-normal-card.component';
 import { pharmaProfileReducer } from './state/reducers/pharma-profile.reducers';
+import { ChatConfirmComponent } from './common/chat-confirm/chat-confirm.component';
+import { operatorReducer } from './state/reducers/operator-reducers';
+import { urgentJobsReducer } from './state/reducers/urgent-jobs-reducers';
+import { RegisterJobsComponent } from './page/register-jobs/register-jobs.component';
+import { UrgentJobHistoryComponent } from './page/pharma-profile/urgent-job-history/urgent-job-history.component';
+import { UrgentJobsComponent } from './page/pharma-profile/urgent-jobs/urgent-jobs.component';
+import { RequestViewComponent } from './page/pharma-profile/request-view/request-view.component';
 
 
 
@@ -49,6 +56,8 @@ import { pharmaProfileReducer } from './state/reducers/pharma-profile.reducers';
     StoreModule.forFeature('jobpost', jobPostReducer),
     StoreModule.forFeature('recentlySeen', recentlySeenReducer),
     StoreModule.forFeature('pharmaProfile', pharmaProfileReducer),
+    StoreModule.forFeature('operator', operatorReducer),
+    StoreModule.forFeature('urgentJobs', urgentJobsReducer),
   ],
   declarations: [
     LandingPageComponent,
@@ -72,6 +81,11 @@ import { pharmaProfileReducer } from './state/reducers/pharma-profile.reducers';
     OperatorPageComponent,
     FollowersPageComponent,
     OperatorNormalCardComponent,
+    ChatConfirmComponent,
+    RegisterJobsComponent,
+    RequestViewComponent,
+    UrgentJobHistoryComponent,
+    UrgentJobsComponent
   ],
   bootstrap:[LandingPageComponent]
 })

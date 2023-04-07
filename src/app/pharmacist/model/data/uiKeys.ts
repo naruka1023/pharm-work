@@ -10,6 +10,7 @@ export const headerArray: filterConditions [] = [
     timeFrame: false,
     location: true,
     CategorySymbol:"AA",
+    count: 0,
     allContent: [],
     content: []
   },  
@@ -22,6 +23,7 @@ export const headerArray: filterConditions [] = [
     location: true,
     brandToCategory:"แนะนำร้านยาใกล้คุณ",
     CategorySymbol:"AB",
+    count: 0,
     allContent: [],
     content: []
   }, 
@@ -34,6 +36,7 @@ export const headerArray: filterConditions [] = [
     location: true,
     brandToCategory: "แนะนำร้านยาแบรน์ทั้งหมด",
     CategorySymbol:"AC",
+    count: 0,
     allContent: [],
     content: []
   },  
@@ -45,7 +48,8 @@ export const headerArray: filterConditions [] = [
     timeFrame: false,
     location: false,
     CategorySymbol:"BA",
-    allContent: []
+    allContent: [],
+    count: 0
   }, 
   { 
     header: 'งานโรงพยาบาล/งานคลินิก',
@@ -56,6 +60,7 @@ export const headerArray: filterConditions [] = [
     location: true,
     brandToCategory: 'แนะนำโรงพยาบาลและคลินิกใกล้คุณ',
     CategorySymbol:"BB",
+    count: 0,
     allContent: [],
     content: []
   }, 
@@ -69,6 +74,7 @@ export const headerArray: filterConditions [] = [
       brandToCategory: ' แนะนำโรงงานและบริษัททั้งหมด',
       location: true,
       CategorySymbol:"BC",
+      count: 0,
       allContent: [],
       content: []
     },
@@ -80,6 +86,7 @@ export const headerArray: filterConditions [] = [
       timeFrame: true,
       location: true,
       CategorySymbol:"CA",
+      count: 0,
       allContent: [],
       content: []
     }, 
@@ -90,7 +97,8 @@ export const headerArray: filterConditions [] = [
       JobType: false,
       timeFrame: false,
       location: false,
-      CategorySymbol:"CB"
+      CategorySymbol:"CB",
+      count: 0
     }
   ];
 

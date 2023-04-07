@@ -3,5 +3,8 @@
     width:-webkit-fill-available !important;
     border-radius:100%
   }
+.form-switch{
+  padding-left: 0 !important
+}
 
   

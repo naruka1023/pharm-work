@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
 import { AppState, BookmarkList, Follow } from '../../model/typescriptModel/jobPost.model';
-import { addBookmark, emptyOperatorData, getJobCategory, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, setOperatorData, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest } from '../actions/job-post.actions';
+import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest } from '../actions/job-post.actions';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -23,20 +23,18 @@ const emptyOperator = {
     email: '',
     line: '',
     facebook: '',
-  }
+  },
+  urgentJobs: [],
 }
 export const initialState: AppState = {
   loading: true,
-  loadingOperator: true,
   JobPost: headerArray,
   Bookmarks: {},
   JobRequests:{},
   Follows:{},
-  operator:emptyOperator
 };
 export const jobPostReducer = createReducer(
   initialState,
-  on(getJobCategory, (state) => state),
   on(removeBookmark, (state, {jobUID, userUID}) =>{
     let newState: AppState =  _.cloneDeep(state);
     let keys = jobUID + "-" + userUID
@@ -55,25 +53,6 @@ export const jobPostReducer = createReducer(
     newState.Follows[keys] = operator
     return {
       ...newState
-    }
-  }),
-  on(emptyOperatorData, (state)=>{
-    return {
-      ...state,
-      operator:emptyOperator,
-      loadingOperator: true
-    }
-  }),
-  on(setOperatorData, (state, {operator}) =>{
-    let newOperator = _.cloneDeep(operator);
-    newOperator = {
-      ...emptyOperator,
-      ...newOperator
-    }
-    return {
-      ...state,
-      loadingOperator: false,
-      operator:newOperator
     }
   }),
   on(updateFollowersList, (state, {followers}) =>{
@@ -150,6 +129,7 @@ export const jobPostReducer = createReducer(
       let newJob = _.cloneDeep(job);
       if(job.CategorySymbol == jobs.CategorySymbol){
         newJob.allContent = jobs.JobsPost
+        newJob.count = jobs.count
         return newJob;
       }
       return job;

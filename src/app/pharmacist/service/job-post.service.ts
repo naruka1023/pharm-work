@@ -35,7 +35,6 @@ export class JobPostService {
       })
       );
     }
-
   getJobFromBookmark(bookmark:Bookmark){
     return this.db.collection('job-post').doc(bookmark.jobUID).snapshotChanges().pipe(
       map((job:any)=>{
@@ -75,6 +74,19 @@ export class JobPostService {
   getJobOfOperator(operatorUID: string): Observable<jobPostModel[]>{
     return this.db.collection('job-post', ref => ref.where('OperatorUID', '==', operatorUID)).get().pipe(
       map((jobs:any)=>{
+        return jobs.docs.map((job:any)=> {
+          return {
+            ...job.data(),
+            custom_doc_id: job.id
+          } as jobPostModel
+        })
+      })
+    )
+  }
+
+  getUrgentJobOfOperator(operatorUID: string): Observable<jobPostModel[]>{
+    return this.db.collection('job-post', ref => ref.where('OperatorUID', '==', operatorUID).where("Urgency", "==", true)).get().pipe(
+      map((jobs:any)=> {
         return jobs.docs.map((job:any)=> {
           return {
             ...job.data(),
@@ -143,12 +155,13 @@ export class JobPostService {
   }
 
   getJobCategoryService(CategorySymbol:string) {
-    return this.db.collection('job-post', ref => ref.where('Active', '==', true).where('CategorySymbol', '==', CategorySymbol)).valueChanges({ idField: 'custom_doc_id' })
+    return this.db.collection('job-post', ref => ref.where('Active', '==', true).where('CategorySymbol', '==', CategorySymbol)).valueChanges({idField: 'custom_doc_id'})
     .pipe(
       map((src: any)=>{
         let res :jobPostPayload = {
           JobsPost: src,
-          CategorySymbol: CategorySymbol
+          CategorySymbol: CategorySymbol,
+          count: src.length
         }
         return res;
       }),

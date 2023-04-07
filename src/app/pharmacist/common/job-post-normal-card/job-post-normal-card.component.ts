@@ -44,6 +44,9 @@ export class JobPostNormalCardComponent{
     })
     this.childrenPath = this.activatedRoute.snapshot.routeConfig!.path!;
     switch(this.activatedRoute.snapshot.routeConfig?.path){
+      case 'operator-page':
+        this.requestButtonFlag = true
+        break;
       case 'jobs-list':
         this.requestButtonFlag = true
         break;
@@ -145,7 +148,7 @@ export class JobPostNormalCardComponent{
     if(this.router.url !== 'pharma/profile-pharma/recently-seen-job'){
       this.store.dispatch(addRecentlySeen({JobPost: this.content}));
     }
-    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol)
+    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.content.OperatorUID)
   }
 }
 

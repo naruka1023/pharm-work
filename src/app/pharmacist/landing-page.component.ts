@@ -11,6 +11,7 @@ import { Bookmark, Follow, jobPostModel, jobRequest } from './model/typescriptMo
 import { UtilService } from './service/util.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-landing-page',
@@ -21,6 +22,7 @@ export class LandingPageComponent {
 
   loginFlag: boolean = false;
   subject!: Subscription;
+  user!: User;
   i: number = 0;
   parsedJobs: jobPostModel[] = []
   subscription: any = {};
@@ -31,18 +33,41 @@ constructor(private db:AngularFirestore, private activatedRoute:ActivatedRoute,p
 }
 ngOnInit(){  
   this.store.select((state: any)=>{
+    if(state.jobpost.loading){
+      this.user = state.user;
+    }
     return state.recentlySeen
   }).subscribe((recentlySeen)=>{
     if(recentlySeen.length > 10){
       this.store.dispatch(removeRecentlySeen());
     }
   })
-  this.subject = this.auth.user.subscribe((user)=>{
+  this.subject = this.auth.user.subscribe((user: any)=>{
     if(user){
       // this.db.collection("users", ref => ref.where('role', '==', "เภสัชกร")).get().subscribe((docs) =>{
       //   docs.forEach((doc:any)=>{
       //     this.db.collection("users").doc(doc.id).update({coverPhotoOffset: 0}).then((newDoc: any)=>{
       //       console.log(`${newDoc.id} updatedSuccessfully`)
+      //     })
+      //   })
+      // })
+      // this.db.collection("job-post").get().subscribe((docs) =>{
+      //   docs.forEach((doc: any)=>{
+      //     let docData = doc.data();
+      //     if(docData.ARL.Near){
+      //       docData.ARL.Station = 'P Aom Tood'
+      //     }
+      //     if(docData.BTS.Near){
+      //       docData.BTS.Station = 'P Aom Tood Labert'
+      //     }
+      //     if(docData.MRT.Near){
+      //       docData.MRT.Station = 'P Aom Tood'
+      //     }
+      //     if(docData.SRT.Near){
+      //       docData.SRT.Station = 'P Aom Tood Labert'
+      //     }
+      //     this.db.collection('job-post').doc(doc.id).update(docData).then(()=>{
+      //       console.log("doc" + doc.id + " successful")
       //     })
       //   })
       // })

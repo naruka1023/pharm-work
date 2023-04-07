@@ -8,13 +8,14 @@ export class RoutingService {
 
   constructor(private router: Router) { }
 
-  goToJobProfile(custom_doc_id: string, CategorySymbol: string){
+  goToJobProfile(custom_doc_id: string, CategorySymbol: string, operatorUID: string){
     this.router.navigate(['pharma/job-post'],
     {
       queryParams: 
       {
         id: custom_doc_id,
         categorySymbol: CategorySymbol,
+        operatorUID: operatorUID
       }
     })
   }

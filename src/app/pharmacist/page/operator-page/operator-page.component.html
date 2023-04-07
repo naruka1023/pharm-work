@@ -11,7 +11,7 @@
         </div>
     </ng-template>
     <ng-template #notLoading>
-        <div *ngIf="allJobsFlag"class="row row-cols-2 mb-5" style="height:75vh; overflow-y: scroll">
+        <div *ngIf="allJobsFlag"class="row row-cols-2 mb-5" style="max-height:75vh; overflow-y: scroll">
             <app-job-post-normal-card *ngFor="let job of allJobs$ | async" [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
         </div>
     </ng-template>

@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { profileHeaderJobPost } from '../../model/typescriptModel/header.model';
 import { AppState, Bookmark, jobPostModel, jobRequest } from '../../model/typescriptModel/jobPost.model';
 import { JobPostService } from '../../service/job-post.service';
 import { UtilService } from '../../service/util.service';
 import { removeBookmark, addBookmark, addJobRequest } from '../../state/actions/job-post.actions';
+import { emptyUrgentJobs, getUrgentJobsSuccess } from '../../state/actions/urgent-jobs.actions';
 
 @Component({
   selector: 'app-job-post-details',
   templateUrl: './job-post-details.component.html',
   styleUrls: ['./job-post-details.component.css']
 })
-export class JobPostDetailsComponent {
+export class JobPostDetailsComponent implements OnDestroy{
 
   constructor(private jobPostService:JobPostService, private route: ActivatedRoute, private utilService:UtilService , private router: Router, private store: Store){}
 
@@ -25,29 +25,36 @@ export class JobPostDetailsComponent {
   profile!:jobPostModel;
   profileHeader!: profileHeaderJobPost;
   bookmarkLoadingFlag: boolean = false;
+  detailLeavingFlag: boolean = true;
   bookmarkFlag$:Observable<boolean> = of(true);
   userID!: string
   bookmarkID!: string; 
   requestFlag$!: Observable<boolean>
   localFlag: boolean = true;
+  operatorUID: any = null;
+  urgentJobs:jobPostModel[] = []
+  subscription: Subscription = new Subscription;
+
 
   ngOnInit(){
+    this.detailLeavingFlag = true;
     this.store.select((state: any)=>{
       return state.user.uid
     }).subscribe((value)=>{
       if(value !== ''){
         this.userID = value
       }
-    })
-    this.id = this.route.snapshot.queryParamMap.get('id')!;
-    this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
-    this.loading$ = this.store.select((state: any) =>{
-      return state.jobpost.loading;
-    });
-    this.loading$.subscribe((res)=>{
-      if(res){
-        this.router.navigate(['/pharma'])
-      }
+      this.id = this.route.snapshot.queryParamMap.get('id')!;
+      this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
+      this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
+      this.loading$ = this.store.select((state: any) =>{
+        return state.jobpost.loading;
+      });
+      this.loading$.subscribe((res)=>{
+        if(res){
+          this.router.navigate(['/pharma'])
+        }
+      })
     })
     this.profilePayload$ = this.store.select((state: any)=>{
       const categories: jobPostModel[] = state.jobpost.JobPost;
@@ -69,6 +76,18 @@ export class JobPostDetailsComponent {
         }
       }
     })
+    this.subscription.add(this.store.select((state:any)=>{
+      return state.urgentJobs.urgentJobs
+    }).subscribe((urgentJobs: any)=>{
+      if(urgentJobs.length == 0 && this.detailLeavingFlag && this.profile.Urgency){
+        this.jobPostService.getUrgentJobOfOperator(this.operatorUID).subscribe((jobs:jobPostModel[]) =>{
+          if(jobs.length !== 0){
+            this.store.dispatch(getUrgentJobsSuccess({jobs: jobs}));
+          }
+          this.urgentJobs = jobs;
+        })
+      }
+    }))
     this.bookmarkFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userID !== ''){
@@ -110,6 +129,10 @@ export class JobPostDetailsComponent {
   getBookmarkPayload(){
     return {jobUID: this.profile.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID, JobPost:this.profile};
   }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
 
   toggleBookmark(){
     if(localStorage.getItem('loginState') === 'true'){
