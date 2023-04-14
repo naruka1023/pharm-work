@@ -1,0 +1,16 @@
+.keyValueGap{
+    margin-right:2rem
+}
+.btn-primary{
+    background:#5cdfe4;
+    border-color: #5cdfe4
+}
+.contacts > .verticalKeyGap > .keyValueGap{
+    margin-right:1rem
+}
+.contacts > .verticalKeyGap{
+    margin-bottom:2rem
+}
+.verticalKeyGap{
+    margin-bottom:2rem
+}

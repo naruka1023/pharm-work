@@ -5,7 +5,7 @@
 			<div>
 				<div class="d-flex justify-content-between">
 					<div class="fs-6" style="text-align:left; padding:1rem; padding-top:0.5rem; height: 3.5em; overflow:hidden; word-break: break-word; display:-webkit-box; -webkit-line-clamp: 2;">
-						{{ limitMethod(content.Establishment, limit) }}
+						{{ content.Establishment}}
 					</div>
 				</div>
 				<div class="addressList">
@@ -14,7 +14,7 @@
 			</div>
 		</div>
 	</div>
-		<div class="card rounded" style="width: -webkit-fill-available;">
+		<div class="card rounded" style="width: -webkit-fill-available">
 			<ng-container *ngIf="urgentFlag; then cardUrgentHeader; else cardHeader">
 			</ng-container>
 			<ng-template #cardUrgentHeader>
@@ -36,11 +36,11 @@
 			</ng-template>
 			<ng-template #cardHeader>
 				<div class="d-flex justify-content-center">
-					<div *ngIf="fullTimeFlag as true; else elseBlock" class="p-2 d-flex justify-content-center flex align-items-center" style="width: -webkit-fill-available; border-radius:20px 20px 0px 0px; text-align: center; background:#7fcae6">
+					<div *ngIf="fullTimeFlag as true; else elseBlock" class="p-2 d-flex justify-content-center flex align-items-center" style="width: -webkit-fill-available; width: -moz-available;border-radius:20px 20px 0px 0px; text-align: center; background:#7fcae6">
 						<b>{{content.TimeFrame}}</b>
 					</div>
 					<ng-template #elseBlock>
-						<div class="p-2 d-flex justify-content-center flex align-items-center" style="text-align: center; background:#a2e3d9; border-radius:20px 20px 0px 0px; width: -webkit-fill-available;">
+						<div class="p-2 d-flex justify-content-center flex align-items-center" style="text-align: center; background:#a2e3d9; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
 							<b>{{content.TimeFrame}}</b>
 						</div>
 					</ng-template>
@@ -92,12 +92,12 @@
 			<div class="d-flex justify-content-between">
 				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 				<ng-template #alreadyRequest>
-					<div (click)="requestJob()" class="btn justify-content-center my-2 align-items-center d-flex" [ngStyle]="{'background-color':'#7fd858', 'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
+					<div (click)="requestJob()" class="btn justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'background-color':'#7fd858', 'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
 					<div class="fs-5">รับงาน</div>
 			</div>
 			</ng-template>
 			<ng-template #requestButton>
-				<div class="btn btn-warning justify-content-center my-2 align-items-center d-flex" [ngStyle]="{'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
+				<div class="btn btn-warning justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
 					<div class="fs-5">รอ confirm</div>
 				</div>
 			</ng-template>

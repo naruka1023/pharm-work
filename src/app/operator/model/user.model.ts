@@ -46,7 +46,7 @@ export interface UserPharma{
     education?: string;
     birthday?: string;
     age?: string;
-    educationLevel?: string;
+    soleJobType?: string;
     showProfileFlag: boolean;
     contacts?: {
         phone: string;
@@ -62,11 +62,12 @@ export interface UserPharma{
         universityName: string;
         franchise: string;
         yearGraduated: string;
+        educationLevel: string;
+        major: string;
     } [],
     jobHistory?: JobHistory[],
     loading: boolean,
     preferredJobType?:string[],
-    soleJobType?:string,
     preferredTimeFrame?: string,
     preferredLocation?: Location,
     preferredAddress?: string,
@@ -77,10 +78,13 @@ export interface UserPharma{
     preferredSalary?: string,
     AmountCompleted: number,
     WorkExperience:number,
-    coverPhotoOffset?: number,
+    highestEducation: string,
     profilePictureUrl?:string,
-    cropProfilePictureUrl?: string,
+    coverPhotoOffset?: number,
     coverPhotoPictureUrl?:string
+    introText: string,
+    nickName: string,
+    cropProfilePictureUrl?: string,
 }
 
 export interface JobHistory 

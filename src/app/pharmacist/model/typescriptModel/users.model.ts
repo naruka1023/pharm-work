@@ -33,6 +33,7 @@ export interface JobHistory
     companyName: string;
     dateStarted: string;
     activeFlag: string;
+    workExperience: any;
     dateEnded: string;
     description: string;
 }
@@ -54,7 +55,6 @@ export interface User{
     education?: string;
     birthday?: string;
     age?: string;
-    educationLevel?: string;
     showProfileFlag: boolean;
     contacts?: {
         phone: string;
@@ -70,6 +70,8 @@ export interface User{
         universityName: string;
         franchise: string;
         yearGraduated: string;
+        educationLevel: string;
+        major: string;
     } [],
     jobHistory?: JobHistory[],
     loading: boolean,
@@ -84,8 +86,11 @@ export interface User{
     preferredSalary?: string,
     AmountCompleted: number,
     WorkExperience:number,
+    highestEducation: string,
     profilePictureUrl?:string,
     coverPhotoOffset?: number,
     coverPhotoPictureUrl?:string
+    introText: string,
+    nickName: string,
     cropProfilePictureUrl?: string,
 }

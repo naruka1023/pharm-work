@@ -11,6 +11,7 @@ import { JobRequestList } from 'src/app/pharmacist/model/typescriptModel/jobPost
 })
 export class RequestJobsComponent {
   jobRequests$!:Observable<jobPostModel[]>
+  emptyFlag$!:Observable<boolean>
 
   constructor(private store:Store){}
   ngOnInit(){
@@ -26,5 +27,8 @@ export class RequestJobsComponent {
         return array
       })
     )
+    this.emptyFlag$ = this.store.select((state: any)=>{
+      return Object.keys(state.jobpost.JobRequests).length === 0
+    })
   }
 }

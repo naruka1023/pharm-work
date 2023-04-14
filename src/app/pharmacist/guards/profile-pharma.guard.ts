@@ -16,13 +16,7 @@ export class ProfilePharmaGuard implements CanDeactivate<unknown> {
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(!component.localProfileFlag){
-      component.openModal();
-      this.userService.sendLeaveEditSubject(nextState!.url)
-    }else{
       return true;
-    }
-      return false;
   }
   
 }

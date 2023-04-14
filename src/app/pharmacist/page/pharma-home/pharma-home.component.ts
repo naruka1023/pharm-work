@@ -3,9 +3,10 @@ import SwiperCore, { Autoplay, Mousewheel, Navigation, Pagination } from "swiper
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { filterConditions } from '../../model/typescriptModel/jobPost.model';
+import { filterConditions, jobPostModel } from '../../model/typescriptModel/jobPost.model';
 import { retrievedJobSuccess } from '../../state/actions/job-post.actions';
 import { JobPostService } from '../../service/job-post.service';
+import headerArray from '../../model/data/uiKeys';
 // import { selectJobPost, selectLoading } from 'src/app/state/selectors/job-post.selectors';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
@@ -45,7 +46,7 @@ export class PharmaHomeComponent {
   
   
   dispatchJobs() {
-    this.jobPostService.getAllJobPost().subscribe((jobPosts)=>{
+    this.jobPostService.getAllJobPost().subscribe((jobPosts:any)=>{
       this.store.dispatch(retrievedJobSuccess({jobs:jobPosts}))
     })
   }

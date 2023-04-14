@@ -1,6 +1,7 @@
 
 .brandIcon {
     width:-webkit-fill-available !important;
+    width: -moz-available;
     border-radius:100%
   }
 .form-switch{

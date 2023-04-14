@@ -12,17 +12,39 @@
     [autoplay]="true"
     style="margin-top: 3em; text-align: center"
 >
-    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-    <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
+    <ng-template swiperSlide>
+        <div class="img-container">
+            <img class="landing-page_img" src="assets/banner1.png">
+        </div>
+    </ng-template>
+    <ng-template swiperSlide>
+        <div class="img-container">
+            <img class="landing-page_img" src="assets/banner2.png">
+        </div>
+    </ng-template>
+    <ng-template swiperSlide>
+        <div class="img-container">
+            <img class="landing-page_img" src="assets/banner3.png">
+        </div>
+    </ng-template>
+    <ng-template swiperSlide>
+        <div class="img-container">
+            <img class="landing-page_img" src="assets/banner4.png">
+        </div>
+    </ng-template>
+    <ng-template swiperSlide>
+        <div class="img-container">
+            <img class="landing-page_img" src="assets/banner5.png">
+        </div>
+    </ng-template>
+    <ng-template swiperSlide>
+        <div class="img-container">
+            <img class="landing-page_img" src="assets/banner6.png">
+        </div>
+    </ng-template>
 </swiper>
 <div>
     <div class="container pt-6">
-        <div class="py-5">
-        </div>
         <ng-container *ngIf="loadingFlag$ | async; then loadBlock; else mainBlock"></ng-container>
         <ng-template #loadBlock>
             <div style="text-align:center">

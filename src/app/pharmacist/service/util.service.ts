@@ -17,7 +17,7 @@ export class UtilService {
   callView: Subject<void> = new Subject();
   listenJobRequest: Subject<jobRequest> = new Subject();
   listenJobBookmark: Subject<Bookmark> = new Subject();
-  regulateTabSubject: Subject<string> = new Subject();
+  editProfileSubject: Subject<void> = new Subject();
   removeRequestSubject: Subject<string> = new Subject();
   removeBookmarkSubject: Subject<string> = new Subject();
   
@@ -36,8 +36,8 @@ export class UtilService {
   getRevertTabSubject(): Observable<void>{
     return this.revertTabSubject.asObservable();
   }
-  getRegulateTabSubject(): Observable<string>{
-    return this.regulateTabSubject.asObservable();
+  getEditProfileSubject(): Observable<void>{
+    return this.editProfileSubject.asObservable();
   }
   getRemoveRequestSubject(): Observable<string>{
     return this.removeRequestSubject.asObservable();
@@ -48,8 +48,8 @@ export class UtilService {
   sendRemoveBookmarkSubject(jobUID: string){
     return this.removeBookmarkSubject.next(jobUID);
   }
-  sendRegulateTabSubject(url: string){
-    return this.regulateTabSubject.next(url);
+  sendEditProfileSubject(){
+    return this.editProfileSubject.next();
   }
   sendRemoveRequestSubject(jobUID:string){
     return this.removeRequestSubject.next(jobUID);

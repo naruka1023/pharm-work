@@ -15,7 +15,7 @@ export interface profileHeaderOperator {
 
 
 export interface profileHeaderPharma {
-    name: string;
+    nickName: string;
     Location?: {
         Section: string;
         District: string;

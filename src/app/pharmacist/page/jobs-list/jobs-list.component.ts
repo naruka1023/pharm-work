@@ -32,6 +32,9 @@ export class JobsListComponent implements OnDestroy{
         return res.CategorySymbol == this.CategorySymbol
       });
       this.header = jobList.header;
+      if(this.header =='งานเภสัชด่วนรายวัน'){
+        this.nearestJobFlag = true;
+      }
       this.brandToCategory = (jobList.brandToCategory !== undefined)? jobList.brandToCategory : '';
       this.count = jobList.count
       return jobList.allContent

@@ -26,13 +26,16 @@ export const initialState: User = {
     phone: '',
     email: ''
   },
-  cropProfilePictureUrl: ''
+  cropProfilePictureUrl: '',
+  introText: '',
+  nickName: ''
 };
 
 export const usersReducer = createReducer(
   initialState,
   on(setCurrentUser, (state, { user }) => {
     return {
+      ...state,
       ...user,
       loading:false
     }

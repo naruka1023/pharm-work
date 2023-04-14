@@ -16,7 +16,6 @@ import { BookmarkComponent } from './page/pharma-profile/bookmark/bookmark.compo
 import { InnerProfileComponent } from './page/pharma-profile/inner-profile/inner-profile.component';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-jobs/recently-seen-jobs.component';
-import { RegisterComponent } from './page/register/register.component';
 import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
 import { jobPostReducer } from './state/reducers/job-post-reducers';
 import { JobPostEffects } from './state/effects/job-post.effects';
@@ -35,10 +34,15 @@ import { pharmaProfileReducer } from './state/reducers/pharma-profile.reducers';
 import { ChatConfirmComponent } from './common/chat-confirm/chat-confirm.component';
 import { operatorReducer } from './state/reducers/operator-reducers';
 import { urgentJobsReducer } from './state/reducers/urgent-jobs-reducers';
-import { RegisterJobsComponent } from './page/register-jobs/register-jobs.component';
+import { RegisterJobsComponent } from './page/pharma-profile/register-jobs/register-jobs.component';
 import { UrgentJobHistoryComponent } from './page/pharma-profile/urgent-job-history/urgent-job-history.component';
 import { UrgentJobsComponent } from './page/pharma-profile/urgent-jobs/urgent-jobs.component';
 import { RequestViewComponent } from './page/pharma-profile/request-view/request-view.component';
+import { UrgentJobsPageComponent } from './page/pharma-profile/urgent-jobs-page/urgent-jobs-page.component';
+import { RegisterComponent } from './page/register/register.component';
+import { MainProfileComponent } from './page/pharma-profile/main-profile/main-profile.component';
+import { PrivateProfileComponent } from './page/pharma-profile/private-profile/private-profile.component';
+import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/preferred-jobs.component';
 
 
 
@@ -85,7 +89,11 @@ import { RequestViewComponent } from './page/pharma-profile/request-view/request
     RegisterJobsComponent,
     RequestViewComponent,
     UrgentJobHistoryComponent,
-    UrgentJobsComponent
+    UrgentJobsComponent,
+    UrgentJobsPageComponent,
+    MainProfileComponent,
+    PrivateProfileComponent,
+    PreferredJobsComponent
   ],
   bootstrap:[LandingPageComponent]
 })

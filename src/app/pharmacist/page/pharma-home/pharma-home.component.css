@@ -2,12 +2,28 @@
 .swiper-slide {
   width: 80vw;
 }
+.img-container > img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.img-container {
+  width: 100%;
+  margin: 0 auto;
+  height: 49vh;
+  position: relative;
+  border-radius:50px;
+  display: block;
+  z-index: 1;
+  overflow: hidden;
+}
 .landing-page_img{
   border-radius: 20px;
-  width:100%
+  width:100%;
 }
 .landing-page_img2{
   width:-webkit-fill-available;
+  width: -moz-available;
   border-radius: 20px
 }
 

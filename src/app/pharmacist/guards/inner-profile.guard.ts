@@ -12,6 +12,9 @@ export class InnerProfileGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    route.data = {
+      scrollFlag: state.url.split('/')[3] !== 'inner-profile'? true: false
+    }
     if(localStorage.getItem('loginState') == 'true'){
       this.store.dispatch(setURL({url:state.url.split('/')[3]}))
       return true;

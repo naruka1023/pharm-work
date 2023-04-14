@@ -1,0 +1,234 @@
+<div class="align-items-baseline d-flex justify-content-end ms-3"><button (click)="editClick()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'แก้ไข':'ยกเลิก'}}</button></div>
+<ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
+<ng-template #displayPage>
+    <div class="verticalKeyGap">
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-row">
+                    <div class="keyValueGap"><i class="bi bi-award me-2"></i></div>
+                    <div><b>ประวัติการศึกษา</b></div>
+                </div>
+                <div style="margin-left:5rem">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation}}</div>
+            </div>
+            <div class="mt-4" style="padding-left:6rem">
+                <ul>
+                    <li style="margin-bottom:4rem" *ngFor="let eduGroup of innerProfileInformation.educationHistory">
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div>{{eduGroup.yearGraduated}}</div>
+                        </div>
+                        <div class="row verticalKeyGap">
+                            <div class="col-6">{{eduGroup.universityName}}</div>
+                            <div class="col-6">{{eduGroup.educationLevel}}</div>
+    
+                        </div>
+                        <div class="row">
+                            <div class="col-6">{{eduGroup.major}}</div>
+                            <div class="col-6">{{eduGroup.franchise}}</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="row mb-3">
+            <div class="col-3">
+                <div class="me-3"><b>ประสบการณ์งาน</b></div>
+            </div>
+            <div class="col">
+                {{ WorkExperience }}
+            </div>
+        </div> -->
+        <div class="verticalKeyGap">
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-row">
+                    <div class="keyValueGap"><i class="bi bi-briefcase me-2"></i></div>
+                    <div><b>ประวัติการทำงาน</b></div>
+                </div>
+                <div style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience}}</div>
+            </div>
+            <div class="mt-4" style="padding-left: 6rem">
+                <ul>
+                    <li *ngFor="let jobGroup of innerProfileInformation.jobHistory">
+                        <div class="verticalKeyGap">
+                            {{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded}}
+                        </div>
+                        <div class="verticalKeyGap">
+                            <div>{{jobGroup.companyName}}</div>
+                        </div>
+                        <div class="verticalKeyGap">
+                            <div>{{jobGroup.jobName}}</div>
+                        </div>
+                        <div class="verticalKeyGap">
+                            <div>{{jobGroup.description}}</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</ng-template>
+<ng-template #editPage>
+    <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
+        <div class="row">
+            <div class="col-3">
+                <label for="highestEducation" class="me-3 form-label"><b>ระดับการศึกษา</b></label>
+            </div>
+            <div class="col-7">
+                <select formControlName="highestEducation" class="form-select mb-3 fs-3" aria-label="Default select example">
+                    <option selected value="ปริญญาตรี">ปริญญาตรี</option>
+                    <option value="ปริญญาโท">ปริญญาโท</option>
+                    <option value="ปริญญาโท">ปริญญาเอก</option>
+                </select>
+            </div>
+        </div>
+        
+        <ng-container formArrayName="educationHistory" >
+                <div class="row" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
+                    <div class="col-3">
+                        <label *ngIf='i == 0' class="form-label"><b>ประวัติการศึกษา </b></label>
+                    </div>
+                    <div class="col-7 mb-3">
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <label for="universityName" class="form-label"><b>ชื่อสถาบัน</b></label>
+                            </div>
+                            <div class="col">
+                                <input formControlName="universityName" type="text" class="fs-3 form-control me-3">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <label for="franchise" class="form-label"><b>สาขา</b></label>
+                            </div>
+                            <div class="col">
+                                <input formControlName="franchise" type="text" class="fs-3 form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <label for="major" class="form-label"><b>คณะ</b></label>
+                            </div>
+                            <div class="col">
+                                <input formControlName="major" type="text" class="fs-3 form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <label for="educationLevel" class="form-label"><b>ระดับการศึกษา</b></label>
+                            </div>
+                            <div class="col">
+                                <select formControlName="educationLevel" class="form-select fs-3" aria-label="Default select example">
+                                    <option selected value="ปริญญาตรี">ปริญญาตรี</option>
+                                    <option value="ปริญญาโท">ปริญญาโท</option>
+                                    <option value="ปริญญาโท">ปริญญาเอก</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-4 mb-3">
+                                <label for="yearGraduated" class="form-label"><b>ปีที่จบ</b></label>
+                            </div>
+                            <div class="col">
+                                <select formControlName="yearGraduated" class="form-select fs-3">
+                                    <option selected value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2008">2008</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <i *ngIf="i == 0" (click)="addEducation()" class="button bi bi-plus-circle"></i>
+                        <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class="button bi bi-trash"></i>
+                    </div>
+                </div>
+        </ng-container>
+        <ng-container formArrayName="jobHistory">
+            <ng-container [formGroupName]="i" *ngFor="let number of FormJobData; let i = index">
+                <div class="row">
+                    <div class="col-3">
+                        <label *ngIf='i == 0' class="form-label"><b>ประวัติการทำงาน</b></label>
+                    </div>
+                    <div class="col-6">
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="jobName" class="form-label"><b>ตำแหน่ง</b></label>
+                            </div>
+                            <div class="col">
+                                <input formControlName="jobName" type="text" class="form-control fs-3">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="companyName" class="form-label"><b>ชื่อบริษัท</b></label>
+                            </div>
+                            <div class="col">
+                                <input formControlName="companyName" type="text" class="form-control fs-3">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label class="form-label"><b>ระยะเวลา</b></label>
+                            </div>
+                            <div class="col">
+                                <label for="dateStarted" class="form-label ">วันที่เริ่มต้น</label>
+                                <input formControlName="dateStarted"  type="month" class="form-control mb-3 fs-3">
+                                <label for="dateEnded" class="form-label">วันที่สิ้นสุด</label>
+                                    <input formControlName="dateEnded"  type="month" class="form-control mb-3 fs-3">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-5">
+                                <div class="me-3"><b>ประสบการณ์ทำงาน</b></div>
+                            </div>
+                            <div class="col">
+                                {{ number.value.workExperience }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="description" class="mb-3 form-label"><b>อธิบายงาน</b></label>
+                            </div>
+                            <div class="col">
+                                <div class="mb-5">
+                                    <textarea formControlName="description" class="form-control fs-3" rows="6"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>
+                            <div class="d-flex flex-start">
+                                <i *ngIf="i == 0" (click)="addOccupation()"class="button bi bi-plus-circle"></i>
+                                <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class="button bi bi-trash"></i>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
+                            <label for="active" class="text-center fs-5 form-check-label">
+                                ยังอยู่ในตำแหน่งนี้
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        <div class="align-items-baseline d-flex justify-content-center ms-3">
+            <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <button type="submit" class="btn fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">แก้ไข</button>
+        </div>
+    </form>
+</ng-template>

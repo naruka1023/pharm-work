@@ -10,10 +10,14 @@ import { jobPostModel } from 'src/app/pharmacist/model/typescriptModel/jobPost.m
 })
 export class RecentlySeenJobsComponent {
   recentlySeen$!: Observable<jobPostModel[]>
+  emptyFlag$!: Observable<boolean>
   constructor(private store: Store){}
   ngOnInit(){
     this.recentlySeen$ = this.store.select((state: any)=>{
       return state.recentlySeen;
+    })
+    this.emptyFlag$ = this.store.select((state: any)=>{
+      return state.recentlySeen.length === 0
     })
   }
 }

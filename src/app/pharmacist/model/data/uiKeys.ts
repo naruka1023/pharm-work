@@ -15,7 +15,7 @@ export const headerArray: filterConditions [] = [
     content: []
   },  
   { 
-    header: 'งานร้านยาทั่วไป (Stand alone)',
+    header: 'งานร้านยาทั่วไป',
     filterFlag: true,
     dateFilter: false,
     JobType: false,
@@ -28,7 +28,7 @@ export const headerArray: filterConditions [] = [
     content: []
   }, 
   { 
-    header: 'งานร้านยา Brand (Chain)',
+    header: 'งานร้านยาแบรนด์',
     filterFlag: true,
     dateFilter: false,
     JobType: false,

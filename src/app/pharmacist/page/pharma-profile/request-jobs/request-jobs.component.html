@@ -1,9 +1,17 @@
-<div class="row row-cols-2">
-    <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
-        <div>
-            <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
-        </div>
-        <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
-    </ng-container>
-</div>
+<ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
+<ng-template #empty>
+    <div class="d-flex">
+        <img class="m-auto" style="width: 25vw" src="assets/empty/emptyUser.png">
+    </div>
+</ng-template>
+<ng-template #notEmpty>
+    <div class="row row-cols-2">
+        <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
+            <div>
+                <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+            </div>
+            <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+        </ng-container>
+    </div>
+</ng-template>
 

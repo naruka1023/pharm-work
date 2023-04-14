@@ -1,1 +1,14 @@
-<p>urgent-jobs works!</p>
+<div class="mx-4">
+
+  <div class="my-3 fs-2"><b>งานด่วนรายวัน</b></div>
+  <ul class="nav nav-underline mb-5 sticky-top py-3 fs-3"  style="top:185px; background:white; --bs-nav-underline-gap:0 1rem">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" id="urgent-jobs-page" routerLink="urgent-jobs-page" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">ตารางงานด่วน</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="urgent-jobs-history" routerLink="urgent-jobs-history" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">ประวัติการรับงานด่วน</a>
+      </li>
+      <hr style="width: 100%" class="m-auto">
+  </ul>
+  <router-outlet></router-outlet>
+</div>

@@ -1,37 +1,17 @@
-<div>
-
-    <div class="card rounded p-3 align-items-center" style="width:fit-content">
-        <div class="d-flex justify-content-between w-100">
-            <button (click)="toggleFavorite()" type="button" class="btn">
-                <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
-                <ng-template #loading>
-                    <div>
-                        <div style="text-align:center">
-                            <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-                <ng-template #notLoading>
-                    <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
-                    <ng-template #normal>
-                        <div class="fs-3"><i class="bi bi-heart"></i></div>
-                    </ng-template>
-                    <ng-template #red>
-                        <div class="text-danger fs-3"><i class="bi bi-heart"></i></div>
-                    </ng-template>
-                </ng-template>
-            </button>
+    <div class="fs-4 d-flex m-3 flex-row-start align-items-center">
+        <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" (click)="goToProfile()" class="card-img-top rounded-circle border border-5 border-white me-3"  style="width:fit-content" height="80" width="80">
+        <div>
+            {{content.nickName}}
+        </div>
+    </div>
+    <div class="card align-items-center" style="border-radius: 20px !important">
+        <div class="py-2 fs-3 d-flex d-flex justify-content-center align-items-center" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center; background:rgba(0, 0, 0, 0.03)">
+            <div class="col">Online</div>
+        </div>
+        <!-- <div class="d-flex justify-content-between w-100">
             <div class="text-primary fs-3"><i class="bi bi-check-circle"></i></div>
-        </div>
-        <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" (click)="goToProfile()" class="card-img-top m-auto my-3 rounded-circle border border-5 border-white"  style="width:fit-content" height="150" width="150">
-        <div class="fs-4 d-flex flex-row-start">
-            <div>
-                {{content.name}} {{content.surname}}
-            </div>
-        </div>
-        <ng-container *ngIf="type == 'S'; then urgent; else notUrgent"></ng-container>
+        </div> -->
+        <!-- <ng-container *ngIf="type == 'S'; then urgent; else notUrgent"></ng-container>
         <ng-template #urgent>
             <div class="fs-5">
                 เลขใบประกอบ: {{content.license}}
@@ -41,24 +21,56 @@
             <div class="fs-5">
                 ประเภทงานที่สนใจ: {{content.preferredTimeFrame}}
             </div>
-        </ng-template>
-        <div class="fs-5">
-            เขต: {{content.Location?.District}} จังหวัด: {{content.Location?.Province}}
+        </ng-template> -->
+        <div class="py-2 px-4">
+            
+            <div class="row fs-5 py-2">
+                <div class="col-2">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="col text-start">
+                    {{content.active !== 'เปิดเผยข้อมูลทั้งหมด'? content.active === 'เปิดเผยข้อมูลบางส่วน'?'เปิดเผยข้อมูลบางส่วน':'':content.name}}
+                </div>
+            </div>
+            <div class="row py-2 fs-5">
+                <div class="col-2">
+                    <i class="bi bi-geo-alt"></i>
+                </div>
+                <div class="col text-start">
+                    {{content.Location?.District}}, {{content.Location?.Province}}
+                </div>
+            </div>
+            <div *ngIf="type == 'S'" class="row fs-5 py-2">
+                <div class="col-2">
+                    <i class="bi bi-card-checklist"></i>
+                </div>
+                <div class="col text-start">
+                    งานด่วนที่เคยรับ: {{content.AmountCompleted}}
+                </div>
+            </div>
         </div>
-        <ng-container *ngIf="type == 'S'; then urgentSecond; else notUrgentSecond"></ng-container>
-        <ng-template #urgentSecond>
-            <div class="fs-6">
-                จำนวนงานด่วนที่เคยรับสำเร็จ: {{content.AmountCompleted}}
-            </div>
-        </ng-template>
-        <ng-template #notUrgentSecond>
-            <div class="fs-6">
-                ประสบการณ์การทำงาน: {{content.WorkExperience}}
-            </div>
-            <div class="fs-6">
-                สามารถเริ่มงานได้: {{content.preferredStartTime}}
-            </div>
-        </ng-template>
-    
     </div>
-</div>
+    <div class="d-flex justify-content-between m-3">
+        <button class="btn btn-success">ส่งงานด่วน</button>
+        <button (click)="toggleFavorite()" type="button" class="btn">
+            <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
+            <ng-template #loading>
+                <div>
+                    <div style="text-align:center">
+                        <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #notLoading>
+                <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
+                <ng-template #normal>
+                    <div class="fs-3"><i class="bi bi-heart"></i></div>
+                </ng-template>
+                <ng-template #red>
+                    <div class="text-danger fs-3"><i class="bi bi-heart"></i></div>
+                </ng-template>
+            </ng-template>
+        </button>
+    </div>

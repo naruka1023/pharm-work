@@ -49,7 +49,9 @@ export class AppComponent {
           showProfileFlag: true,
           loading:true,
           AmountCompleted: 0,
+          introText: '',
           WorkExperience: 0,
+          nickName: '',
           coverPhotoFlag: true
         };
         this.store.dispatch(setCurrentUser({user: emptyUser}));

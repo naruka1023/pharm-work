@@ -42,6 +42,7 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       name: ['', [Validators.required]],
+      nickName: [''],
       surname: ['', [Validators.required]],
       license: ['', [Validators.required]],
       preferredJobType: this.fb.group({

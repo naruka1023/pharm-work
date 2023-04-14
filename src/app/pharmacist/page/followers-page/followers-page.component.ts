@@ -11,6 +11,7 @@ import { FollowList, userOperator } from '../../model/typescriptModel/jobPost.mo
 export class FollowersPageComponent {
 
   followers$!:Observable<userOperator[]>
+  emptyFlag$!: Observable<boolean>
 
   constructor(private store:Store){}
   ngOnInit(){
@@ -21,6 +22,9 @@ export class FollowersPageComponent {
         followersArray.push(value.user as userOperator)
       }
       return followersArray
+    })
+    this.emptyFlag$ = this.store.select((state: any)=>{
+      return Object.keys(state.jobpost.Follows).length === 0
     })
   }
 }

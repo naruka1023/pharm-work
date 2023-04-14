@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between">
             <div class="col-6">
 
-                <div class="card my-auto me-4" style="width:-webkit-fill-available">
+                <div class="card my-auto me-4" style="width: -webkit-fill-available; width: -moz-available;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between card-title">
                             <div style="visibility:hidden">fdsasd</div>
@@ -82,6 +82,16 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
+                                                <label for="nickName" class="form-label">ชื่อ User</label>
+                                                <input
+                                                    type="text"
+                                                    formControlName="nickName"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-group">
                                                 <label for="name" class="form-label">ชื่อ</label>
                                                 <input
                                                     type="text"
@@ -122,7 +132,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-primary mb-1 mt-2" style="width:-webkit-fill-available" (click)="nextSlide()">Next</button> 
+                                        <button type="button" class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" (click)="nextSlide()">Next</button> 
                                     </ng-template>
                                     <ng-template swiperSlide>
                                         <div class="form-group mb-3" formGroupName="preferredJobType">
@@ -216,7 +226,7 @@
                                                 <option selected value="ภายใน 1 เดือน">ภายใน 1 เดือน</option>
                                             </select>
                                         </div>
-                                        <button class="btn btn-primary mb-1 mt-2" style="width:-webkit-fill-available" (click)="onSubmit()">Submit</button> 
+                                        <button class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" (click)="onSubmit()">Submit</button> 
                                     </ng-template>
                                   </swiper>
                             </form>
@@ -343,7 +353,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary mb-1 mt-2" style="width:-webkit-fill-available" type="submit">Submit</button> 
+                                <button class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" type="submit">Submit</button> 
                             </form>
 
                         </ng-template>
@@ -352,8 +362,8 @@
             </div>
             <div class="col-6">
                 <swiper #swiper [virtual]="true">
-                    <ng-template swiperSlide><img style="width:-webkit-fill-available" src="assets/pharmacist.jpg"></ng-template>
-                    <ng-template swiperSlide><img style="width:-webkit-fill-available" src="assets/operator.jpg"></ng-template>
+                    <ng-template swiperSlide><img style="width: -webkit-fill-available; width: -moz-available;" src="assets/pharmacist.jpg"></ng-template>
+                    <ng-template swiperSlide><img style="width: -webkit-fill-available; width: -moz-available;" src="assets/operator.jpg"></ng-template>
                   </swiper>
             </div>
         </div>

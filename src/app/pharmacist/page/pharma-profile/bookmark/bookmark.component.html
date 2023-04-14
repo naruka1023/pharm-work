@@ -1,9 +1,18 @@
-<div class="row row-cols-2">
-    <ng-container *ngFor="let bookmark of bookmarks$ | async; index as i">
-        <div>
-            <app-job-post-normal-card cardType="Bookmarks"[content]="bookmark.JobPost!" [urgentFlag]="bookmark.JobPost!.Urgency" [fullTimeFlag]="bookmark.JobPost!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
-        </div>
-        <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
-    </ng-container>
-</div>
+<div class="my-3 fs-2 mx-4"><b>งานที่บันทึก</b></div>
+<ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
+<ng-template #empty>
+    <div class="d-flex">
+        <img class="m-auto" style="width: 25vw" src="assets/empty/emptyBookmark.png">
+    </div>
+</ng-template>
+<ng-template #notEmpty>
+    <div class="row row-cols-2">
+        <ng-container *ngFor="let bookmark of bookmarks$ | async; index as i">
+            <div>
+                <app-job-post-normal-card cardType="Bookmarks"[content]="bookmark.JobPost!" [urgentFlag]="bookmark.JobPost!.Urgency" [fullTimeFlag]="bookmark.JobPost!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+            </div>
+            <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+        </ng-container>
+    </div>
+</ng-template>
 

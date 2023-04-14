@@ -51,5 +51,7 @@ export interface User{
     coverPhotoOffset?: number,
     coverPhotoPictureUrl?:string,
     cropProfilePictureUrl?: string,
-    coverPhotoFlag: boolean
+    coverPhotoFlag: boolean,
+    introText: string,
+    nickName: string
 }

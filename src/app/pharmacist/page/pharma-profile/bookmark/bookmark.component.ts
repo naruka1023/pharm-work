@@ -14,6 +14,7 @@ export class BookmarkComponent {
   constructor(private store: Store, private db: AngularFirestore){}
 
   bookmarks$!: Observable<Bookmark[]>;
+  emptyFlag$!: Observable<boolean>;
 
   ngOnInit(){
     this.bookmarks$ = this.store.select((state:any)=>{
@@ -28,6 +29,9 @@ export class BookmarkComponent {
         return array
       })
     )
+    this.emptyFlag$ = this.store.select((state: any)=>{
+      return Object.keys(state.jobpost.Bookmarks).length === 0
+    })
   }
 
 

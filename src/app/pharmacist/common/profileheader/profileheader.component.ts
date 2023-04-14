@@ -6,13 +6,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import Cropper from 'cropperjs';
 import { Observable, Subject } from 'rxjs';
-import { coverPhotoLoadSuccessful, updateCoverPhoto, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
+import { coverPhotoLoadSuccessful, setCurrentUser, updateCoverPhoto, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
 import { profileHeaderJobPost, profileHeaderOperator, profileHeaderPharma } from '../../model/typescriptModel/header.model';
 import { AppState, Follow, jobPostModel, userOperator } from '../../model/typescriptModel/jobPost.model';
 import { User } from '../../model/typescriptModel/users.model';
 import { JobPostService } from '../../service/job-post.service';
 import { UserServiceService } from '../../service/user-service.service';
 import { addFollowers, removeFollowers, setOperatorData } from '../../state/actions/job-post.actions';
+import { FormBuilder, FormGroup } from '@angular/forms';
 declare var window: any;
 @Component({
   selector: 'app-profileheader',
@@ -24,18 +25,21 @@ export class ProfileheaderComponent {
 @Input() profileType! : string;
 @Input() viewFlag = true;
 result!: any
+editFlag: boolean = false
 profileInformation$!: User
 coverPhotoFlag$!: Observable<boolean>;
 headerInformation!: Observable<profileHeaderPharma>
 coverListenerSubject: Subject<string> = new Subject();
 followFlag$!: Observable<boolean>
 loading$!:Observable<boolean>
+introTextLoadingFlag: boolean = false
 coverListenerObservable: Observable<string> = this.coverListenerSubject.asObservable();
 file!: File
 id!: string
 coverPhotoVerticalPosition!: number;
 profilePictureFile!: any
 formModal: any
+introTextForm!: FormGroup
 operator!:userOperator;
 followerUID!: string
 categorySymbol!: string
@@ -55,7 +59,7 @@ profileMaskSize: number = 20;
 realWidth: number = 0;
 fixedScale: number = 0.5;
 dynamicScale: number = 0.5;
-constructor(private storage:AngularFireStorage, private store: Store, private userService:UserServiceService, private jobPostService:JobPostService, private router:Router, private route: ActivatedRoute,){}
+constructor(private fb: FormBuilder, private storage: AngularFireStorage, private store: Store, private userService: UserServiceService, private jobPostService: JobPostService, private router: Router, private route: ActivatedRoute,){}
 
   ngOnInit(){
     this.formModal = new window.bootstrap.Modal(
@@ -132,13 +136,14 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
         this.headerInformation = this.store.select((state: any)=>{
           this.profileInformation$ = state.user;
           return{
-            name: this.profileInformation$.name!,
+            nickName: this.profileInformation$.nickName!,
             Location: this.profileInformation$.Location,
             profilePictureUrl: this.profileInformation$.profilePictureUrl,
             coverPhotoPictureUrl: this.profileInformation$.coverPhotoPictureUrl,
             cropProfilePictureUrl: this.profileInformation$.cropProfilePictureUrl,
             coverPhotoOffset: this.profileInformation$.coverPhotoOffset!,
             uid: this.profileInformation$.uid,
+            introText: this.profileInformation$.introText,
             preferred:{
               timeFrame: this.profileInformation$.preferredTimeFrame,
               jobType: this.profileInformation$.preferredJobType,
@@ -150,6 +155,9 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
+          if(this.profileType == 'pharmacist-profile'){
+            this.resetFormGroup();
+          }
           this.coverPhotoVerticalPosition = header.coverPhotoOffset
         })
         break;
@@ -287,6 +295,17 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
       this.editCoverPhotoFlag = false;
       this.pathToUploadPicture = false;
       this.coverListenerSubject.next('enter')
+    }
+
+    initializeFormGroup(){
+      this.introTextForm = this.fb.group({
+        introText:[''],
+        nickName: ['']
+      });
+    }
+    resetFormGroup(){
+      this.initializeFormGroup();
+      this.introTextForm.patchValue({introText: this.result.introText, nickName: this.result.nickName})
     }
 
     uploadProfilePicture(){
@@ -485,7 +504,22 @@ constructor(private storage:AngularFireStorage, private store: Store, private us
       }
     })
   }
-  editProfileClicked(){
-    this.userService.sendEditSubject();
+  onSave(){
+    let payload = {
+      ...this.introTextForm.value,
+      uid: this.result.uid,
+    }
+    this.introTextLoadingFlag = true
+    this.userService.updateUser(payload).then(()=>{
+      this.introTextLoadingFlag = false
+      this.store.dispatch(setCurrentUser({user: payload}))
+      this.editIntroTextClicked()
+    })
+  }
+  editIntroTextClicked(){
+    this.editFlag = !this.editFlag
+    if(this.editFlag == false){
+      this.resetFormGroup();
+    }
   }
 }

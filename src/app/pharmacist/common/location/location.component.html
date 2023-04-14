@@ -2,17 +2,17 @@
     <ng-container *ngIf="registerFlag; then register; else normal"></ng-container>
     <ng-template #register>
         <div class="form-group" [formGroupName]="formGroupName">
-            <div class="my-3">พื้นที่ปฏิบัติงานที่สนใจ:</div>
-            <label for="Section" class="form-label">แขวง:</label>
-            <select formControlName="Section" (change)="sectionSelected()" name="section" class="form-select mb-3">
+            <div class="my-3">พื้นที่ปฏิบัติงานที่สนใจ</div>
+            <label for="Section" class="form-label">แขวง</label>
+            <select formControlName="Section" (change)="sectionSelected()" name="section" class="form-select mb-3 fs-3">
                 <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
             </select>
-            <label for="District" class="form-label">เขต:</label>
-            <select formControlName="District" (change)="districtSelected()" name="district" class="form-select mb-3">
+            <label for="District" class="form-label">เขต</label>
+            <select formControlName="District" (change)="districtSelected()" name="district" class="form-select mb-3 fs-3">
                 <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
             </select>
-            <label for="Province" class="form-label">จังหวัด:</label>
-            <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3">
+            <label for="Province" class="form-label">จังหวัด</label>
+            <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3 fs-3">
                 <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
             </select>
         </div>
@@ -25,30 +25,30 @@
             <div class="col-7" [formGroupName]="formGroupName">
                 <div class="row">
                     <div class="col-4">
-                        <label for="Section" class="form-label"><b>แขวง:</b></label>
+                        <label for="Section" class="form-label"><b>แขวง</b></label>
                     </div>
                     <div class="col">
-                        <select formControlName="Section" (change)="sectionSelected()" name="section" class="form-select mb-3">
+                        <select formControlName="Section" (change)="sectionSelected()" name="section" class="form-select mb-3 fs-3">
                             <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-4">
-                        <label for="District" class="form-label"><b>เขต:</b></label>
+                        <label for="District" class="form-label"><b>เขต</b></label>
                     </div>
                     <div class="col">
-                        <select formControlName="District" (change)="districtSelected()" name="district" class="form-select mb-3">
+                        <select formControlName="District" (change)="districtSelected()" name="district" class="form-select mb-3 fs-3">
                             <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-4">
-                        <label for="Province" class="form-label"><b>จังหวัด:</b></label>
+                        <label for="Province" class="form-label"><b>จังหวัด</b></label>
                     </div>
                     <div class="col">
-                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3">
+                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3 fs-3">
                             <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
                         </select>
                     </div>

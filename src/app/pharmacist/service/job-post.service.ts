@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as _ from 'lodash';
 import { catchError, combineLatest, forkJoin, map, merge, Observable, Subject } from 'rxjs';
-import headerArray from '../model/data/uiKeys';
 import { Bookmark, filterConditions, Follow, jobPostModel, jobPostPayload, jobRequest, userOperator } from '../model/typescriptModel/jobPost.model';
+import headerArray from '../model/data/uiKeys';
 
 @Injectable({
   providedIn: 'root'
@@ -199,7 +199,8 @@ export class JobPostService {
     return this.db.collection('followers', ref => ref.where('userUID', '==', userID)).get()
   }
   
-  getAllJobPost(): Observable<filterConditions[]>{
+  getAllJobPost(): any{
+
     return this.db.collection('job-post', ref => ref.where('Active', '==', true)).valueChanges({ idField: 'custom_doc_id' }).pipe(
       map((src)=>{
         let payload: any[] = src;

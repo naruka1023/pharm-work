@@ -20,7 +20,6 @@ export class UserByTypeComponent {
   @Input()title!: string;
   Users$!: Observable<UserPharma[]>;
   userFlag: boolean = true;
-  userLengthFlag!:boolean
 
   constructor(private utilService:UtilService, private store:Store, private router:Router, private route:ActivatedRoute){}
 
@@ -59,7 +58,6 @@ export class UserByTypeComponent {
           default:
           user = this.utilService.convertUserPharmaListToArray(userToSelect.AA.short);
         }
-        this.userLengthFlag = user.length <= 3?true:false
         this.userFlag = user.length !== 0? true:false;
         return user;
       })

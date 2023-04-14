@@ -27,9 +27,19 @@ div.img-container {
   .profileUploadButton{
     cursor: pointer;
     position: relative;
-    bottom: 2rem;
+    bottom: 8rem;
+    width: 50px;
+    border-radius: 100%;
+    background:lightgray;
     z-index: 3;
-    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    right: -122px;
+  }
+  .btn-primary{
+    background:#5cdfe4
   }
   
   .user-buttons:hover{

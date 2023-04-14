@@ -1,0 +1,9 @@
+.nav-item{
+    padding-right:1rem
+}
+.nav-link{
+    color:black
+}
+.nav-link.active{
+    color: rgb(127, 216, 88)
+}

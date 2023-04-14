@@ -61,6 +61,7 @@ export class SmallUserCardComponent {
     })
   }
   goToProfile(){
+    console.log(this.content);
     this.store.dispatch(addRecentlySeen({user: this.content}));
     this.router.navigate(['/operator/pharma-user-profile'], {
       queryParams: 
