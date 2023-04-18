@@ -11,5 +11,10 @@
     width: -moz-available;
     border-radius: 20px
   }
-  
+.nav-link{
+  color:black
+}
+.nav-tabs .nav-link.active{
+  color:#7fd858 !important
+}
   

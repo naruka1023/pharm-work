@@ -85,6 +85,7 @@ export class UsersService {
       let query : CollectionReference | Query = ref;
       if (newForm.TimeFrame !== '' && newForm.TimeFrame !== undefined) { query = query.where('preferredTimeFrame', '==', newForm.TimeFrame) };
       if (newForm.WorkExperience !== '' && newForm.WorkExperience !== undefined) { query = query.where('WorkExperience','==', newForm.WorkExperience) };
+      if (newForm.highestEducation !== '' && newForm.highestEducation !== undefined) { query = query.where('highestEducation','==', newForm.highestEducation) };
       if (newForm.preferredDistrict !== '' && newForm.preferredDistrict !== undefined) { query = query.where('preferredDistrict', "==", newForm.preferredDistrict) };
       if (newForm.preferredProvince !== '' && newForm.preferredProvince !== undefined) { query = query.where('preferredProvince', "==", newForm.preferredProvince) };
       if (newForm.preferredSection !== '' && newForm.preferredSection !== undefined) { query = query.where('preferredSection', "==", newForm.preferredSection) };

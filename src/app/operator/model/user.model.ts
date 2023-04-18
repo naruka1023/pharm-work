@@ -3,12 +3,17 @@ export interface User{
     companyName?: string,
     jobType?: string,
     companyID?: string,
+    companySize: string,
     coverPhotoOffset?: number,
+    productsAndServices: string,
+    TravelInstructions: string,
     profilePictureUrl?:string,
+    benefits: string,
     cropProfilePictureUrl?: string,
     coverPhotoPictureUrl?:string
     nameOfPerson?: string,
     phoneNumber?: string,
+    emailRepresentative?: string,
     role: string,
     contacts?: Contacts
     Location?: {
@@ -83,6 +88,7 @@ export interface UserPharma{
     coverPhotoOffset?: number,
     coverPhotoPictureUrl?:string
     introText: string,
+    dateUpdated: string,
     nickName: string,
     cropProfilePictureUrl?: string,
 }
@@ -161,5 +167,9 @@ export interface Contacts{
     phone: string;
     email: string;
     line: string;
+    website: string;
     facebook: string;
+    twitter: string;
+    skype: string;
+    youtube: string;
 }

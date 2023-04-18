@@ -92,7 +92,7 @@
 			<div class="d-flex justify-content-between">
 				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 				<ng-template #alreadyRequest>
-					<div (click)="requestJob()" class="btn justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'background-color':'#7fd858', 'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
+					<div (click)="requestJob()" class="btn justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'color': 'white', 'background-color':'#7fd858', 'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
 					<div class="fs-5">รับงาน</div>
 			</div>
 			</ng-template>

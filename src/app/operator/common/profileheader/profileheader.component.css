@@ -7,6 +7,20 @@ div.img-container {
     z-index: 1;
     overflow: hidden;
   }
+  .profileUploadButton{
+    cursor: pointer;
+    position: relative;
+    bottom: 8rem;
+    width: 50px;
+    border-radius: 100%;
+    background:lightgray;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    right: -122px;
+  }
   
   .job-post_profile-picture {
     position: relative;
@@ -17,6 +31,11 @@ div.img-container {
 
   .user-buttons:hover{
     color:grey
+  }
+
+  .btn-primary{
+    background:#5cdfe4;
+    border-color: #5cdfe4
   }
   
   div.img-container > img {

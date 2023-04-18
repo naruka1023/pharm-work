@@ -44,7 +44,6 @@
 				</div>
 				<div class="container text-center">
 					<div class="row mb-2">
-
 						<div class="col d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
@@ -84,7 +83,7 @@
 							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
-							<div class=" fs-6 d-flex flex-row my-auto">
+							<div class="fs-6 d-flex flex-row my-auto">
 								<div class="mx-2">{{content.Salary.Amount}}</div>
 								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 								<ng-template #fullSub>บาท/เดือน</ng-template>
@@ -126,7 +125,7 @@
 		<div *ngIf="urgentFlag === true && requestButtonFlag" class="justify-content-center my-2 align-items-center d-flex">
 			<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 			<ng-template #alreadyRequest>
-				<button (click)="requestJob()" class="btn text-center" style="background-color:#7fd858" type="button">
+				<button (click)="requestJob()" class="btn text-center" style="color: white; background-color:#7fd858" type="button">
 					<div class="fs-5" style="width:6rem">รับงาน</div>
 				</button>
 			</ng-template>

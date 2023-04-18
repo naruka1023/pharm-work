@@ -1,36 +1,33 @@
 <!-- <div class="d-flex justify-content-start m-2 ">
 	{{content.dateUpdated}}
 </div> -->
-<div class="card rounded border-light w-100">
-	<div class="card-header">
+<div class="card border-secondary w-100" style="border-radius: 20px">
+	<div class="card-header"  style="border-radius:20px 20px 0 0" [ngStyle]="{'background':!content.Urgency?fullTimeFlag?'#7fcae6':'#a2e3d9':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
 			<div class="col-sm-4 fs-5 align-items-center" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
 			</div>
 			<div class="col-sm fs-5 d-flex w-100 justify-content-center align-items-center">
-				<b class="me-3">วันที่ </b><div>{{content.DateOfJob}}</div>
+				<b class="me-3">ทำงานวันที่ </b><div>{{content.DateOfJob}}</div>
 			</div>
 			<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
 		</div>
-	<div class="row" *ngIf="!urgentFlag">
-		<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
-		<ng-template #fullBlock>
-			<div class="col-sm-4 fs-5 text-center">
-				<b class="fs-4">Full-Time</b>
-			</div>
-		</ng-template>
-		<ng-template #partBlock>
-			<div class="col-sm-4 fs-5 text-center">
-				<b class="fs-4">Part-Time</b>
-			</div>
-		</ng-template>
-		<div class="col-sm my-auto d-flex justify-content-end">อัพเดทล่าสุด {{content.dateUpdated}}
+		<div class="d-flex justify-content-center" *ngIf="!urgentFlag">
+			<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
+			<ng-template #fullBlock>
+				<div class="col-sm-4 fs-5 text-center">
+					<b>Full-Time</b>
+				</div>
+			</ng-template>
+			<ng-template #partBlock>
+				<div class="col-sm-4 fs-5 text-center">
+					<b>Part-Time</b>
+				</div>
+			</ng-template>
 		</div>
 	</div>
-
-	</div>
 	<div class="card-body" style="padding:0.5rem 1rem">
-		<div class="row my-2">
+		<div class="row">
 			<div class="col-sm-3 text-center align-self-center">
 				<ng-container *ngIf="profileLinkFlag; then link; else noLink"></ng-container>
 				<ng-template #link>
@@ -41,7 +38,7 @@
 				</ng-template>
 				
 			</div>
-			<div class="col-sm" style="width:fit-content">
+			<div class="col-sm w-100">
 				<div class="d-flex justify-content-between me-2">
 					<div>
 						<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'height':'1.5em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}">
@@ -49,11 +46,6 @@
 						</div>
 						<p class="my-auto fs-6" [ngStyle]="{'height':'2.5em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}"><i>{{content.Establishment}}</i></p>
 					</div>
-					<button type="button" class="btn">
-						<h3>
-							<i class="bi bi-share"></i>
-						</h3>
-					</button>
 				</div>
 				<div class="container text-center">
 					<div class="row mb-2">
@@ -63,9 +55,11 @@
 							</p>
 							<div class=" fs-6 d-flex flex-row my-auto">
 								<div class="mx-2">{{content.Salary.Amount}}</div>
-								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
-								<ng-template #fullSub>บาท/เดือน</ng-template>
-								<ng-template #partSub>บาท/ชม</ng-template>
+								<div *ngIf="!urgentFlag">
+									<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
+									<ng-template #fullSub>บาท/เดือน</ng-template>
+									<ng-template #partSub>บาท/ชม</ng-template>
+								</div>
 							</div>
 						</div>
 						<div *ngIf="!urgentFlag" class="col d-flex">
@@ -89,12 +83,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="row mb-3">
+					<div class="row">
 						<div class="col d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
-							<div class=" fs-6 d-flex flex-row my-auto">
+							<div class="fs-6 d-flex flex-row my-auto">
 								<div class="mx-2">{{content.Salary.Amount}}</div>
 								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 								<ng-template #fullSub>บาท/เดือน</ng-template>
@@ -123,50 +117,56 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm d-flex flex-row-reverse">
-				<div *ngIf="buttonSetFlag" class="btn-group" role="group" aria-label="Basic mixed styles example">
-					<button type="button" (click)="deleteCard()"class="btn btn-danger fs-4">
-						<ng-container *ngIf="deleteLoadingFlag; then loading; else notLoading"></ng-container>
-						<ng-template #loading>
-							<div style="text-align:center" class="mt-5">
-								<div class="spinner-border text-primary" role="status">
-									<span class="visually-hidden">Loading...</span>
-								</div>
-							</div>
-						</ng-template>
-						<ng-template #notLoading>ลบการ์ด</ng-template>
-					</button>
-					<button type="button" (click)="editFlag()" class="btn btn-warning fs-4">แก้ไข</button>
-					<ng-container *ngIf="activeLoadingFlag; then loadingActive; else notLoadingActive"></ng-container>
-					<ng-template #notLoadingActive>
-						<ng-container *ngIf="Active$ | async; then activeButton; else notActiveButton"></ng-container>
-						<ng-template #activeButton>
-							<button type="button" (click)="toggleActive()"class="btn btn-primary fs-4">ยกเลิกประกาศ</button>
-						</ng-template>
-						<ng-template #notActiveButton>
-							<button type="button" (click)="toggleActive()"class="btn btn-primary fs-4">โพสประกาศ</button>
-						</ng-template>
-					</ng-template>
-					<ng-template #loadingActive>
-						<button type="button" (click)="toggleActive()"class="btn btn-primary fs-4">
-							<div style="text-align:center; align-self:center" class="mt-5">
-								<div class="spinner-border text-primary" role="status">
-									<span class="visually-hidden">Loading...</span>
-								</div>
-							</div>
-						</button>
-					</ng-template>
-					<ng-container *ngIf="Active$ | async; then active; else notActive"></ng-container>
-					<ng-template #active>
-						<button type="button" class="btn btn-success fs-4">Active</button>
-					</ng-template>
-					<ng-template #notActive>
-						<button type="button" class="btn btn-secondary fs-4">Inactive</button>
-					</ng-template>
+	</div>
+</div>
+<div class="row my-3">
+	<div class="col-sm d-flex flex-row-reverse">
+		<div *ngIf="buttonSetFlag" class="d-flex justify-content-end">
+			<ng-container *ngIf="activeLoadingFlag; then loadingActive; else notLoadingActive"></ng-container>
+			<ng-template #notLoadingActive>
+				<div class="form-switch form-check fs-3 me-3">
+					<label style="min-width: 6rem" class="form-check-label" for="flexSwitchCheckDefault">
+						{{activeFlag?'ปิด': 'ประกาศ'}}
+					</label>
+					<input class="form-check-input me-3" type="checkbox" (click)="toggleActive()" [checked]="Active$ | async" role="switch" id="flexSwitchCheckDefault">
 				</div>
-				<button *ngIf="usersRequestList" class="btn btn-primary fs-4" (click)="getUsers()">เภสัชที่สมัคร</button>
-			</div>
+				<!-- <ng-container *ngIf="Active$ | async; then activeButton; else notActiveButton"></ng-container>
+				<ng-template #activeButton>
+					<button type="button" (click)="toggleActive()"class="btn btn-primary fs-4">ยกเลิกประกาศ</button>
+				</ng-template>
+				<ng-template #notActiveButton>
+					<button type="button" (click)="toggleActive()"class="btn btn-primary fs-4">โพสประกาศ</button>
+				</ng-template> -->
+			</ng-template>
+			<ng-template #loadingActive>
+				<button type="button" (click)="toggleActive()"class="btn btn-primary fs-4">
+					<div style="text-align:center; align-self:center" class="mt-5">
+						<div class="spinner-border text-primary" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+					</div>
+				</button>
+			</ng-template>
+			<button type="button" (click)="deleteCard()"class="me-3 btn btn-secondary fs-4">
+				<ng-container *ngIf="deleteLoadingFlag; then loading; else notLoading"></ng-container>
+				<ng-template #loading>
+					<div style="text-align:center" class="mt-5">
+						<div class="spinner-border text-primary" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+					</div>
+				</ng-template>
+				<ng-template #notLoading><i class="bi bi-trash me-3"></i>ลบ</ng-template>
+			</button>
+			<button type="button" (click)="editFlag()" class="btn btn-secondary fs-4 me-3"><i class="bi-pencil-square"></i> แก้ไข</button>
+			<!-- <ng-container *ngIf="Active$ | async; then active; else notActive"></ng-container>
+			<ng-template #active>
+				<button type="button" class="btn btn-success fs-4">Active</button>
+			</ng-template>
+			<ng-template #notActive>
+				<button type="button" class="btn btn-secondary fs-4">Inactive</button>
+			</ng-template> -->
 		</div>
+		<button *ngIf="usersRequestList" class="btn btn-primary fs-4" (click)="getUsers()">เภสัชที่สมัคร</button>
 	</div>
 </div>

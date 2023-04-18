@@ -14,9 +14,14 @@ export class PharmaUserProfilePageComponent {
   categorySymbol!: string
   userUID!: string
   pageType!: string
+  sendUrgentJobsFlag!: boolean;
+  urgentJobObject: any = {};
   constructor(private route:ActivatedRoute, private store:Store){}
 
   ngOnInit(){
+    // ไม่อนุญาติให้ดูข้อมูล
+    // อนุญาตให้ดูข้อมูล
+    // จำกัดการดูข้อมูล
     this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
     this.userUID = this.route.snapshot.queryParamMap.get('userUID')!;
     this.pageType = this.route.snapshot.queryParamMap.get('pageType')!;
@@ -38,7 +43,25 @@ export class PharmaUserProfilePageComponent {
           return newState        
       }
     }).subscribe((profile: UserPharma)=>{
+      
       this.innerProfileInformation = profile
+      this.sendUrgentJobsFlag = false;
+      this.innerProfileInformation.preferredJobType!.forEach((jobType: string)=>{
+        if(jobType == 'งานด่วนรายวัน'){
+          this.sendUrgentJobsFlag = true
+        }
+      })
+      if(this.sendUrgentJobsFlag){
+        this.urgentJobObject = {
+          icon: 'bi bi-calendar-check',
+          text: 'เภสัชกรท่านนี้สนใจรับงานด่วน ท่านสามารถกดปุ่ม ส่งงานด่วน ที่ด้านบนเพื่อส่งประกาศงานด่วนให้เภสัชกรท่านนี้ได้โดยตรง'
+        }
+      }else{
+        this.urgentJobObject = {
+          icon: 'bi bi-calendar-x',
+          text: 'เภสัชกรท่านนี้ยังไม่สนใจรับงานด่วนในขณะนี้'
+        }
+      }
       this.jobType = profile.preferredJobType!
     })
     this.scrollUp()

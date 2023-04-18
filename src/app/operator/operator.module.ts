@@ -35,6 +35,9 @@ import { PharmaUserProfilePageComponent } from './page/pharma-user-profile-page/
 import { RecentlySeenUsersComponent } from './page/recently-seen-users/recently-seen-users.component';
 import { operatorProfileReducer } from './state/reducer/operator-profile.reducers';
 import { jobRequestReducer } from './state/reducer/job-request.reducer';
+import { UrgentJobsComponent } from './page/operator-profile/urgent-jobs/urgent-jobs.component';
+import { UrgentJobsPageComponent } from './page/operator-profile/urgent-jobs-page/urgent-jobs-page.component';
+import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-history/urgent-jobs-history.component';
 
 
 
@@ -60,7 +63,10 @@ import { jobRequestReducer } from './state/reducer/job-request.reducer';
     NormalUserCardComponent,
     FavoritesComponent,
     PharmaUserProfilePageComponent,
-    RecentlySeenUsersComponent
+    RecentlySeenUsersComponent,
+    UrgentJobsComponent,
+    UrgentJobsPageComponent,
+    UrgentJobsHistoryComponent
   ],
   imports: [
     CommonModule,

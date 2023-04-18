@@ -64,6 +64,7 @@ export class RegisterComponent {
         Province: [''], 
       }),
       preferredStartTime: [''],
+      dateUpdated: new Date().toISOString().split('T')[0],
       preferredSalary: [''],
       WorkExperience: 0,
       AmountCompleted: 0

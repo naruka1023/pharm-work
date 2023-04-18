@@ -1,94 +1,140 @@
-<div class="card rounded p-3 m-3" style="width:100%">
-    <div class="d-flex justify-content-between">
-        <div class="fs-3">
-            <b>{{content.name}} {{content.surname}}</b>
+<div class="card rounded m-3 pb-3">
+    <div class="p-2 d-flex d-flex justify-content-center align-items-center fs-5" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#7fcae6': content.preferredTimeFrame == 'Part-Time'?'#a2e3d9':'#ffffb3'}">
+        <div class="col"><b>{{type  == 'S'? 'Online': content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time/Part-Time' : content.preferredTimeFrame}}</b></div>
+    </div>
+    <div class="row">
+        <div class="col-4 d-flex">
+            <ng-container *ngIf="profileLinkPage; then link; else noLink"></ng-container>
+            <ng-template #link>
+                <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToProfile()" class="card-img-top m-auto my-3 rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
+                <!-- <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 20%;"><i class="bi bi-check-circle-fill"></i></div> -->
+            </ng-template>
+            <ng-template #noLink>
+                <img src="assets/user-profile.jpg" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+                <!-- <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 12%;"><i class="bi bi-check-circle-fill"></i></div> -->
+            </ng-template>
         </div>
-        <div class="text-danger fs-3 mx-3">
-            <button (click)="toggleFavorite()" type="button" class="btn">
-                <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
-                <ng-template #loading>
-                    <div>
-                        <div style="text-align:center">
-                            <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+        <div class="col fs-5 m-auto">
+            <div class="row py-1 fs-4">
+                <b>{{content.nickName}}</b>
+            </div>
+            <div class="row py-1">
+                <div class="col-1">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="col text-start" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
+                    {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name + ' ' + content.surname:content.active}}
+                </div>
+            </div>
+            <div class="row py-1">
+                <div class="col-1">
+                    <i class="bi bi-geo-alt"></i>
+                </div>
+                <div class="col text-start">
+                    {{content.Location?.District}}, {{content.Location?.Province}}
+                </div>
+            </div>
+            <div class="row py-1" *ngIf="type !== 'S'">
+                <div class="col-1">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+                <div class="col">
+                    ประสบการณ์ทำงาน {{content.WorkExperience}}
+                </div>
+            </div>
+            <div class="row py-1" *ngIf="type !== 'S'">
+                <div class="col-1">
+                    <i class="bi bi-award"></i>
+                </div>
+                <div class="col">
+                    การศึกษาสูงสุด {{content.highestEducation}}
+                </div>
+            </div>
+            <div class="row py-1" *ngIf="type == 'S'">
+                <div class="col-1">
+                    <i class="bi bi-card-checklist"></i>
+                </div>
+                <div class="col">
+                    งานด่วนที่เคยรับ {{content.AmountCompleted}}
+                </div>
+            </div>
+            <!-- <div class="grid p-3">
+                <ng-container *ngIf="type == 'S'; then urgent; else notUrgent"></ng-container>
+                <ng-template #urgent>
+                    <div class="fs-5">
+                        เลขใบประกอบ:
+                    </div>
+                    <div class="fs-5">
+                        {{content.license}}
                     </div>
                 </ng-template>
-                <ng-template #notLoading>
-                    <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
-                    <ng-template #normal>
-                        <div class="fs-3"><i class="bi bi-heart"></i></div>
-                    </ng-template>
-                    <ng-template #red>
-                        <div class="text-danger fs-3"><i class="bi bi-heart"></i></div>
-                    </ng-template>
+                <ng-template #notUrgent>
+                    <div class="fs-5">
+                        ประเภทงาน:
+                    </div>
+                    <div class="fs-5">
+                        {{content.preferredTimeFrame}}
+                    </div>
                 </ng-template>
-            </button>
+                <div class="fs-5">
+                    เขต: {{content.Location?.District}}
+                </div>
+                <div class="fs-5">
+                    จังหวัด: {{content.Location?.Province}}
+                </div>
+                <ng-container *ngIf="type == 'S'; then urgentSecond; else notUrgentSecond"></ng-container>
+                <ng-template #urgentSecond>
+                    <div class="fs-5">
+                        งานที่เคยรับสำเร็จ: 
+                    </div>
+                    <div class="fs-5">
+                        {{content.AmountCompleted}}
+                    </div>
+                </ng-template>
+                <ng-template #notUrgentSecond>
+                    <div class="fs-5">
+                        สามารถเริ่มงานได้: 
+                    </div>
+                    <div class="fs-5">
+                        {{content.preferredStartTime}}
+                    </div>
+                </ng-template>
+                <ng-container *ngIf="type !== 'S'">
+                    <div class="fs-5">
+                        ประสบการณ์การทำงาน:
+                    </div>
+                    <div class="fs-5">
+                        {{content.WorkExperience}}
+                    </div>
+                </ng-container>
+            </div> -->
         </div>
     </div>
-        <div class="d-flex justify-content-start">
-            <div>
-                <ng-container *ngIf="profileLinkPage; then link; else noLink"></ng-container>
-                <ng-template #link>
-                    <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToProfile()" class="card-img-top m-auto my-3 rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
-                    <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 20%;"><i class="bi bi-check-circle"></i></div>
+</div>
+<div class="m-3 d-flex justify-content-end">
+    <button *ngIf="type == 'S'" class="btn fs-3 ms-3" style="color:white; background-color: #7fd858">ส่งงานด่วน</button>
+    <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3" style="color:white">ขอดูข้อมูล</button>
+    <div class="text-danger fs-3 mx-3">
+        <button (click)="toggleFavorite()" type="button" class="btn">
+            <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
+            <ng-template #loading>
+                <div>
+                    <div style="text-align:center">
+                        <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #notLoading>
+                <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
+                <ng-template #normal>
+                    <div class="fs-3"><i class="bi bi-heart"></i></div>
                 </ng-template>
-                <ng-template #noLink>
-                    <img src="assets/user-profile.jpg" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
-                    <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 12%;"><i class="bi bi-check-circle"></i></div>
+                <ng-template #red>
+                    <div class="text-danger fs-3"><i class="bi bi-heart-fill"></i></div>
                 </ng-template>
-
-            </div>
-        <div class="grid p-3">
-            <ng-container *ngIf="type == 'S'; then urgent; else notUrgent"></ng-container>
-            <ng-template #urgent>
-                <div class="fs-5">
-                    เลขใบประกอบ:
-                </div>
-                <div class="fs-5">
-                    {{content.license}}
-                </div>
             </ng-template>
-            <ng-template #notUrgent>
-                <div class="fs-5">
-                    ประเภทงาน:
-                </div>
-                <div class="fs-5">
-                    {{content.preferredTimeFrame}}
-                </div>
-            </ng-template>
-            <div class="fs-5">
-                เขต: {{content.Location?.District}}
-            </div>
-            <div class="fs-5">
-                จังหวัด: {{content.Location?.Province}}
-            </div>
-            <ng-container *ngIf="type == 'S'; then urgentSecond; else notUrgentSecond"></ng-container>
-            <ng-template #urgentSecond>
-                <div class="fs-5">
-                    งานที่เคยรับสำเร็จ: 
-                </div>
-                <div class="fs-5">
-                    {{content.AmountCompleted}}
-                </div>
-            </ng-template>
-            <ng-template #notUrgentSecond>
-                <div class="fs-5">
-                    สามารถเริ่มงานได้: 
-                </div>
-                <div class="fs-5">
-                    {{content.preferredStartTime}}
-                </div>
-            </ng-template>
-            <ng-container *ngIf="type !== 'S'">
-                <div class="fs-5">
-                    ประสบการณ์การทำงาน:
-                </div>
-                <div class="fs-5">
-                    {{content.WorkExperience}}
-                </div>
-            </ng-container>
-        </div>
+        </button>
     </div>
 </div>

@@ -20,7 +20,7 @@ export class InnerProfileComponent{
   loadingFlag: boolean = true;
   innerProfileInformation!: User
   privacyLevel: number = 0;
-  privacyLabel: string = 'เปิดเผยข้อมูลทั้งหมด'
+  privacyLabel: string = 'อนุญาตให้ดูข้อมูล'
   privacyLoadingFlag: boolean = false;
   
   constructor(private utilService: UtilService, private converter: JobTypeConverterService, private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
@@ -34,13 +34,13 @@ export class InnerProfileComponent{
       if(this.innerProfileInformation.role !== ''){
         this.privacyLabel = this.innerProfileInformation.active!
         switch(this.innerProfileInformation.active){
-          case 'เปิดเผยข้อมูลทั้งหมด':
+          case 'อนุญาตให้ดูข้อมูล':
             this.privacyLevel = 0
           break;
-          case 'เปิดเผยข้อมูลบางส่วน':
+          case 'จำกัดการดูข้อมูล':
             this.privacyLevel = 1
           break;
-          case 'ไม่เปิดเผยข้อมูล':
+          case 'ไม่อนุญาติให้ดูข้อมูล':
             this.privacyLevel = 2
           break;
         }

@@ -22,14 +22,17 @@ export class OperatorHomeComponent {
   constructor(private converter: JobTypeConverterService,private store: Store, private fb:FormBuilder, private userService:UsersService){}
 
   userJobType$!: Observable<string>;
+  locationRadiusFlag: boolean = true;
   loadingUsers$!: Observable<boolean>;
   loadingFlag:boolean = true;
   newUserForm!: FormGroup;
+  newUserFormUrgent!: FormGroup;
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
   mapData : any = this.converter.getPlaceHolderObject();
   ngOnInit(){
+    this.scrollUp();
     this.loadingUsers$ = this.store.select((state:any)=>{
       return state.users.loading
     });
@@ -96,6 +99,8 @@ export class OperatorHomeComponent {
     this.newUserForm = this.fb.group({
       TimeFrame: [''],
       WorkExperience: [''],
+      highestEducation: [''],
+      active: [''],
       preferredLocation: this.fb.group({
         Section: [''],
         District: [''],
@@ -119,6 +124,11 @@ export class OperatorHomeComponent {
       this.reset();
     })
   }
+
+  onChangeEvent(event: any){
+    this.locationRadiusFlag = event.target.checked;
+  }
+  
   scrollUp(){
     window.scroll({ 
       top: 0, 

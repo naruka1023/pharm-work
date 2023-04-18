@@ -32,22 +32,16 @@ export class LandingPageComponent {
       //     })
       //   })
       // })
-      this.db.collection("users", ref => ref.where('role', '==', "เภสัชกร")).get().subscribe((docs) =>{
-        let index = 0
-        docs.forEach((doc:any)=>{
-
-          // let activeArray = ['เปิดเผยข้อมูลทั้งหมด',
-          // 'เปิดเผยข้อมูลบางส่วน',
-          // 'ไม่เปิดเผยข้อมูล']
-          let newDocData: UserPharma = doc.data();
-          console.log(newDocData.name + ' : ' + newDocData.active)
-          // newDocData.active = activeArray[index++ % 3]
-
-          // this.db.collection("users").doc(doc.id).update(newDocData).then((newDoc: any)=>{
-          //   console.log(`updatedSuccessfully`)
-          // })
-        })
-      })
+      // this.db.collection("users", ref => ref.where('role', '==', "ผู้ประกอบการ")).get().subscribe((docs) =>{
+      //   docs.forEach((doc:any)=>{
+      //     let newText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      //     let newDocData: UserPharma = doc.data();
+      //     newDocData.introText = newText
+      //     this.db.collection("users").doc(doc.id).update(newDocData).then((newDoc: any)=>{
+      //       console.log(`updatedSuccessfully`)
+      //     })
+      //   })
+      // })
       if(user){
         this.store.select((state: any)=>{
           return state.recentlySeen
@@ -68,7 +62,7 @@ export class LandingPageComponent {
     })
   }
 
-  goToAddJob(urgencyFlag:boolean){
+  goToAddJob(urgencyFlag:boolean) {
     this.route.navigate(['/operator/add-new-jobs'], {
       queryParams: 
       {
@@ -77,7 +71,7 @@ export class LandingPageComponent {
     })
   }
   signOut(){
-    if(this.route.url == '/operator'){
+    if(this.route.url == '/operator') {
       this.route.navigate(['operator']).then(()=>{
           this.confirmSignout();
       })

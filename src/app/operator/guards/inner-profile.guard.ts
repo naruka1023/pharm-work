@@ -14,12 +14,6 @@ export class InnerProfileGuard implements CanDeactivate<unknown> {
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(component.profileEditState){
-        component.openModal();
-        this.profileService.sendLeaveEditSubject(nextState!.url)
-      }else{
         return true;
-      }
-        return false;
   }
 }

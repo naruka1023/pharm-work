@@ -90,6 +90,7 @@ export interface User{
     profilePictureUrl?:string,
     coverPhotoOffset?: number,
     coverPhotoPictureUrl?:string
+    dateUpdated: string,
     introText: string,
     nickName: string,
     cropProfilePictureUrl?: string,

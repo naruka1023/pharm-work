@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/operator/model/user.model';
 import { UtilService } from 'src/app/operator/service/util.service';
 import { setCurrentUser, toggleLoading } from 'src/app/state/actions/users.action';
-declare var window: any;
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 @Component({
   selector: 'app-inner-profile',
   templateUrl: './inner-profile.component.html',
@@ -22,21 +22,22 @@ export class InnerProfileComponent implements OnDestroy {
   modal!:any;
   subject: Subscription = new Subscription();
   url: string = 'operator/profile-operator';
-  
+  productsAndServicesEditor = ClassicEditor;
+  productsAndServicesModel = {
+    editorData: ''
+  };
+  TravelInstructionsEditor = ClassicEditor;
+  TravelInstructionsModel = {
+    editorData: ''
+  };
+  benefitsEditor = ClassicEditor;
+  benefitsModel = {
+    editorData: ''
+  }
   constructor(private utilService: UtilService, private store: Store, private fb: FormBuilder, private modalService: NgbModal, private route:Router){}
 
   ngOnInit(){
     this.profileEditState = false;
-    this.modal = new window.bootstrap.Modal(
-      document.getElementById('saveModal')
-    );
-    var modal = document.getElementById('saveModal');
-    
-    window.onclick = (event: { target: HTMLElement; }) =>{
-      if (event.target == modal) {
-        this.cancelEventClick()
-      }
-    }
     this.loading$ = this.store.select((state:any)=>{
       return state.user.loading
     })
@@ -53,27 +54,15 @@ export class InnerProfileComponent implements OnDestroy {
     this.subject.add(this.utilService.getLeaveEditSubject().subscribe((src)=>{
       this.url = src;
     }));
-    this.subject.add(this.utilService.getEditSubject().subscribe((value: boolean)=>{
-      if(this.profileEditState){
-        this.openModal()
-      }else{
-        this.profileEditState = !this.profileEditState;
-      }
-    }))
+  }
+  toggleEdit(){
+    this.profileEditState = !this.profileEditState;
   }
 
-  cancelEventClick(){
-    if(this.profileEditState){
-      this.url = 'operator/profile-operator';
-      this.utilService.sendRevertTabSubject();
-      this.closeModal()
-    }
-  }
 
   initializeFormGroup(){
     this.profileEdit = this.fb.group({
       companyName: [''],
-      jobType: [''],
       Location: this.fb.group({
         address: [''],
         Section: [''],
@@ -84,22 +73,23 @@ export class InnerProfileComponent implements OnDestroy {
         phone: [''],
         email: [''],
         line: [''],
+        website: [''],
         facebook: [''],
+        twitter: [''],
+        skype: [''],
+        youtube: [''],
       }),
+      companySize: [''],
+      productsAndServices:[''],
+      TravelInstructions:[''],
       companyID: [''],
+      benefits: [''],
       nameOfPerson: [''],
       phoneNumber: [''],
+      emailRepresentative: [''],
       AmountCompleted: [''],
     });
   }
-  openModal(){
-    this.modal.show();
-  }  
-
-  closeModal(){
-    this.modal.hide();
-  }
-  
   resetFormGroup(){
     this.initializeFormGroup()
     this.profileEdit.patchValue(this.innerProfileInformation)
@@ -120,12 +110,6 @@ export class InnerProfileComponent implements OnDestroy {
       this.route.navigate([this.url], queryParams)
     }
   }
-  discardClick(){
-    this.profileEditState = false;
-    this.resetFormGroup()
-    this.beginNavigation()
-    this.closeModal();
-  }
   onSave(){
     this.store.dispatch(toggleLoading())
     const payload = {
@@ -138,7 +122,6 @@ export class InnerProfileComponent implements OnDestroy {
       this.store.dispatch(setCurrentUser({user: payload}))
       this.beginNavigation()
       this.profileEditState = false;
-      this.closeModal();
     })
   }
   ngOnDestroy(){

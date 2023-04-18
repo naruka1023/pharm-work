@@ -164,7 +164,7 @@
 			</button>
 			<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 			<ng-template #alreadyRequest>
-				<button (click)="requestJob()" class="btn text-center my-2 px-5" type="button" style="background-color:#7fd858">
+				<button (click)="requestJob()" class="btn text-center my-2 px-5" type="button" style="color:white; background-color:#7fd858">
 					<div class="fs-5">รับงาน</div>
 				</button>
 			</ng-template>

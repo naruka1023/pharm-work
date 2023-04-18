@@ -35,19 +35,19 @@ export class SwiperModuleComponent {
     this.filterVisibleFlag = !this.filterVisibleFlag
   }
   goToList(){
-      if(localStorage.getItem('loginState') == 'true'){
-        this.router.navigate(['jobs-list'],
+    if(localStorage.getItem('loginState') == 'true'){
+      this.router.navigate(['jobs-list'],
+      {
+        relativeTo:this.activatedRoute,
+        queryParams: 
         {
-          relativeTo:this.activatedRoute,
-          queryParams: 
-          {
-            CategorySymbol: this.filterFlags.CategorySymbol,
-          }
-        })
-      }else{
-        this.router.navigate(['login'],{
-          relativeTo:this.activatedRoute
-        })
-      }
+          CategorySymbol: this.filterFlags.CategorySymbol,
+        }
+      })
+    }else{
+      this.router.navigate(['login'],{
+        relativeTo:this.activatedRoute
+      })
+    }
   }
 }

@@ -1,7 +1,7 @@
 <div (click)="scrollUp()"class="position-fixed bottom-0 end-0 m-3" style="font-size:5rem">
 	<i class="pe-auto bi bi-arrow-up-square"></i>
 </div>
-<swiper
+<!-- <swiper
     [navigation]="true"
     [loop]="true"
     [slidesPerView]="2.5"
@@ -18,90 +18,233 @@
     <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
     <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
     <ng-template swiperSlide><div><img class="landing-page_img" src="assets/pic.jpg"></div></ng-template>
-</swiper>
+</swiper> -->
 <div class="container">
-        <form  [formGroup]="newUserForm" class="fs-3">
-            <div class="my-5 text-center">
-                <label><b>ค้นหาเภสัชกรร่วมงานกับคุณ</b></label>
-            </div>
-            <div class="row my-3">
-                <div class="col-4 me-3">
-                    <b>ประเภทของงานคุณ:</b>
+    <div style="background-color:white; border-radius: 20px; padding-bottom:5rem">
+        <ul class="nav justify-content-center fs-3 nav-tabs nav-fill nav-tabs mt-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" style="border-top-left-radius: 20px" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" type="button" role="tab" aria-controls="normal-job-pane" aria-selected="true">งานทั่วไป</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" style="border-top-right-radius: 20px" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">งานด่วนรายวัน</button>
+            </li>
+        </ul>
+          <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="normal-job-pane" role="tabpanel" aria-labelledby="normal-job" tabindex="0">
+                  <form  [formGroup]="newUserForm" class="fs-3">
+                      <div class="mb-5 text-center  fs-1" style="margin-top:5rem">
+                          <!-- แพนเป็นตูด P Aom pen tood men -->
+                          <label><b>ค้นหาเภสัชกรร่วมงานกับคุณ</b></label>
+                      </div>
+                      <div class="row my-3">
+                          <div class="col-2 text-end"><i class="bi bi-buildings"></i></div>
+                          <div class="col-3">
+                              <b>ประเภทธุรกิจของคุณ</b>
+                          </div>
+                          <div class="col">
+                              {{userJobType$ | async}}
+                          </div>
+                      </div>
+                      <div class="row my-3">
+                          <div class="col-2 text-end"><i class="bi bi-lightbulb"></i></div>
+                          <div class="col-3">
+                              <b>ชนิดของพนักงาน</b>
+                          </div>
+                          <div class="col-5">
+                              <select formControlName="TimeFrame" style="background-color:#f2f2f2" name="timeFrame" class="form-select mb-3">
+                                  <option selected value="Full-Time">Full-Time</option>
+                                  <option value="Part-Time">Part-Time</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row mt-3" formGroupName="preferredLocation">
+                          <div class="col-2 text-end"><i class="bi bi-geo-alt"></i></div>
+                          <div class="col-3">
+                              <div><b>พื้นที่</b></div>
+                          </div>
+                          <div class="col-5">
+                              <div class="row">
+                                  <div class="col-4">
+                                      <label class="me-3"><b>แขวง</b></label>
+                                  </div>
+                                  <div class="col">
+                                      <select formControlName="Section" style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select mb-3">
+                                          <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-4">
+                                      <label class="me-3"><b>เขต</b></label>
+                                  </div>
+                                  <div class="col">
+                                      <select formControlName="District" style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="form-select mb-3">
+                                          <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-4">
+                                      <label class="me-3"><b>จังหวด</b></label>
+                                  </div>
+                                  <div class="col">
+                                      <select formControlName="Province" style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select mb-3">
+                                          <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row my-3">
+                          <div class="col-2 text-end"><i class="bi bi-award"></i></div>
+                          <div class="col-3">
+                              <b>การศึกษาสูงสุด</b>
+                          </div>
+                      <div class="col-5 d-flex flex-row-start">
+                              <select formControlName="highestEducation" class="form-select" style="background-color:#f2f2f2">
+                                  <option selected value="ปริญญาตรี">ปริญญาตรี</option>
+                                  <option value="ปริญญาโท">ปริญญาโท</option>
+                                  <option value="ปริญญาโท">ปริญญาเอก</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row my-3">
+                          <div class="col-2 text-end"><i class="bi bi-briefcase"></i></div>
+                          <div class="col-3">
+                              <b>ประสบการณ์ทำงาน</b>
+                          </div>
+                          <div class="col-5 d-flex flex-row-start">
+                              <input type="number" class="form-control" style="background-color:#f2f2f2" formControlName="WorkExperience">
+                              <label class="ms-3">ปี</label>
+                          </div>
+                      </div>
+                      <div class="row my-3">
+                          <div class="col-2 text-end"><i class="bi bi-person-check"></i></div>
+                          <div class="col-3">
+                              <b>ระดับการเปิดเผยข้อมูล</b>
+                          </div>
+                      <div class="col-5 d-flex flex-row-start">
+                              <select formControlName="active" class="form-select" style="background-color:#f2f2f2">
+                                  <option selected value="อนุญาตให้ดูข้อมูล">อนุญาตให้ดูข้อมูล</option>
+                                  <option value="จำกัดการดูข้อมูล">จำกัดการดูข้อมูล</option>
+                                  <option value="ไม่อนุญาติให้ดูข้อมูล">ไม่อนุญาติให้ดูข้อมูล</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="d-flex justify-content-center" style="margin-top:4rem">
+                          <button class="btn btn-warning fs-3 px-4" style="margin-right:4rem" (click)="reset()">เคลียร์</button>
+                          <button style="color: white; background-color: #7fd858" class="btn  px-4 fs-3" (click)="searchUsers()">ค้นหา</button>
+                      </div>
+                  </form>
                 </div>
-                <div class="col">
-                    {{userJobType$ | async}}
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-4 me-3">
-                    <b>เลือกชนิดของงานคุณ:</b>
-                </div>
-                <div class="col-5">
-                    <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
-                        <option selected value="Full-Time">Full-Time</option>
-                        <option value="Part-Time">Part-Time</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-3" formGroupName="preferredLocation">
-                <div class="col-4">
-                    <div class="me-3"><b>พื้นที่ปฏิบัติงาน</b>:</div>
-                </div>
-                <div class="col-5">
-                    <div class="row">
-                        <div class="col-4">
-                            <label class="me-3"><b>แขวง: </b></label>
+                <div class="tab-pane fade" id="urgent-job-pane" role="tabpanel" aria-labelledby="urgent-job" tabindex="0">
+                    <form class="fs-3">
+                        <div class="mb-5 text-center  fs-1" style="margin-top:5rem">
+                            <!-- แพนเป็นตูด P Aom pen tood men -->
+                            <label><b>ค้นหาเภสัชกรร่วมงานด่วนรายวันกับคุณ</b></label>
                         </div>
-                        <div class="col">
-                            <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3">
-                                <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
-                            </select>
+                        <div class="row my-3">
+                            <div class="col-2 text-end"><i class="bi bi-geo"></i></div>
+                            <div class="col-3">
+                                <b>ดูเภสัชกรใกล้คุณ</b>
+                            </div>
+                            <div class="col-5">
+                                <div class="form-switch mb-3">
+                                    <input class="form-check-input me-3" type="checkbox" (click)="onChangeEvent($event)" [checked]="locationRadiusFlag" role="switch" id="flexSwitchCheckDefault">
+                                </div>
+                                <div *ngIf="locationRadiusFlag" class="col" >
+                                    <div>
+                                        <div class="d-flex flex-row-start mb-3">
+                                            <input  class="me-3 form-check-input" type="checkbox" value="" id="100">
+                                            <label class="form-check-label" for="100">
+                                                ระยะ 100 m
+                                            </label>
+                                        </div>
+                                        <div class="d-flex flex-row-start mb-3">
+                                            <input  class="me-3 form-check-input" type="checkbox" value="" id="200">
+                                            <label class="form-check-label" for="200">
+                                                ระยะ 200 m
+                                            </label>
+                                        </div>
+                                        <div class="d-flex flex-row-start mb-3">
+                                            <input  class="me-3 form-check-input" type="checkbox" value="" id="500">
+                                            <label class="form-check-label" for="500">
+                                                ระยะ 500 m
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <label class="me-3"><b>เขต: </b></label>
+                        <div *ngIf="!locationRadiusFlag" class="row" formGroupName="preferredLocation">
+                            <div class="col-2 text-end"><i class="bi bi-geo-alt"></i></div>
+                            <div class="col-3">
+                                <div><b>พื้นที่</b></div>
+                            </div>
+                            <div class="col-5">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label class="me-3"><b>แขวง</b></label>
+                                    </div>
+                                    <div class="col">
+                                        <select  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select mb-3">
+                                            <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label class="me-3"><b>เขต</b></label>
+                                    </div>
+                                    <div class="col">
+                                        <select  style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="form-select mb-3">
+                                            <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label class="me-3"><b>จังหวด</b></label>
+                                    </div>
+                                    <div class="col">
+                                        <select  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select mb-3">
+                                            <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3">
-                                <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
-                            </select>
+                        <div class="row my-3">
+                            <div class="col-2 text-end"><i class="bi bi-card-checklist"></i></div>
+                            <div class="col-3">
+                                <b>จำนวนงานที่เคยรับ</b>
+                            </div>
+                            <div class="col-5 d-flex flex-row-start">
+                                <select  class="form-select" style="background-color:#f2f2f2">
+                                    <option value="จากมากไปน้อย">จากมากไปน้อย</option>
+                                    <option value="จากน้อยไปมาก">จากน้อยไปมาก</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <label class="me-3"><b>จังหวด: </b></label>
+                        <div class="row my-3">
+                            <div class="col-2 text-end"><i class="bi bi-person-badge"></i></div>
+                            <div class="col-3">
+                                <b>เฉพาะที่กำลัง online</b>
+                            </div>
+                            <div class="col">
+                                <div class="form-switch">
+                                    <input class="form-check-input me-3" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3">
-                                <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
-                            </select>
+                        <div class="d-flex justify-content-center" style="margin-top:4rem">
+                            <button class="btn btn-warning fs-3 px-4" style="margin-right:4rem" (click)="reset()">เคลียร์</button>
+                            <button style="color: white; background-color: #7fd858" class="btn  px-4 fs-3" (click)="searchUsers()">ค้นหา</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-4 me-3">
-                    <b>ประสบการณ์การทำงาน:</b>
-                </div>
-                <div class="col-5 d-flex flex-row-start">
-                    <input type="number" class="form-control" formControlName="WorkExperience">
-                    <label class="ms-3">ปี</label>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-4 me-3">
-                    <b>เลือกเฉพาะเภสัชที่ยืนยันตัวตนกับทาง pharmwork สำเร็จแล้ว:</b>
-                </div>
-                <div class="col-5 form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                </div>
-            </div>
-            <div class="d-flex justify-content-center my-3">
-                <button class="btn btn-warning me-3 fs-3" (click)="reset()">เคลียร์</button>
-                <button class="btn btn-success fs-3" (click)="searchUsers()">ค้นหาเภสัช</button>
-            </div>
-        </form>
+          </div>
+    </div>
     <ng-container *ngIf="loadingFlag then loadingUsers; else notLoadingUsers"></ng-container>
     <ng-template #loadingUsers>
         <div style="text-align:center" class="mt-5">

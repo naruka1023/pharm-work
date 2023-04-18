@@ -111,7 +111,6 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
         })
         break;
         case "operator-profile":
-          console.log('operator-profile')
           this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
           this.store.select((state:any)=> {
             return state.operator

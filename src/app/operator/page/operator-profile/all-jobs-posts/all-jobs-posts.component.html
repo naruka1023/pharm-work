@@ -7,10 +7,42 @@
     </div>
 </ng-template>
 <ng-template #notLoading>
-    <div class="row row-cols-2">
-        <div *ngFor="let content of allCreatedJobs$ | async">
-            <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
-            
+    <div class="mx-4 fs-2">
+        <div class="my-3"><b>ประกาศงาน</b></div> 
+        <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:165px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงานทั้งหมด</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ประกาศงานทั่วไป</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">ประกาศงานด่วนรายวัน</a>
+            </li>
+            <hr style="width: 100%" class="m-auto">
+        </ul>
+        <div class="tab-content fs-3 mx-5">
+            <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
+                <div class="row row-cols-2">
+                    <div *ngFor="let content of allCreatedJobs$ | async">
+                        <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>            
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
+                <div class="row row-cols-2">
+                    <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': !content.Urgency? 'unset': 'none'}">
+                        <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="!content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
+                <div class="row row-cols-2">
+                    <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': content.Urgency? 'unset': 'none'}">
+                        <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </ng-template>

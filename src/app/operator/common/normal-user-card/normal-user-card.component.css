@@ -5,3 +5,10 @@
     column-gap:3rem;
     font-size: 1rem;
   }
+.rounded{
+  border-radius:20px !important
+}
+.btn-primary{
+  background:#5cdfe4;
+  border-color: #5cdfe4
+}

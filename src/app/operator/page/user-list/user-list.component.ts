@@ -19,8 +19,10 @@ export class UserListComponent {
   constructor(private store:Store, private fb:FormBuilder,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){}
   type!: string;
   title!: string;
+  newTitle!: string;
   stuff!: string;
   loadingFlag: boolean = true;
+  locationRadiusFlag: boolean = true;
   Users$!: Observable<UserPharma[]>
   newUserFormList!: FormGroup;
   province$!: Observable<string[]>;
@@ -30,6 +32,7 @@ export class UserListComponent {
     this.loadingFlag = true;
     this.type = this.route.snapshot.queryParamMap.get('type')!;
     this.title = this.converter.getTitleFromCategorySymbol(this.type);
+    this.newTitle = this.converter.getNewTitleFromCategorySymbol(this.type);
     this.Users$ = this.store.select((state:any)=>{
       return state.users.users[this.type].long;
     }).pipe(
@@ -66,6 +69,9 @@ export class UserListComponent {
     })
     this.initializeFormGroup();
     this.scrollUp();
+  }
+  onChangeEvent(event: any){
+    this.locationRadiusFlag = event.target.checked;
   }
   scrollUp(){
     window.scroll({ 

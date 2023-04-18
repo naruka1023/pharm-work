@@ -15,6 +15,9 @@ import { RequestJobComponent } from './page/operator-profile/request-job/request
 import { PharmaUserProfilePageComponent } from './page/pharma-user-profile-page/pharma-user-profile-page.component';
 import { RecentlySeenUsersComponent } from './page/recently-seen-users/recently-seen-users.component';
 import { UserListComponent } from './page/user-list/user-list.component';
+import { UrgentJobsComponent } from './page/operator-profile/urgent-jobs/urgent-jobs.component';
+import { UrgentJobsPageComponent } from './page/operator-profile/urgent-jobs-page/urgent-jobs-page.component';
+import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-history/urgent-jobs-history.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
@@ -30,6 +33,11 @@ const routes: Routes = [
       { path: 'inner-profile', component: InnerProfileComponent ,canDeactivate:[InnerProfileGuard]},
       { path: 'all-jobs-posts', component: AllJobsPostsComponent},
       { path: 'request-jobs', component: RequestJobComponent},
+      {path:'urgent-jobs', component:UrgentJobsComponent, children: [
+        { path: '',   redirectTo: 'urgent-jobs-page', pathMatch: 'full' },
+        {path:'urgent-jobs-page', component:UrgentJobsPageComponent},
+        {path:'urgent-jobs-history', component:UrgentJobsHistoryComponent}
+      ]},
       { path: 'recently-seen-users', component: RecentlySeenUsersComponent},
       { path: 'favorites', component: FavoritesComponent},
     ]},

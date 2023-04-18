@@ -58,14 +58,8 @@ export class UtilService {
   sendLeaveEditSubject(url: string){
     return this.leaveEditSubject.next(url);
   }
+ 
 
-  getEditSubject(): Observable<boolean>{
-    return this.editSubject.asObservable();
-  }
-  
-  sendEditSubject(){
-    return this.editSubject.next(true);
-  }
   updateUser(user: Partial<User>) : Promise<void>{
      return this.db.collection("users").doc(user.uid).update(user)
   }

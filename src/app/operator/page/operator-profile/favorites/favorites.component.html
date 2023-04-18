@@ -1,4 +1,7 @@
 <div class="row row-cols-2">
-    <app-normal-user-card  *ngFor="let favorites of favorites$ | async" [content]="favorites.content!" [type]="'S'" ></app-normal-user-card>
+    <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
+        <app-normal-user-card  [content]="favorites.content!" [type]="'AA'" ></app-normal-user-card>
+        <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+    </ng-container>
 </div>
 

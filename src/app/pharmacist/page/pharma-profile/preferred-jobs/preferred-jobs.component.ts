@@ -74,6 +74,7 @@ export class PreferredJobsComponent {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       preferredJobType: this.converter.objectToArray(this.profileEdit.value.preferredJobType),
+      dateUpdated: new Date().toISOString().split('T')[0]
     }
     payload = this.utilService.populateObjectWithLocationFields(payload);
     this.loadingFlag = true

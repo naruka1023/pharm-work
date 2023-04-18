@@ -3,13 +3,15 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { getMetadata, getStorage, listAll, ref, uploadString } from 'firebase/storage';
-import { Observable, Subject } from 'rxjs';
-import { coverPhotoLoadSuccessful, updateCoverPhoto, updateCoverPhotoOffset, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
+import { Observable, Subject, of } from 'rxjs';
+import { coverPhotoLoadSuccessful, setCurrentUser, updateCoverPhoto, updateCoverPhotoOffset, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
 import { profileHeaderJobPost, profileHeaderOperator, profileHeaderPharma } from '../../model/header.model';
 import { jobPostModel } from '../../model/jobPost.model';
-import { User, UserPharma } from '../../model/user.model';
+import { AppState, Favorite, User, UserPharma } from '../../model/user.model';
 import { UtilService } from '../../service/util.service';
-import { toggleLoading } from '../../state/actions/users-actions';
+import { addFavorites, removeFavorite, toggleLoading } from '../../state/actions/users-actions';
+import { UsersService } from '../../service/users.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 declare var window: any;
 
 @Component({
@@ -24,30 +26,41 @@ coverListenerSubject: Subject<string> = new Subject();
 coverListenerObservable: Observable<string> = this.coverListenerSubject.asObservable();
 result!: any 
 profileInformation$!: any
+introTextLoadingFlag: boolean = false
 headerInformation!: Observable<profileHeaderOperator>
 coverPhotoFlag$!: Observable<any>;
 coverPhotoVerticalPosition!: number
-  savePhotoLoadingFlag: boolean = false;
-  editCoverPhotoFlag: boolean = true;
-  userUID!: string;
-  formModal: any;
-  dynamicScale: number = 0.5;
-  profilePictureFile!: null;
-  pictureType: string = "";
-  fixedScale: number = 0.5;
-  loadProfilePictureFlag: boolean = true;
-  photoFlag!: string;
-  pathToUploadPicture: boolean = false;
-  editExistingPhoto: boolean = true;
-  cropper: any = '';
-  realWidth: number = 0;
+editFlag: boolean = false
+favoriteFlag$:Observable<boolean> = of(true);
+favoriteLoadingFlag!: boolean;
+localFlag: boolean = true;
+favoriteID!: string;
+sendUrgentJobsFlag!: boolean;
+urgentJobObject: any = {};
+categorySymbol!: string;
+savePhotoLoadingFlag: boolean = false;
+editCoverPhotoFlag: boolean = true;
+userUID!: string;
+formModal: any;
+dynamicScale: number = 0.5;
+introTextForm!: FormGroup
+profilePictureFile!: null;
+pictureType: string = "";
+fixedScale: number = 0.5;
+loadProfilePictureFlag: boolean = true;
+photoFlag!: string;
+pathToUploadPicture: boolean = false;
+editExistingPhoto: boolean = true;
+cropper: any = '';
+realWidth: number = 0;
 
-constructor(private storage:AngularFireStorage, private route:ActivatedRoute, private store: Store, private profileService: UtilService){}
+constructor(private fb: FormBuilder,private storage:AngularFireStorage, private userService:UsersService, private route:ActivatedRoute, private store: Store, private profileService: UtilService){}
 
   ngOnInit(){
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModal')
     );
+    this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!
     document.getElementById('myModal')?.addEventListener('hidden.bs.modal', ()=>{
       this.dynamicScale = 0.5
       this.profilePictureFile = null;
@@ -85,19 +98,16 @@ constructor(private storage:AngularFireStorage, private route:ActivatedRoute, pr
               this.profileInformation$ = state.users.users[this.route.snapshot.queryParamMap.get('categorySymbol')!][this.route.snapshot.queryParamMap.get('pageType')!][this.route.snapshot.queryParamMap.get('userUID')!];
               break;
           }
-          return{
-            name: this.profileInformation$.companyName!,
-            Location: this.profileInformation$.Location,
-            JobType: this.profileInformation$.jobType!,
-            profilePictureUrl: this.profileInformation$.profilePictureUrl!,
-            cropProfilePictureUrl: this.profileInformation$.cropProfilePictureUrl!,
-            coverPhotoPictureUrl: this.profileInformation$.coverPhotoPictureUrl,
-            coverPhotoOffset: this.profileInformation$.coverPhotoOffset!,
-            uid: this.profileInformation$.uid
-          }
+          return this.profileInformation$
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
+          this.sendUrgentJobsFlag = false;
+          this.result.preferredJobType.forEach((jobType: string)=>{
+            if(jobType == 'งานด่วนรายวัน'){
+              this.sendUrgentJobsFlag = true
+            }
+          })
           this.coverPhotoVerticalPosition = header.coverPhotoOffset!
         })
         break;
@@ -124,24 +134,84 @@ constructor(private storage:AngularFireStorage, private route:ActivatedRoute, pr
         break;
       case "operator-profile":
         this.headerInformation = this.store.select((state: any)=>{
-          this.profileInformation$ = state.user;
-          return{
-            name: this.profileInformation$.companyName!,
-            Location: this.profileInformation$.Location,
-            JobType: this.profileInformation$.jobType!,
-            profilePictureUrl: this.profileInformation$.profilePictureUrl!,
-            cropProfilePictureUrl: this.profileInformation$.cropProfilePictureUrl!,
-            coverPhotoPictureUrl: this.profileInformation$.coverPhotoPictureUrl,
-            coverPhotoOffset: this.profileInformation$.coverPhotoOffset!,
-            uid: this.profileInformation$.uid
-          }
+          return state.user;
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
+            this.resetFormGroup();
           this.coverPhotoVerticalPosition = header.coverPhotoOffset!
         })
     }
+    this.favoriteFlag$ = this.store.select((state: any) =>{
+      let flag = true;
+      if(this.userUID !== ''){
+        let newState: AppState = state.users
+        let favorite: Favorite = newState.Favorites[this.userUID + '-' + this.result.uid]
+        if(favorite === undefined){
+          flag = false;
+        }else{
+          this.favoriteID = favorite.favoriteUID!
+        }
+        this.localFlag = flag;
+      }
+      return flag 
+    })
+    this.favoriteFlag$.subscribe((flag)=>{
+    })
   }
+
+  initializeFormGroup(){
+    this.introTextForm = this.fb.group({
+      introText:[''],
+    });
+  }
+
+  resetFormGroup(){
+    this.initializeFormGroup();
+    this.introTextForm.patchValue({introText: this.result.introText})
+  }
+
+  getFavoritePayload(){
+    return {operatorUID: this.userUID, user:this.result, favoriteUID:this.favoriteID}
+  }
+  toggleFavorite(){
+    if(this.localFlag === true){
+      this.favoriteLoadingFlag = true
+      this.userService.removeFavorite(this.favoriteID).then((value: any)=>{
+        this.store.dispatch(removeFavorite({operatorUID: this.userUID, userUID:this.result.uid}));
+        this.favoriteLoadingFlag = false
+      })
+    }else{
+      this.favoriteLoadingFlag = true
+      this.userService.addFavorite(this.userUID,this.result.uid).then((value)=> {
+        this.favoriteID = value.id
+        this.store.dispatch(addFavorites(this.getFavoritePayload()))
+        this.favoriteLoadingFlag = false
+        this.localFlag = false;
+      })
+    }
+  }
+
+  onSave(){
+    let payload = {
+      ...this.introTextForm.value,
+      uid: this.result.uid,
+    }
+    this.introTextLoadingFlag = true
+    this.profileService.updateUser(payload).then(()=>{
+      this.introTextLoadingFlag = false
+      this.store.dispatch(setCurrentUser({user: payload}))
+      this.editIntroTextClicked()
+    })
+  }
+
+  editIntroTextClicked(){
+    this.editFlag = !this.editFlag
+    if(this.editFlag == false){
+      this.resetFormGroup();
+    }
+  }
+
   ngAfterViewInit(){
     let ele = document.getElementById('coverPhoto')!
     let pos = { top: 0, left: 0, x: 0, y: 0 };
@@ -439,8 +509,5 @@ constructor(private storage:AngularFireStorage, private route:ActivatedRoute, pr
 
   openPageView(){
     this.profileService.sendCallView();
-  }
-  editProfileClicked(){
-    this.profileService.sendEditSubject();
   }
 }

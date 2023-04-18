@@ -5,8 +5,8 @@
         </div>
     </div>
     <div class="card align-items-center" style="border-radius: 20px !important">
-        <div class="py-2 fs-3 d-flex d-flex justify-content-center align-items-center" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center; background:rgba(0, 0, 0, 0.03)">
-            <div class="col">Online</div>
+        <div class="p-2 d-flex d-flex justify-content-center align-items-center" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#7fcae6': content.preferredTimeFrame == 'Part-Time'?'#a2e3d9':'#ffffb3'}">
+            <div class="col"><b>{{type  == 'S'? 'Online': content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time/Part-Time' : content.preferredTimeFrame}}</b></div>
         </div>
         <!-- <div class="d-flex justify-content-between w-100">
             <div class="text-primary fs-3"><i class="bi bi-check-circle"></i></div>
@@ -22,14 +22,14 @@
                 ประเภทงานที่สนใจ: {{content.preferredTimeFrame}}
             </div>
         </ng-template> -->
-        <div class="py-2 px-4">
+        <div class="py-2 px-4" style="width:-webkit-fill-available; width:-moz-available">
             
             <div class="row fs-5 py-2">
                 <div class="col-2">
                     <i class="bi bi-person"></i>
                 </div>
-                <div class="col text-start">
-                    {{content.active !== 'เปิดเผยข้อมูลทั้งหมด'? content.active === 'เปิดเผยข้อมูลบางส่วน'?'เปิดเผยข้อมูลบางส่วน':'':content.name}}
+                <div class="col text-start" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
+                    {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name:content.active}}
                 </div>
             </div>
             <div class="row py-2 fs-5">
@@ -39,19 +39,39 @@
                 <div class="col text-start">
                     {{content.Location?.District}}, {{content.Location?.Province}}
                 </div>
+            </div>           
+            <div *ngIf="type !== 'S'" class="row fs-5 py-2">
+                <div class="col-2">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+                <div class="col text-start">
+                    ประสบการณ์ {{content.WorkExperience}} ปี
+                </div>
+            </div>
+            <div *ngIf="type !== 'S'" class="row fs-5 py-2">
+                <div class="col-2">
+                    <i class="bi bi-award"></i>
+                </div>
+                <div class="col text-start">
+                    {{content.highestEducation}}
+                </div>
             </div>
             <div *ngIf="type == 'S'" class="row fs-5 py-2">
                 <div class="col-2">
                     <i class="bi bi-card-checklist"></i>
                 </div>
                 <div class="col text-start">
-                    งานด่วนที่เคยรับ: {{content.AmountCompleted}}
+                    งานด่วนที่เคยรับ {{content.AmountCompleted}}
                 </div>
             </div>
         </div>
     </div>
+    <div *ngIf="type !== 'S'" class="d-flex justify-content-end me-3 mt-1">
+        อัพเดท {{content.dateUpdated}}
+    </div>
     <div class="d-flex justify-content-between m-3">
-        <button class="btn btn-success">ส่งงานด่วน</button>
+        <button *ngIf="type == 'S'" class="btn fs-3" style="width: -webkit-fill-available; width: -moz-available;color:white; background-color: #7fd858">ส่งงานด่วน</button>
+        <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3" style="width: -webkit-fill-available; width: -moz-available;color:white">ขอดูข้อมูล</button>
         <button (click)="toggleFavorite()" type="button" class="btn">
             <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
             <ng-template #loading>
@@ -69,7 +89,7 @@
                     <div class="fs-3"><i class="bi bi-heart"></i></div>
                 </ng-template>
                 <ng-template #red>
-                    <div class="text-danger fs-3"><i class="bi bi-heart"></i></div>
+                    <div class="text-danger fs-3"><i class="bi bi-heart-fill"></i></div>
                 </ng-template>
             </ng-template>
         </button>
