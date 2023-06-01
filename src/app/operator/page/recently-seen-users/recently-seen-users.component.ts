@@ -11,8 +11,12 @@ import { JobTypeConverterService } from '../../service/job-type-converter.servic
 })
 export class RecentlySeenUsersComponent {
   recentlySeen$!: Observable<UserPharma[]>
+  emptyFlag$!: Observable<boolean>
   constructor(private store: Store, private converter:JobTypeConverterService){}
   ngOnInit(){
+    this.emptyFlag$ = this.store.select((state: any)=>{
+      return state.recentlySeen.length === 0
+    })
     this.recentlySeen$ = this.store.select((state: any)=>{
 
       return state.recentlySeen.map((user: UserPharma)=>{

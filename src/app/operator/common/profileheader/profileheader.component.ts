@@ -1,17 +1,17 @@
-import { Component, Input } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Component, Input, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { getMetadata, getStorage, listAll, ref, uploadString } from 'firebase/storage';
+import { Storage, getDownloadURL, getMetadata, getStorage, listAll, ref, uploadBytes, uploadString } from '@angular/fire/storage';
 import { Observable, Subject, of } from 'rxjs';
 import { coverPhotoLoadSuccessful, setCurrentUser, updateCoverPhoto, updateCoverPhotoOffset, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
-import { profileHeaderJobPost, profileHeaderOperator, profileHeaderPharma } from '../../model/header.model';
+import { profileHeaderOperator } from '../../model/header.model';
 import { jobPostModel } from '../../model/jobPost.model';
-import { AppState, Favorite, User, UserPharma } from '../../model/user.model';
+import { AppState, Favorite, User, UserPharma, requestView } from '../../model/user.model';
 import { UtilService } from '../../service/util.service';
 import { addFavorites, removeFavorite, toggleLoading } from '../../state/actions/users-actions';
 import { UsersService } from '../../service/users.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DocumentData, QuerySnapshot } from '@angular/fire/firestore';
 declare var window: any;
 
 @Component({
@@ -20,20 +20,28 @@ declare var window: any;
   styleUrls: ['./profileheader.component.css']
 })
 export class ProfileHeaderComponent {
+private storage: Storage = inject(Storage)
 @Input() profileType! : string;
 @Input() viewFlag: boolean = false;
 coverListenerSubject: Subject<string> = new Subject();
 coverListenerObservable: Observable<string> = this.coverListenerSubject.asObservable();
 result!: any 
+file!: File
 profileInformation$!: any
 introTextLoadingFlag: boolean = false
+requestViewFlag$: Observable<boolean> = of(true)
 headerInformation!: Observable<profileHeaderOperator>
+jobCount!: {
+  normalJobs: number,
+  urgentJobs: number
+}
 coverPhotoFlag$!: Observable<any>;
 coverPhotoVerticalPosition!: number
 editFlag: boolean = false
 favoriteFlag$:Observable<boolean> = of(true);
 favoriteLoadingFlag!: boolean;
 localFlag: boolean = true;
+followers$!: Observable<number>
 favoriteID!: string;
 sendUrgentJobsFlag!: boolean;
 urgentJobObject: any = {};
@@ -44,17 +52,18 @@ userUID!: string;
 formModal: any;
 dynamicScale: number = 0.5;
 introTextForm!: FormGroup
-profilePictureFile!: null;
+profilePictureFile!: File | null;
 pictureType: string = "";
 fixedScale: number = 0.5;
 loadProfilePictureFlag: boolean = true;
 photoFlag!: string;
+requestStatus!: requestView;
 pathToUploadPicture: boolean = false;
 editExistingPhoto: boolean = true;
 cropper: any = '';
 realWidth: number = 0;
 
-constructor(private fb: FormBuilder,private storage:AngularFireStorage, private userService:UsersService, private route:ActivatedRoute, private store: Store, private profileService: UtilService){}
+constructor(private fb: FormBuilder, private userService:UsersService, private route:ActivatedRoute, private store: Store, private profileService: UtilService){}
 
   ngOnInit(){
     this.formModal = new window.bootstrap.Modal(
@@ -90,6 +99,10 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
                 return user.uid == this.route.snapshot.queryParamMap.get('userUID')
               })
               break;
+            case 'request-jobs':
+              this.profileInformation$ = state.requestView[this.route.snapshot.queryParamMap.get('userUID') + '-' + state.user.uid]
+              this.profileInformation$ = this.profileInformation$.content
+              break
             case 'favorites':
               this.profileInformation$ = state.users.Favorites[state.user.uid + '-' + this.route.snapshot.queryParamMap.get('userUID')]
               this.profileInformation$ = this.profileInformation$.content;
@@ -102,6 +115,9 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
+          if(this.result.cropProfilePictureUrl == ''){
+            delete this.result.cropProfilePictureUrl
+          }
           this.sendUrgentJobsFlag = false;
           this.result.preferredJobType.forEach((jobType: string)=>{
             if(jobType == 'งานด่วนรายวัน'){
@@ -129,6 +145,9 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
               coverPhotoPictureUrl: res.coverPhotoPictureUrl,
               coverPhotoOffset: res.coverPhotoOffset!,
             }
+            if(this.result.cropProfilePictureUrl == ''){
+              delete this.result.cropProfilePictureUrl
+            }
           }
         })
         break;
@@ -138,10 +157,47 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
+          if(this.result.cropProfilePictureUrl == ''){
+            delete this.result.cropProfilePictureUrl
+          }
             this.resetFormGroup();
           this.coverPhotoVerticalPosition = header.coverPhotoOffset!
         })
+        this.followers$ = this.store.select((state: any)=>{
+          return state.user.followers
+        })
+        this.store.select((state: any)=>{
+          let allJobs = state.createdJobs.JobPost
+          let normalJobs:number = 0
+          let urgentJobs : number = 0
+          allJobs.forEach((job: any)=>{
+            if(job.Urgency){
+              urgentJobs++
+            }else{
+              normalJobs++
+            }
+          })
+          return {
+            urgentJobs: urgentJobs,
+            normalJobs: normalJobs
+          }
+        }).subscribe((jobCount: any)=>{
+          this.jobCount = jobCount
+        })
     }
+    this.requestViewFlag$ = this.store.select((state: any) =>{
+      let flag = true;
+      
+      if(this.userUID !== ''){
+        let requestView: requestView = state.requestView[this.result.uid + '-' + this.userUID]
+        if(requestView === undefined){
+          flag = false;
+        }else{
+          this.requestStatus = requestView
+        }
+      }
+      return flag 
+    })
     this.favoriteFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userUID !== ''){
@@ -174,6 +230,11 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
   getFavoritePayload(){
     return {operatorUID: this.userUID, user:this.result, favoriteUID:this.favoriteID}
   }
+
+  openRequestViewModal(){
+    this.profileService.sendRequestViewSubject(this.result)
+  }
+
   toggleFavorite(){
     if(this.localFlag === true){
       this.favoriteLoadingFlag = true
@@ -258,19 +319,18 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
             case "upload":
               this.savePhotoLoadingFlag = true;
               ele.removeEventListener('mousedown', mouseDownHandler);
-              this.storage.upload('users/' + this.userUID + '/cover-photo', this.file).then(()=>{
-
+              uploadBytes(ref(this.storage, 'users/' + this.userUID + '/cover-photo'), this.file).then(()=>{
                 let user:Partial<User> = {uid:this.userUID, coverPhotoOffset: ele.scrollTop}
-                
                 if(this.result.coverPhotoPictureUrl.indexOf('placeholder') !== -1){
-                  this.storage.ref('users/' + this.userUID + '/cover-photo').getDownloadURL().subscribe((url: string)=>{
+
+                  getDownloadURL(ref(this.storage, 'users/' + this.userUID + '/cover-photo')).then((url: string)=>{
                     user.coverPhotoPictureUrl = url
                     this.profileService.updateUser(user).then(()=>{
                       this.savePhotoLoadingFlag = false
                       this.store.dispatch(updateCoverPhoto({coverPhotoPictureUrl:url, offset: ele.scrollTop}));
                       this.editCoverPhotoFlag = true;
                     })
-                    this.profileService.getUID(this.result.uid).subscribe((docs: any)=>{
+                    this.profileService.getUID(this.result.uid).then((docs)=>{
                       this.profileService.updateUserJobsCoverPhoto(docs, url, ele.scrollTop).then(()=>{
                         console.log('all jobs updated');
                       })
@@ -278,7 +338,7 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
                   })
                 }else{
                   user.coverPhotoPictureUrl = this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime();
-                  this.profileService.getUID(this.result.uid).subscribe((docs: any)=>{
+                  this.profileService.getUID(this.result.uid).then((docs: QuerySnapshot<DocumentData>)=>{
                     this.profileService.updateUserJobsCoverPhoto(docs, this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime(), ele.scrollTop).then(()=>{
                       console.log('all jobs updated');
                     })
@@ -296,7 +356,7 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
               ele.removeEventListener('mousedown', mouseDownHandler);
               let user:Partial<User> = {uid:this.userUID, coverPhotoOffset: ele.scrollTop}
               user.coverPhotoPictureUrl = this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime();
-              this.profileService.getUID(this.result.uid).subscribe((docs: any)=>{
+              this.profileService.getUID(this.result.uid).then((docs)=>{
                 this.profileService.updateUserJobsCoverPhoto(docs, this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime(), ele.scrollTop).then(()=>{
                   console.log('all jobs updated');
                 })
@@ -351,9 +411,10 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
     this.loadProfilePictureFlag = true;
     const storage = getStorage();
     if(!this.editExistingPhoto){
-      this.storage.upload('users/' + this.userUID + '/profile-picture', this.profilePictureFile).then(()=>{
+      uploadBytes(ref(this.storage, 'users/' + this.userUID + '/profile-picture'), this.profilePictureFile!).then(()=>{
         if(this.result.profilePictureUrl.indexOf('placeholder') !== -1){
-          this.storage.ref('users/' + this.userUID + '/profile-picture').getDownloadURL().subscribe((url: string)=>{
+
+          getDownloadURL(ref(this.storage,'users/' + this.userUID + '/profile-picture')).then((url: string)=>{
             let user:Partial<User> = {uid:this.userUID, profilePictureUrl: url}
             this.profileService.updateUser(user).then(()=>{
               this.store.dispatch(updateProfilePicture({profilePictureUrl: url}))
@@ -375,7 +436,7 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
         console.log('crop profile uploaded: ' + this.userUID);
 
         if(croppedNotExists){
-          this.storage.ref('users/' + this.userUID + '/crop-profile').getDownloadURL().subscribe((url: string)=>{
+          getDownloadURL(ref(this.storage, 'users/' + this.userUID + '/crop-profile')).then((url: string)=>{
             let user:Partial<User> = {uid:this.userUID, cropProfilePictureUrl: url}
             this.profileService.updateUser(user).then(()=>{
               this.loadProfilePictureFlag = false
@@ -383,7 +444,7 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
               console.log('crop profile updated');
               this.formModal.hide()
             })
-            this.profileService.getUID(this.result.uid).subscribe((docs: any)=>{
+            this.profileService.getUID(this.result.uid).then((docs)=>{
               this.profileService.updateUserJobs(docs, url + '?t='  + new Date().getTime()).then(()=>{
                 console.log('all jobs updated');
               })
@@ -395,7 +456,7 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
           this.store.dispatch(updateCropProfilePicture({cropProfilePictureUrl: profPic.src}))
           this.loadProfilePictureFlag = false
           this.formModal.hide()
-          this.profileService.getUID(this.result.uid).subscribe((docs: any)=>{
+          this.profileService.getUID(this.result.uid).then((docs)=>{
             this.profileService.updateUserJobs(docs, this.result.cropProfilePictureUrl + '?t='  + new Date().getTime()).then(()=>{
               console.log('all jobs updated');
             })
@@ -503,9 +564,6 @@ constructor(private fb: FormBuilder,private storage:AngularFireStorage, private 
     this.coverListenerSubject.next('exit');
   }
   
-  file(arg0: string, file: any) {
-    throw new Error('Method not implemented.');
-  }
 
   openPageView(){
     this.profileService.sendCallView();

@@ -1,3 +1,35 @@
+@media only screen and (max-width: 515px) {
+  .mainFooter {
+    display:block !important
+  }
+  .footer {
+    justify-content: center !important
+  }
+}
+@media only screen and (max-width: 576px) {
+  .borderRight{
+    border-right:0 !important
+  }
+  .dateOfJob{
+    font-size: 1rem !important
+  }
+  .mainImage{
+    display: none !important
+  }
+  .subImageContainer{
+    align-items:end !important;
+    justify-content: start !important
+  }
+  .subImage{
+    display: unset !important
+  }
+  .subImage > img{
+    width: 5rem !important
+  }
+}
+.subImage{
+  display: none
+}
 .row > .col {
     padding-left: 0 !important
 }
@@ -12,6 +44,7 @@
 }
 
 #overlay {
+    border-radius: 20px !important;
     position: absolute;
     display: block;
     width: 100%;

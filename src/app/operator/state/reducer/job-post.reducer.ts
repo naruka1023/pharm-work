@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
-import { AppState, collatedJobRequest, jobRequest } from '../../model/jobPost.model';
-import { getCreatedJobsSuccess } from '../actions/job-post.actions';
+import { AppState, collatedJobRequest, jobPostModel, jobRequest } from '../../model/jobPost.model';
+import { getCreatedJobSuccess, toggleCreatedJobLoading } from '../actions/job-post.actions';
 
 export const initialState: AppState = {
   loading: true,
@@ -10,11 +10,36 @@ export const initialState: AppState = {
 
 export const jobPostReducer = createReducer(
   initialState,
-  on(getCreatedJobsSuccess, (state, { jobs }) => {
+  on(getCreatedJobSuccess, (state, { job, docType }) => {
+    let newJobPost = _.cloneDeep(state.JobPost)
+    switch(docType){
+      case 'added':
+        newJobPost.push(job)
+      break;
+      case 'modified':
+        newJobPost = newJobPost.map((jobPost:jobPostModel)=>{
+        if(jobPost.custom_doc_id == job.custom_doc_id){
+          return job
+        }
+          return jobPost
+        })
+      break;
+      case 'removed':
+        newJobPost = newJobPost.filter((jobPost:jobPostModel)=>{
+          return jobPost.custom_doc_id !== job.custom_doc_id
+        })
+      break;
+    }
     return {
       ...state,
-      JobPost: jobs,
+      JobPost: newJobPost,
       loading: false
     }
   }),
+  on(toggleCreatedJobLoading, (state)=>{
+    return {
+      ...state, 
+      loading: false
+    }
+  })
 );

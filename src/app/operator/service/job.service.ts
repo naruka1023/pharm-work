@@ -1,103 +1,128 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { concatMap, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
-import { jobPostModel, jobRequest } from '../model/jobPost.model';
-import { UserPharma } from '../model/user.model';
+import { Injectable, inject } from '@angular/core';
+import { JobRequestList, jobPostModel, jobRequest } from '../model/jobPost.model';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
+import _ from 'lodash';
+import { removeUserFromRequestedJob, populateJobRequestWithUser, setRequestedJobs, toggleJobRequestLoadingFlag } from '../state/actions/job-request-actions';
+import { Store } from '@ngrx/store';
+import { getCreatedJobSuccess, toggleCreatedJobLoading } from '../state/actions/job-post.actions';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobService {
 
-  constructor(private db:AngularFirestore) { }
+  private db:Firestore = inject(Firestore)
+  collatedList: JobRequestList = {};
+  
+  constructor(private store: Store, private userService:UsersService){}
 
-  addOneJob(job:jobPostModel){
-    return this.db.collection('job-post').add(job);
+  getCollatedList(){
+    return this.collatedList
   }
-  editJob(job:jobPostModel){
-    return this.db.collection('job-post').doc(job.custom_doc_id).update(job);
+  setCollatedList(list: any){
+    this.collatedList = list
+  }
+  addOneJob(job:jobPostModel){
+    return addDoc(collection(this.db, 'job-post'),job)
+  }
+  editJob(job:any){
+    return updateDoc(doc(this.db, 'job-post', job.custom_doc_id), job)
   }
   toggleActive(uid: string, active:boolean){
-    return this.db.collection('job-post').doc(uid).update({
+    return updateDoc(doc(this.db, 'job-post', uid), {
       Active: !active
-    });
+    })
   }
-  addMultipleJobs(job:jobPostModel){
-    let jobsToAdd: any[] = [];
-    let dates = job.DateOfJob;
+  async addMultipleJobs(job:jobPostModel){
+    let jobsToAdd: jobPostModel[] = [];
+    let dates: Date[] = job.DateOfJob as Date[];
     dates.forEach((date: Date)=>{
       jobsToAdd.push({
         ...job,
-        DateOfJob:date.toISOString().split('T')[0]
+        DateOfJob:date.toISOString().split('T')[0] 
       })
     })
-    const batch = this.db.firestore.batch();
+    let promises: Promise<any>[] = []
+
     jobsToAdd.forEach((job)=>{
-      let ref = this.db.firestore.collection('job-post').doc()
-      batch.set(ref ,job)
+      promises.push(addDoc(collection(this.db, 'job-post'), job))
     })
   
-    return batch.commit();
+    let results = await Promise.all(promises)
+    return 'success'
   }
   removeJob(jobID: string){
-    return this.db.collection('job-post').doc(jobID).delete().catch((err)=>{
-      return err;
-    })
+    return deleteDoc(doc(this.db, 'job-post', jobID))
   }
-  
-  getJobsFromJobRequest(jobIDList:string[]){
-    const reads = jobIDList.map((id:string) => this.db.collection('job-post').doc(id).get());
-    let join$ = forkJoin(reads);
-    return join$.pipe(
-      map((value)=>{
-        let payload: any = {}
-        value.forEach((value)=>{
-          let payloadInner = value.data() as jobPostModel;
-          payload[value.id] = {
-            ...payloadInner, 
-            custom_doc_id:value.id
-          }
-        })
-        return payload
-      })
-    );
-  }
-  
 
   getRequestJob(operatorID:string){
-    return this.db.collection('job-request', ref => ref.where('operatorUID', '==', operatorID)).stateChanges().pipe(
-      mergeMap((jobs:any)=> {
-        if(jobs.length == 0){
-          return of({})
-        }
-        return jobs.map((job:any)=>{
-            let newJob = job.payload.doc.data() as UserPharma
-            let id = job.payload.doc.id;
-
-            return {
-              ...newJob,
-              type:job.type,
-              custom_doc_id: id
+    return onSnapshot(query(collection(this.db, 'job-request'), where('operatorUID', '==', operatorID)), (jobs)=>{
+      if(!jobs.empty){
+        jobs.docChanges().forEach((job)=>{
+          let newJob = job.doc.data() as jobRequest
+          let id = job.doc.id;
+          let requestedJobs: jobRequest = {
+            ...newJob,
+            type:job.type,
+            custom_doc_id: id
+          }
+          if(Object.keys(requestedJobs).length !== 0){
+            let keys = requestedJobs.jobUID
+            let list = _.cloneDeep(this.collatedList);
+            if(list[keys] === undefined){
+              list[keys] = Object.create({})
+              list[keys].jobRequest = {
+                ...requestedJobs,
+              }
+              list[keys].users = Object.create({});
+              list[keys].users[requestedJobs.userUID] = Object.create({})
+              list[keys].flag = true
+            }else{
+              if(requestedJobs.type == 'removed'){
+                this.store.dispatch(removeUserFromRequestedJob({jobUIDForUser:{user:list[keys]['users'][requestedJobs.userUID], jobUID: keys}}))
+                delete list[keys].users[requestedJobs.userUID]
+                if(Object.keys(list[keys].users).length == 0){
+                  delete list[keys]
+                }
+              }else{
+                if(!list[keys].flag){
+                  this.userService.getUserFromJobRequest(requestedJobs).then((user:any)=>{
+                    list = _.cloneDeep(list);
+                    list[keys].users[user.uid] = user
+                    this.collatedList = list;
+                    this.store.dispatch(populateJobRequestWithUser({jobUIDForUser:{user: user, jobUID:keys}}))
+                  })
+                }
+                list[keys].users[requestedJobs.userUID] = Object.create({})
+              }
             }
-          })}
-      )
-    )
+            this.collatedList = list;
+          }
+          this.store.dispatch(setRequestedJobs({ jobRequest:this.collatedList }))
+        })
+      }else{
+        this.store.dispatch(toggleJobRequestLoadingFlag())
+      }
+    })
   }
 
-  getJobsCreated(operatorUID: string):Observable<jobPostModel[]>{
-    return this.db.collection('job-post', ref => ref.where('OperatorUID', '==', operatorUID)).snapshotChanges()
-      .pipe(
-        map((actions: any) => actions.map((a: any) => {
-          let data = a.payload.doc.data() as jobPostModel;
-          const id = a.payload.doc.id;
+  getJobsCreated(operatorUID: string){
+    return onSnapshot(query(collection(this.db, 'job-post'), where('OperatorUID', '==', operatorUID)), (jobs)=>{
+      if(!jobs.empty){
+        jobs.docChanges().forEach((a)=>{
+          let data = a.doc.data() as jobPostModel;
+          const id = a.doc.id;
           data = {
             ...data, 
             custom_doc_id:id
           }
-
-          return { ...data,};
-        }))
-      ) as unknown as Observable<jobPostModel[]>
-
+          let jobs = { ...data,}
+          this.store.dispatch(getCreatedJobSuccess({job:jobs, docType: a.type}));
+        })
+      }else{
+        this.store.dispatch(toggleCreatedJobLoading());
+      }
+    })
   }
 }

@@ -22,14 +22,24 @@ export class EditJobComponent implements OnDestroy{
   userState!: User
   newJobForm!: FormGroup;
   urgency!: any;
+  display: any;
+  zoom: number = 15
+  center: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  };
+  markerPosition: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  }
   sub!: Promise<any>;
   subToDestroy: Subscription = new Subscription();
   dateOfJob!: any
   timeStart: string = '';
   timeEnd: string = '';
   updateLoading: boolean = false;
-  salaryStart: string = '';
-  salaryEnd: string = '';
+  salaryStart: number = 0;
+  salaryEnd: number = 0;
   flag!: Instance[] | Instance;
   arlStations$!: Observable<string[]>;
   srtStations$!: Observable<string[]>;
@@ -83,11 +93,20 @@ export class EditJobComponent implements OnDestroy{
         return uid === job.custom_doc_id
       })
     }).pipe(take(1)).subscribe((state: any)=>{
-      this.newJobForm.patchValue(state);
+      if(this.userState._geoloc !== undefined){
+        this.center = this.userState._geoloc
+      }else{
+        this.center = this.userState._geolocCurrent!
+      }
+      this.markerPosition = this.center
+      this.newJobForm.patchValue({
+        ...state,
+        _geoloc:this.center
+      });
       let job: jobPostModel = this.newJobForm.value;
       this.dateOfJob = job.DateOfJob
-      this.salaryStart = job.Salary.Amount.split(' - ')[0];
-      this.salaryEnd = job.Salary.Amount.split(' - ')[1];
+      this.salaryStart = job.Salary.Amount
+      this.salaryEnd = job.Salary.Amount + job.Salary.Cap!
       this.timeStart = job.Duration.split(' - ')[0];
       this.timeEnd = job.Duration.split(' - ')[1];
     })
@@ -100,6 +119,28 @@ export class EditJobComponent implements OnDestroy{
       behavior:"auto"
     });
   }
+
+    
+  move(event: google.maps.MapMouseEvent) {
+    if (event.latLng != null) this.display = event.latLng.toJSON();
+  }
+
+moveMap(event: any){
+  this.markerPosition = {
+    lat: event.latLng.lat(),
+    lng: event.latLng.lng()
+  }
+  this.center = this.markerPosition
+  this.newJobForm.patchValue({_geoloc: this.markerPosition})
+}
+searchMap(event: any){
+  this.markerPosition = {
+    lat: event.geometry.location.lat(),
+    lng: event.geometry.location.lng()
+  }
+  this.center = this.markerPosition
+  this.newJobForm.patchValue({_geoloc: this.markerPosition})
+}
   ngOnDestroy(){
     this.subToDestroy.unsubscribe();
   }
@@ -173,10 +214,12 @@ export class EditJobComponent implements OnDestroy{
       Amount: [''],
       DateOfJob: [''],
       Active: [false],
+      _geoloc: [''],
       Duration: [''],
       Urgency: [this.urgency],
       Salary: this.fb.group({
         Amount:[''],
+        Cap: [''],
         Suffix: [''],
       }),
       OnlineInterview: [false],
@@ -231,14 +274,14 @@ export class EditJobComponent implements OnDestroy{
   }
   onUpdate(){
     let processedInfo = {};
-    if(this.salaryStart !== '' && this.salaryEnd !== ''){
       processedInfo = 
       {
         Salary: {
-          Amount: this.salaryStart + ' - ' + this.salaryEnd
+          Amount: this.salaryStart,
+          Suffix: this.newJobForm.value.Salary.Suffix,
+          Cap: this.salaryEnd - this.salaryStart
         }
       }
-    }
     if(this.timeStart !== '' && this.timeEnd !== ''){
       processedInfo = 
       {
@@ -250,6 +293,7 @@ export class EditJobComponent implements OnDestroy{
       ...processedInfo, 
       Urgency: this.urgency,
       dateUpdated: new Date().toISOString().split('T')[0],
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
     }
     this.newJobForm.patchValue(processedInfo)
     this.updateLoading = true;

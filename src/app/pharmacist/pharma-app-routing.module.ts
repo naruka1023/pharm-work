@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InnerProfileGuard } from './guards/inner-profile.guard';
-import { OperatorPageGuard } from './guards/operator-page.guard';
 import { ProfilePharmaGuard } from './guards/profile-pharma.guard';
 import { UrgentJobsGuard } from './guards/urgent-jobs.guard';
 import { LandingPageComponent } from './landing-page.component';
@@ -25,6 +24,7 @@ import { UrgentJobsPageComponent } from './page/pharma-profile/urgent-jobs-page/
 import { MainProfileComponent } from './page/pharma-profile/main-profile/main-profile.component';
 import { PrivateProfileComponent } from './page/pharma-profile/private-profile/private-profile.component';
 import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/preferred-jobs.component';
+import { OperatorPageGuard } from './guards/operator-page.guard';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
@@ -33,7 +33,7 @@ const routes: Routes = [
     { path: 'jobs-list', component: JobsListComponent},
     { path: 'login', component: LoginPageComponent},
     { path: 'register', component: RegisterComponent},
-    { path: 'operator-page', component: OperatorPageComponent, canDeactivate:[OperatorPageGuard]},
+    { path: 'operator-page', component: OperatorPageComponent,canActivate:[OperatorPageGuard]},
     { path: 'profile-pharma', component: PharmaProfileComponent,canActivate:[InnerProfileGuard], children:[
       { path: '',   redirectTo: 'inner-profile', pathMatch: 'full' },
       {path:'inner-profile', component:InnerProfileComponent, canDeactivate:[ProfilePharmaGuard], children: [

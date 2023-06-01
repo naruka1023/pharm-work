@@ -1,3 +1,24 @@
+@media only screen and (max-width: 768px) {
+  .letSideHeader{
+    display: block !important
+  }
+  .jobCount{
+    margin-left: 0 !important
+  }
+}
+@media only screen and (max-width: 500px){
+  .goToListText{
+    display: none !important
+  }
+}
+@media only screen and (max-width: 390px){
+  .headerTitle{
+    font-size: larger !important
+  }
+  .jobCount{
+    font-size: large !important 
+  }
+}
 .landing-page_img2{
     width:-webkit-fill-available;
     width:-moz-available;
@@ -15,7 +36,7 @@
 
   
 .brandIcon > img{
-  width: 80% !important;
+  width: 60% !important;
   border-radius:100%
 }
 .brandIcon{

@@ -1,62 +1,235 @@
-<app-profileheader profileType="operator-profile" [viewFlag]="viewFlag"></app-profileheader>
-<div class="container">
-    <ng-container *ngIf="userLoadingFlag; then loading; else notLoading"></ng-container>
-    <ng-template #loading>
-        <div class="loading mt-2">
-            <div style="text-align:center">
-                <div class="spinner-border text-primary" role="status">
+<ng-container *ngIf="loading$ | async; then loading; else notLoading"></ng-container>
+<ng-template #loading>
+    <div class="loading">
+        <div style="text-align:center">
+            <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #notLoading>
+    <app-profileheader  [requestViewFlag]="requestViewFlag" [followerFlag]="followFlag" profileType="operator-profile"></app-profileheader>
+    <div id="navToScroll" class="container my-4 sticky-top" style="top:97px; border-radius:60px; background:white">
+        <ul class="nav nav-underline py-3 mb-2 fs-2 flex-column flex-md-row" style="top:180px; --bs-nav-underline-gap:0 1rem; z-index: 0">
+            <li class="nav-item">
+                <a class="flex-md-fill text-md-center nav-link active" id="active-jobs" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงาน</a>
+            </li>
+            <li class="nav-item">
+              <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="company-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">โปรไฟล์บริษัท</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container mt-4 pt-3 contentContainer" style="padding:2rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
+        <div class="tab-content fs-3">
+            <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
+                <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+                    <li class="nav-item">
+                        <a class="flex-md-fill text-md-center nav-link active" data-bs-toggle="tab" id="Both" data-bs-target="#tabNine" aria-controls="tabNine" type="button" role="tab">ทั้งหมด </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="Urgent" data-bs-target="#tabSeven" aria-controls="tabSeven" type="button" role="tab">เฉพาะงานด่วน</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="notUrgent" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab" aria-current="page">เฉพาะงานทั่วไป</a>
+                    </li>
+                    <hr style="width: 100%" class="m-auto">
+                </ul>
+                <div class="tab-content fs-3">
+                    <div class="tab-pane active" id="tabNine" role="tabpanel" aria-labelledby="tabNine-tab">
+                        <div *ngIf="allJobsFlag"class="row row-cols-xl-2 mb-5">
+                            <ng-container *ngFor="let job of allJobs$ | async">
+                                <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content fs-3">
+                    <div class="tab-pane" id="tabSeven" role="tabpanel" aria-labelledby="tabSeven-tab">
+                        <div *ngIf="allJobsFlag"class="row row-cols-xl-2 mb-5">
+                            <ng-container *ngFor="let job of allJobs$ | async">
+                                <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="job.Urgency"></app-job-post-normal-card>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content fs-3">
+                    <div class="tab-pane" id="tabEight" role="tabpanel" aria-labelledby="tabEight-tab">
+                        <div *ngIf="allJobsFlag"class="row row-cols-xl-2 mb-5">
+                            <ng-container *ngFor="let job of allJobs$ | async">
+                                <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="!job.Urgency"></app-job-post-normal-card>
+                            </ng-container>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </ng-template>
-    <ng-template #notLoading>
-        <div *ngIf="allJobsFlag"class="row row-cols-2 mb-5" style="max-height:75vh; overflow-y: scroll">
-            <app-job-post-normal-card *ngFor="let job of allJobs$ | async" [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
-        </div>
-    </ng-template>
-    <div class="row my-3 fs-3">
-        <div class="col-3">
-            <div class="me-3"><b>ข้อมูลการติดต่อ:</b></div>
-        </div>
-        <div class="col">
-            <div class="row mb-3">
-                <div class="col-2">
-                    <div><b>เบอร์โทร:</b></div>
+        <div class="tab-content fs-3">
+            <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
+                <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-sm-row" style="top:185px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 0">
+                    <li class="nav-item">
+                      <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" id="overall-info"  data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">ข้อมูลทั่วไป</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="flex-sm-fill text-sm-center nav-link" id="contact" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">ติดต่อ</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" id="benefits"  data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab" aria-current="page">สวัสดิการ</a>
+                    </li>
+                    <hr style="width: 100%" class="m-auto">
+                </ul>
+                <div class="tab-content fs-3">
+                    <div class="tab-pane active" id="tabFour" role="tabpanel" aria-labelledby="tabFour-tab">
+                        <div class="d-flex flex-row verticalKeyGap keyLabel">
+                            <div class="d-flex">
+                                <div class="keyValueGap"><i class="bi bi-briefcase"></i></div>
+                                <div class="keyValueGap"><b>ชื่อบริษัท</b></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-briefcase"></i></div>
+                                <div class="valueLabel">{{operator?.companyName}}</div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row verticalKeyGap keyLabel">
+                            <div class="d-flex">
+                                <div class="keyValueGap"><i class="bi bi-building"></i></div>
+                                <div class="keyValueGap"><b>ประเภทธุรกิจ</b></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-building"></i></div>
+                                <div class="valueLabel">{{operator?.jobType}}</div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row verticalKeyGap keyLabel">
+                            <div class="d-flex">
+                                <div class="keyValueGap"><i class="bi bi-cart4"></i></div>
+                                <div class="keyValueGap"><b>สินค้าและบริการ</b></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-cart4"></i></div>
+                                <div class="valueLabel" [innerHTML]='operator?.productsAndServices'></div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row verticalKeyGap keyLabel">
+                            <div class="d-flex">
+                                <div class="keyValueGap"><i class="bi bi-geo"></i></div>
+                                <div class="keyValueGap">
+                                    <div><b>สถานที่ตั้ง</b></div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-car-front"></i></div>
+                                <div class="valueLabel">{{operator!.Location?.Province}}, {{operator!.Location?.District}}</div>                    
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row verticalKeyGap keyLabel">
+                            <div class="d-flex">
+                                <div class="keyValueGap"><i class="bi bi-car-front"></i></div>
+                                <div class="keyValueGap"><b>วิธีเดินทาง</b></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-car-front"></i></div>
+                                <div class="valueLabel" [innerHTML]='operator?.TravelInstructions'></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <div class="me-3">{{operator?.contacts?.phone}}</div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-2">
-                    <div><b>Email:</b></div>
-                </div>
-                <div class="col">
-                    <div class="me-3">{{operator?.contacts?.email}}</div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-2">
-                    <div><b>LINE:</b></div>
-                </div>
-                <div class="col">
-                    <div class="me-3">{{operator?.contacts?.line}}</div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-2">
-                    <div><b>Facebook:</b></div>
-                </div>
-                <div class="col">
-                    <div class="me-3">{{operator?.contacts?.facebook}}</div>
+                <div class="tab-content fs-3">
+                    <div class="tab-pane" id="tabFive" role="tabpanel" aria-labelledby="tabFive-tab">
+                        <div class="row my-3 fs-3">
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-telephone"></i></div>
+                                    <div class="keyValueGap"><b>เบอร์โทร</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-telephone"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.phone}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-envelope"></i></div>
+                                    <div class="keyValueGap"><b>Email</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-envelope"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.email}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-line"></i></div>
+                                    <div class="keyValueGap"><b>LINE</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-line"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.line}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
+                                    <div class="keyValueGap"><b>Website</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-globe2"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.website}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
+                                    <div class="keyValueGap"><b>Facebook</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-facebook"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.facebook}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
+                                    <div class="keyValueGap"><b>Twitter</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-twitter"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.twitter}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-skype"></i></div>
+                                    <div class="keyValueGap"><b>Skype</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-skype"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.skype}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
+                                    <div class="keyValueGap"><b>Youtube</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-youtube"></i></div>
+                                    <div style="line-break:anywhere">{{operator?.contacts?.youtube}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content fs-3">
+                        <div class="tab-pane" id="tabSix" role="tabpanel" aria-labelledby="tabSix-tab">
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <div class="keyValueGap"><i class="bi bi-prescription"></i></div>
+                                <div class="keyValueGap"><b>สวัสดิการ </b></div>
+                                <div [innerHTML]="operator?.benefits"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row fs-3">
-        <div class="col-3">
-            <label class="form-label"><b>ปักหมุด:</b></label>
-        </div>
-    </div>
-</div>
+</ng-template>

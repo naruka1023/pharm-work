@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { jobPostModel } from '../../model/typescriptModel/jobPost.model';
-import { addRecentlySeen, removeRecentlySeen } from '../actions/recently-seen.actions';
+import { addRecentlySeen, removeRecentlySeen, updateRecentlySeenJob } from '../actions/recently-seen.actions';
 import { getCurrentUser, removeCurrentUser, setCurrentUser } from '../../../state/actions/users.action';
 
 
@@ -14,6 +14,16 @@ export const recentlySeenReducer = createReducer(
     newState.unshift(JobPost)
     return newState
   }),
+  on(updateRecentlySeenJob, (state, {jobUID, JobPost})=>{
+    let newState: jobPostModel[] = _.cloneDeep(state)
+    return newState.map((profile: any) =>{
+      if(profile.custom_doc_id == jobUID){
+        return JobPost
+      }
+      return profile
+    })
+  }),
+
   on(removeRecentlySeen, (state) => {
     let newState : jobPostModel[]= _.cloneDeep(state);
     newState.pop()

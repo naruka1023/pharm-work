@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -13,7 +12,7 @@ import { jobPostModel } from '../../model/jobPost.model';
 })
 export class JobPostDetailsComponent {
 
-  constructor(private route: ActivatedRoute, private auth: AngularFireAuth, private router: Router, private store: Store){}
+  constructor(private route: ActivatedRoute, private router: Router, private store: Store){}
 
   profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
@@ -23,6 +22,15 @@ export class JobPostDetailsComponent {
   bookmarkFlag$:Observable<boolean> = of(true);
   bookmarkID!: string; 
   localFlag: boolean = true;
+  zoom: number = 15
+  center: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  };
+  markerPosition: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  }
 
   ngOnInit(){
     this.id = this.route.snapshot.queryParamMap.get('id')!;
@@ -45,6 +53,10 @@ export class JobPostDetailsComponent {
     this.profilePayload$.subscribe((res: jobPostModel)=>{
       if(res !== undefined){
         this.profile = res;
+        if(this.profile._geoloc !== undefined){
+          this.center = this.profile._geoloc
+          this.markerPosition = this.center
+        }
       }
     })
     this.scrollUp();

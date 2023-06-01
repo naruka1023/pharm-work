@@ -1,3 +1,28 @@
+@media only screen and (max-width: 576px) {
+    .keyValueGap{
+        margin-right: 1rem !important
+    }
+
+}
+@media only screen and (max-width: 500px) {
+    .contacts{
+        margin-left: 2rem !important
+    }
+
+}
+@media only screen and (max-width: 992px) {
+    .verticalKeyGap > div{
+        font-size:smaller
+    }
+}
+@media only screen and (max-width: 768px) {
+    .verticalKeyGap > div{
+        font-size:medium
+    }
+}
+.nobr{
+    white-space: nowrap
+}
 .keyValueGap{
     margin-right:2.5rem
 }

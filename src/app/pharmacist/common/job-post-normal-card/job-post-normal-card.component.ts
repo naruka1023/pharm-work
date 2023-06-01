@@ -1,5 +1,4 @@
 import { Component, Input} from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
@@ -32,7 +31,7 @@ export class JobPostNormalCardComponent{
   cancelJobFlag: boolean = false
   jobRequestUID!: string;
   
-  constructor(private activatedRoute:ActivatedRoute, private store: Store,private utilService:UtilService, private jobPostService: JobPostService, private router: Router, private auth: AngularFireAuth, private routeService:RoutingService){}
+  constructor(private activatedRoute:ActivatedRoute, private store: Store,private utilService:UtilService, private jobPostService: JobPostService, private router: Router, private routeService:RoutingService){}
 
   ngOnInit(){
     this.store.select((state: any)=>{
@@ -117,7 +116,7 @@ export class JobPostNormalCardComponent{
     }
   }
               
-  getBookmarkPayload(){
+  getBookmarkPayload(): Bookmark{
     return {jobUID: this.content.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID,JobPost: this.content};
   }
   toggleBookmark(){
@@ -148,7 +147,7 @@ export class JobPostNormalCardComponent{
     if(this.router.url !== 'pharma/profile-pharma/recently-seen-job'){
       this.store.dispatch(addRecentlySeen({JobPost: this.content}));
     }
-    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.content.OperatorUID)
+    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.childrenPath)
   }
 }
 

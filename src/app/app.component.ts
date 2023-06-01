@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { User } from './model/user.model';
 import { removeDefaultKey } from './state/actions/address.action';
 import { getCurrentUser, setCurrentUser } from './state/actions/users.action';
-declare var bootstrap: any;
+import { UserService } from './service/user.service';
+import { Auth, user } from '@angular/fire/auth';
 
 
 @Component({
@@ -16,10 +16,10 @@ declare var bootstrap: any;
 })
 export class AppComponent {
 
-  constructor(private store: Store ,private route: Router, private auth: AngularFireAuth) {}
+  constructor(private store: Store ,private route: Router, private userService:UserService) {}
+  private auth: Auth = inject(Auth)  
   role!: string
   ngOnInit(){
-    
     this.store.dispatch(removeDefaultKey())
     this.store.select((state: any)=>{
       return state.user.role
@@ -34,9 +34,36 @@ export class AppComponent {
         this.route.navigate([''])
       }
     })
-    this.auth.user.subscribe((user)=>{
+    user(this.auth).subscribe((user)=>{
       if(user){
-        this.store.dispatch(getCurrentUser({uid:user.uid}));
+        this.userService.getUser(user.uid).then((user)=>{
+          if (navigator.geolocation) {
+            navigator.geolocation.watchPosition((position)=>{
+              let _geoLoc = {
+                  lng: position.coords.longitude,
+                  lat: position.coords.latitude
+              }
+              this.store.dispatch(setCurrentUser({
+                user:{
+                  ...user,
+                  _geolocCurrent: _geoLoc, 
+                }
+              }))
+            }, (err) => {
+              console.warn(`ERROR(${err.code}): ${err.message}`);
+            },{
+              enableHighAccuracy: true,
+              timeout:10 * 1000 * 1000,
+              maximumAge: 0
+            });
+          } 
+          this.store.dispatch(setCurrentUser({
+            user:{
+              ...user,
+              coverPhotoFlag: true
+            }
+          }))
+        })
         localStorage.setItem('loginState', 'true')
       }else{
         const emptyUser: User = {

@@ -2,14 +2,14 @@
 <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
 <ng-template #empty>
     <div class="d-flex">
-        <img class="m-auto" style="width: 25vw" src="assets/empty/emptyFollow.png">
+        <img class="m-auto" style="width:-webkit-fill-available; width:-moz-available" src="assets/empty/emptyFollow.png">
     </div>
 </ng-template>
 <ng-template #notEmpty>
-    <div class="row row-cols-2">
-        <ng-container *ngFor="let operator of followers$ | async, index as i">
-            <app-operator-normal-card [content]="operator"></app-operator-normal-card>
-            <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+    <div class="row row-cols-xl-2">
+        <ng-container *ngFor="let operator of followers, index as i">
+            <app-operator-normal-card [content]="operator.user!" [followerUID]="operator.followUID!"></app-operator-normal-card>
+            <hr style="width:95%; margin:auto;" class="my-3" *ngIf="(i + 1) % 2 == 0">
         </ng-container>
     </div>
 </ng-template>

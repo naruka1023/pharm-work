@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppStateJobRequest } from '../../model/jobPost.model';
-import { emptyRequestedJobs, populateJobRequestWithUser, populateJobRequestWithUsers, removeUserFromRequestedJob, setRequestedJobs, toggleUserList } from '../actions/job-request-actions';
+import { emptyRequestedJobs, populateJobRequestWithUser, populateJobRequestWithUsers, removeUserFromRequestedJob, setRequestedJobs, toggleJobRequestLoadingFlag, toggleUserList } from '../actions/job-request-actions';
 
 export const initialState: AppStateJobRequest = {
   loadingRequest: true,
@@ -26,6 +26,12 @@ export const jobRequestReducer = createReducer(
     newState.JobRequests[jobUIDForUser.jobUID].users[jobUIDForUser.user!.uid] = jobUIDForUser.user!;
     return newState;
   }),
+  on(toggleJobRequestLoadingFlag, (state) =>{
+    return {
+      ...state,
+      loadingRequest: false
+    };
+  }),
   on(removeUserFromRequestedJob, (state, {jobUIDForUser}) =>{
     let newState: AppStateJobRequest =  _.cloneDeep(state);
     delete newState.JobRequests[jobUIDForUser.jobUID].users[newState.JobRequests[jobUIDForUser.jobUID].jobRequest.userUID]
@@ -33,7 +39,6 @@ export const jobRequestReducer = createReducer(
   }),
   on(setRequestedJobs, (state, {jobRequest}) =>{
     let newState: AppStateJobRequest =  _.cloneDeep(state);
-    console.log(newState);
     newState.JobRequests = jobRequest
     return {
       ...newState,

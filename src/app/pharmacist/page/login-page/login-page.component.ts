@@ -1,8 +1,8 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import SwiperCore, { Navigation } from 'swiper';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { Auth, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 SwiperCore.use([Navigation]);
 @Component({
@@ -12,7 +12,7 @@ SwiperCore.use([Navigation]);
 })
 
 export class LoginPageComponent implements AfterViewInit{
-  
+  private auth: Auth = inject(Auth)
   loginFlag:boolean = false;
   modalErrorFlag: boolean = false;
   modalLoadingFlag:boolean = false;
@@ -24,7 +24,7 @@ export class LoginPageComponent implements AfterViewInit{
   resetSuccessful: boolean = false;
   resetButtonFlag: boolean = true;
 
-  constructor(private route: Router, private auth: AngularFireAuth, private fb: FormBuilder){
+  constructor(private route: Router, private fb: FormBuilder){
   }
   ngOnInit(){
     this.loginForm = this.fb.group({
@@ -46,7 +46,7 @@ export class LoginPageComponent implements AfterViewInit{
 
   onForgetPassword(){
     this.modalLoadingFlag = true;
-    this.auth.sendPasswordResetEmail(this.email.value).then((fd) => {
+    sendPasswordResetEmail(this.auth, this.email.value).then((fd) => {
       this.modalLoadingFlag = false
       this.resetSuccessful = true;
       this.resetButtonFlag = false;
@@ -60,7 +60,7 @@ export class LoginPageComponent implements AfterViewInit{
 
   onSubmit(){
     this.loginFlag = true;
-    this.auth.signInWithEmailAndPassword(this.loginForm.value.userName, this.loginForm.value.password)
+    signInWithEmailAndPassword(this.auth, this.loginForm.value.userName, this.loginForm.value.password)
     .then(() => {
       this.loginFlag = false
       this.route.navigate(['']);

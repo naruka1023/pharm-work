@@ -2,7 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
 import { AppState, jobPostModel } from '../../model/typescriptModel/jobPost.model';
-import { emptyOperatorData, setOperatorData } from '../actions/job-post.actions';
 import { emptyUrgentJobs, getUrgentJobsSuccess } from '../actions/urgent-jobs.actions';
 
 // import { retrievedBookList } from './books.actions';

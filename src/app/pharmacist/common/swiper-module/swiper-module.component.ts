@@ -1,8 +1,11 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { filterConditions, jobPostModel } from '../../model/typescriptModel/jobPost.model';
+import { filterConditions, jobPostModel, jobPostPayload } from '../../model/typescriptModel/jobPost.model';
+import { JobPostService } from '../../service/job-post.service';
+import _ from 'lodash';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-swiper-module',
   templateUrl: './swiper-module.component.html',
@@ -11,20 +14,90 @@ import { filterConditions, jobPostModel } from '../../model/typescriptModel/jobP
 })
 export class SwiperModuleComponent {
   @Input()filterFlags!: filterConditions;
-  content: jobPostModel[] = []
+  content$!: Observable<jobPostModel[]>;
+  content!: jobPostModel[];
   filterVisibleFlag: boolean = false;
   urgentFlag: boolean = false;
   subject!: Subscription;
+  loading$!: Observable<boolean>;
+  loading!: boolean;
   collapseButton!: string
+  breakingPoint = {
+    1400: {
+      slidesPerView: 4.5
+    },
+    1200: {
+      slidesPerView: 4
+    },
+    992: {
+      slidesPerView: 3
+    },
+    768: {
+      slidesPerView: 2.5
+    },
+    420: {
+      slidesPerView: 1.5
+    },
+  }
+  breakingPointOperator = {
+    1400: {
+      slidesPerView: 5,
+      grid: {
+        rows: 3
+      }
+    },
+    1200: {
+      slidesPerView: 4,
+      grid: {
+        rows: 3
+      }
+    },
+    992: {
+      slidesPerView: 3,
+      grid: {
+        rows: 3
+      }
+    },
+    768: {
+      slidesPerView: 2.5,
+      grid: {
+        rows: 3
+      }
+    },
+    420: {
+      slidesPerView: 1.5,
+      grid: {
+        rows: 3
+      }
+    },
+  }
   
-  constructor(private router: Router, private auth: AngularFireAuth, private activatedRoute:ActivatedRoute){
+  constructor(private jobPostService:JobPostService, private router: Router, private store: Store, private activatedRoute:ActivatedRoute){
     
   }
 
   ngOnInit(){
-    for (const [key, value] of Object.entries(this.filterFlags.content!)) {
-      this.content.push(value);
-    }
+
+    // this.loading$ = this.store.select((state:any)=>{
+    //   let newState = state.jobpost.JobPost.find((jobPost: any)=>{
+    //     return jobPost.CategorySymbol == this.filterFlags.CategorySymbol
+    //   })
+    //   return newState.loading
+    // })
+    // this.loading$.subscribe((result:any)=>{
+    //   console.log(result)
+    // })
+
+    // this.content$ = this.store.select((state:any)=>{
+    //   let newState = state.jobpost.JobPost.find((jobPost: any)=>{
+    //     return jobPost.CategorySymbol == this.filterFlags.CategorySymbol
+    //   })
+    //   return newState.content
+    // })
+    // this.content$.subscribe((result:any)=>{
+    //   console.log(result)
+    // })
+
     this.collapseButton = "#" + this.filterFlags.CategorySymbol;
     if(this.filterFlags.header === 'งานเภสัชด่วนรายวัน'){
       this.urgentFlag = true;

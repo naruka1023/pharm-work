@@ -2,10 +2,12 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { AppState, Favorite, UserPharma } from '../../model/user.model';
+import { AppState, Favorite, UserPharma, requestView } from '../../model/user.model';
 import { UsersService } from '../../service/users.service';
 import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 import { removeFavorite, addFavorites } from '../../state/actions/users-actions';
+import { UtilService } from '../../service/util.service';
+import { removeRequestView } from '../../state/actions/request-view.actions';
 
 @Component({
   selector: 'app-normal-user-card',
@@ -16,13 +18,19 @@ export class NormalUserCardComponent {
   @Input()content!: UserPharma
   @Input()type: string = 'AA'
   @Input()profileLinkPage: boolean = true
+  requestViewFlag$:Observable<boolean> = of(true);
+  requestStatus!: requestView
+  requestStatusFlag: boolean = false;
+  dateSent!:string
+  cancelRequestViewFlag: boolean = false;
   favoriteFlag$:Observable<boolean> = of(true);
+  requestViewUID!: string
   favoriteLoadingFlag: boolean = false;
   localFlag: boolean = true;
   favoriteID!: string;
   userID!: string
 
-  constructor(private router:Router,private userService: UsersService, private store:Store){}
+  constructor(private utilService:UtilService, private router:Router,private userService: UsersService, private store:Store){}
 
   ngOnInit(){
     this.store.select((state: any)=>{
@@ -31,6 +39,25 @@ export class NormalUserCardComponent {
       if(value !== ''){
         this.userID = value
       }
+    })
+    
+    this.requestViewFlag$ = this.store.select((state: any) =>{
+      let flag = true;
+      
+      
+      if(this.userID !== ''){
+        let requestView: requestView = state.requestView[this.content.uid + '-' + this.userID]
+        if(requestView === undefined){
+          flag = false;
+        }else{
+          if(this.router.url == "/operator/profile-operator/request-jobs"){
+            this.requestStatusFlag = true
+          }
+          this.requestStatus = requestView
+          this.requestViewUID = requestView.requestViewUID!
+        }
+      }
+      return flag 
     })
     this.favoriteFlag$ = this.store.select((state: any) => {
       let flag = true;
@@ -50,6 +77,19 @@ export class NormalUserCardComponent {
     })
 
   }
+
+  deleteRequestView(){
+    this.cancelRequestViewFlag = true
+    this.userService.removeRequestView(this.requestStatus.requestViewUID!).then(()=>{
+      this.cancelRequestViewFlag = false
+      this.store.dispatch(removeRequestView({requestView:this.requestStatus}))
+    })
+  }
+
+  openRequestViewModal(){
+    this.utilService.sendRequestViewSubject(this.content)
+  }
+
   goToProfile(){
     let pageType = 'long'
     switch(this.router.url){
@@ -58,6 +98,9 @@ export class NormalUserCardComponent {
         break;
       case '/operator/profile-operator/favorites':
         pageType = 'favorites'
+      break;
+      case '/operator/profile-operator/request-jobs':
+        pageType = 'request-jobs'
       break;
       default:
         this.store.dispatch(addRecentlySeen({user: this.content}));

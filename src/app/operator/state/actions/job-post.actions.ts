@@ -1,8 +1,12 @@
 import { createAction, props } from "@ngrx/store";
-import { jobPostModel, jobRequest, JobRequestList, jobUIDForUser } from "../../model/jobPost.model";
+import { jobPostModel } from "../../model/jobPost.model";
 
-export const getCreatedJobsSuccess = createAction(
-    '[Job-Post] Get Created Jobs Success',
-    props<{ jobs: jobPostModel[] }>()
+export const getCreatedJobSuccess = createAction(
+    '[Job-Post] Get Created Job Success',
+    props<{ job: jobPostModel, docType:string }>()
+);
+
+export const toggleCreatedJobLoading = createAction(
+    '[Job-Post] Toggle Created Job Loading',
 );
 

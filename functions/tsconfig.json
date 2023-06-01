@@ -9,8 +9,5 @@
     "resolveJsonModule": true,
     "target": "es2017"
   },
-  "compileOnSave": true,
-  "include": [
-    "src"
-, "index3.js"  ]
+  "compileOnSave": true
 }

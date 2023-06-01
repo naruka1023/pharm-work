@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class JobTypeConverterService {
 
   constructor() { }
-  placeHolderObject: any = [
+  placeHolderObject: {categorySymbol: string, title: string}[] = [
     {
       categorySymbol: "S",
       title: 'เภสัชกรที่สนใจงานด่วนรายวัน'

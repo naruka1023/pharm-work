@@ -1,24 +1,20 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, distinctUntilChanged, map } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
 import { User } from '../model/user.model';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  getUser(uid: string) : Observable<User>{
-    return this.db.collection("users").doc(uid).get().pipe(
-      distinctUntilChanged(),
-      map((src: any) => {
-        let result: User = {
-          ...src.data(),
-          uid:uid
-        }
-        return result;
-      })
-    );
-  }
+  private db: Firestore = inject(Firestore)
 
-  constructor(private db: AngularFirestore) { }
+  async getUser(uid: string){
+    let user = await getDoc(doc(this.db, 'users', uid))
+    let result: User = {
+      ...user.data() as User,
+      uid:uid
+    }
+    return result;
+    
+  }
 }

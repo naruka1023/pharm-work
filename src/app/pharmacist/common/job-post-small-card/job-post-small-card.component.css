@@ -4,9 +4,16 @@
 .rounded{
     border-radius: 20px !important;
   }
+.profilePic{
+    cursor:pointer
+}
 .bi{
     font-size:1.5rem
 }
 .outerCard{
     padding: 1rem
+}
+.mainCard:hover{
+    background-color: rgba(88, 92, 89, 0.3);
+    cursor:pointer
 }

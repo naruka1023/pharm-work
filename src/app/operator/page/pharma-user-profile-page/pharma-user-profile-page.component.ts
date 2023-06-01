@@ -9,19 +9,18 @@ import { UserPharma } from '../../model/user.model';
   styleUrls: ['./pharma-user-profile-page.component.css']
 })
 export class PharmaUserProfilePageComponent {
-  innerProfileInformation?:UserPharma
+  innerProfileInformation!:UserPharma
   jobType!: string[]
   categorySymbol!: string
+  zoom: number = 15
   userUID!: string
   pageType!: string
   sendUrgentJobsFlag!: boolean;
+  allowView: boolean = false
   urgentJobObject: any = {};
   constructor(private route:ActivatedRoute, private store:Store){}
 
   ngOnInit(){
-    // ไม่อนุญาติให้ดูข้อมูล
-    // อนุญาตให้ดูข้อมูล
-    // จำกัดการดูข้อมูล
     this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
     this.userUID = this.route.snapshot.queryParamMap.get('userUID')!;
     this.pageType = this.route.snapshot.queryParamMap.get('pageType')!;
@@ -34,7 +33,14 @@ export class PharmaUserProfilePageComponent {
           })
           return newState        
         case 'favorites':
-          newState = state.users.Favorites[state.user.uid + '-' + this.route.snapshot.queryParamMap.get('userUID')]
+          newState = state.users.Favorites[state.user.uid + '-' + this.userUID]
+          newState = newState.content
+          return newState
+        case 'request-jobs':
+          newState = state.requestView[this.userUID + '-' + state.user.uid]
+          if(newState.status !== 'Pending'){
+            this.allowView = true;
+          }
           newState = newState.content
           return newState
         default:

@@ -1,3 +1,49 @@
+@media only screen and (max-width: 576px) {
+    .keyValueGap{
+        margin-right: 1rem !important
+    }
+}
+@media only screen and (max-width: 500px) {
+    .contacts{
+        margin-left: 2rem !important
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .historyHeader{
+        display:block !important
+    }
+    .subHeader{
+        margin-left:0 !important
+    }
+    .historyContent{
+        padding-left: 0 !important
+    }
+    .phantom{
+        display: unset !important
+    }
+}
+@media only screen and (max-width: 992px) {
+    .verticalKeyGap {
+        margin-bottom:0.4rem !important
+    }
+}
+@media only screen and (max-width: 768px) {
+    .educationCell{
+        margin-bottom: 2rem !important
+    }
+    .verticalKeyGap > div{
+        font-size:initial
+    }
+    .verticalKeyGap > div{
+        font-size:medium
+    }
+}
+.subHeader{
+    margin-left:5rem
+}
+.phantom{
+    display:none
+}
 .keyValueGap{
     margin-right:2rem
 }

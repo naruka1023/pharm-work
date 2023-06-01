@@ -14,3 +14,7 @@ export const addRecentlySeen = createAction(
     '[Recently-Seen] Filter recently seen',
   )
     
+  export const updateRecentlySeenJob = createAction(
+    '[Recently-Seen] Update Recently Seen Job',
+    props<{ jobUID: string, JobPost: jobPostModel }>()
+    );

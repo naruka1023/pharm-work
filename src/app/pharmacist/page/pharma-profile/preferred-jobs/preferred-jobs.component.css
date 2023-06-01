@@ -1,3 +1,38 @@
+@media only screen and (max-width: 576px) {
+    .keyValueGap{
+        margin-right: 1rem !important
+    }
+    .jobTypePayload{
+        padding-left:9px !important
+    }
+
+}
+@media only screen and (max-width: 500px) {
+    .contacts{
+        margin-left: 2rem !important
+    }
+
+}
+@media only screen and (max-width: 992px) {
+    .verticalKeyGap > div{
+        font-size:smaller
+    }
+    .jobTypePayload {
+        font-size: smaller
+    }
+}
+@media only screen and (max-width: 768px) {
+    .verticalKeyGap > div{
+        font-size:medium
+    }
+    .jobTypePayload {
+        font-size: medium !important
+    }
+    .editButton{
+        justify-content:center !important
+    }
+}
+
 .keyValueGap{
     margin-right:2.5rem
 }

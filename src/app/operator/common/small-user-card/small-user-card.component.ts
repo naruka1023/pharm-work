@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { AppState, Favorite, UserPharma } from '../../model/user.model';
+import { AppState, Favorite, UserPharma, requestView } from '../../model/user.model';
 import { UsersService } from '../../service/users.service';
 import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 import { addFavorites, removeFavorite } from '../../state/actions/users-actions';
+import { UtilService } from '../../service/util.service';
 
 @Component({
   selector: 'app-small-user-card',
@@ -17,13 +17,17 @@ export class SmallUserCardComponent {
   @Input()content!: UserPharma;
   @Input() type!: string;
   favoriteFlag$:Observable<boolean> = of(true);
+  requestViewFlag$:Observable<boolean> = of(true);
+  requestViewUID!: string
+  requestStatus!: requestView
   favoriteLoadingFlag!: boolean;
   localFlag: boolean = true;
+  formModal!: any;
   favoriteID!: string;
   userID!: string
   profilePictureID!: string;
 
-  constructor(private storage: AngularFireStorage, private userService: UsersService, private store:Store, private router:Router){}
+  constructor(private utilService:UtilService, private userService: UsersService, private store:Store, private router:Router){}
 
   ngOnInit(){
     this.profilePictureID = `profilePicture${this.content.uid}`
@@ -43,6 +47,19 @@ export class SmallUserCardComponent {
     // }, (error:any)=>{
     //   console.log(error)
     // });
+    this.requestViewFlag$ = this.store.select((state: any) =>{
+      let flag = true;
+      if(this.userID !== ''){
+        let requestView: requestView = state.requestView[this.content.uid + '-' + this.userID]
+        if(requestView === undefined){
+          flag = false;
+        }else{
+          this.requestStatus = requestView
+          this.requestViewUID = requestView.requestViewUID!
+        }
+      }
+      return flag 
+    })
     this.favoriteFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userID !== ''){
@@ -61,7 +78,6 @@ export class SmallUserCardComponent {
     })
   }
   goToProfile(){
-    console.log(this.content);
     this.store.dispatch(addRecentlySeen({user: this.content}));
     this.router.navigate(['/operator/pharma-user-profile'], {
       queryParams: 
@@ -72,9 +88,13 @@ export class SmallUserCardComponent {
       }
     })
   }
+  openRequestViewModal(){
+    this.utilService.sendRequestViewSubject(this.content)
+  }
   getFavoritePayload(){
     return {operatorUID: this.userID, user:this.content, favoriteUID:this.favoriteID}
   }
+
   toggleFavorite(){
     if(this.localFlag === true){
       this.favoriteLoadingFlag = true

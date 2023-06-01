@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { Bookmark, jobRequest } from '../model/typescriptModel/jobPost.model';
-import { User, Location } from '../model/typescriptModel/users.model';
+import { User, requestView } from '../model/typescriptModel/users.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
-
-  constructor(private store: Store, private db: AngularFirestore) { }
   editSubject: Subject<boolean> = new Subject();
   leaveEditSubject: Subject<string> = new Subject();
   revertTabSubject: Subject<void> = new Subject();
@@ -20,9 +16,17 @@ export class UtilService {
   editProfileSubject: Subject<void> = new Subject();
   removeRequestSubject: Subject<string> = new Subject();
   removeBookmarkSubject: Subject<string> = new Subject();
-  
+  requestViewSubject: Subject<requestView> = new Subject()
   getCallView(): Observable<void>{
     return this.callView.asObservable();
+  }
+
+  getRequestViewSubject(): Observable<requestView>{
+    return this.requestViewSubject.asObservable()
+  }
+
+  sendRequestViewSubject(user: requestView){
+    return this.requestViewSubject.next(user);
   }
   
   getListenJobRequest(): Observable<jobRequest>{
@@ -31,10 +35,6 @@ export class UtilService {
   
   getListenJobBookmark(): Observable<Bookmark>{
     return this.listenJobBookmark.asObservable();
-  }
-  
-  getRevertTabSubject(): Observable<void>{
-    return this.revertTabSubject.asObservable();
   }
   getEditProfileSubject(): Observable<void>{
     return this.editProfileSubject.asObservable();
@@ -53,10 +53,6 @@ export class UtilService {
   }
   sendRemoveRequestSubject(jobUID:string){
     return this.removeRequestSubject.next(jobUID);
-  }
-  
-  sendRevertTabSubject(){
-    return this.revertTabSubject.next();
   }
   sendListenJobRequest(jobRequest:jobRequest){
     return this.listenJobRequest.next(jobRequest);
@@ -85,9 +81,6 @@ export class UtilService {
   
   sendEditSubject(){
     return this.editSubject.next(true);
-  }
-  updateUser(user: User) : Promise<void>{
-     return this.db.collection("users").doc(user.uid).update(user)
   }
   populateLocationFieldsWithObject(userForm:User){
     userForm.preferredLocation = {

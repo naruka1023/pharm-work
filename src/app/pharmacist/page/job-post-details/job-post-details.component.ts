@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
 import { profileHeaderJobPost } from '../../model/typescriptModel/header.model';
-import { AppState, Bookmark, jobPostModel, jobRequest } from '../../model/typescriptModel/jobPost.model';
+import { AppState, Bookmark, filterConditions, jobPostModel, jobRequest } from '../../model/typescriptModel/jobPost.model';
 import { JobPostService } from '../../service/job-post.service';
 import { UtilService } from '../../service/util.service';
-import { removeBookmark, addBookmark, addJobRequest } from '../../state/actions/job-post.actions';
-import { emptyUrgentJobs, getUrgentJobsSuccess } from '../../state/actions/urgent-jobs.actions';
+import { removeBookmark, updateJobFromJobCategory, updateJobFromHome } from '../../state/actions/job-post.actions';
+import { getUrgentJobsSuccess } from '../../state/actions/urgent-jobs.actions';
+import { updateRecentlySeenJob } from '../../state/actions/recently-seen.actions';
 
 @Component({
   selector: 'app-job-post-details',
@@ -18,11 +19,94 @@ export class JobPostDetailsComponent implements OnDestroy{
 
   constructor(private jobPostService:JobPostService, private route: ActivatedRoute, private utilService:UtilService , private router: Router, private store: Store){}
 
-  profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
   id!: string;
   categorySymbol!: string;
-  profile!:jobPostModel;
+  childrenPath!: string;
+  breakingPoint = {
+    1400: {
+      slidesPerView: 4.5
+    },
+    1200: {
+      slidesPerView: 4
+    },
+    992: {
+      slidesPerView: 3
+    },
+    768: {
+      slidesPerView: 2.5
+    },
+    420: {
+      slidesPerView: 1.5
+    },
+  }
+  profile:jobPostModel = {
+    Amount: 2,
+    CategorySymbol: '',
+    BTS: {
+      Near: false,
+      Station: ''
+    },
+    Establishment: '',
+    Franchise: '',
+    JobName: '',
+    JobType: '',
+    Location: {
+      Section: '',
+      District: '',
+      Province: ''
+    },
+    MRT: {
+      Near: false,
+      Station: ''
+    },
+    SRT: {
+      Near: false,
+      Station: ''
+    },
+    ARL: {
+      Near: false,
+      Station: ''
+    },
+    OnlineInterview: false,
+    WorkFromHome: false,
+    Salary: {
+      Amount: '',
+      Cap: undefined,
+      Suffix: ''
+    },
+    Contacts: {
+      phone: '',
+      email: '',
+      line: '',
+      facebook: ''
+    },
+    JobDetails: '',
+    TravelInstructions: '',
+    qualityApplicants: '',
+    jobBenefits: '',
+    applyInstructions: '',
+    OperatorUID: '',
+    TimeFrame: '',
+    Urgency: false,
+    Duration: '',
+    Active: false,
+    DateOfJob: [],
+    dateCreated: '',
+    dateUpdated: '',
+    dateUpdatedUnix: 0,
+    custom_doc_id: ''
+  };
+  zoom: number = 15
+  center: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  };
+  markerPosition: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  }
+  loadingFlag: boolean = true;
   profileHeader!: profileHeaderJobPost;
   bookmarkLoadingFlag: boolean = false;
   detailLeavingFlag: boolean = true;
@@ -31,7 +115,6 @@ export class JobPostDetailsComponent implements OnDestroy{
   bookmarkID!: string; 
   requestFlag$!: Observable<boolean>
   localFlag: boolean = true;
-  operatorUID: any = null;
   urgentJobs:jobPostModel[] = []
   subscription: Subscription = new Subscription;
 
@@ -46,7 +129,7 @@ export class JobPostDetailsComponent implements OnDestroy{
       }
       this.id = this.route.snapshot.queryParamMap.get('id')!;
       this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
-      this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
+      this.childrenPath = this.route.snapshot.queryParamMap.get('pageSrc')!;
       this.loading$ = this.store.select((state: any) =>{
         return state.jobpost.loading;
       });
@@ -56,38 +139,93 @@ export class JobPostDetailsComponent implements OnDestroy{
         }
       })
     })
-    this.profilePayload$ = this.store.select((state: any)=>{
-      const categories: jobPostModel[] = state.jobpost.JobPost;
-      const jobPost: any = categories.find((job)=>{
-        return job.CategorySymbol == this.categorySymbol
-      })
+    this.subscription.add(this.store.select((state: any)=>{
+      let newJob!:jobPostModel
 
-      let newJob:jobPostModel = jobPost?.content?.find((profile: any) =>{
-          return profile.custom_doc_id == this.id
-      })
+      switch(this.childrenPath){
+        case 'homePage':
+          const categoriesHome: filterConditions[] = state.jobpost.JobPost;
+          const jobPostHome: any = categoriesHome.find((job)=>{
+            return job.CategorySymbol == this.categorySymbol
+          })          
+          newJob = jobPostHome?.content?.find((profile: any) =>{
+              return profile.custom_doc_id == this.id
+          })
+          break;
+        case 'jobs-list':
+          const categories: filterConditions[] = state.jobpost.JobPost;
+          const jobPost: any = categories.find((job)=>{
+            return job.CategorySymbol == this.categorySymbol
+          })          
+          newJob = jobPost?.allContent?.find((profile: any) =>{
+              return profile.custom_doc_id == this.id
+          })
+          break;
+        case 'recently-seen-job':
+          newJob = state?.recentlySeen?.find((profile: any) =>{
+              return profile.custom_doc_id == this.id
+          })
+          break;
+        case 'request-jobs':
+          newJob = state.jobpost.JobRequests[this.id + '-' + state.user.uid].JobPost
+          break;
+        case 'bookmark':
+          newJob = state.jobpost.Bookmarks[this.id + '-' + state.user.uid].JobPost
+          break;
+        case 'operator-page':
+          newJob = state.operator.operatorJobs[this.id]
+          break;
+      }
+
       return newJob
-    })
-    this.profilePayload$.subscribe((res: jobPostModel)=> {
+    }).subscribe((res: jobPostModel)=> {
       if(res !== undefined) {
-        this.profile = res;
-        this.profileHeader = {
-          Establishment: this.profile.Establishment,
-          JobType: this.profile.JobType
-        }
-      }
-    })
-    this.subscription.add(this.store.select((state:any)=>{
-      return state.urgentJobs.urgentJobs
-    }).subscribe((urgentJobs: any)=>{
-      if(urgentJobs.length == 0 && this.detailLeavingFlag && this.profile.Urgency){
-        this.jobPostService.getUrgentJobOfOperator(this.operatorUID).subscribe((jobs:jobPostModel[]) =>{
-          if(jobs.length !== 0){
-            this.store.dispatch(getUrgentJobsSuccess({jobs: jobs}));
+        if(Object.keys(res).length <= 22){
+          this.jobPostService.getJob(this.id).then((job: jobPostModel)=>{
+            switch(this.childrenPath){
+              case 'homePage':
+                this.store.dispatch(updateJobFromHome({categorySymbol:this.categorySymbol, jobUID: this.id, jobPayload: job}))
+                break;
+              case 'recently-seen-job':
+                this.store.dispatch(updateRecentlySeenJob({jobUID: this.id, JobPost:job}))
+                break;
+              case 'jobs-list':
+                  this.store.dispatch(updateJobFromJobCategory({categorySymbol:this.categorySymbol, jobUID: this.id, jobPayload: job}))
+              break;
+            }
+            this.profile = job;
+            this.profileHeader = {
+              Establishment: this.profile.Establishment,
+              JobType: this.profile.JobType
+            }
+            this.loadingFlag = false
+          })
+        }else{
+          this.profile = res;
+          this.profileHeader = {
+            Establishment: this.profile.Establishment,
+            JobType: this.profile.JobType
           }
-          this.urgentJobs = jobs;
-        })
+          this.loadingFlag = false
+        }
+        if(this.profile._geoloc !== undefined){
+          this.center = this.profile._geoloc
+          this.markerPosition = this.center
+        }
+        this.subscription.add(this.store.select((state:any)=>{
+          return state.urgentJobs.urgentJobs
+        }).subscribe((urgentJobs: any)=>{
+          if(urgentJobs.length == 0 && this.detailLeavingFlag && this.profile.Urgency){
+            this.jobPostService.getUrgentJobOfOperator(this.profile.OperatorUID).then((jobs:jobPostModel[]) =>{
+              if(jobs.length !== 0){
+                this.store.dispatch(getUrgentJobsSuccess({jobs: jobs}));
+              }
+              this.urgentJobs = jobs;
+            })
+          }
+        }))
       }
-    }))
+    }));
     this.bookmarkFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userID !== ''){

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { map, Observable, Subscription } from 'rxjs';
 import { collatedJobRequest, jobPostModel,  JobRequestList, jobUIDForUser } from 'src/app/operator/model/jobPost.model';
-import {  UserPharma } from 'src/app/operator/model/user.model';
+import {  UserPharma, requestView, requestViewList } from 'src/app/operator/model/user.model';
 import { JobService } from 'src/app/operator/service/job.service';
 import { UsersService } from 'src/app/operator/service/users.service';
 import { UtilService } from 'src/app/operator/service/util.service';
@@ -20,8 +20,11 @@ export class RequestJobComponent  implements OnDestroy {
   jobRequests$!: Observable<jobPostModel[]>
   usersPayload!: UserPharma[]
   profileLinkFlag: boolean = false;
+  requestViews$!: Observable<requestView[]>
+  emptyFlagRequestView$!: Observable<boolean>
   modal!: any;
   modalLoadingFlag: boolean = true;
+  emptyFlag$!: Observable<boolean>  
   jobID: string = ''
   subscription:Subscription = new Subscription();
   loadingFlag$!:Observable<boolean>
@@ -34,44 +37,29 @@ export class RequestJobComponent  implements OnDestroy {
     this.loadingFlag$ = this.store.select((state:any)=>{
       return state.requestedJobs.loadingRequest
     })
+    this.emptyFlag$ = this.store.select((state: any)=>{
+      return Object.keys(state.requestedJobs.JobRequests).length === 0
+    })
+    this.emptyFlagRequestView$ = this.store.select((state: any)=>{
+
+      return Object.keys(state.requestView).length == 0
+    })
+    this.requestViews$ = this.store.select((state:any)=>{
+      let requestViews: requestViewList = state.requestView;
+      let requestViewsArray = []
+      for (const [key, value] of Object.entries(requestViews)) {
+        requestViewsArray.push(value);
+      }
+      return requestViewsArray
+    }).pipe(
+      map((array)=>{
+        return array
+      })
+    )
     this.jobRequests$ = this.store.select((state:any)=>{
       if(!state.user.loading){
         if(state.requestedJobs.loadingRequest){
-          this.jobService.getRequestJob(state.user.uid).subscribe((requestedJobs:any)=> {
-              if(Object.keys(requestedJobs).length !== 0){
-                let keys = requestedJobs.jobUID
-                let list = _.cloneDeep(this.collatedList);
-                if(list[keys] === undefined){
-                  list[keys] = Object.create({})
-                  list[keys]['jobRequest'] = {
-                    ...requestedJobs,
-                  }
-                  list[keys]['users'] = Object.create({});
-                  list[keys]['users'][requestedJobs.userUID] = Object.create({})
-                  list[keys]['flag'] = true
-                }else{
-                  if(requestedJobs.type == 'removed'){
-                    this.store.dispatch(removeUserFromRequestedJob({jobUIDForUser:{user:list[keys]['users'][requestedJobs.userUID], jobUID: keys}}))
-                    delete list[keys]['users'][requestedJobs.userUID]
-                    if(Object.keys(list[keys].users).length == 0){
-                      delete list[keys]
-                    }
-                  }else{
-                    if(!list[keys]['flag']){
-                      this.userService.getUserFromJobRequest(requestedJobs.userUID).subscribe((user:any)=>{
-                        list = _.cloneDeep(list);
-                        list[keys]['users'][user.uid] = user
-                        this.collatedList = list;
-                        this.store.dispatch(populateJobRequestWithUser({jobUIDForUser:{user: user, jobUID:keys}}))
-                      })
-                    }
-                    list[keys]['users'][requestedJobs.userUID] = Object.create({})
-                  }
-                }
-                this.collatedList = list;
-              }
-              this.store.dispatch(setRequestedJobs({ jobRequest:this.collatedList }))
-          })
+          this.jobService.getRequestJob(state.user.uid)
         }else{
           let jobPosts:JobRequestList = state.requestedJobs.JobRequests;
           let jobRequestsArray = [];
@@ -108,18 +96,18 @@ export class RequestJobComponent  implements OnDestroy {
         this.modalLoadingFlag = jobUIDForUser.flag!;
         this.jobID = jobUIDForUser.jobUID
         if(jobUIDForUser.flag){
-          this.userService.getListOfUsersFromJobRequests(jobUIDForUser.userArray!).subscribe((users:UserPharma[])=>{
+          this.userService.getListOfUsersFromJobRequests(jobUIDForUser.userArray!).then((users:UserPharma[])=>{
             let usersList: any = {};
             users.forEach((user: UserPharma)=>{
               usersList[user.uid] = user;
             })
             this.store.dispatch(populateJobRequestWithUsers({jobUIDForUsers:{userList: usersList, jobUID:jobUIDForUser.jobUID }}))
-            let list = _.cloneDeep(this.collatedList);
+            let list = _.cloneDeep(this.jobService.getCollatedList());
             list[jobUIDForUser.jobUID]['flag'] = false;
             Object.keys(usersList).forEach((key: string)=>{
               list[jobUIDForUser.jobUID].users[key] = usersList[key];
             })
-            this.collatedList = list
+            this.jobService.setCollatedList(list)
           })
           this.modal.show()
         }else{

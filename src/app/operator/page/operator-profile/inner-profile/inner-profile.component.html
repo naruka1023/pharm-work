@@ -9,7 +9,7 @@
 <ng-template #notLoading>
     <div class="mx-4 fs-2">
         <div class="my-3"><b>โปรไฟล์บริษัท</b></div> 
-            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:165px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 5">
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ข้อมูลทั่วไป</a>
                 </li>
@@ -71,13 +71,26 @@
                             <div>{{innerProfileInformation.Location?.Province}}, {{innerProfileInformation.Location?.District}}, {{innerProfileInformation.Location?.Section}}</div>                    
                         </div>
                     </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-geo-alt"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>ปักหมุด</b></div>
+                    <div>
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div>
+                                <div><b>ปักหมุด</b></div>
+                            </div>
                         </div>
-                        <div class="col d-flex">
-                            <!-- <div class="me-2">{{innerProfileInformation.productsAndServices}}</div> -->
+                        <div class="d-flex my-3 justify-content-center">
+                            <google-map 
+                                height="500px"
+                                width="900px"
+                                [center]="center"
+                                [zoom]="zoom">
+                                <map-marker
+                                    [position]="markerPosition"
+                                    >
+                                </map-marker>
+                            </google-map>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -151,6 +164,32 @@
                                 </div>
                             </div>   
                             <app-location-selector [parentFormGroup]="profileEdit"></app-location-selector>
+                            <div class="verticalKeyGap">
+                                <div class="keyValueGap">
+                                    <label for="mapLatLng" class="form-label"><b>ปักหมุด</b></label>
+                                </div>
+                                <div>
+                                    <label>Enter address</label>
+                                    <input
+                                        type="text"
+                                        class="form-control my-3"
+                                        ngx-google-places-autocomplete 
+                                        (onAddressChange)="searchMap($event)"
+                                    />
+                                  </div>
+                                <div class="col d-flex justify-content-center">
+                                    <google-map 
+                                        height="500px"
+                                        width="900px"
+                                        [center]="center"
+                                        [zoom]="zoom"
+                                        (mapClick)="moveMap($event)"
+                                        (mapMousemove)="move($event)">
+                                        <map-marker
+                                        [position]="markerPosition"></map-marker>
+                                    </google-map>
+                                </div>
+                            </div>
                             <div class="verticalKeyGap">
                                 <div class="keyValueGap">
                                     <label for="jobType" class="form-label"><b>วิธีเดินทางไปบริษัท</b></label>
@@ -362,7 +401,7 @@
                 </ng-template>
             </div>
             <div class="d-flex justify-content-center" *ngIf="profileEditState">
-                <button class="btn btn-success fs-2 my-5" (click)="onSave()" type="submit">SAVE</button>
+                <button class="btn btn-success fs-2 my-5" (click)="onSave()">SAVE</button>
             </div>
         </div>
     </div>

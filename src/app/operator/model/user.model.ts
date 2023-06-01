@@ -7,13 +7,16 @@ export interface User{
     coverPhotoOffset?: number,
     productsAndServices: string,
     TravelInstructions: string,
+    _geolocCurrent?: _geoloc;
     profilePictureUrl?:string,
     benefits: string,
     cropProfilePictureUrl?: string,
+    followers: number,
     coverPhotoPictureUrl?:string
     nameOfPerson?: string,
     phoneNumber?: string,
     emailRepresentative?: string,
+    _geoloc:_geoloc,
     role: string,
     contacts?: Contacts
     Location?: {
@@ -33,13 +36,30 @@ export interface Location
     Province: string;
 }
 
-export interface UserSearchForm
+export interface UserSearchForm 
 {
     TimeFrame: string,
     WorkExperience: string,
     preferredLocation:Location,
     preferredStartTime?: string,
-    preferredJobType?: string
+    preferredJobType?: string,
+    active: string,
+
+}
+
+export interface UserUrgentSearchForm 
+{
+    amountCompletedSort: string,
+    nearbyFlag: boolean,
+    _geoloc?: _geoloc
+    onlineFlag?:boolean,
+    radius: string | number,
+    preferredLocation:Location,
+}
+
+export interface _geoloc{
+    lat: number;
+    lng: number
 }
 
 export interface UserPharma{
@@ -47,6 +67,8 @@ export interface UserPharma{
     email: string;
     uid: string;
     license: string;
+    objectID?: string;
+    _geoloc?: _geoloc;
     gender?: string;
     education?: string;
     birthday?: string;
@@ -91,6 +113,23 @@ export interface UserPharma{
     dateUpdated: string,
     nickName: string,
     cropProfilePictureUrl?: string,
+}
+
+export interface requestView
+{
+    operatorUID: string;
+    userUID: string;
+    requestView: string
+    dateSent: string
+    requestViewUID?: string;
+    content?: UserPharma
+    status: string
+}
+
+export interface requestViewState
+{
+    payload: requestView;
+    type: string
 }
 
 export interface JobHistory 
@@ -153,6 +192,10 @@ export interface userPharmaList{
 
 export interface FavoriteList{
     [key: string]: Favorite
+}
+
+export interface requestViewList{
+    [key: string]: requestView
 }
 
 

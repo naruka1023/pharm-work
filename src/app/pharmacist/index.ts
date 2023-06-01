@@ -50,5 +50,4 @@ let adminRoot = admin.initializeApp({
    });
 let authAccount = adminRoot.auth()
 authAccount.deleteUsers(ids).then(()=>{
-  console.log('delete successful');
 })

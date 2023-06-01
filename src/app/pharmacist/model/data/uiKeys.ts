@@ -5,11 +5,8 @@ export const headerArray: filterConditions [] = [
   { 
     header: 'งานเภสัชด่วนรายวัน',
     filterFlag: true,
-    dateFilter: true,
-    JobType: false,
-    timeFrame: false,
-    location: true,
     CategorySymbol:"AA",
+    loading: true,
     count: 0,
     allContent: [],
     content: []
@@ -17,12 +14,9 @@ export const headerArray: filterConditions [] = [
   { 
     header: 'งานร้านยาทั่วไป',
     filterFlag: true,
-    dateFilter: false,
-    JobType: false,
-    timeFrame: true,
-    location: true,
     brandToCategory:"แนะนำร้านยาใกล้คุณ",
     CategorySymbol:"AB",
+    loading: true,
     count: 0,
     allContent: [],
     content: []
@@ -30,12 +24,9 @@ export const headerArray: filterConditions [] = [
   { 
     header: 'งานร้านยาแบรนด์',
     filterFlag: true,
-    dateFilter: false,
-    JobType: false,
-    timeFrame: true,
-    location: true,
     brandToCategory: "แนะนำร้านยาแบรน์ทั้งหมด",
     CategorySymbol:"AC",
+    loading: true,
     count: 0,
     allContent: [],
     content: []
@@ -43,63 +34,47 @@ export const headerArray: filterConditions [] = [
   { 
     header: 'งานจากแบรนด์ร้านยาชั้นนำของประเทศไทย',
     filterFlag: false,
-    dateFilter: false,
-    JobType: false,
-    timeFrame: false,
-    location: false,
     CategorySymbol:"BA",
+    loading: true,
     allContent: [],
     count: 0
   }, 
   { 
     header: 'งานโรงพยาบาล/งานคลินิก',
     filterFlag: true,
-    dateFilter: false,
-    JobType: true,
-    timeFrame: true,
-    location: true,
     brandToCategory: 'แนะนำโรงพยาบาลและคลินิกใกล้คุณ',
     CategorySymbol:"BB",
+    loading: true,
     count: 0,
     allContent: [],
     content: []
   }, 
   { 
-      header: 'งานโรงงาน/งานบริษัท/งานวิจัย',
-      filterFlag: true,
-      dateFilter: true,
-      JobType: false,
-      JobTypeTwo: true,
-      timeFrame: false,
-      brandToCategory: ' แนะนำโรงงานและบริษัททั้งหมด',
-      location: true,
-      CategorySymbol:"BC",
-      count: 0,
-      allContent: [],
-      content: []
-    },
-    { 
-      header: 'งานอื่นๆ',
-      filterFlag: true,
-      dateFilter: false,
-      JobType: false,
-      timeFrame: true,
-      location: true,
-      CategorySymbol:"CA",
-      count: 0,
-      allContent: [],
-      content: []
-    }, 
-    { 
-      header: 'งานจากบริษัทยาและโรงงานยาชั้นนำของประเทศไทย',
-      filterFlag: false,
-      dateFilter: false,
-      JobType: false,
-      timeFrame: false,
-      location: false,
-      CategorySymbol:"CB",
-      count: 0
-    }
-  ];
+    header: 'งานโรงงาน/งานบริษัท/งานวิจัย',
+    filterFlag: true,
+    brandToCategory: ' แนะนำโรงงานและบริษัททั้งหมด',
+    CategorySymbol:"BC",
+    loading: true,
+    count: 0,
+    allContent: [],
+    content: []
+  },
+  { 
+    header: 'งานอื่นๆ',
+    filterFlag: true,
+    CategorySymbol:"CA",
+    loading: true,
+    count: 0,
+    allContent: [],
+    content: []
+  }, 
+  { 
+    header: 'งานจากบริษัทยาและโรงงานยาชั้นนำของประเทศไทย',
+    filterFlag: false,
+    CategorySymbol:"CB",
+    loading: true,
+    count: 0
+  }
+];
 
 export default headerArray;

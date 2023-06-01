@@ -1,7 +1,14 @@
-<div class="row row-cols-2">
-    <ng-container *ngFor="let user of recentlySeen$ | async ; index as i" >
-        <app-normal-user-card [content]="user!" [type]="user.soleJobType!"></app-normal-user-card>
-        <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
-    </ng-container>
-</div>
-
+<ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
+<ng-template #empty>
+    <div class="d-flex">
+        <img class="m-auto" style="width: 25vw" src="assets/emptyOperator/emptyRecentlySeen.png">
+    </div>
+</ng-template>
+<ng-template #notEmpty>
+    <div class="row row-cols-2">
+        <ng-container *ngFor="let user of recentlySeen$ | async ; index as i" >
+            <app-normal-user-card [content]="user!" [type]="user.soleJobType!"></app-normal-user-card>
+            <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+        </ng-container>
+    </div>
+</ng-template>    

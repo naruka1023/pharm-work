@@ -25,43 +25,17 @@ export class UserByTypeComponent {
 
   ngOnInit(){
     this.Users$ = this.store.select((state:any)=>{
-      let user!: UserPharma[];
-      let userToSelect = _.cloneDeep(state.users.users) as UsersByType;
-      switch(this.type) {
-        case 'S':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.S.short);
-          break;
-          case 'AA':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.AA.short);
-          break;
-          case 'AB':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.AB.short);
-          break;
-          case 'AC':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.AC.short);
-          break;
-          case 'BA':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.BA.short);
-          break;
-          case 'BB':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.BB.short);
-          break;
-          case 'BC':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.BC.short);
-          break;
-          case 'CA':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.CA.short);
-          break;
-          case 'CB':
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.CB.short);
-          break;
-          default:
-          user = this.utilService.convertUserPharmaListToArray(userToSelect.AA.short);
-        }
-        this.userFlag = user.length !== 0? true:false;
-        return user;
-      })
-    }
+      let user: UserPharma[] = []; 
+      let userToSelect: any = _.cloneDeep(state.users.users) as UsersByType;
+      if(userToSelect[this.type].short !== undefined){
+        user = this.utilService.convertUserPharmaListToArray(userToSelect[this.type].short);
+      }
+      return user;
+    })
+    this.Users$.subscribe((user)=>{
+      this.userFlag = user.length !== 0? true:false;
+    })
+  }
     goToList(){
       this.router.navigate(['users-list'],
       {

@@ -3,12 +3,12 @@
 	<div id="overlay" *ngIf="Active$ | async">
 		<div id="text">Inactive</div>
 	</div>
-	<div class="card-header" [ngStyle]="{'background':!content.Urgency?fullTimeFlag?'#7fcae6':'#a2e3d9':'rgba(0, 0, 0, 0.03)'}">
+	<div class="card-header" [ngStyle]="{'background':!urgentFlag?fullTimeFlag?'#7fcae6':'#a2e3d9':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
-			<div class="col-sm-4 fs-5 align-items-center" style="border-right: solid 1px grey; text-align: center">
+			<div class="col-sm-4 fs-5 align-items-center borderRight" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
 			</div>
-			<div class="col-sm fs-5 d-flex w-100 justify-content-center align-items-center">
+			<div class="dateOfJob col-sm fs-5 d-flex w-100 justify-content-center align-items-center">
 				<b class="me-3">ทำงานวันที่ </b><div>{{content.DateOfJob}}</div>
 			</div>
 			<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
@@ -29,12 +29,15 @@
 	</div>
 	<div class="card-body" style="padding:0.5rem 1rem">
 		<div class="row">
-			<div class="col-sm-3 text-center align-self-center">
+			<div class="col-3 mainImage text-center align-self-center">
 				<img (click)="goToProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
 				
 			</div>
-			<div class="col-sm w-100">
-				<div class="d-flex justify-content-between m-2">
+			<div class="col-sm col-12 w-100">
+				<div class="d-flex justify-content-between m-2 subImageContainer">
+					<div class="subImage text-center align-self-center">
+						<img (click)="goToProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
+					</div>
 					<div>
 						<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'height':'1.5em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}">
 							<b>{{content.JobName}}</b>
@@ -44,13 +47,13 @@
 				</div>
 				<div class="container text-center">
 					<div class="row mb-2">
-						<div class="col d-flex" *ngIf="!urgentFlag">
+						<div class="col-sm col-8 d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
 							<div class=" fs-6 d-flex flex-row my-auto">
-								<div class="mx-2">{{content.Salary.Amount}}</div>
-								<div *ngIf="urgentFlag">
+								<div class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
+								<div *ngIf="!urgentFlag">
 									<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 									<ng-template #fullSub>บาท/เดือน</ng-template>
 									<ng-template #partSub>บาท/ชม</ng-template>
@@ -84,7 +87,7 @@
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
 							<div class="fs-6 d-flex flex-row my-auto">
-								<div class="mx-2">{{content.Salary.Amount}}</div>
+								<div class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
 								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 								<ng-template #fullSub>บาท/เดือน</ng-template>
 								<ng-template #partSub>บาท/ชม</ng-template>
@@ -92,7 +95,7 @@
 						</div>
 					</div>
 					<div class="row mb-3">
-						<div class="col d-flex" *ngIf="!urgentFlag">
+						<div class="col-sm col-8 d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-6 my-auto bi bi-geo-alt"></i>
 							</p>
@@ -100,8 +103,8 @@
 								<div class="mx-2 fs-6">{{content.Location.Province}}</div>
 							</div>
 						</div>
-						<div class="col d-flex" *ngIf="!urgentFlag">
-							<p class="my-auto me-2" *ngIf="content.OnlineInterview">
+						<div class="col d-flex" *ngIf="!urgentFlag && content.OnlineInterview">
+							<p class="my-auto me-2">
 								<i class="my-auto fs-6 bi bi-tv"></i>
 							</p>
 							<p class="my-auto fs-6">สัมภาษณ์ออนไลน์</p>
@@ -112,11 +115,11 @@
 		</div>
 	</div>
 </div>
-<div class="d-flex justify-content-between m-2 ">
-	<div>
+<div class="mainFooter d-flex justify-content-between m-2 ">
+	<div class="footer d-flex">
 		{{content.dateUpdated}}
 	</div>
-	<div class="d-flex justify-content-end">
+	<div class="footer d-flex justify-content-end">
 		<div *ngIf="cancelJobFlag">
 			<button (click)="cancelRequestJob()" class="btn btn-danger text-center my-2" type="button">
 				<div class="fs-5">ยกเลิกสมัคร</div>

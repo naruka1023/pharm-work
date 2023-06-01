@@ -6,12 +6,6 @@ export const getJobCategory = createAction(
   props<{ CategorySymbol: string }>()
   );
 
-  
-export const emptyOperatorData = createAction(
-  '[Job-Post] Empty Operator Data'
-);
-
-
 export const addBookmark = createAction(
   '[Job-Post] Add Bookmark',
   props<{ jobUID: string, userUID: string, bookmarkUID: string, JobPost: jobPostModel}>()
@@ -62,11 +56,6 @@ export const retrievedUserBookmarkSuccess = createAction(
   props<{ Bookmarks: Bookmark[]}>()
 )
 
-export const setOperatorData = createAction(
-  '[Job-Post] Set Operator Data',
-  props<{ operator: userOperator}>()
-)
-
 export const followOperator = createAction(
   '[Job-Post] Follow Operator',
   props<{ follow:Follow }>()
@@ -87,13 +76,35 @@ export const filterJobs = createAction(
   '[Job-Post] Retrieve Jobs Success',
   props<{ jobs: filterConditions[] }>()
   );
+
+  
+  export const updateJobFromJobCategory = createAction(
+  '[Job-Post] Update Job From Job Category',
+  props<{ categorySymbol: string, jobUID: string, jobPayload: jobPostModel }>()
+  );
+  
+  export const updateJobFromHome = createAction(
+  '[Job-Post] Update Job From Home',
+  props<{ categorySymbol: string, jobUID: string, jobPayload: jobPostModel }>()
+  );
+
   
   export const retrievedJobCategorySuccess = createAction(
   '[Job-Post] Retrieve Jobs Category Success',
   props<{ jobs: jobPostPayload }>()
   );
-
-
+  
+  
+  export const paginateJobCategory = createAction(
+  '[Job-Post] Paginate Job Category',
+  props<{ jobs: jobPostPayload }>()
+  );
+  
+  export const retrievedJobCategoryHomeSuccess = createAction(
+  '[Job-Post] Retrieve Jobs Category Home Success',
+  props<{ jobs: jobPostPayload }>()
+  );
+  
 /*
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at https://github.com/ngrx/platform

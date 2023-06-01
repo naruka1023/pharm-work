@@ -71,7 +71,13 @@
     </div>
     <div class="d-flex justify-content-between m-3">
         <button *ngIf="type == 'S'" class="btn fs-3" style="width: -webkit-fill-available; width: -moz-available;color:white; background-color: #7fd858">ส่งงานด่วน</button>
-        <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3" style="width: -webkit-fill-available; width: -moz-available;color:white">ขอดูข้อมูล</button>
+        <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
+        <ng-template #requestView>
+            <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn fs-3" style="background-color: rgb(255, 255, 179); width: -webkit-fill-available; width: -moz-available;color:black">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
+        </ng-template>
+        <ng-template #notRequestView>
+            <button (click)="openRequestViewModal()"[ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3" style="width: -webkit-fill-available; width: -moz-available;color:white">ขอดูข้อมูล</button>
+        </ng-template>
         <button (click)="toggleFavorite()" type="button" class="btn">
             <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
             <ng-template #loading>

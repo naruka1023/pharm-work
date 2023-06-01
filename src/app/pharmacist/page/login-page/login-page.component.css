@@ -1,0 +1,11 @@
+@media only screen and (max-width: 550px){
+    .loginPanel{
+      width: 90vw !important
+    }
+  }
+@media only screen and (max-width: 370px){
+    .footer{
+        display: block !important;
+        text-align:center
+    }
+  }

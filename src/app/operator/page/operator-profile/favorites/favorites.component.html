@@ -1,7 +1,50 @@
-<div class="row row-cols-2">
-    <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
-        <app-normal-user-card  [content]="favorites.content!" [type]="'AA'" ></app-normal-user-card>
-        <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
-    </ng-container>
+<div class="mx-4 fs-2">
+    <div class="my-3"><b>ผู้สมัครที่ถูกใจ</b></div> 
+    <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ผู้สมัครงานทั่วไป</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ผู้สมัครงานด่วนรายวัน</a>
+        </li>
+        <hr style="width: 100%" class="m-auto">
+    </ul>
+    <div class="tab-content fs-3 mx-5">
+        <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
+            <ng-container *ngIf="emptyFlagNormal$ | async; then emptyNormal; else notEmptyNormal"></ng-container>
+            <ng-template #emptyNormal>
+                <div class="d-flex">
+                    <img class="m-auto" style="width: 25vw" src="assets/emptyOperator/emptyFavorites.png">
+                </div>
+            </ng-template>
+            <ng-template #notEmptyNormal>
+                <div class="row row-cols-2">
+                    <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
+                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1 || favorites.content!.preferredJobType!.length > 1">
+                            <app-normal-user-card  [content]="favorites.content!" [type]="'AA'"></app-normal-user-card>
+                        </div>
+                        <!-- <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0 && favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1"> -->
+                    </ng-container>
+                </div>
+            </ng-template>
+        </div>
+        <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
+            <ng-container *ngIf="emptyFlagUrgent$ | async; then emptyUrgent; else notEmptyUrgent"></ng-container>
+            <ng-template #emptyUrgent>
+                <div class="d-flex">
+                    <img class="m-auto" style="width: 25vw" src="assets/emptyOperator/emptyFavorites.png">
+                </div>
+            </ng-template>
+            <ng-template #notEmptyUrgent>
+                <div class="row row-cols-2">
+                    <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
+                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1">
+                            <app-normal-user-card  [content]="favorites.content!" [type]="'S'"></app-normal-user-card>
+                        </div>
+                        <!-- <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0 && favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1"> -->
+                    </ng-container>
+                </div>
+            </ng-template>
+        </div>
+    </div>
 </div>
-

@@ -11,7 +11,17 @@ export const coverPhotoLoadingComplete = createAction(
 
 export const funnelUsers = createAction(
     '[Pharma-Users] Funnel Users',
-    props<{ users: UserPharma[] }>()
+    props<{ allUsers: { [key: string]: { [key:string]: UserPharma } } }>() 
+);
+
+export const modifyUser = createAction(
+    '[Pharma-Users] Modify User',
+    props<{ categoryService: string; user: UserPharma }>() 
+);
+
+export const removeUser = createAction(
+    '[Pharma-Users] Remove User',
+    props<{ categoryService: string; user: UserPharma }>() 
 );
 
 export const addFavorites = createAction(
@@ -36,5 +46,10 @@ export const setFavorites = createAction(
 
 export const SetUsersByJobType = createAction(
     '[Pharma-Users] Set Users By Job Type',
+    props<{ users: UserPharma[], jobType: string }>()
+);
+
+export const updateUsersByJobType = createAction(
+    '[Pharma-Users] Update Users By Job Type',
     props<{ users: UserPharma[], jobType: string }>()
 );

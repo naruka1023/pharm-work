@@ -50,9 +50,6 @@
                             <div style="font-size: 2.5rem;" class="mt-3 mb-0 ms-5 me-0" >{{result.companyName}}</div>
                             <h5 *ngIf="result.Location" style='align-self:end' class="mb-2 ms-3"><i class="bi bi-house me-1"></i> {{result.Location?.District}}, {{result.Location?.Province}}</h5>
                         </div>
-                        <div>
-                            <!-- <h6 class="mx-4"><i>{{profileInformation.JobType}}</i ></h6> -->
-                        </div>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -62,6 +59,26 @@
                         <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div>
                     </div>
                 </div>
+            </div>
+            <div class="fs-5 mt-4" style="padding-left:178px; margin-bottom:4rem">
+                <div class="row my-2">
+                    <div class="col-4">
+                        <i class="bi bi-building me-3"></i>{{result.jobType}}
+                    </div>
+                    <div class="col pe-5">
+                        <i class="bi bi-person me-3"></i>ผู้ติดตาม {{followers$ | async}} คน
+                         <!--<span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span> -->
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-4">
+                        <i class="bi bi-briefcase me-3"></i>ประกาศงานทั่วไป {{jobCount.normalJobs}}
+                    </div>
+                    <div class="col">
+                        <i class="bi bi-card-checklist me-3"></i>ประกาศงานด่วน {{jobCount.urgentJobs}}
+                    </div>
+                </div>
+    
             </div>
             <ng-container *ngIf="editFlag; then edit; else display"></ng-container>
             <ng-template #edit>
@@ -116,7 +133,13 @@
                 </div>
                 <div class="d-flex justify-content-center mt-3">
                     <button style="height: fit-content; color: white; background-color: #7fd858" class="mt-2 btn px-4 fs-4" *ngIf="sendUrgentJobsFlag">ส่งงานด่วน</button>
-                    <button style="height: fit-content; margin-right:1rem" class="mt-2 btn btn-primary px-4 mx-4 fs-4" *ngIf="result.active == 'จำกัดการดูข้อมูล'">ขอดูข้อมูล</button>
+                    <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
+                    <ng-template #requestView>
+                        <button [ngStyle]="{'display': result.active == 'จำกัดการดูข้อมูล'? 'block': 'none' }" class="btn btn-warningfs-3" style="height: fit-content; color:white" class="mt-2 btn btn-warning px-4 mx-4 fs-4">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
+                    </ng-template>
+                    <ng-template #notRequestView>
+                        <button (click)="openRequestViewModal()"[ngStyle]="{'display': result.active == 'จำกัดการดูข้อมูล'? 'block': 'none' }"  style="height: fit-content; color:white" class="mt-2 btn btn-primary px-4 mx-4 fs-4">ขอดูข้อมูล</button>
+                    </ng-template>
                     <button (click)="toggleFavorite()" type="button" class="btn me-3" style="height:fit-content">
                         <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
                         <ng-template #loading>

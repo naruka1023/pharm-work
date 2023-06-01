@@ -1,37 +1,43 @@
-import { ThisReceiver } from '@angular/compiler';
-import { Component, Input } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { getDownloadURL, getMetadata, getStorage, listAll, ref, uploadString } from "firebase/storage";
+import { Component, Input, inject } from '@angular/core';
+import { getDownloadURL, getMetadata, Storage, listAll, ref, uploadBytes, uploadString } from "@angular/fire/storage";
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import Cropper from 'cropperjs';
 import { Observable, Subject } from 'rxjs';
 import { coverPhotoLoadSuccessful, setCurrentUser, updateCoverPhoto, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
 import { profileHeaderJobPost, profileHeaderOperator, profileHeaderPharma } from '../../model/typescriptModel/header.model';
-import { AppState, Follow, jobPostModel, userOperator } from '../../model/typescriptModel/jobPost.model';
+import { AppState, Follow, filterConditions, jobPostModel, userOperator } from '../../model/typescriptModel/jobPost.model';
 import { User } from '../../model/typescriptModel/users.model';
 import { JobPostService } from '../../service/job-post.service';
 import { UserServiceService } from '../../service/user-service.service';
-import { addFollowers, removeFollowers, setOperatorData } from '../../state/actions/job-post.actions';
+import { addFollowers, removeFollowers } from '../../state/actions/job-post.actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { emptyOperatorData } from '../../state/actions/operator.actions';
 declare var window: any;
+ 
 @Component({
   selector: 'app-profileheader',
   templateUrl: './profileheader.component.html',
   styleUrls: ['./profileheader.component.css']
 })
 export class ProfileheaderComponent {
+private storage: Storage = inject(Storage);
 @Input() profileInformation!: profileHeaderJobPost | profileHeaderPharma | profileHeaderOperator
 @Input() profileType! : string;
-@Input() viewFlag = true;
+@Input() followerFlag = false;
+@Input() requestViewFlag = false;
 result!: any
+jobCount!: {
+  urgentJobs: number,
+  normalJobs: number
+}
 editFlag: boolean = false
 profileInformation$!: User
+followers$!: Observable<number>
 coverPhotoFlag$!: Observable<boolean>;
 headerInformation!: Observable<profileHeaderPharma>
 coverListenerSubject: Subject<string> = new Subject();
 followFlag$!: Observable<boolean>
-loading$!:Observable<boolean>
 introTextLoadingFlag: boolean = false
 coverListenerObservable: Observable<string> = this.coverListenerSubject.asObservable();
 file!: File
@@ -59,7 +65,8 @@ profileMaskSize: number = 20;
 realWidth: number = 0;
 fixedScale: number = 0.5;
 dynamicScale: number = 0.5;
-constructor(private fb: FormBuilder, private storage: AngularFireStorage, private store: Store, private userService: UserServiceService, private jobPostService: JobPostService, private router: Router, private route: ActivatedRoute,){}
+pageSrc!: string
+constructor(private fb: FormBuilder, private store: Store, private userService: UserServiceService, private jobPostService: JobPostService, private router: Router, private route: ActivatedRoute){}
 
   ngOnInit(){
     this.formModal = new window.bootstrap.Modal(
@@ -89,52 +96,164 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
       case "job-post":
         this.id = this.route.snapshot.queryParamMap.get('id')!;
         this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
+        this.pageSrc = this.route.snapshot.queryParamMap.get('pageSrc')!;
         this.store.select((state: any)=>{
-          const categories: jobPostModel[] = state.jobpost.JobPost;
-          const jobPost: any = categories.find((job)=>{
-            return job.CategorySymbol == this.categorySymbol
+            let newJob!: jobPostModel
+            switch(this.pageSrc){
+              case 'homePage':
+                const categories: jobPostModel[] = state.jobpost.JobPost;
+                const jobPost: any = categories.find((job)=>{
+                  return job.CategorySymbol == this.categorySymbol
+                })
+                newJob = jobPost?.content?.find((profile: any) =>{
+                    return profile.custom_doc_id == this.id
+                })
+                break;
+                case 'jobs-list':
+                  const categories2: filterConditions[] = state.jobpost.JobPost;
+                  const jobPost2: any = categories2.find((job)=>{
+                    return job.CategorySymbol == this.categorySymbol
+                  })          
+                  newJob = jobPost2?.allContent?.find((profile: any) =>{
+                      return profile.custom_doc_id == this.id
+                  })
+                  break;
+                case 'recently-seen-job':
+                  newJob = state?.recentlySeen?.find((profile: any) =>{
+                      return profile.custom_doc_id == this.id
+                  })
+                  break;
+                case 'request-jobs':
+                  newJob = state.jobpost.JobRequests[this.id + '-' + state.user.uid].JobPost
+                  break;
+                case 'bookmark':
+                  newJob = state.jobpost.Bookmarks[this.id + '-' + state.user.uid].JobPost
+                  break;
+                case 'operator-page':
+                  newJob = state.operator.operatorJobs[this.id]
+                  break;
+
+            }
+            return newJob
+          }).subscribe((newJob: jobPostModel)=>{
+            if(Object.keys(newJob).length <= 20){
+              this.result = {
+                Amount: 2,
+                CategorySymbol: '',
+                BTS: {
+                  Near: false,
+                  Station: ''
+                },
+                Establishment: '',
+                Franchise: '',
+                JobName: '',
+                JobType: '',
+                Location: {
+                  Section: '',
+                  District: '',
+                  Province: ''
+                },
+                MRT: {
+                  Near: false,
+                  Station: ''
+                },
+                SRT: {
+                  Near: false,
+                  Station: ''
+                },
+                ARL: {
+                  Near: false,
+                  Station: ''
+                },
+                OnlineInterview: false,
+                WorkFromHome: false,
+                Salary: {
+                  Amount: '',
+                  Cap: undefined,
+                  Suffix: ''
+                },
+                Contacts: {
+                  phone: '',
+                  email: '',
+                  line: '',
+                  facebook: ''
+                },
+                JobDetails: '',
+                TravelInstructions: '',
+                qualityApplicants: '',
+                jobBenefits: '',
+                applyInstructions: '',
+                OperatorUID: '',
+                TimeFrame: '',
+                Urgency: false,
+                Duration: '',
+                Active: false,
+                DateOfJob: [],
+                dateCreated: '',
+                dateUpdated: '',
+                dateUpdatedUnix: 0,
+                custom_doc_id: ''
+              }
+            }else{
+              this.operatorUID = newJob.OperatorUID; 
+              this.result = newJob
+              if(this.result.cropProfilePictureUrl == ''){
+                delete this.result.cropProfilePictureUrl
+              }
+            }
           })
-          let newJob:jobPostModel = jobPost?.content?.find((profile: any) =>{
-              return profile.custom_doc_id == this.id
-          })
-          return newJob
-        }).subscribe((newJob: jobPostModel)=>{
-          this.operatorUID = newJob.OperatorUID; 
-          this.result = newJob
-        })
-        this.loading$ = this.store.select((state:any) =>{
-          return state.operator.loadingOperator
-        })
-        this.userService.getOperatorData(this.operatorUID).subscribe((operator)=>{
-          this.operator = operator.data() as userOperator
-          this.store.dispatch(setOperatorData({operator:this.operator}))
-        })
         break;
         case "operator-profile":
           this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
           this.store.select((state:any)=> {
-            return state.operator
+            if(this.followerFlag){
+              return state.jobpost.Follows[this.userUID + '-' + this.operatorUID].user
+            }
+            if(this.requestViewFlag){
+                return state.requestView[this.userUID + '-' + this.operatorUID].content
+             }
+              return state.operator
           }).subscribe((operator)=>{
           this.operator =  operator;
           this.operatorUID = operator.uid;
-          this.result = {
-            name: operator.companyName!,
-            JobType: operator.jobType!,
-            coverPhotoPictureUrl: operator.coverPhotoPictureUrl,
-            coverPhotoOffset: operator.coverPhotoOffset,
-            profilePictureUrl: operator.profilePictureUrl,
-            Location: {
-                Section: operator.Location!.Section,
-                District: operator.Location!.District,
-                Province: operator.Location!.Province
-            }
+          this.result = operator
+          if(this.result.cropProfilePictureUrl == ''){
+            delete this.result.cropProfilePictureUrl
           }
+        })
+        this.followers$ = this.store.select((state: any)=>{
+          return state.operator.followers
+        })
+        this.store.select((state: any)=>{
+          let allJobs: jobPostModel[] = []
+          let normalJobs:number = 0
+          let urgentJobs : number = 0
+
+          if(state.operator.operatorJobs !== undefined){
+            Object.keys(state.operator.operatorJobs).forEach((key)=>{
+              allJobs.push(state.operator.operatorJobs[key])
+            })
+            allJobs.forEach((job: any)=>{
+              if(job.Urgency){
+                urgentJobs++
+              }else{
+                normalJobs++
+              }
+            })
+
+          }
+          return {
+            urgentJobs: urgentJobs,
+            normalJobs: normalJobs
+          }
+        }).subscribe((jobCount: any)=>{
+          this.jobCount = jobCount
         })
         break;
       case "pharmacist-profile":
         this.headerInformation = this.store.select((state: any)=>{
           this.profileInformation$ = state.user;
-          return{
+          let result = {
             nickName: this.profileInformation$.nickName!,
             Location: this.profileInformation$.Location,
             profilePictureUrl: this.profileInformation$.profilePictureUrl,
@@ -151,6 +270,10 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
               salary: this.profileInformation$.preferredSalary,
             }
           }
+          if(result.cropProfilePictureUrl == ''){
+            delete result.cropProfilePictureUrl
+          }
+          return result
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
@@ -223,11 +346,10 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
             case "upload":
               this.savePhotoLoadingFlag = true;
               ele.removeEventListener('mousedown', mouseDownHandler);
-              this.storage.upload('users/' + this.userUID + '/cover-photo', this.file).then(()=>{
+              uploadBytes(ref(this.storage, 'users/' + this.userUID + '/cover-photo'), this.file).then(()=>{
                 if(this.result.coverPhotoPictureUrl.indexOf('placeholder') !== -1){
                   let user:Partial<User> = {uid:this.userUID, coverPhotoOffset: ele.scrollTop}
-
-                  this.storage.ref('users/' + this.userUID + '/cover-photo').getDownloadURL().subscribe((url: string)=>{
+                  getDownloadURL(ref(this.storage, 'users/' + this.userUID + '/cover-photo')).then((url: string)=>{
                     user.coverPhotoPictureUrl = url
                     this.userService.updateUser(user).then(()=>{
                       this.savePhotoLoadingFlag = false
@@ -310,22 +432,20 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
     uploadProfilePicture(){
       let croppedNotExists: boolean = true;
       this.loadProfilePictureFlag = true;
-      const storage = getStorage();
       if(!this.editExistingPhoto){
-        this.storage.upload('users/' + this.userUID + '/profile-picture', this.profilePictureFile).then(()=>{
+        uploadBytes(ref(this.storage,'users/' + this.userUID + '/profile-picture'), this.profilePictureFile).then(()=>{
           if(this.result.profilePictureUrl.indexOf('placeholder') !== -1){
-            this.storage.ref('users/' + this.userUID + '/profile-picture').getDownloadURL().subscribe((url: string)=>{
+            getDownloadURL(ref(this.storage, 'users/' + this.userUID + '/profile-picture')).then((url: string)=>{
               let user:Partial<User> = {uid:this.userUID, profilePictureUrl: url}
               this.userService.updateUser(user).then(()=>{
                 this.store.dispatch(updateProfilePicture({profilePictureUrl: url}))
               })
             })
           }
-          console.log('profile picture upload');
         })
       }
-      const storageRef = ref(storage, 'users/' + this.userUID + '/crop-profile');
-      listAll(ref(storage, 'users/' + this.userUID)).then((list:any)=>{
+      const storageRef = ref(this.storage, 'users/' + this.userUID + '/crop-profile');
+      listAll(ref(this.storage, 'users/' + this.userUID)).then((list:any)=>{
         croppedNotExists = list.items.find((item: any)=>item.name === 'crop-profile') == undefined
         let imgSrc = this.cropper.getCroppedCanvas({
           width: 300,
@@ -374,10 +494,9 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
       if(editExistingPhoto === ''){
         this.profilePictureFile = $event.target.files[0]
         this.pictureType = $event.target.files[0].type
-        console.log($event.target.files[0])
         reader.readAsDataURL($event.target.files[0]);
       }else{
-        let reff: any = ref(getStorage(), `users/${this.result.uid}/profile-picture`)
+        let reff: any = ref(this.storage, `users/${this.result.uid}/profile-picture`)
         getMetadata(reff).then((metaData)=>{
           this.pictureType = metaData.contentType!
           self.initCropper(self.result.profilePictureUrl)
@@ -436,7 +555,6 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
       let doc: any = document.getElementById("customRange2")! 
       let zoomRatio = ((doc.value - this.fixedScale)*10)/10; 
       this.fixedScale = doc.value;
-      console.log(zoomRatio)
       this.cropper.zoom(zoomRatio);	    
     }
 
@@ -500,6 +618,8 @@ constructor(private fb: FormBuilder, private storage: AngularFireStorage, privat
       queryParams: 
       {
         operatorUID: this.operatorUID,
+        requestViewFlag: false,
+        followFlag: false
       }
     })
   }

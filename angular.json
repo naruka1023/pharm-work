@@ -14,7 +14,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "lodash"
+              "lodash",
+              "ngx-google-places-autocomplete"
            ],
             "outputPath": "dist/pharm-work",
             "index": "src/index.html",

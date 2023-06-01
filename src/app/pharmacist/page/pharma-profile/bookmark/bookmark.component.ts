@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
 import {  map, Observable, take } from 'rxjs';
 import { Bookmark, BookmarkList } from 'src/app/pharmacist/model/typescriptModel/jobPost.model';
@@ -11,7 +10,7 @@ import { Bookmark, BookmarkList } from 'src/app/pharmacist/model/typescriptModel
 })
 export class BookmarkComponent {
 
-  constructor(private store: Store, private db: AngularFirestore){}
+  constructor(private store: Store){}
 
   bookmarks$!: Observable<Bookmark[]>;
   emptyFlag$!: Observable<boolean>;

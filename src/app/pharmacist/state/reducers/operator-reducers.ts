@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
 import { AppState, userOperator } from '../../model/typescriptModel/jobPost.model';
-import { emptyOperatorData, setOperatorData } from '../actions/job-post.actions';
+import { emptyOperatorData, setOperatorData, setOperatorJobs } from '../actions/operator.actions';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -18,23 +18,31 @@ const emptyOperator = {
   },
   jobType: '',
   companyName: '',
-  contacts:{
-    phone: '',
-    email: '',
-    line: '',
-    facebook: '',
-  },
   loadingOperator: true,
+  companySize: '',
+  productsAndServices: '',
+  TravelInstructions: '',
+  benefits: '',
+  followers: 0
 }
 export const initialState: userOperator = {
-  ...emptyOperator
+  ...emptyOperator,
 };
 export const operatorReducer = createReducer(
   initialState,
 
   on(emptyOperatorData, (state)=>{
     return {
-      ...emptyOperator,
+      ...initialState}
+  }),
+  on(setOperatorJobs, (state, {jobs}) =>{
+    let formattedJobs: any = {}
+    jobs.forEach((job)=>{
+      formattedJobs[job.custom_doc_id] = job
+    })
+    return {
+      ...state,
+      operatorJobs: formattedJobs
     }
   }),
   on(setOperatorData, (state, {operator}) =>{

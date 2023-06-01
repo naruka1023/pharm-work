@@ -1,19 +1,28 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Injectable, inject } from '@angular/core';
 import * as _ from 'lodash';
-import { catchError, combineLatest, forkJoin, map, merge, Observable, Subject } from 'rxjs';
-import { Bookmark, filterConditions, Follow, jobPostModel, jobPostPayload, jobRequest, userOperator } from '../model/typescriptModel/jobPost.model';
+import { Observable, Subject } from 'rxjs';
+import { Bookmark, Follow, jobPostModel, jobPostPayload, jobRequest, JobSearchForm, userOperator } from '../model/typescriptModel/jobPost.model';
 import headerArray from '../model/data/uiKeys';
+import algoliasearch, { SearchIndex } from 'algoliasearch/lite';
+import { algoliaEnvironment } from 'src/environments/environment';
+import { collection, getCountFromServer, Firestore, query, where, getDocs, doc, onSnapshot, Unsubscribe, addDoc, deleteDoc, getDoc, orderBy, limit} from '@angular/fire/firestore';
+import { addBookmark, addJobRequest, followOperator, removeBookmark, removeJobRequest } from '../state/actions/job-post.actions';
+import { Store } from '@ngrx/store';
+import { UtilService } from './util.service';
+import { FormGroup } from '@angular/forms';
+
+const client = algoliasearch(algoliaEnvironment.app_id, algoliaEnvironment.api_key);
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobPostService {
-
+  hitsPerPage:number = 8
   RecentlySeenSubject: Subject<void> = new Subject();
   
-  constructor(private db: AngularFirestore) { }
-
+  constructor(private utilService:UtilService, private store:Store) { }
+  private firestore = inject(Firestore)
+  
   getRecentlySeenSubject(): Observable<void>{
     return this.RecentlySeenSubject.asObservable();
   }
@@ -22,79 +31,59 @@ export class JobPostService {
     return this.RecentlySeenSubject.next();
   }
   
-  getUserBookmark(userUID: string) {
-    return this.db.collection('bookmark', ref => ref.where('userUID', '==', userUID)).get()
-    .pipe(
-      map((src: any)=>{
-        return src.docs.map((bookmark:any)=>{
-          return {
-            ...bookmark.data(),
-            bookmarkUID: bookmark.id
-          }
-        })
-      })
-      );
-    }
-  getJobFromBookmark(bookmark:Bookmark){
-    return this.db.collection('job-post').doc(bookmark.jobUID).snapshotChanges().pipe(
-      map((job:any)=>{
-        return {
-          ...bookmark,
-          type: job.type,
-          JobPost: {
-            ...job.payload.data(),
-            custom_doc_id:job.payload.id,
-          }
-        };
-      })
-    );
+  async getUserBookmark(userUID: string): Promise<Bookmark[]> {
+    let bookmarkCol = await getDocs(query(collection(this.firestore, 'bookmark'), where('userUID', '==', userUID)))
+    return bookmarkCol.docs.map((bookmark)=>{
+      return {
+        ...bookmark.data(),
+        bookmarkUID: bookmark.id
+      } as Bookmark
+    })
   }
 
-  getListofJobFromBookmark(array:Bookmark[]){
-    let newSrc = array.map((value: Bookmark)=>{ return value.jobUID});
-    const reads = newSrc.map((id:string) => this.db.collection('job-post').doc(id).snapshotChanges().pipe(
-      map((job:any)=>{
-        let resultBookmark = array.find((originalBookmark)=>{
-          return originalBookmark.jobUID == job.payload.id
-        })
-        return {
-          ...resultBookmark,
-          JobPost: {
-            ...job.payload.data(),
-            custom_doc_id:job.payload.id,
-            type: job.type
-          }
+  getJobFromBookmark(bookmark:Bookmark): Unsubscribe{
+    return onSnapshot(doc(this.firestore, 'job-post', bookmark.jobUID), (job)=>{
+      if(!job.exists()){
+        this.store.dispatch(removeBookmark({jobUID: bookmark.jobUID!, userUID: bookmark.userUID!}));
+        this.utilService.sendRemoveBookmarkSubject(bookmark.userUID)
+      }else{
+        let jobData: jobPostModel = {
+          ...job.data() as jobPostModel,
+          custom_doc_id: job.id
         }
-      })
-    ));
-    let join$ = merge(reads)
-    return join$    
+        this.store.dispatch(addBookmark({jobUID: bookmark.jobUID!, userUID: bookmark.userUID!, bookmarkUID: bookmark.bookmarkUID!, JobPost: jobData}))
+      }
+    })
+  }
+
+  async getCategorySymbolCount(categorySymbol: string): Promise<{categorySymbol: string; count: number}>{
+    const col = query(collection(this.firestore, "job-post"), where('CategorySymbol', '==', categorySymbol));
+    const snapshot = await getCountFromServer(col);
+    return {
+      categorySymbol: categorySymbol,
+      count:snapshot.data().count
+    }
   }
   
-  getJobOfOperator(operatorUID: string): Observable<jobPostModel[]>{
-    return this.db.collection('job-post', ref => ref.where('OperatorUID', '==', operatorUID)).get().pipe(
-      map((jobs:any)=>{
-        return jobs.docs.map((job:any)=> {
-          return {
-            ...job.data(),
-            custom_doc_id: job.id
-          } as jobPostModel
-        })
-      })
-    )
+  async getJobOfOperator(operatorUID: string): Promise<jobPostModel[]>{
+    let jobCol = await getDocs(query(collection(this.firestore, 'job-post'), where('OperatorUID', '==', operatorUID), where('Active', '==', true)))
+    return jobCol.docs.map((job)=> {
+      return {
+        ...job.data(),
+        custom_doc_id: job.id
+      } as jobPostModel
+    })
   }
 
-  getUrgentJobOfOperator(operatorUID: string): Observable<jobPostModel[]>{
-    return this.db.collection('job-post', ref => ref.where('OperatorUID', '==', operatorUID).where("Urgency", "==", true)).get().pipe(
-      map((jobs:any)=> {
-        return jobs.docs.map((job:any)=> {
-          return {
-            ...job.data(),
-            custom_doc_id: job.id
-          } as jobPostModel
-        })
-      })
-    )
+  async getUrgentJobOfOperator(operatorUID: string): Promise<jobPostModel[]>{
+    let jobCol = await getDocs(query(collection(this.firestore, 'job-post'), where('OperatorUID', '==', operatorUID), where('Urgency', '==', true),where('Active', '==', true)))
+
+    return jobCol.docs.map((job)=> {
+      return {
+        ...job.data(),
+        custom_doc_id: job.id
+      } as jobPostModel
+    })
   }
 
   addBookmarkService(jobUID: string, userUID: string){
@@ -102,43 +91,45 @@ export class JobPostService {
       jobUID: jobUID,
       userUID: userUID
     }
-    return this.db.collection('bookmark').add(payload)
+    return addDoc(collection(this.firestore, 'bookmark'), payload)
   }
 
   removeBookMarkService(bookmarkID: string) {
-      let newID = _.cloneDeep(bookmarkID)
-      return this.db.collection('bookmark').doc(newID).delete().catch((err)=>{
-        return err;
-      })
+      return deleteDoc(doc(this.firestore, 'bookmark', bookmarkID))
   }
 
-  getJobsFromJobRequest(jobIDList:string[]){
-    const reads = jobIDList.map((id:string) => this.db.collection('job-post').doc(id).snapshotChanges().pipe(
-      map((job:any)=>{
-        return {
-          ...job.payload.data(),
-          custom_doc_id:job.payload.id,
+  async getJob(jobUID:string): Promise<jobPostModel>{
+    let job = await getDoc(doc(this.firestore, 'job-post', jobUID)) 
+    return {
+      ...job.data(),
+      custom_doc_id:job.id,
+    } as jobPostModel
+  }
+
+  getJobFromJobRequest(id:string, jobRequest:jobRequest): Unsubscribe{
+    return onSnapshot(doc(this.firestore,'job-post', id), (job)=>{
+      if(!job.exists){
+        this.store.dispatch(removeJobRequest({jobRequest:{
+          ...jobRequest,
+        }}))
+        this.utilService.sendRemoveRequestSubject(job.id)
+      }else{
+        let newJob = {
+          ...job.data(),
+          custom_doc_id: job.id
         }
-      })
-    ));
-    let join$ = merge(reads)
-    return join$
-  }
-
-  getJobFromJobRequest(id:string){
-    return this.db.collection('job-post').doc(id).snapshotChanges().pipe(
-      map((job:any)=>{
-        return {
-          ...job.payload.data(),
-          custom_doc_id:job.payload.id,
-          type:job.type
-        };
-      })
-    );
+        this.store.dispatch(addJobRequest({ 
+          jobRequest:{
+            ...jobRequest,
+            JobPost: newJob as jobPostModel
+          } 
+        }))
+      }
+    })
   }
 
   getRequestJob(userID:string){
-    return this.db.collection('job-request', ref => ref.where('userUID', '==', userID)).get()
+    return getDocs(query(collection(this.firestore, 'job-request'), where('userUID', '==', userID)))
   }
 
   requestJob(jobID:string, operatorID:string, userID:string){
@@ -147,74 +138,203 @@ export class JobPostService {
       userUID: userID,
       jobUID: jobID
     }
-    return this.db.collection('job-request').add(payload)
+    return addDoc(collection(this.firestore, 'job-request'), payload)
   }
 
   cancelRequest(jobRequestUID: string){
-    return this.db.collection('job-request').doc(jobRequestUID).delete();
+    return deleteDoc(doc(this.firestore, 'job-request', jobRequestUID))
   }
 
-  getJobCategoryService(CategorySymbol:string) {
-    return this.db.collection('job-post', ref => ref.where('Active', '==', true).where('CategorySymbol', '==', CategorySymbol)).valueChanges({idField: 'custom_doc_id'})
-    .pipe(
-      map((src: any)=>{
-        let res :jobPostPayload = {
-          JobsPost: src,
-          CategorySymbol: CategorySymbol,
-          count: src.length
-        }
-        return res;
-      }),
-      catchError((err)=>{
-        return err
-      })
-    );
+  getJobCategoryService(CategorySymbol:string, paginationIndex: number) {
+    let index:SearchIndex = client.initIndex('pharm-work_index_dateUpdated_desc')
+    return index.search('',{
+      hitsPerPage:this.hitsPerPage,
+      page:paginationIndex,
+      filters: "Active:true AND CategorySymbol:" + CategorySymbol
+    })
+  }
+
+  paginateJobCategoryResultsService(form:FormGroup<any>, CategorySymbol:string, paginationIndex: number, query: string, indexName2: string) {
+    let index:SearchIndex = client.initIndex(indexName2)
+    let searchOptions: any = {
+      hitsPerPage:this.hitsPerPage,
+      page:paginationIndex,
+      filters: 
+        query
+    } 
+    if(CategorySymbol == 'AA' && form.value.nearbyFlag){
+      searchOptions.aroundLatLng = form.value._geoloc?.lat + ', ' + form.value._geoloc?.lng 
+      searchOptions.aroundRadius = form.value.radius
+    }
+    return index.search('',searchOptions)
+  }
+
+  async getJobCategoryServiceSmall(CategorySymbol:string) {
+    let docs = await getDocs(query(collection(this.firestore, 'job-post'), where('CategorySymbol', '==', CategorySymbol), orderBy('dateUpdatedUnix', 'desc'), limit(5)))
+    return docs.docs.map((doc)=>{
+      return {
+        ...doc.data(),
+        custom_doc_id: doc.id
+      } as jobPostModel
+    })
+    // let index:SearchIndex = client.initIndex('pharm-work_index_dateUpdated_desc')
+    // return index.search('',{
+    //   hitsPerPage:5,
+    //   page:0,
+    //   facetFilters: [
+    //     "Active:true",
+    //     "CategorySymbol:" + CategorySymbol
+    //   ]
+    // })
   }
 
   followOperator(follow:Follow){
-    return this.db.collection('followers').add(follow);
+    return addDoc(collection(this.firestore, 'followers'), follow)
   }
 
   unfollowOperator(followUID: string) {
-    let newID = _.cloneDeep(followUID)
-    return this.db.collection('followers').doc(followUID).delete().catch((err)=>{
-      return err;
-    })
+    return deleteDoc(doc(this.firestore, 'followers', followUID))
   }
   getOperatorFromFollows(operatorIDList:string[]){
-    const reads = operatorIDList.map((id:string) => this.db.collection('users').doc(id).get());
-    return combineLatest(reads).pipe(
-      map((values: any)=>{
-            let payload: any = {};
-            values.forEach((value: any)=>{
-              let payloadInner = value.data() as userOperator
-              payload[value.id] = payloadInner
-            })
-            return payload
+    let promises : Promise<any>[] = []
+    operatorIDList.forEach((operatorID: string) => {
+      promises.push(getDoc(doc(this.firestore, 'users', operatorID)))
+    })
+    return Promise.all(promises).then((operator)=>{
+      let payload: any = {};
+      operator.forEach((value: any)=>{
+        let payloadInner = value.data() as userOperator
+        payload[value.id] = payloadInner
       })
-    );
+      return payload as {
+        [key:string]: userOperator
+      }
+    })
   }
 
   getFollowers(userID:string){
-    return this.db.collection('followers', ref => ref.where('userUID', '==', userID)).get()
+    return getDocs(query(collection(this.firestore, 'followers'), where('userUID', '==', userID)))
   }
-  
-  getAllJobPost(): any{
 
-    return this.db.collection('job-post', ref => ref.where('Active', '==', true)).valueChanges({ idField: 'custom_doc_id' }).pipe(
-      map((src)=>{
-        let payload: any[] = src;
-        let hA : filterConditions [] = headerArray.map((header) =>{
-          let filteredPayload : jobPostModel[] = payload.filter((item: jobPostModel) => {
-            return (item.CategorySymbol === header.CategorySymbol)? true : false 
-          })
-          return {
-            ...header,
-            content:filteredPayload
+  async searchJobs(form:JobSearchForm){ 
+    let newForm: any = _.cloneDeep(form);
+    let sortByPrice: boolean = false
+    let queries:any = [];
+    let dateQueries: any = []
+    let numericQueries:any = []
+    let finalSearchOption: any = {}
+
+    Object.keys(newForm).forEach((newFormField)=>{
+      if (newForm[newFormField] !== '' && newForm[newFormField] !== undefined){
+        switch(newFormField){
+          case 'Salary':
+            sortByPrice = true;
+            queries.push('Salary.Amount >= ' + newForm[newFormField])
+            break;
+          case 'DateOfJob':
+            dateQueries = newForm[newFormField].map((field: string)=>"DateOfJob:'" + field + "'")
+            break;
+          case '_geoloc':
+            break;
+          case 'nearbyFlag':
+            break;
+          case 'Location':
+            break;
+          case 'BTS':
+            queries.push('BTS.Near:true')
+            queries.push("BTS.Station:'" + newForm[newFormField] + "'")
+            break;
+            case 'MRT':
+            queries.push('MRT.Near:true')
+            queries.push("MRT.Station:'" + newForm[newFormField] + "'")
+            break;
+            case 'OnlineInterview':
+              if(newForm[newFormField]){
+                queries.push(newFormField + ":'" + newForm[newFormField] + "'")
+              }
+              break;
+            default:
+              queries.push(newFormField + ":'" + newForm[newFormField] + "'")
+            break;
+        }
+     }
+    })
+    if(dateQueries.length > 0){
+      queries.push(dateQueries)
+    }
+    queries.push('Active:true')
+    if(numericQueries.length > 0){
+      finalSearchOption = {
+        ...finalSearchOption,
+        numericFilters: numericQueries
+      }
+    }
+    let queryString = ''
+    queries.forEach((query:any,indexs: number)=>{
+      if(!Array.isArray(query)){
+        if(indexs == 0){
+          queryString += query
+        }else{
+          queryString += ' AND ' + query
+        }
+      }else{
+        let innerQueryString = ''
+        query.forEach((innerQuery: any, index: number)=>{
+          if(index == 0){
+            innerQueryString += innerQuery
+          }else{
+            innerQueryString += ' OR ' + innerQuery
           }
         })
-        return hA;
-      })
-    );
+        queryString += " AND (" +innerQueryString + ")"
+      }
+    })
+    let indexName = !sortByPrice?'pharm-work_index': 'pharm-work_index_salary_asc'
+    let index:SearchIndex = client.initIndex(indexName)
+    let requestOptions: any = {
+      hitsPerPage: this.hitsPerPage,
+      page: 0
+    }
+    if(form._geoloc !== undefined){
+      if(form.nearbyFlag){
+        requestOptions.aroundLatLng = form._geoloc?.lat + ', ' + form._geoloc?.lng 
+        if(form.radius !== ''){
+          requestOptions.aroundRadius = form.radius
+        }
+      }else{
+        if(form.Location.Section !== ''){
+          queryString += ' AND Location.Section:' + form.Location.Section
+        }
+        if(form.Location.District !== ''){
+          queryString += ' AND Location.District:' + form.Location.District
+        }
+        if(form.Location.Province !== ''){
+          queryString += ' AND Location.Province:' + form.Location.Province
+        }
+      }
+    }else{
+      if(form.Location.Section !== ''){
+        queryString += ' AND Location.Section:' + form.Location.Section
+      }
+      if(form.Location.District !== ''){
+        queryString += ' AND Location.District:' + form.Location.District
+      }
+      if(form.Location.Province !== ''){
+        queryString += ' AND Location.Province:' + form.Location.Province
+      }
+    }
+    requestOptions.filters = queryString
+    let searchResult = await index.search('',requestOptions)
+    return {
+      result: searchResult,
+      query: queryString,
+      indexName: indexName
+    }
+  }
+
+  
+  
+  initFilterConditions(): any{
+    return headerArray
   }
 }

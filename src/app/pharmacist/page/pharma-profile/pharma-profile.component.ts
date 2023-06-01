@@ -15,9 +15,6 @@ export class PharmaProfileComponent implements OnDestroy{
   sub: Subscription = new Subscription()
   formModal!: any
   ngOnInit(){
-    this.sub.add(this.userService.getRevertTabSubject().subscribe(()=>{
-      document.getElementById('inner-profile')?.click();
-    }));
     this.sub.add(
       this.store.select((state:any)=>{
         return state.pharmaProfile.url !== ''? state.pharmaProfile.url : '';
@@ -34,7 +31,6 @@ export class PharmaProfileComponent implements OnDestroy{
   }
   ngAfterViewInit(){
     this.activatedRoute.data.subscribe((url: any)=>{
-      console.log(url.scrollFlag);
       if(url.scrollFlag){
         document.getElementById('navToScroll')!.scrollIntoView();
       }else{

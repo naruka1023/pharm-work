@@ -5,25 +5,22 @@
           <a class="navbar-brand" routerLink="/pharma">
               <img src="/assets/logo.png" class="rounded-pill" alt="" width="200">
           </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
         </div>
-        <div class="fs-2 me-3">
+        <div class="headerLabel fs-2 me-3">
           <i class="bi bi-file-earmark-text"></i> 345
         </div>
-        <div class="fs-2 me-3">
+        <div class="headerLabel fs-2 me-3">
           <i class="bi bi-people"></i> 100
         </div>
-        <div class="fs-2 me-3">
+        <div class="headerLabel fs-2 me-3">
           <i class="bi bi-building"></i> 23
         </div>
       </div>
-      <div class="collapse navbar-collapse d-flex p-2 flex-row-reverse" id="collapsibleNavbar" style="justify-content:space-between">
+      <div class="headerLabel d-flex p-2 flex-row-reverse" style="justify-content:space-between">
         <ng-container *ngIf="loginFlag; then loginNav; else normalNav"></ng-container>
         <ng-template #loginNav>
-          <ul class="fs-5 navbar-nav d-flex align-items-center">
-            <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มค้นหาหางาน" class="nav-link" ><i class="bi bi-search"></i></a></li>
+          <ul style="list-style-type: none; margin-bottom:0" class="navClass fs-5 d-flex align-items-center">
+            <li class="fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มค้นหาหางาน" class="nav-link" ><i class="bi bi-search"></i></a></li>
             <!-- <li class="nav-item fs-2 me-2">
               <div class="dropdown">
                 <a  data-bs-toggle="tooltip" title="หางาน" class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,11 +69,10 @@
                     งานที่บันทึก
                     </a>
                   </li>
-                  <li><a class="d-flex dropdown-item"><i class="bi bi-eye me-3"></i>คำขอดูข้อมูล</a></li>
+                  <li><a class="d-flex dropdown-item" routerLink="profile-pharma/register-jobs/request-views"><i class="bi bi-eye me-3"></i>คำขอดูข้อมูล</a></li>
                   <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li>
-                  <li><a class="d-flex dropdown-item" routerLink="profile-pharma/request-jobs"><i class="bi bi-file-earmark-check me-3"></i>งานที่กดสมัคร</a></li>
+                  <li><a class="d-flex dropdown-item" routerLink="profile-pharma/register-jobs/request-jobs"><i class="bi bi-file-earmark-check me-3"></i>งานที่กดสมัคร</a></li>
                   <li><a class="d-flex dropdown-item" routerLink="profile-pharma/followers"><i class="bi bi-person-plus me-3"></i>ติดตามอยู่</a></li>
-                  <li><a class="d-flex dropdown-item"><i class="bi bi bi-gear me-3"></i>ตั้งค่า</a></li>
                   <li><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right me-3"></i>Sign Out</a></li>
                 </ul>
               </div>
@@ -113,6 +109,128 @@
           </ul>
         </ng-template>
       </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </div>
   </nav>
-<router-outlet></router-outlet>>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <div class="d-flex flex-row align-items-center justify-content-center">
+      <div class="fs-2 me-3">
+        <i class="bi bi-file-earmark-text"></i> 345
+      </div>
+      <div class="fs-2 me-3">
+        <i class="bi bi-people"></i> 100
+      </div>
+      <div class="fs-2 me-3">
+        <i class="bi bi-building"></i> 23
+      </div>
+    </div>
+    <button type="button" class="d-flex flex-row-reverse btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ng-container *ngIf="loginFlag; then loggedNav; else notLoggedNav"></ng-container>
+    <ng-template #loggedNav>
+      <ul class="nav nav-pills nav-fill fs-2 mb-3" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="Profile-tab" data-bs-toggle="tab" data-bs-target="#Profile" type="button" role="tab" aria-controls="Profile" aria-selected="false"><i class="bi bi-person-circle"></i></button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab" aria-controls="search" aria-selected="true"><i class="bi bi-search"></i></button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button" role="tab" aria-controls="chat" aria-selected="false"><i class="bi bi-chat-left-dots"></i></button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab" aria-controls="notifications" aria-selected="false"><i class="bi bi-bell"></i></button>
+        </li>
+      </ul>
+      
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="Profile" role="tabpanel" aria-labelledby="Profile-tab" tabindex="0">
+          <ul class="fs-5" style="list-style-type: none">
+            <li>
+              <div style="cursor:pointer" class="dropdown-header fs-5"  (click)="goToPage('profile-pharma')" >
+                <img [src]="user.profilePictureUrl" class="rounded-circle me-3" width="50" height="50">
+                {{user.name}} {{user.surname}}
+              </div>
+            </li>
+            <hr style="width: 80%" class="my-2 m-auto">
+            <li>
+              <a class="dropdown-item" (click)="goToPage('profile-pharma/bookmark')">
+                <i class="bi bi-bookmark me-3"></i>
+              งานที่บันทึก
+              </a>
+            </li>
+            <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-views')"><i class="bi bi-eye me-3"></i>คำขอดูข้อมูล</a></li>
+            <li>
+              <a class="d-flex dropdown-item" (click)="goToPage('jobs-list', true, {CategorySymbol: 'AA'})">
+                <i class="bi bi-file-earmark-richtext me-3"></i>
+                งานด่วนรานวัน
+              </a>
+            </li>
+            <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-jobs')"><i class="bi bi-file-earmark-check me-3"></i>งานที่กดสมัคร</a></li>
+            <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/followers')"><i class="bi bi-person-plus me-3"></i>ติดตามอยู่</a></li>
+            <li><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right me-3"></i>Sign Out</a></li>
+          </ul>
+        </div>
+        <div class="tab-pane" id="search" role="tabpanel" aria-labelledby="search-tab" tabindex="0">
+          <div style="width:fit-content">Search</div>
+        </div>
+        <div class="tab-pane" id="chat" role="tabpanel" aria-labelledby="chat-tab" tabindex="0">
+          <app-chat-confirm></app-chat-confirm>
+        </div>
+        <div class="tab-pane" id="notifications" role="tabpanel" aria-labelledby="notifications-tab" tabindex="0">
+          Notifications
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #notLoggedNav>
+      <ul class="fs-5 navbar-nav d-flex align-items-center">
+        <div class="d-flex">
+          <li class="nav-item ms-3 my-2">
+            <button type="button" (click)="goToPage('login')" class="btn btn-primary" >
+              เข้าสู่ระบบ
+            </button>
+          <li class="nav-item ms-3 my-2">
+            <button type="button" (click)="goToPage('register')" class="btn btn-success" >
+              ลงทะเบียน
+            </button>
+          </li>
+        </div>
+        <li class="nav-item dropdown ms-3 my-2">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางาน</a>
+            <ul class="dropdown-menu p-2">
+                <li><a class="dropdown-item" (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
+                <li><a class="dropdown-item">งานร้านยา</a>
+                    <ul>
+                        <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AB')">ร้านยาทั่วไป</a></li>
+                        <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AC')">งานร้านยาแบรนด์</a></li>
+                    </ul>    
+                </li>
+                <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
+                <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
+                <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
+              </ul>
+        </li>
+        <li class="nav-item ms-3 my-2"><a class="nav-link" >ติดต่อเรา</a></li>
+    </ul>
+    </ng-template>
+  </div>
+</div>
+<router-outlet></router-outlet>
+<div class="modal fade" id="requestViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <h5 class="modal-title fs-3">เขียนข้อความแนบ</h5>
+        <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+      </div> -->
+          <div class="modal-body">
+            <div class="fs-3" [innerHTML]="requestView.requestView"></div>
+        </div>
+    </div>
+  </div>
+</div>

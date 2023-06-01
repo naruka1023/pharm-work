@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
 import { jobPostModel, AppState, Bookmark, jobRequest } from '../../model/typescriptModel/jobPost.model';
@@ -17,7 +16,7 @@ import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 })
 export class JobPostSmallCardComponent {
 
-  constructor(private storage: AngularFireStorage, private utilService: UtilService, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
+  constructor(private utilService: UtilService, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
 
   @Input() fullTimeFlag = true 
   @Input() urgentFlag = false;
@@ -74,6 +73,17 @@ export class JobPostSmallCardComponent {
   getBookmarkPayload(){
     return {jobUID: this.content.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID, JobPost:this.content};
   }
+
+  goToOperatorProfile(){
+    this.router.navigate(['/pharma/operator-page'], {
+      queryParams: 
+      {
+        operatorUID: this.content.OperatorUID,
+        requestViewFlag: false,
+        followFlag: false
+      }
+    })
+  }
   
   toggleBookmark(){
     if(localStorage.getItem('loginState') === 'true'){
@@ -99,14 +109,14 @@ export class JobPostSmallCardComponent {
       this.router.navigate(['pharma/login'])
     }else{
       this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
-        let jobRequest:jobRequest = {
-          operatorUID: this.content.OperatorUID,
-          userUID: this.userID,
-          jobUID: this.content.custom_doc_id,
-          JobPost:this.content,
-          custom_doc_id: value.id
-        }
-        this.utilService.sendListenJobRequest(jobRequest)
+          let jobRequest:jobRequest = {
+            operatorUID: this.content.OperatorUID,
+            userUID: this.userID,
+            jobUID: this.content.custom_doc_id,
+            JobPost:this.content,
+            custom_doc_id: value.id
+          }
+          this.utilService.sendListenJobRequest(jobRequest)
       })
     }
   }
@@ -115,6 +125,6 @@ export class JobPostSmallCardComponent {
     if(this.router.url !== '/profile-pharma/recently-seen-job'){
       this.store.dispatch(addRecentlySeen({JobPost: this.content}));
     }
-    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol, this.content.OperatorUID)
+    this.routeService.goToJobProfile(this.content.custom_doc_id, this.content.CategorySymbol,'homePage')
   }
 }

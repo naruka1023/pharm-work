@@ -1,43 +1,91 @@
-<div class="card rounded p-3 m-3" style="width:100%">
-    <div class="d-flex justify-content-between">
-        <div class="fs-3">
+<div class="card rounded">
+    <div class=" card-header d-flex justify-content-start" style="background:rgba(0, 0, 0, 0.03)">
+        <div class="fs-4 pe-3">
             <b>{{content.companyName}}</b>
         </div>
-        <div class="fs-5">
-            {{content.jobType}}
-        </div>
     </div>
-        <div class="d-flex justify-content-start">
-            <div>
-                <img [src]="content.profilePictureUrl"  class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
-                <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 20%;"><i class="bi bi-check-circle"></i></div>
-
-            </div>
-        <div class="grid p-3">
-                <div class="fs-5">
-                    เลขใบประกอบ:
+    <div class="innerContent d-flex justify-content-start p-3 ">
+        <div style='text-align:center'>
+            <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" (click)="goToOperatorProfile()" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+        </div>
+        <div class="fs-3 m-auto px-3 textContent" style="width:-webkit-fill-available; width:-moz-available">
+            <div class="row">
+                <div class="col">
+                    <i class="bi bi-building me-3"></i>
+                    {{content.jobType}}
                 </div>
-                <div class="fs-5">
-                    {{content.companyID}}
+            </div>
+            <div class="row" *ngIf="content.Location !== undefined">
+                <div class="col">
+                    <i class="me-3 bi bi-geo-alt "></i>
+                    {{content.Location.District}}, {{content.Location.Province}}
                 </div>
-            <div class="fs-5">
-                เขต: {{content.Location?.District}}
             </div>
-            <div class="fs-5">
-                จังหวัด: {{content.Location?.Province}}
+            <!-- <div class="row">
+                <div class="col-8">
+                    <i class="me-3 bi bi-briefcase"></i>ประกาศงานทั่วไป 
+                </div>
+                <div class="col">
+                    {{content.nameOf Person}}
+                </div>
             </div>
-            <div class="fs-5">
-                ชื่อ: 
-            </div>
-            <div class="fs-5">
-                {{content.nameOfPerson}}
-            </div>
-            <div class="fs-5">
-                เบอร์โทรศัพท์:
-            </div>
-            <div class="fs-5">
-                {{content.phoneNumber}}
-            </div>
+            <div class="row">
+                <div class="col-8">
+                    <i class="me-3 bi bi-card-checklist"></i>ประกาศงานด่วน 
+                </div>
+                <div class="col">
+                    {{content.nameOfPerson}}
+                </div>
+            </div> -->
         </div>
     </div>
 </div>
+        <ng-container *ngIf="requestViewFlag; then requestView; else notRequestView"></ng-container>
+        <ng-template #requestView>
+            <div class="requestView d-flex justify-content-between align-items-center mt-3" style="width:-webkit-fill-available; width: -moz-available">
+                <div class="fs-5">ส่งเมื่อ {{ requestStatus.dateSent }}</div>
+                <div class="d-flex justify-content-end align-items-center fs-5">
+                    <div *ngIf="requestViewLoading"style="text-align:center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="requestStatus.status !== 'Pending'; then accepted; else notAccepted"></ng-container>
+                    <ng-template #accepted>
+                        <button class="btn btn-success ms-3 rounded" style="color:white">
+                            {{ requestStatus.status !== 'Pending'?'ยืนยันแล้ว':'ยืนยันเปิดเผยข้อมูล' }}
+                        </button>
+
+                    </ng-template>
+                    <ng-template #notAccepted>
+                        <button (click)="confirmRequestView()" class="btn btn-warning ms-3 rounded" style="color:white">
+                            {{ requestStatus.status !== 'Pending'?'ยืนยันแล้ว':'ยืนยันเปิดเผยข้อมูล' }}
+                        </button>
+
+                    </ng-template>
+                    <button (click)="revealText()"class="btn btn-warning ms-3 rounded" style="color:white">
+                        ดูข้อความแนบ
+                    </button>
+                    <div (click)="removeRequestView()"><i class="bi bi-trash3 ms-3"></i></div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #notRequestView>
+            <ng-container *ngIf="followLoading; then loading; else notLoading"></ng-container>
+            <ng-template #loading>
+                <div>
+                    <div style="text-align:center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #notLoading>
+                <div class="followButton">
+                    <button (click)="unFollowOperator()" class="btn my-3 btn-primary">
+                    <h4 class="mb-0">เลิกติดตาม</h4>
+                    </button>            
+                </div>
+            </ng-template>
+        </ng-template>

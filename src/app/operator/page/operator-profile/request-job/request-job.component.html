@@ -9,7 +9,7 @@
     <ng-template #notLoading>
       <div class="mx-4 fs-2">
         <div class="my-3"><b>ผู้สมัครงาน</b></div> 
-        <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:165px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+        <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">คำขอสมัครงาน</a>
             </li>
@@ -20,16 +20,38 @@
         </ul>
         <div class="tab-content fs-3 mx-5">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
-                <div class="row row-cols-2">
-                    <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
-                        <div>
-                            <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
-                        </div>
-                        <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
-                    </ng-container>
-                </div>
+              <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
+                <ng-template #empty>
+                    <div class="d-flex">
+                        <img class="m-auto" style="width: 25vw" src="assets/emptyOperator/emptyRequestJobs.png">
+                    </div>
+                </ng-template>
+                <ng-template #notEmpty>
+                  <div class="row row-cols-2">
+                      <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
+                          <div>
+                              <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+                          </div>
+                          <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+                      </ng-container>
+                  </div>
+                </ng-template>
             </div>
             <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
+                <ng-container *ngIf="emptyFlagRequestView$ | async; then emptyNormal; else notEmptyNormal"></ng-container>
+                <ng-template #emptyNormal>
+                    <div class="d-flex">
+                        <img class="m-auto" style="width:-webkit-fill-available; width:-moz-available" src="assets/empty/emptyViewRequest.png">
+                    </div>
+                </ng-template>
+                <ng-template #notEmptyNormal>
+                    <div class="row row-cols-2">
+                        <ng-container *ngFor="let requestView of requestViews$ | async; index as i">
+                                <app-normal-user-card  [content]="requestView.content!" [type]="'AA'"></app-normal-user-card>
+                            <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+                        </ng-container>
+                    </div>
+                </ng-template>
             </div>
         </div>
       </div>

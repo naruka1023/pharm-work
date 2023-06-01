@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { LandingPageComponent } from './landing-page.component';
-import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { PharmaAppRoutingModule } from './pharma-app-routing.module';
 import { FilterListComponent } from './common/filter-list/filter-list.component';
@@ -18,7 +17,7 @@ import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.com
 import { RecentlySeenJobsComponent } from './page/pharma-profile/recently-seen-jobs/recently-seen-jobs.component';
 import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
 import { jobPostReducer } from './state/reducers/job-post-reducers';
-import { JobPostEffects } from './state/effects/job-post.effects';
+import { FlatpickrModule } from 'angularx-flatpickr';
 import { recentlySeenReducer } from './state/reducers/recently-seen-reducers';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -43,6 +42,10 @@ import { RegisterComponent } from './page/register/register.component';
 import { MainProfileComponent } from './page/pharma-profile/main-profile/main-profile.component';
 import { PrivateProfileComponent } from './page/pharma-profile/private-profile/private-profile.component';
 import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/preferred-jobs.component';
+import { requestViewReducer } from './state/reducers/request-view.reducers';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 
 
@@ -52,17 +55,22 @@ import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/pre
     CommonModule,
     RouterModule,
     NgbModule,
+    InfiniteScrollModule,
     ReactiveFormsModule,
+    GoogleMapsModule,
+    GooglePlaceModule,
     FormsModule,
     SwiperModule,
     PharmaAppRoutingModule,
-    EffectsModule.forFeature([JobPostEffects]),
+    FlatpickrModule.forRoot(),
     StoreModule.forFeature('jobpost', jobPostReducer),
     StoreModule.forFeature('recentlySeen', recentlySeenReducer),
     StoreModule.forFeature('pharmaProfile', pharmaProfileReducer),
     StoreModule.forFeature('operator', operatorReducer),
     StoreModule.forFeature('urgentJobs', urgentJobsReducer),
+    StoreModule.forFeature('requestView', requestViewReducer),
   ],
+  exports: [InfiniteScrollModule],
   declarations: [
     LandingPageComponent,
     PharmaHomeComponent,
@@ -98,3 +106,4 @@ import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/pre
   bootstrap:[LandingPageComponent]
 })
 export class PharmacistModule { }
+

@@ -1,7 +1,7 @@
 <div class="container">
     <app-profileheader profileType="pharma-profile"></app-profileheader>
     <div id="navToScroll" class="container my-4 sticky-top" style="top:97px; border-radius:60px; background:white">
-        <ul class="nav nav-underline py-3 mb-2 fs-2" style="top:185px; --bs-nav-underline-gap:0 1rem; z-index: 0">
+        <ul class="nav nav-underline py-3 mb-2 fs-2" style="top:180px; --bs-nav-underline-gap:0 1rem; z-index: 0">
             <li class="nav-item">
                 <a class="nav-link active" id="main-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">โปรไฟล์</a>
             </li>
@@ -83,10 +83,12 @@
                 </div>
             </div>
             <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
-                <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'จำกัดการดูข้อมูล'" style="margin-bottom:5rem">
-                    <div class="container" style="padding: 0 12rem; text-align:center">
-                        <div><i style="font-size:5rem"  class="bi bi-clipboard-check"></i></div>
-                        <div>เภสัชกรท่านนี้จำกัดการดูข้อมูล คุณสามารถกดปุ่ม ขอดูข้อมูล ด้านบนได้เพื่อขอดูข้อมูลติดต่อของผู้สมัคร</div>
+                <div *ngIf="!allowView">
+                    <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'จำกัดการดูข้อมูล'" style="margin-bottom:5rem">
+                        <div class="container" style="padding: 0 12rem; text-align:center">
+                            <div><i style="font-size:5rem"  class="bi bi-clipboard-check"></i></div>
+                            <div>เภสัชกรท่านนี้จำกัดการดูข้อมูล คุณสามารถกดปุ่ม ขอดูข้อมูล ด้านบนได้เพื่อขอดูข้อมูลติดต่อของผู้สมัคร</div>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'ไม่อนุญาติให้ดูข้อมูล'" style="margin-bottom:5rem">
@@ -95,69 +97,163 @@
                         <div>เภสัชกรท่านนี้ ไม่อนุญาตให้ดูข้อมูล คุณจะไม่สามารถขอดูข้อมูลติดต่อของผู้สมัครได้</div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
+                <ng-container *ngIf="allowView; then allowViews; else notAllowView"></ng-container>
+                <ng-template #allowViews>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap"><i class="bi bi-person"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>เภสัชกร</b></div>
+                            </div>
+                            <div class="col d-flex">
+                                <div class="me-2">{{innerProfileInformation.name}}</div><div>{{innerProfileInformation.surname}}</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-person"></i></div>
+                            <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                            <div class="keyValueGap"><b>เพศ</b></div>
+                            <div>{{innerProfileInformation.gender}}</div>
+                    </div>
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-house"></i></div>
                         <div class="keyValueGap">
-                            <div><b>เภสัชกร</b></div>
+                            <div><b>ที่อยู่</b></div>
                         </div>
-                        <div class="col d-flex">
-                            <div class="me-2">{{innerProfileInformation?.name}}</div><div>{{innerProfileInformation?.surname}}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
-                        <div class="keyValueGap"><b>เพศ</b></div>
-                        <div>{{innerProfileInformation?.gender}}</div>
-                </div>
-                <div class="d-flex flex-row verticalKeyGap">
-                    <div class="keyValueGap"><i class="bi bi-house"></i></div>
-                    <div class="keyValueGap">
-                        <div><b>ที่อยู่</b></div>
-                    </div>
-                    <div class="d-flex flex-row">
-                        <div>{{innerProfileInformation!.Location?.Province}}, {{innerProfileInformation!.Location?.District}}</div>                    
-                    </div>
-                </div>
-                <div class="verticalKeyGap" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
-                    <div class="d-flex flex-row">
-                        <div class="keyValueGap">
-                            <i class="bi bi-phone"></i>
-                        </div>
-                        <div class="keyValueGap">
-                            <div><b>ข้อมูลการติดต่อ</b></div>
+                        <div class="d-flex flex-row">
+                            <div>{{innerProfileInformation!.Location?.Province}}, {{innerProfileInformation!.Location?.District}}</div>                    
                         </div>
                     </div>
-                    <div class="mt-4 contacts" style="margin-left:6rem">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <i class="bi bi-telephone" style="margin-right:2rem"></i>
+                    <div class="verticalKeyGap">
+                        <div class="d-flex flex-row">
                             <div class="keyValueGap">
-                                <div>เบอร์โทร</div>
+                                <i class="bi bi-phone"></i>
                             </div>
-                            <div class="col">
-                                <div class="me-3">{{innerProfileInformation?.contacts?.phone}}</div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <i class="bi bi-envelope-at" style="margin-right:2rem"></i>
                             <div class="keyValueGap">
-                                <div>Email</div>
+                                <div><b>ข้อมูลการติดต่อ</b></div>
                             </div>
-                            <div class="col">
-                                <div class="me-3">{{innerProfileInformation?.contacts?.email}}</div>
+                        </div>
+                        <div class="mt-4 contacts" style="margin-left:6rem">
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <i class="bi bi-telephone" style="margin-right:2rem"></i>
+                                <div class="keyValueGap">
+                                    <div>เบอร์โทร</div>
+                                </div>
+                                <div class="col">
+                                    <div class="me-3">{{innerProfileInformation.contacts?.phone}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <i class="bi bi-envelope-at" style="margin-right:2rem"></i>
+                                <div class="keyValueGap">
+                                    <div>Email</div>
+                                </div>
+                                <div class="col">
+                                    <div class="me-3">{{innerProfileInformation.contacts?.email}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex flex-row verticalKeyGap" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
-                    <div class="keyValueGap">
-                        <i class="bi bi-geo-alt"></i>
+                    <div *ngIf="innerProfileInformation?._geoloc !== undefined">
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div>
+                                <div><b>ปักหมุด</b></div>
+                            </div>
+                        </div>
+                        <google-map 
+                            height="500px"
+                            width="900px"
+                            [center]="innerProfileInformation._geoloc!"
+                            [zoom]="zoom">
+                            <map-marker
+                                [position]="innerProfileInformation._geoloc!"
+                                >
+                            </map-marker>
+                        </google-map>
                     </div>
-                    <div>
-                        <div><b>ปักหมุด</b></div>
+                </ng-template>
+                <ng-template #notAllowView>
+                    <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap"><i class="bi bi-person"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>เภสัชกร</b></div>
+                            </div>
+                            <div class="col d-flex">
+                                <div class="me-2">{{innerProfileInformation.name}}</div><div>{{innerProfileInformation.surname}}</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                            <div class="keyValueGap"><b>เพศ</b></div>
+                            <div>{{innerProfileInformation.gender}}</div>
+                    </div>
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-house"></i></div>
+                        <div class="keyValueGap">
+                            <div><b>ที่อยู่</b></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <div>{{innerProfileInformation!.Location?.Province}}, {{innerProfileInformation!.Location?.District}}</div>                    
+                        </div>
+                    </div>
+                    <div class="verticalKeyGap" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
+                        <div class="d-flex flex-row">
+                            <div class="keyValueGap">
+                                <i class="bi bi-phone"></i>
+                            </div>
+                            <div class="keyValueGap">
+                                <div><b>ข้อมูลการติดต่อ</b></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 contacts" style="margin-left:6rem">
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <i class="bi bi-telephone" style="margin-right:2rem"></i>
+                                <div class="keyValueGap">
+                                    <div>เบอร์โทร</div>
+                                </div>
+                                <div class="col">
+                                    <div class="me-3">{{innerProfileInformation.contacts?.phone}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <i class="bi bi-envelope-at" style="margin-right:2rem"></i>
+                                <div class="keyValueGap">
+                                    <div>Email</div>
+                                </div>
+                                <div class="col">
+                                    <div class="me-3">{{innerProfileInformation.contacts?.email}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="innerProfileInformation?._geoloc !== undefined && innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div>
+                                <div><b>ปักหมุด</b></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <google-map 
+                                height="500px"
+                                width="900px"
+                                [center]="innerProfileInformation._geoloc!"
+                                [zoom]="zoom">
+                                <map-marker
+                                    [position]="innerProfileInformation._geoloc!"
+                                    >
+                                </map-marker>
+                            </google-map>
+                        </div>
+                    </div>
+                </ng-template>
             </div>
             <div class="tab-pane" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
                 <div class="verticalKeyGap d-flex flex-row">

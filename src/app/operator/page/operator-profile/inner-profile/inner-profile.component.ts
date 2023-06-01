@@ -20,6 +20,15 @@ export class InnerProfileComponent implements OnDestroy {
   innerProfileInformation!: User;
   profileEdit!:FormGroup;
   modal!:any;
+  zoom = 15;
+  center: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  };
+  markerPosition: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  }
   subject: Subscription = new Subscription();
   url: string = 'operator/profile-operator';
   productsAndServicesEditor = ClassicEditor;
@@ -49,6 +58,12 @@ export class InnerProfileComponent implements OnDestroy {
         if(this.innerProfileInformation.role !== ''){
           this.resetFormGroup();
         }
+        if(this.innerProfileInformation._geoloc !== undefined){
+          this.center = this.innerProfileInformation._geoloc
+        }else{
+          this.center = this.innerProfileInformation._geolocCurrent!
+        }
+        this.markerPosition = this.center
       }
     })
     this.subject.add(this.utilService.getLeaveEditSubject().subscribe((src)=>{
@@ -59,6 +74,25 @@ export class InnerProfileComponent implements OnDestroy {
     this.profileEditState = !this.profileEditState;
   }
 
+  move(event: google.maps.MapMouseEvent) {
+}
+
+moveMap(event: any){
+  this.markerPosition = {
+    lat: event.latLng.lat(),
+    lng: event.latLng.lng()
+  }
+  this.center = this.markerPosition
+  this.profileEdit.patchValue({_geoloc: this.markerPosition})
+}
+searchMap(event: any){
+  this.markerPosition = {
+    lat: event.geometry.location.lat(),
+    lng: event.geometry.location.lng()
+  }
+  this.center = this.markerPosition
+  this.profileEdit.patchValue({_geoloc: this.markerPosition})
+}
 
   initializeFormGroup(){
     this.profileEdit = this.fb.group({
@@ -85,6 +119,7 @@ export class InnerProfileComponent implements OnDestroy {
       companyID: [''],
       benefits: [''],
       nameOfPerson: [''],
+      _geoloc: [''],
       phoneNumber: [''],
       emailRepresentative: [''],
       AmountCompleted: [''],

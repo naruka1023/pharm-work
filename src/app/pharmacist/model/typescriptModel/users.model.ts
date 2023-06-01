@@ -1,3 +1,5 @@
+import { userOperator } from "./jobPost.model";
+
 export interface registerFormOperator{
     email: string,
     password?: string,
@@ -27,6 +29,26 @@ export interface registerFormPharmacist{
     WorkExperience:number
 }
 
+export interface requestViewList {
+    [key: string]: requestView
+}
+
+export interface requestViewState{
+    payload: requestView;
+    type: string
+}
+
+export interface requestView
+{
+    operatorUID: string;
+    userUID: string;
+    requestView: string
+    dateSent: string
+    requestViewUID?: string;
+    content?: userOperator
+    status: string
+}
+
 export interface JobHistory 
 {
     jobName: string;
@@ -46,6 +68,11 @@ export interface Location
     Province: string;
 }
 
+export interface _geoloc{
+    lat: number;
+    lng: number    
+}
+
 export interface User{
     role: string;
     email: string;
@@ -55,6 +82,8 @@ export interface User{
     education?: string;
     birthday?: string;
     age?: string;
+    _geoloc?: _geoloc;
+    _geolocCurrent?: _geoloc;
     showProfileFlag: boolean;
     contacts?: {
         phone: string;

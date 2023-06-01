@@ -1,14 +1,11 @@
 export interface filterConditions{
     dateFilter?: boolean;
-    JobType?: boolean;
     CategorySymbol: string;
-    JobTypeTwo?: boolean
-    timeFrame?: boolean; 
-    location?: boolean;
     brandToCategory?: string;
     filterFlag?: boolean;
     header: string;
     count: number;
+    loading: boolean;
     allContent?: jobPostModel[];
     content?: jobPostModel[]
 }
@@ -35,10 +32,24 @@ export interface userOperator{
     companyName?: string,
     jobType?: string,
     companyID?: string,
+    companySize: string,
+    coverPhotoOffset?: number,
+    productsAndServices: string,
+    TravelInstructions: string,
+    _geolocCurrent?: _geoloc;
+    profilePictureUrl?:string,
+    benefits: string,
+    cropProfilePictureUrl?: string,
+    followers: number,
+    numberOfUrgent?: number,
+    numberOfNormal?: number,
+    coverPhotoPictureUrl?:string
     nameOfPerson?: string,
     phoneNumber?: string,
+    emailRepresentative?: string,
+    _geoloc?:_geoloc,
     role: string,
-    contacts?: Contacts
+    contacts?: operatorContacts
     Location?: {
         address?: string;
         Section: string;
@@ -46,9 +57,19 @@ export interface userOperator{
         Province: string;
     },
     uid: string;
-    profilePictureUrl?:string;
-    coverPhotoPictureUrl?:string
 }
+
+export interface operatorContacts{
+    phone: string;
+    email: string;
+    line: string;
+    website: string;
+    facebook: string;
+    twitter: string;
+    skype: string;
+    youtube: string;
+}
+
 export interface Contacts{
     phone: string;
     email: string;
@@ -70,6 +91,24 @@ export interface JobRequestList{
 
 export interface FollowList{
     [key: string]: Follow
+}
+
+export interface JobSearchForm{
+    DateOfJob?: Date[];
+    orderBy?: string;
+    TimeFrame?: string;
+    Salary?: string;
+    OnlineInterview?: boolean;
+    _geoloc?: _geoloc
+    nearbyFlag?: boolean
+    radius?: number | string
+    Location: {
+        District: string;
+        Section: string;
+        Province: string
+    };
+    MRT: string;
+    BTS: string
 }
 
 export interface jobRequest {
@@ -118,6 +157,7 @@ export interface jobPostModel {
     WorkFromHome: boolean;
     Salary: {
         Amount: string;
+        Cap?: string;
         Suffix: string
     };
     Contacts: {
@@ -137,9 +177,17 @@ export interface jobPostModel {
     Duration: string;
     Active:boolean;
     DateOfJob: Date [];
+    _geoloc?: _geoloc;
     dateCreated: string;
     dateUpdated: string;
+    dateUpdatedUnix: number;
     custom_doc_id: string;
+    cropProfilePictureUrl?: string;
     profilePictureUrl?:string;
     coverPhotoPictureUrl?:string
+}
+
+export interface _geoloc{
+    lat: number, 
+    lng: number
 }

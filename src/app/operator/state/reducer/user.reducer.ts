@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppState, Favorite, FavoriteList, UserPharma } from '../../model/user.model';
-import { addFavorites, clearFavorites, funnelUsers, removeFavorite, setFavorites, SetUsersByJobType, toggleLoading } from '../actions/users-actions';
+import { addFavorites, clearFavorites, funnelUsers, modifyUser, removeFavorite, setFavorites, SetUsersByJobType, toggleLoading, updateUsersByJobType } from '../actions/users-actions';
 const emptyUsers = {
   S:  {
     short:{},
@@ -94,45 +94,35 @@ export const usersReducer = createReducer(
       Favorites: {}
     }
   }),
-  on(funnelUsers, (state, { users }) => {
-    let newState = _.cloneDeep(state);
-    newState.users =  _.cloneDeep(emptyUsers)
-    users.forEach((user: any)=>{
-      user.preferredJobType?.forEach((jobType: string)=>{
-        switch(jobType){
-          case 'งานด่วนรายวัน': 
-            newState.users.S.short[user.uid] = user;
-            break;
-          case 'งานร้านยาทั่วไป': 
-            newState.users.AA.short[user.uid] = user;
-            break;
-          case 'งานร้านยา Brand': 
-            newState.users.AB.short[user.uid] = user;
-            break;
-          case 'งานโรงพยาบาล': 
-            newState.users.AC.short[user.uid] = user;
-            break;
-          case 'งานคลินิก': 
-            newState.users.BA.short[user.uid] = user;
-            break;
-          case 'งานโรงงาน': 
-            newState.users.BB.short[user.uid] = user;
-            break;
-          case 'งานบริษัท': 
-            newState.users.BC.short[user.uid] = user;
-            break;
-          case 'งานวิจัย': 
-            newState.users.CA.short[user.uid] = user;
-            break;
-          case 'งานอื่นๆ': 
-            newState.users.CB.short[user.uid] = user;
-            break;
-        }
-      })
+  on(modifyUser, (state, { categoryService, user }) => {
+    let newState: any = _.cloneDeep(state);
+    newState.users[categoryService].short[user.uid] = user
+    return {
+      ...newState,
+      loading: false
+    }
+  }),
+  on(funnelUsers, (state, { allUsers }) => {
+    let newState: any = _.cloneDeep(state);
+    Object.keys(allUsers).forEach((key)=>{
+      newState.users[key].short = allUsers[key]
     })
     return {
       ...newState,
       loading: false
+    }
+  }),
+  on(updateUsersByJobType, (state, {users, jobType}) => {
+    let newState: any = _.cloneDeep(state);
+    let newUsers: any = _.cloneDeep(users) as UserPharma[];
+    let newJobType: any = _.cloneDeep(jobType);
+    newUsers.forEach((newUser: UserPharma)=> {
+      newState.users[newJobType].long[newUser.uid] = {
+        ...newUser,
+      }
+    })
+    return {
+      ...newState
     }
   }),
   on(SetUsersByJobType, (state, {users, jobType}) => {

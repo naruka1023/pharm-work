@@ -21,6 +21,9 @@ export const toggleUserList = createAction(
     '[Job-Request] Toggle User List',
     props<{ jobUIDForUsers:jobUIDForUser }>()
 );
+export const toggleJobRequestLoadingFlag = createAction(
+    '[Job-Request] Job Request Loading Flag',
+);
 export const emptyRequestedJobs = createAction(
 '[Job-Request] Empty Requested Jobs'
 )

@@ -1,7 +1,7 @@
 <div style="background-color:#f2f2f2">
 	<div class="outerCard py-0">
-		<div class="d-flex justify-content-around align-items-start">
-			<img (click)="goToProfile()" [src]="content.profilePictureUrl" class="card-img-top rounded-circle" style="width:5rem;height:5rem; padding-top:0.5rem" height="50" width="50">
+		<div class="d-flex justify-content-start align-items-start">
+			<img [src]="content.profilePictureUrl"  (click)="goToOperatorProfile()"  class="profilePic card-img-top rounded-circle" style="width:5rem;height:5rem; padding-top:0.5rem" height="50" width="50">
 			<div>
 				<div class="d-flex justify-content-between">
 					<div class="fs-6" style="text-align:left; padding:1rem; padding-top:0.5rem; height: 3.5em; overflow:hidden; word-break: break-word; display:-webkit-box; -webkit-line-clamp: 2;">
@@ -9,12 +9,12 @@
 					</div>
 				</div>
 				<div class="addressList">
-					<p class="mb-2 fs-6" style="text-align: left; padding-left: 1rem"><i class="bi bi-geo-alt me-3 fs-6"></i><i>{{content.Location.Province}}</i></p>
+					<p class="mb-2 fs-6" style="width: max-content; text-align: left; padding-left: 1rem"><i class="bi bi-geo-alt me-3 fs-6"></i><i>{{content.Location.Province}}</i></p>
 				</div>
 			</div>
 		</div>
 	</div>
-		<div class="card rounded" style="width: -webkit-fill-available">
+		<div (click)="goToProfile()" class="mainCard card rounded" style="width: -webkit-fill-available; width:-moz-available">
 			<ng-container *ngIf="urgentFlag; then cardUrgentHeader; else cardHeader">
 			</ng-container>
 			<ng-template #cardUrgentHeader>
@@ -59,8 +59,8 @@
 						<i class="fs-6 my-auto bi bi-currency-bitcoin"></i>
 					</p>
 					<div class="col d-flex flex-row fs-6">
-						{{content.Salary.Amount}}
-						<div *ngIf="urgentFlag">
+						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}
+						<div>
 							<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 							<ng-template #fullSub>
 								<div class="ms-1">บาท/เดือน</div>

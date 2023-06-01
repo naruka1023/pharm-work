@@ -2,11 +2,11 @@
 <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
 <ng-template #empty>
     <div class="d-flex">
-        <img class="m-auto" style="width: 25vw" src="assets/empty/emptyBookmark.png">
+        <img class="m-auto" style="width:-webkit-fill-available; width:-moz-available" src="assets/empty/emptyBookmark.png">
     </div>
 </ng-template>
 <ng-template #notEmpty>
-    <div class="row row-cols-2">
+    <div class="row row-cols-xl-2">
         <ng-container *ngFor="let bookmark of bookmarks$ | async; index as i">
             <div>
                 <app-job-post-normal-card cardType="Bookmarks"[content]="bookmark.JobPost!" [urgentFlag]="bookmark.JobPost!.Urgency" [fullTimeFlag]="bookmark.JobPost!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
@@ -16,3 +16,4 @@
     </div>
 </ng-template>
 
+ 

@@ -1,15 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { SwiperComponent } from "swiper/angular";
 import SwiperCore, { Virtual } from 'swiper';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Validation from 'src/app/utils/validation';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { JobTypeConverterService } from '../../service/job-type-converter.service';
 import { UtilService } from '../../service/util.service';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -18,7 +18,9 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private converter:JobTypeConverterService,private utilService:UtilService,private store:Store, private route: Router, private fb: FormBuilder, private auth:AngularFireAuth,  private db: AngularFirestore){}
+  constructor(private converter:JobTypeConverterService,private utilService:UtilService,private store:Store, private route: Router, private fb: FormBuilder){}
+  private auth: Auth = inject(Auth)
+  private db: Firestore = inject(Firestore)
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   registerFormPharmacist!:FormGroup;
@@ -120,7 +122,7 @@ export class RegisterComponent {
         newUser['role'] = 'ผู้ประกอบการ'
       }
     }
-    this.auth.createUserWithEmailAndPassword(newUser.email, newUser.password as string)
+    createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password as string)
     .then((user: any)=>{
         delete newUser.password
         delete newUser.confirmPassword
@@ -137,7 +139,7 @@ export class RegisterComponent {
               newUser.coverPhotoPictureUrl = some
             }
           })
-          this.db.collection("users").doc(user.user?.multiFactor.user.uid).set(newUser)
+          setDoc(doc(this.db, 'users', user.user?.multiFactor.user.uid), newUser)
           .then((value)=>{
             this.loadingFlag = false;
             this.route.navigate([newUser.role == 'ผู้ประกอบการ'?'operator':'pharma'])

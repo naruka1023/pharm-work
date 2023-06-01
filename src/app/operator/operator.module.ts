@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +16,6 @@ import { OperatorHomeComponent } from './page/operator-home/operator-home.compon
 import { LocationSelectorComponent } from './common/location-selector/location-selector.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FlatpickrModule } from 'angularx-flatpickr';
-import { JobPostEffects } from './state/effects/job-post.effects';
 import { jobPostReducer } from './state/reducer/job-post.reducer';
 import { JobPostNormalCardComponent } from './common/job-post-normal-card/job-post-normal-card.component';
 import { JobPostDetailsComponent } from './page/job-post-details/job-post-details.component';
@@ -38,6 +36,11 @@ import { jobRequestReducer } from './state/reducer/job-request.reducer';
 import { UrgentJobsComponent } from './page/operator-profile/urgent-jobs/urgent-jobs.component';
 import { UrgentJobsPageComponent } from './page/operator-profile/urgent-jobs-page/urgent-jobs-page.component';
 import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-history/urgent-jobs-history.component';
+import { requestViewReducer } from './state/reducer/request-view.reducer';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 
 
@@ -72,19 +75,23 @@ import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-
     CommonModule,
     CKEditorModule,
     RouterModule,
+    GoogleMapsModule,
+    GooglePlaceModule,
+    InfiniteScrollModule,
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
     FlatpickrModule.forRoot(),
     SwiperModule,
-    EffectsModule.forFeature([JobPostEffects]),
     StoreModule.forFeature("createdJobs", jobPostReducer),
     StoreModule.forFeature("requestedJobs", jobRequestReducer),
     StoreModule.forFeature("users", usersReducer),
     StoreModule.forFeature("recentlySeen", recentlySeenReducer),
+    StoreModule.forFeature("requestView", requestViewReducer),
     StoreModule.forFeature("operatorProfile", operatorProfileReducer),
     OperatorAppRoutingModule,
   ],
+  exports: [InfiniteScrollModule],
   bootstrap:[LandingPageComponent]
 })
 export class OperatorModule { }

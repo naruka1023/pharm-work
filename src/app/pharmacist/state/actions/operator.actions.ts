@@ -3,11 +3,16 @@ import { jobPostModel, userOperator } from '../../model/typescriptModel/jobPost.
 
   
 export const emptyOperatorData = createAction(
-  '[Job-Post] Empty Operator Data'
+  '[Operator] Empty Operator Data'
+);
+  
+export const setOperatorJobs = createAction(
+  '[Operator] Set Operator Jobs',
+  props<{ jobs: jobPostModel[]}>()
 );
 
 export const setOperatorData = createAction(
-  '[Job-Post] Set Operator Data',
+  '[Operator] Set Operator Data',
   props<{ operator: userOperator}>()
 )
 

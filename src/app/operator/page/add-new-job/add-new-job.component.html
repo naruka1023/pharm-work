@@ -299,6 +299,26 @@
                 <label for="googleMaps">ปักหมุด google map</label>
             </div>
         </div>
+        <div>
+            <input
+                type="text"
+                class="form-control my-3"
+                ngx-google-places-autocomplete 
+                (onAddressChange)="searchMap($event)"
+            />
+          </div>
+        <div class="col d-flex justify-content-center">
+            <google-map 
+                height="500px"
+                width="900px"
+                [center]="center"
+                [zoom]="zoom"
+                (mapClick)="moveMap($event)"
+                (mapMousemove)="move($event)">
+                <map-marker
+                [position]="markerPosition"></map-marker>
+            </google-map>
+        </div>
         <div class="row my-3">
             <button class="fs-3 btn btn-primary d-flex align-items-center justify-content-center">Save</button>
         </div>

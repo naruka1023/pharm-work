@@ -7,6 +7,10 @@ export interface JobHistory
     dateEnded: string;
     description: string;
 }
+export interface _geoloc{
+    lat: number,
+    lng: number
+}
 
 export interface User{
     role: string;
@@ -16,6 +20,7 @@ export interface User{
     gender?: string;
     education?: string;
     birthday?: string;
+    _geolocCurrent?: _geoloc;
     age?: string;
     educationLevel?: string;
     showProfileFlag: boolean;
@@ -46,6 +51,7 @@ export interface User{
     preferredStartTime?: string,
     preferredSalary?: string,
     AmountCompleted: number,
+    _geoloc?: _geoloc,
     WorkExperience:number,
     profilePictureUrl?:string,
     coverPhotoOffset?: number,

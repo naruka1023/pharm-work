@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { jobUIDForUser } from '../model/jobPost.model';
-import { UserPharma, User, userPharmaList } from '../model/user.model';
+import { UserPharma, User, userPharmaList, UserSearchForm, UserUrgentSearchForm } from '../model/user.model';
+import { DocumentData, Firestore, QuerySnapshot, collection, doc, getDocs, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
-
-  constructor(private db: AngularFirestore) { }
+  private db: Firestore = inject(Firestore)
   editSubject: Subject<boolean> = new Subject();
   leaveEditSubject: Subject<string> = new Subject();
   revertTabSubject: Subject<void> = new Subject();
@@ -18,6 +17,15 @@ export class UtilService {
   regulateTabSubject: Subject<string> = new Subject();
   userRequestSubject: Subject<jobUIDForUser> = new Subject();
   removeRequestSubject: Subject<jobUIDForUser> = new Subject();
+  requestViewSubject: Subject<UserPharma> = new Subject();
+
+  getRequestViewSubject(): Observable<UserPharma>{
+    return this.requestViewSubject.asObservable()
+  }
+
+  sendRequestViewSubject(user: UserPharma){
+    return this.requestViewSubject.next(user);
+  }
 
   getCallView(): Observable<void>{
     return this.callView.asObservable();
@@ -28,21 +36,10 @@ export class UtilService {
   getUserRequestSubject(): Observable<jobUIDForUser>{
     return this.userRequestSubject.asObservable();
   }
-  
-  getRevertTabSubject(): Observable<void>{
-    return this.revertTabSubject.asObservable();
-  }
-  
-
-  sendRevertTabSubject(){
-    return this.revertTabSubject.next();
-  }
-  
 
   sendUserRequestSubject(userList:jobUIDForUser){
     return this.userRequestSubject.next(userList);
   }
-  
   
   sendCallView(){
     return this.callView.next();
@@ -58,32 +55,31 @@ export class UtilService {
   sendLeaveEditSubject(url: string){
     return this.leaveEditSubject.next(url);
   }
- 
 
-  updateUser(user: Partial<User>) : Promise<void>{
-     return this.db.collection("users").doc(user.uid).update(user)
+  updateUser(user: Partial<User>){
+    return updateDoc(doc(this.db, 'users', user.uid!), user)
   }
-  getUID(uid: string): Observable<any>{
-    return this.db.collection('job-post', ref=>ref.where("OperatorUID", "==", uid)).get()
+  getUID(uid: string){
+    return getDocs(query(collection(this.db, 'job-post'), where('OperatorUID', '==', uid)))
   }
-  updateUserJobsCoverPhoto(docs: any, coverPhotoPictureUrl: string, coverPhotoOffset: number){
-    const batch = this.db.firestore.batch();
-    docs.docs.forEach((doc:any)=>{
-        let ref = this.db.firestore.collection('job-post').doc(doc.id)
-        batch.update(ref ,{
-          ...doc.data(),
+  updateUserJobsCoverPhoto(docs: QuerySnapshot<DocumentData>, coverPhotoPictureUrl: string, coverPhotoOffset: number){
+    
+    const batch = writeBatch(this.db)
+
+    docs.docs.forEach((doc2)=>{
+        batch.update(doc(this.db, 'job-post',doc2.id) ,{
+          ...doc2.data(),
           coverPhotoPictureUrl: coverPhotoPictureUrl,
           coverPhotoOffset: coverPhotoOffset,
         })
     })
     return batch.commit();
   }
-  updateUserJobs(docs: any, cropProfilePictureUrl: string){
-    const batch = this.db.firestore.batch();
-    docs.docs.forEach((doc:any)=>{
-        let ref = this.db.firestore.collection('job-post').doc(doc.id)
-        batch.update(ref ,{
-          ...doc.data(),
+  updateUserJobs(docs: QuerySnapshot<DocumentData>, cropProfilePictureUrl: string){
+    const batch = writeBatch(this.db)
+    docs.docs.forEach((doc2)=>{
+        batch.update(doc(this.db, 'job-post', doc2.id) ,{
+          ...doc2.data(),
           profilePictureUrl: cropProfilePictureUrl,
         })
     })
@@ -110,7 +106,7 @@ export class UtilService {
     })
     return arrayPayload
   }
-  populateObjectWithLocationFields(userForm:UserPharma){
+  populateObjectWithLocationFields(userForm:UserPharma | UserSearchForm | UserUrgentSearchForm){
     let newUser: any = userForm;
     newUser.preferredAddress =  userForm.preferredLocation?.address !== undefined? userForm.preferredLocation.address: ''
     newUser.preferredDistrict =  userForm.preferredLocation?.District  !== undefined? userForm.preferredLocation.District: '' 

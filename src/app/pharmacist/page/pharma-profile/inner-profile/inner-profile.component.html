@@ -7,39 +7,39 @@
     </div>
 </ng-template>
 <ng-template #notLoading>
-        <div class="mx-4 fs-2">
-            <div class="d-flex justify-content-between">
-                <div class="my-3"><b>ฝากประวัติ</b></div> 
-                <div class="d-flex justify-content-center align-items-center">
+        <div class="mx-sm-4 mx-0 fs-2">
+            <div class="upperTitle d-flex justify-content-between">
+                <div class="my-lg-3 mainTitle"><b>ฝากประวัติ</b></div> 
+                <div class="privacySection d-flex justify-content-center align-items-center">
                     <div style="text-align:center" class="me-3" *ngIf="privacyLoadingFlag">
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    <div class="me-3 fs-3">ระดับการเปิดเผยข้อมูล</div>
-                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex btn align-items-center fs-3 ms-3 dropdown-toggle" style="width:306px">
+                    <div class="me-md-3 fs-5">ระดับการเปิดเผยข้อมูล</div>
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex btn align-items-center fs-5 ms-lg-3 dropdown-toggle">
                         <div class="me-3">{{privacyLabel}}</div>
                     </button>
                     <ul class="dropdown-menu">
-                        <li (click)="changePrivacy(0, 'อนุญาตให้ดูข้อมูล')" class="fs-3 px-3" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 0?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-3">อนุญาตให้ดูข้อมูล</div></a></li>
-                        <li (click)="changePrivacy(1, 'จำกัดการดูข้อมูล')" class="fs-3 px-3" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 1?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-3">จำกัดการดูข้อมูล</div></a></li>
-                        <li (click)="changePrivacy(2, 'ไม่อนุญาติให้ดูข้อมูล')" class="fs-3 px-3" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 2?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-3">ไม่อนุญาติให้ดูข้อมูล</div></a></li>
+                        <li (click)="changePrivacy(0, 'อนุญาตให้ดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 0?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">อนุญาตให้ดูข้อมูล</div></a></li>
+                        <li (click)="changePrivacy(1, 'จำกัดการดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 1?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">จำกัดการดูข้อมูล</div></a></li>
+                        <li (click)="changePrivacy(2, 'ไม่อนุญาติให้ดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 2?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">ไม่อนุญาติให้ดูข้อมูล</div></a></li>
                       </ul>
                 </div>
             </div>
-            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:185px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 0">
+            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-lg-row tabList" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 0">
                 <li class="nav-item">
-                  <a class="nav-link active" data-bs-toggle="tab" id="private-profile" routerLink="private-profile" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">ข้อมูลส่วนตัว</a>
+                  <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="private-profile" routerLink="private-profile" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">ข้อมูลส่วนตัว</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="main-profile" routerLink="main-profile" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">โปรไฟล์</a>
+                  <a class="nav-link flex-lg-fill text-lg-center" id="main-profile" routerLink="main-profile" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">โปรไฟล์</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="tab" id="preferred-jobs" routerLink="preferred-jobs" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
+                  <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="preferred-jobs" routerLink="preferred-jobs" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
                 </li>
-                <hr style="width: 100%" class="m-auto">
+                <hr style="width: 100%" class="m-auto borderLine">
             </ul>
-            <div class="fs-3 mx-5">
+            <div class="fs-3 mx-md-5">
                 <router-outlet></router-outlet>
             </div>
         </div>

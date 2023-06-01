@@ -5,9 +5,9 @@
           <a class="navbar-brand" routerLink="/operator">
               <img src="/assets/logo.png" class="rounded-pill" alt="" width="200">
           </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
+          </button> -->
         </div>
         <div class="fs-2 me-3">
           <i class="bi bi-file-earmark-text"></i> 345
@@ -42,4 +42,34 @@
       </div>
     </div>
   </nav>
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+  <div class="modal fade" id="requestViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fs-3">เขียนข้อความแนบ</h5>
+          <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="requestViewForm" (ngSubmit)="onSave()">
+            <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                  <ckeditor formControlName="requestView" [editor]="requestViewEditor" name="editor"></ckeditor>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="d-flex">
+                <div *ngIf="requestViewLoadingFlag" style="text-align:center" class="me-3">
+                    <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger" (click)="onClose()">ยกเลิก</button>
+            </div>
+              <button type="button" class="btn btn-success"  type="submit">ยืนยัน</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

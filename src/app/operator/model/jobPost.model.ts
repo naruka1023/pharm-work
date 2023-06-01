@@ -7,6 +7,7 @@ export interface jobPostModel {
         Near: boolean;
         Station: string;
     };
+    type?: any;
     Establishment: string;
     Franchise: string;
     JobName: string;
@@ -31,7 +32,8 @@ export interface jobPostModel {
     OnlineInterview: boolean;
     WorkFromHome: boolean;
     Salary: {
-        Amount: string;
+        Amount: number;
+        Cap?: number;
         Suffix: string
     };
     Contacts: {
@@ -48,16 +50,22 @@ export interface jobPostModel {
     OperatorUID: string;
     profilePictureUrl?: string;
     cropProfilePictureUrl?: string,
+    _geoloc: _geoloc,
     coverPhotoPictureUrl?: string,
     coverPhotoOffset?: number,
     TimeFrame: string;
     Urgency: boolean;
     Active: boolean;
     Duration: string;
-    DateOfJob: Date [];
+    DateOfJob: string | Date [];
     dateCreated: string;
     dateUpdated: string;
+    dateUpdatedUnix: number;
     custom_doc_id: string
+}
+export interface _geoloc {
+    lat: number;
+    lng: number
 }
 export interface jobUIDForUser{
     userList?: {
@@ -82,6 +90,7 @@ export interface collatedJobRequest {
 }
 
 export interface jobRequest {
+    type?: string,
     custom_doc_id?: string
     operatorUID: string,
     userUID: string,

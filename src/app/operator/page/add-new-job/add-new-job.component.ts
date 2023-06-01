@@ -35,13 +35,23 @@ export class AddNewJobComponent {
   facebook$!:Observable<string>;
   timeStart: string = '';
   timeEnd: string = '';
-  salaryStart: string = '';
-  salaryEnd: string = '';
+  salaryStart: number = 0;
+  salaryEnd: number = 0;
   flag!: Instance[] | Instance;
   arlStations$!: Observable<string[]>;
   srtStations$!: Observable<string[]>;
   btsStations$!: Observable<string[]>;
   mrtStations$!: Observable<string[]>;
+  display: any;
+  zoom: number = 15
+  center: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  };
+  markerPosition: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  }
   jobDetailsEditor = ClassicEditor;
   loadingFlag: boolean = false;
   jobDetailsModel = {
@@ -68,7 +78,7 @@ export class AddNewJobComponent {
     this.urgency = this.route.snapshot.queryParamMap.get('urgency')!;
     
     this.urgency = (this.urgency == 'false')?false: true;
-    
+
     this.phone$ = this.store.select((state: any) =>{
       return state.user.contacts.phone
     })
@@ -98,8 +108,15 @@ export class AddNewJobComponent {
     })
     this.user$.subscribe((user: User)=>{
       this.userState = user;
+      this.userState = _.cloneDeep(user);
+      if(this.userState._geoloc !== undefined){
+        this.center = this.userState._geoloc
+      }else{
+        this.center = this.userState._geolocCurrent!
+      }
+      this.markerPosition = this.center
+      this.initializeFormGroup();
     })
-    this.initializeFormGroup();
 
     this.newJobForm.valueChanges.subscribe((form) =>{
       if(!this.urgency){
@@ -120,6 +137,28 @@ export class AddNewJobComponent {
       DateOfJob: value.selectedDates
     })
   }
+  
+  move(event: google.maps.MapMouseEvent) {
+    if (event.latLng != null) this.display = event.latLng.toJSON();
+  }
+
+moveMap(event: any){
+  this.markerPosition = {
+    lat: event.latLng.lat(),
+    lng: event.latLng.lng()
+  }
+  this.center = this.markerPosition
+  this.newJobForm.patchValue({_geoloc: this.markerPosition})
+}
+searchMap(event: any){
+  this.markerPosition = {
+    lat: event.geometry.location.lat(),
+    lng: event.geometry.location.lng()
+  }
+  this.center = this.markerPosition
+  this.newJobForm.patchValue({_geoloc: this.markerPosition})
+}
+
   mapJobTypeToCategorySymbol(){
     let categorySymbol = ''
     if(this.urgency){
@@ -163,16 +202,19 @@ export class AddNewJobComponent {
       CategorySymbol: this.mapJobTypeToCategorySymbol(),
       dateCreated: [''],
       dateUpdated: [''],
+      dateUpdatedUnix: [''],
       TimeFrame: [''],
       OperatorUID: [this.userState.uid],
       JobName: [''],
       Amount: [''],
       DateOfJob: [''],
+      _geoloc: this.center,
       Active: [false],
       Duration: [''],
       Urgency: [this.urgency],
       Salary: this.fb.group({
         Amount:[''],
+        Cap: [''],
         Suffix: [''],
       }),
       OnlineInterview: [false],
@@ -226,14 +268,14 @@ export class AddNewJobComponent {
   }
   onSave(){
     let processedInfo = {};
-    if(this.salaryStart !== '' && this.salaryEnd !== ''){
       processedInfo = 
       {
         Salary: {
-          Amount: this.salaryStart + ' - ' + this.salaryEnd
+          Amount: this.salaryStart,
+          Suffix: this.newJobForm.value.Salary.Suffix,
+          Cap: this.salaryEnd - this.salaryStart
         }
       }
-    }
     if(this.timeStart !== '' && this.timeEnd !== ''){
       processedInfo = 
       {
@@ -258,6 +300,7 @@ export class AddNewJobComponent {
       },
       dateCreated: new Date().toISOString().split('T')[0],
       dateUpdated: new Date().toISOString().split('T')[0],
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
     }
     this.newJobForm.patchValue(processedInfo)
     this.loadingFlag = true;

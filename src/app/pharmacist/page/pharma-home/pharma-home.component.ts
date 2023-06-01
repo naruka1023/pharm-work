@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import SwiperCore, { Autoplay, Mousewheel, Navigation, Pagination } from "swiper";
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { filterConditions, jobPostModel } from '../../model/typescriptModel/jobPost.model';
+import { filterConditions, jobPostModel, jobPostPayload } from '../../model/typescriptModel/jobPost.model';
 import { retrievedJobSuccess } from '../../state/actions/job-post.actions';
 import { JobPostService } from '../../service/job-post.service';
 import headerArray from '../../model/data/uiKeys';
+import _ from 'lodash';
 // import { selectJobPost, selectLoading } from 'src/app/state/selectors/job-post.selectors';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
@@ -19,9 +19,24 @@ SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 export class PharmaHomeComponent {
 
   loadingFlag$!: Observable<boolean>;
-
+  localItem: filterConditions[] = []
+  content$!: Observable<filterConditions[]>; 
   items$!: Observable<filterConditions[]>;
-  constructor(private jobPostService:JobPostService, private store: Store, private db: AngularFirestore){
+    breakingPointOperator = {
+    1400: {
+      slidesPerView: 3,
+    },
+    1200: {
+      slidesPerView: 2.5,
+    },
+    768: {
+      slidesPerView: 2,
+    },
+    656: {
+      slidesPerView: 1.5,
+    },
+  }
+  constructor(private jobPostService:JobPostService, private store: Store){
   }
   
   ngOnInit(){
@@ -33,21 +48,62 @@ export class PharmaHomeComponent {
         this.dispatchJobs();
       }
     })
+
     this.items$ = this.store.select((state: any)=>{
-      let content: filterConditions[] = []
-      for (const [key, value] of Object.entries(state.jobpost.JobPost)) {
-        content.push(value as filterConditions);
-      }
-      return content
-  });
+        return state.jobpost.JobPost
+    });
+    this.items$.subscribe((item)=>{
+      this.localItem = item;
+    })
     this.scrollUp()
   }
-
-  
-  
   dispatchJobs() {
-    this.jobPostService.getAllJobPost().subscribe((jobPosts:any)=>{
-      this.store.dispatch(retrievedJobSuccess({jobs:jobPosts}))
+    let categorySymbols = headerArray.map((header:filterConditions)=> header.CategorySymbol)
+    let promises: Promise<any>[] = []
+    let countPromises: Promise<{
+      categorySymbol: string;
+      count: number;
+    }>[] = []
+    categorySymbols.forEach((categorySymbol: string)=>{
+      countPromises.push(this.jobPostService.getCategorySymbolCount(categorySymbol))
+    })
+    Promise.all(countPromises).then((countPayload)=>{
+      let newCountPayload: {
+        [key: string]: number
+      } = {}
+      countPayload.forEach((cP)=>{
+        newCountPayload[cP.categorySymbol] = cP.count
+      })
+      categorySymbols.forEach((categorySymbol:string)=>{
+        promises.push(
+          this.jobPostService.getJobCategoryServiceSmall(categorySymbol).then((jobPosts)=>{
+
+            let res: jobPostPayload = {
+              JobsPost: jobPosts,
+              CategorySymbol: categorySymbol,
+              count: newCountPayload[categorySymbol]
+            }
+            return res
+          })
+        )
+      })
+      Promise.all(promises).then((jobs: jobPostPayload [])=>{
+        let newJobs: {
+          [key:string]: jobPostPayload
+        } = {}
+        jobs.forEach((job: jobPostPayload)=>{
+          newJobs[job.CategorySymbol] = job
+        })
+        let finalPayload: filterConditions[] = headerArray.map((header:filterConditions)=>{
+          return {
+            ...header,
+            content:newJobs[header.CategorySymbol].JobsPost,
+            loading:false,
+            count:newJobs[header.CategorySymbol].count
+          }
+        })
+        this.store.dispatch(retrievedJobSuccess({jobs: finalPayload}))
+      })
     })
   }
 

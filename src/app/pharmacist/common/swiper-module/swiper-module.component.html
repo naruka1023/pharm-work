@@ -1,35 +1,25 @@
 <div class="d-flex justify-content-between" style="margin-top:4rem">
-    <div class="d-flex flex-row align-items-end mb-0">
-        <div class="d-flex flex-row">
-            <!-- <div *ngIf="filterFlags.filterFlag" class=" my-auto me-3">
-                <a class="text-body" type="button" data-bs-toggle="collapse" [href]=collapseButton>
-                    <i class="bi bi-chevron-double-down fs-2"></i>
-                </a>
-            </div> -->
-            <p class="h2 d-flex align-items-end">{{ filterFlags.header }}</p>
-        </div>
-        <div class="fs-4 align-self-center ms-3">500,000 ตำแหน่งงาน</div>
+    <div class="letSideHeader d-flex flex-row align-items-end mb-0">
+            <p class="headerTitle h2 d-flex align-items-end">{{ filterFlags.header }}</p>
+        <div class="fs-4 jobCount align-self-center ms-3" *ngIf="filterFlags.CategorySymbol !== 'CB' && filterFlags.CategorySymbol !== 'BA'">{{ filterFlags.count }} ตำแหน่งงาน</div>
     </div>
     <div *ngIf="filterFlags.filterFlag" style="cursor: pointer; background-color:#f2f2f2" (click)="goToList()"class="d-flex flex-row align-items-center">
-        <p class="h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
+        <p class="goToListText h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
         <i class="d-flex bi bi-arrow-right-square align-items-center" style="font-size:1.5rem"></i>
     </div>
 </div>
-    <!-- <div class="collapse" [id]="filterFlags.CategorySymbol">
-        <app-filter [filterFlags]="filterFlags"></app-filter>
-    </div> -->
     <ng-container
         *ngIf="filterFlags.filterFlag === false; then ifBlock; else elseBlock">
     </ng-container>
     <ng-template #ifBlock>
         <div class="mt-3">
-			<swiper [slidesPerView]="5" 
+			<swiper [slidesPerView]="1" 
                     [grid]="{
                         rows: 3
                     }" 
                     [spaceBetween]="25" 
                     [navigation]="true" 
-                    [autoplay]="true"
+					[breakpoints]="breakingPointOperator"
                     style="height:100vh" 
                     class="swiper">
 				<ng-template swiperSlide>
@@ -117,18 +107,31 @@
 		</div>
     </ng-template>
     <ng-template #elseBlock>
-        <swiper
-            [navigation]="true"
-            [slidesPerView]="4.5"
-            [spaceBetween]="25"
-            style="margin-top: 1em; text-align: center"
-        >
-            <ng-template swiperSlide *ngFor="let item of content">
-				<app-job-post-small-card 
-					[urgentFlag]="item.Urgency" 
-					[fullTimeFlag]="item.TimeFrame === 'Full-Time'?true:false"
-					[content]="item">
-				</app-job-post-small-card>
-			</ng-template>
-        </swiper>
+		<ng-container *ngIf="filterFlags.loading; then loading; else notLoading"></ng-container>
+		<ng-template #loading>
+			<div style="text-align:center" class="my-5">
+				<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+		</ng-template>
+		<ng-template #notLoading>
+			<swiper
+				[navigation]="true"
+				[slidesPerView]="1"
+				[loop]="true"
+				[centeredSlides]="true"
+				[spaceBetween]="25"
+				[breakpoints]="breakingPoint"
+				style="margin-top: 1em; text-align: center"
+			>
+				<ng-template swiperSlide *ngFor="let item of filterFlags.content">
+					<app-job-post-small-card 
+						[urgentFlag]="item.CategorySymbol == 'AA'" 
+						[fullTimeFlag]="item.TimeFrame === 'Full-Time'?true:false"
+						[content]="item">
+					</app-job-post-small-card>
+				</ng-template>
+			</swiper>
+		</ng-template>
     </ng-template>
