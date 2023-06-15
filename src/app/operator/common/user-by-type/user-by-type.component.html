@@ -1,12 +1,13 @@
 <div *ngIf="userFlag">
     <div class="d-flex justify-content-between fs-3 my-5">
-        <div>{{title}}</div>
-        <button style="background-color:#f2f2f2" class="btn d-flex fs-3" (click)="goToList()">ดูทั้งหมด <i class="ms-3 bi bi-arrow-right-square align-self-center"></i></button>
+        <div class="title">{{title}}</div>
+        <button style="background-color:#f2f2f2" class="btn d-flex fs-3" (click)="goToList()"><span class="goToListText">ดูทั้งหมด</span><i class="ms-3 bi bi-arrow-right-square align-self-center "></i></button>
     </div>
         <swiper
             [navigation]="true"
-            [slidesPerView]="4.5"
+            [slidesPerView]="1"
             [spaceBetween]="25"
+            [breakpoints]="breakingPoint"            
             style="margin-top: 3em; text-align: center"
             class="mb-3"
         >

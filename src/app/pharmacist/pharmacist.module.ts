@@ -103,6 +103,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     PrivateProfileComponent,
     PreferredJobsComponent
   ],
+  providers:[PharmaProfileComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]
 })
 export class PharmacistModule { }

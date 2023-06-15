@@ -51,7 +51,7 @@ const routes: Routes = [
         {path:'urgent-jobs-history', component:UrgentJobHistoryComponent}
       ]},
       {path:'register-jobs', component:RegisterJobsComponent, children: [
-        { path: '',   redirectTo: 'request-jobs', pathMatch: 'full' },
+        { path: '',   redirectTo: 'request-jobs', pathMatch: 'prefix' },
         {path:'request-jobs', component:RequestJobsComponent},
         {path:'request-views', component:RequestViewComponent}
       ]},

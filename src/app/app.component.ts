@@ -38,7 +38,7 @@ export class AppComponent {
       if(user){
         this.userService.getUser(user.uid).then((user)=>{
           if (navigator.geolocation) {
-            navigator.geolocation.watchPosition((position)=>{
+            navigator.geolocation.getCurrentPosition((position)=>{
               let _geoLoc = {
                   lng: position.coords.longitude,
                   lat: position.coords.latitude
@@ -56,13 +56,15 @@ export class AppComponent {
               timeout:10 * 1000 * 1000,
               maximumAge: 0
             });
-          } 
-          this.store.dispatch(setCurrentUser({
-            user:{
-              ...user,
-              coverPhotoFlag: true
-            }
-          }))
+          }
+            this.store.dispatch(setCurrentUser({
+              user:{
+                ...user,
+                coverPhotoFlag: true
+              }
+            }))
+
+          
         })
         localStorage.setItem('loginState', 'true')
       }else{

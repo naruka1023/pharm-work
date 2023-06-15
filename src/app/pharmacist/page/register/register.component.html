@@ -1,9 +1,8 @@
 <div class="container">
     <div style="display:block; padding: 5vh 0">
-        <div class="d-flex justify-content-between">
-            <div class="col-6">
-
-                <div class="card my-auto me-4" style="width: -webkit-fill-available; width: -moz-available;">
+        <div class="d-lg-flex d-block justify-content-between">
+            <div class="col-lg-6 col-12">
+                <div class="card my-auto me-lg-4" style="width: -webkit-fill-available; width: -moz-available;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between card-title">
                             <div style="visibility:hidden">fdsasd</div>
@@ -88,6 +87,18 @@
                                                     formControlName="nickName"
                                                     class="form-control"
                                                 />
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-group">
+                                                <label for="gender" class="form-label">เพศ</label>
+                                                <select formControlName="gender" class="form-select" [ngClass]="{ 'is-invalid': submitted && fP['gender'].errors }" aria-label="Default select example">
+                                                    <option selected value="ชาย">ชาย</option>
+                                                    <option value="หญิง">หญิง</option>
+                                                </select>
+                                                <div *ngIf="submitted && fP['gender'].errors" class="invalid-feedback">
+                                                    <div *ngIf="fP['gender'].errors['required']">Name is required</div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -206,24 +217,24 @@
                                             <label for="preferredSalary" class="form-label">เงินเดือนที่ต้องการ</label>
                                             <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3">
                                                 <option selected value="20,000">20,000</option>
-                                                <option selected value="30,000">30,000</option>
-                                                <option selected value="40,000">40,000</option>
-                                                <option selected value="50,000">50,000</option>
-                                                <option selected value="60,000">60,000</option>
-                                                <option selected value="70,000">70,000</option>
-                                                <option selected value="80,000">80,000</option>
-                                                <option selected value="90,000">90,000</option>
-                                                <option selected value="100,000+">100,000+</option>
+                                                <option  value="30,000">30,000</option>
+                                                <option  value="40,000">40,000</option>
+                                                <option  value="50,000">50,000</option>
+                                                <option  value="60,000">60,000</option>
+                                                <option  value="70,000">70,000</option>
+                                                <option  value="80,000">80,000</option>
+                                                <option  value="90,000">90,000</option>
+                                                <option  value="100,000+">100,000+</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="สามารถเริ่มงานได้" class="form-label">สามารถเริ่มงานได้</label>
                                             <select formControlName="preferredStartTime" name="preferredStartTime" class="form-select mb-3">
                                                 <option selected value="ทันที">ทันที</option>
-                                                <option selected value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
-                                                <option selected value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
-                                                <option selected value="ภายใน 3 สัปดาห์">ภายใน 3 สัปดาห์</option>
-                                                <option selected value="ภายใน 1 เดือน">ภายใน 1 เดือน</option>
+                                                <option  value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
+                                                <option  value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
+                                                <option  value="ภายใน 3 สัปดาห์">ภายใน 3 สัปดาห์</option>
+                                                <option  value="ภายใน 1 เดือน">ภายใน 1 เดือน</option>
                                             </select>
                                         </div>
                                         <button class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" (click)="onSubmit()">Submit</button> 
@@ -360,7 +371,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-6 d-lg-block d-none">
                 <swiper #swiper [virtual]="true">
                     <ng-template swiperSlide><img style="width: -webkit-fill-available; width: -moz-available;" src="assets/pharmacist.jpg"></ng-template>
                     <ng-template swiperSlide><img style="width: -webkit-fill-available; width: -moz-available;" src="assets/operator.jpg"></ng-template>

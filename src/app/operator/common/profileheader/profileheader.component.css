@@ -1,3 +1,207 @@
+@media only screen and (max-width: 1400px) {
+  .nickNameForm, .mainHeader > h2{
+    font-size:2.5rem !important
+  }
+  .fourPointers{
+    padding: 0 10rem !important
+  }
+  .mainHeader{
+    display:block !important
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .fourPointers{
+    padding: 0 7rem !important;
+  }
+  .operatorHeader{
+    display: block !important
+  }
+  .fourPointKeyValue{
+    display:block !important
+  }
+  .fourPointKeyValuePreferred{
+    display:block !important
+  }
+  .introText{
+    font-size: 1.5rem !important;
+  }
+  .phantomPadding{
+    display: unset !important
+  }
+}
+@media only screen and (max-width: 992px) {
+  .fourPointKeyValue{
+    display:block
+  }
+  .mainHeaderContent > div{
+    justify-content: center !important
+  }
+  .fourPointersPharma{
+    padding: 0 5rem !important;
+    margin-top: 9rem !important;
+    margin-bottom: 2rem !important;
+    padding: 1rem;
+  }
+  .editButton{
+    justify-content:center !important;
+  }
+  .preferredJobs{
+    display: block !important;
+  }
+  .profileUploadButton{
+    left: 382px;
+    bottom: 4rem !important
+  }
+  .job-post_profile-picture{
+    left: 0 !important
+  }
+  .jobCounts{
+    text-align:left
+  }
+  .outerHeaderPharma{
+    display: block !important;
+    text-align:center;
+  }
+  /* .outerHeaderPharma > div {
+    height: 133.4px
+  } */
+  .innerHeaderPharma{
+    display: block !important
+  }
+  .outerHeaderPharma > div > img{
+    top: 0 
+  }
+  .fourPointers{
+    padding:0 13vw !important;
+  }
+  .outerHeaderContainer{
+    position: relative;
+    top: -75px;
+  }
+  .outerHeader2Pharma{
+    display:block !important;
+    height: unset !important
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .preferredJobs{
+    display: block !important;
+    text-align: center
+  }
+  .fourPointersPharma{
+    padding: 0 18px !important
+  }
+  .fourPointKeyValuePreferred{
+    font-size: small
+  }
+  .editButtonText{
+    font-size: medium !important
+  }
+  .fourPointKeyValue{
+    font-size: small
+  }
+}
+@media only screen and (max-width: 576px) {
+  .jobCounts, .jobCounts2 {
+    text-align:center
+  }
+  .buttonSet{
+    display: block !important
+  }
+  .buttonSet > button{
+    margin: 7px auto !important
+  }
+  .fourPointersPharma{
+    padding:0 5vw !important;
+  }
+  .mainHeaderContent{
+    font-size: 2rem !important;
+  }
+  #coverPhotoEditButtonPositionDropdown{
+    bottom: 4.5rem !important
+  }
+  .followButton{
+    margin-bottom:0 !important
+  }
+  .profileUploadButton{
+    left: 55vw !important;
+    z-index: 10 !important
+  }
+  .fourPointers{
+    padding: 0px 10vw !important;
+    margin: 0 !important
+  }
+  .fourPointers > div > div {
+    margin: 8px 0
+  }
+  .job-post_profile-picture{
+    z-index:5 !important
+  }
+  .introText{
+    padding: 0 1rem 1.5rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+  
+  
+  @media only screen and (max-width: 768px) {
+  .profileUploadButton{
+    left: 292px;
+  }
+  .introText{
+    padding-bottom: 1.5rem !important;
+    font-size: 1.1rem !important;
+  }
+  .fourPointKeyValuePreferred > div{
+    justify-content:left;
+    display:flex;
+    margin: 0.5rem 0
+  }
+  .fourPointKeyValue > div{
+    justify-content:center;
+    display:flex;
+    margin: 0.5rem 0
+  }
+  .outerHeader{
+    display:block !important;
+    text-align:center
+  }
+  .outerHeader > img{
+    top: 0 
+  }
+  .fourPointKeyValue, .fourPointKeyValuePreferred{
+    display:flex !important
+  }
+  .outerHeader2{ 
+    position: relative;
+    top: -75px;
+    display:block !important
+  }
+  #operatorFollow{
+    display: none !important
+  }
+  #operatorFollowTwo{
+    display: unset !important
+  }
+  .job-post_profile-picture{
+    left: 0 !important
+  }
+  .mainHeaderContent{
+    text-align:center
+  }
+  .mainHeaderContent2{
+    text-align:center
+  }
+  .followButton{
+    justify-content:center !important;
+    margin-bottom:2rem
+  }
+  .fourPointers{
+    margin-bottom:2rem !important;
+    font-size: 1.1rem !important;
+  }
+}
 div.img-container {
     width: 100%;
     margin: 0 auto;
@@ -43,14 +247,17 @@ div.img-container {
     object-fit: cover;
     object-position: center top;
   }
-  @media (min-width: 576px) {
-    div.img-container {
-      height: 225px;
-    }
+  .fourPointers{
+    padding:0 178px;
+    margin-bottom: 2rem !important
   }
-  
-  @media (min-width: 768px) {
-    div.img-container {
-      height: 270px;
-    }
+  .fourPointersPharma{
+    padding:0 178px;
+  }
+  .phantomPadding{
+    display: none;
+    visibility:hidden;
+  }
+  #operatorFollowTwo{
+    display: none
   }

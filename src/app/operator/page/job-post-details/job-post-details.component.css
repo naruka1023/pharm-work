@@ -1,3 +1,66 @@
+@media only screen and (max-width: 768px) {
+  .rightPanelDetails{
+    padding-left: 0 !important
+  }
+  .leftPanelDetails{
+    border-right:unset !important
+  }
+  .oneRow{
+    display:unset !important
+  }
+  .twoRows{
+    display: none !important
+  }
+}
+@media only screen and (max-width: 992px) {
+  .valuePart{
+    font-size:large !important
+  }
+  .panelHeader{
+    display: block !important;
+    text-align: center
+  }
+  .jobName{
+    padding-right: 0 !important
+  }
+}
+@media only screen and (max-width: 360px){
+  .urgentLabel{
+    font-size: 1rem !important
+  }
+}
+@media only screen and (max-width: 520px){
+  .gridContact{
+    font-size: 1.1rem!important;
+    line-break: auto;
+  }
+  .footerMainHeader{
+    display: block !important
+  }
+  .dateUpdated{
+    text-align: center !important
+  }
+  .choices{
+    justify-content: center !important
+  }
+}
+
+.oneRow{
+  display:none
+}
+
+.bi-arrow-up-square::before {
+  content: "\f147";
+  background-color: white;
+  border-radius: 1rem;
+}
+
+.valuePart{
+  font-size:larger
+}
+.rightPanelDetails{
+  padding-left:2.75rem
+}
 .grid {
   display: grid;
   grid-template-columns: auto auto auto auto;

@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 import { JobTypeConverterService } from '../../service/job-type-converter.service';
 import { UtilService } from '../../service/util.service';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Auth, createUserWithEmailAndPassword, sendEmailVerification } from '@angular/fire/auth';
+import { Firestore, doc, setDoc} from '@angular/fire/firestore';
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -40,10 +40,11 @@ export class RegisterComponent {
 
   initializeFormGroup(){
     this.registerFormPharmacist = this.fb.group({
-      email: ['fdsa', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       name: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
       nickName: [''],
       surname: ['', [Validators.required]],
       license: ['', [Validators.required]],
@@ -124,25 +125,34 @@ export class RegisterComponent {
     }
     createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password as string)
     .then((user: any)=>{
+        sendEmailVerification(this.auth.currentUser!)
         delete newUser.password
         delete newUser.confirmPassword
-        newUser.uid = user.user?.multiFactor.user.uid;
+        newUser.uid = user.user?.uid;
 
         let promises: Promise<any>[] = [];
-        promises.push(getDownloadURL(ref(this.storage, 'placeholder/profile-picture')))
-        promises.push(getDownloadURL(ref(this.storage, 'placeholder/cover-photo')))
+        if(newUser.role == 'เภสัชกร'){
+          if(newUser.gender == 'ชาย'){
+            promises.push(getDownloadURL(ref(this.storage, 'placeholder/male-pharma-profile.png')))
+          }else{            
+            promises.push(getDownloadURL(ref(this.storage, 'placeholder/female-pharma-profile.png')))
+          }
+          promises.push(getDownloadURL(ref(this.storage, 'placeholder/pharma-cover-photo.png')))
+        }else{
+          promises.push(getDownloadURL(ref(this.storage, 'placeholder/operator-profile.png')))
+          promises.push(getDownloadURL(ref(this.storage, 'placeholder/operator-cover-photo.png')))
+        }
         Promise.all(promises).then((e:any)=>{
           e.forEach((some: string)=>{
-            if(some.indexOf('profile-picture') !== -1){
+            if(some.indexOf('profile') !== -1){
               newUser.profilePictureUrl = some
             }else{
               newUser.coverPhotoPictureUrl = some
             }
           })
-          setDoc(doc(this.db, 'users', user.user?.multiFactor.user.uid), newUser)
+          setDoc(doc(this.db, 'users', user.user.uid), newUser)
           .then((value)=>{
             this.loadingFlag = false;
-            this.route.navigate([newUser.role == 'ผู้ประกอบการ'?'operator':'pharma'])
           });
           })
         })

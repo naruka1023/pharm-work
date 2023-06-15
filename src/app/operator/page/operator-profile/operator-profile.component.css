@@ -1,3 +1,14 @@
+@media only screen and (max-width: 992px) {
+  .sticky-top{
+      position: unset !important
+  }
+  .nav-link{
+      text-align:center
+  }
+  .tabList{
+      font-size: medium !important
+  }
+}
 #overlay {
     position: absolute;
     display: block;

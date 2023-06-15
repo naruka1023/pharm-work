@@ -20,19 +20,30 @@
     .jobTypePayload {
         font-size: smaller
     }
+    .responsiveText{
+        font-size: smaller !important
+    }
+    .editButton > button, .saveButton{
+        font-size:smaller !important
+    }
 }
 @media only screen and (max-width: 768px) {
     .verticalKeyGap > div{
         font-size:medium
     }
+    .responsiveText{
+        font-size: medium !important
+    }
     .jobTypePayload {
         font-size: medium !important
     }
-    .editButton{
-        justify-content:center !important
+    .editButton > button, .saveButton{
+        font-size:medium !important
     }
 }
-
+.editButton > button, .saveButton{
+    font-size:1.75rem
+}
 .keyValueGap{
     margin-right:2.5rem
 }

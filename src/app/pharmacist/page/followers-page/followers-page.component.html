@@ -1,9 +1,11 @@
-<div class="my-3 fs-2 mx-4"><b>กำลังติดตาม</b></div>
+<div class="my-3 fs-2 mx-4 mainTitle"><b>กำลังติดตาม</b></div>
 <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
 <ng-template #empty>
-    <div class="d-flex">
-        <img class="m-auto" style="width:-webkit-fill-available; width:-moz-available" src="assets/empty/emptyFollow.png">
-    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+            <img class="w-100" src="assets/empty/emptyFollow.png">
+        </div>
+      </div>
 </ng-template>
 <ng-template #notEmpty>
     <div class="row row-cols-xl-2">

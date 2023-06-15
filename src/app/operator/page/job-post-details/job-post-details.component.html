@@ -1,18 +1,18 @@
-<div (click)="scrollUp()"class="position-fixed bottom-0 end-0 m-3" style="font-size:5rem">
+<div (click)="scrollUp()"class="position-fixed bottom-0 end-0 m-3" style="z-index: 10; font-size:5rem">
 	<i class="pe-auto bi bi-arrow-up-square"></i>
 </div>
 <app-profileheader profileType="job-post"></app-profileheader>
 <div class="container">
 	<div class="card rounded">
 		<div class="card-body p-4">
-			<div class="d-flex justify-content-between pb-4 border-bottom">
-					<div class="fs-1" style="padding-right:2.5rem">{{profile.JobName}}</div>
+			<div class="panelHeader d-flex justify-content-between pb-4 border-bottom">
+					<div class="fs-1 jobName" style="padding-right:2.5rem">{{profile.JobName}}</div>
 					<ng-container *ngIf="profile.TimeFrame === 'Part-Time'; then partTimeFlag; else fullTimeFlag"></ng-container>
 					<ng-template #partTimeFlag>
-						<div class="fs-1 ms-3" style="margin-left:2.5rem !important">
+						<div class="fs-1 ms-sm-3">
 							<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
 							<ng-template #urgentFlag>
-								<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+								<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
 							</ng-template>
 							<ng-template #notUrgentFlag>
 								<span class="badge text-dark" style="background: #a2e3d9">Part-Time</span>
@@ -23,7 +23,7 @@
 						<div class="fs-1 ms-3">
 							<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
 							<ng-template #urgentFlag>
-								<span class="badge bg-secondary">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+								<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
 							</ng-template>
 							<ng-template #notUrgentFlag>
 								<span class="badge text-dark" style="background:#7fcae6">Full-Time</span>
@@ -32,80 +32,80 @@
 					</ng-template>
 			</div>
 			<div class="mx-3 mb-3 fs-4">
-				<div class="row">
-					<div class="col-6 border-end pt-4">
+				<div class="row twoRows">
+					<div class="col-12 col-md-6 border-end pt-4 leftPanelDetails">
 						<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<b>สาขา</b>
 							</div>
 							<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise}}</div>
 						</div>
 						<div class="row pb-3">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
 							</div>
 							<div class="col">
-								<div>{{profile.Duration}} น.</div>
+								<div class="valuePart">{{profile.Duration}} น.</div>
 							</div>
 						</div>
 						<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
 							</div>
 							<div class="col">
-								<div>{{profile.Salary.Amount}} - {{profile.Salary.Amount! + profile.Salary.Cap!}} บาท/เดือน</div>
+								<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount! + profile.Salary.Cap!}} บาท/เดือน</div>
 							</div>
 						</div>
 						<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
 							</div>
 							<div class="col">
-								<div>{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/ชม</div>
+								<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/ชม</div>
 							</div>
 						</div>
 						<div *ngIf="profile.BTS.Near"  class="pb-3 row">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-train-front me-2"></i> <b>BTS</b>
 							</div>
-							<div class="col"> {{profile.BTS.Station}}</div>
+							<div class="col valuePart"> {{profile.BTS.Station}}</div>
 						</div>
 						<div *ngIf="profile.ARL.Near"  class="pb-3 row">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-train-front me-2"></i> <b>ARL</b>
 							</div>
-							<div class="col"> {{profile.ARL.Station}}</div>
+							<div class="col valuePart"> {{profile.ARL.Station}}</div>
 						</div>
 						<div class="pb-3 row" *ngIf="profile.OnlineInterview">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
 							</div>
 						</div>
 					</div>
 					<div class="col-6 pt-4" style="padding-left:2.75rem">
 						<div class="row pb-3">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-people me-2"></i><b>รับสมัคร</b>
 							</div>
-							<div class="col">{{profile.Amount}} ตำแหน่ง</div>
+							<div class="col valuePart">{{profile.Amount}} ตำแหน่ง</div>
 						</div>
 						<div class="row pb-3">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-geo-alt me-2"></i><b>พื้นที่</b>
 							</div>
-							<div class="col"> {{profile.Location.Section}}, {{profile.Location.Province}}</div>
+							<div class="col valuePart"> {{profile.Location.Section}}, {{profile.Location.Province}}</div>
 						</div>
 						<div *ngIf="profile.MRT.Near"  class="pb-3 row">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-train-front me-2"></i> <b>MRT</b>
 							</div>
-							<div class="col"> {{profile.MRT.Station}}</div>
+							<div class="col valuePart"> {{profile.MRT.Station}}</div>
 						</div>
 						<div *ngIf="profile.SRT.Near" class="pb-3 row">
-							<div class="col-5">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 								<i class="bi bi-train-front me-2"></i> <b>SRT</b>
 							</div>
-							<div class="col"> {{profile.SRT.Station}}</div>
+							<div class="col valuePart"> {{profile.SRT.Station}}</div>
 						</div>
 
 						<!-- <div class="d-flex flex-row" class="d-flex flex-row">
@@ -125,10 +125,86 @@
 						</div>
 					</div>
 				</div>
+				<div class="row oneRow">
+					<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+							<b>สาขา</b>
+						</div>
+						<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise}}</div>
+					</div>
+					<div class="row pb-3">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+							<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
+						</div>
+						<div class="col">
+							<div class="valuePart">{{profile.Duration}} น.</div>
+						</div>
+					</div>
+					<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+						</div>
+						<div class="col">
+							<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/เดือน</div>
+						</div>
+					</div>
+					<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+						</div>
+						<div class="col">
+							<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/ชม</div>
+						</div>
+					</div>
+					<div class="row pb-3">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-people me-2"></i><b>รับสมัคร</b>
+						</div>
+						<div class="col valuePart">{{profile.Amount}} ตำแหน่ง</div>
+					</div>
+					<div class="row pb-3">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-geo-alt me-2"></i><b>พื้นที่</b>
+						</div>
+						<div class="col valuePart"> {{profile.Location.Section}}, {{profile.Location.Province}}</div>
+					</div>
+					<div *ngIf="profile.BTS.Near"  class="pb-3 row">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-train-front me-2"></i> <b>BTS</b>
+						</div>
+						<div class="col valuePart"> {{profile.BTS.Station}}</div>
+					</div>
+					<div *ngIf="profile.MRT.Near"  class="pb-3 row">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-train-front me-2"></i> <b>MRT</b>
+						</div>
+						<div class="col valuePart"> {{profile.MRT.Station}}</div>
+					</div>
+					<div *ngIf="profile.SRT.Near" class="pb-3 row">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-train-front me-2"></i> <b>SRT</b>
+						</div>
+						<div class="col valuePart"> {{profile.SRT.Station}}</div>
+					</div>
+					<div *ngIf="profile.ARL.Near"  class="pb-3 row">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-train-front me-2"></i> <b>ARL</b>
+						</div>
+						<div class="col valuePart"> {{profile.ARL.Station}}</div>
+					</div>
+					<div class="pb-3 row" *ngIf="profile.OnlineInterview">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
+						</div>
+					</div>
+					<div class="d-flex flex-row" *ngIf="profile.WorkFromHome">
+						<i class="bi bi-house me-2"></i><b>Work from home</b>
+					</div>
+			</div>
 			</div>
 		</div>
 	</div>
-	<div class="my-3 d-flex justify-content-start">
+	<div class="footerMainHeader my-3 d-flex justify-content-start">
 		<p class="lead"> อัพเดทล่าสุด {{profile.dateUpdated}} </p>
 	</div>
 	<div class="card rounded">
@@ -147,23 +223,29 @@
 			</div>
 			<div class="my-5 mb-3">
 				<h2 class="my-5">ช่องทางติดต่อ</h2>
-				<div class="gridContact fs-4">
-					<span>
+				<div class="row fs-4">
+					<div class="col-sm-6 col-12">
 						<b>โทร: </b>
-					</span>
-					<span class="ms-2">{{profile.Contacts.phone}}</span>
-					<span>
+					</div>
+					<div class="col ms-2">{{profile.Contacts.phone}}</div>
+				</div>
+				<div class="row fs-4">
+					<div class="col-sm-6 col-12">
 						<b>Email: </b>
-					</span>
-					<span class="ms-2">{{profile.Contacts.email}}</span>
-					<span>
+					</div>
+					<div class="col ms-2">{{profile.Contacts.email}}</div>
+				</div>
+				<div class="row fs-4">
+					<div class="col-sm-6 col-12">
 						<b>Line: </b>
-					</span>
-					<span class="ms-2">{{profile.Contacts.line}}</span>
-					<span>
+					</div>
+					<div class="col ms-2">{{profile.Contacts.line}}</div>
+				</div>
+				<div class="row fs-4">
+					<div class="col-sm-6 col-12">
 						<b>Facebook: </b>
-					</span>
-					<span class="ms-2">{{profile.Contacts.facebook}}</span>
+					</div>
+					<div class="col ms-2">{{profile.Contacts.facebook}}</div>
 				</div>
 			</div>
 		</div>
@@ -179,7 +261,7 @@
 					<google-map 
 						*ngIf="profile._geoloc !== undefined"
 						height="500px"
-						width="900px"
+						width="65vw"
 						[center]="center"
 						[zoom]="zoom">
 						<map-marker

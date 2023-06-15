@@ -6,7 +6,8 @@
     justify-content: center !important
   }
 }
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 576px) {}
+@media only screen and (max-width: 768px) {
   .borderRight{
     border-right:0 !important
   }

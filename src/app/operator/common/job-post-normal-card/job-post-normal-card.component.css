@@ -1,6 +1,33 @@
+@media only screen and (max-width: 576px){
+    
+}
+@media only screen and (max-width: 768px){
+    .subImageContainer{
+        align-items:end !important;
+        justify-content: start !important
+    }
+    .mainImage{
+        display: none !important
+      }
+    .subImage{
+        display: unset !important
+    }
+    .dateOfJob{
+        font-size: 1rem !important
+      }
+    .subImage > img{
+        width: 5rem !important
+    }
+    .borderRight{
+        border-right:0 !important
+    }
+}
+.subImage{
+    display: none
+  }
 .row > .col {
     padding-left: 0 !important
 }
 .rounded{
     border-radius: 20px !important;
-  }
+}

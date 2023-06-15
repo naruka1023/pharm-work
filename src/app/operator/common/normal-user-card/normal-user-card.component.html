@@ -1,9 +1,9 @@
-<div class="card rounded m-3 pb-3">
+<div class="card rounded m-sm-3 pb-3">
     <div class="p-2 d-flex d-flex justify-content-center align-items-center fs-5" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#7fcae6': content.preferredTimeFrame == 'Part-Time'?'#a2e3d9':'#ffffb3'}">
         <div class="col"><b>{{type  == 'S'? 'Online': content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time/Part-Time' : content.preferredTimeFrame}}</b></div>
     </div>
     <div class="row">
-        <div class="col-4 d-flex">
+        <div class="col-sm-4 col-12 d-flex">
             <ng-container *ngIf="profileLinkPage; then link; else noLink"></ng-container>
             <ng-template #link>
                 <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToProfile()" class="card-img-top m-auto my-3 rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
@@ -14,15 +14,15 @@
                 <!-- <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 12%;"><i class="bi bi-check-circle-fill"></i></div> -->
             </ng-template>
         </div>
-        <div class="col fs-5 m-auto">
-            <div class="row py-1 fs-4">
-                <b>{{content.nickName}}</b>
+        <div class="col-sm col fs-5 m-auto cardContent">
+            <div class="row py-1 fs-4 nickName">
+                <b class="col-sm col-8">{{content.nickName}}</b>
             </div>
             <div class="row py-1">
                 <div class="col-1">
                     <i class="bi bi-person"></i>
                 </div>
-                <div class="col text-start" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
+                <div class="col-sm cardKeyValue" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
                     {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name + ' ' + content.surname:content.active}}
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="col-1">
                     <i class="bi bi-geo-alt"></i>
                 </div>
-                <div class="col text-start">
+                <div class="col-sm cardKeyValue">
                     {{content.Location?.District}}, {{content.Location?.Province}}
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <div class="col-1">
                     <i class="bi bi-briefcase"></i>
                 </div>
-                <div class="col">
+                <div class="col-sm cardKeyValue">
                     ประสบการณ์ทำงาน {{content.WorkExperience}}
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 <div class="col-1">
                     <i class="bi bi-award"></i>
                 </div>
-                <div class="col">
+                <div class="col-sm cardKeyValue">
                     การศึกษาสูงสุด {{content.highestEducation}}
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 <div class="col-1">
                     <i class="bi bi-card-checklist"></i>
                 </div>
-                <div class="col">
+                <div class="col-sm cardKeyValue">
                     งานด่วนที่เคยรับ {{content.AmountCompleted}}
                 </div>
             </div>
@@ -115,7 +115,7 @@
     <button *ngIf="type == 'S'" class="btn fs-3 ms-3" style="color:white; background-color: #7fd858">ส่งงานด่วน</button>
     <ng-container *ngIf="requestStatusFlag; then status; else notStatus"></ng-container>
     <ng-template #status>
-        <div class="d-flex justify-content-between align-items-center" style="width:-webkit-fill-available; width: -moz-available">
+        <div class="d-sm-flex justify-content-between align-items-center" style="width:-webkit-fill-available; width: -moz-available">
             <div class="fs-5">ขอดูเมื่อ {{ requestStatus.dateSent}}</div>
             <div class="d-flex justify-content-end align-items-center">
                 <div *ngIf="cancelRequestViewFlag" style="text-align:center" class="me-3">

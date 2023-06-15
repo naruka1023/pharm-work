@@ -13,7 +13,7 @@ export class UserServiceService {
   
   constructor(private store: Store) { }
   leaveEditSubject: Subject<string> = new Subject();
-  revertTabSubject: Subject<void> = new Subject();
+  selectTabSubject: Subject<string> = new Subject();
   callView: Subject<void> = new Subject();
   
   async getNumberOfFollowers(operatorUID: string){
@@ -25,6 +25,14 @@ export class UserServiceService {
   }
   sendCallView(){
     return this.callView.next();
+  }
+
+  getSelectTabSubject(): Observable<string>{
+    return this.selectTabSubject.asObservable();
+  }
+  
+  sendSelectTabSubject(target: string){
+    return this.selectTabSubject.next(target);
   }
 
   getLeaveEditSubject(): Observable<string>{

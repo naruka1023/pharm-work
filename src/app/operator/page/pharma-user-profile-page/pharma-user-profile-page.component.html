@@ -1,46 +1,49 @@
 <div class="container">
     <app-profileheader profileType="pharma-profile"></app-profileheader>
     <div id="navToScroll" class="container my-4 sticky-top" style="top:97px; border-radius:60px; background:white">
-        <ul class="nav nav-underline py-3 mb-2 fs-2" style="top:180px; --bs-nav-underline-gap:0 1rem; z-index: 0">
+        <ul class="nav nav-underline py-3 mb-2 fs-2  flex-column flex-lg-row tabList" style="top:180px; --bs-nav-underline-gap:0 1rem; z-index: 0">
             <li class="nav-item">
-                <a class="nav-link active" id="main-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">โปรไฟล์</a>
+                <a class="flex-lg-fill text-lg-center nav-link active" id="main-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">โปรไฟล์</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ข้อมูลส่วนตัว</a>
+              <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ข้อมูลส่วนตัว</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
+              <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="tab" id="urgent-jobs" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">การรับงานด่วน</a>
+              <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="urgent-jobs" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">การรับงานด่วน</a>
             </li>
         </ul>
     </div>
-    <div class="container mt-4" style="padding:4rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
-        <div class="tab-content fs-3">
+    <div class="container mt-4 historyContainer" style="padding:4rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
+        <div class="tab-content fs-3" style="line-break: auto">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <div class="verticalKeyGap">
-                    <div class="d-flex flex-row">
+                    <div class="historyHeader d-flex flex-row">
                         <div class="d-flex flex-row">
-                            <div class="keyValueGap"><i class="bi bi-award me-2"></i></div>
-                            <div><b>ประวัติการศึกษา</b></div>
+                            <div class="keyValueGap"><i class="textResponsive bi bi-award me-2"></i></div>
+                            <div class="textResponsive"><b>ประวัติการศึกษา</b></div>
                         </div>
-                        <div style="margin-left:5rem">ระดับการศึกษาสูงสุด {{innerProfileInformation!.highestEducation}}</div>
+                        <div class="d-flex">
+                            <div class="phantom keyValueGap" style="visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
+                            <div style="margin-left:5rem" class="textResponsive subHeader">ระดับการศึกษาสูงสุด {{innerProfileInformation!.highestEducation}}</div>
+                        </div>
                     </div>
-                    <div class="mt-4" style="padding-left:6rem">
+                    <div class="mt-4 historyContent" style="padding-left:6rem">
                         <ul>
-                            <li style="margin-bottom:4rem" *ngFor="let eduGroup of innerProfileInformation!.educationHistory">
+                            <li style="margin-bottom:4rem" class="educationCell" *ngFor="let eduGroup of innerProfileInformation!.educationHistory">
                                 <div class="d-flex flex-row verticalKeyGap">
-                                    <div>{{eduGroup.yearGraduated}}</div>
+                                    <div class="textResponsive">{{eduGroup.yearGraduated}}</div>
                                 </div>
                                 <div class="row verticalKeyGap">
-                                    <div class="col-6">{{eduGroup.universityName}}</div>
-                                    <div class="col-6">{{eduGroup.educationLevel}}</div>
+                                    <div class="textResponsive col-6">{{eduGroup.universityName}}</div>
+                                    <div class="textResponsive col-6">{{eduGroup.educationLevel}}</div>
             
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">{{eduGroup.major}}</div>
-                                    <div class="col-6">{{eduGroup.franchise}}</div>
+                                    <div class="textResponsive col-6">{{eduGroup.major}}</div>
+                                    <div class="textResponsive col-6">{{eduGroup.franchise}}</div>
                                 </div>
                             </li>
                         </ul>
@@ -55,26 +58,29 @@
                     </div>
                 </div> -->
                 <div class="verticalKeyGap">
-                    <div class="d-flex flex-row">
+                    <div class="d-flex flex-row historyHeader">
                         <div class="d-flex flex-row">
-                            <div class="keyValueGap"><i class="bi bi-briefcase me-2"></i></div>
-                            <div><b>ประวัติการทำงาน</b></div>
+                            <div class="keyValueGap textResponsive"><i class="bi bi-briefcase me-2"></i></div>
+                            <div class="textResponsive"><b>ประวัติการทำงาน</b></div>
                         </div>
-                        <div style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation!.WorkExperience}}</div>
+                        <div class="d-flex">
+                            <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
+                            <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation!.WorkExperience}}</div>
+                        </div>
                     </div>
-                    <div class="mt-4" style="padding-left: 6rem">
+                    <div class="mt-4 historyCount" style="padding-left: 6rem">
                         <ul>
                             <li *ngFor="let jobGroup of innerProfileInformation!.jobHistory">
-                                <div class="verticalKeyGap">
+                                <div class="verticalKeyGap textResponsive">
                                     {{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded}}
                                 </div>
-                                <div class="verticalKeyGap">
+                                <div class="verticalKeyGap textResponsive">
                                     <div>{{jobGroup.companyName}}</div>
                                 </div>
-                                <div class="verticalKeyGap">
+                                <div class="verticalKeyGap textResponsive">
                                     <div>{{jobGroup.jobName}}</div>
                                 </div>
-                                <div class="verticalKeyGap">
+                                <div class="verticalKeyGap textResponsive">
                                     <div>{{jobGroup.description}}</div>
                                 </div>
                             </li>
@@ -85,14 +91,14 @@
             <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
                 <div *ngIf="!allowView">
                     <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'จำกัดการดูข้อมูล'" style="margin-bottom:5rem">
-                        <div class="container" style="padding: 0 12rem; text-align:center">
+                        <div class="container cannotView" style="padding: 0 12rem; text-align:center">
                             <div><i style="font-size:5rem"  class="bi bi-clipboard-check"></i></div>
                             <div>เภสัชกรท่านนี้จำกัดการดูข้อมูล คุณสามารถกดปุ่ม ขอดูข้อมูล ด้านบนได้เพื่อขอดูข้อมูลติดต่อของผู้สมัคร</div>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'ไม่อนุญาติให้ดูข้อมูล'" style="margin-bottom:5rem">
-                    <div class="container" style="padding: 0 12rem; text-align:center">
+                    <div class="container cannotView" style="padding: 0 12rem; text-align:center">
                         <div class="mt-4"><i style="font-size:5rem" class="bi bi-clipboard-x"></i></div>
                         <div>เภสัชกรท่านนี้ ไม่อนุญาตให้ดูข้อมูล คุณจะไม่สามารถขอดูข้อมูลติดต่อของผู้สมัครได้</div>
                     </div>
@@ -137,7 +143,7 @@
                             <div class="d-flex flex-row verticalKeyGap">
                                 <i class="bi bi-telephone" style="margin-right:2rem"></i>
                                 <div class="keyValueGap">
-                                    <div>เบอร์โทร</div>
+                                    <div class="nobr">เบอร์โทร</div>
                                 </div>
                                 <div class="col">
                                     <div class="me-3">{{innerProfileInformation.contacts?.phone}}</div>
@@ -163,16 +169,18 @@
                                 <div><b>ปักหมุด</b></div>
                             </div>
                         </div>
-                        <google-map 
-                            height="500px"
-                            width="900px"
-                            [center]="innerProfileInformation._geoloc!"
-                            [zoom]="zoom">
-                            <map-marker
-                                [position]="innerProfileInformation._geoloc!"
-                                >
-                            </map-marker>
-                        </google-map>
+                        <div class="d-flex justify-content-center">
+                            <google-map 
+                                height="500px"
+                                width="65vw"
+                                [center]="innerProfileInformation._geoloc!"
+                                [zoom]="zoom">
+                                <map-marker
+                                    [position]="innerProfileInformation._geoloc!"
+                                    >
+                                </map-marker>
+                            </google-map>
+                        </div>
                     </div>
                 </ng-template>
                 <ng-template #notAllowView>
@@ -243,7 +251,7 @@
                         <div class="d-flex justify-content-center">
                             <google-map 
                                 height="500px"
-                                width="900px"
+                                width="65vw"
                                 [center]="innerProfileInformation._geoloc!"
                                 [zoom]="zoom">
                                 <map-marker
@@ -256,17 +264,19 @@
                 </ng-template>
             </div>
             <div class="tab-pane" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
-                <div class="verticalKeyGap d-flex flex-row">
-                    <i class="bi bi-clipboard keyValueGap"></i>
-                    <div><b>ประเภทงานที่สนใจ</b></div>
-                        </div>
-                        <div style="padding-left:6rem">
-                            <ul class="row row-cols-2">
-                                <li class="verticalKeyGap col" *ngFor="let jobType of innerProfileInformation!.preferredJobType">
-                                    {{jobType}}
-                                </li>
-                            </ul>
-                        </div>
+                <div class="verticalKeyGap">
+                    <div class="d-flex flex-row">
+                        <i class="bi bi-clipboard keyValueGap"></i>
+                        <div><b>ประเภทงานที่สนใจ</b></div>
+                    </div>
+                    <div class="jobTypePayload" style="padding-left:6rem">
+                        <ul class="row row-cols-2">
+                            <li class="verticalKeyGap col" *ngFor="let jobType of innerProfileInformation!.preferredJobType">
+                                {{jobType}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                     <div class="d-flex flex-row verticalKeyGap">
                         <div class="keyValueGap d-flex flex-row">
                             <i class="bi bi-lightbulb keyValueGap"></i>
@@ -308,7 +318,7 @@
                     </div>
             </div>
             <div class="tab-pane" id="tabFour" role="tabpanel" aria-labelledby="tabOnFour-tab">
-                <div class="container" style="padding: 0 12rem; text-align:center">
+                <div class="container cannotView" style="padding: 0 12rem; text-align:center">
                     <div><i style="font-size:5rem"  [class]="urgentJobObject.icon"></i></div>
                     <div>{{urgentJobObject.text}}</div>
                     <div class="mt-4"><i style="font-size:5rem" class="bi bi-card-checklist"></i></div>

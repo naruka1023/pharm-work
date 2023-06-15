@@ -10,6 +10,9 @@
   }
 }
 @media only screen and (max-width: 1200px) {
+  .introText{
+    font-size: 1.5rem !important;
+  }
   .mainHeader{
     display:block !important
   }
@@ -28,8 +31,8 @@
     display:block
   }
   .fourPointersPharma{
-    padding-left: 5rem !important;
-    margin-top: 9rem !important;
+    padding: 0 5rem !important;
+    margin-top: 14rem !important;
     margin-bottom: 2rem !important;
     padding: 1rem;
   }
@@ -62,12 +65,10 @@
     top: 0 
   }
   .fourPointers{
-    padding-left: 14vw !important;
+    padding: 0 14vw !important;
     margin-top: 4rem !important;
   }
   .outerHeader2Pharma{
-    position: relative;
-    top: -75px;
     display:block !important
   }
 }
@@ -95,7 +96,7 @@
     text-align:center
   }
   .fourPointersPharma{
-    padding-left: 5vw !important;
+    padding: 0 5vw !important;
   }
   #coverPhotoEditButtonPositionDropdown{
     bottom: 5.5rem !important
@@ -109,6 +110,10 @@
   }
   .job-post_profile-picture{
     z-index:5 !important
+  }
+  .introText{
+    padding: 0 1rem 1.5rem 1rem !important;
+    font-size: 0.9rem !important;
   }
 }
 
@@ -162,14 +167,19 @@
     margin-top:8rem !important;
     margin-bottom:2rem !important
   }
+  .introText{
+    padding: 0 3rem !important;
+    padding-bottom: 1.5rem !important;
+    font-size: 1.1rem !important;
+  }
 }
 .fourPointers{
-  padding-left: 20rem;
+  padding: 0 20rem;
   margin-top: 3rem;
   margin-bottom: 2rem !important
 }
 .fourPointersPharma{
-  padding-left:178px;
+  padding: 0 178px;
 }
 .phantomPadding{
   display: none;
@@ -179,10 +189,10 @@
   display: none
 }
 div.img-container {
-    width: 100%;
-    margin: 0 auto;
-    height: 150px;
-    position: relative;
+  width: 100%;
+  margin: 0 auto;
+  height: 150px;
+  position: relative;
     display: block;
     z-index: 1;
     overflow: hidden;

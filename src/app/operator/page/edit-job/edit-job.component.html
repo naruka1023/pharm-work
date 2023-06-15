@@ -17,39 +17,39 @@
                 <h3 class="my-3">แก้ไขประกาศงานทั่วไป</h3>
                 
             </ng-template>
-            <div class="d-flex align-items-center">
+            <div class="d-sm-flex align-items-center">
                 <img [src]="userState.cropProfilePictureUrl !== ''? userState.cropProfilePictureUrl: userState.profilePictureUrl" class="card-img-top rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
                 <h3 class="ms-3">{{ userState.companyName }}</h3>
             </div>
         </div>
     </div>
 </div>
-<div class="my-5 border-top border-bottom border-secondary py-3">
+<div class="my-5 border-top border-bottom border-secondary py-3 verticalKeyGap">
     <h3 class="ms-4">รายละเอียดการสมัครงาน</h3>
 </div>
 <form class="fs-3" [formGroup]="newJobForm" (ngSubmit)="onUpdate()">
     <div class="container">
-        <div class="row">
-            <div class="col-3">
+        <div class="row verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <div class="me-3">ชนิดของงาน:</div>
             </div>
             <div class="col">
                 {{ userState.jobType }}
             </div>
         </div>
-        <div class="row" *ngIf="userState.jobType === 'ร้านยาแบรนด์'">
-            <div class="col-3">
+        <div class="row verticalKeyGap" *ngIf="userState.jobType === 'ร้านยาแบรนด์'">
+            <div class="col-md-3 col-12">
                 <div class="me-3">สาขา:</div>
             </div>
             <div class="col">
                 <input class="form-control" type="text" formControlName="Franchise">
             </div>
         </div>
-        <div *ngIf="urgency" class="row mt-3">
-            <div class="col-3">
+        <div *ngIf="urgency" class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <div class="me-3">ต้องการหาเภสัชกรวันที่:</div>
             </div>
-            <div class="col-5">
+            <div class="col">
                 <input
                       type="date"
                       mwlFlatpickr
@@ -61,31 +61,31 @@
                   />
             </div>
         </div>
-        <div *ngIf="!urgency" class="row mt-3">
-            <div class="col-3">
+        <div *ngIf="!urgency" class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <div class="me-3">ประเภทงาน:</div>
             </div>
-            <div class="col-5">
+            <div class="col">
                 <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
                     <option selected value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
                 </select>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <div class="me-3">ชื่อตำแหน่งงาน:</div>
             </div>
-            <div class="col-5">
+            <div class="col">
                 <input type="text" formControlName="JobName" class="form-control">
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <div class="me-3">จำนวนที่รับสมัคร:</div>
             </div>
-            <div class="col-5">
-                <div class="row">
+            <div class="col">
+                <div class="row verticalKeyGap">
                     <div class="col-6">
                         <input formControlName="Amount" type="number" class="form-control">
                     </div>
@@ -95,11 +95,11 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <div class="me-3">ช่วงเวลาทำงาน:</div>
             </div>
-            <div class="col-5">
+            <div class="col verticalKeyGap">
                 <div class="d-flex flex-row">
                     <input [ngModelOptions]="{standalone: true}" [(ngModel)]="timeStart" type="time" class="form-control">
                     <div class=mx-3>-</div>
@@ -107,62 +107,62 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3" formGroupName="Salary">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap" formGroupName="Salary">
+            <div class="col-md-3 col-12">
                 <div class="me-3">ค่าจ้าง:</div>
             </div>
-            <div class="col-5">
-                <div class="d-flex flex-row">
+            <div class="col-md col-12">
+                <div class="d-flex flex-row verticalKeyGap">
                     <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryStart" type="number" class="form-control">
                     <div class=mx-3>-</div>
                     <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryEnd" type="number" class="form-control">
                 </div>
             </div>
             <div class="col">
-                <div class="form-check">
+                <div class="form-check verticalKeyGap">
                     <div class="d-flex">
                         <input class="form-check-input" formControlName="Suffix" value="Negotiable" type="radio">
                         <label class="ms-3" for="Negotiable">ตามตกลง</label>
                     </div>
                 </div>
                 <div class="form-check" *ngIf="showCorporateStructureCheckbox">
-                    <div class="d-flex">
+                    <div class="d-flex verticalKeyGap">
                         <input class="form-check-input" formControlName="Suffix" value="CorporateStructure" type="radio">
                         <label class="ms-3" for="CorporateStructure">ตามโครงสร้างองค์กร</label>
                     </div>
                 </div>
                 <div class="form-check" *ngIf="showNegotiableCheckbox">
-                    <div class="d-flex">
+                    <div class="d-flex verticalKeyGap">
                         <input class="form-check-input" formControlName="Suffix" value="Hourly" type="radio">
                         <label class="ms-3" for="Hourly">ค่าจ้างรายชั่วโมง</label>
                     </div>
                 </div>
             </div>
         </div>
-        <app-location-selector [parentFormGroup]="newJobForm"></app-location-selector>
-        <div class="row mt-3">
-            <div class="col-3">
+        <app-location-selector [parentFormGroup]="newJobForm"  col="col-12 col-md-3"></app-location-selector>
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12  verticalKeyGap">
                 <label for="OnlineInterview" class="me-3 fs-4">นัทสัมภาษณ์ทางออนไลน์:</label>
             </div>
-            <div class="col-5">
+            <div class="col">
                 <input type="checkbox" class="form-check-input" formControlName="OnlineInterview" id="OnlineInterview">
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12 verticalKeyGap">
                 <label for="WorkFromHome" class="me-3">work from home:</label>
             </div>
-            <div class="col-5">
+            <div class="col verticalKeyGap">
                 <input type="checkbox" class="form-check-input" formControlName="WorkFromHome" id="WorkFromHome">
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <label for="nearBTS" class="me-3">ใกล้ BTS:</label>
             </div>
-            <div class="col-5">
-                <div class="row" formGroupName="BTS">
-                    <div class="col-3">
+            <div class="col">
+                <div class="row verticalKeyGap" formGroupName="BTS">
+                    <div class="col-md-3 col-12">
                         <input type="checkbox" formControlName="Near" class="form-check-input" name="nearBTS" id="nearBTS">
                     </div>
                     <div class="col">
@@ -173,13 +173,13 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <label for="nearMRT" class="me-3">ใกล้ MRT:</label>
             </div>
-            <div class="col-5">
-                <div class="row" formGroupName="MRT">
-                    <div class="col-3">
+            <div class="col">
+                <div class="row verticalKeyGap" formGroupName="MRT">
+                    <div class="col-md-3 col-12">
                         <input type="checkbox" formControlName="Near" class="form-check-input" name="nearMRTFlag" id="nearMRT">
                     </div>
                     <div class="col">
@@ -190,13 +190,13 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <label for="nearSRT" class="me-3">ใกล้ SRT:</label>
             </div>
-            <div class="col-5">
-                <div class="row" formGroupName="SRT">
-                    <div class="col-3">
+            <div class="col">
+                <div class="row verticalKeyGap" formGroupName="SRT">
+                    <div class="col-md-3 col-12">
                         <input type="checkbox"  formControlName="Near" class="form-check-input" name="nearSRT" id="nearSRT">
                     </div>
                     <div class="col">
@@ -207,13 +207,13 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <label for="nearARL" class="me-3">ใกล้ ARL:</label>
             </div>
-            <div class="col-5">
-                <div class="row" formGroupName="ARL">
-                    <div class="col-3">
+            <div class="col">
+                <div class="row verticalKeyGap" formGroupName="ARL">
+                    <div class="col-md-3 col-12">
                         <input type="checkbox"  formControlName="Near" class="form-check-input" name="nearARLFlag" id="nearARL">
                     </div>
                     <div class="col">
@@ -225,10 +225,10 @@
             </div>
         </div>
     </div>
-    <div class="my-5 border-top border-bottom border-secondary py-3">
+    <div class="my-5 border-top border-bottom border-secondary py-3 verticalKeyGap">
         <h3 class="ms-4">รายละเอียดงานเพิ่มเติม</h3>
     </div>
-    <div class="container">
+    <div class="container verticalKeyGap">
         <div class="row mt-3">
             <div class="my-3">หน้าที่ความรับผิดชอบ</div>
             <ckeditor formControlName="JobDetails" [editor]="jobDetailsEditor" name="editor"></ckeditor>
@@ -246,16 +246,16 @@
             <ckeditor formControlName="applyInstructions" [editor]="applyInstructionsEditor" name="editor"></ckeditor>
         </div>
     </div>
-    <div class="my-5 border-top border-bottom border-secondary py-3">
+    <div class="my-5 border-top border-bottom border-secondary py-3 verticalKeyGap">
         <h3 class="ms-4">ข้อมูลติดต่อเพิ่มเติม</h3>
     </div>
     <div class="container">
-        <div class="row mt-3">
-            <div class="col-3">
+        <div class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
                 <label class="me-3">ข้อมูลติดต่อเพิ่มเติม</label>
             </div>
-            <div class="col-5" formGroupName="Contacts">
-                <div class="row">
+            <div class="col" formGroupName="Contacts">
+                <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
                         <label for="phone" class="me-3">เบอร์โทร:</label>
                     </div>
@@ -263,7 +263,7 @@
                         <input formControlName="phone" class="form-control" name="phone">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
                         <label for="email" class="me-3">Email:</label>
                     </div>
@@ -271,7 +271,7 @@
                         <input formControlName="email" class="form-control" name="email">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
                         <label for="line" class="me-3">LINE:</label>
                     </div>
@@ -279,7 +279,7 @@
                         <input formControlName="line" class="form-control" name="line">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
                         <label for="facebook" class="me-3">Facebook:</label>
                     </div>
@@ -296,7 +296,7 @@
             <ckeditor [editor]="travelEditor" formControlName="TravelInstructions" name="editor"></ckeditor>
         </div>
         <div class="row my-3">
-            <div class="col-3">
+            <div class="col-md-3 col-12">
                 <label for="googleMaps">ปักหมุด google map</label>
             </div>
         </div>
@@ -311,7 +311,7 @@
         <div class="col d-flex justify-content-center">
             <google-map 
                 height="500px"
-                width="900px"
+                width="75vw"
                 [center]="center"
                 [zoom]="zoom"
                 (mapClick)="moveMap($event)"
@@ -320,7 +320,7 @@
                 [position]="markerPosition"></map-marker>
             </google-map>
         </div>
-        <div class="row my-3">
+        <div class="row my-3 verticalKeyGap mx-sm-0 mx-5">
             <button class="fs-3 btn btn-primary d-flex align-items-center justify-content-center">
                     Save
             </button>

@@ -228,19 +228,12 @@ export class UsersService {
 
     async getAllPharmaUsers(){
       let promises: any = []
-      let index:SearchIndex = client.initIndex('pharm-work_user_index')
       this.converter.getPlaceHolderObject().forEach((placeHolder)=>{
         promises.push(
-           index.search('',{
-            hitsPerPage:5,
-            page:0,
-            filters: 
-              "role:'เภสัชกร' AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol) + "'"
-            
-          })
+          getDocs(query(collection(this.db, 'users'), where('role', '==', 'เภสัชกร'),limit(5), where('preferredJobType', 'array-contains', this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol))))
         )
       })
-      let users = await Promise.all(promises)
+      let users: QuerySnapshot<DocumentData>[] = await Promise.all(promises)
       let allUsers: {
         [key: string]: {
           [key:string]: UserPharma
@@ -248,17 +241,15 @@ export class UsersService {
       } = {}
       users.forEach((usersByJobType, index)=>{
         let placeholder = this.converter.getPlaceHolderObject()[index]
-        usersByJobType.hits.forEach((hit:any)=>{
+        usersByJobType.docs.forEach((hit)=>{
           let newHit = _.cloneDeep(hit);
-          newHit.uid = newHit.objectID
-          delete newHit.objectID
           if(allUsers[placeholder.categorySymbol] == undefined){
             allUsers[placeholder.categorySymbol] = {}
           }
-          allUsers[placeholder.categorySymbol][newHit.uid] = 
+          allUsers[placeholder.categorySymbol][newHit.id] = 
             {
-              ...newHit as UserPharma, 
-              uid: newHit.uid
+              ...newHit.data() as UserPharma, 
+              uid: newHit.id
             }
         })
       })

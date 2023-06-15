@@ -1,17 +1,17 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3"><button (click)="editClick()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'แก้ไข':'ยกเลิก'}}</button></div>
+<div class="align-items-baseline d-flex justify-content-end ms-3 editButton"><button (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'แก้ไข':'ยกเลิก'}}</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="verticalKeyGap d-flex flex-row">
         <i class="bi bi-clipboard keyValueGap"></i>
         <div><b>ประเภทงานที่สนใจ</b></div>
-            </div>
-            <div class="jobTypePayload" style="padding-left:6rem">
-                <ul class="row row-cols-2">
-                    <li class="verticalKeyGap col" *ngFor="let jobType of resultPayload">
-                        {{jobType}}
-                    </li>
-                </ul>
-            </div>
+    </div>
+        <div class="jobTypePayload" style="padding-left:6rem">
+            <ul class="row row-cols-2">
+                <li class="verticalKeyGap col" *ngFor="let jobType of resultPayload">
+                    {{jobType}}
+                </li>
+            </ul>
+        </div>
         <div class="d-flex flex-row verticalKeyGap">
             <div class="keyValueGap d-flex flex-row">
                 <i class="bi bi-lightbulb keyValueGap"></i>
@@ -55,62 +55,62 @@
 <ng-template #editPage>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
         <div class="row mb-3">
-            <div class="col-3">
-                <div class="me-3"><b>ประเภทงานที่สนใจ</b></div>
+            <div class="col-lg-3 col-12">
+                <div class="responsiveText me-3"><b>ประเภทงานที่สนใจ</b></div>
             </div>
             <div class="col" formGroupName="preferredJobType">
                 <div class="row row-cols-2">
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="S" class="me-3 form-check-input" type="checkbox" value="" id="S">
-                        <label class="form-check-label" for="S">
+                        <input formControlName="S" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="S">
+                        <label class="responsiveText form-check-label" for="S">
                             งานด่วนรายวัน
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="AA" class="me-3 form-check-input" type="checkbox" value="" id="AA">
-                        <label class="form-check-label" for="AA">
+                        <input formControlName="AA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AA">
+                        <label class="responsiveText form-check-label" for="AA">
                             งานร้านยาทั่วไป
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="AB" class="me-3 form-check-input" type="checkbox" value="" id="AB">
-                        <label class="form-check-label" for="AB">
+                        <input formControlName="AB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AB">
+                        <label class="responsiveText form-check-label" for="AB">
                             งานร้านยา Brand
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="AC" class="me-3 form-check-input" type="checkbox" value="" id="AC">
-                        <label class="form-check-label" for="AC">
+                        <input formControlName="AC" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AC">
+                        <label class="responsiveText form-check-label" for="AC">
                             งานโรงพยาบาล
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="BA" class="me-3 form-check-input" type="checkbox" value="" id="BA">
-                        <label class="form-check-label" for="BA">
+                        <input formControlName="BA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BA">
+                        <label class="responsiveText form-check-label" for="BA">
                             งานคลินิก
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="BB" class="me-3 form-check-input" type="checkbox" value="" id="BB">
-                        <label class="form-check-label" for="BB">
+                        <input formControlName="BB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BB">
+                        <label class="responsiveText form-check-label" for="BB">
                             งานโรงงาน
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="BC" class="me-3 form-check-input" type="checkbox" value="" id="BC">
-                        <label class="form-check-label" for="BC">
+                        <input formControlName="BC" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BC">
+                        <label class="responsiveText form-check-label" for="BC">
                             งานบริษัท
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="CA" class="me-3 form-check-input" type="checkbox" value="" id="CA">
-                        <label class="form-check-label" for="CA">
+                        <input formControlName="CA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="CA">
+                        <label class="responsiveText form-check-label" for="CA">
                             งานวิจัย
                         </label>
                     </div>
                     <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="CB" class="me-3 form-check-input" type="checkbox" value="" id="CB">
-                        <label class="form-check-label" for="CB">
+                        <input formControlName="CB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="CB">
+                        <label class="responsiveText form-check-label" for="CB">
                             งานอื่นๆ
                         </label>
                     </div>
@@ -118,11 +118,11 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-3">
-                <div class="me-3"><b>ชนิดของงานที่สนใจ</b></div>
+            <div class="col-lg-3 col-12col-3">
+                <div class="responsiveText me-3"><b>ชนิดของงานที่สนใจ</b></div>
             </div>
             <div class="col">
-                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3 fs-3">
+                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="responsiveText form-select mb-3 fs-3">
                     <option selected value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
                     <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
@@ -131,11 +131,11 @@
         </div>
         <app-location [parentFormGroup]="profileEdit" [formGroupName]="'preferredLocation'"></app-location>
         <div class="row mb-3">
-            <div class="col-3">
-                <div class="me-3"><b>เงินเดือนขั้นต่ำที่ต้องการ</b></div>
+            <div class="col-lg-3 col-12">
+                <div class="responsiveText me-3"><b>เงินเดือนขั้นต่ำที่ต้องการ</b></div>
             </div>
             <div class="col">
-                <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3 fs-3">
+                <select formControlName="preferredSalary" name="preferredSalary" class="responsiveText form-select mb-3 fs-3">
                     <option selected value="20,000">20,000</option>
                     <option selected value="30,000">30,000</option>
                     <option selected value="40,000">40,000</option>
@@ -149,11 +149,11 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-3">
+            <div class="responsiveText col-lg-3 col-12">
                 <div><b>สามารถเริ่มงานได้</b></div>
             </div>
             <div class="col">
-                <select formControlName="preferredStartTime" name="preferredStartTime" class="form-select mb-3 fs-3">
+                <select formControlName="preferredStartTime" name="preferredStartTime" class="responsiveText form-select mb-3 fs-3">
                     <option selected value="ทันที">ทันที</option>
                     <option selected value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
                     <option selected value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
@@ -166,7 +166,7 @@
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button type="submit" class="btn fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">แก้ไข</button>
+            <button type="submit" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">แก้ไข</button>
         </div>
     </form>
 </ng-template>

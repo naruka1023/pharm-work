@@ -20,6 +20,23 @@ export class UserByTypeComponent {
   @Input()title!: string;
   Users$!: Observable<UserPharma[]>;
   userFlag: boolean = true;
+  breakingPoint = {
+    1400: {
+      slidesPerView: 4.5
+    },
+    1200: {
+      slidesPerView: 4
+    },
+    992: {
+      slidesPerView: 3
+    },
+    768: {
+      slidesPerView: 2.5
+    },
+    420: {
+      slidesPerView: 1.5
+    },
+  }
 
   constructor(private utilService:UtilService, private store:Store, private router:Router, private route:ActivatedRoute){}
 

@@ -13,8 +13,8 @@
                         <ul class="dropdown-menu p-2">
                             <li><a class="dropdown-item" (click)="uploadNewPhotoClick()"><i class="bi bi-cloud-upload me-1"></i><input type="file" id="fileUpload"  (change)="repositionGuard($event)" hidden/>อัพโหลดรูป</a></li>
                             <li><a class="dropdown-item" (click)="editCoverPhotoClick()"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
-                            <div class="dropdown-divider"></div>
-                            <li><a class="dropdown-item"><i class="bi bi-trash3 me-1"></i>ลบรูป</a></li>
+                            <!-- <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item"><i class="bi bi-trash3 me-1"></i>ลบรูป</a></li> -->
                         </ul>
                     </div>
                     
@@ -99,7 +99,7 @@
                                 สนใจ 
                             </div>
                             <div class="preferredJobs">
-                                <span class="badge rounded-pill text-bg-primary me-2" style="line-break:anywhere" *ngFor="let job of result.preferred.jobType">{{job}}</span>
+                                <span class="badge rounded-pill text-bg-primary me-2" style="line-break: auto" *ngFor="let job of result.preferred.jobType">{{job}}</span>
                             </div>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                     </div>
                 </ng-template>
                 <ng-template #display>
-                    <div class="fs-3 pb-5" style="padding: 0 1rem; text-indent: 20px">{{result.introText}}</div>
+                    <div class="fs-3 pb-5 introText" style="padding: 0 1rem; text-indent: 20px">{{result.introText}}</div>
                 </ng-template>
             </div>
         </div>
@@ -230,7 +230,7 @@
                     </div>
                 </div>
             </div>
-            <div class="fs-lg-5 fs-5 fourPointers" style="margin-bottom:4rem">
+            <div class="fs-5 fourPointers" style="margin-bottom:4rem">
                 <div class="row my-sm-2 my-0">
                     <div class="col-sm col-12 jobCounts2">
                         <i class="bi bi-building me-3"></i>{{result.jobType}}
@@ -277,7 +277,7 @@
                     </button>
                 </div>
             </div>
-            <div class="fs-3 pb-5" style="padding: 0 10vw; text-indent: 20px;">{{result.introText}}</div>
+            <div class="fs-3 pb-5 introText" style="padding: 0 10vw; text-indent: 20px;">{{result.introText}}</div>
         </div>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

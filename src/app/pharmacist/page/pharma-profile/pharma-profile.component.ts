@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription, take } from 'rxjs';
 import { UserServiceService } from '../../service/user-service.service';
 import { ActivatedRoute } from '@angular/router';
+
 declare var window: any;
 
 @Component({
@@ -36,7 +37,16 @@ export class PharmaProfileComponent implements OnDestroy{
       }else{
         this.scrollUp();
       }
+      this.selectTab(url.target)
     })
+  }
+  selectTab(target:string){
+    let newTarget = target
+    if(target == 'request-jobs' || target == 'request-views'){
+      newTarget = 'register-jobs'
+    }
+    let triggerEl = document.getElementById(newTarget)!;
+    triggerEl.click()
   }
   ngOnDestroy(){
     this.sub.unsubscribe();

@@ -1,0 +1,30 @@
+@media only screen and (max-width: 992px) {
+    /* .googleMap{
+        width: 60vw
+    } */
+    .verticalKeyGap > div{
+        font-size:smaller
+    }
+    .verticalKeyGap > div > input,
+    .verticalKeyGap > div > select,  
+    .verticalKeyGap > div > div,
+    .verticalKeyGap > label
+    {
+        font-size:smaller !important
+    }
+}
+@media only screen and (max-width: 768px) {
+    /* .googleMap{
+        width: 70vw !important
+    } */
+    .verticalKeyGap > div{
+        font-size:medium
+    }
+    .verticalKeyGap > div > input,
+    .verticalKeyGap > div > select,  
+    .verticalKeyGap > div > div,
+    .verticalKeyGap > label
+    {
+        font-size:medium !important
+    }
+}

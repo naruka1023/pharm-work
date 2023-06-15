@@ -1,12 +1,12 @@
 @media only screen and (max-width: 992px) {
+    .mainTitle{
+        text-align:center
+    }
     .sticky-top{
         position: unset !important
     }
     .privacySection{
       display:block
-    }
-    .mainTitle{
-        text-align:center
     }
     .tabList{
         font-size: medium !important

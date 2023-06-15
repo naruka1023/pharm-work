@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import SwiperCore, { Autoplay, Mousewheel, Navigation, Pagination } from "swiper";
@@ -10,6 +10,7 @@ import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import { funnelUsers, toggleLoading } from '../../state/actions/users-actions';
 import { DocumentData, QuerySnapshot } from '@angular/fire/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 
@@ -20,7 +21,7 @@ SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 })
 export class OperatorHomeComponent implements OnDestroy{
 
-  constructor(private converter: JobTypeConverterService,private store: Store, private fb:FormBuilder, private userService:UsersService){}
+  constructor(private converter: JobTypeConverterService,private store: Store,private router:Router, private route:ActivatedRoute, private fb:FormBuilder, private userService:UsersService){}
   
   userJobType$!: Observable<string>;
   locationRadiusFlag!: boolean
@@ -33,6 +34,7 @@ export class OperatorHomeComponent implements OnDestroy{
   emptyUrgentResultFlag: boolean = false;
   accuracy: number = 0
   _geoLoc: any = {}
+  submitted:boolean = false;
   newUserForm!: FormGroup;
   newUserFormUrgent!: FormGroup;
   subscription: Subscription = new Subscription()
@@ -155,6 +157,7 @@ export class OperatorHomeComponent implements OnDestroy{
   }
   initializeFormGroupUrgent(){
     this.newUserFormUrgent = this.fb.group({
+      jobType: [''],
       onlineFlag: false,
       radius: [''],
       nearbyFlag: false,
@@ -171,6 +174,7 @@ export class OperatorHomeComponent implements OnDestroy{
   initializeFormGroup(){
     this.newUserForm = this.fb.group({
       preferredTimeFrame: [''],
+      jobType: ['', Validators.required],
       WorkExperience: [''],
       highestEducation: [''],
       active: [''],
@@ -181,6 +185,11 @@ export class OperatorHomeComponent implements OnDestroy{
       }),
     })
   }
+
+  get login(): { [key: string]: AbstractControl } {
+    return this.newUserForm.controls;
+  }
+
   resetUrgent(){
     this.initializeFormGroupUrgent();
     this.store.dispatch(toggleAddressChange())
@@ -188,37 +197,31 @@ export class OperatorHomeComponent implements OnDestroy{
 
   reset(){
     this.initializeFormGroup();
+    this.submitted = false
     this.store.dispatch(toggleAddressChange())
   }
+
   searchUsersUrgent(){
-    // if(this.accuracy < 20){
+    if(this.newUserFormUrgent.invalid){
+      return
+    }else{
       this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
-    // }
-    console.log(this.accuracy)
-    this.loadingUrgentFlag = true
-    this.userService.searchPharmaUsersUrgent(this.newUserFormUrgent.value).then((users)=>{
-      this.emptyUrgentResultFlag = true
-      if(users['S'] !== undefined){
-        this.emptyUrgentResultFlag = false
-      }
-      this.resetUrgent()
-      this.store.dispatch(funnelUsers({allUsers:users}))
-      this.loadingUrgentFlag = false
-    });
+      this.newUserFormUrgent.patchValue({
+        jobType: 'S', 
+      })
+      this.router.navigateByUrl('operator/users-list', { state: this.newUserFormUrgent.value});
+    }
   }
   searchUsers(){
-    this.loadingNormalFlag = true
-    this.userService.searchPharmaUsers(this.newUserForm.value).then((users)=>{
-      this.emptyResultFlag = true
-      Object.keys(users).forEach((categorySymbol)=>{
-        if(users[categorySymbol] !== undefined){
-          this.emptyResultFlag = false
-        }
+    this.submitted = true
+    if(this.newUserForm.invalid){
+      return 
+    }else{
+      this.newUserForm.patchValue({
+        jobType: this.converter.getCategorySymbolFromTitle(this.newUserForm.value.jobType), 
       })
-      this.reset()
-      this.store.dispatch(funnelUsers({allUsers:users}))
-      this.loadingNormalFlag = false
-    });
+      this.router.navigateByUrl('operator/users-list', { state: this.newUserForm.value});
+    }
   }
 
   onChangeEvent(event: any){

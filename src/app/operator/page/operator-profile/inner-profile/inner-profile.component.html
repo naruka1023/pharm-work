@@ -7,83 +7,98 @@
     </div>
 </ng-template>
 <ng-template #notLoading>
-    <div class="mx-4 fs-2">
-        <div class="my-3"><b>โปรไฟล์บริษัท</b></div> 
-            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 5">
+    <div class="mx-sm-4 mx-2 fs-2">
+        <div class="my-3 innerProfileTitle"><b>โปรไฟล์บริษัท</b></div> 
+            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row tabList" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 5">
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ข้อมูลทั่วไป</a>
+                    <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ข้อมูลทั่วไป</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ติดต่อ</a>
+                    <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ติดต่อ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">สวัสดิการ</a>
+                    <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">สวัสดิการ</a>
                 </li>
                 <hr style="width: 100%" class="m-auto">
             </ul>
-            <div class="tab-content fs-3 mx-5">
-                <div class="align-items-baseline d-flex justify-content-end ms-3"><button (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!profileEditState?'แก้ไข':'ยกเลิก'}}</button></div>
+            <div class="tab-content fs-3 mx-sm-5" style="line-break: auto">
+                <div class="align-items-baseline d-flex justify-content-end ms-md-3 editButton mb-md-0 mb-3"><button (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!profileEditState?'แก้ไข':'ยกเลิก'}}</button></div>
                 <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <ng-container *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"></ng-container>
                 <ng-template #displayProfileOne>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-briefcase"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>ชื่อบริษัท</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-briefcase"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>ชื่อบริษัท</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.companyName}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-building"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>ประเภทธุรกิจ</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-building"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>ประเภทธุรกิจ</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.jobType}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-person-workspace"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>ขนาดธุรกิจ</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-person-workspace"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>ขนาดธุรกิจ</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.companySize}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-cart4"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>สินค้าและบริการ</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-cart4"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>สินค้าและบริการ</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2" [innerHTML]="innerProfileInformation.productsAndServices"></div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-geo"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>สถานที่ตั้ง</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-geo"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>สถานที่ตั้ง</b></div>
+                            </div>
                         </div>
                         <div class="d-flex flex-row">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div>{{innerProfileInformation.Location?.Province}}, {{innerProfileInformation.Location?.District}}, {{innerProfileInformation.Location?.Section}}</div>                    
                         </div>
                     </div>
                     <div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap">
-                                <i class="bi bi-geo-alt"></i>
-                            </div>
-                            <div>
+                        <div class="verticalKeyGap">
+                            <div class="d-flex flex-row">
+                                <div class="keyValueGap">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
                                 <div><b>ปักหมุด</b></div>
                             </div>
                         </div>
                         <div class="d-flex my-3 justify-content-center">
                             <google-map 
                                 height="500px"
-                                width="900px"
+                                width="65vw"
                                 [center]="center"
                                 [zoom]="zoom">
                                 <map-marker
@@ -94,38 +109,50 @@
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-car-front"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>วิธีเดินทางไปบริษัท</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-car-front"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>วิธีเดินทางไปบริษัท</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2" [innerHTML]="innerProfileInformation.TravelInstructions"></div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-person"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>ชื่อผู้ติดต่อ</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-person"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>ชื่อผู้ติดต่อ</b></div>
+                            </div>
                         </div>
-                        <div class="col d-flex">
-                            <div class="me-2">{{innerProfileInformation.nameOfPerson}}</div>
-                        </div>
+                            <div class="col d-flex">
+                                <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
+                                <div class="me-2">{{innerProfileInformation.nameOfPerson}}</div>
+                            </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-telephone-inbound"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>เบอร์โทรผู้ติดต่อ</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-telephone-inbound"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>เบอร์โทรผู้ติดต่อ</b></div>
+                            </div>
                         </div>
-                        <div class="col d-flex">
-                            <div class="me-2">{{innerProfileInformation.phoneNumber}}</div>
-                        </div>
+                            <div class="col d-flex">
+                                <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
+                                <div class="me-2">{{innerProfileInformation.phoneNumber}}</div>
+                            </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-envelope-at"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>Email ฝ่ายบัญชี</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-envelope-at"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>Email ฝ่ายบัญชี</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.emailRepresentative}}</div>
                         </div>
                     </div>
@@ -180,7 +207,7 @@
                                 <div class="col d-flex justify-content-center">
                                     <google-map 
                                         height="500px"
-                                        width="900px"
+                                        width="65vw"
                                         [center]="center"
                                         [zoom]="zoom"
                                         (mapClick)="moveMap($event)"
@@ -230,74 +257,98 @@
                 <ng-container *ngIf="!profileEditState; then displayProfileTwo; else editProfileTwo"></ng-container>
                 <ng-template #displayProfileTwo>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-telephone"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>เบอร์โทร</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-telephone"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>เบอร์โทร</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.phone}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-envelope"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>Email</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-envelope"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>Email</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.email}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-line"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>LINE</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-line"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>LINE</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.line}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>Website</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>Website</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.website}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>Facebook</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>Facebook</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.facebook}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>Twitter</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>Twitter</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.twitter}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-skype"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>Skype</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-skype"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>Skype</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.skype}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>Youtube</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>Youtube</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2">{{innerProfileInformation.contacts?.youtube}}</div>
                         </div>
                     </div>
@@ -378,11 +429,14 @@
                 <ng-container *ngIf="!profileEditState; then displayProfileThree; else editProfileThree"></ng-container>
                 <ng-template #displayProfileThree>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-prescription"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>สวัสดิการ</b></div>
+                        <div class="d-flex">
+                            <div class="keyValueGap"><i class="bi bi-prescription"></i></div>
+                            <div class="keyValueGap">
+                                <div><b>สวัสดิการ</b></div>
+                            </div>
                         </div>
                         <div class="col d-flex">
+                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
                             <div class="me-2"[innerHTML]="innerProfileInformation.benefits"></div>
                         </div>
                     </div>
@@ -401,7 +455,7 @@
                 </ng-template>
             </div>
             <div class="d-flex justify-content-center" *ngIf="profileEditState">
-                <button class="btn btn-success fs-2 my-5" (click)="onSave()">SAVE</button>
+                <button class="btn btn-success fs-2 my-5 saveButton" (click)="onSave()">SAVE</button>
             </div>
         </div>
     </div>

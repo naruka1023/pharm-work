@@ -12,6 +12,7 @@ import { addFavorites, removeFavorite, toggleLoading } from '../../state/actions
 import { UsersService } from '../../service/users.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DocumentData, QuerySnapshot } from '@angular/fire/firestore';
+import _ from 'lodash';
 declare var window: any;
 
 @Component({
@@ -114,7 +115,7 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
           return this.profileInformation$
         })
         this.headerInformation.subscribe((header)=>{
-          this.result = header;
+          this.result = _.cloneDeep(header);
           if(this.result.cropProfilePictureUrl == ''){
             delete this.result.cropProfilePictureUrl
           }
@@ -156,7 +157,7 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
           return state.user;
         })
         this.headerInformation.subscribe((header)=>{
-          this.result = header;
+          this.result = _.cloneDeep(header);
           if(this.result.cropProfilePictureUrl == ''){
             delete this.result.cropProfilePictureUrl
           }

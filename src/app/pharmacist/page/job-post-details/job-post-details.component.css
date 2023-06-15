@@ -24,7 +24,16 @@
     padding-right: 0 !important
   }
 }
+@media only screen and (max-width: 360px){
+  .urgentLabel{
+    font-size: 1.3rem !important
+  }
+}
 @media only screen and (max-width: 520px){
+  .gridContact{
+    font-size: 1.1rem !important;
+    line-break: auto;
+  }
   .footerMainHeader{
     display: block !important
   }

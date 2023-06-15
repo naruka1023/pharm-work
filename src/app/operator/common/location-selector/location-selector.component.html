@@ -1,12 +1,12 @@
 <div [formGroup]="parentFormGroup">
-    <div class="row mt-3" [formGroupName]="formGroupName">
+    <div class="row mt-3 verticalKeyGap" [formGroupName]="formGroupName">
         <div [class]="col">
-            <div class="me-3"><b>พื้นที่ปฏิบัติงาน</b>:</div>
+            <div class="me-3">พื้นที่ปฏิบัติงาน:</div>
         </div>
-        <div class="col-5">
-            <div class="row">
+        <div class="col">
+            <div class="row verticalKeyGap">
                 <div class="col-4">
-                    <label class="me-3"><b>แขวง: </b></label>
+                    <label class="me-3">แขวง: </label>
                 </div>
                 <div class="col">
                     <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3">
@@ -14,9 +14,9 @@
                     </select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row verticalKeyGap">
                 <div class="col-4">
-                    <label class="me-3"><b>เขต: </b></label>
+                    <label class="me-3">เขต: </label>
                 </div>
                 <div class="col">
                     <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3 fs-3">
@@ -24,9 +24,9 @@
                     </select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row verticalKeyGap">
                 <div class="col-4">
-                    <label class="me-3"><b>จังหวด: </b></label>
+                    <label class="me-3">จังหวด: </label>
                 </div>
                 <div class="col">
                     <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3">

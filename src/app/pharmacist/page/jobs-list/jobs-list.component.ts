@@ -29,7 +29,7 @@ export class JobsListComponent implements OnDestroy{
   brandToCategory!: string;
   emptyResultFlag: boolean = false;
   dateOfJob!: any
-  indexName!: string
+  indexName: string = 'pharm-work_index_dateUpdated_desc'
   _geoLoc!: _geoloc
   subscription: Subscription = new Subscription();
   content$!: Observable<jobPostModel[] | undefined>;
@@ -102,7 +102,21 @@ export class JobsListComponent implements OnDestroy{
     this.loadingFlag = true;
     this.paginationIndex = 0
     if(this.urgentFilterForm.value.DateOfJob !== '' && this.urgentFilterForm.value.DateOfJob !== undefined){
-      this.urgentFilterForm.value.DateOfJob = this.urgentFilterForm.value.DateOfJob.split(', ')
+      if(this.urgentFilterForm.value.DateOfJob.indexOf(', ') == -1){
+        this.urgentFilterForm.patchValue({DateOfJob: [this.urgentFilterForm.value.DateOfJob]})
+      }else{
+        this.urgentFilterForm.value.DateOfJob = this.urgentFilterForm.value.DateOfJob.split(', ')
+      }
+    }
+    if(this.urgentFilterForm.value.nearbyFlag && this.urgentFilterForm.value.radius == ''){
+      this.urgentFilterForm.patchValue({
+        nearbyFlag: false,
+        Location: {
+          Section: '',
+          District: '',
+          Province: ''
+        }
+      })
     }
     this.jobPostService.searchJobs(this.urgentFilterForm.value).then((jobs)=>{
       this.query = jobs.query
@@ -205,6 +219,7 @@ export class JobsListComponent implements OnDestroy{
   reset(){
     this.initializeFormGroup();
     this.paginationIndex = 0
+    this.indexName = 'pharm-work_index_dateUpdated_desc'
     this.jobPostService.getJobCategoryService(this.CategorySymbol, this.paginationIndex).then((jobPosts)=>{
       this.paginationIndex++;
       this.maxIndex = jobPosts.nbPages

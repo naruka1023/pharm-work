@@ -7,7 +7,7 @@ export const getCurrentUser = createAction(
 );
 export const setCurrentUser = createAction(
     '[User] set Current User',
-    props<{ user: User }>()
+    props<{ user: Partial<User> }>()
 );
 export const toggleLoading = createAction(
     '[User] Toggle Loading',

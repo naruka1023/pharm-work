@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, take } from 'rxjs';
 import { UserPharma, userPharmaList } from '../../model/user.model';
@@ -17,7 +17,20 @@ import { SetUsersByJobType, updateUsersByJobType } from '../../state/actions/use
 export class UserListComponent {
   accuracy!: number;
   _geoLoc: any;
-  constructor(private store:Store, private fb:FormBuilder,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){}
+  constructor(private store:Store, private fb:FormBuilder,private router: Router,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){
+    let extras = this.router.getCurrentNavigation()?.extras
+    if(extras!.state !== undefined){
+      this.type = this.router.getCurrentNavigation()!.extras.state!['jobType']
+      this.headerSearchFlag = true;
+      if(this.type !== 'S'){
+        this.initializeFormGroup();
+        this.newUserFormList.patchValue(this.router.getCurrentNavigation()!.extras.state!)
+      }else{
+        this.initializeFormGroupUrgent();
+        this.newUserFormUrgent.patchValue(this.router.getCurrentNavigation()!.extras.state!)
+      }
+    }
+  }
   type!: string;
   title!: string;
   distance: number = 2
@@ -31,6 +44,7 @@ export class UserListComponent {
   emptyResultFlag: boolean = false;
   infiniteScrollingLoadingFlag: boolean = false;
   loadingFlag: boolean = true;
+  headerSearchFlag!: boolean
   locationRadiusFlag: boolean = true;
   Users$!: Observable<UserPharma[]>
   newUserFormList!: FormGroup;
@@ -43,16 +57,27 @@ export class UserListComponent {
   sectionUrgent$!: Observable<string[]>;
   ngOnInit(){
     this.loadingFlag = true;
-    this.type = this.route.snapshot.queryParamMap.get('type')!;
+    if(this.type == undefined){
+      this.type = this.route.snapshot.queryParamMap.get('type')!;
+      this.headerSearchFlag = false;
+    }
     this.title = this.converter.getTitleFromCategorySymbol(this.type);
     this.newTitle = this.converter.getNewTitleFromCategorySymbol(this.type);
-    this.userService.getPharmaUserByJobType(this.title, this.paginationIndex).then((users)=>{
-      this.query = users.query
-      this.maxIndex = users.totalPage
-      this.paginationIndex++
-      this.store.dispatch(SetUsersByJobType({users:users.result, jobType:this.type}))
-      this.loadingFlag = false;
-    })
+    if(this.headerSearchFlag){
+      if(this.type !== 'S'){
+        this.searchUsers()
+      }else{
+        this.searchUsersUrgent()
+      }
+    }else{
+      this.userService.getPharmaUserByJobType(this.title, this.paginationIndex).then((users)=>{
+        this.query = users.query
+        this.maxIndex = users.totalPage
+        this.paginationIndex++
+        this.store.dispatch(SetUsersByJobType({users:users.result, jobType:this.type}))
+        this.loadingFlag = false;
+      })
+    }
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((user: any)=>{
@@ -75,48 +100,48 @@ export class UserListComponent {
 
     if(this.type == 'S'){
       this.initializeFormGroupUrgent();
+      this.provinceUrgent$ = this.store.select((state: any)=>{
+        let result = Object.keys(state.address.list);
+        return result
+      })
+      this.provinceUrgent$.subscribe(()=>{})
+      this.districtUrgent$ = this.store.select((state: any)=>{
+        if(this.newUserFormUrgent.value.preferredLocation.Province === '' || this.newUserFormUrgent.value.preferredLocation.Province === null){
+          return [];
+        }
+        return Object.keys(state.address.list[this.newUserFormUrgent.value.preferredLocation.Province])
+      })
+      this.districtUrgent$.subscribe(()=>{})
+      this.sectionUrgent$ = this.store.select((state: any)=>{
+        if(this.newUserFormUrgent.value.preferredLocation.District === '' || this.newUserFormUrgent.value.preferredLocation.District === null){
+          return [];
+        }
+        let section: string[] = state.address.list[this.newUserFormUrgent.value.preferredLocation.Province][this.newUserFormUrgent.value.preferredLocation.District].map((section: any)=>section.section);
+        return section
+      })
+      this.sectionUrgent$.subscribe(()=>{})
     }else{
       this.initializeFormGroup();
+      this.province$ = this.store.select((state: any)=>{
+        let result = Object.keys(state.address.list);
+        return result
+      })
+      this.district$ = this.store.select((state: any)=>{
+        if(this.newUserFormList.value.preferredLocation.Province === '' || this.newUserFormList.value.preferredLocation.Province === null){
+          return [];
+        }
+        return Object.keys(state.address.list[this.newUserFormList.value.preferredLocation.Province])
+      })
+      this.section$ = this.store.select((state: any)=>{
+        if(this.newUserFormList.value.preferredLocation.District === '' || this.newUserFormList.value.preferredLocation.District === null){
+          return [];
+        }
+        let section: string[] = state.address.list[this.newUserFormList.value.preferredLocation.Province][this.newUserFormList.value.preferredLocation.District].map((section: any)=>section.section);
+        return section
+      })
     }
 
-    this.provinceUrgent$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
-      return result
-    })
-    this.provinceUrgent$.subscribe(()=>{})
-    this.districtUrgent$ = this.store.select((state: any)=>{
-      if(this.newUserFormUrgent.value.preferredLocation.Province === '' || this.newUserFormUrgent.value.preferredLocation.Province === null){
-        return [];
-      }
-      return Object.keys(state.address.list[this.newUserFormUrgent.value.preferredLocation.Province])
-    })
-    this.districtUrgent$.subscribe(()=>{})
-    this.sectionUrgent$ = this.store.select((state: any)=>{
-      if(this.newUserFormUrgent.value.preferredLocation.District === '' || this.newUserFormUrgent.value.preferredLocation.District === null){
-        return [];
-      }
-      let section: string[] = state.address.list[this.newUserFormUrgent.value.preferredLocation.Province][this.newUserFormUrgent.value.preferredLocation.District].map((section: any)=>section.section);
-      return section
-    })
-    this.sectionUrgent$.subscribe(()=>{})
 
-    this.province$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
-      return result
-    })
-    this.district$ = this.store.select((state: any)=>{
-      if(this.newUserFormList.value.preferredLocation.Province === '' || this.newUserFormList.value.preferredLocation.Province === null){
-        return [];
-      }
-      return Object.keys(state.address.list[this.newUserFormList.value.preferredLocation.Province])
-    })
-    this.section$ = this.store.select((state: any)=>{
-      if(this.newUserFormList.value.preferredLocation.District === '' || this.newUserFormList.value.preferredLocation.District === null){
-        return [];
-      }
-      let section: string[] = state.address.list[this.newUserFormList.value.preferredLocation.Province][this.newUserFormList.value.preferredLocation.District].map((section: any)=>section.section);
-      return section
-    })
 
     this.scrollUp();
   }
@@ -232,9 +257,18 @@ export class UserListComponent {
     this.store.dispatch(toggleAddressChange())
   }
   searchUsersUrgent(){
-    console.log(this.newUserFormUrgent.value)
       this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
     this.loadingFlag = true
+    if(this.newUserFormUrgent.value.nearbyFlag && this.newUserFormUrgent.value.radius == ''){
+      this.newUserFormUrgent.patchValue({
+        nearbyFlag: false,
+        preferredLocation: {
+          Section: '',
+          District: '',
+          Province: ''
+        }
+      })
+    }
     this.userService.searchPharmaUsersUrgentByPreferredJobType(this.newUserFormUrgent.value).then((users)=>{
       this.maxIndex = users.totalPage
       this.paginationIndex = 1

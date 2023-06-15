@@ -1,3 +1,77 @@
+@media only screen and (max-width: 992px){
+    .tabList{
+        font-size:medium !important
+    }
+    .sticky-top{
+        position: unset !important
+    }
+    .nav-link{
+        text-align:center
+    }
+}
+@media only screen and (max-width: 576px) {
+    .keyValueGap{
+        margin-right: 1rem !important
+    }
+
+}
+@media only screen and (max-width: 500px) {
+    .contacts{
+        margin-left: 2rem !important
+    }
+
+}
+@media only screen and (max-width: 992px) {
+    /* .googleMap{
+        width: 60vw
+    } */
+    .verticalKeyGap > div{
+        font-size:smaller
+    }
+    .verticalKeyGap > div > input,
+    .verticalKeyGap > div > select,  
+    .verticalKeyGap > div > div,
+    .verticalKeyGap > div
+    {
+        font-size:smaller !important
+    }
+    .editButton > button, .saveButton{
+        font-size:smaller !important
+    }
+}
+@media only screen and (max-width: 768px) {
+    .innerProfileTitle{
+        text-align: center 
+    }
+    .verticalKeyGap > div{
+        font-size:medium
+    }
+    .phantom{
+        display: unset !important
+    }
+    .verticalKeyGap{
+        display:block !important
+    }
+    .verticalKeyGap > div > input,
+    .verticalKeyGap > div > select,  
+    .verticalKeyGap > div > div
+    {
+        font-size:medium !important
+    }
+    .editButton > button, .saveButton{
+        font-size:medium !important
+    }
+    .editButton{
+        justify-content: center !important
+    }
+}
+.editButton > button, .saveButton
+{
+    font-size:1.75rem
+}
+.nobr{
+    white-space: nowrap
+}
 .nav-item{
     padding:0 1rem
   }

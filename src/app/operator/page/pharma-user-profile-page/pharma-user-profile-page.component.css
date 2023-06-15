@@ -1,5 +1,103 @@
+@media only screen and (max-width: 515px) {
+    .contentContainer{
+        padding: 1rem !important
+    }
+    .contacts{
+        margin-left: 2rem !important
+    }
+    .historyContainer{
+        padding: 1rem !important
+    }
+}
+@media only screen and (max-width: 576px) {
+    .jobTypePayload{
+        padding-left:9px !important
+    }
+    .keyValueGap{
+        margin-right: 1rem !important
+    }
+}
+@media only screen and (max-width: 1400px) {
+    .responsiveButton{
+        text-align: center;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .historyHeader{
+        display:block !important
+    }
+    .subHeader{
+        margin-left:0 !important
+    }
+    .historyContent, .historyCount{
+        padding-left: 0 !important
+    }
+    .phantom{
+        display: unset !important
+    }
+}
+@media only screen and (max-width: 992px) {
+    .sticky-top{
+        position: unset !important
+    }
+    .nav-link{
+        text-align:center
+    }
+    .cannotView{
+        padding: 0 7rem !important;
+        font-size: smaller 
+    }
+    .verticalKeyGap > div{
+        font-size:smaller
+    }
+    .jobTypePayload {
+        font-size: smaller
+    }
+    .verticalKeyGap > div > input,
+    .verticalKeyGap > div > select,  
+    .verticalKeyGap > div > div
+    {
+        font-size:smaller !important
+    }
+    .verticalKeyGap {
+        margin-bottom:0.4rem !important
+    }
+    .textResponsive{
+        font-size: smaller !important
+    }
+}
+@media only screen and (max-width: 768px) {
+    .cannotView{
+        padding: 0 2rem !important;
+        font-size:medium !important
+    }
+    .verticalKeyGap > div{
+        font-size:medium
+    }
+    .jobTypePayload {
+        font-size: medium !important
+    }
+    .verticalKeyGap > div > input,
+    .verticalKeyGap > div > select,  
+    .verticalKeyGap > div > div
+    {
+        font-size:medium !important
+    }
+    .verticalKeyGap > div{
+        font-size:medium
+    }
+    .educationCell{
+        margin-bottom: 2rem !important
+    }
+    .textResponsive{
+        font-size: medium !important
+    }
+}
 .nav-item{
     padding:0 1rem
+}
+.nobr{
+    white-space: nowrap
 }
 #navToScroll{
     scroll-margin-top: 90px;
@@ -21,4 +119,10 @@
 }
 .verticalKeyGap{
     margin-bottom:4rem
+}
+.phantom{
+    display:none
+}
+.subHeader{
+    margin-left:5rem
 }

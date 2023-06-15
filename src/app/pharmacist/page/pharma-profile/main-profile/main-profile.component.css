@@ -8,6 +8,17 @@
         margin-left: 2rem !important
     }
 }
+@media only screen and (max-width: 1400px) {
+    .responsiveButton{
+        text-align: center;
+    }
+    .operatorHeader{
+        display: flex !important
+    }
+    .operatorHeader > div {
+        margin-right: 3rem !important
+    }
+}
 @media only screen and (max-width: 1200px) {
     .historyHeader{
         display:block !important
@@ -26,20 +37,32 @@
     .verticalKeyGap {
         margin-bottom:0.4rem !important
     }
+    .textResponsive{
+        font-size: smaller !important
+    }
+    .editButton > button, .saveButton{
+        font-size:smaller !important
+    }
 }
 @media only screen and (max-width: 768px) {
+    .verticalKeyGap > div{
+        font-size:medium
+    }
     .educationCell{
         margin-bottom: 2rem !important
     }
-    .verticalKeyGap > div{
-        font-size:initial
+    .textResponsive{
+        font-size: medium !important
     }
-    .verticalKeyGap > div{
-        font-size:medium
+    .editButton > button, .saveButton{
+        font-size:medium !important
     }
 }
 .subHeader{
     margin-left:5rem
+}
+.editButton > button, .saveButton, .textResponsive{
+    font-size:1.75rem
 }
 .phantom{
     display:none

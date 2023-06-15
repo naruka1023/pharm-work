@@ -1,4 +1,13 @@
-
+@media only screen and (max-width: 576px){
+  .headerText{
+    font-size: smaller !important
+  }
+}
+.bi-arrow-up-square::before {
+  content: "\f147";
+  background-color: white;
+  border-radius: 1rem;
+}
 .swiper-slide {
     width: 80vw;
   }

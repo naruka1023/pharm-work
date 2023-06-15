@@ -16,7 +16,7 @@ export class LocationSelectorComponent {
 
   @Input()parentFormGroup!: FormGroup;
   @Input()formGroupName : string = "Location";
-  @Input()col: string = 'col-3';
+  @Input()col: string = 'col-md-4 col-12';
   genericFormGroup!:FormGroup;
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;

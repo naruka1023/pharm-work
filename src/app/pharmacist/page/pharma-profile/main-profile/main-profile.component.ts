@@ -141,6 +141,12 @@ export class MainProfileComponent {
   }
   resetFormGroup(){
     this.initializeFormGroup();
+    if(this.innerProfileInformation.educationHistory == undefined){
+      this.addEducation()
+    }
+    if(this.innerProfileInformation.jobHistory == undefined){
+      this.addOccupation()
+    }
     this.innerProfileInformation.educationHistory?.forEach((edh)=>{
       this.addEducation()
     })

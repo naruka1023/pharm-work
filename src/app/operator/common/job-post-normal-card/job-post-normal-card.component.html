@@ -4,10 +4,10 @@
 <div class="card border-secondary w-100" style="border-radius: 20px">
 	<div class="card-header"  style="border-radius:20px 20px 0 0" [ngStyle]="{'background':!content.Urgency?fullTimeFlag?'#7fcae6':'#a2e3d9':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
-			<div class="col-sm-4 fs-5 align-items-center" style="border-right: solid 1px grey; text-align: center">
+			<div class="col-sm-4 fs-5 align-items-center borderRight" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
 			</div>
-			<div class="col-sm fs-5 d-flex w-100 justify-content-center align-items-center">
+			<div class="dateOfJob col-sm fs-5 d-flex w-100 justify-content-center align-items-center">
 				<b class="me-3">ทำงานวันที่ </b><div>{{content.DateOfJob}}</div>
 			</div>
 			<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
@@ -28,18 +28,22 @@
 	</div>
 	<div class="card-body" style="padding:0.5rem 1rem">
 		<div class="row">
-			<div class="col-sm-3 text-center align-self-center">
-				<ng-container *ngIf="profileLinkFlag; then link; else noLink"></ng-container>
-				<ng-template #link>
+			<ng-container *ngIf="profileLinkFlag; then link; else noLink"></ng-container>
+			<ng-template #link>
+				<div class="col-3 mainImage text-center align-self-center">
 					<img (click)="goToProfile()" class="border border-5 w-100 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
-				</ng-template>
-				<ng-template #noLink>
+				</div>
+			</ng-template>
+			<ng-template #noLink>
+				<div class="col-3 mainImage text-center align-self-center">
 					<img class="border border-5 w-100 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
-				</ng-template>
-				
-			</div>
-			<div class="col-sm w-100">
-				<div class="d-flex justify-content-between me-2">
+				</div>
+			</ng-template>
+			<div class="col-sm col-12 w-100">
+				<div class="d-flex justify-content-between me-2 mb-sm-0 mb-3 subImageContainer">
+					<div class="subImage text-center align-self-center  me-md-0 me-3">
+						<img (click)="goToProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
+					</div>
 					<div>
 						<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'height':'1.5em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}">
 							<b>{{content.JobName}}</b>
@@ -49,7 +53,7 @@
 				</div>
 				<div class="container text-center">
 					<div class="row mb-2">
-						<div class="col d-flex" *ngIf="!urgentFlag">
+						<div class="col-sm col-12 d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
@@ -62,19 +66,19 @@
 								</div>
 							</div>
 						</div>
-						<div *ngIf="!urgentFlag" class="col d-flex">
+						<div *ngIf="!urgentFlag" class="col-sm col-12 d-flex">
 							<p class="my-auto me-2">
 								<i class="my-auto fs-6 bi bi-people"></i>
 							</p>
 							<p class="my-auto fs-6 ms-2">{{content.Amount}} ตำแหน่ง</p>
 						</div>
-						<div class="col d-flex" *ngIf="urgentFlag">
+						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
 								<i class="my-auto fs-6 bi bi-clock"></i>
 							</p>
 							<p class="my-auto fs-6 ms-3">{{content.Duration}} </p>
 						</div>
-						<div class="col d-flex" *ngIf="urgentFlag">
+						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-6 my-auto bi bi-geo-alt"></i>
 							</p>
@@ -84,7 +88,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col d-flex" *ngIf="urgentFlag">
+						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
@@ -97,7 +101,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col d-flex" *ngIf="!urgentFlag">
+						<div class="col-sm col-12 d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-6 my-auto bi bi-geo-alt"></i>
 							</p>
@@ -105,7 +109,7 @@
 								<div class="mx-2 fs-6">{{content.Location.Province}}</div>
 							</div>
 						</div>
-						<div class="col d-flex" *ngIf="!urgentFlag">
+						<div class="col-sm col-12 d-flex" *ngIf="!urgentFlag">
 							<div class="d-flex flex-row"*ngIf="content.OnlineInterview">
 								<p class="my-auto me-2">
 									<i class="my-auto fs-6 bi bi-tv"></i>
@@ -120,8 +124,8 @@
 	</div>
 </div>
 <div class="row my-3">
-	<div class="col-sm d-flex flex-row-reverse">
-		<div *ngIf="buttonSetFlag" class="d-flex justify-content-end">
+	<div class="col-sm d-flex flex-sm-row-reverse justify-content-center">
+		<div *ngIf="buttonSetFlag" class="d-sm-flex justify-content-sm-end">
 			<button type="button" (click)="deleteCard()"class="me-3 btn btn-secondary fs-4">
 				<ng-container *ngIf="deleteLoadingFlag; then loading; else notLoading"></ng-container>
 				<ng-template #loading>
