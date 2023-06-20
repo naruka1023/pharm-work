@@ -84,7 +84,8 @@ export class SmallUserCardComponent {
       {
         userUID: this.content.uid,
         categorySymbol:this.type,
-        pageType:'short'
+        pageType:'short',
+        profileLinkPage: true
       }
     })
   }

@@ -466,6 +466,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
             profPic.src = this.result.cropProfilePictureUrl.split('?t=')[0] + '?t='  + new Date().getTime();
             let user:Partial<User> = {uid:this.userUID, cropProfilePictureUrl: profPic.src}
             this.userService.updateUser(user).then(()=>{
+              this.store.dispatch(updateCropProfilePicture({cropProfilePictureUrl: profPic.src}))
               this.loadProfilePictureFlag = false
               this.formModal.hide()
             })
@@ -634,6 +635,10 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       this.store.dispatch(setCurrentUser({user: payload}))
       this.editIntroTextClicked()
     })
+  }
+  cancelIntroText(){
+    this.editFlag = false;
+    this.resetFormGroup()
   }
   editIntroTextClicked(){
     this.editFlag = !this.editFlag

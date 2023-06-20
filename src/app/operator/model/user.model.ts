@@ -92,6 +92,7 @@ export interface UserPharma{
         educationLevel: string;
         major: string;
     } [],
+    requestUID?: string,
     jobHistory?: JobHistory[],
     loading: boolean,
     preferredJobType?:string[],

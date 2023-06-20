@@ -8,6 +8,7 @@ import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
 import { removeFavorite, addFavorites } from '../../state/actions/users-actions';
 import { UtilService } from '../../service/util.service';
 import { removeRequestView } from '../../state/actions/request-view.actions';
+import { RequestJobComponent } from '../../page/operator-profile/request-job/request-job.component';
 
 @Component({
   selector: 'app-normal-user-card',
@@ -18,6 +19,8 @@ export class NormalUserCardComponent {
   @Input()content!: UserPharma
   @Input()type: string = 'AA'
   @Input()profileLinkPage: boolean = true
+  @Input()jobUID?: string = ''
+  @Input()requestUID?: string
   requestViewFlag$:Observable<boolean> = of(true);
   requestStatus!: requestView
   requestStatusFlag: boolean = false;
@@ -30,7 +33,7 @@ export class NormalUserCardComponent {
   favoriteID!: string;
   userID!: string
 
-  constructor(private utilService:UtilService, private router:Router,private userService: UsersService, private store:Store){}
+  constructor(private requestJobsComponent: RequestJobComponent,private utilService:UtilService, private router:Router,private userService: UsersService, private store:Store){}
 
   ngOnInit(){
     this.store.select((state: any)=>{
@@ -86,11 +89,18 @@ export class NormalUserCardComponent {
     })
   }
 
+  cancelRequest(){
+    this.userService.cancelRequest(this.content.requestUID!)
+  }
+
   openRequestViewModal(){
     this.utilService.sendRequestViewSubject(this.content)
   }
 
   goToProfile(){
+    if(!this.profileLinkPage){
+      this.requestJobsComponent.hideModal()
+    }
     let pageType = 'long'
     switch(this.router.url){
       case '/operator/profile-operator/recently-seen-users':
@@ -110,7 +120,10 @@ export class NormalUserCardComponent {
       {
         userUID: this.content.uid,
         categorySymbol:this.type,
-        pageType:pageType
+        pageType:pageType,
+        profileLinkPage: this.profileLinkPage,
+        requestUID: this.content.requestUID,
+        jobUID: this.jobUID
       }
     })
   }

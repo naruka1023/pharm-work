@@ -24,15 +24,15 @@ export class PharmaHomeComponent {
   items$!: Observable<filterConditions[]>;
     breakingPointOperator = {
     1400: {
-      slidesPerView: 3,
+      slidesPerView: 1.5,
     },
     1200: {
-      slidesPerView: 2.5,
-    },
-    768: {
       slidesPerView: 2,
     },
-    656: {
+    966: {
+      slidesPerView: 2,
+    },
+    768: {
       slidesPerView: 1.5,
     },
   }

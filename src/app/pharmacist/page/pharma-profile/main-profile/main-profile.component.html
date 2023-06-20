@@ -1,4 +1,4 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3 editButton mb-md-0 mb-3"><button (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'แก้ไข':'ยกเลิก'}}</button></div>
+<div class="align-items-baseline d-flex justify-content-end ms-3 editButton mb-md-0 mb-3"><button (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'บันทึก':'ยกเลิก'}}</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="verticalKeyGap">
@@ -19,13 +19,13 @@
                             <div class="textResponsive">{{eduGroup.yearGraduated}}</div>
                         </div>
                         <div class="row verticalKeyGap">
-                            <div class="textResponsive col-8">{{eduGroup.universityName}}</div>
-                            <div class="textResponsive col">{{eduGroup.educationLevel}}</div>
+                            <div class="textResponsive col-8"><b>มหาลัย</b> {{eduGroup.universityName}}</div>
+                            <div class="textResponsive col"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel}}</div>
     
                         </div>
                         <div class="row">
-                            <div class="textResponsive col-8">{{eduGroup.major}}</div>
-                            <div class="textResponsive col">{{eduGroup.franchise}}</div>
+                            <div class="textResponsive col-8"><b>คณะ</b> {{eduGroup.major}}</div>
+                            <div class="textResponsive col"><b>สาขา</b> {{eduGroup.franchise}}</div>
                         </div>
                     </li>
                 </ul>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="d-flex">
                     <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                    <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience}}</div>
+                    <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience}} ปี</div>
                 </div>
             </div>
             <div class="mt-4 historyContent" style="padding-left: 6rem">
@@ -62,8 +62,7 @@
                         <div class="textResponsive verticalKeyGap">
                             <div>{{jobGroup.jobName}}</div>
                         </div>
-                        <div class="textResponsive verticalKeyGap">
-                            <div>{{jobGroup.description}}</div>
+                        <div [innerHtml]="jobGroup.description" class="textResponsive verticalKeyGap">
                         </div>
                     </li>
                 </ul>
@@ -87,7 +86,7 @@
         
         <ng-container formArrayName="educationHistory" >
                 <div class="row" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
-                    <div class="col-xl-3 col-12">
+                    <div class="col-xl-3 col-12 text-xxl-start text-center my-xl-2 my-5">
                         <label *ngIf='i == 0' class="textResponsive form-label"><b>ประวัติการศึกษา </b></label>
                     </div>
                     <div class="col-xl-7 col-12 mb-3">
@@ -162,23 +161,8 @@
         <ng-container formArrayName="jobHistory">
             <ng-container [formGroupName]="i" *ngFor="let number of FormJobData; let i = index">
                 <div class="row">
-                    <div class="col-xl-3 col-xl-12">
+                    <div class="col-xl-3 col-12 text-xxl-start text-center my-xl-2 my-5">
                         <label *ngIf='i == 0' class="textResponsive form-label"><b>ประวัติการทำงาน</b></label>
-                    </div>
-                    <div class="col operatorHeader">
-                        <div>
-                            <div class="d-flex flex-start responsiveButton">
-                                <i *ngIf="i == 0" (click)="addOccupation()" class="textResponsive button bi bi-plus-circle"></i>
-                                <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class="textResponsive button bi bi-trash"></i>
-                            </div>
-                        </div>
-                        <div class="form-check">
-                            <input class="textResponsive form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
-                            <label for="active" class="textResponsive text-center fs-5 form-check-label">
-                                ยังอยู่ในตำแหน่งนี้
-                            </label>
-                        </div>
-                        
                     </div>
                     <div class="col-xl-10 col-12">
                         <div class="row mb-3">
@@ -221,11 +205,26 @@
                                 <label for="description" class="textResponsive mb-3 form-label"><b>อธิบายงาน</b></label>
                             </div>
                             <div class="col">
-                                <div class="mb-5">
-                                    <textarea formControlName="description" class="textResponsive form-control fs-3" rows="6"></textarea>
+                                <div class="mb-xxl-5 mb-1">
+                                    <ckeditor formControlName="description" class="textResponsive fs-3" [editor]="descriptionEditor" name="editor"></ckeditor>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col operatorHeader">
+                        <div>
+                            <div class="d-flex flex-start responsiveButton">
+                                <i *ngIf="i == 0" (click)="addOccupation()" class="textResponsive button bi bi-plus-circle"></i>
+                                <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class="textResponsive button bi bi-trash"></i>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="textResponsive form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
+                            <label for="active" class="textResponsive text-center fs-5 form-check-label">
+                                ยังอยู่ในตำแหน่งนี้
+                            </label>
+                        </div>
+                        
                     </div>
                 </div>
             </ng-container>
@@ -234,7 +233,8 @@
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button type="submit" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">แก้ไข</button>
+            <button type="submit" class="btn saveButton me-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+            <button (click)="cancelClick()" class="btn btn-primary saveButton" style="padding: 0.5rem 2rem; border-radius: 50px !important; color:white">ยกเลิก</button>
         </div>
     </form>
 </ng-template>

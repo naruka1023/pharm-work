@@ -339,19 +339,24 @@ export class UsersService {
   async getListOfUsersFromJobRequests(array:string[]): Promise<UserPharma[]>{
     let promises: Promise<any>[] = []
     array.forEach((id: string) => {
-      promises.push(getDoc(doc(this.db, 'users', id)))
+      promises.push(getDoc(doc(this.db, 'users', id.split('-')[1])))
     })
     let result = await Promise.all(promises)
-    return result.map((value)=>{
+    return result.map((value,index)=>{
       return {
         ...value.data(),
-        uid: value.id
+        uid: value.id,
+        requestUID: array[index].split('-')[0]
       } as UserPharma
     })    
   }
 
   createRequestView(request:requestView){
     return addDoc(collection(this.db, 'request-view'), request)
+  }
+
+  cancelRequest(jobRequestUID: string){
+    return deleteDoc(doc(this.db, 'job-request', jobRequestUID))
   }
 
   removeRequestView(requestViewUID: string){

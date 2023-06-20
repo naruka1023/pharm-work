@@ -1,4 +1,4 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3 editButton"><button (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'แก้ไข':'ยกเลิก'}}</button></div>
+<div class="align-items-baseline d-flex justify-content-end ms-3 editButton"><button (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'บันทึก':'ยกเลิก'}}</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="verticalKeyGap d-flex flex-row">
@@ -166,7 +166,8 @@
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button type="submit" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">แก้ไข</button>
+            <button type="submit" class="btn saveButton me-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+            <button class="btn btn-primary saveButton" (click)="cancelClick()" style="padding: 0.5rem 2rem; border-radius: 50px !important; color:white">ยกเลิก</button>
         </div>
     </form>
 </ng-template>

@@ -22,7 +22,7 @@
                 <hr style="width: 100%" class="m-auto">
             </ul>
             <div class="tab-content fs-3 mx-sm-5" style="line-break: auto">
-                <div class="align-items-baseline d-flex justify-content-end ms-md-3 editButton mb-md-0 mb-3"><button (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!profileEditState?'แก้ไข':'ยกเลิก'}}</button></div>
+                <div class="align-items-baseline d-flex justify-content-end ms-md-3 editButton mb-md-0 mb-3"><button (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!profileEditState?'บันทึก':'ยกเลิก'}}</button></div>
                 <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <ng-container *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"></ng-container>
                 <ng-template #displayProfileOne>

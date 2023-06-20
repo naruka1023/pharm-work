@@ -6,11 +6,11 @@
         <div class="col">
             <div class="row verticalKeyGap">
                 <div class="col-4">
-                    <label class="me-3">แขวง: </label>
+                    <label class="me-3">จังหวด: </label>
                 </div>
                 <div class="col">
-                    <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3">
-                        <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                    <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3">
+                        <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
                     </select>
                 </div>
             </div>
@@ -26,11 +26,11 @@
             </div>
             <div class="row verticalKeyGap">
                 <div class="col-4">
-                    <label class="me-3">จังหวด: </label>
+                    <label class="me-3">แขวง: </label>
                 </div>
                 <div class="col">
-                    <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3">
-                        <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                    <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3">
+                        <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
                     </select>
                 </div>
             </div>

@@ -55,6 +55,9 @@ export class JobService {
   removeJob(jobID: string){
     return deleteDoc(doc(this.db, 'job-post', jobID))
   }
+  cancelRequest(jobRequestUID: string){
+    return deleteDoc(doc(this.db, 'job-request', jobRequestUID))
+  }
 
   getRequestJob(operatorID:string){
     return onSnapshot(query(collection(this.db, 'job-request'), where('operatorUID', '==', operatorID)), (jobs)=>{
@@ -76,25 +79,25 @@ export class JobService {
                 ...requestedJobs,
               }
               list[keys].users = Object.create({});
-              list[keys].users[requestedJobs.userUID] = Object.create({})
+              list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] = Object.create({})
               list[keys].flag = true
             }else{
               if(requestedJobs.type == 'removed'){
                 this.store.dispatch(removeUserFromRequestedJob({jobUIDForUser:{user:list[keys]['users'][requestedJobs.userUID], jobUID: keys}}))
-                delete list[keys].users[requestedJobs.userUID]
+                delete list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID]
                 if(Object.keys(list[keys].users).length == 0){
                   delete list[keys]
                 }
               }else{
                 if(!list[keys].flag){
-                  this.userService.getUserFromJobRequest(requestedJobs).then((user:any)=>{
+                  this.userService.getUserFromJobRequest(requestedJobs).then((user)=>{
                     list = _.cloneDeep(list);
-                    list[keys].users[user.uid] = user
+                    list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] = user
                     this.collatedList = list;
                     this.store.dispatch(populateJobRequestWithUser({jobUIDForUser:{user: user, jobUID:keys}}))
                   })
                 }
-                list[keys].users[requestedJobs.userUID] = Object.create({})
+                list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] = Object.create({})
               }
             }
             this.collatedList = list;

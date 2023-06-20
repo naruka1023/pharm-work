@@ -247,17 +247,19 @@
 						<i class="bi bi-share"></i>
 					</h1>
 				</button>
-				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-				<ng-template #alreadyRequest>
-					<button (click)="requestJob()" class="btn text-center my-2 px-5" type="button" style="color:white; background-color:#7fd858">
-						<div class="fs-5">รับงาน</div>
-					</button>
-				</ng-template>
-				<ng-template #requestButton>
-					<button class="btn btn-warning text-center my-2 px-5" type="button">
-						<div class="fs-5">รอ confirm</div>
-					</button>
-				</ng-template>
+				<div *ngIf="!profile.Urgency">
+					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+					<ng-template #alreadyRequest>
+						<button (click)="requestJob()" class="btn text-center my-2 px-5" type="button" style="color:white; background-color:#7fd858">
+							<div class="fs-5">สมัครงาน</div>
+						</button>
+					</ng-template>
+					<ng-template #requestButton>
+						<button class="btn btn-warning text-center my-2 px-5" type="button">
+							<div class="fs-5">รอ confirm</div>
+						</button>
+					</ng-template>
+				</div>
 			</div>
 		</div>
 		<div class="my-5" *ngIf="urgentJobs.length !== 0">

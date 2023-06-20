@@ -46,6 +46,7 @@ import { requestViewReducer } from './state/reducers/request-view.reducers';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 
@@ -59,6 +60,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     ReactiveFormsModule,
     GoogleMapsModule,
     GooglePlaceModule,
+    CKEditorModule,
     FormsModule,
     SwiperModule,
     PharmaAppRoutingModule,

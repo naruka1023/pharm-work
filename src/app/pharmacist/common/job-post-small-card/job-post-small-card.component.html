@@ -60,7 +60,7 @@
 					</p>
 					<div class="col d-flex flex-row fs-6">
 						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}
-						<div>
+						<!-- <div>
 							<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 							<ng-template #fullSub>
 								<div class="ms-1">บาท/เดือน</div>
@@ -68,7 +68,7 @@
 							<ng-template #partSub>
 								<div class="ms-1">บาท/ชม</div>
 							</ng-template>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div *ngIf="!urgentFlag">
@@ -89,18 +89,18 @@
 			<div class="d-flex justify-content-end " style="font-size:0.75rem;">
 				{{content.dateUpdated}}
 			</div>
-			<div class="d-flex justify-content-between">
-				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-				<ng-template #alreadyRequest>
-					<div (click)="requestJob()" class="btn justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'color': 'white', 'background-color':'#7fd858', 'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
-					<div class="fs-5">รับงาน</div>
+		<div class="d-flex justify-content-between">
+			<!-- <ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+			<ng-template #alreadyRequest>
+				<div (click)="requestJob()" class="btn justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'color': 'white', 'background-color':'#7fd858', 'width': '-webkit-fill-available', 'visibility': urgentFlag?'hidden': 'unset'}" type="button">
+				<div class="fs-5">สมัครงาน</div>
 			</div>
 			</ng-template>
 			<ng-template #requestButton>
-				<div class="btn btn-warning justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'width': '-webkit-fill-available', 'visibility': !urgentFlag?'hidden': 'unset'}" type="button">
+				<div class="btn btn-warning justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'width': '-webkit-fill-available', 'visibility': urgentFlag?'hidden': 'unset'}" type="button">
 					<div class="fs-5">รอ confirm</div>
 				</div>
-			</ng-template>
+			</ng-template> -->
 			<div class="d-flex flex-row">
 				<button type="button" class="btn">
 					<h1>

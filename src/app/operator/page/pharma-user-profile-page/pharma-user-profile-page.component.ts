@@ -12,6 +12,9 @@ export class PharmaUserProfilePageComponent {
   innerProfileInformation!:UserPharma
   jobType!: string[]
   categorySymbol!: string
+  profileLinkPage: boolean = true
+  jobUID?: string
+  requestUID?: string
   zoom: number = 15
   userUID!: string
   pageType!: string
@@ -24,6 +27,9 @@ export class PharmaUserProfilePageComponent {
     this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
     this.userUID = this.route.snapshot.queryParamMap.get('userUID')!;
     this.pageType = this.route.snapshot.queryParamMap.get('pageType')!;
+    this.jobUID = this.route.snapshot.queryParamMap.get('jobUID')!;
+    this.requestUID = this.route.snapshot.queryParamMap.get('requestUID')!;
+    this.profileLinkPage = (this.route.snapshot.queryParamMap.get('profileLinkPage')! == 'true')?true:false
     this.store.select((state:any)=>{
       let newState: any
       switch(this.pageType){
@@ -37,12 +43,17 @@ export class PharmaUserProfilePageComponent {
           newState = newState.content
           return newState
         case 'request-jobs':
-          newState = state.requestView[this.userUID + '-' + state.user.uid]
-          if(newState.status !== 'Pending'){
-            this.allowView = true;
+          if(this.profileLinkPage){
+            newState = state.requestView[this.userUID + '-' + state.user.uid]
+            if(newState.status !== 'Pending'){
+              this.allowView = true;
+            }
+            newState = newState.content
+            return newState
+          }else{
+            newState = state.requestedJobs.JobRequests[this.jobUID!].users[this.requestUID! + '-' + this.userUID]
+            return newState
           }
-          newState = newState.content
-          return newState
         default:
           newState = state.users.users[this.categorySymbol][this.pageType]
           newState = newState[this.userUID]

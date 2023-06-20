@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,13 +8,14 @@ import { User } from 'src/app/operator/model/user.model';
 import { UtilService } from 'src/app/operator/service/util.service';
 import { setCurrentUser, toggleLoading } from 'src/app/state/actions/users.action';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Auth, updateProfile } from '@angular/fire/auth';
 @Component({
   selector: 'app-inner-profile',
   templateUrl: './inner-profile.component.html',
   styleUrls: ['./inner-profile.component.css']
 })
 export class InnerProfileComponent implements OnDestroy {
-
+  private auth: Auth = inject(Auth)
   loading$!: Observable<boolean>;
   profileEditState!: boolean;
   innerProfileInformation!: User;

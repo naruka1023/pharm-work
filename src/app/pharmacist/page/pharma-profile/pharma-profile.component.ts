@@ -2,7 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, take } from 'rxjs';
 import { UserServiceService } from '../../service/user-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RegisterJobsComponent } from './register-jobs/register-jobs.component';
 
 declare var window: any;
 
@@ -12,9 +13,10 @@ declare var window: any;
   styleUrls: ['./pharma-profile.component.css']
 })
 export class PharmaProfileComponent implements OnDestroy{
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserServiceService, private store: Store){}
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserServiceService, private router:Router, private store: Store, private registerJobsComponent: RegisterJobsComponent){}
   sub: Subscription = new Subscription()
   formModal!: any
+  selectChildTab: boolean = false
   ngOnInit(){
     this.sub.add(
       this.store.select((state:any)=>{
@@ -29,6 +31,9 @@ export class PharmaProfileComponent implements OnDestroy{
     this.sub.add(this.userService.getCallView().pipe().subscribe(()=>{
       this.openFormModal();
     }))
+  }
+  setChildFlag(flag: boolean){
+    this.selectChildTab = flag
   }
   ngAfterViewInit(){
     this.activatedRoute.data.subscribe((url: any)=>{
@@ -47,6 +52,11 @@ export class PharmaProfileComponent implements OnDestroy{
     }
     let triggerEl = document.getElementById(newTarget)!;
     triggerEl.click()
+    if(this.selectChildTab){
+      if(target == 'request-jobs' || target == 'request-views'){
+        this.registerJobsComponent.selectTab(target)
+      }
+    }
   }
   ngOnDestroy(){
     this.sub.unsubscribe();

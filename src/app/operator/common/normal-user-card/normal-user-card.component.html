@@ -4,15 +4,7 @@
     </div>
     <div class="row">
         <div class="col-sm-4 col-12 d-flex">
-            <ng-container *ngIf="profileLinkPage; then link; else noLink"></ng-container>
-            <ng-template #link>
                 <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToProfile()" class="card-img-top m-auto my-3 rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
-                <!-- <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 20%;"><i class="bi bi-check-circle-fill"></i></div> -->
-            </ng-template>
-            <ng-template #noLink>
-                <img src="assets/user-profile.jpg" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
-                <!-- <div class="text-primary fs-3 position:absolute" style="bottom: 9%; position: absolute !important; left: 12%;"><i class="bi bi-check-circle-fill"></i></div> -->
-            </ng-template>
         </div>
         <div class="col-sm col fs-5 m-auto cardContent">
             <div class="row py-1 fs-4 nickName">
@@ -113,64 +105,69 @@
 </div>
 <div class="m-3 d-flex justify-content-end">
     <button *ngIf="type == 'S'" class="btn fs-3 ms-3" style="color:white; background-color: #7fd858">ส่งงานด่วน</button>
-    <ng-container *ngIf="requestStatusFlag; then status; else notStatus"></ng-container>
-    <ng-template #status>
-        <div class="d-sm-flex justify-content-between align-items-center" style="width:-webkit-fill-available; width: -moz-available">
-            <div class="fs-5">ขอดูเมื่อ {{ requestStatus.dateSent}}</div>
-            <div class="d-flex justify-content-end align-items-center">
-                <div *ngIf="cancelRequestViewFlag" style="text-align:center" class="me-3">
-                    <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-                <ng-container *ngIf="requestStatus.status == 'Pending'; then pending; else notPending"></ng-container>
-                <ng-template #pending>
-                        <button class="btn btn-warning fs-5 ms-3 rounded" style="color:white">
-                            <i class="bi bi-three-dots me-3"></i>รออนุมัติ
-                        </button>
-                    </ng-template>
-                    <ng-template #notPending>
-                        <button class="btn btn-success fs-5 ms-3 rounded" style="color:white">
-                            <i class="bi bi-check-circle me-3"></i>อนุมัติแล้ว
-                        </button>
-                    </ng-template>
-                <button class="btn btn-danger fs-5 ms-3 rounded" (click)="deleteRequestView()"style="color:white">
-                    ยกเลิกคำขอ
-                </button>
-            </div>
-        </div>
+    <ng-container *ngIf="!profileLinkPage; then request; else notRequest"></ng-container>
+    <ng-template #request>
+        <button class="btn btn-danger fs-3" (click)="cancelRequest()">cancel Request</button>
     </ng-template>
-    <ng-template #notStatus>
-        <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
-            <ng-template #requestView>
-                <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn fs-3" style="background-color: rgb(255, 255, 179)">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
-            </ng-template>
-            <ng-template #notRequestView>
-                <button (click)="openRequestViewModal()" [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3">ขอดูข้อมูล</button>
-            </ng-template>
-        <div class="text-danger fs-3 mx-3">
-            <button (click)="toggleFavorite()" type="button" class="btn">
-                <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
-                <ng-template #loading>
-                    <div>
-                        <div style="text-align:center">
-                            <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                            </div>
+    <ng-template #notRequest>
+        <ng-container *ngIf="requestStatusFlag; then status; else notStatus"></ng-container>
+        <ng-template #status>
+            <div class="d-sm-flex justify-content-between align-items-center" style="width:-webkit-fill-available; width: -moz-available">
+                <div class="fs-5">ขอดูเมื่อ {{ requestStatus.dateSent}}</div>
+                <div class="d-flex justify-content-end align-items-center">
+                    <div *ngIf="cancelRequestViewFlag" style="text-align:center" class="me-3">
+                        <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
+                    <ng-container *ngIf="requestStatus.status == 'Pending'; then pending; else notPending"></ng-container>
+                    <ng-template #pending>
+                            <button class="btn btn-warning fs-5 ms-3 rounded" style="color:white">
+                                <i class="bi bi-three-dots me-3"></i>รออนุมัติ
+                            </button>
+                        </ng-template>
+                        <ng-template #notPending>
+                            <button class="btn btn-success fs-5 ms-3 rounded" style="color:white">
+                                <i class="bi bi-check-circle me-3"></i>อนุมัติแล้ว
+                            </button>
+                        </ng-template>
+                    <button class="btn btn-danger fs-5 ms-3 rounded" (click)="deleteRequestView()"style="color:white">
+                        ยกเลิกคำขอ
+                    </button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #notStatus>
+            <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
+                <ng-template #requestView>
+                    <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn fs-3" style="background-color: rgb(255, 255, 179)">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
                 </ng-template>
-                <ng-template #notLoading>
-                    <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
-                    <ng-template #normal>
-                        <div class="fs-3"><i class="bi bi-heart"></i></div>
-                    </ng-template>
-                    <ng-template #red>
-                        <div class="text-danger fs-3"><i class="bi bi-heart-fill"></i></div>
-                    </ng-template>
+                <ng-template #notRequestView>
+                    <button (click)="openRequestViewModal()" [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3">ขอดูข้อมูล</button>
                 </ng-template>
-            </button>
-        </div>
-
+            <div class="text-danger fs-3 mx-3">
+                <button (click)="toggleFavorite()" type="button" class="btn">
+                    <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
+                    <ng-template #loading>
+                        <div>
+                            <div style="text-align:center">
+                                <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #notLoading>
+                        <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
+                        <ng-template #normal>
+                            <div class="fs-3"><i class="bi bi-heart"></i></div>
+                        </ng-template>
+                        <ng-template #red>
+                            <div class="text-danger fs-3"><i class="bi bi-heart-fill"></i></div>
+                        </ng-template>
+                    </ng-template>
+                </button>
+            </div>
+        </ng-template>
     </ng-template>
 </div>

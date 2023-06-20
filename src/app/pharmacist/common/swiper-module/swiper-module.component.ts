@@ -24,7 +24,7 @@ export class SwiperModuleComponent {
   collapseButton!: string
   breakingPoint = {
     1400: {
-      slidesPerView: 4.5
+      slidesPerView: 5
     },
     1200: {
       slidesPerView: 4
@@ -33,7 +33,7 @@ export class SwiperModuleComponent {
       slidesPerView: 3
     },
     768: {
-      slidesPerView: 2.5
+      slidesPerView: 2
     },
     420: {
       slidesPerView: 1.5

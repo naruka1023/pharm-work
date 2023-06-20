@@ -6,6 +6,7 @@ import { JobHistory, User } from 'src/app/pharmacist/model/typescriptModel/users
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
 import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-main-profile',
@@ -17,6 +18,10 @@ export class MainProfileComponent {
   editFlag:boolean = false
   loadingFlag: boolean = false
   profileEdit!:FormGroup
+  descriptionEditor = ClassicEditor;
+  descriptionModel = {
+    editorData: ''
+  };
   constructor(private store: Store, private userService: UserServiceService, private fb: FormBuilder,private utilService:UtilService){
 
   }
@@ -30,6 +35,11 @@ export class MainProfileComponent {
         this.resetFormGroup();
       }
     })
+  }
+
+  cancelClick(){
+    this.editFlag = false
+    this.resetFormGroup();
   }
 
   editClick(){
@@ -122,13 +132,12 @@ export class MainProfileComponent {
       WorkExperience: [''],
     });
   }
-  // calculateDateDiff(startDate:string, endDate:string){
-  //   const date1 = new Date(startDate).valueOf();
-  //   const date2 = new Date(endDate).valueOf();
-  //   const diffTime = Math.abs(date2 - date1);
-  //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-  //   return diffDays
-  // }
+  getCurrentDate(){
+    let parsedDate = new Date()
+    let months = (parsedDate.getFullYear()) * 12
+    months += parsedDate.getMonth();
+    return Math.floor(months/12)
+  }
   calculateDateDiff(startDate:string, endDate:string){
     let months;
     let parsedStart = new Date(startDate);
@@ -161,11 +170,14 @@ export class MainProfileComponent {
     })
     this.profileEdit.get('jobHistory')?.valueChanges.subscribe((profile)=>{
       profile.forEach((pr:JobHistory)=>{
+        if(pr.activeFlag){
+          let date : any = new Date()
+          pr.dateEnded = date
+        }
         if(pr.dateStarted !== '' && pr.dateEnded !== ''){
           let dateDiff = this.calculateDateDiff(pr.dateStarted, pr.dateEnded)
           let years = Math.floor(dateDiff/12) > 0? Math.floor(dateDiff/12) + ' ปี': '';
           let months = dateDiff % 12 > 0? + dateDiff % 12 + ' เดือน': '';
-
           pr.workExperience =  years + " " + months
         }
       })
@@ -177,6 +189,21 @@ export class MainProfileComponent {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       dateUpdated: new Date().toISOString().split('T')[0],
+    }
+    let totalMonths: number = 0 
+    let totalYear : number = 0
+    let jobHistoryList: JobHistory[] =this.profileEdit.get('jobHistory')?.value
+    jobHistoryList.forEach((jobHistory)=>{
+      let workExp = jobHistory.workExperience.split(' ')
+      if(workExp.length >2){
+        totalMonths += Number(workExp[2])
+      }
+      totalYear += Number(workExp[0])
+    })
+    totalYear += Math.floor(totalMonths/12)
+    payload = {
+      ...payload,
+      WorkExperience: totalYear
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{

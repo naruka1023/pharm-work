@@ -8,13 +8,13 @@
     </ng-template>
     <ng-template #notLoading>
       <div class="mx-sm-4 mx-2 fs-2">
-        <div class="my-3 innerProfileTitle"><b>ผู้สมัครงาน</b></div> 
+        <div class="my-3" id="innerProfileTitle"><b>ผู้สมัครงาน</b></div> 
         <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row tabList" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
             <li class="nav-item">
-                <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">คำขอสมัครงาน</a>
+                <button class="myTab nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">คำขอสมัครงาน</button>
             </li>
             <li class="nav-item">
-                <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ขอดูข้อมูลผู้สมัคร</a>
+                <button class="myTab nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ขอดูข้อมูลผู้สมัคร</button>
             </li>
             <hr style="width: 100%" class="m-auto">
         </ul>
@@ -75,7 +75,7 @@
             </ng-template>
             <ng-template #notLoadingUsers> -->
               <div class="row row-cols-xl-2 mb-5">
-                  <app-normal-user-card *ngFor="let user of usersPayload" [profileLinkPage]="profileLinkFlag" [content]="user!" ></app-normal-user-card>
+                  <app-normal-user-card *ngFor="let user of usersPayload" [jobUID]="jobID"[profileLinkPage]="profileLinkFlag" [content]="user!" ></app-normal-user-card>
               </div>
             <!-- </ng-template> -->
             </div>

@@ -66,7 +66,7 @@ export class JobPostNormalCardComponent{
       this.activeFlag = active;
     })
   }
-
+ 
   getUsers(){
     this.utilService.sendUserRequestSubject({userArray: this.userList!,flag:this.userListFlag!, jobUID: this.content.custom_doc_id});
   }

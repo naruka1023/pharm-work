@@ -84,6 +84,12 @@ export class PreferredJobsComponent {
       this.editClick()
     })
   }
+  
+  cancelClick(){
+    this.editFlag = false
+    this.resetFormGroup();
+  }
+  
   editClick(){
     this.editFlag = !this.editFlag
     if(this.editFlag == false){

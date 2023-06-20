@@ -99,7 +99,7 @@ export class RequestJobComponent  implements OnDestroy {
           this.userService.getListOfUsersFromJobRequests(jobUIDForUser.userArray!).then((users:UserPharma[])=>{
             let usersList: any = {};
             users.forEach((user: UserPharma)=>{
-              usersList[user.uid] = user;
+              usersList[user.requestUID + '-' + user.uid] = user;
             })
             this.store.dispatch(populateJobRequestWithUsers({jobUIDForUsers:{userList: usersList, jobUID:jobUIDForUser.jobUID }}))
             let list = _.cloneDeep(this.jobService.getCollatedList());
@@ -119,6 +119,9 @@ export class RequestJobComponent  implements OnDestroy {
         }
         })
     )
+  }
+  hideModal(){
+    this.modal.hide()
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe(); 

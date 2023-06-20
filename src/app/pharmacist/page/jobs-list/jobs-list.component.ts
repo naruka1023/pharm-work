@@ -108,17 +108,22 @@ export class JobsListComponent implements OnDestroy{
         this.urgentFilterForm.value.DateOfJob = this.urgentFilterForm.value.DateOfJob.split(', ')
       }
     }
-    if(this.urgentFilterForm.value.nearbyFlag && this.urgentFilterForm.value.radius == ''){
-      this.urgentFilterForm.patchValue({
-        nearbyFlag: false,
-        Location: {
-          Section: '',
-          District: '',
-          Province: ''
-        }
+      if(this.urgentFilterForm.value.nearbyFlag && this.urgentFilterForm.value.radius == ''){
+        this.urgentFilterForm.patchValue({
+          ...this.urgentFilterForm.value,
+          nearbyFlag: false,
+          Location: {
+            Section: '',
+            District: '',
+            Province: ''
+          }
       })
     }
-    this.jobPostService.searchJobs(this.urgentFilterForm.value).then((jobs)=>{
+    let finalForm = this.urgentFilterForm.value
+    if(this.urgentFilterForm.value.TimeFrame == 'Both'){
+      finalForm.TimeFrame = ''
+    }
+    this.jobPostService.searchJobs(finalForm).then((jobs)=>{
       this.query = jobs.query
       this.paginationIndex = 1;
       this.maxIndex = jobs.result.nbPages
@@ -134,6 +139,7 @@ export class JobsListComponent implements OnDestroy{
         CategorySymbol: this.CategorySymbol,
         count: newSrc.length
       }
+      this.resetLight();
       this.store.dispatch(retrievedJobCategorySuccess({jobs:res}));
       this.loadingFlag = false
     })
@@ -145,13 +151,13 @@ export class JobsListComponent implements OnDestroy{
       return result
     })
     this.district$ = this.store.select((state: any)=>{
-      if(this.urgentFilterForm.value.Location.Province === '' || this.urgentFilterForm.value.Location.Province === null){
+      if(this.urgentFilterForm.value.Location.Province === ''){
         return [];
       }
       return Object.keys(state.address.list[this.urgentFilterForm.value.Location.Province])
     })
     this.section$ = this.store.select((state: any)=>{
-      if(this.urgentFilterForm.value.Location.District === '' || this.urgentFilterForm.value.Location.District === null){
+      if(this.urgentFilterForm.value.Location.District === ''){
         return [];
       }
       let section: string[] = state.address.list[this.urgentFilterForm.value.Location.Province][this.urgentFilterForm.value.Location.District].map((section: any)=>section.section);
@@ -161,15 +167,19 @@ export class JobsListComponent implements OnDestroy{
   provinceSelected($event:any){
     this.urgentFilterForm.patchValue({
         ...this.urgentFilterForm.value,
-        District:'',
-        Section:''
+        Location: {
+          District:'', 
+          Section:''
+        }
     })
     this.store.dispatch(toggleAddressChange())
   }
   districtSelected($event:any){
     this.urgentFilterForm.patchValue({
         ...this.urgentFilterForm.value,
-        Section:''
+        Location: {
+          Section:''
+        }
     })
     this.store.dispatch(toggleAddressChange())
   }
@@ -203,7 +213,7 @@ export class JobsListComponent implements OnDestroy{
       this.urgentFilterForm = this.fb.group({
         TimeFrame: [''],
         Salary: [''],
-        OnlineInterview: true,
+        OnlineInterview: false,
         Location: this.fb.group({
           Section: [''],
           District: [''],
@@ -213,8 +223,13 @@ export class JobsListComponent implements OnDestroy{
         BTS: [''],
         CategorySymbol: this.CategorySymbol
       })
-
+      
     }
+  }
+  resetLight(){
+    this.initializeFormGroup()
+    this.initializeSelector()
+    this.store.dispatch(toggleAddressChange())
   }
   reset(){
     this.initializeFormGroup();

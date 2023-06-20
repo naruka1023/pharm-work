@@ -48,6 +48,11 @@ export class PrivateProfileComponent {
     })
   }
 
+  cancelClick(){
+    this.editFlag = false
+    this.resetFormGroup();
+  }
+
   editClick(){
     this.editFlag = !this.editFlag
     if(this.editFlag == false){
@@ -57,14 +62,12 @@ export class PrivateProfileComponent {
 
   initializeFormGroup(){
     this.profileEdit = this.fb.group({
-      name: [''],
-      surname: [''],
       gender: [''],
       Location: this.fb.group({
         address: [''],
-        Section: [''],
-        District: [''],
         Province: [''],
+        District: [''],
+        Section: [''],
       }),
       contacts: this.fb.group({
         phone: [''],

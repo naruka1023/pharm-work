@@ -7,20 +7,19 @@
   object-fit: cover;
   object-position: center top;
 }
-.bi-arrow-up-square::before {
-  content: "\f147";
-  background-color: white;
-  border-radius: 1rem;
-}
 .img-container {
   width: 100%;
   margin: 0 auto;
-  height: 49vh;
   position: relative;
   border-radius:50px;
   display: block;
   z-index: 1;
   overflow: hidden;
+}
+.bi-arrow-up-square::before {
+  content: "\f147";
+  background-color: white;
+  border-radius: 1rem;
 }
 .landing-page_img{
   border-radius: 20px;

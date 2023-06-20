@@ -14,6 +14,7 @@ import { requestView } from './model/typescriptModel/users.model';
 import { Unsubscribe } from 'firebase/firestore';
 import { Auth, user,sendEmailVerification } from '@angular/fire/auth';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
+import * as _ from 'lodash';
 declare var window: any;
 
 
@@ -56,7 +57,14 @@ ngOnInit(){
     document.getElementById('offcanvasExample')
   )
   this.store.select((state: any)=>{
-      this.user = state.user;
+    return state.user
+  }).subscribe((user)=>{
+    this.user = _.cloneDeep(user)
+    if(this.user.cropProfilePictureUrl == ''){
+      delete this.user.cropProfilePictureUrl
+    }
+  })
+  this.store.select((state: any)=>{
     return state.recentlySeen
   }).subscribe((recentlySeen)=>{
     if(recentlySeen.length > 10){
@@ -156,6 +164,11 @@ goToPage(page: string, queryFlag = false, queryParams:any = {}, target = ''){
   let splitTarget = page.split('/')
   let finalTarget = ''
   if(this.route.url.indexOf('profile-pharma') !== -1){
+    if(this.route.url.indexOf('register-jobs') !== -1){
+      this.pharmaProfileComponent.setChildFlag(true)
+    }else{
+      this.pharmaProfileComponent.setChildFlag(false)
+    }
     if(page.indexOf('profile-pharma') !== -1){
       finalTarget = splitTarget[splitTarget.length-1]
       this.pharmaProfileComponent.selectTab(finalTarget)

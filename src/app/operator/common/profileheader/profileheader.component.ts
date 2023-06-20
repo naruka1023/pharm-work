@@ -101,8 +101,15 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
               })
               break;
             case 'request-jobs':
-              this.profileInformation$ = state.requestView[this.route.snapshot.queryParamMap.get('userUID') + '-' + state.user.uid]
-              this.profileInformation$ = this.profileInformation$.content
+              let profileLinkFlag = this.route.snapshot.queryParamMap.get('profileLinkPage')
+              if(profileLinkFlag == 'true'){
+                this.profileInformation$ = state.requestView[this.route.snapshot.queryParamMap.get('userUID') + '-' + state.user.uid]
+                this.profileInformation$ = this.profileInformation$.content
+              }else{
+                let jobUID = this.route.snapshot.queryParamMap.get('jobUID')
+                let requestUID = this.route.snapshot.queryParamMap.get('requestUID')
+                this.profileInformation$ = state.requestedJobs.JobRequests[jobUID!].users[requestUID + '-' + this.route.snapshot.queryParamMap.get('userUID')]
+              }
               break
             case 'favorites':
               this.profileInformation$ = state.users.Favorites[state.user.uid + '-' + this.route.snapshot.queryParamMap.get('userUID')]

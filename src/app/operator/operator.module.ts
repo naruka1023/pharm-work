@@ -91,6 +91,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     StoreModule.forFeature("operatorProfile", operatorProfileReducer),
     OperatorAppRoutingModule,
   ],
+  providers: [RequestJobComponent],
   exports: [InfiniteScrollModule],
   bootstrap:[LandingPageComponent]
 })

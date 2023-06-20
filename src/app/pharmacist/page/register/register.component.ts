@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { JobTypeConverterService } from '../../service/job-type-converter.service';
 import { UtilService } from '../../service/util.service';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { Auth, createUserWithEmailAndPassword, sendEmailVerification } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateCurrentUser, updateProfile } from '@angular/fire/auth';
 import { Firestore, doc, setDoc} from '@angular/fire/firestore';
 SwiperCore.use([Virtual]);
 
@@ -97,7 +97,23 @@ export class RegisterComponent {
     return this.registerFormOperator.controls;
   }
   nextSlide(){
-    this.pharmaForm? this.swiperFormPharma?.swiperRef.slideNext() : this.swiperFormPharma?.swiperRef.slidePrev() 
+    this.swiperFormPharma?.swiperRef.slideNext()
+    let display = 'block'
+    const excessForm = document.querySelectorAll('.excessForm');
+
+    excessForm.forEach((eF: any) => {
+      eF.style.display = display;
+    });
+    this.pharmaForm = !this.pharmaForm;
+  }
+  backSlide(){
+    this.swiperFormPharma?.swiperRef.slidePrev() 
+    let display = 'none'
+    const excessForm = document.querySelectorAll('.excessForm');
+
+    excessForm.forEach((eF: any) => {
+      eF.style.display = display;
+    });
     this.pharmaForm = !this.pharmaForm;
   }
   async onSubmit(){
@@ -125,7 +141,11 @@ export class RegisterComponent {
     }
     createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password as string)
     .then((user: any)=>{
+      updateProfile(this.auth.currentUser!,{
+        displayName: newUser.role == 'ผู้ประกอบการ'? newUser.nameOfPerson : newUser.name
+      }).then(()=>{
         sendEmailVerification(this.auth.currentUser!)
+      })
         delete newUser.password
         delete newUser.confirmPassword
         newUser.uid = user.user?.uid;
@@ -169,13 +189,20 @@ export class RegisterComponent {
           }
         });
   }
-  changeRoles(){
+  changeRoles(role: string){
     this.errorMessage = '';
     this.submitted = false;
-    this.initializeFormGroup();
     this.registerFormOperator.patchValue({jobType:'ร้านยาทั่วไป'})
-    this.loginFlag? this.swiper?.swiperRef.slideNext() : this.swiper?.swiperRef.slidePrev() 
-    this.role = this.loginFlag? 'ผู้ประกอบการ' : 'เภสัชกร';
+    if(role !=='pharma'){
+      this.swiper?.swiperRef.slideNext() 
+      this.backSlide()
+    }else{
+      this.swiper?.swiperRef.slidePrev() 
+    }
+    this.role = role !== 'pharma'? 'ผู้ประกอบการ' : 'เภสัชกร';
+    if(this.loginFlag){
+      this.pharmaForm = true
+    }
     this.loginFlag = !this.loginFlag;
   }
 }

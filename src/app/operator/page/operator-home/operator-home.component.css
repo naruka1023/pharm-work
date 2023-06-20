@@ -3,6 +3,20 @@
     font-size: smaller !important
   }
 }
+.img-container > img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.img-container {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  border-radius:50px;
+  display: block;
+  z-index: 1;
+  overflow: hidden;
+}
 .bi-arrow-up-square::before {
   content: "\f147";
   background-color: white;
