@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, inject } from '@angular/core';
 import { getDownloadURL, getMetadata, Storage, listAll, ref, uploadBytes, uploadString } from "@angular/fire/storage";
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -20,29 +20,32 @@ declare var window: any;
   templateUrl: './profileheader.component.html',
   styleUrls: ['./profileheader.component.css']
 })
-export class ProfileheaderComponent {
+export class ProfileheaderComponent implements AfterViewInit{
 private storage: Storage = inject(Storage);
 @Input() profileInformation!: profileHeaderJobPost | profileHeaderPharma | profileHeaderOperator
 @Input() profileType! : string;
 @Input() followerFlag = false;
 @Input() requestViewFlag = false;
+followingFlag: boolean = true
 result!: any
 jobCount!: {
   urgentJobs: number,
   normalJobs: number
 }
+operatorExistFlag!: boolean 
 editFlag: boolean = false
 profileInformation$!: User
 followers$!: Observable<number>
 coverPhotoFlag$!: Observable<boolean>;
 headerInformation!: Observable<profileHeaderPharma>
 coverListenerSubject: Subject<string> = new Subject();
-followFlag$!: Observable<boolean>
+followFlag$!:any
 introTextLoadingFlag: boolean = false
 coverListenerObservable: Observable<string> = this.coverListenerSubject.asObservable();
 file!: File
 id!: string
 coverPhotoVerticalPosition!: number;
+followedText: string = 'ติดตามแล้ว'
 profilePictureFile!: any
 formModal: any
 introTextForm!: FormGroup
@@ -130,9 +133,24 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
                   newJob = state.jobpost.Bookmarks[this.id + '-' + state.user.uid].JobPost
                   break;
                 case 'operator-page':
-                  newJob = state.operator.operatorJobs[this.id]
+                  if(this.route.snapshot.queryParamMap.get('operatorExistFlag') !== null){
+                    let flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
+                    if(flag){ 
+                      let categorySymbol = this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+                      let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
+                      let filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
+                        return filter.CategorySymbol === categorySymbol
+                      })
+                      newJob = filter.content.find((userOperator:userOperator)=>{
+                        return userOperator.uid == operatorUID
+                      }).operatorJobs[this.id]  
+                    }else{
+                      newJob = state.operator.operatorJobs[this.id]
+                    }
+                  }else{
+                    newJob = state.operator.operatorJobs[this.id]
+                  }
                   break;
-
             }
             return newJob
           }).subscribe((newJob: jobPostModel)=>{
@@ -205,6 +223,8 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         break;
         case "operator-profile":
           this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
+          this.operatorExistFlag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'?true:false
+
           this.store.select((state:any)=> {
             if(this.followerFlag){
               return state.jobpost.Follows[this.userUID + '-' + this.operatorUID].user
@@ -212,6 +232,14 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
             if(this.requestViewFlag){
                 return state.requestView[this.userUID + '-' + this.operatorUID].content
              }
+            if(this.operatorExistFlag){
+              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+              return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
+                return filterCondition.CategorySymbol == categorySymbol
+              }).content.find((user:userOperator)=>{
+                return user.uid == this.operatorUID
+              })
+            }
               return state.operator
           }).subscribe((operator)=>{
           this.operator =  operator;
@@ -222,16 +250,36 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
           }
         })
         this.followers$ = this.store.select((state: any)=>{
-          return state.operator.followers
+          if(this.operatorExistFlag){
+            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+            return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
+              return filterCondition.CategorySymbol == categorySymbol
+            }).content.find((user:userOperator)=>{
+              return user.uid == this.operatorUID
+            }).followers
+          }else{
+            return state.operator.followers
+          }
         })
         this.store.select((state: any)=>{
           let allJobs: jobPostModel[] = []
           let normalJobs:number = 0
           let urgentJobs : number = 0
-
-          if(state.operator.operatorJobs !== undefined){
-            Object.keys(state.operator.operatorJobs).forEach((key)=>{
-              allJobs.push(state.operator.operatorJobs[key])
+          let operatorJobs: any
+          if(this.operatorExistFlag){
+            let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')  
+            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+            operatorJobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
+              return filterCondition.CategorySymbol == categorySymbol
+            }).content.find(((operator:userOperator)=>{
+              return operator.uid == operatorUID
+            })).operatorJobs
+          }else{
+            operatorJobs = state.operator.operatorJobs
+          }
+          if(operatorJobs !== undefined){
+            Object.keys(operatorJobs).forEach((key)=>{
+              allJobs.push(operatorJobs[key])
             })
             allJobs.forEach((job: any)=>{
               if(job.Urgency){
@@ -298,9 +346,59 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       }
       return flag 
     })
+    this.followFlag$.subscribe((follow: any)=>{
+      this.followingFlag = follow
+    })
   }
 
   ngAfterViewInit(){
+    const mouseTarget = document.getElementById("mouseTarget")!
+    ;
+    if(mouseTarget !== null){
+      mouseTarget.addEventListener("mouseenter", (e) => {
+        if(this.followingFlag){
+          this.followedText = 'ยกเลิกติดตาม'
+        }
+      });
+  
+      mouseTarget.addEventListener("mouseleave", (e) => {
+        if(this.followingFlag){
+          this.followedText = 'ติดตามแล้ว'
+        }
+      });
+    }
+    const mouseTarget2 = document.getElementById("mouseTarget2")!;
+    
+    if(mouseTarget2 !== null){
+      mouseTarget2.addEventListener("mouseenter", (e) => {
+        if(this.followingFlag){
+          this.followedText = 'ยกเลิกติดตาม'
+        }
+      });
+  
+      mouseTarget2.addEventListener("mouseleave", (e) => {
+        if(this.followingFlag){
+          this.followedText = 'ติดตามแล้ว'
+        }
+      });
+    }
+
+    const mouseTarget3 = document.getElementById("mouseTarget3")!;
+    if(mouseTarget3 !== null){
+
+      mouseTarget3.addEventListener("mouseenter", (e) => {
+        if(this.followingFlag){
+          this.followedText = 'ยกเลิกติดตาม'
+        }
+      });
+  
+      mouseTarget3.addEventListener("mouseleave", (e) => {
+        if(this.followingFlag){
+          this.followedText = 'ติดตามแล้ว'
+        }
+      });
+    }
+
     let ele = document.getElementById('coverPhoto')!
     let pos = { top: 0, left: 0, x: 0, y: 0 };
     const mouseDownHandler = function (e: any) {
@@ -595,6 +693,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         operatorUID: this.operatorUID,
       }
       this.jobPostService.followOperator(follower).then((response: any)=>{
+        this.followedText = 'ติดตามแล้ว'
         this.followLoading = false
         follower = {
           ...follower,

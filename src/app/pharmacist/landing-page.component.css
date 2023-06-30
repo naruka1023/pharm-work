@@ -9,3 +9,14 @@
       display: none !important
     }
   }
+  .tooltip{
+    font-size: 3rem !important;
+ }
+.btn-primary, btn-primary:hover{
+  background:#5cdfe4;
+  border-color: #5cdfe4
+}
+.btn-success{
+  background:#7fd858;
+  border-color: #7fd858
+}

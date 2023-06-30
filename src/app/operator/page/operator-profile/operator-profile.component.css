@@ -26,6 +26,7 @@
     padding:0 1rem
   }
   #navToScroll{
+      z-index:2;
       scroll-margin-top: 90px;
   }
   .nav-link{

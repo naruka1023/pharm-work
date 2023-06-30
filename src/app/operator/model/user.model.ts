@@ -139,6 +139,7 @@ export interface JobHistory
     companyName: string;
     dateStarted: string;
     activeFlag: string;
+    workExperience: any;
     dateEnded: string;
     description: string;
 }

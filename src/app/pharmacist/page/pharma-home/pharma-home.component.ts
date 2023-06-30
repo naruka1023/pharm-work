@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import SwiperCore, { Autoplay, Mousewheel, Navigation, Pagination } from "swiper";
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { filterConditions, jobPostModel, jobPostPayload } from '../../model/typescriptModel/jobPost.model';
+import { filterConditions, jobPostModel, jobPostPayload, userOperator } from '../../model/typescriptModel/jobPost.model';
 import { retrievedJobSuccess } from '../../state/actions/job-post.actions';
 import { JobPostService } from '../../service/job-post.service';
 import headerArray from '../../model/data/uiKeys';
@@ -75,21 +75,46 @@ export class PharmaHomeComponent {
         newCountPayload[cP.categorySymbol] = cP.count
       })
       categorySymbols.forEach((categorySymbol:string)=>{
-        promises.push(
-          this.jobPostService.getJobCategoryServiceSmall(categorySymbol).then((jobPosts)=>{
-
-            let res: jobPostPayload = {
-              JobsPost: jobPosts,
-              CategorySymbol: categorySymbol,
-              count: newCountPayload[categorySymbol]
-            }
-            return res
-          })
-        )
+        switch(categorySymbol){
+          case 'BA':
+            promises.push(
+              this.jobPostService.getOperatorsByType('ร้านยาแบรนด์').then((operators)=>{
+                let res: jobPostPayload = {
+                  UserOperator: operators,
+                  CategorySymbol: categorySymbol,
+                }
+                return res
+              })
+            )
+            break;
+          case 'CB':
+            promises.push(
+              this.jobPostService.getOperatorsByType('บริษัท | โรงงาน').then((operators)=>{
+                let res: jobPostPayload = {
+                  UserOperator: operators,
+                  CategorySymbol: categorySymbol,
+                }
+                return res
+              })
+            )
+            break;
+          default:
+            promises.push(
+              this.jobPostService.getJobCategoryServiceSmall(categorySymbol).then((jobPosts)=>{
+                let res: jobPostPayload = {
+                  JobsPost: jobPosts,
+                  CategorySymbol: categorySymbol,
+                  count: newCountPayload[categorySymbol]
+                }
+                return res
+              })
+            )
+            break;
+        }
       })
-      Promise.all(promises).then((jobs: jobPostPayload [])=>{
+      Promise.all(promises).then((jobs: jobPostPayload[])=>{
         let newJobs: {
-          [key:string]: jobPostPayload
+          [key:string]: jobPostPayload,
         } = {}
         jobs.forEach((job: jobPostPayload)=>{
           newJobs[job.CategorySymbol] = job
@@ -97,11 +122,13 @@ export class PharmaHomeComponent {
         let finalPayload: filterConditions[] = headerArray.map((header:filterConditions)=>{
           return {
             ...header,
-            content:newJobs[header.CategorySymbol].JobsPost,
+            content: newJobs[header.CategorySymbol].CategorySymbol == 'BA' ||
+                     newJobs[header.CategorySymbol].CategorySymbol == 'CB' ? 
+                     newJobs[header.CategorySymbol].UserOperator : newJobs[header.CategorySymbol].JobsPost,
             loading:false,
-            count:newJobs[header.CategorySymbol].count
+            count:newJobs[header.CategorySymbol].count!
           }
-        })
+        }) 
         this.store.dispatch(retrievedJobSuccess({jobs: finalPayload}))
       })
     })

@@ -1,4 +1,4 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3 editButton mb-md-0 mb-3"><button (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'บันทึก':'ยกเลิก'}}</button></div>
+<div class="align-items-baseline d-flex justify-content-end ms-3 editButton mb-md-0 mb-3"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}"(click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="verticalKeyGap">
@@ -9,7 +9,7 @@
                 </div>
                 <div class="d-flex">
                     <div class="phantom keyValueGap" style="visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                    <div class="textResponsive subHeader">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation}}</div>
+                    <div class="textResponsive subHeader">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyFieldPipe}}</div>
                 </div>
             </div>
             <div class="mt-4 historyContent" style="padding-left:6rem">
@@ -19,12 +19,12 @@
                             <div class="textResponsive">{{eduGroup.yearGraduated}}</div>
                         </div>
                         <div class="row verticalKeyGap">
-                            <div class="textResponsive col-8"><b>มหาลัย</b> {{eduGroup.universityName}}</div>
-                            <div class="textResponsive col"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel}}</div>
+                            <div class="textResponsive col-sm-8 col-12"><b>มหาวิทยาลัย</b> {{eduGroup.universityName}}</div>
+                            <div class="textResponsive col my-sm-0 my-3"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel}}</div>
     
                         </div>
                         <div class="row">
-                            <div class="textResponsive col-8"><b>คณะ</b> {{eduGroup.major}}</div>
+                            <div class="textResponsive col-sm-8 col-12 mb-sm-0 mb-3"><b>คณะ</b> {{eduGroup.major}}</div>
                             <div class="textResponsive col"><b>สาขา</b> {{eduGroup.franchise}}</div>
                         </div>
                     </li>
@@ -53,8 +53,13 @@
             <div class="mt-4 historyContent" style="padding-left: 6rem">
                 <ul>
                     <li *ngFor="let jobGroup of innerProfileInformation.jobHistory">
-                        <div class="textResponsive verticalKeyGap">
-                            {{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded}}
+                        <div class="textResponsive verticalKeyGap d-flex justify-content-start">
+                            <div class="me-5">
+                                {{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded}}
+                            </div>
+                            <div>
+                                {{jobGroup.activeFlag? '':jobGroup.workExperience}}
+                            </div>
                         </div>
                         <div class="textResponsive verticalKeyGap">
                             <div>{{jobGroup.companyName}}</div>
@@ -76,11 +81,14 @@
                 <label for="highestEducation" class="textResponsive me-3 form-label"><b>ระดับการศึกษาสูงสุด</b></label>
             </div>
             <div class="col-xl-7 col-12 mb-xl-0 mb-3">
-                <select formControlName="highestEducation" class="textResponsive form-select mb-3 fs-3" aria-label="Default select example">
+                <select formControlName="highestEducation"  class="textResponsive form-select mb-3 fs-3"  style="background-color:#f2f2f2" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && profileEditControls['highestEducation'].errors }">
                     <option selected value="ปริญญาตรี">ปริญญาตรี</option>
                     <option value="ปริญญาโท">ปริญญาโท</option>
                     <option value="ปริญญาโท">ปริญญาเอก</option>
                 </select>
+                <div *ngIf="submitted && profileEditControls['highestEducation'].errors" class="invalid-feedback">
+                    <div *ngIf="profileEditControls['highestEducation'].errors['required']">กรุณาระบุระดับการศึกษาสูงสุด</div>
+                </div>
             </div>
         </div>
         
@@ -95,7 +103,10 @@
                                 <label for="universityName" class="textResponsive form-label"><b>ชื่อสถาบัน</b></label>
                             </div>
                             <div class="col">
-                                <input formControlName="universityName" type="text" class="textResponsive fs-3 form-control me-3">
+                                <input style="background-color:#f2f2f2" formControlName="universityName" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="textResponsive fs-3 form-control me-3">
+                                <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -103,7 +114,7 @@
                                 <label for="franchise" class="textResponsive form-label"><b>สาขา</b></label>
                             </div>
                             <div class="col">
-                                <input formControlName="franchise" type="text" class="textResponsive fs-3 form-control">
+                                <input formControlName="franchise" type="text" class="textResponsive fs-3 form-control" style="background-color:#f2f2f2">
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -111,7 +122,10 @@
                                 <label for="major" class="textResponsive form-label"><b>คณะ</b></label>
                             </div>
                             <div class="col">
-                                <input formControlName="major" type="text" class="textResponsive fs-3 form-control">
+                                <input formControlName="major" type="text" style="background-color:#f2f2f2" class="textResponsive fs-3 form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
+                                <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -119,11 +133,14 @@
                                 <label for="educationLevel" class="textResponsive form-label"><b>ระดับการศึกษา</b></label>
                             </div>
                             <div class="col">
-                                <select formControlName="educationLevel" class="form-select textResponsive fs-3" aria-label="Default select example">
+                                <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select textResponsive fs-3" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
                                     <option selected value="ปริญญาตรี">ปริญญาตรี</option>
                                     <option value="ปริญญาโท">ปริญญาโท</option>
                                     <option value="ปริญญาโท">ปริญญาเอก</option>
                                 </select>
+                                <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -131,7 +148,7 @@
                                 <label for="yearGraduated" class="textResponsive form-label"><b>ปีที่จบ</b></label>
                             </div>
                             <div class="col">
-                                <select formControlName="yearGraduated" class="textResponsive form-select fs-3">
+                                <select formControlName="yearGraduated" class="textResponsive form-select fs-3" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
                                     <option selected value="2023">2023</option>
                                     <option value="2022">2022</option>
                                     <option value="2021">2021</option>
@@ -149,6 +166,9 @@
                                     <option value="2009">2009</option>
                                     <option value="2008">2008</option>
                                 </select>
+                                <div *ngIf="submitted && number.controls['yearGraduated'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['yearGraduated'].errors['required']">กรุณาระบุปีที่จบ</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -170,7 +190,10 @@
                                 <label for="jobName" class="textResponsive form-label"><b>ตำแหน่ง</b></label>
                             </div>
                             <div class="col">
-                                <input formControlName="jobName" type="text" class="textResponsive form-control fs-3">
+                                <input style="background-color:#f2f2f2" formControlName="jobName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
+                                <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -178,7 +201,10 @@
                                 <label for="companyName" class="textResponsive form-label"><b>ชื่อบริษัท</b></label>
                             </div>
                             <div class="col">
-                                <input formControlName="companyName" type="text" class="textResponsive form-control fs-3">
+                                <input style="background-color:#f2f2f2" formControlName="companyName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors}">
+                                <div *ngIf="submitted && number.controls['companyName'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['companyName'].errors['required']">กรุณาระบุชื่อบริษัท</div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -187,9 +213,16 @@
                             </div>
                             <div class="col">
                                 <label for="dateStarted" class="textResponsive form-label ">วันที่เริ่มต้น</label>
-                                <input formControlName="dateStarted"  type="month" class="textResponsive form-control mb-3 fs-3">
+                                <input style="background-color:#f2f2f2" formControlName="dateStarted" type="month" class="textResponsive form-control mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['dateStarted'].errors}">
+                                <div *ngIf="submitted && number.controls['dateStarted'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['dateStarted'].errors['required']">กรุณาระบุวันที่เริ่มต้น</div>
+                                </div>
                                 <label for="dateEnded" class="textResponsive form-label">วันที่สิ้นสุด</label>
-                                    <input formControlName="dateEnded"  type="month" class="textResponsive form-control mb-3 fs-3">
+
+                                <input style="background-color:#f2f2f2" formControlName="dateEnded" type="month" class="textResponsive form-control mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['dateEnded'].errors}">
+                                <div *ngIf="submitted && number.controls['dateEnded'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['dateEnded'].errors['required']">กรุณาระบุวันที่สิ้นสุด</div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -233,8 +266,8 @@
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button type="submit" class="btn saveButton me-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-            <button (click)="cancelClick()" class="btn btn-primary saveButton" style="padding: 0.5rem 2rem; border-radius: 50px !important; color:white">ยกเลิก</button>
+            <button (click)="cancelClick()" class="btn btn-light saveButton" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+            <button type="submit" class="btn saveButton ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </form>
 </ng-template>

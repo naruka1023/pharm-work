@@ -24,7 +24,7 @@
 								<span class="badge bg-secondary">ทำงานวันที่ {{profile.DateOfJob}}</span>
 							</ng-template>
 							<ng-template #notUrgentFlag>
-								<span class="badge text-dark" style="background: #a2e3d9">Part-Time</span>
+								<span class="badge text-light" *ngIf="profile.TimeFrame !== ''" style="background: #7fd858;">Part-Time</span>
 							</ng-template>
 						</div>
 					</ng-template>
@@ -32,10 +32,10 @@
 						<div class="fs-1">
 							<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
 							<ng-template #urgentFlag>
-								<span class="badge bg-secondary" class="urgentLabel">ทำงานวันที่ {{profile.DateOfJob}}</span>
+								<span class="badge bg-secondary urgentLabel">ทำงานวันที่ {{profile.DateOfJob}}</span>
 							</ng-template>
 							<ng-template #notUrgentFlag>
-								<span class="badge text-dark" style="background:#7fcae6">Full-Time</span>
+								<span class="badge text-light" *ngIf="profile.TimeFrame !== ''" style="background:#5cdfe4;">Full-Time</span>
 							</ng-template>
 						</div>
 					</ng-template>
@@ -47,43 +47,45 @@
 								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 									<b>สาขา</b>
 								</div>
-								<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise}}</div>
+								<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyFieldPipe}}</div>
 							</div>
-							<div class="row pb-3">
+							<div *ngIf="profile.Duration !== ''" class="row pb-3">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 									<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
 								</div>
 								<div class="col">
-									<div class="valuePart">{{profile.Duration}} น.</div>
+									<div class="valuePart">{{profile.Duration | emptyFieldPipe}} น.</div>
 								</div>
 							</div>
-							<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-									<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+							<div *ngIf="profile.Salary.Amount !== 0 || profile.Salary.Cap !== 0">
+								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+									</div>
+									<div class="col">
+										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap | emptyFieldPipe}} บาท/เดือน</div>
+									</div>
 								</div>
-								<div class="col">
-									<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/เดือน</div>
-								</div>
-							</div>
-							<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-									<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
-								</div>
-								<div class="col">
-									<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/ชม</div>
+								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+									</div>
+									<div class="col">
+										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap | emptyFieldPipe}} บาท/ชม</div>
+									</div>
 								</div>
 							</div>
 							<div *ngIf="profile.BTS.Near"  class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>BTS</b>
 								</div>
-								<div class="col valuePart"> {{profile.BTS.Station}}</div>
+								<div class="col valuePart"> {{profile.BTS.Station | emptyFieldPipe}}</div>
 							</div>
 							<div *ngIf="profile.ARL.Near"  class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>ARL</b>
 								</div>
-								<div class="col valuePart"> {{profile.ARL.Station}}</div>
+								<div class="col valuePart"> {{profile.ARL.Station | emptyFieldPipe}}</div>
 							</div>
 							<div class="pb-3 row" *ngIf="profile.OnlineInterview">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
@@ -92,29 +94,29 @@
 							</div>
 						</div>
 						<div class="col-12 col-md-6 pt-md-4 rightPanelDetails">
-							<div class="row pb-3">
+							<div class="row pb-3" *ngIf="profile.Amount !== ''">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-people me-2"></i><b>รับสมัคร</b>
 								</div>
-								<div class="col valuePart">{{profile.Amount}} ตำแหน่ง</div>
+								<div class="col valuePart">{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
 							</div>
-							<div class="row pb-3">
+							<div class="row pb-3" *ngIf="profile.Location.Section !== '' || profile.Location.Province !== ''">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-geo-alt me-2"></i><b>พื้นที่</b>
 								</div>
-								<div class="col valuePart"> {{profile.Location.Section}}, {{profile.Location.Province}}</div>
+								<div class="col valuePart"> {{profile.Location.Section | emptyFieldPipe}}, {{profile.Location.Province | emptyFieldPipe}}</div>
 							</div>
 							<div *ngIf="profile.MRT.Near"  class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>MRT</b>
 								</div>
-								<div class="col valuePart"> {{profile.MRT.Station}}</div>
+								<div class="col valuePart"> {{profile.MRT.Station | emptyFieldPipe}}</div>
 							</div>
 							<div *ngIf="profile.SRT.Near" class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>SRT</b>
 								</div>
-								<div class="col valuePart"> {{profile.SRT.Station}}</div>
+								<div class="col valuePart"> {{profile.SRT.Station | emptyFieldPipe}}</div>
 							</div>
 	
 							<!-- <div class="d-flex flex-row" class="d-flex flex-row">
@@ -139,67 +141,69 @@
 								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 									<b>สาขา</b>
 								</div>
-								<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise}}</div>
+								<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyFieldPipe}}</div>
 							</div>
-							<div class="row pb-3">
+							<div class="row pb-3" *ngIf="profile.Duration !== ''">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
 									<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
 								</div>
 								<div class="col">
-									<div class="valuePart">{{profile.Duration}} น.</div>
+									<div class="valuePart">{{profile.Duration | emptyFieldPipe}} น.</div>
 								</div>
 							</div>
-							<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-									<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+							<div *ngIf="profile.Salary.Amount !== 0 || profile.Salary.Cap !== 0">
+								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+									</div>
+									<div class="col">
+										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/เดือน</div>
+									</div>
 								</div>
-								<div class="col">
-									<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/เดือน</div>
+								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+									</div>
+									<div class="col">
+										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/ชม</div>
+									</div>
 								</div>
 							</div>
-							<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-									<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
-								</div>
-								<div class="col">
-									<div class="valuePart">{{profile.Salary.Amount}} - {{profile.Salary.Amount + profile.Salary.Cap!}} บาท/ชม</div>
-								</div>
-							</div>
-							<div class="row pb-3">
+							<div class="row pb-3" *ngIf="profile.Amount !== null || profile.Amount !== 0">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-people me-2"></i><b>รับสมัคร</b>
 								</div>
-								<div class="col valuePart">{{profile.Amount}} ตำแหน่ง</div>
+								<div class="col valuePart">{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
 							</div>
 							<div class="row pb-3">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-geo-alt me-2"></i><b>พื้นที่</b>
 								</div>
-								<div class="col valuePart"> {{profile.Location.Section}}, {{profile.Location.Province}}</div>
+								<div class="col valuePart"> {{profile.Location.Section | emptyFieldPipe}}, {{profile.Location.Province | emptyFieldPipe}}</div>
 							</div>
 							<div *ngIf="profile.BTS.Near"  class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>BTS</b>
 								</div>
-								<div class="col valuePart"> {{profile.BTS.Station}}</div>
+								<div class="col valuePart"> {{profile.BTS.Station | emptyFieldPipe}}</div>
 							</div>
 							<div *ngIf="profile.MRT.Near"  class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>MRT</b>
 								</div>
-								<div class="col valuePart"> {{profile.MRT.Station}}</div>
+								<div class="col valuePart"> {{profile.MRT.Station | emptyFieldPipe}}</div>
 							</div>
 							<div *ngIf="profile.SRT.Near" class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>SRT</b>
 								</div>
-								<div class="col valuePart"> {{profile.SRT.Station}}</div>
+								<div class="col valuePart"> {{profile.SRT.Station | emptyFieldPipe}}</div>
 							</div>
 							<div *ngIf="profile.ARL.Near"  class="pb-3 row">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-train-front me-2"></i> <b>ARL</b>
 								</div>
-								<div class="col valuePart"> {{profile.ARL.Station}}</div>
+								<div class="col valuePart"> {{profile.ARL.Station | emptyFieldPipe}}</div>
 							</div>
 							<div class="pb-3 row" *ngIf="profile.OnlineInterview">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
@@ -215,7 +219,7 @@
 		</div>
 		<div class="footerMainHeader my-3 d-flex justify-content-between">
 			<div class="dateUpdated">
-				<p class="lead"> อัพเดทล่าสุด {{profile.dateUpdated}} </p>
+				<p class="lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}} </p>
 			</div>
 			<div class="choices d-flex justify-content-start">
 				<button (click)="toggleBookmark()" type="button" class="btn">
@@ -251,12 +255,12 @@
 					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 					<ng-template #alreadyRequest>
 						<button (click)="requestJob()" class="btn text-center my-2 px-5" type="button" style="color:white; background-color:#7fd858">
-							<div class="fs-5">สมัครงาน</div>
+							<div class="fs-3">สมัครงาน</div>
 						</button>
 					</ng-template>
 					<ng-template #requestButton>
-						<button class="btn btn-warning text-center my-2 px-5" type="button">
-							<div class="fs-5">รอ confirm</div>
+						<button class="btn text-center my-2 px-5" style="color:white; background-color:#a6a6a6" type="button">
+							<div class="fs-3">สมัครแล้ว</div>
 						</button>
 					</ng-template>
 				</div>
@@ -298,41 +302,41 @@
 			<div class="card-body p-4">
 				<div class="my-5 mt-3">
 					<h2>หน้าที่ความรับผิดชอบ</h2>
-					<div class="fs-4" [innerHtml]="profile.JobDetails"></div>
+					<div class="fs-4" [innerHtml]="profile.JobDetails | emptyFieldPipe"></div>
 					<ng-container *ngIf="profile.Urgency === false">
 						<h2 class="my-5">คุณสมบัติผู้สมัคร</h2>
-							<div class="fs-4" [innerHtml]="profile.qualityApplicants"></div>
+							<div class="fs-4" [innerHtml]="profile.qualityApplicants | emptyFieldPipe"></div>
 						<h2 class="my-5">สวัสดิการ</h2>
-							<div class="fs-4" [innerHtml]="profile.jobBenefits"></div>
+							<div class="fs-4" [innerHtml]="profile.jobBenefits | emptyFieldPipe"></div>
 						<h2 class="my-5">วิธีสมัครงาน</h2>
-							<div class="fs-4" [innerHtml]="profile.applyInstructions"></div>
+							<div class="fs-4" [innerHtml]="profile.applyInstructions | emptyFieldPipe"></div>
 					</ng-container>
 				</div>
 				<div class="my-5 mb-3">
 					<h2 class="my-5">ช่องทางติดต่อ</h2>
-					<div class="row fs-4">
-						<div class="col-sm-6 col-12">
+					<div class="d-sm-flex fs-4">
+						<div class="me-3">
 							<b>โทร: </b>
 						</div>
-						<div class="col ms-2">{{profile.Contacts.phone}}</div>
+						<div class="col ms-2">{{profile.Contacts.phone | emptyFieldPipe}}</div>
 					</div>
-					<div class="row fs-4">
-						<div class="col-sm-6 col-12">
+					<div class="d-sm-flex fs-4">
+						<div class="me-3">
 							<b>Email: </b>
 						</div>
-						<div class="col ms-2">{{profile.Contacts.email}}</div>
+						<div class="col ms-2">{{profile.Contacts.email | emptyFieldPipe}}</div>
 					</div>
-					<div class="row fs-4">
-						<div class="col-sm-6 col-12">
+					<div class="d-sm-flex fs-4">
+						<div class="me-3">
 							<b>Line: </b>
 						</div>
-						<div class="col ms-2">{{profile.Contacts.line}}</div>
+						<div class="col ms-2">{{profile.Contacts.line | emptyFieldPipe}}</div>
 					</div>
-					<div class="row fs-4">
-						<div class="col-sm-6 col-12">
+					<div class="d-sm-flex fs-4">
+						<div class="me-3">
 							<b>Facebook: </b>
 						</div>
-						<div class="col ms-2">{{profile.Contacts.facebook}}</div>
+						<div class="col ms-2">{{profile.Contacts.facebook | emptyFieldPipe}}</div>
 					</div>
 				</div>
 			</div>
@@ -342,7 +346,7 @@
 				<div class="my-3">
 					<h2>สถานที่ปฏิบัติการ/วิธีเดินทาง</h2>
 					<div class="fs-4 d-flex justify-content-between">
-						<div class=" fs-4" [innerHtml]="profile.TravelInstructions"></div>
+						<div class=" fs-4" [innerHtml]="profile.TravelInstructions | emptyFieldPipe"></div>
 					</div>
 					<div class="d-flex justify-content-center" style="overflow: scroll;">
 						<google-map 
@@ -362,3 +366,37 @@
 		</div>
 	</div>
 </ng-template>
+<div class="modal fade" id="confirmRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md fs-4">
+      <div class="modal-content p-5">
+			<div *ngIf="!successFlag">
+				<div class="d-flex justify-content-center">
+					คุณต้องการสมัครงานนี้ใช่หรือไม่
+				</div>
+				<div style="text-align:center" [ngStyle]="{'text-align': 'center', 'visibility': loadingConfirmRequestFlag? 'unset':'hidden'}" class="my-3">
+					<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
+				<div class="d-flex justify-content-around mt-3 fs-4">
+					<button class="btn btn-light p-2 px-4 fs-3" (click)="onClose()">ยกเลิก</button>
+					<button class="btn btn-success p-2 px-4 fs-3" (click)="requestJobConfirm()">ตกลง</button>
+				</div>
+			</div>
+			<div *ngIf="successFlag">
+				<div class="d-flex justify-content-center">
+					<i class="pe-auto bi bi-check-circle-fill" style="color:#7fd858"></i>
+					<div class="fs-5 ms-2">ระบบจัดส่งใบสมัครของคุณเรียบร้อยแล้ว</div>
+				</div>
+				<div style="text-align:center" [ngStyle]="{'text-align': 'center', 'visibility':'hidden'}" class="my-3">
+					<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
+				<div class="d-flex justify-content-around mt-3 fs-4">
+					<button class="btn btn-success px-4 p-2 fs-3" (click)="onClose()">ตกลง</button>
+				</div>
+			</div>
+      </div>
+    </div>
+  </div>

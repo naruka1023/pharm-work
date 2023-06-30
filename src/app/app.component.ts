@@ -76,12 +76,14 @@ export class AppComponent {
           name: '',
           surname: '',
           showProfileFlag: true,
-          loading:true,
+          loading: true,
           AmountCompleted: 0,
           introText: '',
           WorkExperience: 0,
           nickName: '',
-          coverPhotoFlag: true
+          coverPhotoFlag: true,
+          highestEducation: '',
+          dateUpdated: ''
         };
         this.store.dispatch(setCurrentUser({user: emptyUser}));
         localStorage.setItem('loginState', 'false')

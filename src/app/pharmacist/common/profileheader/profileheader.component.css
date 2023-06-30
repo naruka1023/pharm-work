@@ -5,9 +5,9 @@
   .nickNameForm, .mainHeader > h2{
     font-size:2.5rem !important
   }
-  .fourPointers{
+  /* .fourPointers{
     padding-left: 15rem !important
-  }
+  } */
 }
 @media only screen and (max-width: 1200px) {
   .introText{
@@ -31,7 +31,7 @@
     display:block
   }
   .fourPointersPharma{
-    padding: 0 5rem !important;
+    padding-right:5rem !important;
     margin-top: 14rem !important;
     margin-bottom: 2rem !important;
     padding: 1rem;
@@ -48,9 +48,6 @@
     left: 382px ;
     bottom: 4rem !important
   }
-  .job-post_profile-picture{
-    left: 0 !important
-  }
   .jobCounts{
     text-align:left
   }
@@ -65,7 +62,7 @@
     top: 0 
   }
   .fourPointers{
-    padding: 0 14vw !important;
+    padding-right:0 !important;
     margin-top: 4rem !important;
   }
   .outerHeader2Pharma{
@@ -79,7 +76,7 @@
     text-align: center
   }
   .fourPointersPharma{
-    padding: 0 18px !important
+    padding-right:18px !important
   }
   .fourPointKeyValuePreferred{
     font-size: small
@@ -96,13 +93,10 @@
     text-align:center
   }
   .fourPointersPharma{
-    padding: 0 5vw !important;
+    padding-right:5vw !important;
   }
   #coverPhotoEditButtonPositionDropdown{
     bottom: 5.5rem !important
-  }
-  .followButton{
-    margin-bottom:0 !important
   }
   .profileUploadButton{
     left: 55vw !important;
@@ -160,10 +154,10 @@
   }
   .followButton{
     justify-content:center !important;
-    margin-bottom:2rem
+    margin:2rem
   }
   .fourPointers{
-    padding: 0 50px !important;
+    padding-right:50px !important;
     margin-top:8rem !important;
     margin-bottom:2rem !important
   }
@@ -174,12 +168,10 @@
   }
 }
 .fourPointers{
-  padding: 0 20rem;
-  margin-top: 3rem;
-  margin-bottom: 2rem !important
+  padding-right:20rem;
 }
 .fourPointersPharma{
-  padding: 0 178px;
+  padding-right:178px;
 }
 .phantomPadding{
   display: none;
@@ -228,7 +220,24 @@ div.img-container {
     height: 50px;
     right: -122px;
   }
-  .btn-primary{
+
+  .btn-outline-primary{
+    color:#5cdfe4;
+    border-color: #5cdfe4
+  }
+
+  .btn-outline-secondary:hover{
+    color: #6c757d;
+    background:white
+  }
+
+  .btn-outline-primary:hover{
+    color: red;
+    border-color: red;
+    background:white
+  }
+
+  .btn-primary, .btn-primary:hover{
     background:#5cdfe4;
     border: #5cdfe4
   }

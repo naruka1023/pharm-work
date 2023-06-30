@@ -22,7 +22,8 @@
                             <div class="tab-content" style='background:white' id="myTabContent">
                                 <div class="d-flex my-3 justify-content-between card-title px-sm-5 px-3">
                                     <button class="btn btn-primary mb-1 mt-2" style="visibility:hidden">Back <i class="bi bi-arrow-left"></i></button> 
-                                    <h3>ลงทะเบียน</h3>
+
+                                    <h3>{{header}}</h3>
                                     <ng-container *ngIf="pharmaForm; then hidden; else notHidden"></ng-container>
                                     <ng-template #hidden>
                                         <button class="btn btn-primary mb-1 mt-2" style="visibility:hidden">Back <i class="bi bi-arrow-left"></i></button> 
@@ -31,6 +32,7 @@
                                         <button class="btn btn-primary mb-1 mt-2" (click)="backSlide()">Back <i class="bi bi-arrow-left"></i></button> 
                                     </ng-template>
                                 </div>
+                                <div class="px-sm-5 px-3 my-3" style="font-size:0.75rem" *ngIf="header !== 'ลงทะเบียน'"><i>ท่านสามารถข้ามการใส่ข้อมูลงานที่กำลังมองหาได้ (แก้ไขภายหลังได้ที่ profile หัวข้อ 'งานที่กำลังมองหา')</i></div>
                                 <div class="px-sm-5 px-3 tab-pane fade show active" id="normal-job-pane" role="tabpanel" aria-labelledby="normal-job" tabindex="0">
                                     <form [formGroup]="registerFormPharmacist">
                                         <swiper #swiperFormPharma [allowTouchMove]="false" [virtual]="true">
@@ -43,10 +45,11 @@
                                                             formControlName="email"
                                                             class="form-control"
                                                             [ngClass]="{ 'is-invalid': submitted && fP['email'].errors }"
+                                                            style='background-color:#f2f2f2'
                                                         />
                                                         <div *ngIf="submitted && fP['email'].errors" class="invalid-feedback">
-                                                            <div *ngIf="fP['email'].errors['required']">Email is required</div>
-                                                            <div *ngIf="fP['email'].errors['email']">Email is invalid</div>
+                                                            <div *ngIf="fP['email'].errors['required']">กรุณาใส่อีเมล</div>
+                                                            <div *ngIf="fP['email'].errors['email']">อีเมลไม่ถูกต้อง</div>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
@@ -57,10 +60,11 @@
                                                                 formControlName="password"
                                                                 class="form-control"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['password'].errors }"
+                                                                style='background-color:#f2f2f2'
                                                             />
                                                             <div *ngIf="submitted && fP['password'].errors" class="invalid-feedback">
-                                                                <div *ngIf="fP['password'].errors['required']">Password is required</div>
-                                                                <div *ngIf="fP['password'].errors['minlength']">Password needs to be at least 6 characters long</div>
+                                                                <div *ngIf="fP['password'].errors['required']">กรุณาใส่พาสเวิร์ด</div>
+                                                                <div *ngIf="fP['password'].errors['minlength']">กรุณาใส่พาสเวิร์ดอย่างน้อย 6 ตัวอักษรขึ้นไป</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -72,12 +76,13 @@
                                                                 formControlName="confirmPassword"
                                                                 class="form-control"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['confirmPassword'].errors }"
+                                                                style='background-color:#f2f2f2'
                                                             />
                                                             <div *ngIf="submitted && fP['confirmPassword'].errors" class="invalid-feedback">
-                                                                <div *ngIf="fP['confirmPassword'].errors['required']">Confirm Password is required</div>
-                                                                <div *ngIf="fP['confirmPassword'].errors['minlength']">Confirm Password needs to be at least 6 characters long</div>
+                                                                <div *ngIf="fP['confirmPassword'].errors['required']">กรุณาคอนเฟิร์มพาสเวิร์ด</div>
+                                                                <div *ngIf="fP['confirmPassword'].errors['minlength']">กรุณาใส่พาสเวิร์ดคอนเฟิร์มอย่างน้อย 6 ตัวอักษรขึ้นไป</div>
                                                                 <div *ngIf="fP['confirmPassword'].errors['matching']">
-                                                                    Confirm Password does not match
+                                                                    พาสเวิร์ดไม่ตรงกัน
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -89,60 +94,90 @@
                                                                 type="text"
                                                                 formControlName="nickName"
                                                                 class="form-control"
+                                                                style="background-color:#f2f2f2"
                                                             />
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
                                                             <label for="gender" class="form-label">เพศ</label>
-                                                            <select formControlName="gender" class="form-select" [ngClass]="{ 'is-invalid': submitted && fP['gender'].errors }" aria-label="Default select example">
+                                                            <select formControlName="gender" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fP['gender'].errors }" aria-label="Default select example">
                                                                 <option selected value="ชาย">ชาย</option>
                                                                 <option value="หญิง">หญิง</option>
                                                             </select>
                                                             <div *ngIf="submitted && fP['gender'].errors" class="invalid-feedback">
-                                                                <div *ngIf="fP['gender'].errors['required']">Name is required</div>
+                                                                <div *ngIf="fP['gender'].errors['required']">กรุณาระบุเพศของท่าน</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="name" class="form-label">ชื่อ</label>
+                                                            <div class="d-md-flex justify-content-between">
+                                                                <label for="name" class="mb-0 form-label">ชื่อ</label>
+                                                                <div>
+                                                                    <label for="name" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
+                                                                </div>
+                                                            </div>
                                                             <input
                                                                 type="text"
                                                                 formControlName="name"
                                                                 class="form-control"
+                                                                style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['name'].errors }"
                                                             />
                                                             <div *ngIf="submitted && fP['name'].errors" class="invalid-feedback">
-                                                                <div *ngIf="fP['name'].errors['required']">Name is required</div>
+                                                                <div *ngIf="fP['name'].errors['required']">กรุณาระบุชื่อจริงตามบัตรประชาชน</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="surname" class="form-label">นามสกุล</label>
+                                                            <div class="d-md-flex justify-content-between">
+                                                                <label for="surname" class="mb-0 form-label">นามสกุล</label>
+                                                                <div>
+                                                                    <label for="surname" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
+                                                                </div>
+                                                            </div>
                                                             <input
                                                                 type="text"
                                                                 formControlName="surname"
                                                                 class="form-control"
+                                                                style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['surname'].errors }"
                                                             />
                                                             <div *ngIf="submitted && fP['surname'].errors" class="invalid-feedback">
-                                                                <div *ngIf="fP['surname'].errors['required']">Name is required</div>
+                                                                <div *ngIf="fP['surname'].errors['required']">กรุณาระบุนามสกุลจริงตามบัตรประชาชน</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="license" class="form-label">เลขใบประกอบ ภ.</label>
+                                                            <div class="d-md-flex justify-content-between">
+                                                                <label for="license" class="mb-0 form-label">เลขใบประกอบ ภ.</label>
+                                                                <div>
+                                                                    <label for="license" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
+                                                                </div>
+                                                            </div>
                                                             <input
                                                                 type="text"
                                                                 formControlName="license"
                                                                 class="form-control"
+                                                                style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['license'].errors }"
                                                             />
                                                             <div *ngIf="submitted && fP['license'].errors" class="invalid-feedback">
-                                                                <div *ngIf="fP['license'].errors['required']">Name is required</div>
+                                                                <div *ngIf="fP['license'].errors['required']">กรุณาระบุเลขที่ใบประกอบวิชาชีพเภสัชกร</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check d-flex"> 
+                                                            <input formControlName="Agreement" class="me-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fP['Agreement'].errors }">
+                                                            <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
+                                                                ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ
+                                                            </label>
+                                                            <div *ngIf="submitted && fP['Agreement'].errors" style="width:auto" class="invalid-feedback">
+                                                                <div *ngIf="fP['Agreement'].errors['required']" style="text-align: left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -212,7 +247,7 @@
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="preferredTimeFrame" class="form-label">ชนิดของงานที่สนใจ</label>
-                                                        <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3">
+                                                        <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3" style="background-color:#f2f2f2">
                                                             <option selected value="Full-Time">Full-Time</option>
                                                             <option value="Part-Time">Part-Time</option>
                                                             <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
@@ -221,7 +256,7 @@
                                                     <app-location [parentFormGroup]="registerFormPharmacist" [formGroupName]="'preferredLocation'" [registerFlag]="true"></app-location>
                                                     <div class="form-group excessForm" style="display:none">
                                                         <label for="preferredSalary" class="form-label">เงินเดือนที่ต้องการ</label>
-                                                        <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3">
+                                                        <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3" style="background-color:#f2f2f2">
                                                             <option selected value="20,000">20,000</option>
                                                             <option  value="30,000">30,000</option>
                                                             <option  value="40,000">40,000</option>
@@ -235,7 +270,7 @@
                                                     </div>
                                                     <div class="form-group excessForm" style="display:none">
                                                         <label for="สามารถเริ่มงานได้" class="form-label">สามารถเริ่มงานได้</label>
-                                                        <select formControlName="preferredStartTime" name="preferredStartTime" class="form-select mb-3">
+                                                        <select formControlName="preferredStartTime" name="preferredStartTime" class="form-select mb-3" style="background-color:#f2f2f2">
                                                             <option selected value="ทันที">ทันที</option>
                                                             <option  value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
                                                             <option  value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
@@ -257,11 +292,12 @@
                                               type="text"
                                               formControlName="email"
                                               class="form-control"
+                                              style="background-color:#f2f2f2"
                                               [ngClass]="{ 'is-invalid': submitted && fO['email'].errors }"
                                             />
                                             <div *ngIf="submitted && fO['email'].errors" class="invalid-feedback">
-                                              <div *ngIf="fO['email'].errors['required']">Email is required</div>
-                                              <div *ngIf="fO['email'].errors['email']">Email is invalid</div>
+                                              <div *ngIf="fO['email'].errors['required']">กรุณาใส่อีเมล</div>
+                                              <div *ngIf="fO['email'].errors['email']">อีเมลไม่ถูกต้อง</div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -270,12 +306,13 @@
                                                 <input
                                                     type="password"
                                                     formControlName="password"
+                                                    style="background-color:#f2f2f2"
                                                     class="form-control"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['password'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['password'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['password'].errors['required']">Password is required</div>
-                                                    <div *ngIf="fO['password'].errors['minlength']">Password needs to be at least 6 characters long</div>
+                                                    <div *ngIf="fO['password'].errors['required']">กรุณาใส่พาสเวิร์ด</div>
+                                                    <div *ngIf="fO['password'].errors['minlength']">กรุณาใส่พาสเวิร์ดอย่างน้อย 6 ตัวอักษรขึ้นไป</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -285,14 +322,15 @@
                                                 <input
                                                     type="password"
                                                     formControlName="confirmPassword"
+                                                    style="background-color:#f2f2f2"
                                                     class="form-control"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['confirmPassword'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['confirmPassword'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['confirmPassword'].errors['required']">Confirm Password is required</div>
+                                                    <div *ngIf="fO['confirmPassword'].errors['required']">กรุณาคอนเฟิร์มพาสเวิร์ด</div>
                                                     <div *ngIf="fO['confirmPassword'].errors['matching']">
-                                                        <div *ngIf="fO['confirmPassword'].errors['minlength']">Confirm Password needs to be at least 6 characters long</div>
-                                                        Confirm Password does not match
+                                                        <div *ngIf="fO['confirmPassword'].errors['minlength']">กรุณาใส่พาสเวิร์ดคอนเฟิร์มอย่างน้อย 6 ตัวอักษรขึ้นไป</div>
+                                                        พาสเวิร์ดไม่ตรงกัน
                                                     </div>
                                                 </div>
                                             </div>
@@ -304,18 +342,19 @@
                                                     type="text"
                                                     formControlName="companyName"
                                                     class="form-control"
+                                                    style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['companyName'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['companyName'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['companyName'].errors['required']">Company Name is required</div>
+                                                    <div *ngIf="fO['companyName'].errors['required']">กรุณาใส่ชื่อธุรกิจตามที่ขึ้นทะเบียนไว้กับกรมพัฒนาธุรกิจการค้า</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
                                                 <label for="jobType" class="form-label">ประเภทธุรกิจ</label>
-                                                <select formControlName="jobType" class="form-select" [ngClass]="{ 'is-invalid': submitted && fO['jobType'].errors }" aria-label="Default select example">
-                                                    <option selected value="ร้านยาทั่วไป">ร้านยาทั่วไป</option>
+                                                <select formControlName="jobType" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fO['jobType'].errors }" aria-label="Default select example">
+                                                    <option value="ร้านยาทั่วไป">ร้านยาทั่วไป</option>
                                                     <option value="ร้านยาแบรนด์">ร้านยาแบรนด์</option>
                                                     <option value="โรงพยาบาล">โรงพยาบาล</option>
                                                     <option value="คลินิก">คลินิก</option>
@@ -325,7 +364,7 @@
                                                     <option value="อื่นๆ">อื่นๆ</option>
                                                 </select>
                                                 <div *ngIf="submitted && fO['jobType'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['jobType'].errors['required']">Job Type is required</div>
+                                                    <div *ngIf="fO['jobType'].errors['required']">กรุณาระบุประเภทธุรกิจของท่าน</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -336,10 +375,11 @@
                                                     type="text"
                                                     formControlName="companyID"
                                                     class="form-control"
+                                                    style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['companyID'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['companyID'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['companyID'].errors['required']">Company ID is required</div>
+                                                    <div *ngIf="fO['companyID'].errors['required']">กรุณาใส่เลขจดทะเบียนบริษัทตามที่ขึ้นทะเบียนไว้กับกรมพัฒนาธุรกิจการค้า</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -350,10 +390,11 @@
                                                     type="text"
                                                     formControlName="nameOfPerson"
                                                     class="form-control"
+                                                    style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['nameOfPerson'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['nameOfPerson'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['nameOfPerson'].errors['required']">Name of Person is required</div>
+                                                    <div *ngIf="fO['nameOfPerson'].errors['required']">กรุณาใส่ชื่อ-นามสกุลจริงของเจ้าของธุรกิจหรือผู้ดำเนินการจัดหาบุคลากร</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -364,10 +405,22 @@
                                                     type="text"
                                                     formControlName="phoneNumber"
                                                     class="form-control"
+                                                    style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['phoneNumber'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['phoneNumber'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['phoneNumber'].errors['required']">Phone Number is required</div>
+                                                    <div *ngIf="fO['phoneNumber'].errors['required']">กรุณาใส่เบอร์โทรศัพท์ของเจ้าของธุรกิจหรือผู้ดำเนินการจัดหาบุคลากร</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-check d-flex"> 
+                                                <input formControlName="Agreement" class="me-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fO['Agreement'].errors }">
+                                                <label class="form-check-label" for="Agreement" style="color:black !important; text-align:left">
+                                                    ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้ประกอบการทุกประการ
+                                                </label>
+                                                <div *ngIf="submitted && fO['Agreement'].errors" style="width:auto" class="invalid-feedback">
+                                                    <div *ngIf="fO['Agreement'].errors['required']" style="text-align:left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
                                                 </div>
                                             </div>
                                         </div>

@@ -16,6 +16,8 @@ export class RegisterJobsComponent {
   }
   selectTab(target:string){
     let triggerEl = document.getElementById(target)!;
-    triggerEl.click()
+    if(triggerEl !== null){
+      triggerEl.click()
+    }
   }
 }

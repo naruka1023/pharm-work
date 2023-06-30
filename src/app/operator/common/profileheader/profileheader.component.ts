@@ -243,6 +243,11 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
     this.profileService.sendRequestViewSubject(this.result)
   }
 
+  cancelIntroText(){
+    this.editFlag = false;
+    this.resetFormGroup()
+  }
+
   toggleFavorite(){
     if(this.localFlag === true){
       this.favoriteLoadingFlag = true

@@ -13,6 +13,13 @@
     font-size: 1.2rem !important
   }
 }
+.btn-primary, btn-primary:hover{
+  background:#5cdfe4;
+  border-color: #5cdfe4
+}
+.followButton{
+  text-align:right
+}
 
 .grid {
     display: grid;

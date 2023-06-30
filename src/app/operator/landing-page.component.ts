@@ -144,6 +144,8 @@ export class LandingPageComponent {
       {
         urgency: urgencyFlag
       }
+    }).then(()=>{
+      this.offCanvas.hide()
     })
   }
   signOut(){

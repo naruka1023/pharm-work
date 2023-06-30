@@ -142,6 +142,18 @@ export class JobPostNormalCardComponent{
     this.subscription.unsubscribe()
   }
 
+  goToOperatorProfile(){
+    this.router.navigate(['/pharma/operator-page'], {
+      queryParams: 
+      {
+        operatorUID: this.content.OperatorUID,
+        requestViewFlag: false,
+        followFlag: false,
+        operatorExistFlag: false,
+        jobType: this.content.JobType
+      }
+    })
+  }
 
   goToProfile(){
     if(this.router.url !== 'pharma/profile-pharma/recently-seen-job'){

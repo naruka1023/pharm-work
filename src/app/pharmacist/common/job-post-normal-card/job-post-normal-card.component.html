@@ -1,8 +1,8 @@
-<div class="card w-100" style="border-radius:20px">
+<div class="card w-100" style="border-radius:20px" (click)="goToProfile()">
 	<div id="overlay" *ngIf="Active$ | async">
 		<div id="text">Inactive</div>
 	</div>
-	<div class="card-header" [ngStyle]="{'background':!urgentFlag?fullTimeFlag?'#7fcae6':'#a2e3d9':'rgba(0, 0, 0, 0.03)'}">
+	<div class="card-header" [ngStyle]="{'color': !urgentFlag?'white':'black','background':!urgentFlag?fullTimeFlag?'#5cdfe4':'#7fd858':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
 			<div class="col-sm-4 fs-5 align-items-center borderRight" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
@@ -29,59 +29,54 @@
 	<div class="card-body" style="padding:0.5rem 1rem">
 		<div class="row">
 			<div class="col-3 mainImage text-center align-self-center">
-				<img (click)="goToProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
+				<img (click)="goToOperatorProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
 				
 			</div>
 			<div class="col-sm col-12 w-100">
 				<div class="d-flex justify-content-between me-2 mb-sm-0 mb-3 subImageContainer">
 					<div class="subImage text-center align-self-center me-md-0 me-3">
-						<img (click)="goToProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
+						<img (click)="goToOperatorProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
 					</div>
 					<div>
 						<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'height':'1.5em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}">
 							<b>{{content.JobName}}</b>
 						</div>
-						<p class="my-auto fs-6" [ngStyle]="{'height':'2.5em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}"><i>{{content.Establishment}}</i></p>
+						<p class="my-auto fs-6" [ngStyle]="{'height':'2.7em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}"><i>{{content.Establishment}}</i></p>
 					</div>
 				</div>
 				<div class="container text-center">
 					<div class="row mb-2">
-						<div class="col-sm col-8 d-flex" *ngIf="!urgentFlag">
-							<p class="my-auto me-2">
+						<div class="col-sm col-8 d-flex px-0" *ngIf="!urgentFlag">
+							<p class="my-auto me-2" *ngIf="content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
-							<div class=" fs-6 d-flex flex-row my-auto">
+							<div class=" fs-6 d-flex flex-row my-auto"  *ngIf="content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
 								<div class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
-								<div *ngIf="!urgentFlag">
-									<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
-									<ng-template #fullSub>บาท/เดือน</ng-template>
-									<ng-template #partSub>บาท/ชม</ng-template>
-								</div>
 							</div>
 						</div>
-						<div *ngIf="!urgentFlag" class="col-sm col-12 d-flex">
+						<div *ngIf="!urgentFlag" class="col d-flex">
 							<p class="my-auto me-2">
 								<i class="my-auto fs-6 bi bi-people"></i>
 							</p>
 							<p class="my-auto fs-6 ms-2">{{content.Amount}} ตำแหน่ง</p>
 						</div>
-						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
+						<div class="col d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
 								<i class="my-auto fs-6 bi bi-clock"></i>
 							</p>
 							<p class="my-auto fs-6 ms-3">{{content.Duration}} </p>
 						</div>
-						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
-							<p class="my-auto me-2">
+						<div class="col d-flex" *ngIf="urgentFlag">
+							<p class="my-auto me-2" *ngIf="content.Location.Province !== ''">
 								<i class="fs-6 my-auto bi bi-geo-alt"></i>
 							</p>
-							<div class="d-flex flex-row my-auto">
+							<div class="d-flex flex-row my-auto" *ngIf="content.Location.Province !== ''">
 								<div class="mx-2 fs-6">{{content.Location.Province}}</div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
+						<div class="col d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
@@ -94,15 +89,15 @@
 						</div>
 					</div>
 					<div class="row mb-3">
-						<div class="col-sm col-12 d-flex" *ngIf="!urgentFlag">
-							<p class="my-auto me-2">
+						<div class="col d-flex" *ngIf="!urgentFlag">
+							<p class="my-auto me-2" *ngIf="content.Location.Province !== ''">
 								<i class="fs-6 my-auto bi bi-geo-alt"></i>
 							</p>
-							<div class="d-flex flex-row my-auto">
+							<div class="d-flex flex-row my-auto" *ngIf="content.Location.Province !== ''">
 								<div class="mx-2 fs-6">{{content.Location.Province}}</div>
 							</div>
 						</div>
-						<div class="col-sm col-12 d-flex" *ngIf="!urgentFlag && content.OnlineInterview">
+						<div class="col d-flex" *ngIf="!urgentFlag && content.OnlineInterview">
 							<p class="my-auto me-2">
 								<i class="my-auto fs-6 bi bi-tv"></i>
 							</p>
@@ -115,7 +110,7 @@
 	</div>
 </div>
 <div class="mainFooter d-flex justify-content-between m-2 ">
-	<div class="footer d-flex">
+	<div class="footer d-flex" style="align-self:center">
 		{{content.dateUpdated}}
 	</div>
 	<div class="footer d-flex justify-content-end">

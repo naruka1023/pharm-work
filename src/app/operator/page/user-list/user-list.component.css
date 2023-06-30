@@ -16,11 +16,6 @@
       height: 65vh !important;
     }
   }
-  @media only screen and (max-width: 450px) {
-    .urgentForm, .notUrgentForm{
-      width: 100vw !important;
-    }
-  }
   @media only screen and (max-width: 610px) {
     .headerText{
       font-size: medium !important

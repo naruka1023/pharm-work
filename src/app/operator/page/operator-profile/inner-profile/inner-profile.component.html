@@ -22,7 +22,7 @@
                 <hr style="width: 100%" class="m-auto">
             </ul>
             <div class="tab-content fs-3 mx-sm-5" style="line-break: auto">
-                <div class="align-items-baseline d-flex justify-content-end ms-md-3 editButton mb-md-0 mb-3"><button (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!profileEditState?'บันทึก':'ยกเลิก'}}</button></div>
+                <div class="align-items-baseline d-flex justify-content-end ms-md-3 editButton mb-md-0 mb-3"><button [ngStyle]="{'visibility': !profileEditState?'unset':'hidden'}" (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
                 <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <ng-container *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"></ng-container>
                 <ng-template #displayProfileOne>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.companyName}}</div>
+                            <div class="me-2">{{innerProfileInformation.companyName | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.jobType}}</div>
+                            <div class="me-2">{{innerProfileInformation.jobType | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -59,7 +59,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.companySize}}</div>
+                            <div class="me-2">{{innerProfileInformation.companySize | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2" [innerHTML]="innerProfileInformation.productsAndServices"></div>
+                            <div class="me-2" [innerHTML]="innerProfileInformation.productsAndServices | emptyField"></div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -83,29 +83,7 @@
                         </div>
                         <div class="d-flex flex-row">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div>{{innerProfileInformation.Location?.Province}}, {{innerProfileInformation.Location?.District}}, {{innerProfileInformation.Location?.Section}}</div>                    
-                        </div>
-                    </div>
-                    <div>
-                        <div class="verticalKeyGap">
-                            <div class="d-flex flex-row">
-                                <div class="keyValueGap">
-                                    <i class="bi bi-geo-alt"></i>
-                                </div>
-                                <div><b>ปักหมุด</b></div>
-                            </div>
-                        </div>
-                        <div class="d-flex my-3 justify-content-center">
-                            <google-map 
-                                height="500px"
-                                width="65vw"
-                                [center]="center"
-                                [zoom]="zoom">
-                                <map-marker
-                                    [position]="markerPosition"
-                                    >
-                                </map-marker>
-                            </google-map>
+                            <div>{{innerProfileInformation.Location?.Province | emptyField}}, {{innerProfileInformation.Location?.District | emptyField}}, {{innerProfileInformation.Location?.Section | emptyField}}</div>                    
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -117,7 +95,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2" [innerHTML]="innerProfileInformation.TravelInstructions"></div>
+                            <div class="me-2" [innerHTML]="innerProfileInformation.TravelInstructions | emptyField"></div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -127,10 +105,13 @@
                                 <div><b>ชื่อผู้ติดต่อ</b></div>
                             </div>
                         </div>
-                            <div class="col d-flex">
+                        <div class="col d-xl-flex justify-content-between align-items-center">
+                            <div class="d-flex">
                                 <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                                <div class="me-2">{{innerProfileInformation.nameOfPerson}}</div>
+                                <div class="me-2">{{innerProfileInformation.nameOfPerson | emptyField}}</div>
                             </div>
+                            <div class="fs-5 text-danger mt-xl-0 mt-3"><i>*ไม่แสดงผู้อื่นเห็น</i></div>
+                        </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
                         <div class="d-flex">
@@ -139,9 +120,12 @@
                                 <div><b>เบอร์โทรผู้ติดต่อ</b></div>
                             </div>
                         </div>
-                            <div class="col d-flex">
-                                <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                                <div class="me-2">{{innerProfileInformation.phoneNumber}}</div>
+                            <div class="col d-xl-flex justify-content-between align-items-center">
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
+                                    <div class="me-2">{{innerProfileInformation.phoneNumber | emptyField}}</div>
+                                </div>
+                                <div class="fs-5 text-danger mt-xl-0 mt-3"><i>*ไม่แสดงผู้อื่นเห็น</i></div>
                             </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -151,9 +135,12 @@
                                 <div><b>Email ฝ่ายบัญชี</b></div>
                             </div>
                         </div>
-                        <div class="col d-flex">
-                            <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.emailRepresentative}}</div>
+                        <div class="col d-xl-flex justify-content-between align-items-center">
+                            <div class="d-flex">
+                                <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
+                                <div class="me-2">{{innerProfileInformation.emailRepresentative | emptyField}}</div>
+                            </div>
+                            <div class="fs-5 text-danger mt-xl-0 mt-3"><i>*ไม่แสดงผู้อื่นเห็น</i></div>
                         </div>
                     </div>
                 </ng-template>
@@ -167,7 +154,7 @@
                                     </label>
                                 </div>
                                 <div class="col">
-                                    <input formControlName="companyName" type="text" class="form-control fs-3">
+                                    <input formControlName="companyName" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -175,7 +162,7 @@
                                     <label for="companySize" class="form-label"><b>ขนาดธุรกิจ</b></label>
                                 </div>
                                 <div>
-                                    <select formControlName="companySize" name="companySize" class="form-select fs-3">
+                                    <select formControlName="companySize" name="companySize" class="form-select fs-3" style="background-color:#f2f2f2">
                                         <option value="ธุรกิจขนาดเล็ก (ไม่เกิน 50 คน)">ธุรกิจขนาดเล็ก (ไม่เกิน 50 คน)</option>
                                         <option value="ธุรกิจขนาดกลาง (50 – 200 คน)">ธุรกิจขนาดกลาง (50 – 200 คน)</option>
                                         <option value="ธุรกิจขนาดใหญ่ (200 คนขึ้นไป)">ธุรกิจขนาดใหญ่ (200 คนขึ้นไป)</option>
@@ -196,15 +183,14 @@
                                     <label for="mapLatLng" class="form-label"><b>ปักหมุด</b></label>
                                 </div>
                                 <div>
-                                    <label>Enter address</label>
                                     <input
                                         type="text"
                                         class="form-control my-3"
                                         ngx-google-places-autocomplete 
                                         (onAddressChange)="searchMap($event)"
-                                    />
+                                        style="background-color:#f2f2f2"/>
                                   </div>
-                                <div class="col d-flex justify-content-center">
+                                <div style="overflow:scroll" class="col d-flex justify-content-center">
                                     <google-map 
                                         height="500px"
                                         width="65vw"
@@ -222,7 +208,7 @@
                                     <label for="jobType" class="form-label"><b>วิธีเดินทางไปบริษัท</b></label>
                                 </div>
                                 <div>
-                                    <ckeditor formControlName="TravelInstructions" [editor]="TravelInstructionsEditor" name="editor"></ckeditor>
+                                    <ckeditor formControlName="TravelInstructions" [editor]="TravelInstructionsEditor" name="editor" style="background-color:#f2f2f2"></ckeditor>
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -230,7 +216,7 @@
                                     <label for="nameOfPerson" class="form-label"><b>ชื่อผู้ติดต่อ</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="nameOfPerson" type="text" class="form-control fs-3">
+                                    <input formControlName="nameOfPerson" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -238,7 +224,7 @@
                                     <label for="phoneNumber" class="form-label"><b>เบอร์โทรผู้ติดต่อ</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="phoneNumber" type="text" class="form-control fs-3">
+                                    <input formControlName="phoneNumber" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -246,11 +232,15 @@
                                     <label for="emailRepresentative" class="form-label"><b>Email ฝ่ายบัญชี</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="emailRepresentative" type="text" class="form-control fs-3">
+                                    <input formControlName="emailRepresentative" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <div class="align-items-baseline d-flex justify-content-center ms-3">
+                        <button (click)="cancelClick()" class="me-3 btn saveButton btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                        <button (click)="onSave()" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                    </div>
                 </ng-template>
             </div>
             <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
@@ -265,7 +255,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.phone}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -277,7 +267,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.email}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.email | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -289,7 +279,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.line}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.line | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -301,7 +291,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.website}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.website | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -313,7 +303,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.facebook}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.facebook | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -325,7 +315,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.twitter}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.twitter | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -337,7 +327,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.skype}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.skype | emptyField}}</div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -349,10 +339,10 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2">{{innerProfileInformation.contacts?.youtube}}</div>
+                            <div class="me-2">{{innerProfileInformation.contacts?.youtube | emptyField}}</div>
                         </div>
                     </div>
-                   
+
                 </ng-template>
                 <ng-template #editProfileTwo>
                     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
@@ -362,7 +352,7 @@
                                     <label for="phone" class="form-label"><b>เบอร์โทร</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="phone" type="text" class="form-control fs-3">
+                                    <input formControlName="phone" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -370,7 +360,7 @@
                                     <label for="email" class="form-label"><b>Email</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="email" type="text" class="form-control fs-3">
+                                    <input formControlName="email" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -378,7 +368,7 @@
                                     <label for="line" class="form-label"><b>LINE</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="line" type="text" class="form-control fs-3">
+                                    <input formControlName="line" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -386,7 +376,7 @@
                                     <label for="website" class="form-label"><b>Website</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="website" type="text" class="form-control fs-3">
+                                    <input formControlName="website" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -394,7 +384,7 @@
                                     <label for="facebook" class="form-label"><b>Facebook</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="facebook" type="text" class="form-control fs-3">
+                                    <input formControlName="facebook" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -402,7 +392,7 @@
                                     <label for="twitter" class="form-label"><b>Twitter</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="twitter" type="text" class="form-control fs-3">
+                                    <input formControlName="twitter" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -410,7 +400,7 @@
                                     <label for="skype" class="form-label"><b>Skype</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="skype" type="text" class="form-control fs-3">
+                                    <input formControlName="skype" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                             <div class="verticalKeyGap">
@@ -418,11 +408,15 @@
                                     <label for="youtube" class="form-label"><b>Youtube</b></label>
                                 </div>
                                 <div>
-                                    <input formControlName="youtube" type="text" class="form-control fs-3">
+                                    <input formControlName="youtube" type="text" class="form-control fs-3" style="background-color:#f2f2f2">
                                 </div>
                             </div>
                         </div>
-                    </form>                    
+                    </form>    
+                    <div class="align-items-baseline d-flex justify-content-center ms-3">
+                        <button (click)="cancelClick()" class="me-3 btn saveButton btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                        <button (click)="onSave()" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                    </div>                
                 </ng-template>
             </div>
             <div class="tab-pane" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
@@ -437,7 +431,7 @@
                         </div>
                         <div class="col d-flex">
                             <div class="keyValueGap phantom" style="visibility:hidden; display: none"><i class="bi bi-briefcase"></i></div>
-                            <div class="me-2"[innerHTML]="innerProfileInformation.benefits"></div>
+                            <div class="me-2"[innerHTML]="innerProfileInformation.benefits | emptyField"></div>
                         </div>
                     </div>
                 </ng-template>
@@ -448,14 +442,15 @@
                                 <label for="benefits" class="form-label"><b>สวัสดิการ</b></label>
                             </div>
                             <div>
-                                <ckeditor formControlName="benefits" [editor]="benefitsEditor" name="editor"></ckeditor>
+                                <ckeditor formControlName="benefits" [editor]="benefitsEditor" name="editor" style="background-color:#f2f2f2"></ckeditor>
                             </div>
                         </div>
                 </form>
+                <div class="align-items-baseline d-flex justify-content-center ms-3">
+                    <button (click)="cancelClick()" class="me-3 btn saveButton btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                    <button (click)="onSave()" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                </div>
                 </ng-template>
-            </div>
-            <div class="d-flex justify-content-center" *ngIf="profileEditState">
-                <button class="btn btn-success fs-2 my-5 saveButton" (click)="onSave()">SAVE</button>
             </div>
         </div>
     </div>

@@ -31,11 +31,23 @@
 .rounded{
   border-radius:20px !important
 }
-.btn-primary{
+.card:hover{
+  background-color: rgba(88, 92, 89, 0.3);
+  cursor:pointer
+}
+.btn-primary, btn-primary:hover{
   background:#5cdfe4;
   border-color: #5cdfe4
 }
 .btn-success{
   background:rgb(127, 216, 88);
   border:rgb(127, 216, 88)
+}
+.fullTime{
+  background:#5cdfe4;
+  border-color: #5cdfe4
+}
+.partTime{
+background:#7fd858;
+border-color: #7fd858
 }

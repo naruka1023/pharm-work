@@ -2,7 +2,7 @@
 	{{content.dateUpdated}}
 </div> -->
 <div class="card border-secondary w-100" style="border-radius: 20px">
-	<div class="card-header"  style="border-radius:20px 20px 0 0" [ngStyle]="{'background':!content.Urgency?fullTimeFlag?'#7fcae6':'#a2e3d9':'rgba(0, 0, 0, 0.03)'}">
+	<div class="card-header"  style="border-radius:20px 20px 0 0" [ngStyle]="{'color':content.Urgency?'black': 'white','background':!content.Urgency?fullTimeFlag?'#5cdfe4':'#7fd858':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
 			<div class="col-sm-4 fs-5 align-items-center borderRight" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
@@ -59,11 +59,6 @@
 							</p>
 							<div class=" fs-6 d-flex flex-row my-auto">
 								<div class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap!}}</div>
-								<div *ngIf="!urgentFlag">
-									<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
-									<ng-template #fullSub>บาท/เดือน</ng-template>
-									<ng-template #partSub>บาท/ชม</ng-template>
-								</div>
 							</div>
 						</div>
 						<div *ngIf="!urgentFlag" class="col-sm col-12 d-flex">
@@ -94,9 +89,9 @@
 							</p>
 							<div class="fs-6 d-flex flex-row my-auto">
 								<div class="mx-2">{{content.Salary.Amount}}</div>
-								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
+								<!-- <ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 								<ng-template #fullSub>บาท/เดือน</ng-template>
-								<ng-template #partSub>บาท/ชม</ng-template>
+								<ng-template #partSub>บาท/ชม</ng-template> -->
 							</div>
 						</div>
 					</div>

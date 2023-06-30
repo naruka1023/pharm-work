@@ -82,12 +82,23 @@ export const filterJobs = createAction(
   '[Job-Post] Update Job From Job Category',
   props<{ categorySymbol: string, jobUID: string, jobPayload: jobPostModel }>()
   );
+
+  export const setExistingOperatorData = createAction(
+    '[Operator] Set Existing Operator Jobs',
+    props<{ jobType: string, operatorUID: string, jobs: jobPostModel[], followers: number}>()
+  );
+  
   
   export const updateJobFromHome = createAction(
   '[Job-Post] Update Job From Home',
   props<{ categorySymbol: string, jobUID: string, jobPayload: jobPostModel }>()
   );
 
+  
+  export const toggleJobs = createAction(
+  '[Job-Post] Toggle Jobs'
+  );
+  
   
   export const retrievedJobCategorySuccess = createAction(
   '[Job-Post] Retrieve Jobs Category Success',

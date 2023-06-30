@@ -1,8 +1,8 @@
 <div class="my-3 fs-2 mx-4 mainTitle"><b>กำลังติดตาม</b></div>
 <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
 <ng-template #empty>
-    <div class="row d-flex justify-content-center">
-        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+    <div class="row d-flex justify-content-center"> 
+        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
             <img class="w-100" src="assets/empty/emptyFollow.png">
         </div>
       </div>
@@ -11,7 +11,7 @@
     <div class="row row-cols-xl-2">
         <ng-container *ngFor="let operator of followers, index as i">
             <app-operator-normal-card [content]="operator.user!" [followerUID]="operator.followUID!"></app-operator-normal-card>
-            <hr style="width:95%; margin:auto;" class="my-3" *ngIf="(i + 1) % 2 == 0">
+            <hr style="width:95%; margin:auto;" class="mb-3" *ngIf="(i + 1) % 2 == 0">
         </ng-container>
     </div>
 </ng-template>

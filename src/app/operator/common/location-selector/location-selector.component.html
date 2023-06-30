@@ -9,7 +9,7 @@
                     <label class="me-3">จังหวด: </label>
                 </div>
                 <div class="col">
-                    <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3">
+                    <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3" style="background-color:#f2f2f2">
                         <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
                     </select>
                 </div>
@@ -19,7 +19,7 @@
                     <label class="me-3">เขต: </label>
                 </div>
                 <div class="col">
-                    <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3 fs-3">
+                    <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3 fs-3" style="background-color:#f2f2f2">
                         <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
                     </select>
                 </div>
@@ -29,7 +29,7 @@
                     <label class="me-3">แขวง: </label>
                 </div>
                 <div class="col">
-                    <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3">
+                    <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3" style="background-color:#f2f2f2">
                         <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
                     </select>
                 </div>

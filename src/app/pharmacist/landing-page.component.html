@@ -73,7 +73,7 @@
                     </a>
                   </li>
                   <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-views')"><i class="bi bi-eye me-3"></i>คำขอดูข้อมูล</a></li>
-                  <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li>
+                  <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
                   <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-jobs')"><i class="bi bi-file-earmark-check me-3"></i>งานที่กดสมัคร</a></li>
                   <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/followers')"><i class="bi bi-person-plus me-3"></i>ติดตามอยู่</a></li>
                   <li><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right me-3"></i>Sign Out</a></li>
@@ -85,7 +85,7 @@
         <ng-template #normalNav>
           <ul class="fs-5 navbar-nav d-flex align-items-center">
               <li class="nav-item dropdown ms-3">
-                  <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางาน</a>
+                  <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางานเภสัช</a>
                   <ul class="dropdown-menu p-2">
                       <li><a class="dropdown-item" (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
                       <li><a class="dropdown-item">งานร้านยา</a>
@@ -105,8 +105,13 @@
                   เข้าสู่ระบบ
                 </button>
               <li class="nav-item ms-3">
-                <button type="button" routerLink="register" class="btn btn-success" >
-                  ลงทะเบียน
+                <button type="button" (click)="goRegister(true)" class="btn btn-success">
+                  สมัครสมาชิก
+                </button>
+              </li>
+              <li class="nav-item ms-3">
+                <button type="button" (click)="goRegister(false)" class="btn" style="background:#d63ebf; border-color:#d63ebf; color:white">
+                  สำหรับผู้ประกอบการ
                 </button>
               </li>
           </ul>
@@ -171,12 +176,12 @@
               </a>
             </li>
             <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-views')"><i class="bi bi-eye me-3"></i>คำขอดูข้อมูล</a></li>
-            <li>
+            <!-- <li>
               <a class="d-flex dropdown-item" (click)="goToPage('jobs-list', true, {CategorySymbol: 'AA'})">
                 <i class="bi bi-file-earmark-richtext me-3"></i>
                 งานด่วนรานวัน
               </a>
-            </li>
+            </li> -->
             <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-jobs')"><i class="bi bi-file-earmark-check me-3"></i>งานที่กดสมัคร</a></li>
             <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/followers')"><i class="bi bi-person-plus me-3"></i>ติดตามอยู่</a></li>
             <li><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right me-3"></i>Sign Out</a></li>
@@ -195,17 +200,20 @@
     </ng-template>
     <ng-template #notLoggedNav>
       <ul class="fs-5 navbar-nav d-flex align-items-center">
-        <div class="d-flex">
           <li class="nav-item ms-3 my-2">
             <button type="button" (click)="goToPage('login')" class="btn btn-primary" >
               เข้าสู่ระบบ
             </button>
           <li class="nav-item ms-3 my-2">
-            <button type="button" (click)="goToPage('register')" class="btn btn-success" >
-              ลงทะเบียน
+            <button type="button" (click)="goToPage('register', true, {isPharma: true})" class="btn btn-success">
+              สมัครสมาชิก
             </button>
           </li>
-        </div>
+          <li class="nav-item ms-3 my-2">
+            <button type="button" (click)="goToPage('register', true, {isPharma: false})" class="btn" style="background:#dfa5d6; border-color:#dfa5d6">
+              สำหรับผู้ประกอบการ
+            </button>
+          </li>
         <li class="nav-item dropdown ms-3 my-2">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางาน</a>
             <ul class="dropdown-menu p-2">

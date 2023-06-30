@@ -2,17 +2,11 @@
   .nickNameForm, .mainHeader > h2{
     font-size:2.5rem !important
   }
-  .fourPointers{
-    padding: 0 10rem !important
-  }
   .mainHeader{
     display:block !important
   }
 }
 @media only screen and (max-width: 1200px) {
-  .fourPointers{
-    padding: 0 7rem !important;
-  }
   .operatorHeader{
     display: block !important
   }
@@ -71,9 +65,6 @@
   .outerHeaderPharma > div > img{
     top: 0 
   }
-  .fourPointers{
-    padding:0 13vw !important;
-  }
   .outerHeaderContainer{
     position: relative;
     top: -75px;
@@ -103,6 +94,9 @@
   }
 }
 @media only screen and (max-width: 576px) {
+  .fourPointersContainer{
+    height: unset !important
+  }
   .jobCounts, .jobCounts2 {
     text-align:center
   }
@@ -127,10 +121,6 @@
   .profileUploadButton{
     left: 55vw !important;
     z-index: 10 !important
-  }
-  .fourPointers{
-    padding: 0px 10vw !important;
-    margin: 0 !important
   }
   .fourPointers > div > div {
     margin: 8px 0
@@ -237,7 +227,7 @@ div.img-container {
     color:grey
   }
 
-  .btn-primary{
+  .btn-primary, btn-primary:hover{
     background:#5cdfe4;
     border-color: #5cdfe4
   }
@@ -247,10 +237,7 @@ div.img-container {
     object-fit: cover;
     object-position: center top;
   }
-  .fourPointers{
-    padding:0 178px;
-    margin-bottom: 2rem !important
-  }
+
   .fourPointersPharma{
     padding:0 178px;
   }

@@ -19,6 +19,7 @@ export class LoginPageComponent implements AfterViewInit{
   errorFlag:boolean = false;
   errorMessage: string = 'Please enter email and password';
   swiper!: any;
+  header: string = 'เภสัช'
   loginForm!:FormGroup;
   email!: FormControl;
   resetSuccessful: boolean = false;
@@ -38,6 +39,10 @@ export class LoginPageComponent implements AfterViewInit{
       this.resetSuccessful = false;
       this.resetButtonFlag = true;
     })
+  }
+
+  changeHeader(isPharma: boolean){
+    this.header = isPharma? 'เภสัช' : 'ผู้ประกอบการ'
   }
 
   ngAfterViewInit(): void {

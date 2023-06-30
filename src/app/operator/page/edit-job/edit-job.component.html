@@ -6,7 +6,7 @@
     </div>
  </div>
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-sm-between justify-content-center align-items-center">
         <div>
             <ng-container *ngIf="urgency; then urgentTitle; else notUrgentTitle">
             </ng-container>
@@ -17,7 +17,7 @@
                 <h3 class="my-3">แก้ไขประกาศงานทั่วไป</h3>
                 
             </ng-template>
-            <div class="d-sm-flex align-items-center">
+            <div class="d-sm-flex text-sm-left text-center align-items-center">
                 <img [src]="userState.cropProfilePictureUrl !== ''? userState.cropProfilePictureUrl: userState.profilePictureUrl" class="card-img-top rounded-circle border border-5 border-white" style="width:fit-content" height="150" width="150">
                 <h3 class="ms-3">{{ userState.companyName }}</h3>
             </div>

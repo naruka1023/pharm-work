@@ -36,39 +36,24 @@ export class SwiperModuleComponent {
       slidesPerView: 2
     },
     420: {
-      slidesPerView: 1.5
+      slidesPerView: 1.5,
     },
   }
   breakingPointOperator = {
     1400: {
       slidesPerView: 5,
-      grid: {
-        rows: 3
-      }
     },
     1200: {
       slidesPerView: 4,
-      grid: {
-        rows: 3
-      }
     },
     992: {
       slidesPerView: 3,
-      grid: {
-        rows: 3
-      }
     },
     768: {
       slidesPerView: 2.5,
-      grid: {
-        rows: 3
-      }
     },
     420: {
       slidesPerView: 1.5,
-      grid: {
-        rows: 3
-      }
     },
   }
   
@@ -77,7 +62,6 @@ export class SwiperModuleComponent {
   }
 
   ngOnInit(){
-
     // this.loading$ = this.store.select((state:any)=>{
     //   let newState = state.jobpost.JobPost.find((jobPost: any)=>{
     //     return jobPost.CategorySymbol == this.filterFlags.CategorySymbol

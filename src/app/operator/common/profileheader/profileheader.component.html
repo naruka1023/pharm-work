@@ -30,9 +30,9 @@
                 </div>
             </div>
             <div class="outerHeaderContainer">
-                <div class="outerHeader2Pharma d-flex justify-content-between" style="height:14vh">
+                <div class="outerHeader2Pharma d-flex justify-content-between" style="height:8rem">
                     <div class="outerHeaderPharma d-flex justify-content-between">
-                        <div>
+                        <div style="height:9rem">
                             <img class="job-post_profile-picture border border-5 border-white rounded-circle" id="profilePicture" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                             <div class="profileUploadButton" data-bs-toggle="dropdown">
                                 <i class="bi bi-camera-fill fs-3"></i>
@@ -47,43 +47,47 @@
                         </div>
         
                         <div>
-                            <div class="operatorHeader d-flex">
-                                <div style="font-size: 2.5rem;" class="mt-3 mb-0 ms-lg-5 me-0" >{{result.companyName}}</div>
-                                <h5 *ngIf="result.Location" style='align-self:end' class="mb-2 ms-xl-3 ms-lg-5"><i class="bi bi-house me-1"></i> {{result.Location?.District}}, {{result.Location?.Province}}</h5>
+                            <div class="operatorHeader">
+                                <div style="font-size: 2.5rem;" class="mt-3 mb-0 ms-lg-5 me-0" >{{result.companyName | emptyField}}</div>
+                                <h5 *ngIf="result.Location" style='align-self:end' class="mb-2 mt-3 ms-lg-5"><i class="bi bi-house me-1"></i> {{result.Location?.District | emptyField}}, {{result.Location?.Province | emptyField}}</h5>
                             </div>
                         </div>
                     </div>
                     <div class="mt-lg-4 mt-0">
                         <div class="editButton fs-2 d-lg-flex d-none justify-content-end">
-                            <button class="rounded btn btn-light fs-4 ms-lg-3" type="button" (click)="editIntroTextClicked()"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว</button>
+                            <button class="rounded btn btn-light fs-4 ms-lg-3" type="button" *ngIf="!editFlag" (click)="editIntroTextClicked()"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว</button>
                             <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div> -->
                             <!-- <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
                         </div>
                     </div>
                 </div>
-                <div class="fs-5 mt-4 fourPointers" style="margin-bottom:4rem">
-                    <div class="row my-sm-2 my-0">
-                        <div class="col-sm col-12 jobCounts2">
-                            <i class="bi bi-building me-3"></i>{{result.jobType}}
+                <div class="d-flex justify-content-lg-start justify-content-center fourPointersContainer" style="height:8rem">
+                    <div class="d-lg-block d-none">
+                        <img class="invisible job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150"/>
+                    </div>
+                    <div class="fs-5 ms-lg-5 mt-4 fourPointers mx-lg-0 mx-5" style="margin-bottom:4rem; width: -webkit-fill-available; width: -moz-available">
+                        <div class="row my-sm-2 my-0">
+                            <div class="col-sm col-12 jobCounts2">
+                                <i class="bi bi-building me-3"></i>{{result.jobType | emptyField}}
+                            </div>
+                            <div class="col-sm col-12 jobCounts">
+                                <i class="bi bi-person me-3"></i>ผู้ติดตาม {{followers$ | async}} คน
+                                 <!--<span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span> -->
+                            </div>
                         </div>
-                        <div class="col-sm col-12 jobCounts">
-                            <i class="bi bi-person me-3"></i>ผู้ติดตาม {{followers$ | async}} คน
-                             <!--<span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span> -->
+                        <div class="row my-sm-2 my-0">
+                            <div class="col-sm col-12 jobCounts2">
+                                <i class="bi bi-briefcase me-3"></i>ประกาศงานทั่วไป {{jobCount.normalJobs}}
+                            </div>
+                            <div class="col-sm col-12 jobCounts">
+                                <i class="bi bi-card-checklist me-3"></i>ประกาศงานด่วน {{jobCount.urgentJobs}}
+                            </div>
                         </div>
                     </div>
-                    <div class="row my-sm-2 my-0">
-                        <div class="col-sm col-12 jobCounts2">
-                            <i class="bi bi-briefcase me-3"></i>ประกาศงานทั่วไป {{jobCount.normalJobs}}
-                        </div>
-                        <div class="col-sm col-12 jobCounts">
-                            <i class="bi bi-card-checklist me-3"></i>ประกาศงานด่วน {{jobCount.urgentJobs}}
-                        </div>
-                    </div>
-        
                 </div>
                 <div class="mt-lg-4 mt-0">
                     <div class="editButton fs-2 d-lg-none d-flex justify-content-end">
-                        <button class="rounded btn btn-light fs-4 ms-lg-3" type="button" (click)="editIntroTextClicked()"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว</button>
+                        <button class="rounded btn btn-light fs-4 ms-lg-3" type="button" (click)="editIntroTextClicked()" *ngIf="!editFlag"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว</button>
                         <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div> -->
                         <!-- <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
                     </div>
@@ -95,6 +99,7 @@
                     <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
                         <textarea class="form-control fs-3 pb-5" formControlName="introText" id="exampleFormControlTextarea1" rows="3"></textarea>
                         <div class="d-flex justify-content-end mt-3">
+                            <button class="fs-2 btn btn-light"  (click)="cancelIntroText()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
                             <button type="submit" class="btn fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
                         </div>
                     </form>
@@ -114,10 +119,10 @@
                 <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                 <div>
                     <div class="d-flex mainHeader">
-                        <h3 class="mainHeaderContent m-4 mb-0 me-md-2">{{result.Establishment}}</h3> <h5 style='align-self:end' class="my-xl-0 my-2 ms-4">(จำนวนผู้ติดตาม 45)</h5>
+                        <h3 class="mainHeaderContent m-4 mb-0 me-md-2">{{result.Establishment | emptyField}}</h3> 
                     </div>
                     <div>
-                        <h6 class="mainHeaderContent2 mx-4"><i>{{result.JobType}}</i></h6>
+                        <h6 class="mainHeaderContent2 mx-4"><i>{{result.JobType | emptyField}}</i></h6>
                     </div>
                 </div>
             </div>
@@ -128,15 +133,15 @@
             <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
         </div>
         <div class="outerHeaderContainer">
-            <div class="outerHeader2Pharma d-flex justify-content-between" style="height: 13vh">
+            <div class="outerHeader2Pharma d-flex justify-content-between" style="height: 5rem">
                 <div class="outerHeaderPharma d-flex justify-content-between" style="width:-webkit-fill-available; width: -moz-available">
                     <div class="d-flex flex-row innerHeaderPharma">
                         <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150"/>
-                        <div class="mainHeader d-flex flex-start align-items-baseline">
-                            <div style="font-size:2.5rem" class="mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName}}</div>
-                            <div class="mainHeaderContent mb-2 ms-lg-3 ms-xl-4">
+                        <div class="mainHeader flex-start align-items-baseline">
+                            <div style="font-size:2.5rem" class="mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName | emptyField}}</div>
+                            <div class="mainHeaderContent my-2 ms-lg-5">
                                 <div class="d-flex fs-5">
-                                    <i class="bi bi-house mx-3"></i><div style='align-self:end'>{{result.preferredDistrict}}, {{result.preferredProvince}}</div>
+                                    <i class="bi bi-house me-3"></i><div style='align-self:end'>{{result.preferredDistrict | emptyField}}, {{result.preferredProvince | emptyField}}</div>
                                 </div>
                             </div>
                         </div>
@@ -174,21 +179,33 @@
                     </div>
                 </div>
             </div>
-            <div class="fs-5 fourPointers" style="margin:2rem 0">
-                <div class="row my-sm-2 my-0">
-                    <div class="col-sm-6 col-lg-4 col-12">
-                        <i class="bi bi-lightbulb me-3"></i>หางาน  {{result.preferredTimeFrame}}
-                    </div>
-                    <div class="col-sm col-12">
-                        <i class="bi bi-clipboard me-3"></i>สนใจ <span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span>
-                    </div>
+            <div class="d-flex px-lg-0 px-5">
+                <div class="d-lg-block d-none">
+                    <img class="invisible job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150"/>
                 </div>
-                <div class="row my-sm-2 my-0">
-                    <div class="col-sm-6 col-lg-4 col-12">
-                        <i class="bi bi-geo-alt me-3"></i>หางานพื้นที่ {{result.preferredDistrict}}, {{result.preferredProvince}}
+                <div class="fs-5 fourPointers mx-lg-5" style="margin:2rem 0; width: -webkit-fill-available; width: -moz-available">
+                    <div class="row my-sm-2 my-0">
+                        <div class="col-sm-6 col-lg-4 col-12">
+                            <i class="bi bi-lightbulb me-3"></i>หางาน  {{result.preferredTimeFrame | emptyField}}
+                        </div>
+                        <div class="col-sm col-12">
+                            <i class="bi bi-clipboard me-3"></i>สนใจ 
+                            <ng-container *ngIf="result.preferredJobType == 0; then noPreferred; else Preferred"></ng-container>
+                            <ng-template #noPreferred>
+                                <div>ไม่ระบุ</div>
+                            </ng-template>
+                            <ng-template #Preferred>
+                                <span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span>
+                            </ng-template>
+                        </div>
                     </div>
-                    <div class="col-sm col-12">
-                        <i class="bi bi-currency-bitcoin me-3"></i>เงินเดือนขั้นต่ำที่ต้องการ {{result.preferredSalary}}
+                    <div class="row my-sm-2 my-0">
+                        <div class="col-sm-6 col-lg-4 col-12">
+                            <i class="bi bi-geo-alt me-3"></i>หางานพื้นที่ {{result.preferredDistrict | emptyField}}, {{result.preferredProvince | emptyField}}
+                        </div>
+                        <div class="col-sm col-12">
+                            <i class="bi bi-currency-bitcoin me-3"></i>เงินเดือนขั้นต่ำที่ต้องการ {{result.preferredSalary | emptyField}}
+                        </div>
                     </div>
                 </div>
             </div>

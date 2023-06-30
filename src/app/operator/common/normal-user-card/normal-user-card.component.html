@@ -1,5 +1,5 @@
-<div class="card rounded m-sm-3 pb-3">
-    <div class="p-2 d-flex d-flex justify-content-center align-items-center fs-5" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#7fcae6': content.preferredTimeFrame == 'Part-Time'?'#a2e3d9':'#ffffb3'}">
+<div class="card rounded m-sm-3 pb-3"  (click)="goToProfile()">
+    <div class="p-2 d-flex d-flex justify-content-center align-items-center fs-5" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'color': content.preferredTimeFrame == 'Full-Time และ Part-Time' || type == 'S'?'black':'white', 'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#5cdfe4': content.preferredTimeFrame == 'Part-Time'?'#7fd858':'#ffffb3'}">
         <div class="col"><b>{{type  == 'S'? 'Online': content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time/Part-Time' : content.preferredTimeFrame}}</b></div>
     </div>
     <div class="row">

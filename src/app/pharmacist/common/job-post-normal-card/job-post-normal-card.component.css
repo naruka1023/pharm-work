@@ -1,7 +1,4 @@
 @media only screen and (max-width: 515px) {
-  .mainFooter {
-    display:block !important
-  }
   .footer {
     justify-content: center !important
   }
@@ -42,6 +39,21 @@
 .card-header{
   border-top-left-radius: 20px !important;
   border-top-right-radius: 20px !important
+}
+
+.card:hover{
+  background-color: rgba(88, 92, 89, 0.3);
+  cursor:pointer
+}
+
+.fullTime{
+  background:#5cdfe4;
+  border-color: #5cdfe4
+}
+.partTime{
+background:#7fd858;
+border-color: #7fd858
+
 }
 
 #overlay {

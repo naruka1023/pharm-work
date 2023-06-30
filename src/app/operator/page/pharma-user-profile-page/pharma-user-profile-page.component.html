@@ -11,9 +11,9 @@
             <li class="nav-item">
               <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="urgent-jobs" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">การรับงานด่วน</a>
-            </li>
+            </li> -->
         </ul>
     </div>
     <div class="container mt-4 historyContainer" style="padding:4rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="d-flex">
                             <div class="phantom keyValueGap" style="visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                            <div style="margin-left:5rem" class="textResponsive subHeader">ระดับการศึกษาสูงสุด {{innerProfileInformation!.highestEducation}}</div>
+                            <div style="margin-left:5rem" class="textResponsive subHeader">ระดับการศึกษาสูงสุด {{innerProfileInformation!.highestEducation | emptyField}}</div>
                         </div>
                     </div>
                     <div class="mt-4 historyContent" style="padding-left:6rem">
@@ -37,13 +37,12 @@
                                     <div class="textResponsive">{{eduGroup.yearGraduated}}</div>
                                 </div>
                                 <div class="row verticalKeyGap">
-                                    <div class="textResponsive col-6">{{eduGroup.universityName}}</div>
-                                    <div class="textResponsive col-6">{{eduGroup.educationLevel}}</div>
-            
+                                    <div class="textResponsive col-6"><b>มหาวิทยาลัย</b> {{eduGroup.universityName}}</div>
+                                    <div class="textResponsive col-6"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="textResponsive col-6">{{eduGroup.major}}</div>
-                                    <div class="textResponsive col-6">{{eduGroup.franchise}}</div>
+                                    <div class="textResponsive col-6"><b>คณะ</b> {{eduGroup.major}}</div>
+                                    <div class="textResponsive col-6"><b>สาขา</b> {{eduGroup.franchise}}</div>
                                 </div>
                             </li>
                         </ul>
@@ -65,14 +64,19 @@
                         </div>
                         <div class="d-flex">
                             <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                            <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation!.WorkExperience}}</div>
+                            <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation!.WorkExperience}} ปี</div>
                         </div>
                     </div>
                     <div class="mt-4 historyCount" style="padding-left: 6rem">
                         <ul>
                             <li *ngFor="let jobGroup of innerProfileInformation!.jobHistory">
-                                <div class="verticalKeyGap textResponsive">
-                                    {{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded}}
+                                <div class="textResponsive verticalKeyGap d-flex justify-content-start">
+                                    <div class="me-5">
+                                        {{jobGroup.dateStarted.replace('-', '/')}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded.replace('-', '/')}}
+                                    </div>
+                                    <div>
+                                        {{jobGroup.activeFlag? '':jobGroup.workExperience}}
+                                    </div>
                                 </div>
                                 <div class="verticalKeyGap textResponsive">
                                     <div>{{jobGroup.companyName}}</div>
@@ -80,7 +84,7 @@
                                 <div class="verticalKeyGap textResponsive">
                                     <div>{{jobGroup.jobName}}</div>
                                 </div>
-                                <div class="verticalKeyGap textResponsive" [innerHTML]="jobGroup.description">
+                                <div class="verticalKeyGap textResponsive" [innerHTML]="jobGroup.description | emptyField">
                                 </div>
                             </li>
                         </ul>
@@ -118,7 +122,7 @@
                     <div class="d-flex flex-row verticalKeyGap">
                             <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
                             <div class="keyValueGap"><b>เพศ</b></div>
-                            <div>{{innerProfileInformation.gender}}</div>
+                            <div>{{innerProfileInformation.gender | emptyField}}</div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
                         <div class="keyValueGap"><i class="bi bi-house"></i></div>
@@ -126,7 +130,7 @@
                             <div><b>ที่อยู่</b></div>
                         </div>
                         <div class="d-flex flex-row">
-                            <div>{{innerProfileInformation!.Location?.Province}}, {{innerProfileInformation!.Location?.District}}</div>                    
+                            <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
                         </div>
                     </div>
                     <div class="verticalKeyGap">
@@ -145,7 +149,7 @@
                                     <div class="nobr">เบอร์โทร</div>
                                 </div>
                                 <div class="col">
-                                    <div class="me-3">{{innerProfileInformation.contacts?.phone}}</div>
+                                    <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
                                 </div>
                             </div>
                             <div class="d-flex flex-row verticalKeyGap">
@@ -154,7 +158,7 @@
                                     <div>Email</div>
                                 </div>
                                 <div class="col">
-                                    <div class="me-3">{{innerProfileInformation.contacts?.email}}</div>
+                                    <div class="me-3">{{innerProfileInformation.contacts?.email | emptyField}}</div>
                                 </div>
                             </div>
                         </div>
@@ -168,14 +172,14 @@
                                 <div><b>เภสัชกร</b></div>
                             </div>
                             <div class="col d-flex">
-                                <div class="me-2">{{innerProfileInformation.name}}</div><div>{{innerProfileInformation.surname}}</div>
+                                <div class="me-2">{{innerProfileInformation.name | emptyField}}</div><div>{{innerProfileInformation.surname | emptyField}}</div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
                             <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
                             <div class="keyValueGap"><b>เพศ</b></div>
-                            <div>{{innerProfileInformation.gender}}</div>
+                            <div>{{innerProfileInformation.gender | emptyField}}</div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
                         <div class="keyValueGap"><i class="bi bi-house"></i></div>
@@ -183,7 +187,7 @@
                             <div><b>ที่อยู่</b></div>
                         </div>
                         <div class="d-flex flex-row">
-                            <div>{{innerProfileInformation!.Location?.Province}}, {{innerProfileInformation!.Location?.District}}</div>                    
+                            <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
                         </div>
                     </div>
                     <div class="verticalKeyGap" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
@@ -202,7 +206,7 @@
                                     <div>เบอร์โทร</div>
                                 </div>
                                 <div class="col">
-                                    <div class="me-3">{{innerProfileInformation.contacts?.phone}}</div>
+                                    <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
                                 </div>
                             </div>
                             <div class="d-flex flex-row verticalKeyGap">
@@ -211,7 +215,7 @@
                                     <div>Email</div>
                                 </div>
                                 <div class="col">
-                                    <div class="me-3">{{innerProfileInformation.contacts?.email}}</div>
+                                    <div class="me-3">{{innerProfileInformation.contacts?.email | emptyField}}</div>
                                 </div>
                             </div>
                         </div>
@@ -223,8 +227,9 @@
                     <div class="d-flex flex-row">
                         <i class="bi bi-clipboard keyValueGap"></i>
                         <div><b>ประเภทงานที่สนใจ</b></div>
+                        <div class="ms-3" *ngIf="innerProfileInformation!.preferredJobType!.length == 0">ไม่ระบุ</div>
                     </div>
-                    <div class="jobTypePayload" style="padding-left:6rem">
+                    <div *ngIf="innerProfileInformation!.preferredJobType!.length > 0" class="jobTypePayload" style="padding-left:6rem">
                         <ul class="row row-cols-2">
                             <li class="verticalKeyGap col" *ngFor="let jobType of innerProfileInformation!.preferredJobType">
                                 {{jobType}}
@@ -238,7 +243,7 @@
                             <div><b>ชนิดของงานที่สนใจ</b></div>
                         </div>
                         <div>
-                            {{innerProfileInformation!.preferredTimeFrame}}
+                            {{innerProfileInformation!.preferredTimeFrame | emptyField}}
                         </div>
                     </div>
                     <div class="d-flex flex-row align-items-center verticalKeyGap">
@@ -249,7 +254,7 @@
                         <div class="contacts">
                             <div class="row">
                                 <div class="keyValueGap">
-                                    {{innerProfileInformation!.preferredDistrict}}, {{innerProfileInformation!.preferredProvince}}
+                                    {{innerProfileInformation!.preferredDistrict | emptyField}}, {{innerProfileInformation!.preferredProvince | emptyField}}
                                 </div>
                             </div>
                         </div>
@@ -260,7 +265,7 @@
                             <div><b>เงินเดือนที่ต้องการ</b></div>
                         </div>
                         <div>
-                                {{innerProfileInformation!.preferredSalary}}
+                                {{innerProfileInformation!.preferredSalary | emptyField}}
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
@@ -268,7 +273,7 @@
                             <i class="bi bi-check2-circle keyValueGap"></i><div><b>สามารถเริ่มงานได้ </b></div>
                         </div>
                         <div>
-                                {{innerProfileInformation!.preferredStartTime}}
+                                {{innerProfileInformation!.preferredStartTime | emptyField}}
                         </div>
                     </div>
             </div>

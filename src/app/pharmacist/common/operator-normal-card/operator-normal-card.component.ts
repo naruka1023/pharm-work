@@ -28,6 +28,9 @@ export class OperatorNormalCardComponent {
   operatorUID!: string;
 
   ngOnInit(){
+    if(this.content.cropProfilePictureUrl == ''){
+      delete this.content.cropProfilePictureUrl
+    }
     this.operatorUID = this.content.uid
     this.store.select((state: any) => {
       if(state.user.uid !== ''){
@@ -69,7 +72,9 @@ export class OperatorNormalCardComponent {
       {
         operatorUID: this.operatorUID,
         followFlag: !this.requestViewFlag,
-        requestViewFlag: this.requestViewFlag
+        requestViewFlag: this.requestViewFlag,
+        operatorExistFlag: false,
+        jobType: this.content.jobType
       }
     })
   }

@@ -57,7 +57,7 @@ export class JobPostService {
   }
 
   async getCategorySymbolCount(categorySymbol: string): Promise<{categorySymbol: string; count: number}>{
-    const col = query(collection(this.firestore, "job-post"), where('CategorySymbol', '==', categorySymbol));
+    const col = query(collection(this.firestore, "job-post"), where('Active', '==', true), where('CategorySymbol', '==', categorySymbol));
     const snapshot = await getCountFromServer(col);
     return {
       categorySymbol: categorySymbol,
@@ -76,7 +76,7 @@ export class JobPostService {
   }
 
   async getUrgentJobOfOperator(operatorUID: string): Promise<jobPostModel[]>{
-    let jobCol = await getDocs(query(collection(this.firestore, 'job-post'), where('OperatorUID', '==', operatorUID), where('Urgency', '==', true),where('Active', '==', true)))
+    let jobCol = await getDocs(query(collection(this.firestore, 'job-post'), where('OperatorUID', '==', operatorUID), where('Urgency', '==', true), where('Active', '==', true)))
 
     return jobCol.docs.map((job)=> {
       return {
@@ -169,8 +169,25 @@ export class JobPostService {
     return index.search('',searchOptions)
   }
 
+  async getOperatorsByType(jobType: string){
+    let docs
+    if(jobType.indexOf('|') !== -1){
+      docs = await getDocs(query(collection(this.firestore, 'users'), where('role', '==', 'ผู้ประกอบการ'), where('jobType', 'in', jobType.split(' | '))))
+    }else{
+      docs = await getDocs(query(collection(this.firestore, 'users'), where('role', '==', 'ผู้ประกอบการ'), where('jobType', '==', jobType)))
+    }
+    return docs.docs.map((doc)=>{
+      return {
+        ...doc.data(),
+        uid: doc.id,
+        loadingOperator: true
+      } as userOperator
+    })
+
+  }
+
   async getJobCategoryServiceSmall(CategorySymbol:string) {
-    let docs = await getDocs(query(collection(this.firestore, 'job-post'), where('CategorySymbol', '==', CategorySymbol), orderBy('dateUpdatedUnix', 'desc'), limit(5)))
+    let docs = await getDocs(query(collection(this.firestore, 'job-post'), where('CategorySymbol', '==', CategorySymbol), where('Active', '==', true), orderBy('dateUpdatedUnix', 'desc'), limit(5)))
     return docs.docs.map((doc)=>{
       return {
         ...doc.data(),

@@ -41,6 +41,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { EmptyFieldPipe } from './pipe/empty-field.pipe';
+import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 
 
 
@@ -69,7 +71,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     RecentlySeenUsersComponent,
     UrgentJobsComponent,
     UrgentJobsPageComponent,
-    UrgentJobsHistoryComponent
+    UrgentJobsHistoryComponent,
+    EmptyFieldPipe,
+    ProvinceFilterPipe
   ],
   imports: [
     CommonModule,

@@ -7,7 +7,7 @@ export interface filterConditions{
     count: number;
     loading: boolean;
     allContent?: jobPostModel[];
-    content?: jobPostModel[]
+    content?: any
 }
 
 
@@ -35,9 +35,11 @@ export interface userOperator{
     companySize: string,
     coverPhotoOffset?: number,
     productsAndServices: string,
+    loadingOperator?: boolean,
     TravelInstructions: string,
     _geolocCurrent?: _geoloc;
     profilePictureUrl?:string,
+    operatorJobs?: jobPostModel[],
     benefits: string,
     cropProfilePictureUrl?: string,
     followers: number,
@@ -121,12 +123,13 @@ export interface jobRequest {
 
 export interface jobPostPayload {
     CategorySymbol: string;
-    JobsPost: jobPostModel[];
-    count: number
+    JobsPost?: jobPostModel[];
+    UserOperator?: userOperator[];
+    count?: number
 }
 
 export interface jobPostModel {
-    Amount: 2;
+    Amount: string;
     CategorySymbol: string;
     BTS: {
         Near: boolean;
@@ -156,8 +159,8 @@ export interface jobPostModel {
     OnlineInterview: boolean;
     WorkFromHome: boolean;
     Salary: {
-        Amount: string;
-        Cap?: string;
+        Amount: number;
+        Cap: number;
         Suffix: string
     };
     Contacts: {

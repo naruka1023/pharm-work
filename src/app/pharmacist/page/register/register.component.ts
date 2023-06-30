@@ -1,10 +1,10 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
 import { SwiperComponent } from "swiper/angular";
 import SwiperCore, { Virtual } from 'swiper';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Validation from 'src/app/utils/validation';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JobTypeConverterService } from '../../service/job-type-converter.service';
 import { UtilService } from '../../service/util.service';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -17,18 +17,20 @@ SwiperCore.use([Virtual]);
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
-  constructor(private converter:JobTypeConverterService,private utilService:UtilService,private store:Store, private route: Router, private fb: FormBuilder){}
+export class RegisterComponent implements AfterViewInit {
+  constructor(private converter:JobTypeConverterService,private utilService:UtilService,private store:Store, private route: ActivatedRoute, private fb: FormBuilder){}
   private auth: Auth = inject(Auth)
   private db: Firestore = inject(Firestore)
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
+  isPharma: boolean = true
   registerFormPharmacist!:FormGroup;
   registerFormOperator!:FormGroup;
   role: string = 'เภสัชกร';
   errorMessage: string = '';
   submitted:boolean = false;
   storage = getStorage();
+  header: string = 'ลงทะเบียน'
   pharmaForm:boolean = true;
   
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
@@ -36,6 +38,16 @@ export class RegisterComponent {
 
   ngOnInit(){
     this.initializeFormGroup()
+  }
+  
+  ngAfterViewInit(){
+    if(this.route.snapshot.queryParamMap.get('isPharma') !== null){
+      this.isPharma = this.route.snapshot.queryParamMap.get('isPharma') == 'true'? true:false
+    }
+    if(!this.isPharma){
+      this.changeRoles('operator')
+      document.getElementById('urgent-job')?.click()
+    }
   }
 
   initializeFormGroup(){
@@ -48,6 +60,7 @@ export class RegisterComponent {
       nickName: [''],
       surname: ['', [Validators.required]],
       license: ['', [Validators.required]],
+      Agreement: [false, [Validators.requiredTrue]],
       preferredJobType: this.fb.group({
         S: [false],
         AA: [false],
@@ -84,6 +97,7 @@ export class RegisterComponent {
       companyID: ['', [Validators.required]],
       nameOfPerson: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
+      Agreement: ['', [Validators.requiredTrue]]
     },
     {
       validators: [Validation.match('password', 'confirmPassword')]
@@ -100,27 +114,28 @@ export class RegisterComponent {
     this.swiperFormPharma?.swiperRef.slideNext()
     let display = 'block'
     const excessForm = document.querySelectorAll('.excessForm');
-
+    this.header = 'งานที่กำลังมองหา'
     excessForm.forEach((eF: any) => {
       eF.style.display = display;
     });
-    this.pharmaForm = !this.pharmaForm;
+    this.pharmaForm = false;
   }
   backSlide(){
     this.swiperFormPharma?.swiperRef.slidePrev() 
     let display = 'none'
     const excessForm = document.querySelectorAll('.excessForm');
-
+    this.header = 'ลงทะเบียน'
     excessForm.forEach((eF: any) => {
       eF.style.display = display;
     });
-    this.pharmaForm = !this.pharmaForm;
+    this.pharmaForm = true;
   }
   async onSubmit(){
     this.submitted = true;
     let newUser: any;
     if (this.role === 'เภสัชกร') {
       if(this.registerFormPharmacist.invalid ){
+        this.backSlide()
         return;
       }else{
         this.loadingFlag = true;
@@ -192,7 +207,6 @@ export class RegisterComponent {
   changeRoles(role: string){
     this.errorMessage = '';
     this.submitted = false;
-    this.registerFormOperator.patchValue({jobType:'ร้านยาทั่วไป'})
     if(role !=='pharma'){
       this.swiper?.swiperRef.slideNext() 
       this.backSlide()

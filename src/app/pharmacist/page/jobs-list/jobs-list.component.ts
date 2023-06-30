@@ -33,6 +33,7 @@ export class JobsListComponent implements OnDestroy{
   _geoLoc!: _geoloc
   subscription: Subscription = new Subscription();
   content$!: Observable<jobPostModel[] | undefined>;
+  count$!: Observable<number>;
   loading$!: Observable<boolean>;
   mrtStations$!: Observable<string[]>
   btsStations$!: Observable<string[]>
@@ -44,15 +45,20 @@ export class JobsListComponent implements OnDestroy{
   
   ngOnInit(){
     this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
+    this.count$ = this.store.select((state: any) =>{
+      const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{
+        return res.CategorySymbol == this.CategorySymbol
+      });
+      return jobList.count
+    })
     this.content$ = this.store.select((state: any) =>{
-  
       const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{
         return res.CategorySymbol == this.CategorySymbol
       });
       this.header = jobList.header;
       this.brandToCategory = (jobList.brandToCategory !== undefined)? jobList.brandToCategory : '';
       this.count = jobList.count
-      return jobList.allContent
+      return jobList.allContent  
     })
     this.store.select((state: any)=>{
       return state.user
@@ -120,6 +126,9 @@ export class JobsListComponent implements OnDestroy{
       })
     }
     let finalForm = this.urgentFilterForm.value
+    if(finalForm.Salary !== '' && finalForm.Salary !== undefined){
+      finalForm.Salary = Number(finalForm.Salary)
+    }
     if(this.urgentFilterForm.value.TimeFrame == 'Both'){
       finalForm.TimeFrame = ''
     }
@@ -139,7 +148,6 @@ export class JobsListComponent implements OnDestroy{
         CategorySymbol: this.CategorySymbol,
         count: newSrc.length
       }
-      this.resetLight();
       this.store.dispatch(retrievedJobCategorySuccess({jobs:res}));
       this.loadingFlag = false
     })

@@ -34,14 +34,8 @@
     opacity:0 !important
   }
 
-  
-.brandIcon > img{
-  width: 60% !important;
-  border-radius:100%
-}
-.brandIcon{
-  margin-bottom: 1rem
-}
+
+
 .swiper-slide {
   width: 80vw;
   text-align: center;

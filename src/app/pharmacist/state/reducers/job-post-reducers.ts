@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
-import { AppState, BookmarkList, Follow, filterConditions } from '../../model/typescriptModel/jobPost.model';
-import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest, updateJobFromJobCategory, retrievedJobCategoryHomeSuccess, updateJobFromHome, paginateJobCategory } from '../actions/job-post.actions';
+import { AppState, BookmarkList, Follow, filterConditions, userOperator } from '../../model/typescriptModel/jobPost.model';
+import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest, updateJobFromJobCategory, retrievedJobCategoryHomeSuccess, updateJobFromHome, paginateJobCategory, setExistingOperatorData, toggleJobs } from '../actions/job-post.actions';
 
 const emptyOperator = {
   email: '',
@@ -34,6 +34,9 @@ export const initialState: AppState = {
 
 export const jobPostReducer = createReducer(
   initialState,
+  on(toggleJobs, (state) =>{
+    return state
+  }),
   on(removeBookmark, (state, {jobUID, userUID}) =>{
     let newState: AppState =  _.cloneDeep(state);
     let keys = jobUID + "-" + userUID
@@ -149,6 +152,40 @@ export const jobPostReducer = createReducer(
       ...initialState
     }
   }),
+  on(setExistingOperatorData, (state, { jobType, operatorUID, jobs, followers }) => {
+    let newState: AppState =  _.cloneDeep(state);
+    let categorySymbol = jobType == 'ร้านยาแบรนด์'? 'BA': 'CB'
+    let formattedJobs: any = {}
+    jobs.forEach((job)=>{
+      formattedJobs[job.custom_doc_id] = job
+    })
+    let jobPost = newState.JobPost.map((filterCondition: filterConditions)=>{
+      if(filterCondition.CategorySymbol == categorySymbol){
+        let filterConditionPayload = filterCondition.content.map((user: userOperator)=>{
+          if(user.uid == operatorUID){
+            return {
+              ...user,
+              operatorJobs: formattedJobs,
+              loadingOperator: false,
+              followers: followers
+            }
+          }else{
+            return user
+          }
+        })
+        return {
+          ...filterCondition,
+          content: filterConditionPayload
+        }
+      }else{
+        return filterCondition
+      }
+    })
+    return {
+      ...newState,
+      JobPost: jobPost
+    }
+  }),
   on(retrievedUserBookmarkSuccess, (state, { Bookmarks }) => {
     let newState: AppState =  _.cloneDeep(state);
     let bookMarkList:BookmarkList = {}
@@ -167,7 +204,7 @@ export const jobPostReducer = createReducer(
       let newJob = _.cloneDeep(job);
       if(job.CategorySymbol == jobs.CategorySymbol){
         newJob.allContent = jobs.JobsPost
-        newJob.count = jobs.count
+        newJob.count = jobs.count!
         return newJob;
       }
       return job;
@@ -181,8 +218,8 @@ export const jobPostReducer = createReducer(
     newState.JobPost = newState.JobPost.map((job) =>{
       let newJob = _.cloneDeep(job);
       if(job.CategorySymbol == jobs.CategorySymbol){
-        newJob.allContent = newJob.allContent?.concat(jobs.JobsPost) 
-        newJob.count += jobs.count
+        newJob.allContent = newJob.allContent?.concat(jobs.JobsPost!) 
+        newJob.count += jobs.count!
         return newJob;
       }
       return job;
@@ -197,7 +234,7 @@ export const jobPostReducer = createReducer(
       let newJob = _.cloneDeep(job);
       if(job.CategorySymbol == jobs.CategorySymbol){
         newJob.content = jobs.JobsPost
-        newJob.count = jobs.count
+        newJob.count = jobs.count!
         newJob.loading = false
         return newJob;
       }

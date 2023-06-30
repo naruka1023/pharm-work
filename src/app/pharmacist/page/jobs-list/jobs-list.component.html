@@ -1,9 +1,9 @@
 <div class="container">
     <div  style="border-bottom: 1px lightgrey solid; top: 62px; left: 0px; right: 0px; position: fixed; z-index: 5; margin: 2rem 0; background: #f2f2f2;">
         <div class="headerContent mx-5 py-sm-3 py-2 d-flex justify-content-between">
-            <div class="headerText h2 mb-0 align-self-center" style="display: unset; width:36rem">
+            <div class="h2 mb-0 align-self-center d-lg-flex">
                 {{ header }}
-				<!-- <div class="fs-4 align-self-center ms-3">{{count}} ตำแหน่งงาน</div> -->
+				<div class="fs-4 align-self-center ms-3">{{count$ | async}} ตำแหน่งงาน</div>
             </div>
             <button class="headerText btn badge rounded-pill text-black fs-3 mt-sm mt-3" style="font-weight: unset; background-color:#e6e6e6" data-bs-toggle="modal" data-bs-target="#searchModal" aria-expanded="false">
                 ตัวกรอง
@@ -21,36 +21,40 @@
 						<div class="row my-3">
 							<div class="col-1 text-center"><i class="bi bi-geo"></i></div>
 							<div class="col-md-5 col-10">
-								<b>ดูเภสัชกรใกล้คุณ</b>
+								<b>งานใกล้ฉัน</b>
 							</div>
 							<div class="col">
 								<div class="form-switch mb-3">
 									<input class="form-check-input me-3" type="checkbox" formControlName="nearbyFlag" [checked]="urgentFilterForm.value.nearbyFlag" role="switch" id="flexSwitchCheckDefault">
 								</div>
-								<div *ngIf="urgentFilterForm.value.nearbyFlag" class="col" >
-									<div class="col">
-										<select  formControlName="radius" style="background-color:#f2f2f2" name="section" class="form-select mb-3">
-											<option value="1000">ระยะ 1 km</option>
-											<option value="2000">ระยะ 2 km</option>
-											<option value="5000">ระยะ 5 km</option>
-										</select>
-									</div>
-								</div>
+							</div>
+						</div>
+						<div class="row my-3" *ngIf="urgentFilterForm.value.nearbyFlag">		
+							<div class="col-1 text-center" style="visibility:hidden"><i class="bi bi-geo"></i></div>
+							<div class="col-md-5 col-10">
+								<b>ค้นหาภายในระยะ</b>
+							</div>
+							<div class="col">
+								<select  formControlName="radius" style="background-color:#f2f2f2" name="section" class="form-select mb-3">
+									<option value="300">ระยะ 300 m</option>
+									<option value="500">ระยะ 500 m</option>
+									<option value="1000">ระยะ 1000 m</option>
+								</select>
 							</div>
 						</div>
 						<div *ngIf="!urgentFilterForm.value.nearbyFlag" class="row my-3" formGroupName="Location">
 							<div class="col-1 text-center"><i class="bi bi-geo-alt"></i></div>
 							<div class="col-md-5 col-10">
-								<div><b>พื้นที่</b></div>
+								<div><b>ดูงานตามพื้นที่</b></div>
 							</div>
 							<div class="col">
-								<div class="row mb-3">
+								<div class="row mt-3">
 									<div class="col-md-4 col-12">
-										<label class="me-3"><b>แขวง</b></label>
+										<label class="me-3"><b>จังหวด</b></label>
 									</div>
 									<div class="col">
-										<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select">
-											<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+										<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select">
+											<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
 										</select>
 									</div>
 								</div>
@@ -64,13 +68,13 @@
 										</select>
 									</div>
 								</div>
-								<div class="row mt-3">
+								<div class="row mb-3">
 									<div class="col-md-4 col-12">
-										<label class="me-3"><b>จังหวด</b></label>
+										<label class="me-3"><b>แขวง</b></label>
 									</div>
 									<div class="col">
-										<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select">
-											<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+										<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select">
+											<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
 										</select>
 									</div>
 								</div>
@@ -91,7 +95,8 @@
 									mwlFlatpickr
 									mode="multiple"
 									class="form-control"
-									formControlName="DateOfJob"
+									formControlName="DateOfJob" 
+									style="background-color:#f2f2f2"
 								  />
 							</div>
 						</div>
@@ -103,7 +108,7 @@
 								<b>ใกล้ BTS</b>
 							</div>
 							<div class="col">
-								<select formControlName="BTS" name="nearBTS" class="form-select">
+								<select formControlName="BTS" name="nearBTS" class="form-select" style="background-color:#f2f2f2">
 									<option *ngFor="let btsStation of btsStations$ | async" [value]="btsStation">{{btsStation}}</option>
 								</select>
 							</div>
@@ -116,7 +121,7 @@
 								<b>ใกล้ MRT</b>
 							</div>
 							<div class="col">
-								<select formControlName="MRT" name="nearMRT" class="form-select">
+								<select formControlName="MRT" name="nearMRT" class="form-select" style="background-color:#f2f2f2">
 									<option *ngFor="let mrtStation of mrtStations$ | async" [value]="mrtStation">{{mrtStation}}</option>
 								</select>
 							</div>
@@ -147,7 +152,7 @@
 								<select formControlName="TimeFrame" style="background-color:#f2f2f2" name="timeFrame" class="form-select">
 									<option selected value="Full-Time">Full-Time</option>
 									<option value="Part-Time">Part-Time</option>
-									<option value="Both">ทุกชนิด</option>
+									<option value="Both">Full-Time และ Part-Time</option>
 								</select>
 							</div>
 						</div>
@@ -157,13 +162,13 @@
 								<div><b>พื้นที่</b></div>
 							</div>
 							<div class="col">
-								<div class="row mb-3">
+								<div class="row mt-3">
 									<div class="col-md-4 col-12">
-										<label class="me-3"><b>แขวง</b></label>
+										<label class="me-3"><b>จังหวด</b></label>
 									</div>
 									<div class="col">
-										<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select">
-											<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+										<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select">
+											<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
 										</select>
 									</div>
 								</div>
@@ -177,13 +182,13 @@
 										</select>
 									</div>
 								</div>
-								<div class="row mt-3">
+								<div class="row mb-3">
 									<div class="col-md-4 col-12">
-										<label class="me-3"><b>จังหวด</b></label>
+										<label class="me-3"><b>แขวง</b></label>
 									</div>
 									<div class="col">
-										<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select">
-											<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+										<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select">
+											<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
 										</select>
 									</div>
 								</div>
@@ -195,7 +200,17 @@
 								<b>เงินเดือนขั้นต่ำ</b>
 							</div>
 							<div class="col d-flex flex-row-start">
-								<input type="number" formControlName="Salary" class="form-control" style="background-color:#f2f2f2">
+								<select formControlName="Salary" name="Salary" class="responsiveText form-select" style="background-color:#f2f2f2">
+									<option selected value="20000">20,000</option>
+									<option selected value="30000">30,000</option>
+									<option selected value="40000">40,000</option>
+									<option selected value="50000">50,000</option>
+									<option selected value="60000">60,000</option>
+									<option selected value="70000">70,000</option>
+									<option selected value="80000">80,000</option>
+									<option selected value="90000">90,000</option>
+									<option selected value="100000">100,000+</option>
+								</select>
 							</div>
 						</div>
 						<div class="row my-3">
@@ -206,7 +221,7 @@
 								<b>ใกล้ BTS</b>
 							</div>
 							<div class="col">
-								<select formControlName="BTS" name="nearBTS" class="form-select">
+								<select formControlName="BTS" name="nearBTS" class="form-select" style="background-color:#f2f2f2">
 									<option *ngFor="let btsStation of btsStations$ | async" [value]="btsStation">{{btsStation}}</option>
 								</select>
 							</div>
@@ -219,7 +234,7 @@
 								<b>ใกล้ MRT</b>
 							</div>
 							<div class="col">
-								<select formControlName="MRT" name="nearMRT" class="form-select">
+								<select formControlName="MRT" name="nearMRT" class="form-select" style="background-color:#f2f2f2">
 									<option *ngFor="let mrtStation of mrtStations$ | async" [value]="mrtStation">{{mrtStation}}</option>
 								</select>
 							</div>
@@ -261,19 +276,21 @@
 		<ng-container *ngIf="emptyResultFlag; then empty; else notEmpty"></ng-container>
         <ng-template #empty>
 			<div class="row d-flex justify-content-center">
-				<div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+				<div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
 					<img class="w-100" src="assets/emptyPharmaSearchResults/notFound.png">
 				</div>
 			</div>
 		</ng-template>
         <ng-template #notEmpty>
-			<div class="row row-cols-xl-2 mb-4 search-results" style="margin-top:8rem"
+			<div class="row row-cols-xl-2" style="margin-top:8rem"
 				infinite-scroll
                 [infiniteScrollDistance]="2"
                 [infiniteScrollThrottle]="50"
                 (scrolled)="onScroll()">
 				<ng-container *ngFor="let content of content$ | async ; index as i" >
+					<div>
 						<app-job-post-normal-card [content]="content" [urgentFlag]="content.CategorySymbol == 'AA'" [fullTimeFlag]="content.TimeFrame =='Full-Time'" class="col"></app-job-post-normal-card>
+					</div>
 					<hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
 				</ng-container>
 			</div>

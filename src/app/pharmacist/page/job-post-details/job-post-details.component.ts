@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
 import { profileHeaderJobPost } from '../../model/typescriptModel/header.model';
-import { AppState, Bookmark, filterConditions, jobPostModel, jobRequest } from '../../model/typescriptModel/jobPost.model';
+import { AppState, Bookmark, filterConditions, jobPostModel, jobRequest, userOperator } from '../../model/typescriptModel/jobPost.model';
 import { JobPostService } from '../../service/job-post.service';
 import { UtilService } from '../../service/util.service';
 import { removeBookmark, updateJobFromJobCategory, updateJobFromHome } from '../../state/actions/job-post.actions';
 import { getUrgentJobsSuccess } from '../../state/actions/urgent-jobs.actions';
 import { updateRecentlySeenJob } from '../../state/actions/recently-seen.actions';
+declare var window: any;
 
 @Component({
   selector: 'app-job-post-details',
@@ -21,6 +22,7 @@ export class JobPostDetailsComponent implements OnDestroy{
 
   loading$!:Observable<boolean>;
   id!: string;
+  formModal: any
   categorySymbol!: string;
   childrenPath!: string;
   breakingPoint = {
@@ -41,7 +43,7 @@ export class JobPostDetailsComponent implements OnDestroy{
     },
   }
   profile:jobPostModel = {
-    Amount: 2,
+    Amount: '',
     CategorySymbol: '',
     BTS: {
       Near: false,
@@ -71,8 +73,8 @@ export class JobPostDetailsComponent implements OnDestroy{
     OnlineInterview: false,
     WorkFromHome: false,
     Salary: {
-      Amount: '',
-      Cap: undefined,
+      Amount: 0,
+      Cap: 0,
       Suffix: ''
     },
     Contacts: {
@@ -106,7 +108,9 @@ export class JobPostDetailsComponent implements OnDestroy{
     lat: 0,
     lng: 0
   }
+  loadingConfirmRequestFlag: boolean = false
   loadingFlag: boolean = true;
+  successFlag: boolean = false;
   profileHeader!: profileHeaderJobPost;
   bookmarkLoadingFlag: boolean = false;
   detailLeavingFlag: boolean = true;
@@ -120,6 +124,9 @@ export class JobPostDetailsComponent implements OnDestroy{
 
 
   ngOnInit(){
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('confirmRequest')
+      );
     this.detailLeavingFlag = true;
     this.store.select((state: any)=>{
       return state.user.uid
@@ -173,7 +180,23 @@ export class JobPostDetailsComponent implements OnDestroy{
           newJob = state.jobpost.Bookmarks[this.id + '-' + state.user.uid].JobPost
           break;
         case 'operator-page':
-          newJob = state.operator.operatorJobs[this.id]
+          if(this.route.snapshot.queryParamMap.get('operatorExistFlag') !== null){
+            let flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
+            if(flag){ 
+              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+              let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
+              let filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
+                return filter.CategorySymbol === categorySymbol
+              })
+              newJob = filter.content.find((userOperator:userOperator)=>{
+                return userOperator.uid == operatorUID
+              }).operatorJobs[this.id]  
+            }else{
+              newJob = state.operator.operatorJobs[this.id]
+            }
+          }else{
+            newJob = state.operator.operatorJobs[this.id]
+          }
           break;
       }
 
@@ -246,12 +269,25 @@ export class JobPostDetailsComponent implements OnDestroy{
     this.scrollUp();
   }
 
+  onClose(){
+    this.formModal.hide()
+  }
 
   requestJob(){
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['pharma/login'])
     }else{
+      this.successFlag = false
+      this.loadingConfirmRequestFlag = false
+      this.formModal.show()
+    }
+  }
+  
+  requestJobConfirm(){
+      this.loadingConfirmRequestFlag = true
       this.jobPostService.requestJob(this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then((value: any)=>{
+        this.loadingConfirmRequestFlag = false
+        this.successFlag = true
         let jobRequest:jobRequest = {
           operatorUID: this.profile.OperatorUID,
           userUID: this.userID,
@@ -261,7 +297,6 @@ export class JobPostDetailsComponent implements OnDestroy{
         }
         this.utilService.sendListenJobRequest(jobRequest)
       })
-    }
   }
   
   getBookmarkPayload(){

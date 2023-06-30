@@ -23,9 +23,7 @@
     }
 }
 @media only screen and (max-width: 1200px) {
-    .historyHeader{
-        display:block !important
-    }
+
     .subHeader{
         margin-left:0 !important
     }
@@ -67,6 +65,9 @@
     }
 }
 @media only screen and (max-width: 768px) {
+    .historyHeader{
+        display:block !important
+    }
     .cannotView{
         padding: 0 2rem !important;
         font-size:medium !important

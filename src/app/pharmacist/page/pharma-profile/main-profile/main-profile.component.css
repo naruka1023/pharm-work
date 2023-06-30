@@ -70,7 +70,7 @@
 .keyValueGap{
     margin-right:2rem
 }
-.btn-primary{
+.btn-primary, btn-primary:hover{
     background:#5cdfe4;
     border-color: #5cdfe4
 }

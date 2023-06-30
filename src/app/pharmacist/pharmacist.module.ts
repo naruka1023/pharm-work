@@ -47,6 +47,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { OperatorSmallCardComponent } from './common/operator-small-card/operator-small-card.component';
+import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
+import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 
 
 
@@ -103,7 +106,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     UrgentJobsPageComponent,
     MainProfileComponent,
     PrivateProfileComponent,
-    PreferredJobsComponent
+    PreferredJobsComponent,
+    OperatorSmallCardComponent,
+    EmptyFieldPipePipe,
+    EmptyFieldPipe
   ],
   providers:[PharmaProfileComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]

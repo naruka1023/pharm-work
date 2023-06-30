@@ -144,6 +144,15 @@ ngOnInit(){
   })
 }
 
+goRegister(isPharma: boolean){
+  this.route.navigate(['/pharma/register'], {
+    queryParams: 
+    {
+      isPharma: isPharma
+    }
+  })
+}
+
 sendVerificationEmail(){
   sendEmailVerification(this.auth.currentUser!)
 }

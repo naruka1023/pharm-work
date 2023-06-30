@@ -1,54 +1,66 @@
 <div class="d-flex justify-content-center align-items-center flex-column" style="height:90vh">
-    <div class="loginPanel" style="width: 30rem;">
-        <div class="card my-auto">
-            <div class="card-body">
-                <h5 class="text-center card-title">เข้าสู่ระบบผู้</h5>
-                <div style="text-align:center" *ngIf="loginFlag">
-                  <div class="spinner-border text-primary" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                  </div>
-              </div>
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <ng-container *ngIf="errorFlag; then error; else invisible"></ng-container>
-                    <ng-template #error>
-                        <span class="help-block text-danger">
-                         {{this.errorMessage}}
-                       </span>
-
-                    </ng-template>                        
-                    <ng-template #invisible>
-                        <span style='visibility:hidden'class="help-block">
-                         please enter valid data
-                       </span>
-
-                    </ng-template>                        
-                    <div class="form-group">
-                        <div class="d-flex justify-content-between">
-                            <label for="userName">Email</label>
-                            <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
-                        </div>
-                        <input type="text" class="form-control"
-                        id="userName" formControlName = "userName">
+  <div class="card my-auto" style="border-radius:20px">
+    <div style="background-color:white; border-radius: 20px">
+      <ul class="nav justify-content-center fs-4 nav-tabs nav-fill nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" style="border-top-left-radius: 20px" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" (click)='changeHeader(true)' type="button" role="tab" aria-controls="normal-job-pane" aria-selected="true">เภสัชกร</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" style="border-top-right-radius: 20px" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" (click)='changeHeader(false)' type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">ผู้ประกอบการ</button>
+        </li>
+      </ul>
+      <div class="card-body">
+    <div class="tab-content" style='background:white' id="myTabContent">
+      <div class="loginPanel" style="width: 30rem;">
+                  <h5 class="text-center card-title">เข้าสู่ระบบ{{header}}</h5>
+                  <div style="text-align:center" *ngIf="loginFlag">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-            
+                </div>
+                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                      <ng-container *ngIf="errorFlag; then error; else invisible"></ng-container>
+                      <ng-template #error>
+                          <span class="help-block text-danger">
+                           {{this.errorMessage}}
+                         </span>
+  
+                      </ng-template>                        
+                      <ng-template #invisible>
+                          <span style='visibility:hidden'class="help-block">
+                           please enter valid data
+                         </span>
+  
+                      </ng-template>                        
                       <div class="form-group">
-                        <div class="d-flex justify-content-between">
-                            <label for="password">Password</label>
-                            <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
-                        </div>
-                            <input type="password" type="password" class="form-control" 
-                         id="password" formControlName = "password">
+                          <div class="d-flex justify-content-between">
+                              <label for="userName">Email</label>
+                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
+                          </div>
+                          <input type="text" class="form-control"
+                          id="userName" formControlName = "userName">
                       </div>
-            
-                       <div class="footer mt-3 d-flex justify-content-between">
-                           <div><a  data-bs-toggle="modal" data-bs-target="#exampleModal">ลืมรหัสผ่าน</a></div>
-                           <div>ยังไม่ได้เป็นสมาชิก? <a routerLink="register">สมัครสมาชิก</a></div>
-                       </div>
-                    <button class="btn btn-primary mb-1 mt-2" style="width:-webkit-fill-available; width: -moz-available;" type="submit">Submit</button> 
-                  </form>
-            </div>
-        </div>
+              
+                        <div class="form-group">
+                          <div class="d-flex justify-content-between">
+                              <label for="password">Password</label>
+                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
+                          </div>
+                              <input type="password" type="password" class="form-control" 
+                           id="password" formControlName = "password">
+                        </div>
+              
+                         <div class="footer mt-3 d-flex justify-content-between">
+                             <div><a  data-bs-toggle="modal" data-bs-target="#exampleModal">ลืมรหัสผ่าน</a></div>
+                             <div>ยังไม่ได้เป็นสมาชิก? <a routerLink="register">สมัครสมาชิก</a></div>
+                         </div>
+                      <button class="btn btn-primary mb-1 mt-2" style="width:-webkit-fill-available; width: -moz-available;" type="submit">Submit</button> 
+                    </form>
+              </div>
+          </div>
+      </div>
     </div>
+  </div>
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -91,7 +103,7 @@
             </ng-template>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="closeButton" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" id="closeButton" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" *ngIf="resetButtonFlag" (click)="onForgetPassword()"[disabled]="!this.email.valid">Get reset email</button>
         </div>
       </div>

@@ -31,3 +31,11 @@
 .rounded{
     border-radius: 20px !important;
 }
+.fullTime{
+    background:#5cdfe4;
+    border-color: #5cdfe4
+  }
+  .partTime{
+  background:#7fd858;
+  border-color: #7fd858
+  }

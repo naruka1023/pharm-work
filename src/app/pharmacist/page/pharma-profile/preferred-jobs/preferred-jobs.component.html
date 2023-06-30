@@ -1,56 +1,57 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3 editButton"><button (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">{{!editFlag?'บันทึก':'ยกเลิก'}}</button></div>
+<div class="align-items-baseline d-flex justify-content-end ms-3 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="verticalKeyGap d-flex flex-row">
         <i class="bi bi-clipboard keyValueGap"></i>
         <div><b>ประเภทงานที่สนใจ</b></div>
+        <div class="ms-3" *ngIf="resultPayload.length == 0">ไม่ระบุ</div>
     </div>
-        <div class="jobTypePayload" style="padding-left:6rem">
-            <ul class="row row-cols-2">
-                <li class="verticalKeyGap col" *ngFor="let jobType of resultPayload">
-                    {{jobType}}
-                </li>
-            </ul>
+    <div *ngIf="resultPayload.length > 0" class="jobTypePayload" style="padding-left:6rem">
+        <ul class="row row-cols-2">
+            <li class="verticalKeyGap col" *ngFor="let jobType of resultPayload">
+                {{jobType}}
+            </li>
+        </ul>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap d-flex flex-row">
+            <i class="bi bi-lightbulb keyValueGap"></i>
+            <div><b>ชนิดของงานที่สนใจ</b></div>
         </div>
-        <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap d-flex flex-row">
-                <i class="bi bi-lightbulb keyValueGap"></i>
-                <div><b>ชนิดของงานที่สนใจ</b></div>
-            </div>
-            <div>
-                {{innerProfileInformation.preferredTimeFrame}}
-            </div>
+        <div>
+            {{innerProfileInformation.preferredTimeFrame | emptyFieldPipe}}
         </div>
-        <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap d-flex flex-row">
-                <i class="bi bi-currency-bitcoin keyValueGap"></i>
-                <div><b>เงินเดือนที่ต้องการ</b></div>
-            </div>
-            <div>
-                    {{innerProfileInformation.preferredSalary}}
-            </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap d-flex flex-row">
+            <i class="bi bi-currency-bitcoin keyValueGap"></i>
+            <div><b>เงินเดือนที่ต้องการ</b></div>
         </div>
-        <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap d-flex flex-row">
-                <i class="bi bi-check2-circle keyValueGap"></i><div><b>สามารถเริ่มงานได้ </b></div>
-            </div>
-            <div>
-                    {{innerProfileInformation.preferredStartTime}}
-            </div>
+        <div>
+                {{innerProfileInformation.preferredSalary | emptyFieldPipe}}
         </div>
-        <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap d-flex flex-row">
-                <i class="bi bi-geo-alt keyValueGap"></i>
-                <div><b>หางานพื้นที่ </b></div>
-            </div>
-            <div class="contacts">
-                <div class="row">
-                    <div class="keyValueGap">
-                        {{innerProfileInformation.preferredLocation?.Section}}, {{innerProfileInformation.preferredLocation?.District}}, {{innerProfileInformation.preferredLocation?.Province}}
-                    </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap d-flex flex-row">
+            <i class="bi bi-check2-circle keyValueGap"></i><div><b>สามารถเริ่มงานได้ </b></div>
+        </div>
+        <div>
+                {{innerProfileInformation.preferredStartTime | emptyFieldPipe}}
+        </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap d-flex flex-row">
+            <i class="bi bi-geo-alt keyValueGap"></i>
+            <div><b>หางานพื้นที่ </b></div>
+        </div>
+        <div class="contacts">
+            <div class="row">
+                <div class="keyValueGap">
+                    {{innerProfileInformation.preferredLocation?.Section | emptyFieldPipe}}, {{innerProfileInformation.preferredLocation?.District | emptyFieldPipe}}, {{innerProfileInformation.preferredLocation?.Province | emptyFieldPipe}}
                 </div>
             </div>
         </div>
+    </div>
 </ng-template>
 <ng-template #editPage>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
@@ -122,7 +123,7 @@
                 <div class="responsiveText me-3"><b>ชนิดของงานที่สนใจ</b></div>
             </div>
             <div class="col">
-                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="responsiveText form-select mb-3 fs-3">
+                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2">
                     <option selected value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
                     <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
@@ -135,7 +136,7 @@
                 <div class="responsiveText me-3"><b>เงินเดือนขั้นต่ำที่ต้องการ</b></div>
             </div>
             <div class="col">
-                <select formControlName="preferredSalary" name="preferredSalary" class="responsiveText form-select mb-3 fs-3">
+                <select formControlName="preferredSalary" name="preferredSalary" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2">
                     <option selected value="20,000">20,000</option>
                     <option selected value="30,000">30,000</option>
                     <option selected value="40,000">40,000</option>
@@ -153,7 +154,7 @@
                 <div><b>สามารถเริ่มงานได้</b></div>
             </div>
             <div class="col">
-                <select formControlName="preferredStartTime" name="preferredStartTime" class="responsiveText form-select mb-3 fs-3">
+                <select formControlName="preferredStartTime" name="preferredStartTime" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2">
                     <option selected value="ทันที">ทันที</option>
                     <option selected value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
                     <option selected value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
@@ -166,8 +167,8 @@
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button type="submit" class="btn saveButton me-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-            <button class="btn btn-primary saveButton" (click)="cancelClick()" style="padding: 0.5rem 2rem; border-radius: 50px !important; color:white">ยกเลิก</button>
+            <button class="btn btn-light saveButton" (click)="cancelClick()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+            <button type="submit" class="btn saveButton ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </form>
 </ng-template>

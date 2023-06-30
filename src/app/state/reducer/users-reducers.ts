@@ -28,7 +28,9 @@ export const initialState: User = {
   },
   cropProfilePictureUrl: '',
   introText: '',
-  nickName: ''
+  nickName: '',
+  highestEducation: '',
+  dateUpdated: ''
 };
 
 export const usersReducer = createReducer(

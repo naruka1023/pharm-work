@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { JobHistory, User } from 'src/app/pharmacist/model/typescriptModel/users.model';
@@ -7,6 +7,7 @@ import { UserServiceService } from 'src/app/pharmacist/service/user-service.serv
 import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Validation from 'src/app/utils/validation';
 
 @Component({
   selector: 'app-main-profile',
@@ -17,6 +18,7 @@ export class MainProfileComponent {
   innerProfileInformation!: User;
   editFlag:boolean = false
   loadingFlag: boolean = false
+  submitted: boolean = false
   profileEdit!:FormGroup
   descriptionEditor = ClassicEditor;
   descriptionModel = {
@@ -33,6 +35,7 @@ export class MainProfileComponent {
       this.innerProfileInformation = _.cloneDeep(value);
       if(this.innerProfileInformation.role !== ''){
         this.resetFormGroup();
+        console.log(this.FormEduData[0].controls['universityName'])
       }
     })
   }
@@ -46,6 +49,7 @@ export class MainProfileComponent {
     this.editFlag = !this.editFlag
     if(this.editFlag == false){
       this.resetFormGroup();
+    }else{
     }
   }
 
@@ -68,23 +72,27 @@ export class MainProfileComponent {
     return  value as number
   }
 
-  get FormEduData(){
+  get FormEduData(): any{
     let entity = this.profileEdit.get('educationHistory') as FormArray;
     return entity.controls;
   }
 
-  get FormJobData(){
+  get FormJobData(): any{
     let entity = this.profileEdit.get('jobHistory') as FormArray;
     return entity.controls;
+  }
+  
+  get profileEditControls(): { [key: string]: AbstractControl } {
+    return this.profileEdit.controls;
   }
 
   addEducation(){
     let educationToAdd = this.fb.group({
-      universityName: [''],
+      universityName: ['', [Validators.required]],
       franchise: [''],
-      yearGraduated: [''],
-      educationLevel: [''],
-      major: ['']
+      yearGraduated: ['', [Validators.required]],
+      educationLevel: ['', [Validators.required]],
+      major: ['', [Validators.required]]
     });
     let newValue: FormArray = this.profileEdit.controls['educationHistory'] as FormArray;
     newValue.push(educationToAdd);
@@ -100,13 +108,13 @@ export class MainProfileComponent {
 
   addOccupation(){
     let jobToAdd = this.fb.group({
-      jobName: [''],
+      jobName: ['', [Validators.required]],
       activeFlag: false,
-      companyName: [''],
+      companyName: ['', [Validators.required]],
       description: [''],
-      dateStarted: [''],
+      dateStarted: ['', [Validators.required]],
       workExperience: 0,
-      dateEnded: [''],
+      dateEnded: ['', [Validators.required]],
     });
     let newValue: FormArray = this.profileEdit.controls['jobHistory'] as FormArray;
     newValue.push(jobToAdd)
@@ -128,7 +136,7 @@ export class MainProfileComponent {
     this.profileEdit = this.fb.group({
       educationHistory: this.fb.array([]),
       jobHistory: this.fb.array([]),
-      highestEducation: [''],
+      highestEducation: ['', [Validators.required]],
       WorkExperience: [''],
     });
   }
@@ -148,13 +156,26 @@ export class MainProfileComponent {
     let ans = months <= 0 ? 0 : months
     return ans;
   }
+  parseDate(date: string){
+
+  }
   resetFormGroup(){
+    this.submitted = false
+    let jobHistory: JobHistory[] = []
     this.initializeFormGroup();
     if(this.innerProfileInformation.educationHistory == undefined){
       this.addEducation()
     }
     if(this.innerProfileInformation.jobHistory == undefined){
       this.addOccupation()
+    }else{
+      jobHistory = this.innerProfileInformation.jobHistory?.map((job: JobHistory)=>{
+        return {
+          ...job,
+          dateStarted: job.dateStarted.replace('/', '-'),
+          dateEnded: job.dateEnded.replace('/', '-')
+        }
+      })
     }
     this.innerProfileInformation.educationHistory?.forEach((edh)=>{
       this.addEducation()
@@ -164,15 +185,15 @@ export class MainProfileComponent {
         this.addOccupation()
     })
   
-    
     this.profileEdit.patchValue({
       ...this.innerProfileInformation,
+      jobHistory : jobHistory
     })
     this.profileEdit.get('jobHistory')?.valueChanges.subscribe((profile)=>{
       profile.forEach((pr:JobHistory)=>{
         if(pr.activeFlag){
-          let date : any = new Date()
-          pr.dateEnded = date
+          let date : any = new Date().toISOString().split('T')[0].split('-')
+          pr.dateEnded = date[0] + '-' + date[1]
         }
         if(pr.dateStarted !== '' && pr.dateEnded !== ''){
           let dateDiff = this.calculateDateDiff(pr.dateStarted, pr.dateEnded)
@@ -180,12 +201,19 @@ export class MainProfileComponent {
           let months = dateDiff % 12 > 0? + dateDiff % 12 + ' เดือน': '';
           pr.workExperience =  years + " " + months
         }
+        pr.dateStarted = pr.dateStarted.replace('-', '/') 
+        pr.dateEnded = pr.dateEnded.replace('-', '/')
       })
       this.profileEdit.patchValue(profile)
     })
   }
   onSave(){
-    let payload = {
+    this.submitted = true
+    if (this.profileEdit.invalid) {
+      console.log(this.FormEduData[0].controls['universityName'])
+      return;
+    }
+    let payload: any = {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       dateUpdated: new Date().toISOString().split('T')[0],
@@ -193,9 +221,9 @@ export class MainProfileComponent {
     let totalMonths: number = 0 
     let totalYear : number = 0
     let jobHistoryList: JobHistory[] =this.profileEdit.get('jobHistory')?.value
-    jobHistoryList.forEach((jobHistory)=>{
+    jobHistoryList.forEach((jobHistory, index)=>{
       let workExp = jobHistory.workExperience.split(' ')
-      if(workExp.length >2){
+      if(workExp.length > 2){
         totalMonths += Number(workExp[2])
       }
       totalYear += Number(workExp[0])
@@ -203,7 +231,8 @@ export class MainProfileComponent {
     totalYear += Math.floor(totalMonths/12)
     payload = {
       ...payload,
-      WorkExperience: totalYear
+      jobHistory: jobHistoryList,
+      WorkExperience: totalYear,
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{

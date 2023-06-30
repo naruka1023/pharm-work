@@ -50,6 +50,11 @@ export class PharmaProfileComponent implements OnDestroy{
     if(target == 'request-jobs' || target == 'request-views'){
       newTarget = 'register-jobs'
     }
+    if(target == 'request-jobs' || target == 'request-views'){
+      this.setChildFlag(true)
+    }else{
+      this.setChildFlag(false)
+    }
     let triggerEl = document.getElementById(newTarget)!;
     triggerEl.click()
     if(this.selectChildTab){

@@ -33,6 +33,9 @@ export class JobPostSmallCardComponent {
   jobName!: string;
   establishmentName!: string;
   ngOnInit(){
+    if(this.content.cropProfilePictureUrl == ''){
+      delete this.content.cropProfilePictureUrl
+    }
     this.store.select((state: any)=>{
       return state.user.uid
     }).subscribe((value)=>{
@@ -80,7 +83,9 @@ export class JobPostSmallCardComponent {
       {
         operatorUID: this.content.OperatorUID,
         requestViewFlag: false,
-        followFlag: false
+        followFlag: false,
+        operatorExistFlag: false,
+        jobType: this.content.JobType
       }
     })
   }

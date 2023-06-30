@@ -11,6 +11,9 @@ export const recentlySeenReducer = createReducer(
   initialState,
   on(addRecentlySeen, (state, { JobPost }) => {
     let newState : jobPostModel[]= _.cloneDeep(state);
+    newState = newState.filter((job: jobPostModel)=>{
+      return job.custom_doc_id !== JobPost.custom_doc_id
+    })
     newState.unshift(JobPost)
     return newState
   }),

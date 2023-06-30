@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background:#f2f2f2; border-bottom:1px solid #cccccc">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background:#f2f2f2; border-bottom:1px solid #cccccc; z-index:10">
     <div class="container-fluid">
       <div class="d-flex flex-row align-items-center">
         <div class="fs-3">
@@ -28,7 +28,7 @@
                 <div class="dropdown">
                   <a data-bs-toggle='dropdown' class="nav-link" aria-expanded="false">
                       <i class="bi bi-file-earmark-plus"></i>
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu" style="background-color:#f2f2f2">
                         <li><a class="dropdown-item" (click)="goToAddJob(false)">งานทั่วไป</a></li>
                         <li><a class="dropdown-item" (click)="goToAddJob(true)">งานด่วนรายวัน</a></li>
                       </ul>
@@ -95,7 +95,7 @@
                     <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <button type="button" class="btn btn-danger" (click)="onClose()">ยกเลิก</button>
+                <button type="button" class="btn btn-light" (click)="onClose()">ยกเลิก</button>
             </div>
               <button type="button" class="btn btn-success"  type="submit">ยืนยัน</button>
           </div>

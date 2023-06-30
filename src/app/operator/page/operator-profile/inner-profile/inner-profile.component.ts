@@ -20,6 +20,7 @@ export class InnerProfileComponent implements OnDestroy {
   profileEditState!: boolean;
   innerProfileInformation!: User;
   profileEdit!:FormGroup;
+  loadingFlag: boolean = false
   modal!:any;
   zoom = 15;
   center: google.maps.LatLngLiteral = {
@@ -147,6 +148,7 @@ searchMap(event: any){
     }
   }
   onSave(){
+    
     this.store.dispatch(toggleLoading())
     const payload = {
       ...this.profileEdit.value,
@@ -159,6 +161,10 @@ searchMap(event: any){
       this.beginNavigation()
       this.profileEditState = false;
     })
+  }
+  cancelClick(){
+    this.profileEditState = false
+    this.resetFormGroup();
   }
   ngOnDestroy(){
     this.subject.unsubscribe();
