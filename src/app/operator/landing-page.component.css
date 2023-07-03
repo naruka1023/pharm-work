@@ -3,3 +3,6 @@
       display: none !important
     }
   }
+  .dropdown-toggle::after{
+    display:none
+}

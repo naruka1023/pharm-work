@@ -10,6 +10,9 @@ export const recentlySeenReducer = createReducer(
   initialState,
   on(addRecentlySeen, (state, { user }) => {
     let newState : UserPharma[]= _.cloneDeep(state);
+    newState = newState.filter((job: UserPharma)=>{
+      return job.uid !== user.uid
+    })
     newState.unshift(user)
     return newState
   }),

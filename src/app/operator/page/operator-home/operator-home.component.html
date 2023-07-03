@@ -49,6 +49,7 @@
                               <select formControlName="preferredTimeFrame" style="background-color:#f2f2f2" name="timeFrame" class="form-select mb-3 headerText">
                                   <option selected value="Full-Time">Full-Time</option>
                                   <option value="Part-Time">Part-Time</option>
+                                  <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
                               </select>
                           </div>
                       </div>
@@ -60,34 +61,34 @@
                           <div class="col-md col-12">
                               <div class="row">
                                   <div class="col-sm-4 col-12 headerText">
-                                      <label class="me-3"><b>แขวง</b></label>
-                                  </div>
-                                  <div class="col">
-                                      <select formControlName="Section" style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select mb-3 headerText">
-                                          <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="row">
-                                  <div class="col-sm-4 col-12 headerText">
-                                      <label class="me-3"><b>เขต</b></label>
-                                  </div>
-                                  <div class="col">
-                                      <select formControlName="District" style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="form-select mb-3 headerText">
-                                          <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="row">
-                                  <div class="col-sm-4 col-12 headerText">
                                       <label class="me-3"><b>จังหวด</b></label>
-                                  </div>
-                                  <div class="col">
-                                      <select formControlName="Province" style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select mb-3 headerText">
-                                          <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
-                                      </select>
-                                  </div>
-                              </div>
+                                    </div>
+                                    <div class="col">
+                                        <select formControlName="Province" style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select mb-3 headerText">
+                                            <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-12 headerText">
+                                        <label class="me-3"><b>เขต</b></label>
+                                    </div>
+                                    <div class="col">
+                                        <select formControlName="District" style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="form-select mb-3 headerText">
+                                            <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-12 headerText">
+                                        <label class="me-3"><b>แขวง</b></label>
+                                    </div>
+                                    <div class="col">
+                                        <select formControlName="Section" style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="form-select mb-3 headerText">
+                                            <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                                        </select>
+                                    </div>
+                                </div>
                           </div>
                       </div>
                       <div class="row my-3">
@@ -150,8 +151,10 @@
                                 <div *ngIf="locationRadiusFlag" class="col" >
                                     <div class="col">
                                         <select  formControlName="radius" style="background-color:#f2f2f2" name="section" class="form-select mb-3 headerText">
+                                            <option value="100">ระยะ 300 m</option>
+                                            <option value="500">ระยะ 500 m</option>
                                             <option value="1000">ระยะ 1 km</option>
-                                            <option value="2000">ระยะ 2 km</option>
+                                            <option value="3000">ระยะ 3 km</option>
                                             <option value="5000">ระยะ 5 km</option>
                                         </select>
                                     </div>
@@ -166,11 +169,11 @@
                             <div class="col" formGroupName="preferredLocation">
                                 <div class="row">
                                     <div class="col-sm-4 col-12 headerText">
-                                        <label class="me-3"><b>แขวง</b></label>
+                                        <label class="me-3"><b>จังหวด</b></label>
                                     </div>
                                     <div class="col">
-                                        <select formControlName="Section"  style="background-color:#f2f2f2" name="section" class="form-select mb-3 headerText">
-                                            <option *ngFor="let section of sectionUrgent$ | async" [ngValue]="section">{{section}}</option>
+                                        <select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelectedUrgent($event)" name="province" class="form-select mb-3 headerText">
+                                            <option *ngFor="let province of provinceUrgent$ | async" [ngValue]="province">{{province}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -186,11 +189,11 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4 col-12 headerText">
-                                        <label class="me-3"><b>จังหวด</b></label>
+                                        <label class="me-3"><b>แขวง</b></label>
                                     </div>
                                     <div class="col">
-                                        <select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelectedUrgent($event)" name="province" class="form-select mb-3 headerText">
-                                            <option *ngFor="let province of provinceUrgent$ | async" [ngValue]="province">{{province}}</option>
+                                        <select formControlName="Section"  style="background-color:#f2f2f2" name="section" class="form-select mb-3 headerText">
+                                            <option *ngFor="let section of sectionUrgent$ | async" [ngValue]="section">{{section}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -199,7 +202,7 @@
                         <div class="row my-3">
                             <div class="col-1 text-end headerText"><i class="bi bi-card-checklist"></i></div>
                             <div class="col-xl-4 col-11 mb-xl-0 mb-3 headerText">
-                                <b>จำนวนงานที่เคยรับ</b>
+                                <b>จำนวนงานด่วนที่เคยรับ</b>
                             </div>
                             <div class="col-md col-12 d-flex flex-row-start headerText">
                                 <select class="form-select headerText" formControlName="amountCompletedSort" style="background-color:#f2f2f2">
@@ -208,7 +211,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row my-3">
+                        <!-- <div class="row my-3">
                             <div class="col-1 text-end headerText"><i class="bi bi-person-badge"></i></div>
                             <div class="col-xl-4 col-11 mb-xl-0 mb-3 headerText">
                                 <b>เฉพาะที่กำลัง online</b>
@@ -218,7 +221,7 @@
                                     <input formControlName="onlineFlag" class="form-check-input me-3" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="d-flex justify-content-center" style="margin-top:4rem">
                             <button class="btn btn-warning fs-3 px-4" style="margin-right:4rem" (click)="resetUrgent()">เคลียร์</button>
                             <button style="color: white; background-color: #7fd858" class="btn  px-4 fs-3" type="submit">ค้นหา</button>

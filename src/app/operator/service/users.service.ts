@@ -24,6 +24,9 @@ export class UsersService {
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
     let indexName = 'pharm-work_user_index'
+    if(newForm['preferredTimeFrame'] == 'Full-Time และ Part-Time'){
+      delete newForm['preferredTimeFrame']
+    }
     Object.keys(newForm).forEach((key, index)=>{
       if(key == 'WorkExperience' && newForm[key] !== ''){
         indexName = 'pharm-work_user_index_workExperience_desc'
@@ -192,7 +195,7 @@ export class UsersService {
         let filter = "role:'เภสัชกร'" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol) + "'"
         promises.push(
            index.search('',{
-            hitsPerPage:5,
+            hitsPerPage:this.hitsPerPage,
             page:0,
             filters: filter
           })

@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row verticalKeyGap">
             <div class="col-md-3 col-12">
-                <div class="me-3">ชนิดของงาน:</div>
+                <div class="me-3">ประเภทงาน:</div>
             </div>
             <div class="col">
                 {{ userState.jobType }}
@@ -60,23 +60,24 @@
                   />
             </div>
         </div>
-        <div *ngIf="!urgency" class="row mt-3 verticalKeyGap">
-            <div class="col-md-3 col-12">
-                <div class="me-3">ประเภทงาน:</div>
-            </div>
-            <div class="col">
-                <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
-                    <option selected value="Full-Time">Full-Time</option>
-                    <option value="Part-Time">Part-Time</option>
-                </select>
-            </div>
-        </div>
         <div class="row mt-3 verticalKeyGap">
             <div class="col-md-3 col-12">
                 <div class="me-3">ชื่อตำแหน่งงาน:</div>
             </div>
             <div class="col">
                 <input type="text" formControlName="JobName" class="form-control">
+            </div>
+        </div>
+        <div *ngIf="!urgency" class="row mt-3 verticalKeyGap">
+            <div class="col-md-3 col-12">
+                <div class="me-3">ประเภทพนักงาน:</div>
+            </div>
+            <div class="col">
+                <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
+                    <option selected value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
+                </select>
             </div>
         </div>
         <div class="row mt-3 verticalKeyGap">
@@ -100,9 +101,9 @@
             </div>
             <div class="col">
                 <div class="d-flex flex-row verticalKeyGap">
-                    <input [ngModelOptions]="{standalone: true}" [(ngModel)]="timeStart" type="time" class="form-control">
+                    <input [ngModelOptions]="{standalone: true}" [(ngModel)]="timeStart" name="time" type="time" class="form-control">
                     <div class=mx-3>-</div>
-                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="timeEnd" type="time" class="form-control">
+                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="timeEnd" name="time" type="time" class="form-control">
                 </div>
             </div>
         </div>
@@ -110,30 +111,30 @@
             <div class="col-md-3 col-12">
                 <div class="me-3">ค่าจ้าง:</div>
             </div>
-            <div class="col-sm-5 col-10">
-                <div class="d-flex flex-row verticalKeyGap">
-                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryStart" type="number" class="form-control">
-                    <div class=mx-3>-</div>
-                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryEnd" type="number" class="form-control">
-                </div>
-            </div>
             <div class="col">
-                <div class="form-check">
-                    <div class="d-flex verticalKeyGap">
-                        <input class="form-check-input" formControlName="Suffix" value="Negotiable" type="radio">
+                <div class="form-check verticalKeyGap">
+                    <div class="d-flex">
+                        <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="SalaryNumbers" type="radio">
+                        <div class="ms-3 d-flex flex-row verticalKeyGap">
+                            <input  [disabled]="salaryRadioFlag" [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryStart" type="number" class="form-control salaryNumbers">
+                            <div class=mx-3>-</div>
+                            <input  [disabled]="salaryRadioFlag" [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryEnd" type="number" class="form-control salaryNumbers">
+                        </div>
+                        <div class="ms-3">
+                            {{urgency?"บาท / ชั่วโมง":"บาท / เดือน"}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-check verticalKeyGap">
+                    <div class="d-flex">
+                        <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="Negotiable" type="radio">
                         <label class="ms-3" for="Negotiable">ตามตกลง</label>
                     </div>
                 </div>
-                <div class="form-check" *ngIf="timeFrame === 'Full-Time' && !urgency">
+                <div class="form-check">
                     <div class="d-flex verticalKeyGap">
-                        <input class="form-check-input" formControlName="Suffix" value="CorporateStructure" type="radio">
+                        <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="CorporateStructure" type="radio">
                         <label class="ms-3" for="CorporateStructure">ตามโครงสร้างองค์กร</label>
-                    </div>
-                </div>
-                <div class="form-check" *ngIf="timeFrame === 'Part-Time'">
-                    <div class="d-flex verticalKeyGap">
-                        <input class="form-check-input" formControlName="Suffix" value="Hourly" type="radio">
-                        <label class="ms-3" for="Hourly">ค่าจ้างรายชั่วโมง</label>
                     </div>
                 </div>
             </div>
@@ -189,7 +190,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3 verticalKeyGap">
+        <!-- <div class="row mt-3 verticalKeyGap">
             <div class="col-md-3 col-12">
                 <label for="nearSRT" class="me-3">ใกล้ SRT:</label>
             </div>
@@ -222,7 +223,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="my-5 border-top border-bottom border-secondary py-3">
         <h3 class="ms-4">รายละเอียดงานเพิ่มเติม</h3>

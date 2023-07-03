@@ -9,6 +9,7 @@ import { UsersService } from '../../service/users.service';
 import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import { SetUsersByJobType, updateUsersByJobType } from '../../state/actions/users-actions';
+declare var window: any;
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -33,8 +34,8 @@ export class UserListComponent {
   }
   type!: string;
   title!: string;
-  distance: number = 2
-  throttle: number = 50
+  distance: number = 1.5
+  throttle: number = 500
   paginationIndex:number = 0
   maxIndex: number = 0
   newTitle!: string;
@@ -52,6 +53,7 @@ export class UserListComponent {
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
+  searchModal: any
   provinceUrgent$!: Observable<string[]>;
   districtUrgent$!: Observable<string[]>;
   sectionUrgent$!: Observable<string[]>;
@@ -61,6 +63,9 @@ export class UserListComponent {
       this.type = this.route.snapshot.queryParamMap.get('type')!;
       this.headerSearchFlag = false;
     }
+    this.searchModal = new window.bootstrap.Modal(
+      document.getElementById('searchModal')
+      );
     this.title = this.converter.getTitleFromCategorySymbol(this.type);
     this.newTitle = this.converter.getNewTitleFromCategorySymbol(this.type);
     if(this.headerSearchFlag){
@@ -99,7 +104,9 @@ export class UserListComponent {
     })
 
     if(this.type == 'S'){
-      this.initializeFormGroupUrgent();
+      if(!this.headerSearchFlag){
+        this.initializeFormGroupUrgent();
+      }
       this.provinceUrgent$ = this.store.select((state: any)=>{
         let result = Object.keys(state.address.list);
         return result
@@ -121,7 +128,9 @@ export class UserListComponent {
       })
       this.sectionUrgent$.subscribe(()=>{})
     }else{
-      this.initializeFormGroup();
+      if(!this.headerSearchFlag){
+        this.initializeFormGroup();
+      }
       this.province$ = this.store.select((state: any)=>{
         let result = Object.keys(state.address.list);
         return result
@@ -209,12 +218,13 @@ export class UserListComponent {
   }
   searchUsers(){
     this.loadingFlag = true;
+    this.paginationIndex = 0
+    this.searchModal.hide()
     this.userService.searchPharmaUsersByPreferredJobType(this.newUserFormList.value, this.type).then((users)=>{
       this.maxIndex = users.totalPage
-      this.paginationIndex = 1
+      this.paginationIndex++
       this.query = users.query
       this.indexName = users.indexName
-      this.reset();
       this.store.dispatch(SetUsersByJobType({users:users.results, jobType:this.type}))
       this.loadingFlag = false;
     })
@@ -269,12 +279,12 @@ export class UserListComponent {
         }
       })
     }
+    this.searchModal.hide()
     this.userService.searchPharmaUsersUrgentByPreferredJobType(this.newUserFormUrgent.value).then((users)=>{
       this.maxIndex = users.totalPage
-      this.paginationIndex = 1
+      this.paginationIndex++
       this.query = users.query
       this.indexName = users.indexName
-      this.resetUrgent();
       this.store.dispatch(SetUsersByJobType({users:users.results, jobType:this.type}))
       this.loadingFlag = false
     });

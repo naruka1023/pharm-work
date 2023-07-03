@@ -104,11 +104,11 @@
 				</div>
 			</ng-template> -->
 			<div class="d-flex flex-row">
-				<button type="button" class="btn">
+				<!-- <button type="button" class="btn">
 					<h1 style="display:flex">
 						<i class="bi bi-share"></i>
 					</h1>
-				</button>
+				</button> -->
 				<button (click)="toggleBookmark()" type="button" class="btn px-0">
 					<h1 style="display:flex">
 						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>

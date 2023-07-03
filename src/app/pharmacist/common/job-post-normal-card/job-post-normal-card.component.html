@@ -133,11 +133,11 @@
 			</ng-template>
 		</div> -->
 		<div class="d-flex justify-content-end">
-			<button type="button" class="btn">
+			<!-- <button type="button" class="btn">
 				<h1>
 					<i class="fs-3 bi bi-share"></i>
 				</h1>
-			</button>
+			</button> -->
 			<button (click)="toggleBookmark()" type="button" class="btn">
 					<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
 					<ng-template #loading>

@@ -1,8 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, take } from 'rxjs';
 import { JobService } from '../../service/job.service';
 import { UtilService } from '../../service/util.service';
+import { ActivatedRoute } from '@angular/router';
 
 declare var window: any;
 
@@ -11,12 +12,12 @@ declare var window: any;
   templateUrl: './operator-profile.component.html',
   styleUrls: ['./operator-profile.component.css']
 })
-export class OperatorProfileComponent implements OnDestroy{
+export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
   subscription:Subscription = new Subscription;
   formModal!: any
   loadingFlag: boolean = true;
 
-  constructor(private profileService:UtilService, private store:Store, private jobService:JobService){}
+  constructor(private profileService:UtilService, private store:Store, private activatedRoute: ActivatedRoute, private jobService:JobService){}
   ngOnInit(): void {
     this.subscription.add(this.store.select((state:any)=>{
       return state.createdJobs.loading
@@ -43,6 +44,32 @@ export class OperatorProfileComponent implements OnDestroy{
     this.subscription = this.profileService.getCallView().pipe().subscribe(()=>{
       this.openFormModal();
     })
+  }
+  scrollIntoView(){
+    document.getElementById('navToScroll')!.scrollIntoView();
+  }
+  ngAfterViewInit(){
+    this.activatedRoute.data.subscribe((url: any)=>{
+      if(url.scrollFlag == null){
+        document.getElementById('navToScroll')!.scrollIntoView();
+      }else{
+        this.scrollUp();
+      }
+      this.selectTab(url.target)
+    })
+  }
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
+  }
+  selectTab(target:string){
+    let triggerEl = document.getElementById(target)!;
+    if(triggerEl !== null){
+      triggerEl.click()
+    }
   }
   ngOnDestroy(){
     this.subscription.unsubscribe();

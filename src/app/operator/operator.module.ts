@@ -95,7 +95,7 @@ import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
     StoreModule.forFeature("operatorProfile", operatorProfileReducer),
     OperatorAppRoutingModule,
   ],
-  providers: [RequestJobComponent],
+  providers: [RequestJobComponent, OperatorProfileComponent],
   exports: [InfiniteScrollModule],
   bootstrap:[LandingPageComponent]
 })

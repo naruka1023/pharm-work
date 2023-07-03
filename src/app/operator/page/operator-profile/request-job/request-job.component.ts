@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Route } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { map, Observable, Subscription } from 'rxjs';
@@ -8,6 +9,7 @@ import { JobService } from 'src/app/operator/service/job.service';
 import { UsersService } from 'src/app/operator/service/users.service';
 import { UtilService } from 'src/app/operator/service/util.service';
 import { removeUserFromRequestedJob, populateJobRequestWithUser, setRequestedJobs, populateJobRequestWithUsers, toggleUserList } from 'src/app/operator/state/actions/job-request-actions';
+import { OperatorProfileComponent } from '../operator-profile.component';
 declare var window: any;
 
 @Component({
@@ -15,8 +17,8 @@ declare var window: any;
   templateUrl: './request-job.component.html',
   styleUrls: ['./request-job.component.css']
 })
-export class RequestJobComponent  implements OnDestroy {
-  constructor(private store:Store, private utilService:UtilService, private userService:UsersService, private jobService:JobService){}
+export class RequestJobComponent  implements OnDestroy, AfterViewInit {
+  constructor(private operatorProfileComponent: OperatorProfileComponent,private route: ActivatedRoute,private store:Store, private utilService:UtilService, private userService:UsersService, private jobService:JobService){}
   jobRequests$!: Observable<jobPostModel[]>
   usersPayload!: UserPharma[]
   profileLinkFlag: boolean = false;
@@ -29,6 +31,14 @@ export class RequestJobComponent  implements OnDestroy {
   subscription:Subscription = new Subscription();
   loadingFlag$!:Observable<boolean>
   collatedList: any = {};
+
+
+  ngAfterViewInit(): void {
+    let isRequestView = this.route.snapshot.queryParamMap.get('isRequestView')!;
+    if(isRequestView !== null){
+      this.selectTab('private-profile')
+    }
+  }
   
   ngOnInit(){
     this.modal = new window.bootstrap.Modal(
@@ -61,6 +71,11 @@ export class RequestJobComponent  implements OnDestroy {
         if(state.requestedJobs.loadingRequest){
           this.jobService.getRequestJob(state.user.uid)
         }else{
+          let isRequestView = this.route.snapshot.queryParamMap.get('isRequestView')!;
+          if(isRequestView !== null){
+            this.selectTab('private-profile')
+          }
+
           let jobPosts:JobRequestList = state.requestedJobs.JobRequests;
           let jobRequestsArray = [];
           for(const [key, value] of Object.entries(jobPosts)){
@@ -119,6 +134,12 @@ export class RequestJobComponent  implements OnDestroy {
         }
         })
     )
+  }
+  selectTab(target:string){
+    let triggerEl = document.getElementById(target)!;
+    if(triggerEl !== null){
+      triggerEl.click()
+    }
   }
   hideModal(){
     this.modal.hide()

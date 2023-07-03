@@ -25,6 +25,7 @@ export class AddNewJobComponent {
   newJobForm!: FormGroup;
   urgency!: any;
   sub!: Promise<any>;
+  disabledFlag: boolean = true
   nearBTSFlag: boolean = false
   nearARLFlag: boolean = false
   nearMRTFlag: boolean = false
@@ -35,6 +36,7 @@ export class AddNewJobComponent {
   facebook$!:Observable<string>;
   timeStart: string = '';
   timeEnd: string = '';
+  salaryRadioFlag: boolean = false
   salaryStart: number = 0;
   salaryEnd: number = 0;
   flag!: Instance[] | Instance;
@@ -124,6 +126,15 @@ export class AddNewJobComponent {
       }
     })
     this.scrollUp();
+  }
+  salaryRadioChange(event: any){
+    if(event.target.value !== 'SalaryNumbers'){
+      this.salaryRadioFlag = true
+      this.salaryStart = 0
+      this.salaryEnd = 0
+    }else{
+      this.salaryRadioFlag = false
+    }
   }
   scrollUp(){
     window.scroll({ 
@@ -215,7 +226,7 @@ searchMap(event: any){
       Salary: this.fb.group({
         Amount:[''],
         Cap: [''],
-        Suffix: [''],
+        Suffix: 'SalaryNumbers',
       }),
       OnlineInterview: [false],
       WorkFromHome: [false],
@@ -248,7 +259,7 @@ searchMap(event: any){
       }),
       JobDetails: [''],
       TravelInstructions: [''],
-      profilePictureUrl: this.userState.cropProfilePictureUrl !== undefined? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
+      profilePictureUrl: this.userState.cropProfilePictureUrl !== undefined && this.userState.cropProfilePictureUrl !== ''? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
       coverPhotoPictureUrl:this.userState.coverPhotoPictureUrl,
       coverPhotoOffset: this.userState.coverPhotoOffset
     });

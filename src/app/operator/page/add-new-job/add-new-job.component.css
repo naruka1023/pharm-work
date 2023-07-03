@@ -28,6 +28,12 @@
       font-size:medium !important
   }
 }
+.nav-tabs .nav-link.active{
+    color:#7fd858 !important
+  }
+  .nav-link{
+    color:black
+  }
 #overlay {
     position: fixed;
     display: block;
@@ -40,3 +46,7 @@
     background-color: rgba(0,0,0,0.5);
     z-index: 2;
   }
+
+  .form-check-input[type=checkbox] {
+    border-radius: 10.25em;
+}

@@ -10,12 +10,14 @@ import { clearFavorites, setFavorites } from './state/actions/users-actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UtilService } from './service/util.service';
-import { UserPharma, requestView } from './model/user.model';
+import { User, UserPharma, requestView } from './model/user.model';
 import { addRequestView } from './state/actions/request-view.actions';
 import { Auth, sendEmailVerification, user } from '@angular/fire/auth';
 import { Firestore, collection, getDocs, query, updateDoc, doc, where } from '@angular/fire/firestore';
 import _ from 'lodash';
 import { jobPostModel } from './model/jobPost.model';
+import { OperatorProfileComponent } from './page/operator-profile/operator-profile.component';
+import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
 declare var window: any;
 
 @Component({
@@ -27,6 +29,7 @@ export class LandingPageComponent {
   private auth: Auth = inject(Auth)
   subject!:Subscription
   requestViewForm!: FormGroup
+  user!: User;
   followFlag: boolean = true;
   emailVerifiedFlag: boolean = true
   content!: UserPharma
@@ -40,7 +43,7 @@ export class LandingPageComponent {
   };
   offCanvas!: any
 
-  constructor(private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
+  constructor(private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
 
 
   ngOnInit(){
@@ -50,6 +53,14 @@ export class LandingPageComponent {
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('requestViewModal')
       );
+      this.store.select((state: any)=>{
+        return state.user
+      }).subscribe((user)=>{
+        this.user = _.cloneDeep(user)
+        if(this.user.cropProfilePictureUrl == ''){
+          delete this.user.cropProfilePictureUrl
+        }
+      })
       user(this.auth).subscribe((user)=>{
       if(user){
         this.emailVerifiedFlag = user.emailVerified
@@ -97,10 +108,50 @@ export class LandingPageComponent {
     this.initializeFormGroup()
   }
 
-  goToPage(page: string){
-      this.route.navigate(['operator/' + page]).then(()=>{
+  goToPage(page: string, isRequestView: boolean = false, scrollFlag: boolean = false){
+    let newPage = page.indexOf('?') !== -1? page.split('?')[0]: page
+    let splitTarget = newPage.split('/')
+    let finalTarget = ''
+    if(page.indexOf('profile-operator') !== -1){
+      finalTarget = splitTarget[splitTarget.length-1]
+      this.operatorProfileComponent.selectTab(finalTarget)
+    }
+    this.offCanvas.hide()
+    if(!scrollFlag){
+      if(isRequestView){
+        this.route.navigate(['operator/' + page], {
+          queryParams: 
+          {
+            isRequestView: isRequestView
+          }
+        }).then(()=>{
+          this.offCanvas.hide()
+          if(page.indexOf('profile-operator') !== -1){
+            this.requestJobsComponent.selectTab('private-profile')
+          } 
+        })
+        
+      }else{
+        this.route.navigate(['operator/' + page]).then(()=>{
+          if(page.indexOf('profile-operator') !== -1){
+            this.requestJobsComponent.selectTab('main-profile')
+          } 
+          this.offCanvas.hide()
+        })
+      }
+    }else{
+      this.route.navigate(['operator/' + page], {
+        queryParams: 
+        {
+          scrollFlag: true
+        }
+      }).then(()=>{
         this.offCanvas.hide()
+        if(page.indexOf('profile-operator') !== -1){
+          this.requestJobsComponent.selectTab('private-profile')
+        } 
       })
+    }
   }
 
   sendVerificationEmail(){

@@ -489,12 +489,13 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
     case "operator-profile": 
       document.getElementById('innerPhoto')?.addEventListener('load', ()=>{
         const ele = document.getElementById('coverPhoto')!;
-        ele.scrollTop = this.result.coverPhotoOffset;
+        document.getElementById('coverPhoto')!.scrollTop = this.result.coverPhotoOffset
       })!;
       break;
       case "pharmacist-profile":
         if(this.photoFlag !== "unset"){
           document.getElementById('innerPhoto')?.addEventListener('load', ()=>{
+            const ele = document.getElementById('coverPhoto')!;
             ele.scrollTop =  this.coverPhotoVerticalPosition
             this.store.dispatch(coverPhotoLoadSuccessful());
           })!;

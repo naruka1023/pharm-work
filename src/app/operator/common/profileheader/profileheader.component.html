@@ -2,7 +2,7 @@
     <div *ngSwitchCase="'operator-profile'">
         <div class="container" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
             <div style="position:relative">
-                <div *ngIf="editCoverPhotoFlag"  id="coverPhotoEditButtonPositionDropdown"  class="dropdown" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '3', 'height': '10vh'}">
+                <div *ngIf="editCoverPhotoFlag"  id="coverPhotoEditButtonPositionDropdown"  class="dropdown" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '1.5rem', 'z-index': '3', 'height': '10vh'}">
                     <button data-bs-toggle="dropdown" 
                             aria-expanded="false" 
                             id='coverPhotoEditButtonPosition' 
@@ -24,7 +24,6 @@
                     <button class="btn btn-primary me-3" *ngIf="!pathToUploadPicture" (click)="saveCoverPhotoClick()">Save</button>
                     <button class="btn btn-secondary" (click)="cancelCoverPhotoClick()">Cancel</button>
                 </div>
-    
                 <div id="coverPhoto"  class="coverPhoto img-container mh-100">
                     <img id="innerPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl" />
                 </div>
@@ -147,7 +146,7 @@
                         </div>
                     </div>
                     <div class="buttonSet d-flex justify-content-center align-items-baseline">
-                        <button style="height: fit-content; color: white; background-color: #7fd858" class="btn px-4 fs-5" *ngIf="sendUrgentJobsFlag">ส่งงานด่วน</button>
+                        <!-- <button style="height: fit-content; color: white; background-color: #7fd858" class="btn px-4 fs-5" *ngIf="sendUrgentJobsFlag">ส่งงานด่วน</button> -->
                         <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
                         <ng-template #requestView>
                             <button [ngStyle]="{'display': result.active == 'จำกัดการดูข้อมูล'? 'block': 'none' }" class="btn btn-warningfs-3" style="height: fit-content; color:white" class="btn btn-warning px-4 mx-4 fs-5">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
@@ -189,6 +188,14 @@
                             <i class="bi bi-lightbulb me-3"></i>หางาน  {{result.preferredTimeFrame | emptyField}}
                         </div>
                         <div class="col-sm col-12">
+                            <i class="bi bi-currency-bitcoin me-3"></i>เงินเดือนขั้นต่ำที่ต้องการ {{result.preferredSalary | emptyField}}
+                        </div>
+                    </div>
+                    <div class="row my-sm-2 my-0">
+                        <div class="col-sm-6 col-lg-4 col-12">
+                            <i class="bi bi-geo-alt me-3"></i>หางานพื้นที่ {{result.preferredDistrict | emptyField}}, {{result.preferredProvince | emptyField}}
+                        </div>
+                        <div class="col-sm col-12">
                             <i class="bi bi-clipboard me-3"></i>สนใจ 
                             <ng-container *ngIf="result.preferredJobType == 0; then noPreferred; else Preferred"></ng-container>
                             <ng-template #noPreferred>
@@ -197,14 +204,6 @@
                             <ng-template #Preferred>
                                 <span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span>
                             </ng-template>
-                        </div>
-                    </div>
-                    <div class="row my-sm-2 my-0">
-                        <div class="col-sm-6 col-lg-4 col-12">
-                            <i class="bi bi-geo-alt me-3"></i>หางานพื้นที่ {{result.preferredDistrict | emptyField}}, {{result.preferredProvince | emptyField}}
-                        </div>
-                        <div class="col-sm col-12">
-                            <i class="bi bi-currency-bitcoin me-3"></i>เงินเดือนขั้นต่ำที่ต้องการ {{result.preferredSalary | emptyField}}
                         </div>
                     </div>
                 </div>

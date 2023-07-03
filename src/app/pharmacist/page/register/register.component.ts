@@ -73,7 +73,7 @@ export class RegisterComponent implements AfterViewInit {
         CB: [false],
       }),
       showProfileFlag: true,
-      preferredTimeFrame: [''],
+      preferredTimeFrame: ['Full-Time และ Part-Time'],
       preferredLocation: this.fb.group({
         Section: [''],
         District: [''],

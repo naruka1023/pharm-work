@@ -5,11 +5,6 @@
                 <div class="card my-auto me-lg-4" style="border-radius: 20px; width: -webkit-fill-available; width: -moz-available;">
                     <div class="card-body p-0">
                         <div class="text-center text-danger">{{errorMessage}}</div>
-                        <div style="text-align:center" *ngIf="loadingFlag">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
                         <div style="background-color:white;padding-bottom:2rem; border-radius: 20px">
                             <ul class="nav justify-content-center fs-4 nav-tabs nav-fill nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -19,6 +14,11 @@
                                     <button class="nav-link" style="border-top-right-radius: 20px" (click)="changeRoles('operator')" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">ผู้ประกอบการ</button>
                                 </li>
                             </ul>
+                            <div style="text-align:center" *ngIf="loadingFlag">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                             <div class="tab-content" style='background:white' id="myTabContent">
                                 <div class="d-flex my-3 justify-content-between card-title px-sm-5 px-3">
                                     <button class="btn btn-primary mb-1 mt-2" style="visibility:hidden">Back <i class="bi bi-arrow-left"></i></button> 
@@ -250,7 +250,7 @@
                                                         <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3" style="background-color:#f2f2f2">
                                                             <option selected value="Full-Time">Full-Time</option>
                                                             <option value="Part-Time">Part-Time</option>
-                                                            <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
+                                                            <option value="Full-Time และ Part-Time" selected>Full-Time และ Part-Time</option>
                                                         </select>
                                                     </div>
                                                     <app-location [parentFormGroup]="registerFormPharmacist" [formGroupName]="'preferredLocation'" [registerFlag]="true"></app-location>
@@ -355,7 +355,7 @@
                                                 <label for="jobType" class="form-label">ประเภทธุรกิจ</label>
                                                 <select formControlName="jobType" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fO['jobType'].errors }" aria-label="Default select example">
                                                     <option value="ร้านยาทั่วไป">ร้านยาทั่วไป</option>
-                                                    <option value="ร้านยาแบรนด์">ร้านยาแบรนด์</option>
+                                                    <option value="ร้านยา Brand">ร้านยา Brand</option>
                                                     <option value="โรงพยาบาล">โรงพยาบาล</option>
                                                     <option value="คลินิก">คลินิก</option>
                                                     <option value="โรงงาน">โรงงาน</option>

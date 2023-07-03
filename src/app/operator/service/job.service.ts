@@ -112,18 +112,17 @@ export class JobService {
 
   getJobsCreated(operatorUID: string){
     return onSnapshot(query(collection(this.db, 'job-post'), where('OperatorUID', '==', operatorUID)), (jobs)=>{
-      if(!jobs.empty){
-        jobs.docChanges().forEach((a)=>{
-          let data = a.doc.data() as jobPostModel;
-          const id = a.doc.id;
-          data = {
-            ...data, 
-            custom_doc_id:id
-          }
-          let jobs = { ...data,}
-          this.store.dispatch(getCreatedJobSuccess({job:jobs, docType: a.type}));
-        })
-      }else{
+      jobs.docChanges().forEach((a)=>{
+        let data = a.doc.data() as jobPostModel;
+        const id = a.doc.id;
+        data = {
+          ...data, 
+          custom_doc_id:id
+        }
+        let jobs = { ...data,}
+        this.store.dispatch(getCreatedJobSuccess({job:jobs, docType: a.type}));
+      })
+      if(jobs.empty){
         this.store.dispatch(toggleCreatedJobLoading());
       }
     })

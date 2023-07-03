@@ -345,7 +345,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
                     })
                     this.profileService.getUID(this.result.uid).then((docs)=>{
                       this.profileService.updateUserJobsCoverPhoto(docs, url, ele.scrollTop).then(()=>{
-                        console.log('all jobs updated');
                       })
                     })
                   })
@@ -353,7 +352,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
                   user.coverPhotoPictureUrl = this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime();
                   this.profileService.getUID(this.result.uid).then((docs: QuerySnapshot<DocumentData>)=>{
                     this.profileService.updateUserJobsCoverPhoto(docs, this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime(), ele.scrollTop).then(()=>{
-                      console.log('all jobs updated');
                     })
                   })
                   this.profileService.updateUser(user).then(()=>{
@@ -371,7 +369,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
               user.coverPhotoPictureUrl = this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime();
               this.profileService.getUID(this.result.uid).then((docs)=>{
                 this.profileService.updateUserJobsCoverPhoto(docs, this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime(), ele.scrollTop).then(()=>{
-                  console.log('all jobs updated');
                 })
               })
               this.profileService.updateUser(user).then(()=>{
@@ -395,9 +392,10 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
           ele.scrollTop = this.result.coverPhotoOffset;
         })!;
         break;
-      case "operator-profile":
-        if(this.photoFlag !== "unset"){
-          document.getElementById('innerPhoto')?.addEventListener('load', ()=>{
+        case "operator-profile":
+          if(this.photoFlag !== "unset"){
+            document.getElementById('innerPhoto')?.addEventListener('load', ()=>{
+            const ele = document.getElementById('coverPhoto')!;
             ele.scrollTop =  this.coverPhotoVerticalPosition
             this.store.dispatch(coverPhotoLoadSuccessful());
           })!;
@@ -434,7 +432,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
             })
           })
         }
-        console.log('profile picture upload');
       })
     }
     const storageRef = ref(storage, 'users/' + this.userUID + '/crop-profile');
@@ -446,7 +443,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
       }).toDataURL(this.pictureType);
 
       uploadString(storageRef, imgSrc, 'data_url').then(()=>{
-        console.log('crop profile uploaded: ' + this.userUID);
 
         if(croppedNotExists){
           getDownloadURL(ref(this.storage, 'users/' + this.userUID + '/crop-profile')).then((url: string)=>{
@@ -454,12 +450,10 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
             this.profileService.updateUser(user).then(()=>{
               this.loadProfilePictureFlag = false
               this.store.dispatch(updateCropProfilePicture({cropProfilePictureUrl: url}))
-              console.log('crop profile updated');
               this.formModal.hide()
             })
             this.profileService.getUID(this.result.uid).then((docs)=>{
               this.profileService.updateUserJobs(docs, url + '?t='  + new Date().getTime()).then(()=>{
-                console.log('all jobs updated');
               })
             })
           })
@@ -471,7 +465,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
           this.formModal.hide()
           this.profileService.getUID(this.result.uid).then((docs)=>{
             this.profileService.updateUserJobs(docs, this.result.cropProfilePictureUrl + '?t='  + new Date().getTime()).then(()=>{
-              console.log('all jobs updated');
             })
           })
         }
@@ -560,7 +553,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
     let doc: any = document.getElementById("customRange2")! 
     let zoomRatio = ((doc.value - this.fixedScale)*10)/10; 
     this.fixedScale = doc.value;
-    console.log(zoomRatio)
     this.cropper.zoom(zoomRatio);	    
   }
 

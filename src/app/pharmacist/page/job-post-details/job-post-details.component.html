@@ -246,11 +246,11 @@
 						</ng-template>
 					</h1>
 				</button>
-				<button type="button" class="btn me-3">
+				<!-- <button type="button" class="btn me-3">
 					<h1>
 						<i class="bi bi-share"></i>
 					</h1>
-				</button>
+				</button> -->
 				<div *ngIf="!profile.Urgency">
 					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 					<ng-template #alreadyRequest>

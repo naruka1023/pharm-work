@@ -33,6 +33,7 @@ export class OperatorHomeComponent implements OnDestroy{
   emptyResultFlag: boolean = false;
   emptyUrgentResultFlag: boolean = false;
   accuracy: number = 0
+  jobType: string = ''
   _geoLoc: any = {}
   submitted:boolean = false;
   newUserForm!: FormGroup;
@@ -54,6 +55,10 @@ export class OperatorHomeComponent implements OnDestroy{
     this.userJobType$ = this.store.select((state:any)=>{
       return state.user.jobType
     });
+    this.userJobType$.subscribe((jobType)=>{
+      this.jobType = jobType
+      this.initializeFormGroup()
+    })
     this.loadingUsers$.subscribe((loading)=>{
       if(loading){
         this.userService.getAllPharmaUsers().then((allUsers)=>{
@@ -174,7 +179,7 @@ export class OperatorHomeComponent implements OnDestroy{
   initializeFormGroup(){
     this.newUserForm = this.fb.group({
       preferredTimeFrame: [''],
-      jobType: ['', Validators.required],
+      jobType: ['งาน' + this.jobType, Validators.required],
       WorkExperience: [''],
       highestEducation: [''],
       active: [''],

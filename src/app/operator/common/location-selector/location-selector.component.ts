@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-location-selector',
@@ -12,7 +13,7 @@ import { toggleAddressChange } from '../../state/actions/address.actions';
 })
 export class LocationSelectorComponent {
 
-  constructor(private store:Store, private utilService:UtilService){}
+  constructor(private store:Store, private utilService:UtilService, public route:Router){}
 
   @Input()parentFormGroup!: FormGroup;
   @Input()formGroupName : string = "Location";
@@ -21,7 +22,6 @@ export class LocationSelectorComponent {
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
-
   ngOnInit(){
     this.genericFormGroup = this.parentFormGroup.get(this.formGroupName) as FormGroup;
     this.initializeSelector();

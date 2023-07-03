@@ -35,7 +35,6 @@ export class MainProfileComponent {
       this.innerProfileInformation = _.cloneDeep(value);
       if(this.innerProfileInformation.role !== ''){
         this.resetFormGroup();
-        console.log(this.FormEduData[0].controls['universityName'])
       }
     })
   }
@@ -210,7 +209,6 @@ export class MainProfileComponent {
   onSave(){
     this.submitted = true
     if (this.profileEdit.invalid) {
-      console.log(this.FormEduData[0].controls['universityName'])
       return;
     }
     let payload: any = {

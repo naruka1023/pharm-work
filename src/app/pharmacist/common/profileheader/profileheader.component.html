@@ -80,12 +80,12 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div class="d-md-block d-none" style="visibility:hidden">
+                    <div class="d-lg-block d-none" style="visibility:hidden">
                         <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="10" />
                     </div>
                     <div class="fs-5 mb-5 mt-4 ms-lg-5 fourPointersPharma" style="width: -webkit-fill-available; width: -moz-available">
                         <div class="d-flex"></div>
-                        <div class="row my-lg-2">
+                        <div class="row my-2">
                             <div class=" col-md-5 col-12 fourPointKeyValue">
                                 <div class="d-flex me-xl-3">
                                     <i class="bi bi-lightbulb me-3"></i>
@@ -96,6 +96,32 @@
                                         <i class="bi bi-lightbulb me-3"></i>
                                     </div>
                                     {{result.preferred.timeFrame | emptyFieldPipe}}
+                                </div>
+                            </div>
+                            <div class="col fourPointKeyValue">
+                                <div class="d-flex me-xl-3">
+                                    <i class="bi bi-currency-bitcoin me-3"></i>
+                                    เงินเดือนขั้นต่ำที่ต้องการ 
+                                </div>
+                                <div class="d-flex">
+                                    <div class="phantomPadding">
+                                        <i class="bi bi-lightbulb me-3"></i>
+                                    </div>
+                                    {{result.preferred.salary | emptyFieldPipe}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class=" col-md-5 col-12 fourPointKeyValue">
+                                <div class="d-flex me-xl-3">
+                                    <i class="bi bi-geo-alt me-3"></i>
+                                    หางานพื้นที่
+                                </div>
+                                <div class="d-flex">
+                                    <div class="phantomPadding">
+                                        <i class="bi bi-lightbulb me-3"></i>
+                                    </div>
+                                    {{result.preferred.district | emptyFieldPipe}}, {{result.preferred.province | emptyFieldPipe}}
                                 </div>
                             </div>
                             <div class="col pe-lg-5 fourPointKeyValuePreferred">
@@ -112,32 +138,6 @@
                                         <span class="badge rounded-pill text-bg-primary me-2" style="line-break: auto" *ngFor="let job of result.preferred.jobType">{{job}}</span>
                                     </div>
                                 </ng-template>
-                            </div>
-                        </div>
-                        <div class="row my-lg-2">
-                            <div class=" col-md-5 col-12 fourPointKeyValue">
-                                <div class="d-flex me-xl-3">
-                                    <i class="bi bi-geo-alt me-3"></i>
-                                    หางานพื้นที่
-                                </div>
-                                <div class="d-flex">
-                                    <div class="phantomPadding">
-                                        <i class="bi bi-lightbulb me-3"></i>
-                                    </div>
-                                    {{result.preferred.district | emptyFieldPipe}}, {{result.preferred.province | emptyFieldPipe}}
-                                </div>
-                            </div>
-                            <div class="col fourPointKeyValue">
-                                <div class="d-flex me-xl-3">
-                                    <i class="bi bi-currency-bitcoin me-3"></i>
-                                    เงินเดือนขั้นต่ำที่ต้องการ 
-                                </div>
-                                <div class="d-flex">
-                                    <div class="phantomPadding">
-                                        <i class="bi bi-lightbulb me-3"></i>
-                                    </div>
-                                    {{result.preferred.salary | emptyFieldPipe}}
-                                </div>
                             </div>
                         </div>
     
