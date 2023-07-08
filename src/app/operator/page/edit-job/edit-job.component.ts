@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Instance } from 'flatpickr/dist/types/instance';
@@ -32,12 +32,15 @@ export class EditJobComponent implements OnDestroy{
     lat: 0,
     lng: 0
   }
+  locationSubmitted: boolean = false
   sub!: Promise<any>;
   subToDestroy: Subscription = new Subscription();
   dateOfJob!: any
   timeStart: string = '';
   timeEnd: string = '';
+  submitted: boolean = false
   updateLoading: boolean = false;
+  salaryRadioFlag: boolean = false
   salaryStart: number = 0;
   salaryEnd: number = 0;
   flag!: Instance[] | Instance;
@@ -86,6 +89,14 @@ export class EditJobComponent implements OnDestroy{
       this.userState = user;
     })
     this.initializeFormGroup();
+    this.newJobForm.get('Salary.salaryStart')!.addValidators(Validators.max(this.newJobForm.value.Salary.salaryEnd))
+
+    this.newJobForm.statusChanges.subscribe((value: any)=>{
+      if(value !== 'VALID'){
+        this.newJobForm.get('Salary.salaryStart')!.setValidators([Validators.max(this.newJobForm.value.Salary.salaryEnd), Validators.required])
+        this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
+      }
+    })    
     let uid = this.route.snapshot.queryParamMap.get('id');
     this.subToDestroy = this.store.select((state:any)=>{
       let newState = _.cloneDeep(state.createdJobs.JobPost) as jobPostModel[];
@@ -104,13 +115,41 @@ export class EditJobComponent implements OnDestroy{
         _geoloc:this.center
       });
       let job: jobPostModel = this.newJobForm.value;
-      this.dateOfJob = job.DateOfJob
-      this.salaryStart = job.Salary.Amount
+      if(this.urgency){
+        this.newJobForm.addControl('DateOfJob', this.fb.control('')); 
+        this.newJobForm.patchValue({
+          ...this.newJobForm.value,
+          DateOfJob: job.DateOfJob
+        })
+      }
+      this.newJobForm.patchValue({
+        ...this.newJobForm.value,
+        Salary: {
+          ...this.newJobForm.value.Salary,
+          salaryStart: job.Salary.Amount,
+          salaryEnd: job.Salary.Amount + job.Salary.Cap!
+        }
+      })
+      this.salaryStart = job.Salary.Amount,
       this.salaryEnd = job.Salary.Amount + job.Salary.Cap!
       this.timeStart = job.Duration.split(' - ')[0];
       this.timeEnd = job.Duration.split(' - ')[1];
     })
     this.scrollUp();
+  }
+  salaryRadioChange(event: any){
+    if(event.target.value !== 'SalaryNumbers'){
+      this.newJobForm.get('Salary.salaryEnd')!.disable()
+      this.newJobForm.get('Salary.salaryStart')!.disable()
+      this.newJobForm.get('Salary.salaryStart')?.patchValue(null)
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue(null)
+    }else{
+      this.newJobForm.get('Salary.salaryStart')!.enable()
+      this.newJobForm.get('Salary.salaryEnd')!.enable()
+
+      this.newJobForm.get('Salary.salaryStart')?.patchValue(this.salaryStart)
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue(this.salaryEnd)
+    }
   }
   scrollUp(){
     window.scroll({ 
@@ -148,6 +187,9 @@ searchMap(event: any){
     this.newJobForm.patchValue({
       DateOfJob: value.dateString
     })
+  }
+  cancelClick(){
+    this.router.navigate(['operator/profile-operator/all-jobs-posts'])
   }
   mapJobTypeToCategorySymbol(){
     let categorySymbol = ''
@@ -208,11 +250,10 @@ searchMap(event: any){
       CategorySymbol: this.mapJobTypeToCategorySymbol(),
       dateCreated: [''],
       dateUpdated: [''],
-      TimeFrame: [''],
+      TimeFrame: ['', [Validators.required]],
       OperatorUID: [this.userState.uid],
-      JobName: [''],
-      Amount: [''],
-      DateOfJob: [''],
+      JobName: ['', [Validators.required]],
+      Amount: ['', [Validators.required]],
       Active: [false],
       _geoloc: [''],
       Duration: [''],
@@ -221,17 +262,19 @@ searchMap(event: any){
         Amount:[''],
         Cap: [''],
         Suffix: [''],
+        salaryStart: [{value: '', disabled:this.salaryRadioFlag}, [Validators.required]],
+        salaryEnd: [{value: '', disabled:this.salaryRadioFlag}]
       }),
       OnlineInterview: [false],
       WorkFromHome: [false],
       Location: this.fb.group({
-        Section: [''],
-        District: [''],
-        Province: [''],
+        Section: ['', [Validators.required]],
+        District: ['', [Validators.required]],
+        Province: ['', [Validators.required]],
       }),
       Contacts: this.fb.group({
-        phone: this.userState.contacts?.phone,
-        email: this.userState.contacts?.email,
+        phone: [this.userState.contacts?.phone, [Validators.required]],
+        email: [this.userState.contacts?.email, [Validators.required]],
         line: this.userState.contacts?.line,
         facebook: this.userState.contacts?.facebook
       }),
@@ -253,53 +296,63 @@ searchMap(event: any){
         Station: ['']
       }),
       custom_doc_id: [this.route.snapshot.queryParamMap.get('id')],
-      JobDetails: [''],
-      TravelInstructions: [''],
+      JobDetails: ['', [Validators.required]],
+      TravelInstructions: ['', [Validators.required]],
     });
     if(this.userState.jobType === 'ร้านยาแบรนด์'){
       this.newJobForm.addControl('Franchise', this.fb.control(['']));
     }
     if(!this.urgency){
-      this.newJobForm.addControl('qualityApplicants', this.fb.control('')); 
-      this.newJobForm.addControl('jobBenefits', this.fb.control('')); 
-      this.newJobForm.addControl('applyInstructions', this.fb.control('')); 
+      this.newJobForm.addControl('qualityApplicants', this.fb.control('', Validators.required)); 
+      this.newJobForm.addControl('jobBenefits', this.fb.control('', Validators.required)); 
+      this.newJobForm.addControl('applyInstructions', this.fb.control('', Validators.required)); 
+    }else{
+      this.newJobForm.addControl('DateOfJob', this.fb.control('', Validators.required))
     }
   }
-  get showCorporateStructureCheckbox(){
-    return this.newJobForm.value.TimeFrame === 'Full-Time' && !this.urgency
+
+  get getEditNewForm(): { [key: string]: AbstractControl } {
+    return this.newJobForm.controls;
   }
- 
-  get showNegotiableCheckbox(){
-    return this.newJobForm.value.TimeFrame === 'Part-Time'
-  }
+
   onUpdate(){
-    let processedInfo = {};
-      processedInfo = 
-      {
-        Salary: {
-          Amount: this.salaryStart,
-          Suffix: this.newJobForm.value.Salary.Suffix,
-          Cap: this.salaryEnd - this.salaryStart
+    this.submitted = true;
+    this.locationSubmitted = true
+    if(this.newJobForm.invalid){
+      return
+    }else{
+      let processedInfo = {};
+        processedInfo = 
+        {
+          Salary: {
+            Amount: this.newJobForm.value.Salary.salaryStart,
+            Suffix: this.newJobForm.value.Salary.Suffix,
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
+          }
+        };
+      if(this.timeStart !== '' && this.timeEnd !== ''){
+        processedInfo = 
+        {
+          ...processedInfo,
+          Duration: this.timeStart + ' - ' + this.timeEnd
         }
       }
-    if(this.timeStart !== '' && this.timeEnd !== ''){
-      processedInfo = 
-      {
-        ...processedInfo,
-        Duration: this.timeStart + ' - ' + this.timeEnd
+      processedInfo = {
+        ...processedInfo, 
+        Urgency: this.urgency,
+        dateUpdated: new Date().toISOString().split('T')[0],
+        dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
       }
+      this.newJobForm.patchValue(processedInfo)
+      let postJobForm = this.newJobForm.value
+      delete postJobForm.Salary.salaryStart
+      delete postJobForm.Salary.salaryEnd
+
+      this.updateLoading = true;
+      this.editJobService.editJob(postJobForm).then(()=>{
+        this.router.navigate(['operator/profile-operator/all-jobs-posts'])
+        this.updateLoading = false;
+      })
     }
-    processedInfo = {
-      ...processedInfo, 
-      Urgency: this.urgency,
-      dateUpdated: new Date().toISOString().split('T')[0],
-      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
-    }
-    this.newJobForm.patchValue(processedInfo)
-    this.updateLoading = true;
-    this.editJobService.editJob(this.newJobForm.value).then(()=>{
-      this.router.navigate(['operator/profile-operator/all-jobs-posts'])
-      this.updateLoading = false;
-    })
   }
 }

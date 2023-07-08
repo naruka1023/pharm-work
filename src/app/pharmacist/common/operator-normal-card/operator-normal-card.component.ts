@@ -8,6 +8,7 @@ import { requestView } from '../../model/typescriptModel/users.model';
 import { UtilService } from '../../service/util.service';
 import { UserServiceService } from '../../service/user-service.service';
 import { removeRequestView } from '../../state/actions/request-view.actions';
+declare var window: any;
 
 @Component({
   selector: 'app-operator-normal-card',
@@ -21,6 +22,11 @@ export class OperatorNormalCardComponent {
   @Input()followerUID: string = '';
   @Input()requestViewFlag: boolean = false;
   localFlag: any;
+  formModal: any;
+
+  loadingConfirmRequestFlag: boolean = false
+  successFlag: boolean = false
+
   requestStatus!: requestView
   requestViewLoading: boolean = false
   followLoading: boolean = false;
@@ -28,6 +34,9 @@ export class OperatorNormalCardComponent {
   operatorUID!: string;
 
   ngOnInit(){
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('confirmRequestView')
+      );
     if(this.content.cropProfilePictureUrl == ''){
       delete this.content.cropProfilePictureUrl
     }
@@ -46,15 +55,26 @@ export class OperatorNormalCardComponent {
       this.requestStatus = requestView
     })
   }
+
+  onClose(){
+    this.formModal.hide()
+  }
+
   
   revealText(){
     this.utilService.sendRequestViewSubject(this.requestStatus)
   }
 
   confirmRequestView(){
-    this.requestViewLoading = true
+    this.formModal.show()
+  }
+
+  completeConfirmRequestView(){
+    this.loadingConfirmRequestFlag = true
+    this.formModal.hide()
     this.userService.confirmRequestView(this.requestStatus).then(()=>{
-      this.requestViewLoading = false;
+      this.loadingConfirmRequestFlag = false
+      this.successFlag = true
     })
   }
 

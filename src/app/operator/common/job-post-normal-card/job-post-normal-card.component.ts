@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { jobPostModel } from '../../model/jobPost.model';
 import { JobService } from '../../service/job.service';
 import { UtilService } from '../../service/util.service';
+declare var window: any;
 @Component({
   selector: 'app-job-post-normal-card',
   templateUrl: './job-post-normal-card.component.html',
@@ -15,7 +16,10 @@ export class JobPostNormalCardComponent{
   @Input() fullTimeFlag = true;
   @Input() content!: jobPostModel
   @Input() profileLinkFlag:boolean = true;
+  formModal: any;
   subscription: Subscription = new Subscription();
+  loadingConfirmRequestFlag: boolean = false
+  requestViewLoading: boolean = false
   userID!: string
   bookmarkID!: string; 
   userList?: string[];
@@ -32,6 +36,9 @@ export class JobPostNormalCardComponent{
   constructor(private store:Store, private utilService:UtilService, private router: Router, private jobService:JobService, private activatedRoute:ActivatedRoute){}
 
   ngOnInit(){
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('confirmRequest')
+      );
     this.childrenPath = this.activatedRoute.snapshot.routeConfig!.path;
     switch(this.activatedRoute.snapshot.routeConfig?.path){
       case 'all-jobs-posts':
@@ -66,6 +73,10 @@ export class JobPostNormalCardComponent{
       this.activeFlag = active;
     })
   }
+
+  onClose(){
+    this.formModal.hide()
+  }
  
   getUsers(){
     this.utilService.sendUserRequestSubject({userArray: this.userList!,flag:this.userListFlag!, jobUID: this.content.custom_doc_id});
@@ -85,7 +96,12 @@ export class JobPostNormalCardComponent{
     })
   }
 
+  openModal(){
+    this.formModal.show();
+  }
+
   deleteCard(){
+    this.formModal.hide()
     this.deleteLoadingFlag = true;
     this.jobService.removeJob(this.content.custom_doc_id).then(()=>{
       this.deleteLoadingFlag = false;

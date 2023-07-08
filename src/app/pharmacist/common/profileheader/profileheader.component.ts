@@ -213,7 +213,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
                 custom_doc_id: ''
               }
             }else{
-              this.operatorUID = newJob.OperatorUID; 
+              this.operatorUID = newJob.OperatorUID;
               this.result = newJob
               if(this.result.cropProfilePictureUrl == ''){
                 delete this.result.cropProfilePictureUrl
@@ -694,14 +694,27 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         operatorUID: this.operatorUID,
       }
       this.jobPostService.followOperator(follower).then((response: any)=>{
-        this.followedText = 'ติดตามแล้ว'
-        this.followLoading = false
-        follower = {
-          ...follower,
-          followUID:response.id,
-          user:this.operator
+        if(this.operator != undefined){
+          this.followedText = 'ติดตามแล้ว'
+          this.followLoading = false
+          follower = {
+            ...follower,
+            followUID:response.id,
+            user:this.operator
+          }
+          this.store.dispatch(addFollowers({operator:follower}));
+        }else{
+          this.jobPostService.getOperatorFromUID(this.operatorUID).then((responseOperator)=>{
+            this.followedText = 'ติดตามแล้ว'
+            this.followLoading = false
+            follower = {
+              ...follower,
+              followUID:response.id,
+              user:responseOperator.data() as userOperator
+            }
+            this.store.dispatch(addFollowers({operator:follower}));
+          })
         }
-        this.store.dispatch(addFollowers({operator:follower}));
       });
     }
   }

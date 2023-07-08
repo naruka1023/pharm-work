@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UtilService } from '../../service/util.service';
@@ -18,14 +18,21 @@ export class LocationSelectorComponent {
   @Input()parentFormGroup!: FormGroup;
   @Input()formGroupName : string = "Location";
   @Input()col: string = 'col-md-4 col-12';
+  @Input()requiredFlag: boolean = false;
+  @Input()submitted: boolean = false
   genericFormGroup!:FormGroup;
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
+
   ngOnInit(){
     this.genericFormGroup = this.parentFormGroup.get(this.formGroupName) as FormGroup;
     this.initializeSelector();
   }
+  get getParentFormGroup(): { [key: string]: AbstractControl } {
+    return this.genericFormGroup.controls;
+  }
+
   initializeSelector(){
     this.province$ = this.store.select((state: any)=>{
       let result = Object.keys(state.address.list);

@@ -3,13 +3,14 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Contacts, User } from '../../model/user.model';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { JobService } from '../../service/job.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { jobPostModel } from '../../model/jobPost.model';
 import { toggleAddressChange } from '../../state/actions/address.actions';
+import Validation from 'src/app/utils/validation';
 
 @Component({
   selector: 'app-add-new-job',
@@ -25,6 +26,8 @@ export class AddNewJobComponent {
   newJobForm!: FormGroup;
   urgency!: any;
   sub!: Promise<any>;
+  submitted: boolean = false
+  locationSubmitted: boolean = false
   disabledFlag: boolean = true
   nearBTSFlag: boolean = false
   nearARLFlag: boolean = false
@@ -34,11 +37,7 @@ export class AddNewJobComponent {
   email$!:Observable<string>;
   line$!:Observable<string>;
   facebook$!:Observable<string>;
-  timeStart: string = '';
-  timeEnd: string = '';
   salaryRadioFlag: boolean = false
-  salaryStart: number = 0;
-  salaryEnd: number = 0;
   flag!: Instance[] | Instance;
   arlStations$!: Observable<string[]>;
   srtStations$!: Observable<string[]>;
@@ -46,10 +45,7 @@ export class AddNewJobComponent {
   mrtStations$!: Observable<string[]>;
   display: any;
   zoom: number = 15
-  center: google.maps.LatLngLiteral = {
-    lat: 0,
-    lng: 0
-  };
+  center: any = 'undefined';
   markerPosition: google.maps.LatLngLiteral = {
     lat: 0,
     lng: 0
@@ -119,21 +115,36 @@ export class AddNewJobComponent {
       this.markerPosition = this.center
       this.initializeFormGroup();
     })
+    this.initializeFormGroup();
+    this.newJobForm.get('Salary.salaryStart')!.addValidators(Validators.max(this.newJobForm.value.Salary.salaryEnd))
 
-    this.newJobForm.valueChanges.subscribe((form) =>{
+    this.newJobForm.statusChanges.subscribe((value: any)=>{
+      if(value !== 'VALID'){
+        this.newJobForm.get('Salary.salaryStart')!.setValidators([Validators.max(this.newJobForm.value.Salary.salaryEnd), Validators.required])
+        this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
+      }
+    })
+    this.newJobForm.valueChanges.subscribe((form: any) =>{
       if(!this.urgency){
         this.timeFrame = form.TimeFrame
       }
     })
     this.scrollUp();
   }
+
+  cancelClick(){
+    this.router.navigate(['operator'])
+  }
+
   salaryRadioChange(event: any){
     if(event.target.value !== 'SalaryNumbers'){
-      this.salaryRadioFlag = true
-      this.salaryStart = 0
-      this.salaryEnd = 0
+      this.newJobForm.get('Salary.salaryEnd')!.disable()
+      this.newJobForm.get('Salary.salaryStart')!.disable()
+      this.newJobForm.get('Salary.salaryStart')?.patchValue(null)
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue(null)
     }else{
-      this.salaryRadioFlag = false
+      this.newJobForm.get('Salary.salaryStart')!.enable()
+      this.newJobForm.get('Salary.salaryEnd')!.enable()
     }
   }
   scrollUp(){
@@ -200,12 +211,14 @@ searchMap(event: any){
         case 'อื่นๆ':
           categorySymbol = 'CA';
           break;
-      }
+        }
     }
     return categorySymbol
   }
 
-
+  get getNewJobForm(): { [key: string]: AbstractControl } { 
+    return this.newJobForm.controls;
+  }
   initializeFormGroup(){
     this.newJobForm = this.fb.group({
       JobType: this.userState.jobType,
@@ -214,30 +227,34 @@ searchMap(event: any){
       dateCreated: [''],
       dateUpdated: [''],
       dateUpdatedUnix: [''],
-      TimeFrame: [''],
+      TimeFrame: [this.urgency?'Part-Time': '', [Validators.required]],
       OperatorUID: [this.userState.uid],
-      JobName: [''],
-      Amount: [''],
-      DateOfJob: [''],
-      _geoloc: this.center,
+      JobName: ['', [Validators.required]],
+      Amount: ['', [Validators.required]],
+      _geoloc: [this.center, [Validators.required]],
       Active: [false],
       Duration: [''],
+      timeStart: [''],
+      timeEnd: [''],
       Urgency: [this.urgency],
       Salary: this.fb.group({
         Amount:[''],
         Cap: [''],
         Suffix: 'SalaryNumbers',
-      }),
+        salaryStart: [{value: '', disabled:this.salaryRadioFlag}, [Validators.required]],
+        salaryEnd: [{value: '', disabled:this.salaryRadioFlag}]
+      }, 
+     ),
       OnlineInterview: [false],
       WorkFromHome: [false],
       Location: this.fb.group({
-        Section: [''],
-        District: [''],
-        Province: [''],
+        Section: ['', [Validators.required]],
+        District: ['', [Validators.required]],
+        Province: ['', [Validators.required]],
       }),
       Contacts: this.fb.group({
-        phone: this.userState.contacts?.phone,
-        email: this.userState.contacts?.email,
+        phone: [this.userState.contacts?.phone, [Validators.required]],
+        email: [this.userState.contacts?.email, [Validators.required]],
         line: this.userState.contacts?.line,
         facebook: this.userState.contacts?.facebook
       }),
@@ -257,8 +274,8 @@ searchMap(event: any){
         Near: [''],
         Station: ['']
       }),
-      JobDetails: [''],
-      TravelInstructions: [''],
+      JobDetails: ['', [Validators.required]],
+      TravelInstructions: ['', [Validators.required]],
       profilePictureUrl: this.userState.cropProfilePictureUrl !== undefined && this.userState.cropProfilePictureUrl !== ''? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
       coverPhotoPictureUrl:this.userState.coverPhotoPictureUrl,
       coverPhotoOffset: this.userState.coverPhotoOffset
@@ -271,68 +288,80 @@ searchMap(event: any){
       this.newJobForm.patchValue({
         TimeFrame: "Part-Time"
       })
+      this.newJobForm.addControl('DateOfJob', this.fb.control('', Validators.required))
     }else{
-      this.newJobForm.addControl('qualityApplicants', this.fb.control('')); 
-      this.newJobForm.addControl('jobBenefits', this.fb.control('')); 
-      this.newJobForm.addControl('applyInstructions', this.fb.control('')); 
-    }
+      this.newJobForm.addControl('qualityApplicants', this.fb.control('', Validators.required)); 
+      this.newJobForm.addControl('jobBenefits', this.fb.control('', Validators.required)); 
+      this.newJobForm.addControl('applyInstructions', this.fb.control('', Validators.required)); 
+    } 
   }
   onSave(){
-    let processedInfo = {};
-      processedInfo = 
-      {
-        Salary: {
-          Amount: this.salaryStart,
-          Suffix: this.newJobForm.value.Salary.Suffix,
-          Cap: this.salaryEnd - this.salaryStart
-        }
-      }
-    if(this.timeStart !== '' && this.timeEnd !== ''){
-      processedInfo = 
-      {
-        ...processedInfo,
-        Duration: this.timeStart + ' - ' + this.timeEnd
-      }
-    }
-    processedInfo = {
-      ...processedInfo, 
-      Urgency: this.urgency,
-      MRT:{
-        Near: this.nearMRTFlag
-      },
-      BTS:{
-        Near: this.nearBTSFlag
-      },
-      SRT:{
-        Near: this.nearSRTFlag
-      },
-      ARL:{
-        Near: this.nearARLFlag
-      },
-      dateCreated: new Date().toISOString().split('T')[0],
-      dateUpdated: new Date().toISOString().split('T')[0],
-      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
-    }
-    this.newJobForm.patchValue(processedInfo)
-    this.loadingFlag = true;
-    if(this.urgency){
-      if(this.newJobForm.value.DateOfJob.length > 1){
-        this.sub = this.newJobService.addMultipleJobs(this.newJobForm.value)
-      }else{
-        if(this.newJobForm.value.DateOfJob.length !== 0){
-          let processedDate = this.newJobForm.value.DateOfJob[0].toISOString().split('T')[0]
-          this.newJobForm.patchValue({
-            DateOfJob:processedDate
-          })
-        }
-        this.sub = this.newJobService.addOneJob(this.newJobForm.value)
-      }
+    this.submitted = true;
+    this.locationSubmitted = true
+    if(this.newJobForm.invalid ){
+      return
     }else{
-      this.sub = this.newJobService.addOneJob(this.newJobForm.value)
+      let processedInfo = {};
+        processedInfo = 
+        {
+          Salary: {
+            Amount: this.newJobForm.value.Salary.salaryStart,
+            Suffix: this.newJobForm.value.Salary.Suffix,
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
+          }
+        };
+        processedInfo = 
+        {
+          ...processedInfo,
+          Duration: this.newJobForm.value.timeStart + ' - ' + this.newJobForm.value.timeStart
+        }
+        this.newJobForm.removeControl('timeStart')
+        this.newJobForm.removeControl('timeEnd')
+      processedInfo = {
+        ...processedInfo, 
+        Urgency: this.urgency,
+        MRT:{
+          Near: this.nearMRTFlag
+        },
+        BTS:{
+          Near: this.nearBTSFlag
+        },
+        SRT:{
+          Near: this.nearSRTFlag
+        },
+        ARL:{
+          Near: this.nearARLFlag
+        },
+        dateCreated: new Date().toISOString().split('T')[0],
+        dateUpdated: new Date().toISOString().split('T')[0],
+        dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
+      }
+      this.newJobForm.patchValue(processedInfo)
+      let postJobForm = this.newJobForm.value
+      delete postJobForm.Salary.salaryStart
+      delete postJobForm.Salary.salaryEnd
+
+      this.loadingFlag = true;
+      if(this.urgency){
+        if(postJobForm.DateOfJob.length > 1){
+          this.sub = this.newJobService.addMultipleJobs(postJobForm)
+        }else{
+          if(this.newJobForm.value.DateOfJob.length !== 0){
+            let processedDate = postJobForm.DateOfJob[0].toISOString().split('T')[0]
+            postJobForm = {
+              ...postJobForm,
+              DateOfJob:processedDate
+            }
+          }
+          this.sub = this.newJobService.addOneJob(postJobForm)
+        }
+      }else{
+        this.sub = this.newJobService.addOneJob(postJobForm)
+      }
+      this.sub.then((job)=>{
+        this.loadingFlag = false;
+        this.router.navigate(['operator/profile-operator/all-jobs-posts'])
+      })
     }
-    this.sub.then((job)=>{
-      this.loadingFlag = false;
-      this.router.navigate(['operator/profile-operator/all-jobs-posts'])
-    })
   }
 }

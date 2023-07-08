@@ -5,8 +5,8 @@
         </div>
     </div>
  </div>
-<div class="container">
-    <div class="d-flex justify-content-sm-between justify-content-center align-items-center">
+<div class="container px-0">
+    <div class="d-flex justify-content-sm-between justify-content-center align-items-center p-4 my-5" style="border-radius: 20px; background-color:white">
         <div>
             <ng-container *ngIf="urgency; then urgentTitle; else notUrgentTitle">
             </ng-container>
@@ -24,11 +24,11 @@
         </div>
     </div>
 </div>
-<div class="my-5 border-top border-bottom border-secondary py-3 verticalKeyGap">
-    <h3 class="ms-4">รายละเอียดการสมัครงาน</h3>
-</div>
-<form class="fs-3" [formGroup]="newJobForm" (ngSubmit)="onUpdate()">
-    <div class="container">
+<form class="fs-3" [formGroup]="newJobForm">
+    <div class="container p-5" style="background-color:white; border-radius:20px">
+        <div class="mb-5 border-bottom border-secondary py-3 verticalKeyGap">
+            <h3 class="ms-4">รายละเอียดการสมัครงาน</h3>
+        </div>
         <div class="row verticalKeyGap">
             <div class="col-md-3 col-12">
                 <div class="me-3">ประเภทงาน:</div>
@@ -42,7 +42,7 @@
                 <div class="me-3">สาขา:</div>
             </div>
             <div class="col">
-                <input class="form-control" type="text" formControlName="Franchise">
+                <input class="form-control" type="text" formControlName="Franchise" style="background-color:#f2f2f2">
             </div>
         </div>
         <div *ngIf="urgency" class="row mt-3 verticalKeyGap">
@@ -55,10 +55,13 @@
                       mwlFlatpickr
                       class="form-control"
                       [convertModelValue]="true"
-                      [ngModel]="dateOfJob"
                       (flatpickrValueUpdate)="handleCalendarChange($event)"
-                      [ngModelOptions]="{standalone: true}"
+                      formControlName="DateOfJob"
+                      [ngClass]="{ 'is-invalid': submitted && getEditNewForm['DateOfJob'].errors }" style="background-color:#f2f2f2"
                   />
+                <div *ngIf="submitted && getEditNewForm['DateOfJob'].errors" class="invalid-feedback">
+                    <div *ngIf="getEditNewForm['DateOfJob'].errors['required']">กรุณาระบุวันที่</div>
+                </div> 
             </div>
         </div>
         <div class="row mt-3 verticalKeyGap">
@@ -66,7 +69,10 @@
                 <div class="me-3">ชื่อตำแหน่งงาน:</div>
             </div>
             <div class="col">
-                <input type="text" formControlName="JobName" class="form-control">
+                <input type="text" formControlName="JobName" class="form-control" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['JobName'].errors }" style="background-color:#f2f2f2">
+                <div *ngIf="submitted && getEditNewForm['JobName'].errors" class="invalid-feedback">
+                    <div *ngIf="getEditNewForm['JobName'].errors['required']">กรุณาระบุวันที่</div>
+                </div> 
             </div>
         </div>
         <div *ngIf="!urgency" class="row mt-3 verticalKeyGap">
@@ -74,11 +80,14 @@
                 <div class="me-3">ประเภทพนักงาน:</div>
             </div>
             <div class="col">
-                <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3">
+                <select formControlName="TimeFrame" name="timeFrame" class="form-select mb-3" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['TimeFrame'].errors }" style="background-color:#f2f2f2">
                     <option selected value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
                     <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
                 </select>
+                <div *ngIf="submitted && getEditNewForm['TimeFrame'].errors" class="invalid-feedback">
+                    <div *ngIf="getEditNewForm['TimeFrame'].errors['required']">กรุณาระบุประเภทพนักงาน</div>
+                </div>
             </div>
         </div>
         <div class="row mt-3 verticalKeyGap">
@@ -88,7 +97,10 @@
             <div class="col">
                 <div class="row verticalKeyGap">
                     <div class="col-6">
-                        <input formControlName="Amount" type="number" class="form-control">
+                        <input formControlName="Amount" [min]="0" type="number" class="form-control" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Amount'].errors }" style="background-color:#f2f2f2">
+                        <div *ngIf="submitted && getEditNewForm['Amount'].errors" class="invalid-feedback">
+                            <div *ngIf="getEditNewForm['Amount'].errors['required']">กรุณาระบุจำนวนที่รับสมัคร</div>
+                        </div>
                     </div>
                     <div class="col">
                         <h3>อัตรา</h3>
@@ -102,39 +114,49 @@
             </div>
             <div class="col verticalKeyGap">
                 <div class="d-flex flex-row">
-                    <input [ngModelOptions]="{standalone: true}" [(ngModel)]="timeStart" type="time" class="form-control">
+                    <input [ngModelOptions]="{standalone: true}" [(ngModel)]="timeStart" type="time" class="form-control" style="background-color:#f2f2f2">
                     <div class=mx-3>-</div>
-                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="timeEnd" type="time" class="form-control">
+                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="timeEnd" type="time" class="form-control" style="background-color:#f2f2f2">
                 </div>
             </div>
         </div>
-        <div class="row mt-3 verticalKeyGap" formGroupName="Salary">
+                <div class="row mt-3 verticalKeyGap" formGroupName="Salary">
             <div class="col-md-3 col-12">
                 <div class="me-3">ค่าจ้าง:</div>
-            </div>
-            <div class="col-md col-12">
-                <div class="d-flex flex-row verticalKeyGap">
-                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryStart" type="number" class="form-control">
-                    <div class=mx-3>-</div>
-                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="salaryEnd" type="number" class="form-control">
-                </div>
             </div>
             <div class="col">
                 <div class="form-check verticalKeyGap">
                     <div class="d-flex">
-                        <input class="form-check-input" formControlName="Suffix" value="Negotiable" type="radio">
+                        <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="SalaryNumbers" type="radio">
+                        <div class="ms-3 d-flex flex-row verticalKeyGap">
+                            <input  [min]="0" formControlName="salaryStart" type="number" class="form-control salaryNumbers" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Salary'].get('salaryStart')!.errors! }" style="background-color:#f2f2f2">
+                            <div class=mx-3>-</div>
+                            <input  [min]="0" formControlName="salaryEnd" type="number" class="form-control salaryNumbers" style="background-color:#f2f2f2">
+                        </div>
+                        <div class="ms-3">
+                            {{urgency?"บาท / ชั่วโมง":"บาท / เดือน"}}
+                        </div>
+                    </div>
+                    <div *ngIf="submitted && getEditNewForm['Salary'].get('salaryStart')!.errors!" class="invalid-feedback2">
+                        <div *ngIf="getEditNewForm['Salary'].get('salaryStart')!.errors!['required']">กรุณาระบุช่วงเวลาทำงาน</div>
+                        <div *ngIf="getEditNewForm['Salary'].get('salaryStart')!.errors!['max']">please max salary</div>
+                    </div>
+                </div>
+                <div class="form-check verticalKeyGap">
+                    <div class="d-flex">
+                        <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="Negotiable" type="radio" >
                         <label class="ms-3" for="Negotiable">ตามตกลง</label>
                     </div>
                 </div>
                 <div class="form-check">
                     <div class="d-flex verticalKeyGap">
-                        <input class="form-check-input" formControlName="Suffix" value="CorporateStructure" type="radio">
+                        <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="CorporateStructure" type="radio">
                         <label class="ms-3" for="CorporateStructure">ตามโครงสร้างองค์กร</label>
                     </div>
                 </div>
             </div>
         </div>
-        <app-location-selector [parentFormGroup]="newJobForm"  col="col-12 col-md-3"></app-location-selector>
+        <app-location-selector [parentFormGroup]="newJobForm" [requiredFlag]="true" [submitted]="locationSubmitted" col="col-12 col-md-3"></app-location-selector>
         <div class="row mt-3 verticalKeyGap">
             <div class="col-md-3 col-12  verticalKeyGap">
                 <label for="OnlineInterview" class="me-3 fs-4">นัทสัมภาษณ์ทางออนไลน์:</label>
@@ -161,7 +183,7 @@
                         <input type="checkbox" formControlName="Near" class="form-check-input" name="nearBTS" id="nearBTS">
                     </div>
                     <div class="col">
-                        <select *ngIf="checkboxBTS" formControlName="Station" name="nearBTS" class="form-select">
+                        <select *ngIf="checkboxBTS" formControlName="Station" name="nearBTS" class="form-select" style="background-color:#f2f2f2">
                             <option *ngFor="let btsStations of btsStations$ | async" [value]="btsStations">{{btsStations}}</option>
                         </select>
                     </div>
@@ -178,7 +200,7 @@
                         <input type="checkbox" formControlName="Near" class="form-check-input" name="nearMRTFlag" id="nearMRT">
                     </div>
                     <div class="col">
-                        <select *ngIf="checkboxMRT" formControlName="Station" name="nearMRT" class="form-select">
+                        <select *ngIf="checkboxMRT" formControlName="Station" name="nearMRT" class="form-select" style="background-color:#f2f2f2">
                             <option *ngFor="let mrtStations of mrtStations$ | async" [value]="mrtStations">{{mrtStations}}</option>
                         </select>
                     </div>
@@ -220,31 +242,43 @@
             </div>
         </div> -->
     </div>
-    <div class="my-5 border-top border-bottom border-secondary py-3 verticalKeyGap">
-        <h3 class="ms-4">รายละเอียดงานเพิ่มเติม</h3>
-    </div>
-    <div class="container verticalKeyGap">
+    <div class="container verticalKeyGap p-5 mt-5" style="background-color:white; border-radius:20px">
+        <div class="mb-5 border-bottom border-secondary py-3 verticalKeyGap">
+            <h3 class="ms-4">รายละเอียดงานเพิ่มเติม</h3>
+        </div>
         <div class="row mt-3">
             <div class="my-3">หน้าที่ความรับผิดชอบ</div>
-            <ckeditor formControlName="JobDetails" [editor]="jobDetailsEditor" name="editor"></ckeditor>
+            <div *ngIf="submitted && getEditNewForm['JobDetails'].errors" class="invalid-feedback2 mb-3">
+                <div *ngIf="getEditNewForm['JobDetails'].errors['required']">กรุณาระบุหน้าที่ความรับผิดชอบ</div>
+            </div>
+            <ckeditor formControlName="JobDetails" [editor]="jobDetailsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['JobDetails']!.errors! }"></ckeditor>
         </div>
         <div class="row mt-3" *ngIf="!urgency">
             <div class="my-3">คุณสมบัติผู้สมัคร</div>
-            <ckeditor formControlName="qualityApplicants" [editor]="qualityEditor" name="editor"></ckeditor>
+            <div *ngIf="submitted && getEditNewForm['qualityApplicants'].errors" class="invalid-feedback2 mb-3">
+                <div *ngIf="getEditNewForm['qualityApplicants'].errors['required']">กรุณาระบุหน้าที่ความรับผิดชอบ</div>
+            </div>
+            <ckeditor formControlName="qualityApplicants" [editor]="qualityEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['qualityApplicants']!.errors! }"></ckeditor>
         </div>
         <div class="row mt-3" *ngIf="!urgency">
             <div class="my-3">สวัสดิการ</div>
-            <ckeditor formControlName="jobBenefits" [editor]="jobBenefitsEditor" name="editor"></ckeditor>
+            <div *ngIf="submitted && getEditNewForm['jobBenefits'].errors" class="invalid-feedback2 mb-3">
+                <div *ngIf="getEditNewForm['jobBenefits'].errors['required']">กรุณาระบุหน้าที่ความรับผิดชอบ</div>
+            </div>
+            <ckeditor formControlName="jobBenefits" [editor]="jobBenefitsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['jobBenefits']!.errors! }"></ckeditor>
         </div>
         <div class="row mt-3" *ngIf="!urgency">
             <div class="my-3">วิธีสมัครงาน</div>
-            <ckeditor formControlName="applyInstructions" [editor]="applyInstructionsEditor" name="editor"></ckeditor>
+            <div *ngIf="submitted && getEditNewForm['applyInstructions'].errors" class="invalid-feedback2 mb-3">
+                <div *ngIf="getEditNewForm['applyInstructions'].errors['required']">กรุณาระบุวิธีสมัครงาน</div>
+            </div>
+            <ckeditor formControlName="applyInstructions" [editor]="applyInstructionsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['applyInstructions']!.errors! }"></ckeditor>
         </div>
     </div>
-    <div class="my-5 border-top border-bottom border-secondary py-3 verticalKeyGap">
-        <h3 class="ms-4">ข้อมูลติดต่อเพิ่มเติม</h3>
-    </div>
-    <div class="container">
+    <div class="container p-5 my-5" style="background-color:white; border-radius:20px">
+        <div class="mb-5 border-bottom border-secondary py-3 verticalKeyGap">
+            <h3 class="ms-4">ข้อมูลติดต่อเพิ่มเติม</h3>
+        </div>
         <div class="row mt-3 verticalKeyGap">
             <div class="col-md-3 col-12">
                 <label class="me-3">ข้อมูลติดต่อเพิ่มเติม</label>
@@ -255,7 +289,10 @@
                         <label for="phone" class="me-3">เบอร์โทร:</label>
                     </div>
                     <div class="col">
-                        <input formControlName="phone" class="form-control" name="phone">
+                        <input formControlName="phone" class="form-control" name="phone" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Contacts'].get('phone')!.errors! }" style="background-color:#f2f2f2">
+                        <div *ngIf="submitted && getEditNewForm['Contacts'].get('phone')!.errors" class="invalid-feedback mb-3">
+                            <div *ngIf="getEditNewForm['Contacts'].get('phone')!.errors!['required']">กรุณาระบุเบอร์โทร</div>
+                        </div>
                     </div>
                 </div>
                 <div class="row verticalKeyGap">
@@ -263,7 +300,10 @@
                         <label for="email" class="me-3">Email:</label>
                     </div>
                     <div class="col">
-                        <input formControlName="email" class="form-control" name="email">
+                        <input formControlName="email" class="form-control" name="email" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Contacts'].get('email')!.errors! }" style="background-color:#f2f2f2">
+                        <div *ngIf="submitted && getEditNewForm['Contacts'].get('email')!.errors" class="invalid-feedback mb-3">
+                            <div *ngIf="getEditNewForm['Contacts'].get('email')!.errors!['required']">กรุณาระบุเบอร์โทร</div>
+                        </div>
                     </div>
                 </div>
                 <div class="row verticalKeyGap">
@@ -271,7 +311,7 @@
                         <label for="line" class="me-3">LINE:</label>
                     </div>
                     <div class="col">
-                        <input formControlName="line" class="form-control" name="line">
+                        <input formControlName="line" class="form-control" name="line" style="background-color:#f2f2f2">
                     </div>
                 </div>
                 <div class="row verticalKeyGap">
@@ -279,7 +319,7 @@
                         <label for="facebook" class="me-3">Facebook:</label>
                     </div>
                     <div class="col">
-                        <input formControlName="facebook" class="form-control" name="facebook">
+                        <input formControlName="facebook" class="form-control" name="facebook" style="background-color:#f2f2f2">
                     </div>
                 </div>
             </div>
@@ -288,7 +328,10 @@
             <div class="my-3">วิธีเดินทาง</div>
         </div>
         <div class="row mt-3">
-            <ckeditor [editor]="travelEditor" formControlName="TravelInstructions" name="editor"></ckeditor>
+            <div *ngIf="submitted && getEditNewForm['TravelInstructions']!.errors" class="invalid-feedback2 mb-3">
+                <div *ngIf="getEditNewForm['TravelInstructions']!.errors!['required']">กรุณาระบุวิธีเดินทาง</div>
+            </div>
+            <ckeditor [ngClass]="{ 'is-invalid': submitted && getEditNewForm['TravelInstructions'] }" [editor]="travelEditor" formControlName="TravelInstructions" name="editor"></ckeditor>
         </div>
         <div class="row my-3">
             <div class="col-md-3 col-12">
@@ -300,13 +343,13 @@
                 type="text"
                 class="form-control my-3"
                 ngx-google-places-autocomplete 
-                (onAddressChange)="searchMap($event)"
+                (onAddressChange)="searchMap($event)" style="background-color:#f2f2f2"
             />
           </div>
         <div class="col d-flex justify-content-center">
             <google-map 
                 height="500px"
-                width="75vw"
+                width="65vw"
                 [center]="center"
                 [zoom]="zoom"
                 (mapClick)="moveMap($event)"
@@ -315,10 +358,9 @@
                 [position]="markerPosition"></map-marker>
             </google-map>
         </div>
-        <div class="row my-3 verticalKeyGap mx-sm-0 mx-5">
-            <button class="fs-3 btn btn-primary d-flex align-items-center justify-content-center">
-                    Save
-            </button>
+        <div class="align-items-baseline d-flex justify-content-center mt-5 ms-3">
+            <button (click)="cancelClick()" class="me-3 btn saveButton btn-light fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+            <button (click)="onUpdate()" class="btn saveButton fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </div>
 </form>

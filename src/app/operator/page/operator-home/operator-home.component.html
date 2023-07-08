@@ -16,7 +16,7 @@
         </ul>
           <div class="tab-content" id="myTabContent">
               <div class="px-sm-5 px-3 tab-pane fade show active" id="normal-job-pane" role="tabpanel" aria-labelledby="normal-job" tabindex="0">
-                  <form  [formGroup]="newUserForm" class="fs-3" (ngSubmit)="searchUsers()">
+                  <form  [formGroup]="newUserForm" class="fs-3">
                       <div class="mb-5 text-center  fs-1 headerText" style="margin-top:5rem">
                           <!-- แพนเป็นตูด P Aom pen tood men -->
                           <label><b>ค้นหาเภสัชกรร่วมงานกับคุณ</b></label>
@@ -30,7 +30,7 @@
                             <label class="text-danger headerText" *ngIf="login['jobType'].errors?.['required'] && submitted">Input required</label>
                               <select formControlName="jobType" [ngClass]="{ 'is-invalid': submitted && login['jobType'].errors }" style="background-color:#f2f2f2" name="jobType" class="form-select mb-3 headerText" required>
                                   <option value="งานร้านยาทั่วไป">ร้านยาทั่วไป</option>
-                                  <option value="งานร้านยา Brand">ร้านยา Brand</option>
+                                  <option value="งานร้านยาแบรนด์">ร้านยาแบรนด์</option>
                                   <option value="งานโรงพยาบาล">โรงพยาบาล</option>
                                   <option value="งานคลินิก">คลินิก</option>
                                   <option value="งานโรงงาน">โรงงาน</option>
@@ -128,15 +128,14 @@
                           </div>
                       </div>
                       <div class="d-flex justify-content-center" style="margin-top:4rem">
-                          <button class="btn btn-warning fs-3 px-4" style="margin-right:4rem" (click)="reset()">เคลียร์</button>
-                          <button style="color: white; background-color: #7fd858" class="btn  px-4 fs-3" type="submit">ค้นหา</button>
+                          <button class="btn btn-warning fs-3 px-4" style=" color:white; margin-right:4rem" (click)="reset()">เคลียร์</button>
+                          <button style="color: white; background-color: #7fd858" class="btn  px-4 fs-3" (click)="searchUsers()">ค้นหา</button>
                       </div>
                   </form>
                 </div>
                 <div class="px-sm-5 px-3 tab-pane fade" id="urgent-job-pane" role="tabpanel" aria-labelledby="urgent-job" tabindex="0">
                     <form [formGroup]="newUserFormUrgent" (ngSubmit)="searchUsersUrgent()" class="fs-3">
                         <div class="mb-5 text-center headerText fs-1" style="margin-top:5rem">
-                            <!-- แพนเป็นตูด P Aom pen tood men -->
                             <label><b>ค้นหาเภสัชกรร่วมงานด่วนรายวันกับคุณ</b></label>
                         </div>
                         <div class="row my-3">

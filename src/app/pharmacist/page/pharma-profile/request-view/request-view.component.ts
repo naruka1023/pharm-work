@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { Observable, map } from 'rxjs';
+import { OperatorNormalCardComponent } from 'src/app/pharmacist/common/operator-normal-card/operator-normal-card.component';
 import { requestView, requestViewList } from 'src/app/pharmacist/model/typescriptModel/users.model';
+declare var window: any;
 
 @Component({
   selector: 'app-request-view',
@@ -18,7 +20,6 @@ export class RequestViewComponent {
   
   ngOnInit(){
     this.emptyFlag$ = this.store.select((state: any)=>{
-
       return Object.keys(state.requestView).length == 0
     })
     this.requestViews$ = this.store.select((state:any)=>{
@@ -31,7 +32,6 @@ export class RequestViewComponent {
     }).pipe(
       map((array)=>{
         return array
-      })
-    )
+      }))
   }
 }

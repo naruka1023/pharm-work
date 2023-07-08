@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AppState, Favorite, UserPharma, requestView } from '../../model/user.model';
@@ -9,6 +9,7 @@ import { removeFavorite, addFavorites } from '../../state/actions/users-actions'
 import { UtilService } from '../../service/util.service';
 import { removeRequestView } from '../../state/actions/request-view.actions';
 import { RequestJobComponent } from '../../page/operator-profile/request-job/request-job.component';
+import { cancelRequest, checkIfEmptyUser } from '../../state/actions/job-request-actions';
 
 @Component({
   selector: 'app-normal-user-card',
@@ -33,7 +34,7 @@ export class NormalUserCardComponent {
   favoriteID!: string;
   userID!: string
 
-  constructor(private requestJobsComponent: RequestJobComponent,private utilService:UtilService, private router:Router,private userService: UsersService, private store:Store){}
+  constructor(private route: ActivatedRoute, private requestJobsComponent: RequestJobComponent,private utilService: UtilService, private router: Router,private userService: UsersService, private store: Store){}
 
   ngOnInit(){
     this.store.select((state: any)=>{
@@ -43,7 +44,9 @@ export class NormalUserCardComponent {
         this.userID = value
       }
     })
+
     
+
     this.requestViewFlag$ = this.store.select((state: any) =>{
       let flag = true;
       
@@ -53,7 +56,7 @@ export class NormalUserCardComponent {
         if(requestView === undefined){
           flag = false;
         }else{
-          if(this.router.url == "/operator/profile-operator/request-jobs"){
+          if(this.router.url.indexOf("/operator/profile-operator/request-jobs") !== -1){
             this.requestStatusFlag = true
           }
           this.requestStatus = requestView
@@ -90,7 +93,10 @@ export class NormalUserCardComponent {
   }
 
   cancelRequest(){
-    this.userService.cancelRequest(this.content.requestUID!)
+    this.userService.cancelRequest(this.content.requestUID!).then(()=>{
+      this.store.dispatch(cancelRequest({requestUID: this.content.requestUID!, jobUID: this.jobUID!, userUID: this.content.uid}))
+      this.store.dispatch(checkIfEmptyUser({jobUID: this.jobUID!}))
+    })
   }
 
   openRequestViewModal(){

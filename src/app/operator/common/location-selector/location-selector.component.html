@@ -1,39 +1,92 @@
-<div [formGroup]="parentFormGroup">
-    <div class="row mt-3 verticalKeyGap" [formGroupName]="formGroupName">
-        <div [class]="col">
-            <div class="me-3">พื้นที่ปฏิบัติงาน:</div>
-        </div>
-        <div class="col">
-            <div class="row verticalKeyGap">
-                <div class="col-4">
-                    <label class="me-3">จังหวด: </label>
-                </div>
-                <div class="col">
-                    <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3" [ngStyle]="{'background-color':route.url.split('/')[route.url.split('/').length-1].indexOf('add-new-jobs') !== -1 || route.url.split('/')[route.url.split('/').length-1].indexOf('editJobs') !== -1? 'white' : '#f2f2f2'}">
-                        <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
-                    </select>
-                </div>
+<ng-container *ngIf="requiredFlag; then required; else notRequired"></ng-container>
+<ng-template #required>
+    <div [formGroup]="parentFormGroup">
+        <div class="row mt-3 verticalKeyGap" [formGroupName]="formGroupName">
+            <div [class]="col">
+                <div class="me-3">พื้นที่ปฏิบัติงาน:</div>
             </div>
-            <div class="row verticalKeyGap">
-                <div class="col-4">
-                    <label class="me-3">เขต: </label>
+            <div class="col">
+                <div class="row verticalKeyGap">
+                    <div class="col-4">
+                        <label class="me-3">จังหวด: </label>
+                    </div>
+                    <div class="col">
+                        <div *ngIf="submitted && getParentFormGroup['Province']!.errors" class="invalid-feedback2">
+                            <div *ngIf="getParentFormGroup['Province']!.errors!['required']">กรุณาระบุจังหวด</div>
+                        </div>
+                        <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['Province']!.errors}" [ngStyle]="{'background-color':'#f2f2f2'}">
+                            <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col">
-                    <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3 fs-3" [ngStyle]="{'background-color':route.url.split('/')[route.url.split('/').length-1].indexOf('add-new-jobs') !== -1 || route.url.split('/')[route.url.split('/').length-1].indexOf('editJobs') !== -1? 'white' : '#f2f2f2'}">
-                        <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
-                    </select>
+                <div class="row verticalKeyGap">
+                    <div class="col-4">
+                        <label class="me-3">เขต: </label>
+                    </div>
+                    <div class="col">
+                        <div *ngIf="submitted && getParentFormGroup['District']!.errors" class="invalid-feedback2">
+                            <div *ngIf="getParentFormGroup['District']!.errors!['required']">กรุณาระบุเขต</div>
+                        </div>
+                        <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['District']!.errors}" [ngStyle]="{'background-color':'#f2f2f2'}">
+                            <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="row verticalKeyGap">
-                <div class="col-4">
-                    <label class="me-3">แขวง: </label>
-                </div>
-                <div class="col">
-                    <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3" [ngStyle]="{'background-color':route.url.split('/')[route.url.split('/').length-1].indexOf('add-new-jobs') !== -1 || route.url.split('/')[route.url.split('/').length-1].indexOf('edit-jobs') !== -1 ? 'white':'#f2f2f2'}">
-                        <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
-                    </select>
+                <div class="row verticalKeyGap">
+                    <div class="col-4">
+                        <label class="me-3">แขวง: </label>
+                    </div>
+                    <div class="col">
+                        <div *ngIf="submitted && getParentFormGroup['Section']!.errors" class="invalid-feedback2">
+                            <div *ngIf="getParentFormGroup['Section']!.errors!['required']">กรุณาระบุแขวง</div>
+                        </div>
+                        <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['Section']!.errors}" [ngStyle]="{'background-color':'#f2f2f2'}">
+                            <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</ng-template>
+<ng-template #notRequired>
+    <div [formGroup]="parentFormGroup">
+        <div class="row mt-3 verticalKeyGap" [formGroupName]="formGroupName">
+            <div [class]="col">
+                <div class="me-3">พื้นที่ปฏิบัติงาน:</div>
+            </div>
+            <div class="col">
+                <div class="row verticalKeyGap">
+                    <div class="col-4">
+                        <label class="me-3">จังหวด: </label>
+                    </div>
+                    <div class="col">
+                        <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3" [ngStyle]="{'background-color':route.url.split('/')[route.url.split('/').length-1].indexOf('add-new-jobs') !== -1 || route.url.split('/')[route.url.split('/').length-1].indexOf('edit-jobs') !== -1? 'white' : '#f2f2f2'}">
+                            <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row verticalKeyGap">
+                    <div class="col-4">
+                        <label class="me-3">เขต: </label>
+                    </div>
+                    <div class="col">
+                        <select formControlName="District" (change)="districtSelected($event)" name="district" class="form-select mb-3 fs-3" [ngStyle]="{'background-color':route.url.split('/')[route.url.split('/').length-1].indexOf('add-new-jobs') !== -1 || route.url.split('/')[route.url.split('/').length-1].indexOf('edit-jobs') !== -1? 'white' : '#f2f2f2'}">
+                            <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row verticalKeyGap">
+                    <div class="col-4">
+                        <label class="me-3">แขวง: </label>
+                    </div>
+                    <div class="col">
+                        <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="form-select mb-3 fs-3" [ngStyle]="{'background-color':route.url.split('/')[route.url.split('/').length-1].indexOf('add-new-jobs') !== -1 || route.url.split('/')[route.url.split('/').length-1].indexOf('edit-jobs') !== -1 ? 'white':'#f2f2f2'}">
+                            <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

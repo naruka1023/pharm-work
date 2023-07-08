@@ -27,4 +27,12 @@ export const toggleJobRequestLoadingFlag = createAction(
 export const emptyRequestedJobs = createAction(
 '[Job-Request] Empty Requested Jobs'
 )
+export const checkIfEmptyUser = createAction(
+    '[Job-Request] Check If Empty User',
+    props<{ jobUID: string}>()
+);
+export const cancelRequest = createAction(
+    '[Job-Request] Cancel Request',
+    props<{ requestUID: string, userUID: string, jobUID: string}>()
+);
 

@@ -95,7 +95,9 @@ export class RequestJobComponent  implements OnDestroy, AfterViewInit {
       let users:any = []
       if(this.jobID !== '')
       {
-        users = state.requestedJobs.JobRequests[this.jobID].users
+        if(state.requestedJobs.JobRequests[this.jobID] !== undefined){
+          users = state.requestedJobs.JobRequests[this.jobID].users
+        }
       }
       return users
     }).subscribe((users:any)=>{

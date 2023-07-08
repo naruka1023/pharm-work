@@ -13,11 +13,12 @@ import { UtilService } from './service/util.service';
 import { User, UserPharma, requestView } from './model/user.model';
 import { addRequestView } from './state/actions/request-view.actions';
 import { Auth, sendEmailVerification, user } from '@angular/fire/auth';
-import { Firestore, collection, getDocs, query, updateDoc, doc, where } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, updateDoc, doc, where, addDoc, deleteDoc } from '@angular/fire/firestore';
 import _ from 'lodash';
 import { jobPostModel } from './model/jobPost.model';
 import { OperatorProfileComponent } from './page/operator-profile/operator-profile.component';
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
+import { userOperator } from '../pharmacist/model/typescriptModel/jobPost.model';
 declare var window: any;
 
 @Component({
@@ -27,6 +28,7 @@ declare var window: any;
 })
 export class LandingPageComponent {
   private auth: Auth = inject(Auth)
+  private db:Firestore = inject(Firestore)
   subject!:Subscription
   requestViewForm!: FormGroup
   user!: User;
@@ -47,6 +49,20 @@ export class LandingPageComponent {
 
 
   ngOnInit(){
+    // getDocs(query(collection(this.db, "users"), where('jobType', '==', 'ร้านยา Brand'))).then((job)=>{
+    //   console.log(job.docs.length)
+    //   job.docs.forEach((j)=>{
+    //     let newJob = j.data() 
+    //     newJob = {
+    //       ...newJob,
+    //       jobType: 'ร้านยาแบรนด์'
+    //     }
+        
+    //     updateDoc(doc(this.db, 'users', j.id), newJob).then((prisoner)=>{
+    //       console.log('succesful')
+    //     })
+    //   })
+    // })
     this.offCanvas = new window.bootstrap.Offcanvas(
       document.getElementById('offcanvasExample')
     )

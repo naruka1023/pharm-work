@@ -55,7 +55,7 @@ export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
       }else{
         this.scrollUp();
       }
-      this.selectTab(url.target)
+        this.selectTab(url.target)
     })
   }
   scrollUp(){

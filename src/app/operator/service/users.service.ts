@@ -320,7 +320,7 @@ export class UsersService {
 
   removeFavorite(favoriteID: string) {
     let newID = _.cloneDeep(favoriteID)
-    return deleteDoc(doc(this.db, 'favorite', 'favoriteID'))
+    return deleteDoc(doc(this.db, 'favorite', newID))
   }
 
   addFavorite(operatorUID: string, userUID: string){

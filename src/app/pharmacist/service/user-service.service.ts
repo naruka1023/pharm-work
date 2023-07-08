@@ -95,7 +95,7 @@ export class UserServiceService {
     })
   }
 
-  getListOfUsersFromRequestView(array:requestView[]): Promise<requestView[]>{
+  getListOfUsersFromRequestView(array:requestView[]): Promise<requestView[]> {
     let promises: Promise<any>[] = []
     array.forEach((requestView: requestView)=>{
       promises.push(getDoc(doc(this.firestore, 'users', requestView.operatorUID)))

@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppStateJobRequest } from '../../model/jobPost.model';
-import { emptyRequestedJobs, populateJobRequestWithUser, populateJobRequestWithUsers, removeUserFromRequestedJob, setRequestedJobs, toggleJobRequestLoadingFlag, toggleUserList } from '../actions/job-request-actions';
+import { cancelRequest, checkIfEmptyUser, emptyRequestedJobs, populateJobRequestWithUser, populateJobRequestWithUsers, removeUserFromRequestedJob, setRequestedJobs, toggleJobRequestLoadingFlag, toggleUserList } from '../actions/job-request-actions';
 
 export const initialState: AppStateJobRequest = {
   loadingRequest: true,
@@ -13,6 +13,18 @@ export const jobRequestReducer = createReducer(
   on(toggleUserList, (state, {jobUIDForUsers}) =>{
     let newState: AppStateJobRequest =  _.cloneDeep(state);
     newState.JobRequests[jobUIDForUsers.jobUID].flag = jobUIDForUsers.flag!;
+    return newState;
+  }),
+  on(checkIfEmptyUser, (state, {jobUID}) =>{
+    let newState: AppStateJobRequest =  _.cloneDeep(state);
+    if(Object.keys(newState.JobRequests[jobUID].users).length == 0){
+      delete newState.JobRequests[jobUID]
+    }
+    return newState;
+  }),
+  on(cancelRequest, (state, {requestUID, userUID ,jobUID}) =>{
+    let newState: AppStateJobRequest =  _.cloneDeep(state);
+    delete newState.JobRequests[jobUID].users[requestUID + '-' + userUID]
     return newState;
   }),
   on(populateJobRequestWithUsers, (state, {jobUIDForUsers}) =>{

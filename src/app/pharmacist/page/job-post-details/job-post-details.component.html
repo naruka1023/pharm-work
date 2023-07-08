@@ -57,13 +57,14 @@
 									<div class="valuePart">{{profile.Duration | emptyFieldPipe}} น.</div>
 								</div>
 							</div>
-							<div *ngIf="profile.Salary.Amount !== 0 || profile.Salary.Cap !== 0">
+							<div>
 								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
 									</div>
 									<div class="col">
-										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap | emptyFieldPipe}} บาท/เดือน</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap | emptyFieldPipe}} บาท/เดือน</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
 									</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
@@ -71,7 +72,8 @@
 										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
 									</div>
 									<div class="col">
-										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap | emptyFieldPipe}} บาท/ชม</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap | emptyFieldPipe}} บาท/ชม</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
 									</div>
 								</div>
 							</div>
@@ -151,13 +153,14 @@
 									<div class="valuePart">{{profile.Duration | emptyFieldPipe}} น.</div>
 								</div>
 							</div>
-							<div *ngIf="profile.Salary.Amount !== 0 || profile.Salary.Cap !== 0">
+							<div>
 								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
 									</div>
 									<div class="col">
-										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/เดือน</div>
+										<div class="valuePart"*ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/เดือน</div>
+										<div class="valuePart"*ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
 									</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
@@ -165,7 +168,8 @@
 										<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
 									</div>
 									<div class="col">
-										<div class="valuePart">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/ชม</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/ชม</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
 									</div>
 								</div>
 							</div>

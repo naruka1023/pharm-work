@@ -47,11 +47,14 @@
 				<div class="container text-center">
 					<div class="row mb-2">
 						<div class="col-sm col-8 d-flex px-0" *ngIf="!urgentFlag">
-							<p class="my-auto me-2" *ngIf="content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
+							<p class="my-auto me-2">
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
-							<div class=" fs-6 d-flex flex-row my-auto"  *ngIf="content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
+							<div class=" fs-6 d-flex flex-row my-auto"  *ngIf="content.Salary.Suffix == 'SalaryNumbers' && content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
 								<div class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
+							</div>
+							<div class=" fs-6 d-flex flex-row my-auto"  *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
+								<div class="mx-2">{{ content.Salary.Suffix }}</div>
 							</div>
 						</div>
 						<div *ngIf="!urgentFlag" class="col d-flex">
@@ -81,7 +84,8 @@
 								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
 							</p>
 							<div class="fs-6 d-flex flex-row my-auto">
-								<div class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
+								<div class="mx-2" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
+								<div class="mx-2" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">{{content.Salary.Suffix}}</div>
 								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 								<ng-template #fullSub>บาท/เดือน</ng-template>
 								<ng-template #partSub>บาท/ชม</ng-template>
@@ -114,11 +118,11 @@
 		{{content.dateUpdated}}
 	</div>
 	<div class="footer d-flex justify-content-end">
-		<div *ngIf="cancelJobFlag">
+		<!-- <div *ngIf="cancelJobFlag">
 			<button (click)="cancelRequestJob()" class="btn btn-danger text-center my-2" type="button">
 				<div class="fs-5">ยกเลิกสมัคร</div>
 			</button>
-		</div>
+		</div> -->
 		<!-- <div *ngIf="urgentFlag === false && requestButtonFlag" class="justify-content-center my-2 align-items-center d-flex">
 			<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
 			<ng-template #alreadyRequest>

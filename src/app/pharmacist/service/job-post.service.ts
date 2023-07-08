@@ -229,6 +229,10 @@ export class JobPostService {
     })
   }
 
+  getOperatorFromUID(operatorUID: string){
+    return getDoc(doc(this.firestore, 'users', operatorUID))
+  }
+
   getFollowers(userID:string){
     return getDocs(query(collection(this.firestore, 'followers'), where('userUID', '==', userID)))
   }

@@ -56,21 +56,15 @@
 					<i class="col-2 my-auto fs-6 bi bi-clock"></i>
 					<p class="my-auto text-start col fs-6">{{content.Duration}} น.</p>
 				</div>
-				<div class="row my-2" *ngIf="content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
+				<div class="row my-2">
 					<p class="my-auto  col-2">
 						<i class="fs-6 my-auto bi bi-currency-bitcoin"></i>
 					</p>
-					<div class="col d-flex flex-row fs-6">
+					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
 						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}
-						<!-- <div>
-							<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
-							<ng-template #fullSub>
-								<div class="ms-1">บาท/เดือน</div>
-							</ng-template>
-							<ng-template #partSub>
-								<div class="ms-1">บาท/ชม</div>
-							</ng-template>
-						</div> -->
+					</div>
+					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
+						{{content.Salary.Suffix}}
 					</div>
 				</div>
 				<div *ngIf="!urgentFlag">
