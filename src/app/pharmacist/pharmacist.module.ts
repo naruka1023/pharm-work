@@ -50,6 +50,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { OperatorSmallCardComponent } from './common/operator-small-card/operator-small-card.component';
 import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
+import { SalaryTypePipe } from './pipe/salary-type.pipe';
+import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 
 
 
@@ -109,7 +111,9 @@ import { EmptyFieldPipe } from './pipe/empty-field.pipe';
     PreferredJobsComponent,
     OperatorSmallCardComponent,
     EmptyFieldPipePipe,
-    EmptyFieldPipe
+    EmptyFieldPipe,
+    SalaryTypePipe,
+    WorkExperiencePipe
   ],
   providers:[PharmaProfileComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]

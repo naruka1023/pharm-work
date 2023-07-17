@@ -17,6 +17,9 @@
     .verticalKeyGap > div{
         font-size:smaller
     }
+    .dangerText{
+        font-size: smaller
+    }
     .jobTypePayload {
         font-size: smaller
     }
@@ -31,6 +34,9 @@
     .verticalKeyGap > div{
         font-size:medium
     }
+    .dangerText{
+        font-size: medium !important
+    }
     .responsiveText{
         font-size: medium !important
     }
@@ -41,6 +47,12 @@
         font-size:medium !important
     }
 }
+.invalid-feedback2{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545
+  }
 .editButton > button, .saveButton{
     font-size:1.75rem
 }

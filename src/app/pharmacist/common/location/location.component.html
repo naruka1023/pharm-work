@@ -2,7 +2,7 @@
     <ng-container *ngIf="registerFlag; then register; else normal"></ng-container>
     <ng-template #register>
         <div class="form-group" [formGroupName]="formGroupName">
-            <div class="my-3">พื้นที่ปฏิบัติงานที่สนใจ</div>
+            <div class="my-3">หางานพื้นที่</div>
             <label for="Province" class="form-label">จังหวัด</label>
             <select formControlName="Province" (change)="provinceSelected()" name="province" class="form-select mb-3" style="background-color:#f2f2f2">
                 <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>

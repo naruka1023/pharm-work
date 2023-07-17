@@ -32,7 +32,8 @@
                                         <button class="btn btn-primary mb-1 mt-2" (click)="backSlide()">Back <i class="bi bi-arrow-left"></i></button> 
                                     </ng-template>
                                 </div>
-                                <div class="px-sm-5 px-3 my-3" style="font-size:0.75rem" *ngIf="header !== 'ลงทะเบียน'"><i>ท่านสามารถข้ามการใส่ข้อมูลงานที่กำลังมองหาได้ (แก้ไขภายหลังได้ที่ profile หัวข้อ 'งานที่กำลังมองหา')</i></div>
+                                <div class="px-sm-5 px-3 my-3 fs-6 text-danger" *ngIf="header !== 'ลงทะเบียน'"><i>*ข้อมูลงานที่กำลังมองหาสามารถข้ามได้ โดยแก้ไขในหน้าโปรไฟล์ หัวข้องานที่กำลังมองหา</i></div>
+                                <div class="px-sm-5 px-3 my-3 fs-6 text-danger" *ngIf="header !== 'ลงทะเบียน'"><i>*หากไม่เลือกประเภทงานที่สนใจ ผู้ประกอบการจะไม่พบข้อมูลของท่าน</i></div>
                                 <div class="px-sm-5 px-3 tab-pane fade show active" id="normal-job-pane" role="tabpanel" aria-labelledby="normal-job" tabindex="0">
                                     <form [formGroup]="registerFormPharmacist">
                                         <swiper #swiperFormPharma [allowTouchMove]="false" [virtual]="true">
@@ -89,7 +90,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="nickName" class="form-label">ชื่อ User</label>
+                                                            <label for="nickName" class="form-label">ชื่อ Username</label>
                                                             <input
                                                                 type="text"
                                                                 formControlName="nickName"
@@ -113,7 +114,7 @@
                                                     <div class="mb-3">
                                                         <div class="form-group">
                                                             <div class="d-md-flex justify-content-between">
-                                                                <label for="name" class="mb-0 form-label">ชื่อ</label>
+                                                                <label for="name" class="mb-0 form-label">ชื่อ ตามบัตรประชาชน</label>
                                                                 <div>
                                                                     <label for="name" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
                                                                 </div>
@@ -133,7 +134,7 @@
                                                     <div class="mb-3">
                                                         <div class="form-group">
                                                             <div class="d-md-flex justify-content-between">
-                                                                <label for="surname" class="mb-0 form-label">นามสกุล</label>
+                                                                <label for="surname" class="mb-0 form-label">นามสกุล ตามบัตรประชาชน</label>
                                                                 <div>
                                                                     <label for="surname" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
                                                                 </div>
@@ -248,14 +249,14 @@
                                                     <div class="form-group mb-3">
                                                         <label for="preferredTimeFrame" class="form-label">ชนิดของพนักงาน</label>
                                                         <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3" style="background-color:#f2f2f2">
-                                                            <option selected value="Full-Time">Full-Time</option>
+                                                            <option value="Full-Time">Full-Time</option>
                                                             <option value="Part-Time">Part-Time</option>
-                                                            <option value="Full-Time และ Part-Time" selected>Full-Time และ Part-Time</option>
+                                                            <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
                                                         </select>
                                                     </div>
                                                     <app-location [parentFormGroup]="registerFormPharmacist" [formGroupName]="'preferredLocation'" [registerFlag]="true"></app-location>
                                                     <div class="form-group excessForm" style="display:none">
-                                                        <label for="preferredSalary" class="form-label">เงินเดือนที่ต้องการ</label>
+                                                        <label for="preferredSalary" class="form-label">เงินเดือนขั้นต่ำที่ต้องการ</label>
                                                         <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3" style="background-color:#f2f2f2">
                                                             <option selected value="20,000">20,000</option>
                                                             <option  value="30,000">30,000</option>
@@ -370,7 +371,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="companyID" class="form-label">เลขจดทะเบียนบริษํท</label>
+                                                <label for="companyID" class="form-label">เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา</label>
                                                 <input
                                                     type="text"
                                                     formControlName="companyID"
@@ -380,6 +381,7 @@
                                                 />
                                                 <div *ngIf="submitted && fO['companyID'].errors" class="invalid-feedback">
                                                     <div *ngIf="fO['companyID'].errors['required']">กรุณาใส่เลขจดทะเบียนบริษัทตามที่ขึ้นทะเบียนไว้กับกรมพัฒนาธุรกิจการค้า</div>
+                                                    <div *ngIf="fO['companyID'].errors['minlength'] || fO['companyID'].errors['maxlength']">กรุณาใส่เลขทะเบียนพาณิชย์หรือเลขประจำตัวประชาชน 13 หลัก</div>
                                                 </div>
                                             </div>
                                         </div>

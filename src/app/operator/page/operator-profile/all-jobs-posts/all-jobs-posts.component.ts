@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { jobPostModel } from 'src/app/operator/model/jobPost.model';
 import { JobService } from 'src/app/operator/service/job.service';
+declare var window: any;
 
 @Component({
   selector: 'app-all-jobs-posts',
@@ -17,7 +18,13 @@ export class AllJobsPostsComponent {
   emptyFlag$!: Observable<boolean>
   emptyFlagNormal$!: Observable<boolean>
   emptyFlagUrgency$!: Observable<boolean>
+  formModal: any;
+  deleteJobCardFlag: boolean = true
+  idToDelete: string = ''
   ngOnInit(){
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('confirmRequest')
+      );
     this.allCreatedJobs$ = this.store.select((state:any)=>{
       return state.createdJobs.JobPost;
     })
@@ -41,5 +48,28 @@ export class AllJobsPostsComponent {
     this.loading$ = this.store.select((state:any)=>{
       return state.createdJobs.loading
     })
+    let myModalEl = document.getElementById('confirmRequest')!
+    let removeJob = (event: any)=>{
+      this.jobService.removeJob(this.idToDelete)
+    }
+    myModalEl.addEventListener('hidden.bs.modal', removeJob)
   }
+
+  openModal(id: string){
+    this.idToDelete = id
+    this.formModal.show();
+  }
+
+  onClose(){
+    this.deleteJobCardFlag = false
+    this.formModal.hide()
+  }
+ 
+
+  deleteCard(){
+
+    this.deleteJobCardFlag = true
+    this.formModal.hide()
+  }
+
 }

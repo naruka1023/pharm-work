@@ -1,7 +1,6 @@
 <div class="align-items-baseline d-flex justify-content-end ms-3 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
-    <div class="d-flex justify-content-end fs-4 my-3"><i>*หากไม่เลือกชนิดของงาน ผู้ประกอบการจะไม่สามารถค้นหาประวัติของคุณได้</i></div>
     <div class="verticalKeyGap d-flex flex-row">
         <i class="bi bi-clipboard keyValueGap"></i>
         <div><b>ประเภทงานที่สนใจ</b></div>
@@ -60,7 +59,7 @@
             <div class="col-lg-3 col-12">
                 <div class="responsiveText me-3"><b>ประเภทงานที่สนใจ</b></div>
             </div>
-            <div class="col" formGroupName="preferredJobType">
+            <div class="col" formGroupName="preferredJobType" [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredJobType')!.errors! }">
                 <div class="row row-cols-2">
                     <div class="d-flex flex-row-start mb-3">
                         <input formControlName="S" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="S">
@@ -118,17 +117,28 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="submitted && profileEdit.get('preferredJobType')!.errors!" class="invalid-feedback">
+                <div class="row">
+                    <div class="col-lg-3 col-12col-3">
+                        <div class="responsiveText me-3" style="visibility:hidden"><b>ชนิดของพนักงาน</b></div>
+                    </div>
+                    <div class="col">กรุณาเลือกประเภทงานที่สนใจอย่างน้อย 1 ชนิด</div>
+                </div>
+            </div>
         </div>
         <div class="row mb-3">
             <div class="col-lg-3 col-12col-3">
                 <div class="responsiveText me-3"><b>ชนิดของพนักงาน</b></div>
             </div>
             <div class="col">
-                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2">
+                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredTimeFrame')!.errors! }">
                     <option selected value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
                     <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
                 </select>
+                <div *ngIf="submitted && profileEdit.get('preferredTimeFrame')!.errors!" class="invalid-feedback">
+                    <div>กรุณาเลือกชนิดพนักงาน</div>
+                </div>
             </div>
         </div>
         <app-location [parentFormGroup]="profileEdit" [formGroupName]="'preferredLocation'"></app-location>

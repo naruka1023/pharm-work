@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="card align-items-center" style="border-radius: 20px !important" (click)="goToProfile()">
-        <div class="p-2 d-flex d-flex justify-content-center align-items-center" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'color': content.preferredTimeFrame == 'Full-Time และ Part-Time' || type == 'S'?'black':'white', 'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#5cdfe4': content.preferredTimeFrame == 'Part-Time'?'#7fd858':'#ffffb3'}">
+        <div class="p-2 d-flex d-flex justify-content-center align-items-center" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'color': type === 'S'?'black': 'white', 'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#5cdfe4': content.preferredTimeFrame == 'Part-Time'?'#7fd858':'#dfa5d6'}">
             <div class="col"><b>{{type  == 'S'? 'งานด่วน': content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time/Part-Time' : content.preferredTimeFrame}}</b></div>
         </div>
         <!-- <div class="d-flex justify-content-between w-100">
@@ -45,7 +45,7 @@
                     <i class="bi bi-briefcase"></i>
                 </div>
                 <div class="col text-start">
-                    ประสบการณ์ {{content.WorkExperience}} ปี
+                    ประสบการณ์ {{content.WorkExperience | workExperience: content.yearFlag}}
                 </div>
             </div>
             <div *ngIf="type !== 'S'" class="row fs-5 py-2">
@@ -56,27 +56,27 @@
                     {{content.highestEducation}}
                 </div>
             </div>
-            <div *ngIf="type == 'S'" class="row fs-5 py-2">
+            <!-- <div *ngIf="type == 'S'" class="row fs-5 py-2">
                 <div class="col-2">
                     <i class="bi bi-card-checklist"></i>
                 </div>
                 <div class="col text-start">
                     งานด่วนที่เคยรับ {{content.AmountCompleted}}
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
-    <div *ngIf="type !== 'S'" class="d-flex justify-content-end me-3 mt-1">
+    <div class="d-flex justify-content-start ms-3 mt-1">
         อัพเดท {{content.dateUpdated}}
     </div>
     <div class="d-flex justify-content-between m-3">
         <!-- <button *ngIf="type == 'S'" class="btn fs-3" style="width: -webkit-fill-available; width: -moz-available;color:white; background-color: #7fd858">ส่งงานด่วน</button> -->
         <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
         <ng-template #requestView>
-            <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn fs-3" style="background-color: rgb(255, 255, 179); width: -webkit-fill-available; width: -moz-available;color:black">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
+            <button [ngStyle]="{'visibility': type == 'S' && content.active == 'จำกัดการดูข้อมูล'?'hidden':'unset' }" class="btn fs-3" style="background-color: grey; width: -webkit-fill-available; width: -moz-available;color:white">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
         </ng-template>
         <ng-template #notRequestView>
-            <button (click)="openRequestViewModal()"[ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3" style="width: -webkit-fill-available; width: -moz-available;color:white">ขอดูข้อมูล</button>
+            <button (click)="openRequestViewModal()"[ngStyle]="{'visibility': type == 'S'?'hidden': content.active !== 'จำกัดการดูข้อมูล'?'hidden':'unset' }" class="btn btn-primary fs-3" style="width: -webkit-fill-available; width: -moz-available; color:white">ขอดูข้อมูล</button>
         </ng-template>
         <button (click)="toggleFavorite()" type="button" class="btn">
             <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>

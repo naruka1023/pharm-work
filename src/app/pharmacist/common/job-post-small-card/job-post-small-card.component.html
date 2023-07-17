@@ -36,16 +36,9 @@
 			</ng-template>
 			<ng-template #cardHeader>
 				<div class="d-flex justify-content-center">
-					<!-- <div *ngIf="fullTimeFlag as true; else elseBlock" class="p-2 d-flex justify-content-center flex align-items-center" style="width: -webkit-fill-available; width: -moz-available;border-radius:20px 20px 0px 0px; text-align: center; background:#7fcae6"> -->
-					<div *ngIf="fullTimeFlag as true; else elseBlock" class="fullTime p-2 d-flex justify-content-center flex align-items-center" style="color: white; width: -webkit-fill-available; width: -moz-available;border-radius:20px 20px 0px 0px; text-align: center">
+					<div [ngStyle]="{'background' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6', 'border-color' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6'}" class="p-2 d-flex justify-content-center flex align-items-center" style="color: white; text-align: center; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
 						<b>{{content.TimeFrame}}</b>
 					</div>
-					<ng-template #elseBlock>
-						<!-- <div class="p-2 d-flex justify-content-center flex align-items-center" style="text-align: center; background:#a2e3d9; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available"> -->
-						<div class="partTime p-2 d-flex justify-content-center flex align-items-center" style="color: white; text-align: center; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
-							<b>{{content.TimeFrame}}</b>
-						</div>
-					</ng-template>
 				</div>
 			</ng-template>
 			<div class="card-body py-0">
@@ -64,7 +57,7 @@
 						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}
 					</div>
 					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
-						{{content.Salary.Suffix}}
+						{{content.Salary.Suffix | salaryType}}
 					</div>
 				</div>
 				<div *ngIf="!urgentFlag">

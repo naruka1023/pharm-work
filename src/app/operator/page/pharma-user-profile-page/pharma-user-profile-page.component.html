@@ -64,7 +64,7 @@
                         </div>
                         <div class="d-flex">
                             <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                            <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation!.WorkExperience}} ปี</div>
+                            <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation!.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
                         </div>
                     </div>
                     <div class="mt-4 historyCount" style="padding-left: 6rem">

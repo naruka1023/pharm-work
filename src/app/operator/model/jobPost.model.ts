@@ -37,10 +37,13 @@ export interface jobPostModel {
         Suffix: string
     };
     Contacts: {
-        phone: string,
-        email: string,
-        line: string,
-        facebook: string
+        nameRepresentative: string,
+        areaOfContact: string,
+        phone: string;
+        email: string;
+        line: string;
+        website: string;
+        facebook: string;
     },
     JobDetails: string,
     TravelInstructions: string,

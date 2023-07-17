@@ -16,6 +16,7 @@
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
+                    <i class="bi bi-question-lg me-3" (click)="openModal()" style="cursor:pointer"></i>
                     <div class="me-md-3 fs-5">ระดับการเปิดเผยข้อมูล</div>
                     <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex btn align-items-center fs-5 ms-lg-3 dropdown-toggle">
                         <div class="me-3">{{privacyLabel}}</div>
@@ -24,7 +25,7 @@
                         <li (click)="changePrivacy(0, 'อนุญาตให้ดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 0?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">อนุญาตให้ดูข้อมูล</div></a></li>
                         <li (click)="changePrivacy(1, 'จำกัดการดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 1?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">จำกัดการดูข้อมูล</div></a></li>
                         <li (click)="changePrivacy(2, 'ไม่อนุญาติให้ดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 2?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">ไม่อนุญาติให้ดูข้อมูล</div></a></li>
-                      </ul>
+                    </ul>
                 </div>
             </div>
             <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row tabList" style="top:177px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 2">
@@ -44,3 +45,19 @@
             </div>
         </div>
 </ng-template>
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <div class="my-1"><b>อนุญาตให้ดูข้อมูล</b></div>
+                <div class="my-1 mb-3">แสดงข้อมูลติดต่อของท่านต่อผู้ประกอบการ ทำให้มีโอกาศได้งานสูง</div>
+                
+                <div class="my-1 text-primary"><b>จำกัดการดูข้อมูล</b></div>
+                <div class="my-1 mb-3">ไม่แสดงข้อมูลติดต่อของท่านต่อผู้ประกอบการ ผู้ประกอบการต้องส่งคำขอดูข้อมูลติดต่อให้ท่านอนุมัติก่อน</div>
+                
+                <div class="my-1 text-danger"><b>ไม่อนุญาตให้ดูข้อมูล</b></div>
+                <div class="my-1">ไม่แสดงข้อมูลติดต่อของท่านต่อผู้ประกอบการ และผู้ประกอบไม่สามารถส่งคำขอดูข้อมูลให้ท่านได้</div>
+            </div>
+        </div>
+    </div>
+</div>

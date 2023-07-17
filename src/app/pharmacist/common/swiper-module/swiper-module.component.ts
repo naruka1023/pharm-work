@@ -57,9 +57,7 @@ export class SwiperModuleComponent {
     },
   }
   
-  constructor(private jobPostService:JobPostService, private router: Router, private store: Store, private activatedRoute:ActivatedRoute){
-    
-  }
+  constructor(private jobPostService:JobPostService, private router: Router, private store: Store, private activatedRoute:ActivatedRoute){}
 
   ngOnInit(){
     // this.loading$ = this.store.select((state:any)=>{

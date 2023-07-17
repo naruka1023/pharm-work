@@ -34,13 +34,13 @@ export class UsersService {
       if(newForm[key] !== ''){
         if(query == ''){
           if(key == 'WorkExperience'){
-            query = key + " <= " + newForm[key] + ""
+            query = key + " <= " + newForm[key] + " AND yearFlag: true"
           }else{
             query = key + ":'" + newForm[key] + "'"
           }
         }else{
           if(key == 'WorkExperience'){
-            query = query + ' AND ' + key + " <= " + newForm[key] + ""
+            query = query + ' AND ' + key + " <= " + newForm[key] + " AND yearFlag: true"
           }else{
             query = query + ' AND ' + key + ":'" + newForm[key] + "'"
           }
@@ -73,9 +73,9 @@ export class UsersService {
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
     let indexName = 'pharm-work_user_index'
-    if(newForm.amountCompletedSort !== ''){
-      indexName = 'pharm-work_user_index_AmountCompleted_' + newForm['amountCompletedSort']
-    }
+    // if(newForm.amountCompletedSort !== ''){
+    //   indexName = 'pharm-work_user_index_AmountCompleted_' + newForm['amountCompletedSort']
+    // }
     let index:SearchIndex = client.initIndex(indexName)
     let requestOptions: any = 
     {

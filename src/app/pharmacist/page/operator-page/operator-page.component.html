@@ -114,7 +114,7 @@
                             <div class="d-flex">
                                 <div class="keyValueGap"><i class="bi bi-geo"></i></div>
                                 <div class="keyValueGap">
-                                    <div><b>สถานที่ตั้ง</b></div>
+                                    <div><b>สถานที่ตั้งของบริษัท</b></div>
                                 </div>
                             </div>
                             <div class="d-flex flex-row">
@@ -132,11 +132,47 @@
                                 <div class="valueLabel" [innerHTML]='operator?.TravelInstructions | emptyFieldPipe'></div>
                             </div>
                         </div>
+                        <div class="d-flex flex-row verticalKeyGap keyLabel">
+                            <div class="d-flex">
+                                <div class="keyValueGap"><i class="bi bi-building"></i></div>
+                                <div class="keyValueGap"><b>สถานที่ติดต่อ</b></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-building"></i></div>
+                                <div class="valueLabel">{{operator?.areaOfContact | emptyFieldPipe}}</div>
+                            </div>
+                        </div>
+                        <div class="verticalKeyGap keyLabel">
+                            <div class="d-flex mb-3">
+                                <div class="keyValueGap"><i class="bi bi-geo"></i></div>
+                                <div class="keyValueGap"><b>ปักหมุดที่ตั้งบริษัท</b></div>
+                            </div>
+                            <div class="d-flex">
+                                <google-map 
+                                    height="500px"
+                                    width="65vw"
+                                    [center]="center"
+                                    [zoom]="zoom">
+                                    <map-marker
+                                    [position]="markerPosition"></map-marker>
+                                </google-map>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-content fs-3">
                     <div class="tab-pane" id="tabFive" role="tabpanel" aria-labelledby="tabFive-tab">
                         <div class="row my-3 fs-3">
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-geo"></i></div>
+                                    <div class="keyValueGap"><b>สถานที่ติดต่อ</b></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-telephone"></i></div>
+                                    <div style="line-break: auto">{{operator?.contacts?.areaOfContact | emptyFieldPipe}}</div>
+                                </div>
+                            </div>
                             <div class="d-flex flex-row verticalKeyGap keyLabel">
                                 <div class="d-flex">
                                     <div class="keyValueGap"><i class="bi bi-telephone"></i></div>

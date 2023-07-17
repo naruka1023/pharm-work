@@ -28,14 +28,14 @@
                       </ng-template>                        
                       <ng-template #invisible>
                           <span style='visibility:hidden'class="help-block">
-                           please enter valid data
+                            กรุณาใส่ข้อมูลที่ถูกต้อง
                          </span>
   
                       </ng-template>                        
                       <div class="form-group">
                           <div class="d-flex justify-content-between">
                               <label for="userName">Email</label>
-                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
+                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">จำเป็น</label>
                           </div>
                           <input type="text" class="form-control"
                           id="userName" formControlName = "userName">
@@ -44,7 +44,7 @@
                         <div class="form-group">
                           <div class="d-flex justify-content-between">
                               <label for="password">Password</label>
-                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">Required</label>
+                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">จำเป็น</label>
                           </div>
                               <input type="password" type="password" class="form-control" 
                            id="password" formControlName = "password">
@@ -66,13 +66,13 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Forgot your password?</h5>
+          <h5 class="modal-title">ลืมพาสเวิร์ด?</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <ng-container *ngIf="resetSuccessful; then resetMessage; else normalBody"></ng-container>
             <ng-template #resetMessage>
-                <label>Password reset is successful!</label>
+                <label>รีเซ็ตรหัสผ่านแล้วเรียบร้อย!</label>
             </ng-template>
             <ng-template #normalBody>
                 <div style="text-align:center" *ngIf="modalLoadingFlag">
@@ -80,31 +80,31 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <p>Please enter your email to reset your password</p>
+                <p>โปรดใส่อีเมลเพื่อรีเซ็ตรหัสผ่าน</p>
                 <ng-container *ngIf="modalErrorFlag; then errorModal; else invisibleModal"></ng-container>
                         <ng-template #errorModal>
                             <span class="help-block text-danger">
-                                Email is invalid
+                              ไม่พบอีเมลดังกล่าวในระบบ
                            </span>
     
                         </ng-template>                        
                         <ng-template #invisibleModal>
                             <span style='visibility:hidden'class="help-block">
-                             please enter valid data
+                              กรุณาใส่ข้อมูลที่ถูกต้อง
                            </span>
     
                         </ng-template> 
               <form class="mt-2">
                   <div class="form-group">
-                    <label for="email">Email: </label>
+                    <label for="email">อีเมล</label>
                     <input class="form-control" id="email" type="text" [formControl]="email">
                   </div>
               </form>
             </ng-template>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="closeButton" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" *ngIf="resetButtonFlag" (click)="onForgetPassword()"[disabled]="!this.email.valid">Get reset email</button>
+          <button type="button" class="btn btn-success" id="closeButton" data-bs-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" *ngIf="resetButtonFlag" (click)="onForgetPassword()"[disabled]="!this.email.valid">ยืนยัน</button>
         </div>
       </div>
     </div>

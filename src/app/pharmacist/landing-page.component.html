@@ -43,14 +43,14 @@
                 </ul>
               </div>
             </li> -->
-            <li class="nav-item fs-2 me-2">
+            <!-- <li class="nav-item fs-2 me-2">
               <div class="dropdown">
                 <a  data-bs-toggle="tooltip" data-bs-auto-close="outside" title="ปุ่มแชท" class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="bi bi-chat-left-dots"></i>
                 </a>
                 <app-chat-confirm></app-chat-confirm>
               </div>
-            </li>
+            </li> -->
             <!-- <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ตารางงานด่วนรายวัน" class="nav-link"><i class="bi bi-calendar-event"></i></a></li> -->
             <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มแจ้งเตือน" class="nav-link"><i class="bi bi-bell"></i></a></li>
             <!-- <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="Sign Out" class="nav-link" (click)="signOut()"><i class="bi bi-box-arrow-right"></i></a></li> -->
@@ -101,7 +101,7 @@
                   เข้าสู่ระบบ
                 </button>
               <li class="nav-item ms-3">
-                <button type="button" (click)="goRegister(true)" class="btn btn-success">
+                <button type="button" (click)="goRegister(true)" class="btn" style="border-color: #7fd858; background:#7fd858; color:white">
                   สมัครสมาชิก
                 </button>
               </li>
@@ -146,9 +146,9 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab" aria-controls="search" aria-selected="true"><i class="bi bi-search"></i></button>
         </li>
-        <li class="nav-item" role="presentation">
+        <!-- <li class="nav-item" role="presentation">
           <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button" role="tab" aria-controls="chat" aria-selected="false"><i class="bi bi-chat-left-dots"></i></button>
-        </li>
+        </li> -->
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab" aria-controls="notifications" aria-selected="false"><i class="bi bi-bell"></i></button>
         </li>
@@ -186,9 +186,9 @@
         <div class="tab-pane" id="search" role="tabpanel" aria-labelledby="search-tab" tabindex="0">
           <div style="width:fit-content">Search</div>
         </div>
-        <div class="tab-pane" id="chat" role="tabpanel" aria-labelledby="chat-tab" tabindex="0">
+        <!-- <div class="tab-pane" id="chat" role="tabpanel" aria-labelledby="chat-tab" tabindex="0">
           <app-chat-confirm></app-chat-confirm>
-        </div>
+        </div> -->
         <div class="tab-pane" id="notifications" role="tabpanel" aria-labelledby="notifications-tab" tabindex="0">
           Notifications
         </div>
@@ -239,7 +239,13 @@
         <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
       </div> -->
           <div class="modal-body">
-            <div class="fs-3" [innerHTML]="requestView.requestView"></div>
+            <ng-container *ngIf="requestView.requestView == ''; then empty; else notEmpty"></ng-container>
+            <ng-template #empty>
+              <div class="fs-3" style="text-align:center">ไม่มีข้อความแนบ</div>
+            </ng-template>
+            <ng-template #notEmpty>
+              <div class="fs-3" [innerHTML]="requestView.requestView"></div>
+            </ng-template>
         </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
 	<div id="overlay" *ngIf="Active$ | async">
 		<div id="text">Inactive</div>
 	</div>
-	<div class="card-header" [ngStyle]="{'color': !urgentFlag?'white':'black','background':!urgentFlag?fullTimeFlag?'#5cdfe4':'#7fd858':'rgba(0, 0, 0, 0.03)'}">
+	<div class="card-header" [ngStyle]="{'color':urgentFlag?'black': 'white','background':!urgentFlag?content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
 			<div class="col-sm-4 fs-5 align-items-center borderRight" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
@@ -13,17 +13,9 @@
 			<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
 		</div>
 		<div class="d-flex justify-content-center" *ngIf="!urgentFlag">
-			<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
-			<ng-template #fullBlock>
-				<div class="col-sm-4 fs-5 text-center">
-					<b>Full-Time</b>
+				<div class="col fs-5 text-center">
+					<b>{{content.TimeFrame}}</b>
 				</div>
-			</ng-template>
-			<ng-template #partBlock>
-				<div class="col-sm-4 fs-5 text-center">
-					<b>Part-Time</b>
-				</div>
-			</ng-template>
 		</div>
 	</div>
 	<div class="card-body" style="padding:0.5rem 1rem">
@@ -54,7 +46,7 @@
 								<div class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
 							</div>
 							<div class=" fs-6 d-flex flex-row my-auto"  *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
-								<div class="mx-2">{{ content.Salary.Suffix }}</div>
+								<div class="mx-2">{{ content.Salary.Suffix | salaryType}}</div>
 							</div>
 						</div>
 						<div *ngIf="!urgentFlag" class="col d-flex">

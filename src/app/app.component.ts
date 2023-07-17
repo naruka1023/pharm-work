@@ -80,6 +80,7 @@ export class AppComponent {
           AmountCompleted: 0,
           introText: '',
           WorkExperience: 0,
+          yearFlag: true,
           nickName: '',
           coverPhotoFlag: true,
           highestEducation: '',

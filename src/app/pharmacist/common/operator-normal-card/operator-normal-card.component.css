@@ -36,3 +36,13 @@
   background-color:rgb(127, 216, 88);
   border: rgb(127, 216, 88)
 }
+
+.btn-outline-primary{
+  color:#5cdfe4;
+  border-color: #5cdfe4
+}
+.btn-outline-primary:hover{
+  color: red;
+  border-color: red;
+  background:white
+}

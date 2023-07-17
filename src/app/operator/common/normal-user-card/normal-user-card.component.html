@@ -1,6 +1,7 @@
 <div class="card rounded m-sm-3 pb-3"  (click)="goToProfile()">
-    <div class="p-2 d-flex d-flex justify-content-center align-items-center fs-5" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'color': content.preferredTimeFrame == 'Full-Time และ Part-Time' || type == 'S'?'black':'white', 'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#5cdfe4': content.preferredTimeFrame == 'Part-Time'?'#7fd858':'#ffffb3'}">
-        <div class="col"><b>{{type  == 'S'? 'งานด่วน': content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time/Part-Time' : content.preferredTimeFrame}}</b></div>
+    <div class="p-2 d-flex d-flex justify-content-center align-items-center fs-5" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'color': type === 'S'?'black': 'white', 'background-color' : type == 'S' || content.preferredTimeFrame == '' || content.preferredTimeFrame == undefined? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#5cdfe4': content.preferredTimeFrame == 'Part-Time'?'#7fd858':'#dfa5d6'}">
+        <div *ngIf="type !== 'S'" class="col" [ngStyle]="{'visibility': content.preferredTimeFrame == undefined || content.preferredTimeFrame == ''?'hidden': 'unset'}"><b>{{content.preferredTimeFrame == undefined || content.preferredTimeFrame == ''?'fff' : content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time และ Part-Time' : content.preferredTimeFrame}}</b></div>
+        <div *ngIf="type  == 'S'"><b>งานด่วน</b></div>
     </div>
     <div class="row">
         <div class="col-sm-4 col-12 d-flex">
@@ -23,7 +24,7 @@
                     <i class="bi bi-geo-alt"></i>
                 </div>
                 <div class="col-sm cardKeyValue">
-                    {{content.Location?.District}}, {{content.Location?.Province}}
+                    {{content.Location?.District | emptyField}}, {{content.Location?.Province | emptyField}}
                 </div>
             </div>
             <div class="row py-1" *ngIf="type !== 'S'">
@@ -31,7 +32,7 @@
                     <i class="bi bi-briefcase"></i>
                 </div>
                 <div class="col-sm cardKeyValue">
-                    ประสบการณ์ทำงาน {{content.WorkExperience}}
+                    ประสบการณ์ทำงาน {{content.WorkExperience | workExperience : content.yearFlag}}
                 </div>
             </div>
             <div class="row py-1" *ngIf="type !== 'S'">
@@ -39,69 +40,14 @@
                     <i class="bi bi-award"></i>
                 </div>
                 <div class="col-sm cardKeyValue">
-                    การศึกษาสูงสุด {{content.highestEducation}}
+                    การศึกษาสูงสุด {{content.highestEducation | emptyField}}
                 </div>
             </div>
-            <div class="row py-1" *ngIf="type == 'S'">
-                <div class="col-1">
-                    <i class="bi bi-card-checklist"></i>
-                </div>
-                <div class="col-sm cardKeyValue">
-                    งานด่วนที่เคยรับ {{content.AmountCompleted}}
-                </div>
-            </div>
-            <!-- <div class="grid p-3">
-                <ng-container *ngIf="type == 'S'; then urgent; else notUrgent"></ng-container>
-                <ng-template #urgent>
-                    <div class="fs-5">
-                        เลขใบประกอบ:
-                    </div>
-                    <div class="fs-5">
-                        {{content.license}}
-                    </div>
-                </ng-template>
-                <ng-template #notUrgent>
-                    <div class="fs-5">
-                        ประเภทงาน:
-                    </div>
-                    <div class="fs-5">
-                        {{content.preferredTimeFrame}}
-                    </div>
-                </ng-template>
-                <div class="fs-5">
-                    เขต: {{content.Location?.District}}
-                </div>
-                <div class="fs-5">
-                    จังหวัด: {{content.Location?.Province}}
-                </div>
-                <ng-container *ngIf="type == 'S'; then urgentSecond; else notUrgentSecond"></ng-container>
-                <ng-template #urgentSecond>
-                    <div class="fs-5">
-                        งานที่เคยรับสำเร็จ: 
-                    </div>
-                    <div class="fs-5">
-                        {{content.AmountCompleted}}
-                    </div>
-                </ng-template>
-                <ng-template #notUrgentSecond>
-                    <div class="fs-5">
-                        สามารถเริ่มงานได้: 
-                    </div>
-                    <div class="fs-5">
-                        {{content.preferredStartTime}}
-                    </div>
-                </ng-template>
-                <ng-container *ngIf="type !== 'S'">
-                    <div class="fs-5">
-                        ประสบการณ์การทำงาน:
-                    </div>
-                    <div class="fs-5">
-                        {{content.WorkExperience}}
-                    </div>
-                </ng-container>
-            </div> -->
         </div>
     </div>
+</div>
+<div class="d-flex justify-content-start ms-3 mt-1 fs-5" *ngIf="!requestStatusFlag">
+    อัพเดท {{content.dateUpdated}}
 </div>
 <div class="m-3 d-flex justify-content-end">
     <!-- <button *ngIf="type == 'S'" class="btn fs-3 ms-3" style="color:white; background-color: #7fd858">ส่งงานด่วน</button> -->
@@ -127,20 +73,18 @@
                             </button>
                         </ng-template>
                         <ng-template #notPending>
-                            <button class="btn btn-success fs-5 ms-3 rounded" style="color:white">
+                            <button style="border-color: #7fd858; background:#7fd858" class="btn fs-5 ms-3 rounded" style="color:white">
                                 <i class="bi bi-check-circle me-3"></i>อนุมัติแล้ว
                             </button>
                         </ng-template>
-                    <button class="btn btn-danger fs-5 ms-3 rounded" (click)="deleteRequestView()"style="color:white">
-                        ยกเลิกคำขอ
-                    </button>
+                        <div (click)="deleteRequestView()"><i class="bi bi-trash3 ms-3"></i></div>
                 </div>
             </div>
         </ng-template>
         <ng-template #notStatus>
             <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
                 <ng-template #requestView>
-                    <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn fs-3" style="background-color: rgb(255, 255, 179)">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
+                    <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn fs-3" style="color:white; background-color: grey">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
                 </ng-template>
                 <ng-template #notRequestView>
                     <button (click)="openRequestViewModal()" [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3">ขอดูข้อมูล</button>

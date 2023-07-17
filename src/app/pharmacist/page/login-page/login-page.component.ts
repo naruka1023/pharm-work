@@ -77,13 +77,13 @@ export class LoginPageComponent implements AfterViewInit{
       const errorCode = error.code;
       switch(errorCode){
         case 'auth/invalid-email':
-          this.errorMessage = 'Please enter the correct username and password.'
+          this.errorMessage = 'โปรดใส่อีเมลและรหัสผ่านให้ถูกต้อง'
           break;
         case 'auth/wrong-password':
-          this.errorMessage = 'The password you entered is incorrect.'
+          this.errorMessage = 'รหัสผ่านไม่ถูกต้อง'
           break;
         case 'auth/user-not-found':
-          this.errorMessage = 'Username not found'
+          this.errorMessage = 'ไม่พบชื่อผู้ใช้งานดังกล่าว'
           break;
         default:
           break;

@@ -4,7 +4,7 @@ export interface User{
     jobType?: string,
     companyID?: string,
     companySize: string,
-    coverPhotoOffset?: number,
+    coverPhotoOffset?: number,    
     productsAndServices: string,
     TravelInstructions: string,
     _geolocCurrent?: _geoloc;
@@ -106,6 +106,7 @@ export interface UserPharma{
     preferredSalary?: string,
     AmountCompleted: number,
     WorkExperience:number,
+    yearFlag: boolean,
     highestEducation: string,
     profilePictureUrl?:string,
     coverPhotoOffset?: number,
@@ -209,6 +210,7 @@ export interface AppState{
 }
 
 export interface Contacts{
+    areaOfContact: string,
     phone: string;
     email: string;
     line: string;

@@ -21,7 +21,7 @@
             </li>
             <hr style="width: 100%" class="m-auto">
         </ul>
-        <div class="tab-content fs-3 mx-md-5 mx-sm-3 mx-1">
+        <div class="tab-content">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
                     <ng-template #empty>
@@ -32,7 +32,7 @@
                         </div>
                     </ng-template>
                     <ng-template #notEmpty>
-                        <div class="row row-cols-xl-2">
+                        <div class="row row-cols-xl-2 fs-3 mx-md-5 mx-sm-3 mx-1">
                             <div *ngFor="let content of allCreatedJobs$ | async">
                                 <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>            
                             </div>
@@ -49,7 +49,7 @@
                         </div>
                     </ng-template>
                     <ng-template #notEmptyTwo>
-                        <div class="row row-cols-xl-2">
+                        <div class="row row-cols-xl-2 fs-3 mx-md-5 mx-sm-3 mx-1">
                             <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': !content.Urgency? 'unset': 'none'}">
                                 <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="!content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
                             </div>
@@ -58,21 +58,36 @@
             </div>
             <div class="tab-pane" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
                 <ng-container *ngIf="emptyFlagUrgency$ | async; then emptyThree; else notEmptyThree"></ng-container>
-                    <ng-template #emptyThree>
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
-                                <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
-                            </div>
+                <ng-template #emptyThree>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                            <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
                         </div>
-                    </ng-template>
-                    <ng-template #notEmptyThree>
-                        <div class="row row-cols-xl-2">
-                            <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': content.Urgency? 'unset': 'none'}">
-                                <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
-                            </div>
+                    </div>
+                </ng-template>
+                <ng-template #notEmptyThree>
+                    <div class="row row-cols-xl-2 fs-3 mx-md-5 mx-sm-3 mx-1">
+                        <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': content.Urgency? 'unset': 'none'}">
+                            <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
                         </div>
-                    </ng-template>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>
 </ng-template>
+<div class="modal fade" id="confirmRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md fs-4">
+      <div class="modal-content p-5">
+			<div>
+				<div class="d-flex justify-content-center">
+					คุณต้องการลบการ์ดงานใช่หรือไม่
+				</div>
+				<div class="d-flex justify-content-around mt-3 fs-4">
+					<button class="btn btn-light p-2 px-4 fs-3" (click)="onClose()">ยกเลิก</button>
+					<button class="btn p-2 px-4 fs-3" style="border-color: #7fd858; color:white; background:#7fd858" (click)="deleteCard()">ตกลง</button>
+				</div>
+			</div>
+      </div>
+    </div>
+  </div>

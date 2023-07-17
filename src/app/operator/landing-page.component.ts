@@ -19,6 +19,7 @@ import { jobPostModel } from './model/jobPost.model';
 import { OperatorProfileComponent } from './page/operator-profile/operator-profile.component';
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
 import { userOperator } from '../pharmacist/model/typescriptModel/jobPost.model';
+import moment from 'moment';
 declare var window: any;
 
 @Component({
@@ -179,7 +180,7 @@ export class LandingPageComponent {
       operatorUID: this.operatorUID,
       userUID: this.userUID,
       requestView: this.requestViewForm.value.requestView,
-      dateSent: new Date().toISOString().split('T')[0],
+      dateSent: moment(new Date).format('yyyy-MM-DD'),
       status: 'Pending'
     }
     this.requestViewLoadingFlag = true

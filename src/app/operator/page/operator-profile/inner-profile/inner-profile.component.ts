@@ -106,6 +106,7 @@ searchMap(event: any){
         Province: [''],
       }),
       contacts: this.fb.group({
+        areaOfContact:[''],
         phone: [''],
         email: [''],
         line: [''],

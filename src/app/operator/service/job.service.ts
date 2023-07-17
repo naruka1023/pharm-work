@@ -1,11 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { JobRequestList, jobPostModel, jobRequest } from '../model/jobPost.model';
-import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 import _ from 'lodash';
 import { removeUserFromRequestedJob, populateJobRequestWithUser, setRequestedJobs, toggleJobRequestLoadingFlag } from '../state/actions/job-request-actions';
 import { Store } from '@ngrx/store';
 import { getCreatedJobSuccess, toggleCreatedJobLoading } from '../state/actions/job-post.actions';
 import { UsersService } from './users.service';
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class JobService {
     dates.forEach((date: Date)=>{
       jobsToAdd.push({
         ...job,
-        DateOfJob:date.toISOString().split('T')[0] 
+        DateOfJob:moment(date).format('yyyy-MM-DD')
       })
     })
     let promises: Promise<any>[] = []
@@ -111,7 +112,7 @@ export class JobService {
   }
 
   getJobsCreated(operatorUID: string){
-    return onSnapshot(query(collection(this.db, 'job-post'), where('OperatorUID', '==', operatorUID)), (jobs)=>{
+    return onSnapshot(query(collection(this.db, 'job-post'), where('OperatorUID', '==', operatorUID), orderBy('dateUpdatedUnix', 'desc')), (jobs)=>{
       jobs.docChanges().forEach((a)=>{
         let data = a.doc.data() as jobPostModel;
         const id = a.doc.id;

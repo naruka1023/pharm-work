@@ -187,7 +187,7 @@ export class JobPostService {
   }
 
   async getJobCategoryServiceSmall(CategorySymbol:string) {
-    let docs = await getDocs(query(collection(this.firestore, 'job-post'), where('CategorySymbol', '==', CategorySymbol), where('Active', '==', true), orderBy('dateUpdatedUnix', 'desc'), limit(5)))
+    let docs = await getDocs(query(collection(this.firestore, 'job-post'), where('CategorySymbol', '==', CategorySymbol), where('Active', '==', true), orderBy('dateUpdatedUnix', 'desc'), limit(7)))
     return docs.docs.map((doc)=>{
       return {
         ...doc.data(),

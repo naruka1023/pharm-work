@@ -1,10 +1,10 @@
 <!-- <div class="d-flex justify-content-start m-2 ">
 	{{content.dateUpdated}}
 </div> -->
-<div class="card border-secondary w-100" style="border-radius: 20px">
-	<div class="card-header"  style="border-radius:20px 20px 0 0" [ngStyle]="{'color':content.Urgency?'black': 'white','background':!content.Urgency?fullTimeFlag?'#5cdfe4':'#7fd858':'rgba(0, 0, 0, 0.03)'}">
+<div class="card border-secondary w-100" style="border-radius: 20px" (click)="goToProfile()">
+	<div class="card-header"  style="border-radius:20px 20px 0 0" [ngStyle]="{'color':content.Urgency?'black': 'white','background':!urgentFlag?content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6':'rgba(0, 0, 0, 0.03)'}">
 		<div *ngIf="urgentFlag === true" class="row">
-			<div class="col-sm-4 fs-5 align-items-center borderRight" style="border-right: solid 1px grey; text-align: center">
+			<div class="col-sm fs-5 align-items-center borderRight" style="border-right: solid 1px grey; text-align: center">
 				<div><b>{{content.JobType}}</b></div>
 			</div>
 			<div class="dateOfJob col-sm fs-5 d-flex w-100 justify-content-center align-items-center">
@@ -13,17 +13,9 @@
 			<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
 		</div>
 		<div class="d-flex justify-content-center" *ngIf="!urgentFlag">
-			<ng-container *ngIf="fullTimeFlag === true; then fullBlock; else partBlock"></ng-container>
-			<ng-template #fullBlock>
-				<div class="col-sm-4 fs-5 text-center">
-					<b>Full-Time</b>
-				</div>
-			</ng-template>
-			<ng-template #partBlock>
-				<div class="col-sm-4 fs-5 text-center">
-					<b>Part-Time</b>
-				</div>
-			</ng-template>
+			<div class="col fs-5 text-center">
+				<b>{{content.TimeFrame}}</b>
+			</div>
 		</div>
 	</div>
 	<div class="card-body" style="padding:0.5rem 1rem">
@@ -31,7 +23,7 @@
 			<ng-container *ngIf="profileLinkFlag; then link; else noLink"></ng-container>
 			<ng-template #link>
 				<div class="col-3 mainImage text-center align-self-center">
-					<img (click)="goToProfile()" class="border border-5 w-100 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
+					<img class="border border-5 w-100 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
 				</div>
 			</ng-template>
 			<ng-template #noLink>
@@ -59,7 +51,7 @@
 							</p>
 							<div class=" fs-6 d-flex flex-row my-auto">
 									<div *ngIf="content.Salary.Suffix == 'SalaryNumbers'" class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap!}}</div>
-									<div *ngIf="content.Salary.Suffix !== 'SalaryNumbers'" class="mx-2">{{content.Salary.Suffix}}</div>
+									<div *ngIf="content.Salary.Suffix !== 'SalaryNumbers'" class="mx-2">{{content.Salary.Suffix | salaryType}}</div>
 							</div>
 						</div>
 						<div *ngIf="!urgentFlag" class="col-sm col-12 d-flex">
@@ -90,7 +82,7 @@
 							</p>
 							<div class="fs-6 d-flex flex-row my-auto">
 								<div class="mx-2" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">{{content.Salary.Amount}}</div>
-								<div class="mx-2" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">{{content.Salary.Suffix}}</div>
+								<div class="mx-2" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">{{content.Salary.Suffix | salaryType}}</div>
 								<!-- <ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
 								<ng-template #fullSub>บาท/เดือน</ng-template>
 								<ng-template #partSub>บาท/ชม</ng-template> -->
@@ -122,8 +114,7 @@
 </div>
 <div class="row my-3">
 	<div class="col-sm d-flex flex-sm-row-reverse justify-content-start">
-		<div *ngIf="buttonSetFlag" class="d-sm-flex justify-content-sm-end">
-			<button type="button" (click)="openModal()"class="me-3 btn btn-secondary fs-4">
+		<div *ngIf="buttonSetFlag" class="d-sm-flex align-items-center justify-content-sm-end">
 				<ng-container *ngIf="deleteLoadingFlag; then loading; else notLoading"></ng-container>
 				<ng-template #loading>
 					<div style="text-align:center" class="mt-5">
@@ -132,14 +123,13 @@
 						</div>
 					</div>
 				</ng-template>
-				<ng-template #notLoading><i class="bi bi-trash me-3"></i>ลบ</ng-template>
-			</button>
-			<button type="button" (click)="editFlag()" class="btn btn-secondary fs-4 me-3"><i class="bi-pencil-square"></i> แก้ไข</button>
+				<ng-template #notLoading><i (click)="openModal()" class="me-3 fs-4 bi bi-trash me-3"></i></ng-template>
+			<button type="button" (click)="editFlag()" class="btn btn-light fs-4 me-3" style="color:black"><i class="bi-pencil-square"></i> แก้ไข</button>
 			<ng-container *ngIf="activeLoadingFlag; then loadingActive; else notLoadingActive"></ng-container>
 			<ng-template #notLoadingActive>
 				<div class="form-switch form-check fs-3 me-3">
 					<label style="min-width: 6rem" class="form-check-label" for="flexSwitchCheckDefault">
-						{{activeFlag?'ปิด': 'ประกาศ'}}
+						{{activeFlag?'แสดงประกาศงาน': 'ปิดประกาศงาน'}}
 					</label>
 					<input class="form-check-input me-3" type="checkbox" (click)="toggleActive()" [checked]="Active$ | async" role="switch" id="flexSwitchCheckDefault">
 				</div>
@@ -171,23 +161,3 @@
 		<button *ngIf="usersRequestList" class="btn btn-primary fs-4" (click)="getUsers()">เภสัชที่สมัคร</button>
 	</div>
 </div>
-<div class="modal fade" id="confirmRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md fs-4">
-      <div class="modal-content p-5">
-			<div>
-				<div class="d-flex justify-content-center">
-					คุณต้องการลบการ์ดงานใช่หรือไม่
-				</div>
-				<div style="text-align:center" [ngStyle]="{'text-align': 'center', 'visibility': loadingConfirmRequestFlag? 'unset':'hidden'}" class="my-3">
-					<div class="spinner-border text-primary" role="status">
-					<span class="visually-hidden">Loading...</span>
-					</div>
-				</div>
-				<div class="d-flex justify-content-around mt-3 fs-4">
-					<button class="btn btn-light p-2 px-4 fs-3" (click)="onClose()">ยกเลิก</button>
-					<button class="btn btn-success p-2 px-4 fs-3" (click)="deleteCard()">ตกลง</button>
-				</div>
-			</div>
-      </div>
-    </div>
-  </div>

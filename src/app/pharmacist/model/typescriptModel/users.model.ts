@@ -115,6 +115,7 @@ export interface User{
     preferredSalary?: string,
     AmountCompleted: number,
     WorkExperience:number,
+    yearFlag: boolean,
     highestEducation: string,
     profilePictureUrl?:string,
     coverPhotoOffset?: number,

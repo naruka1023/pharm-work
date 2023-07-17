@@ -9,6 +9,7 @@ import { JobTypeConverterService } from 'src/app/pharmacist/service/job-type-con
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
 import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
+declare var window: any;
 
 @Component({
   selector: 'app-inner-profile',
@@ -18,6 +19,7 @@ import { setCurrentUser } from 'src/app/state/actions/users.action';
 export class InnerProfileComponent{
   
   loadingFlag: boolean = true;
+  searchModal!: any
   innerProfileInformation!: User
   privacyLevel: number = 0;
   privacyLabel: string = 'อนุญาตให้ดูข้อมูล'
@@ -27,6 +29,9 @@ export class InnerProfileComponent{
   }
   
   ngOnInit(){
+    this.searchModal = new window.bootstrap.Modal(
+      document.getElementById('searchModal')
+      );
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((value: User)=>{
@@ -47,6 +52,10 @@ export class InnerProfileComponent{
         this.loadingFlag = false;
       }
     })
+  }
+
+  openModal(){
+    this.searchModal.show()
   }
 
   changePrivacy(privacyLevel: number, privacyLabel: string){

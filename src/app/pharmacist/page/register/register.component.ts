@@ -73,7 +73,7 @@ export class RegisterComponent implements AfterViewInit {
         CB: [false],
       }),
       showProfileFlag: true,
-      preferredTimeFrame: ['Full-Time และ Part-Time'],
+      preferredTimeFrame: [''],
       preferredLocation: this.fb.group({
         Section: [''],
         District: [''],
@@ -83,7 +83,8 @@ export class RegisterComponent implements AfterViewInit {
       dateUpdated: new Date().toISOString().split('T')[0],
       preferredSalary: [''],
       WorkExperience: 0,
-      AmountCompleted: 0
+      AmountCompleted: 0,
+      active: 'อนุญาตให้ดูข้อมูล'
     },
     {
       validators: [Validation.match('password', 'confirmPassword')]
@@ -94,7 +95,7 @@ export class RegisterComponent implements AfterViewInit {
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       companyName: ['', [Validators.required]],
       jobType: ['', [Validators.required]],
-      companyID: ['', [Validators.required]],
+      companyID: ['', [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
       nameOfPerson: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       Agreement: ['', [Validators.requiredTrue]]

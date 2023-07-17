@@ -20,6 +20,7 @@ export const initialState: User = {
   coverPhotoFlag: true,
   AmountCompleted: 0,
   WorkExperience: 0,
+  yearFlag: true,
   contacts: {
     facebook: '',
     line: '',

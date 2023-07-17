@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, ValidatorFn, AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
@@ -7,6 +7,7 @@ import { JobTypeConverterService } from 'src/app/pharmacist/service/job-type-con
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
 import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
+import { atLeastOneCheckboxCheckedValidator } from './require-checkboxes-to-be-checked.validator';
 
 @Component({
   selector: 'app-preferred-jobs',
@@ -17,6 +18,7 @@ export class PreferredJobsComponent {
   innerProfileInformation!: User;
   resultPayload:string[] = []
   editFlag:boolean = false
+  submitted: boolean = false;
   loadingFlag: boolean = false
   profileEdit!:FormGroup
   constructor(private store: Store,  private converter: JobTypeConverterService, private userService: UserServiceService, private fb: FormBuilder, private utilService:UtilService){}
@@ -34,21 +36,26 @@ export class PreferredJobsComponent {
       }
     })
   }
+
+  get getNewJobForm(): { [key: string]: AbstractControl } { 
+    return this.profileEdit.controls;
+  }
+  
   initializeFormGroup(){
     this.profileEdit = this.fb.group({
-      preferredJobType: this.fb.group({
-        S: [false],
-        AA: [false],
-        AB: [false],
-        AC: [false],
-        BA: [false],
-        BB: [false],
-        BC: [false],
-        CA: [false],
-        CB: [false],
-      }),
+      preferredJobType: new FormGroup({
+        S: new FormControl(false),
+        AA: new FormControl(false),
+        AB: new FormControl(false),
+        AC: new FormControl(false),
+        BA: new FormControl(false),
+        BB: new FormControl(false),
+        BC: new FormControl(false),
+        CA: new FormControl(false),
+        CB: new FormControl(false),
+      }, atLeastOneCheckboxCheckedValidator()),
       showProfileFlag: true,
-      preferredTimeFrame: [''],
+      preferredTimeFrame: [[''], Validators.required],
       preferredLocation: this.fb.group({
         Section: [''],
         District: [''],
@@ -70,6 +77,10 @@ export class PreferredJobsComponent {
     })
   }
   onSave(){
+    this.submitted = true
+    if(this.profileEdit.invalid){
+      return
+    }
     let payload = {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,

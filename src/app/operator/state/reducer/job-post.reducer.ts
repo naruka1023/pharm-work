@@ -14,7 +14,7 @@ export const jobPostReducer = createReducer(
     let newJobPost = _.cloneDeep(state.JobPost)
     switch(docType){
       case 'added':
-        newJobPost.push(job)
+        newJobPost.unshift(job)
       break;
       case 'modified':
         newJobPost = newJobPost.map((jobPost:jobPostModel)=>{

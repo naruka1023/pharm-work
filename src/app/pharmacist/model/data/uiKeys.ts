@@ -32,7 +32,7 @@ export const headerArray: filterConditions [] = [
     content: []
   },  
   { 
-    header: 'งานจากแบรนด์ร้านยาชั้นนำของประเทศไทย',
+    header: 'งานจากร้านยาชั้นนำ',
     filterFlag: false,
     CategorySymbol:"BA",
     loading: true,

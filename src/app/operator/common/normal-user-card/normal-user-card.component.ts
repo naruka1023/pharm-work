@@ -108,7 +108,7 @@ export class NormalUserCardComponent {
       this.requestJobsComponent.hideModal()
     }
     let pageType = 'long'
-    switch(this.router.url){
+    switch(this.router.url.split('?')[0]){
       case '/operator/profile-operator/recently-seen-users':
         pageType = 'recently-seen'
         break;

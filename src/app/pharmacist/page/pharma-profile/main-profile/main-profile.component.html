@@ -47,7 +47,7 @@
                 </div>
                 <div class="d-flex">
                     <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                    <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience}} ปี</div>
+                    <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
                 </div>
             </div>
             <div class="mt-4 historyContent" style="padding-left: 6rem">
@@ -93,90 +93,90 @@
         </div>
         
         <ng-container formArrayName="educationHistory" >
-                <div class="row" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
-                    <div class="col-xl-3 col-12 text-xxl-start text-center my-xl-2 my-5">
-                        <label *ngIf='i == 0' class="textResponsive form-label"><b>ประวัติการศึกษา </b></label>
-                    </div>
-                    <div class="col-xl-7 col-12 mb-3">
-                        <div class="row mb-4">
-                            <div class="col-4">
-                                <label for="universityName" class="textResponsive form-label"><b>ชื่อสถาบัน</b></label>
-                            </div>
-                            <div class="col">
-                                <input style="background-color:#f2f2f2" formControlName="universityName" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="textResponsive fs-3 form-control me-3">
-                                <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
-                                </div>
-                            </div>
+            <div class="row" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
+                <div class="col-xl-3 col-12 text-xxl-start text-center my-xl-2 my-5">
+                    <label *ngIf='i == 0' class="textResponsive form-label"><b>ประวัติการศึกษา </b></label>
+                </div>
+                <div class="col-xl-7 col-12 mb-3">
+                    <div class="row mb-4">
+                        <div class="col-4">
+                            <label for="universityName" class="textResponsive form-label"><b>ชื่อสถาบัน</b></label>
                         </div>
-                        <div class="row mb-4">
-                            <div class="col-4">
-                                <label for="franchise" class="textResponsive form-label"><b>สาขา</b></label>
-                            </div>
-                            <div class="col">
-                                <input formControlName="franchise" type="text" class="textResponsive fs-3 form-control" style="background-color:#f2f2f2">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-4">
-                                <label for="major" class="textResponsive form-label"><b>คณะ</b></label>
-                            </div>
-                            <div class="col">
-                                <input formControlName="major" type="text" style="background-color:#f2f2f2" class="textResponsive fs-3 form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
-                                <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-4">
-                                <label for="educationLevel" class="textResponsive form-label"><b>ระดับการศึกษา</b></label>
-                            </div>
-                            <div class="col">
-                                <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select textResponsive fs-3" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
-                                    <option selected value="ปริญญาตรี">ปริญญาตรี</option>
-                                    <option value="ปริญญาโท">ปริญญาโท</option>
-                                    <option value="ปริญญาโท">ปริญญาเอก</option>
-                                </select>
-                                <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-4 mb-3">
-                                <label for="yearGraduated" class="textResponsive form-label"><b>ปีที่จบ</b></label>
-                            </div>
-                            <div class="col">
-                                <select formControlName="yearGraduated" class="textResponsive form-select fs-3" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
-                                    <option selected value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2015">2015</option>
-                                    <option value="2014">2014</option>
-                                    <option value="2013">2013</option>
-                                    <option value="2012">2012</option>
-                                    <option value="2011">2011</option>
-                                    <option value="2010">2010</option>
-                                    <option value="2009">2009</option>
-                                    <option value="2008">2008</option>
-                                </select>
-                                <div *ngIf="submitted && number.controls['yearGraduated'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['yearGraduated'].errors['required']">กรุณาระบุปีที่จบ</div>
-                                </div>
+                        <div class="col">
+                            <input style="background-color:#f2f2f2" formControlName="universityName" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="textResponsive fs-3 form-control me-3">
+                            <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
+                                <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col responsiveButton">
-                        <i *ngIf="i == 0" (click)="addEducation()" class="textResponsive button bi bi-plus-circle"></i>
-                        <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" textResponsive button bi bi-trash"></i>
+                    <div class="row mb-4">
+                        <div class="col-4">
+                            <label for="franchise" class="textResponsive form-label"><b>สาขา</b></label>
+                        </div>
+                        <div class="col">
+                            <input formControlName="franchise" type="text" class="textResponsive fs-3 form-control" style="background-color:#f2f2f2">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-4">
+                            <label for="major" class="textResponsive form-label"><b>คณะ</b></label>
+                        </div>
+                        <div class="col">
+                            <input formControlName="major" type="text" style="background-color:#f2f2f2" class="textResponsive fs-3 form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
+                            <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
+                                <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-4">
+                            <label for="educationLevel" class="textResponsive form-label"><b>ระดับการศึกษา</b></label>
+                        </div>
+                        <div class="col">
+                            <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select textResponsive fs-3" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
+                                <option selected value="ปริญญาตรี">ปริญญาตรี</option>
+                                <option value="ปริญญาโท">ปริญญาโท</option>
+                                <option value="ปริญญาโท">ปริญญาเอก</option>
+                            </select>
+                            <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
+                                <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-4 mb-3">
+                            <label for="yearGraduated" class="textResponsive form-label"><b>ปีที่จบ</b></label>
+                        </div>
+                        <div class="col">
+                            <select formControlName="yearGraduated" class="textResponsive form-select fs-3" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
+                                <option selected value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                                <option value="2014">2014</option>
+                                <option value="2013">2013</option>
+                                <option value="2012">2012</option>
+                                <option value="2011">2011</option>
+                                <option value="2010">2010</option>
+                                <option value="2009">2009</option>
+                                <option value="2008">2008</option>
+                            </select>
+                            <div *ngIf="submitted && number.controls['yearGraduated'].errors" class="invalid-feedback">
+                                <div *ngIf="number.controls['yearGraduated'].errors['required']">กรุณาระบุปีที่จบ</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="col responsiveButton">
+                    <i *ngIf="i == 0" (click)="addEducation()" class="textResponsive button bi bi-plus-circle"></i>
+                    <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" textResponsive button bi bi-trash"></i>
+                </div>
+            </div>
         </ng-container>
         <ng-container formArrayName="jobHistory">
             <ng-container [formGroupName]="i" *ngFor="let number of FormJobData; let i = index">
@@ -257,7 +257,6 @@
                                 ยังอยู่ในตำแหน่งนี้
                             </label>
                         </div>
-                        
                     </div>
                 </div>
             </ng-container>

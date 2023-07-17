@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { jobPostModel } from '../../model/jobPost.model';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import Validation from 'src/app/utils/validation';
+import moment from 'moment';
 
 @Component({
   selector: 'app-add-new-job',
@@ -77,18 +78,6 @@ export class AddNewJobComponent {
     
     this.urgency = (this.urgency == 'false')?false: true;
 
-    this.phone$ = this.store.select((state: any) =>{
-      return state.user.contacts.phone
-    })
-    this.line$ = this.store.select((state: any) =>{
-      return state.user.contacts.line
-    })
-    this.email$ = this.store.select((state: any) =>{
-      return state.user.contacts.email
-    })
-    this.facebook$ = this.store.select((state: any) =>{
-      return state.user.contacts.facebook
-    })
     this.srtStations$ = this.store.select((state: any)=>{
       return state.address.srt
     })
@@ -124,11 +113,13 @@ export class AddNewJobComponent {
         this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
       }
     })
+
     this.newJobForm.valueChanges.subscribe((form: any) =>{
       if(!this.urgency){
         this.timeFrame = form.TimeFrame
       }
     })
+
     this.scrollUp();
   }
 
@@ -140,8 +131,8 @@ export class AddNewJobComponent {
     if(event.target.value !== 'SalaryNumbers'){
       this.newJobForm.get('Salary.salaryEnd')!.disable()
       this.newJobForm.get('Salary.salaryStart')!.disable()
-      this.newJobForm.get('Salary.salaryStart')?.patchValue(null)
-      this.newJobForm.get('Salary.salaryEnd')?.patchValue(null)
+      this.newJobForm.get('Salary.salaryStart')?.patchValue(0)
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue(0)
     }else{
       this.newJobForm.get('Salary.salaryStart')!.enable()
       this.newJobForm.get('Salary.salaryEnd')!.enable()
@@ -154,6 +145,7 @@ export class AddNewJobComponent {
       behavior:"auto"
     });
   }
+
   handleCalendarChange(value: any){
     this.newJobForm.patchValue({
       DateOfJob: value.selectedDates
@@ -172,6 +164,7 @@ moveMap(event: any){
   this.center = this.markerPosition
   this.newJobForm.patchValue({_geoloc: this.markerPosition})
 }
+
 searchMap(event: any){
   this.markerPosition = {
     lat: event.geometry.location.lat(),
@@ -219,6 +212,7 @@ searchMap(event: any){
   get getNewJobForm(): { [key: string]: AbstractControl } { 
     return this.newJobForm.controls;
   }
+  
   initializeFormGroup(){
     this.newJobForm = this.fb.group({
       JobType: this.userState.jobType,
@@ -232,7 +226,7 @@ searchMap(event: any){
       JobName: ['', [Validators.required]],
       Amount: ['', [Validators.required]],
       _geoloc: [this.center, [Validators.required]],
-      Active: [false],
+      Active: [true],
       Duration: [''],
       timeStart: [''],
       timeEnd: [''],
@@ -253,8 +247,11 @@ searchMap(event: any){
         Province: ['', [Validators.required]],
       }),
       Contacts: this.fb.group({
+        nameRepresentative: [''],
+        areaOfContact: [this.userState.contacts?.areaOfContact],
         phone: [this.userState.contacts?.phone, [Validators.required]],
         email: [this.userState.contacts?.email, [Validators.required]],
+        website: [this.userState.contacts?.website],
         line: this.userState.contacts?.line,
         facebook: this.userState.contacts?.facebook
       }),
@@ -305,9 +302,9 @@ searchMap(event: any){
         processedInfo = 
         {
           Salary: {
-            Amount: this.newJobForm.value.Salary.salaryStart,
+            Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: this.newJobForm.value.Salary.salaryStart,
             Suffix: this.newJobForm.value.Salary.Suffix,
-            Cap: (this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
           }
         };
         processedInfo = 
@@ -347,7 +344,7 @@ searchMap(event: any){
           this.sub = this.newJobService.addMultipleJobs(postJobForm)
         }else{
           if(this.newJobForm.value.DateOfJob.length !== 0){
-            let processedDate = postJobForm.DateOfJob[0].toISOString().split('T')[0]
+            let processedDate = moment(postJobForm.DateOfJob[0]).format('yyyy-MM-DD') 
             postJobForm = {
               ...postJobForm,
               DateOfJob:processedDate

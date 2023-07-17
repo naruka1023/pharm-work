@@ -7,29 +7,33 @@
 		<div class="card-body p-4">
 			<div class="panelHeader d-flex justify-content-between pb-4 border-bottom">
 					<div class="fs-1 jobName" style="padding-right:2.5rem">{{profile.JobName}}</div>
-					<ng-container *ngIf="profile.TimeFrame === 'Part-Time'; then partTimeFlag; else fullTimeFlag"></ng-container>
-					<ng-template #partTimeFlag>
-						<div class="fs-1 ms-sm-3">
-							<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
-							<ng-template #urgentFlag>
-								<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
-							</ng-template>
-							<ng-template #notUrgentFlag>
-								<span class="badge text-dark" style="background: #a2e3d9">Part-Time</span>
-							</ng-template>
-						</div>
-					</ng-template>
-					<ng-template #fullTimeFlag>
-						<div class="fs-1 ms-3">
-							<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
-							<ng-template #urgentFlag>
-								<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
-							</ng-template>
-							<ng-template #notUrgentFlag>
-								<span class="badge text-dark" style="background:#7fcae6">Full-Time</span>
-							</ng-template>
-						</div>
-					</ng-template>
+					<div class="fs-1 ms-sm-3" *ngIf="profile.TimeFrame === 'Part-Time'">
+						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+						<ng-template #urgentFlag>
+							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+						</ng-template>
+						<ng-template #notUrgentFlag>
+							<span class="badge text-light" style="background: #7fd858">Part-Time</span>
+						</ng-template>
+					</div>
+					<div class="fs-1 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time'">
+						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+						<ng-template #urgentFlag>
+							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+						</ng-template>
+						<ng-template #notUrgentFlag>
+							<span class="badge text-light" style="background:#5cdfe4">Full-Time</span>
+						</ng-template>
+					</div>
+					<div class="fs-1 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time และ Part-Time'">
+						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+						<ng-template #urgentFlag>
+							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
+						</ng-template>
+						<ng-template #notUrgentFlag>
+							<span class="badge text-light" style="background:#dfa5d6">Full-Time และ Part-Time</span>
+						</ng-template>
+					</div>
 			</div>
 			<div class="mx-3 mb-3 fs-4">
 				<div class="row twoRows">
@@ -54,7 +58,16 @@
 							</div>
 							<div class="col">
 								<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount! + profile.Salary.Cap! | emptyField}} บาท/เดือน</div>
-								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
+								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+							</div>
+						</div>
+						<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
+							<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+								<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+							</div>
+							<div class="col">
+								<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}}</div>
+								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
 							</div>
 						</div>
 						<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
@@ -63,7 +76,7 @@
 							</div>
 							<div class="col">
 								<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/ชม</div>
-								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
+								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
 							</div>
 						</div>
 						<div *ngIf="profile.BTS.Near"  class="pb-3 row">
@@ -148,7 +161,16 @@
 						</div>
 						<div class="col">
 							<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/เดือน</div>
-							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
+							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+						</div>
+					</div>
+					<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
+						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+							<i class="bi bi-currency-bitcoin me-2"></i><b>ค่าตอบแทน</b>
+						</div>
+						<div class="col">
+							<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}}</div>
+							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
 						</div>
 					</div>
 					<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
@@ -157,7 +179,7 @@
 						</div>
 						<div class="col">
 							<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/ชม</div>
-							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
+							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
 						</div>
 					</div>
 					<div class="row pb-3">
@@ -217,39 +239,57 @@
 				<h2>หน้าที่ความรับผิดชอบ</h2>
 				<div class="fs-4" [innerHtml]="profile.JobDetails | emptyField"></div>
 				<ng-container *ngIf="profile.Urgency === false">
-					<h2 class="my-5">คุณสมบัติผู้สมัคร</h2>
+					<h2 class="mt-5">คุณสมบัติผู้สมัคร</h2>
 						<div class="fs-4" [innerHtml]="profile.qualityApplicants | emptyField"></div>
-					<h2 class="my-5">สวัสดิการ</h2>
+					<h2 class="mt-5">สวัสดิการ</h2>
 						<div class="fs-4" [innerHtml]="profile.jobBenefits | emptyField"></div>
-					<h2 class="my-5">วิธีสมัครงาน</h2>
+					<h2 class="mt-5">วิธีสมัครงาน</h2>
 						<div class="fs-4" [innerHtml]="profile.applyInstructions | emptyField"></div>
 				</ng-container>
 			</div>
 			<div class="my-5 mb-3">
-				<h2 class="my-5">ช่องทางติดต่อ</h2>
-				<div class="row fs-4">
-					<div class="col-sm-6 col-12">
+				<h2 class="my-5 mb-3">ช่องทางติดต่อ</h2>
+				<div class="d-sm-flex fs-4">
+					<div class="me-3">
+						<b>ชื่อผู้ติดต่อ: </b>
+					</div>
+					<div class="col ms-2">{{profile.Contacts.nameRepresentative | emptyField}}</div>
+				</div>
+				<div class="d-sm-flex fs-4">
+					<div class="me-3">
+						<b>สถานที่ติดต่อ: </b>
+					</div>
+					<div class="col ms-2">{{profile.Contacts.areaOfContact | emptyField}}</div>
+				</div>
+				<div class="d-sm-flex fs-4">
+					<div class="me-3">
 						<b>โทร: </b>
 					</div>
 					<div class="col ms-2">{{profile.Contacts.phone | emptyField}}</div>
 				</div>
-				<div class="row fs-4">
-					<div class="col-sm-6 col-12">
+				<div class="d-sm-flex fs-4">
+					<div class="me-3">
 						<b>Email: </b>
 					</div>
 					<div class="col ms-2">{{profile.Contacts.email | emptyField}}</div>
 				</div>
-				<div class="row fs-4">
-					<div class="col-sm-6 col-12">
+				<div class="d-sm-flex fs-4">
+					<div class="me-3">
 						<b>Line: </b>
 					</div>
 					<div class="col ms-2">{{profile.Contacts.line | emptyField}}</div>
 				</div>
-				<div class="row fs-4">
-					<div class="col-sm-6 col-12">
+				<div class="d-sm-flex fs-4">
+					<div class="me-3">
 						<b>Facebook: </b>
 					</div>
 					<div class="col ms-2">{{profile.Contacts.facebook | emptyField}}</div>
+				</div>
+				<div class="d-sm-flex fs-4">
+					<div class="me-3">
+						<b>Website: </b>
+					</div>
+					<div class="col ms-2">{{profile.Contacts.website | emptyField}}</div>
 				</div>
 			</div>
 		</div>

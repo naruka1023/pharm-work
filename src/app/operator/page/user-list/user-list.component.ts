@@ -247,7 +247,7 @@ export class UserListComponent {
       onlineFlag: false,
       radius: [''],
       nearbyFlag: false,
-      amountCompletedSort:[''],
+      // amountCompletedSort:[''],
       _geoloc:[''],
       preferredLocation: this.fb.group({
         Section: [''],
@@ -267,7 +267,8 @@ export class UserListComponent {
     this.store.dispatch(toggleAddressChange())
   }
   searchUsersUrgent(){
-      this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
+    this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
+    this.paginationIndex = 0
     this.loadingFlag = true
     if(this.newUserFormUrgent.value.nearbyFlag && this.newUserFormUrgent.value.radius == ''){
       this.newUserFormUrgent.patchValue({

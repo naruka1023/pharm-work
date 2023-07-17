@@ -78,10 +78,13 @@ export class JobPostDetailsComponent implements OnDestroy{
       Suffix: ''
     },
     Contacts: {
+      nameRepresentative: '',
+      areaOfContact: '',
       phone: '',
       email: '',
       line: '',
-      facebook: ''
+      website: '',
+      facebook: '',
     },
     JobDetails: '',
     TravelInstructions: '',

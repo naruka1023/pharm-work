@@ -19,14 +19,13 @@ export class MainProfileComponent {
   editFlag:boolean = false
   loadingFlag: boolean = false
   submitted: boolean = false
-  profileEdit!:FormGroup
+  profileEdit!:any
   descriptionEditor = ClassicEditor;
   descriptionModel = {
     editorData: ''
   };
-  constructor(private store: Store, private userService: UserServiceService, private fb: FormBuilder,private utilService:UtilService){
+  constructor(private store: Store, private userService: UserServiceService, private fb: FormBuilder,private utilService:UtilService){}
 
-  }
   ngOnInit(){
     this.store.select((state: any)=>{
       return state.user
@@ -53,7 +52,13 @@ export class MainProfileComponent {
   }
 
   changeDetected(e: any, index: number){
-    this.profileEdit.get('active')?.setValue('active'+ index)
+    let control: FormArray = this.profileEdit.get('jobHistory') as FormArray
+    let controlGroup = control.controls as FormGroup[]
+      controlGroup.forEach((group: FormGroup, innerIndex)=>{
+      if(innerIndex != index){
+        group.get('activeFlag')?.setValue(false);
+      }
+    })
   }
 
   dateStarted(index:number){
@@ -118,15 +123,11 @@ export class MainProfileComponent {
     let newValue: FormArray = this.profileEdit.controls['jobHistory'] as FormArray;
     newValue.push(jobToAdd)
   }
+
   removeOccupation(index: number){
     if(index > 0){
       let newValue: FormArray = this.profileEdit.controls['jobHistory'] as FormArray;
       newValue.removeAt(index);
-      let control: FormArray = this.profileEdit.get('jobHistory') as FormArray
-      let controlGroup = control.controls as FormGroup[]
-        controlGroup.forEach((group: FormGroup)=>{
-        group.get('activeFlag')?.setValue(false);
-      })
       this.profileEdit.get('active')?.setValue('')
     }
   }
@@ -139,12 +140,14 @@ export class MainProfileComponent {
       WorkExperience: [''],
     });
   }
+
   getCurrentDate(){
     let parsedDate = new Date()
     let months = (parsedDate.getFullYear()) * 12
     months += parsedDate.getMonth();
     return Math.floor(months/12)
   }
+
   calculateDateDiff(startDate:string, endDate:string){
     let months;
     let parsedStart = new Date(startDate);
@@ -155,9 +158,7 @@ export class MainProfileComponent {
     let ans = months <= 0 ? 0 : months
     return ans;
   }
-  parseDate(date: string){
-
-  }
+  
   resetFormGroup(){
     this.submitted = false
     let jobHistory: JobHistory[] = []
@@ -188,7 +189,7 @@ export class MainProfileComponent {
       ...this.innerProfileInformation,
       jobHistory : jobHistory
     })
-    this.profileEdit.get('jobHistory')?.valueChanges.subscribe((profile)=>{
+    this.profileEdit.get('jobHistory')?.valueChanges.subscribe((profile: any)=>{
       profile.forEach((pr:JobHistory)=>{
         if(pr.activeFlag){
           let date : any = new Date().toISOString().split('T')[0].split('-')
@@ -206,6 +207,7 @@ export class MainProfileComponent {
       this.profileEdit.patchValue(profile)
     })
   }
+
   onSave(){
     this.submitted = true
     if (this.profileEdit.invalid) {
@@ -220,17 +222,20 @@ export class MainProfileComponent {
     let totalYear : number = 0
     let jobHistoryList: JobHistory[] =this.profileEdit.get('jobHistory')?.value
     jobHistoryList.forEach((jobHistory, index)=>{
-      let workExp = jobHistory.workExperience.split(' ')
+      let workExp = jobHistory.workExperience.trim().split(' ')
       if(workExp.length > 2){
         totalMonths += Number(workExp[2])
+        totalYear += Number(workExp[0])
+      }else{
+        totalMonths += Number(workExp[0])
       }
-      totalYear += Number(workExp[0])
     })
     totalYear += Math.floor(totalMonths/12)
     payload = {
       ...payload,
       jobHistory: jobHistoryList,
-      WorkExperience: totalYear,
+      WorkExperience: totalYear == 0? totalMonths: totalYear,
+      yearFlag: totalYear !== 0
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{

@@ -141,8 +141,8 @@ export class EditJobComponent implements OnDestroy{
     if(event.target.value !== 'SalaryNumbers'){
       this.newJobForm.get('Salary.salaryEnd')!.disable()
       this.newJobForm.get('Salary.salaryStart')!.disable()
-      this.newJobForm.get('Salary.salaryStart')?.patchValue(null)
-      this.newJobForm.get('Salary.salaryEnd')?.patchValue(null)
+      this.newJobForm.get('Salary.salaryStart')?.patchValue(0)
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue(0)
     }else{
       this.newJobForm.get('Salary.salaryStart')!.enable()
       this.newJobForm.get('Salary.salaryEnd')!.enable()
@@ -250,6 +250,7 @@ searchMap(event: any){
       CategorySymbol: this.mapJobTypeToCategorySymbol(),
       dateCreated: [''],
       dateUpdated: [''],
+      dateUpdatedUnix: [''],
       TimeFrame: ['', [Validators.required]],
       OperatorUID: [this.userState.uid],
       JobName: ['', [Validators.required]],
@@ -273,10 +274,13 @@ searchMap(event: any){
         Province: ['', [Validators.required]],
       }),
       Contacts: this.fb.group({
-        phone: [this.userState.contacts?.phone, [Validators.required]],
-        email: [this.userState.contacts?.email, [Validators.required]],
-        line: this.userState.contacts?.line,
-        facebook: this.userState.contacts?.facebook
+        nameRepresentative: [''],
+        areaOfContact: [''],        
+        phone: ['', [Validators.required]],
+        email: ['', [Validators.required]],
+        website: [''],
+        line: [''],
+        facebook: ['']
       }),
       MRT: this.fb.group({
         Near: [''],
@@ -291,7 +295,6 @@ searchMap(event: any){
         Station: ['']
       }),
       ARL: this.fb.group({
-
         Near: [''],
         Station: ['']
       }),
@@ -325,9 +328,9 @@ searchMap(event: any){
         processedInfo = 
         {
           Salary: {
-            Amount: this.newJobForm.value.Salary.salaryStart,
+            Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: this.newJobForm.value.Salary.salaryStart,
             Suffix: this.newJobForm.value.Salary.Suffix,
-            Cap: (this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
           }
         };
       if(this.timeStart !== '' && this.timeEnd !== ''){

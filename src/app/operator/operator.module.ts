@@ -43,6 +43,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
+import { SalaryTypePipe } from './pipe/salary-type.pipe';
+import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 
 
 
@@ -73,7 +75,9 @@ import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
     UrgentJobsPageComponent,
     UrgentJobsHistoryComponent,
     EmptyFieldPipe,
-    ProvinceFilterPipe
+    ProvinceFilterPipe,
+    SalaryTypePipe,
+    WorkExperiencePipe
   ],
   imports: [
     CommonModule,
@@ -95,7 +99,7 @@ import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
     StoreModule.forFeature("operatorProfile", operatorProfileReducer),
     OperatorAppRoutingModule,
   ],
-  providers: [RequestJobComponent, OperatorProfileComponent],
+  providers: [RequestJobComponent, OperatorProfileComponent, AllJobsPostsComponent],
   exports: [InfiniteScrollModule],
   bootstrap:[LandingPageComponent]
 })

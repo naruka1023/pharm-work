@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { userOperator } from '../../model/typescriptModel/jobPost.model';
 import { removeFollowers } from '../../state/actions/job-post.actions';
 import { Store } from '@ngrx/store';
@@ -15,17 +15,19 @@ declare var window: any;
   templateUrl: './operator-normal-card.component.html',
   styleUrls: ['./operator-normal-card.component.css']
 })
-export class OperatorNormalCardComponent {
+export class OperatorNormalCardComponent{
   constructor(private userService: UserServiceService, private store:Store, private jobPostService: JobPostService, private router: Router, private utilService: UtilService){}
-
+ 
   @Input()content!: userOperator
   @Input()followerUID: string = '';
   @Input()requestViewFlag: boolean = false;
   localFlag: any;
   formModal: any;
 
+  target: string = "mouseTarget" + this.followerUID
   loadingConfirmRequestFlag: boolean = false
   successFlag: boolean = false
+  followedText: string = 'ติดตามแล้ว'
 
   requestStatus!: requestView
   requestViewLoading: boolean = false
@@ -54,6 +56,10 @@ export class OperatorNormalCardComponent {
     }).subscribe((requestView: requestView) =>{
       this.requestStatus = requestView
     })
+  }
+
+  changeFollowedText(text:string){
+    this.followedText = text;
   }
 
   onClose(){

@@ -34,8 +34,13 @@
 .fullTime{
     background:#5cdfe4;
     border-color: #5cdfe4
-  }
-  .partTime{
-  background:#7fd858;
-  border-color: #7fd858
-  }
+}
+.partTime{
+    background:#7fd858;
+    border-color: #7fd858
+}
+
+.card:hover{
+    background-color: rgba(88, 92, 89, 0.3);
+    cursor:pointer
+}
