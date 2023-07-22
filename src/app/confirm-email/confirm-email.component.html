@@ -1,0 +1,27 @@
+<div class="m-3 d-flex justify-content-end text-align-center">
+  <button class="fs-3 btn-light btn" (click)="confirmSignout()">
+    Logout<i class="ms-3 bi bi-box-arrow-right"></i>
+  </button>
+</div>
+<div class="d-flex justify-content-center align-items-center flex-column" style="height:90vh">
+  <div class="card my-auto" style="border-radius:20px">
+      <div style="background-color:white; border-radius: 20px">
+        <div class="card-header">
+            <h5 class="text-center card-title">ยืนยันอีเมล</h5>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" style='background:white' id="myTabContent">
+            <div class="loginPanel d-flex justify-content-center" style="width: 30rem;">
+              โปรดยืนยันอีเมลเพื่อดำเนินการต่อ
+            </div>
+            <div class="fs-3 my-3 d-flex justify-content-center">
+              {{email}}
+            </div>
+            <div class="d-flex justify-content-center">
+              <a style="cursor:pointer; color:#7fd858" (click)="sendConfirmEmail()">คลิกลิงค์นี้เพื่อส่งอีเมลยืนยัน</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

@@ -12,11 +12,13 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DemoLandingComponent
+    DemoLandingComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     BrowserModule,

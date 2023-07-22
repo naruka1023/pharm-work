@@ -17,7 +17,8 @@ SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
   styleUrls: ['./pharma-home.component.css']
 })
 export class PharmaHomeComponent {
-
+  loadingFlag:boolean = true;
+  allJobs!: jobPostModel[]
   loadingFlag$!: Observable<boolean>;
   localItem: filterConditions[] = []
   content$!: Observable<filterConditions[]>; 
@@ -57,6 +58,7 @@ export class PharmaHomeComponent {
     })
     this.scrollUp()
   }
+
   dispatchJobs() {
     let categorySymbols = headerArray.map((header:filterConditions)=> header.CategorySymbol)
     let promises: Promise<any>[] = []

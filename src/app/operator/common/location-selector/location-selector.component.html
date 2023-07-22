@@ -8,7 +8,7 @@
             <div class="col">
                 <div class="row verticalKeyGap">
                     <div class="col-4">
-                        <label class="me-3">จังหวด: </label>
+                        <label class="me-3">จังหวด:<label class="text-danger">*</label></label>
                     </div>
                     <div class="col">
                         <div *ngIf="submitted && getParentFormGroup['Province']!.errors" class="invalid-feedback2">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4">
-                        <label class="me-3">เขต: </label>
+                        <label class="me-3">เขต:<label class="text-danger">*</label></label>
                     </div>
                     <div class="col">
                         <div *ngIf="submitted && getParentFormGroup['District']!.errors" class="invalid-feedback2">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4">
-                        <label class="me-3">แขวง: </label>
+                        <label class="me-3">แขวง:<label class="text-danger">*</label></label>
                     </div>
                     <div class="col">
                         <div *ngIf="submitted && getParentFormGroup['Section']!.errors" class="invalid-feedback2">

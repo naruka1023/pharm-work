@@ -24,6 +24,7 @@ export class JobsListComponent implements OnDestroy{
   query: string = ''
   infiniteScrollingLoadingFlag: boolean = false;
   paginationIndex: number = 0;
+  nearMapFlag: boolean = false
   maxIndex: number = 0
   count!: number; 
   brandToCategory!: string;
@@ -85,7 +86,7 @@ export class JobsListComponent implements OnDestroy{
   onScroll() {
     if(this.paginationIndex < this.maxIndex){
       this.infiniteScrollingLoadingFlag = true
-      this.jobPostService.paginateJobCategoryResultsService(this.urgentFilterForm, this.CategorySymbol, this.paginationIndex, this.query, this.indexName).then((job)=>{
+      this.jobPostService.paginateJobCategoryResultsService(this.urgentFilterForm, this.CategorySymbol, this.paginationIndex, this.query, this.indexName, this.nearMapFlag).then((job)=>{
         this.paginationIndex++
         this.maxIndex = job.nbPages
         let payload: jobPostPayload = {
@@ -115,9 +116,9 @@ export class JobsListComponent implements OnDestroy{
       }
     }
       if(this.urgentFilterForm.value.nearbyFlag && this.urgentFilterForm.value.radius == ''){
+        this.nearMapFlag = true
         this.urgentFilterForm.patchValue({
           ...this.urgentFilterForm.value,
-          nearbyFlag: false,
           Location: {
             Section: '',
             District: '',
@@ -200,13 +201,12 @@ export class JobsListComponent implements OnDestroy{
       DateOfJob: value.target.value.split(', ')
     })
   }
-
   initializeFormGroup(){
     if(this.CategorySymbol == 'AA'){
       this.urgentFilterForm = this.fb.group({
-        nearbyFlag: true,
+        nearbyFlag: false,
         _geoloc: this._geoLoc,
-        radius: [''],
+        radius: [500],
         DateOfJob: [''],
         Location: this.fb.group({
           Section: [''],
@@ -217,6 +217,7 @@ export class JobsListComponent implements OnDestroy{
         BTS: [''],
         CategorySymbol: this.CategorySymbol
       })
+      this.nearMapFlag = false
     }else{
       this.urgentFilterForm = this.fb.group({
         TimeFrame: [''],

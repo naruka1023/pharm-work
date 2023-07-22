@@ -81,6 +81,7 @@ export class RegisterComponent implements AfterViewInit {
       }),
       preferredStartTime: [''],
       dateUpdated: new Date().toISOString().split('T')[0],
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),
       preferredSalary: [''],
       WorkExperience: 0,
       AmountCompleted: 0,
@@ -191,6 +192,7 @@ export class RegisterComponent implements AfterViewInit {
             this.loadingFlag = false;
           });
           })
+          location.reload()
         })
         .catch((error)=>{
           this.loadingFlag = false;

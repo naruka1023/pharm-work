@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DemoLandingComponent } from './demo-landing/demo-landing.component';
 import { LandingPageComponent as PharmaLanding } from './pharmacist/landing-page.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 const routes: Routes = [
   { path: '', component: DemoLandingComponent},
+  { path: 'confirm', component: ConfirmEmailComponent},
   {
     path: 'pharma',
     loadChildren: () =>

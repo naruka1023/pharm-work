@@ -16,9 +16,6 @@
           <i class="bi bi-building"></i> 23
         </div>
       </div>
-      <div class="alert alert-warning d-lg-block d-none" style="margin-bottom: 0" *ngIf="!emailVerifiedFlag && loginFlag" role="alert">
-        โปรดยืนยันอีเมล์ของคุณ
-      </div>
       <div class="headerLabel d-flex p-2 flex-row-reverse" style="justify-content:space-between">
         <ng-container *ngIf="loginFlag; then loginNav; else normalNav"></ng-container>
         <ng-template #loginNav>
@@ -83,23 +80,23 @@
               <li class="nav-item dropdown ms-3">
                   <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางานเภสัช</a>
                   <ul class="dropdown-menu p-2">
-                      <li><a class="dropdown-item" (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
-                      <li><a class="dropdown-item">งานร้านยา</a>
-                          <ul>
-                              <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AB')">ร้านยาทั่วไป</a></li>
-                              <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AC')">งานร้านยาแบรนด์</a></li>
-                          </ul>    
-                      </li>
-                      <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
-                      <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
-                      <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
-                    </ul>
+                    <li><a class="dropdown-item" (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
+                    <li><a class="dropdown-item">งานร้านยา</a>
+                        <ul>
+                            <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AB')">ร้านยาทั่วไป</a></li>
+                            <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AC')">งานร้านยาแบรนด์</a></li>
+                        </ul>    
+                    </li>
+                    <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
+                    <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
+                    <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
+                  </ul>
               </li>
               <li class="nav-item ms-3"><a class="nav-link" >ติดต่อเรา</a></li>
               <li class="nav-item ms-3">
-                <button type="button" routerLink="login" class="btn btn-primary" >
-                  เข้าสู่ระบบ
-                </button>
+                <button type="button" routerLink="login" class="btn btn-primary">เข้าสู่ระบบ</button>
+                <!-- <button type="button" (click)='goToConfirm()' class="btn btn-primary">เข้าสู่ระบ</button> -->
+              </li>
               <li class="nav-item ms-3">
                 <button type="button" (click)="goRegister(true)" class="btn" style="border-color: #7fd858; background:#7fd858; color:white">
                   สมัครสมาชิก
@@ -134,9 +131,6 @@
     <button type="button" class="d-flex flex-row-reverse btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <div class="alert alert-warning d-lg-none d-block mb-3" *ngIf="!emailVerifiedFlag && loginFlag" role="alert">
-      โปรดยืนยันอีเมล์ของคุณ
-    </div>
     <ng-container *ngIf="loginFlag; then loggedNav; else notLoggedNav"></ng-container>
     <ng-template #loggedNav>
       <ul class="nav nav-pills nav-fill fs-2 mb-3" id="myTab" role="tablist">

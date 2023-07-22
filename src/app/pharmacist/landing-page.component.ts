@@ -73,7 +73,6 @@ ngOnInit(){
   })
   this.subject = user(this.auth).subscribe((user)=>{
     if(user){
-      this.emailVerifiedFlag = user.emailVerified
       this.jobService.getUserBookmark(user.uid).then((bookmarks)=>{
           bookmarks.forEach((bookmark: Bookmark)=>{
             this.bookmarkSubscription[bookmark.jobUID] = this.jobService.getJobFromBookmark(bookmark) as Unsubscribe
@@ -168,7 +167,9 @@ randomTime(start:Date, end:Date): Date {
 onClose(){
   this.formModal.hide()
 }
-
+goToConfirm(){
+  this.route.navigate(['confirm']);
+}
 goToPage(page: string, queryFlag = false, queryParams:any = {}, target = ''){
   let splitTarget = page.split('/')
   let finalTarget = ''

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -9,7 +9,6 @@ import { UsersService } from '../../service/users.service';
 import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import { funnelUsers, toggleLoading } from '../../state/actions/users-actions';
-import { DocumentData, QuerySnapshot } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
@@ -69,32 +68,34 @@ export class OperatorHomeComponent implements OnDestroy{
       }
     })
     this.store.select((state: any)=>{
-      return state.user._geolocCurrent
+      return state.user._geoloc
     }).subscribe((_geoloc: any)=>{
       this._geoLoc = _geoloc
     })
     this.initializeFormGroup();
     this.initializeFormGroupUrgent();
+
     this.provinceUrgent$ = this.store.select((state: any)=>{
       let result = Object.keys(state.address.list);
       return result
     })
     this.districtUrgent$ = this.store.select((state: any)=>{
-      if(this.newUserFormUrgent.value.preferredLocation.Province === '' || this.newUserFormUrgent.value.preferredLocation.Province === null){
+      if(this.newUserFormUrgent.value.Location.Province === '' || this.newUserFormUrgent.value.Location.Province === null){
         return [];
       }
-      return Object.keys(state.address.list[this.newUserFormUrgent.value.preferredLocation.Province])
+      return Object.keys(state.address.list[this.newUserFormUrgent.value.Location.Province])
     })
     this.sectionUrgent$ = this.store.select((state: any)=>{
-      if(this.newUserFormUrgent.value.preferredLocation.District === '' || this.newUserFormUrgent.value.preferredLocation.District === null){
+      if(this.newUserFormUrgent.value.Location.District === '' || this.newUserFormUrgent.value.Location.District === null){
         return [];
       }
-      let section: string[] = state.address.list[this.newUserFormUrgent.value.preferredLocation.Province][this.newUserFormUrgent.value.preferredLocation.District].map((section: any)=>section.section);
+      let section: string[] = state.address.list[this.newUserFormUrgent.value.Location.Province][this.newUserFormUrgent.value.Location.District].map((section: any)=>section.section);
       return section
     })
     this.subscription.add(this.sectionUrgent$.subscribe())
     this.subscription.add(this.provinceUrgent$.subscribe())
     this.subscription.add(this.districtUrgent$.subscribe())
+
     this.province$ = this.store.select((state: any)=>{
       let result = Object.keys(state.address.list);
       return result
@@ -164,17 +165,17 @@ export class OperatorHomeComponent implements OnDestroy{
     this.newUserFormUrgent = this.fb.group({
       jobType: [''],
       onlineFlag: false,
-      radius: [''],
+      radius: [500],
       nearbyFlag: false,
-      amountCompletedSort:[''],
+      // amountCompletedSort:[''],
       _geoloc:[''],
-      preferredLocation: this.fb.group({
+      Location: this.fb.group({
         Section: [''],
         District: [''],
         Province: [''],
       }),
     })
-    this.locationRadiusFlag = this.newUserFormUrgent.value.radiusFlag
+    this.locationRadiusFlag = this.newUserFormUrgent.value.nearbyFlag
   }
   initializeFormGroup(){
     this.newUserForm = this.fb.group({

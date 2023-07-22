@@ -4,6 +4,8 @@ export interface filterConditions{
     brandToCategory?: string;
     filterFlag?: boolean;
     header: string;
+    bannerFlag: boolean;
+    bannerType?: string,
     count: number;
     loading: boolean;
     allContent?: jobPostModel[];

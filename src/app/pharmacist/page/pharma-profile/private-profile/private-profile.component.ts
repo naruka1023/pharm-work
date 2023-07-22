@@ -114,7 +114,8 @@ export class PrivateProfileComponent {
     let payload = {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
-      dateUpdated: new Date().toISOString().split('T')[0]
+      dateUpdated: new Date().toISOString().split('T')[0],
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{

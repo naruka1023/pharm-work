@@ -235,7 +235,9 @@ export class MainProfileComponent {
       ...payload,
       jobHistory: jobHistoryList,
       WorkExperience: totalYear == 0? totalMonths: totalYear,
-      yearFlag: totalYear !== 0
+      yearFlag: totalYear !== 0, 
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000), 
+      dateUpdated: new Date().toISOString().split('T')[0]
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{

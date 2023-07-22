@@ -145,7 +145,7 @@
                             </div>
                             <div class="col-md col-12">
                                 <div class="form-switch mb-3">
-                                    <input class="form-check-input me-3 headerText" type="checkbox" formControlName="nearbyFlag" (click)="onChangeEvent($event)" [checked]="locationRadiusFlag" role="switch" id="flexSwitchCheckDefault">
+                                    <input class="form-check-input me-3 headerText" type="checkbox" formControlName="nearbyFlag" (click)="onChangeEvent($event)" role="switch" id="flexSwitchCheckDefault">
                                 </div>
                                 <div *ngIf="locationRadiusFlag" class="col" >
                                     <div class="col">
@@ -161,11 +161,11 @@
                             </div>
                         </div>
                         <div *ngIf="!locationRadiusFlag" class="row">
-                            <div class="col-1 headerText text-end"><i class="bi bi-geo-alt"></i></div>
+                            <div class="col-1 headerText text-end"><i class="bi bi-house"></i></div>
                             <div class="col-xl-4 col-11 mb-xl-0 mb-3 headerText">
                                 <div><b>พื้นที่</b></div>
                             </div>
-                            <div class="col" formGroupName="preferredLocation">
+                            <div class="col" formGroupName="Location">
                                 <div class="row">
                                     <div class="col-sm-4 col-12 headerText">
                                         <label class="me-3"><b>จังหวด</b></label>

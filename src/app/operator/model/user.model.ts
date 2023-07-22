@@ -113,6 +113,7 @@ export interface UserPharma{
     coverPhotoPictureUrl?:string
     introText: string,
     dateUpdated: string,
+    dateUpdatedUnix: number,
     nickName: string,
     cropProfilePictureUrl?: string,
 }

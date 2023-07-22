@@ -40,7 +40,7 @@
                                             <ng-template swiperSlide>
                                                 <div style="background-color: white">
                                                     <div class="form-group mb-3">
-                                                        <label for="email" class="form-label">Email</label>
+                                                        <label for="email" class="form-label">Email<label class="text-danger">*</label></label>
                                                         <input
                                                             type="text"
                                                             formControlName="email"
@@ -55,7 +55,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="password" class="form-label">Password</label>
+                                                            <label for="password" class="form-label">Password<label class="text-danger">*</label></label>
                                                             <input
                                                                 type="password"
                                                                 formControlName="password"
@@ -71,7 +71,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                            <label for="confirmPassword" class="form-label">Confirm Password<label class="text-danger">*</label></label>
                                                             <input
                                                                 type="password"
                                                                 formControlName="confirmPassword"
@@ -101,7 +101,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="gender" class="form-label">เพศ</label>
+                                                            <label for="gender" class="form-label">เพศ<label class="text-danger">*</label></label>
                                                             <select formControlName="gender" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fP['gender'].errors }" aria-label="Default select example">
                                                                 <option selected value="ชาย">ชาย</option>
                                                                 <option value="หญิง">หญิง</option>
@@ -114,7 +114,7 @@
                                                     <div class="mb-3">
                                                         <div class="form-group">
                                                             <div class="d-md-flex justify-content-between">
-                                                                <label for="name" class="mb-0 form-label">ชื่อ ตามบัตรประชาชน</label>
+                                                                <label for="name" class="mb-0 form-label">ชื่อ ตามบัตรประชาชน<label class="text-danger">*</label></label>
                                                                 <div>
                                                                     <label for="name" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
                                                                 </div>
@@ -134,7 +134,7 @@
                                                     <div class="mb-3">
                                                         <div class="form-group">
                                                             <div class="d-md-flex justify-content-between">
-                                                                <label for="surname" class="mb-0 form-label">นามสกุล ตามบัตรประชาชน</label>
+                                                                <label for="surname" class="mb-0 form-label">นามสกุล ตามบัตรประชาชน<label class="text-danger">*</label></label>
                                                                 <div>
                                                                     <label for="surname" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
                                                                 </div>
@@ -154,7 +154,7 @@
                                                     <div class="mb-3">
                                                         <div class="form-group">
                                                             <div class="d-md-flex justify-content-between">
-                                                                <label for="license" class="mb-0 form-label">เลขใบประกอบ ภ.</label>
+                                                                <label for="license" class="mb-0 form-label">เลขใบประกอบ ภ.<label class="text-danger">*</label></label>
                                                                 <div>
                                                                     <label for="license" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
                                                                 </div>
@@ -175,7 +175,7 @@
                                                         <div class="form-check d-flex"> 
                                                             <input formControlName="Agreement" class="me-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fP['Agreement'].errors }">
                                                             <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
-                                                                ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ
+                                                                ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label class="text-danger">*</label>
                                                             </label>
                                                             <div *ngIf="submitted && fP['Agreement'].errors" style="width:auto" class="invalid-feedback">
                                                                 <div *ngIf="fP['Agreement'].errors['required']" style="text-align: left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
@@ -251,7 +251,7 @@
                                                         <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3" style="background-color:#f2f2f2">
                                                             <option value="Full-Time">Full-Time</option>
                                                             <option value="Part-Time">Part-Time</option>
-                                                            <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
+                                                            <option value="Full-Time และ Part-Time" selected>Full-Time และ Part-Time</option>
                                                         </select>
                                                     </div>
                                                     <app-location [parentFormGroup]="registerFormPharmacist" [formGroupName]="'preferredLocation'" [registerFlag]="true"></app-location>
@@ -288,7 +288,7 @@
                                 <div class="px-sm-5 px-3 tab-pane fade" id="urgent-job-pane" role="tabpanel" aria-labelledby="urgent-job" tabindex="0">
                                     <form [formGroup]="registerFormOperator" (ngSubmit)="onSubmit()">
                                         <div class="form-group mb-3">
-                                            <label for="email" class="form-label">Email</label>
+                                            <label for="email" class="form-label">Email<label class="text-danger">*</label></label>
                                             <input
                                               type="text"
                                               formControlName="email"
@@ -303,7 +303,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="password" class="form-label">Password</label>
+                                                <label for="password" class="form-label">Password<label class="text-danger">*</label></label>
                                                 <input
                                                     type="password"
                                                     formControlName="password"
@@ -319,7 +319,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                <label for="confirmPassword" class="form-label">Confirm Password<label class="text-danger">*</label></label>
                                                 <input
                                                     type="password"
                                                     formControlName="confirmPassword"
@@ -338,7 +338,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="companyName" class="form-label">ชื่อธุรกิจที่จดทะเบียน</label>
+                                                <label for="companyName" class="form-label">ชื่อธุรกิจที่จดทะเบียน<label class="text-danger">*</label></label>
                                                 <input
                                                     type="text"
                                                     formControlName="companyName"
@@ -353,7 +353,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="jobType" class="form-label">ประเภทธุรกิจ</label>
+                                                <label for="jobType" class="form-label">ประเภทธุรกิจ<label class="text-danger">*</label></label>
                                                 <select formControlName="jobType" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fO['jobType'].errors }" aria-label="Default select example">
                                                     <option value="ร้านยาทั่วไป">ร้านยาทั่วไป</option>
                                                     <option value="ร้านยาแบรนด์">ร้านยาแบรนด์</option>
@@ -371,7 +371,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="companyID" class="form-label">เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา</label>
+                                                <label for="companyID" class="form-label">เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา<label class="text-danger">*</label></label>
                                                 <input
                                                     type="text"
                                                     formControlName="companyID"
@@ -387,7 +387,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="nameOfPerson" class="form-label">ชื่อผู้ติดต่อ</label>
+                                                <label for="nameOfPerson" class="form-label">ชื่อผู้ติดต่อ<label class="text-danger">*</label></label>
                                                 <input
                                                     type="text"
                                                     formControlName="nameOfPerson"
@@ -402,7 +402,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="phoneNumber" class="form-label">เบอร์โทรผู้ติดต่อ</label>
+                                                <label for="phoneNumber" class="form-label">เบอร์โทรผู้ติดต่อ<label class="text-danger">*</label></label>
                                                 <input
                                                     type="text"
                                                     formControlName="phoneNumber"
@@ -419,7 +419,7 @@
                                             <div class="form-check d-flex"> 
                                                 <input formControlName="Agreement" class="me-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fO['Agreement'].errors }">
                                                 <label class="form-check-label" for="Agreement" style="color:black !important; text-align:left">
-                                                    ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้ประกอบการทุกประการ
+                                                    ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้ประกอบการทุกประการ<label class="text-danger">*</label>
                                                 </label>
                                                 <div *ngIf="submitted && fO['Agreement'].errors" style="width:auto" class="invalid-feedback">
                                                     <div *ngIf="fO['Agreement'].errors['required']" style="text-align:left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>

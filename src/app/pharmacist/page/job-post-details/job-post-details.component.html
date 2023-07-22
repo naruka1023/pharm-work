@@ -86,7 +86,7 @@
 									</div>
 									<div class="col">
 										<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap | emptyFieldPipe}} บาท/ชม</div>
-										<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
 									</div>
 								</div>
 							</div>
@@ -191,7 +191,7 @@
 									</div>
 									<div class="col">
 										<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/ชม</div>
-										<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix}}</div>
+										<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
 									</div>
 								</div>
 							</div>

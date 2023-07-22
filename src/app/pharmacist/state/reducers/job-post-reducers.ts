@@ -204,7 +204,6 @@ export const jobPostReducer = createReducer(
       let newJob = _.cloneDeep(job);
       if(job.CategorySymbol == jobs.CategorySymbol){
         newJob.allContent = jobs.JobsPost
-        newJob.count = jobs.count!
         return newJob;
       }
       return job;

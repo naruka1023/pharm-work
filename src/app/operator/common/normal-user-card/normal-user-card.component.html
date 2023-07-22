@@ -20,12 +20,23 @@
                 </div>
             </div>
             <div class="row py-1">
-                <div class="col-1">
-                    <i class="bi bi-geo-alt"></i>
-                </div>
-                <div class="col-sm cardKeyValue">
-                    {{content.Location?.District | emptyField}}, {{content.Location?.Province | emptyField}}
-                </div>
+                <ng-container *ngIf="type == 'S'; then realLocation; else preferredLocation"></ng-container>
+                <ng-template #realLocation>
+                    <div class="col-1">
+                        <i class="bi bi-house"></i>
+                    </div>
+                    <div class="col-sm cardKeyValue">
+                        {{content.Location?.District | emptyField}}, {{content.Location?.Province | emptyField}}
+                    </div>
+                </ng-template>
+                <ng-template #preferredLocation>
+                    <div class="col-1">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+                    <div class="col-sm cardKeyValue">
+                        {{content.preferredDistrict | emptyField}}, {{content.preferredProvince | emptyField}}
+                    </div>
+                </ng-template>
             </div>
             <div class="row py-1" *ngIf="type !== 'S'">
                 <div class="col-1">
@@ -46,7 +57,7 @@
         </div>
     </div>
 </div>
-<div class="d-flex justify-content-start ms-3 mt-1 fs-5" *ngIf="!requestStatusFlag">
+<div class="d-flex justify-content-end ms-3 mt-1 fs-5" *ngIf="!requestStatusFlag">
     อัพเดท {{content.dateUpdated}}
 </div>
 <div class="m-3 d-flex justify-content-end">

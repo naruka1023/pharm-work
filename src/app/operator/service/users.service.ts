@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import * as _ from 'lodash';
 import { Favorite, User, UserPharma, UserSearchForm, UserUrgentSearchForm, requestView, requestViewList, requestViewState } from '../model/user.model';
-import { DocumentData, Firestore, QuerySnapshot, Unsubscribe, addDoc, collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, onSnapshot, query, where } from '@angular/fire/firestore';
+import { DocumentData, Firestore, QuerySnapshot, Unsubscribe, addDoc, collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
 import { jobRequest } from '../model/jobPost.model';
@@ -23,7 +23,7 @@ export class UsersService {
   async searchPharmaUsersByPreferredJobType(form:UserSearchForm, categorySymbol: string){
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
-    let indexName = 'pharm-work_user_index'
+    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     if(newForm['preferredTimeFrame'] == 'Full-Time และ Part-Time'){
       delete newForm['preferredTimeFrame']
     }
@@ -69,10 +69,10 @@ export class UsersService {
       totalPage: user.nbPages
     }
   }
-  async searchPharmaUsersUrgentByPreferredJobType(form:UserUrgentSearchForm){
+  async searchPharmaUsersUrgentByPreferredJobType(form:UserUrgentSearchForm) {
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
-    let indexName = 'pharm-work_user_index'
+    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     // if(newForm.amountCompletedSort !== ''){
     //   indexName = 'pharm-work_user_index_AmountCompleted_' + newForm['amountCompletedSort']
     // }
@@ -83,14 +83,14 @@ export class UsersService {
       page:0,
     }
     if(!newForm.nearbyFlag){
-      if(newForm.preferredSection !== ''){
-        query = ' AND preferredSection:' + newForm.preferredSection
+      if(newForm.Location.Section !== ''){
+        query = ' AND Location.Section:' + "'" + newForm.Location.Section + "'"
       }
-      if(newForm.preferredDistrict !== ''){
-        query = ' AND preferredDistrict:' + newForm.preferredDistrict
+      if(newForm.Location.District !== ''){
+        query = ' AND Location.District:' + "'" + newForm.Location.District + "'"
       }
-      if(newForm.preferredProvince !== ''){
-        query = ' AND preferredProvince:' + newForm.preferredProvince
+      if(newForm.Location.Province !== ''){
+        query = ' AND Location.Province:' + "'" + newForm.Location.Province + "'"
       }
     }else{
       requestOptions.aroundLatLng = form._geoloc?.lat + ', ' + form._geoloc?.lng 
@@ -118,7 +118,7 @@ export class UsersService {
   async searchPharmaUsersUrgent(form:UserUrgentSearchForm){
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
-    let indexName = 'pharm-work_user_index'
+    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     if(newForm.amountCompletedSort !== ''){
       indexName = 'pharm-work_user_index_AmountCompleted_' + newForm['amountCompletedSort']
     }
@@ -130,13 +130,13 @@ export class UsersService {
     }
     if(!newForm.nearbyFlag){
       if(newForm.preferredSection !== ''){
-        query = ' AND preferredSection:' + newForm.preferredSection
+        query = ' AND Location.Section:' + "'" + newForm.Location.Section + "'"
       }
       if(newForm.preferredDistrict !== ''){
-        query = ' AND preferredDistrict:' + newForm.preferredDistrict
+        query = ' AND Location.District:' + "'" + newForm.Location.District + "'"
       }
       if(newForm.preferredProvince !== ''){
-        query = ' AND preferredProvince:' + newForm.preferredProvince
+        query = ' AND Location.Province:' + "'" + newForm.Location.Province + "'"
       }
     }else{
       requestOptions.aroundLatLng = form._geoloc?.lat + ', ' + form._geoloc?.lng 
@@ -166,7 +166,7 @@ export class UsersService {
   async searchPharmaUsers(form:UserSearchForm){
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
-    let indexName = 'pharm-work_user_index'
+    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     Object.keys(newForm).forEach((key, index)=>{
       if(key == 'WorkExperience' && newForm[key] !== ''){
         indexName = 'pharm-work_user_index_workExperience_desc'
@@ -233,7 +233,7 @@ export class UsersService {
       let promises: any = []
       this.converter.getPlaceHolderObject().forEach((placeHolder)=>{
         promises.push(
-          getDocs(query(collection(this.db, 'users'), where('role', '==', 'เภสัชกร'),limit(5), where('preferredJobType', 'array-contains', this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol))))
+          getDocs(query(collection(this.db, 'users'), where('role', '==', 'เภสัชกร'),limit(5), where('preferredJobType', 'array-contains', this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol)), orderBy('dateUpdatedUnix', 'desc')))
         )
       })
       let users: QuerySnapshot<DocumentData>[] = await Promise.all(promises)
@@ -264,7 +264,7 @@ export class UsersService {
     return count.data().count
   }
 
-  async paginateJobTypeResult(form:FormGroup<any>, type: string, paginationIndex: number, query: string, indexName2: string){
+  async paginateJobTypeResult(form:FormGroup<any>, type: string, paginationIndex: number, query: string, indexName2: string, nearMapFlag: boolean){
     let indexName = indexName2
     let index:SearchIndex = client.initIndex(indexName)
     let searchOptions: any = {
@@ -273,7 +273,7 @@ export class UsersService {
       filters: 
         query
     } 
-    if(type == 'S' && form.value.nearbyFlag){
+    if(nearMapFlag){
       searchOptions.aroundLatLng = form.value._geoloc?.lat + ', ' + form.value._geoloc?.lng 
       searchOptions.aroundRadius = form.value.radius
     }
@@ -287,7 +287,7 @@ export class UsersService {
   }
 
   async getPharmaUserByJobType(title: string, paginationIndex: number){
-    let indexName = 'pharm-work_user_index'
+    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     let index:SearchIndex = client.initIndex(indexName)
     let filter = "role:'เภสัชกร' AND preferredJobType:'" + title + "'"
     let doc = await index.search('', {

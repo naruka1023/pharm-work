@@ -1,12 +1,13 @@
     <div class="fs-4 d-flex m-3 flex-row-start align-items-center">
         <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" (click)="goToProfile()" class="card-img-top rounded-circle border border-5 border-white me-3"  style="width:fit-content" height="80" width="80">
         <div>
-            {{content.nickName}}
+            {{content.nickName | emptyField}}
         </div>
     </div>
     <div class="card align-items-center" style="border-radius: 20px !important" (click)="goToProfile()">
-        <div class="p-2 d-flex d-flex justify-content-center align-items-center" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'color': type === 'S'?'black': 'white', 'background-color' : type == 'S'? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#5cdfe4': content.preferredTimeFrame == 'Part-Time'?'#7fd858':'#dfa5d6'}">
-            <div class="col"><b>{{type  == 'S'? 'งานด่วน': content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time/Part-Time' : content.preferredTimeFrame}}</b></div>
+        <div class="p-2 d-flex d-flex justify-content-center align-items-center" style="width: -webkit-fill-available; width: -moz-available; border-radius:20px 20px 0px 0px; text-align: center" [ngStyle]="{'color': type === 'S'?'black': 'white', 'background-color' : type == 'S' || content.preferredTimeFrame == '' || content.preferredTimeFrame == undefined? 'rgba(0, 0, 0, 0.03)':content.preferredTimeFrame == 'Full-Time'?'#5cdfe4': content.preferredTimeFrame == 'Part-Time'?'#7fd858':'#dfa5d6'}">
+            <div *ngIf="type !== 'S'" class="col" [ngStyle]="{'visibility': content.preferredTimeFrame == undefined || content.preferredTimeFrame == ''?'hidden': 'unset'}"><b>{{content.preferredTimeFrame == undefined || content.preferredTimeFrame == ''?'fff' : content.preferredTimeFrame == 'Full-Time และ Part-Time'?'Full-Time และ Part-Time' : content.preferredTimeFrame}}</b></div>
+            <div class="col" *ngIf="type  == 'S'"><b>งานด่วน</b></div>
         </div>
         <!-- <div class="d-flex justify-content-between w-100">
             <div class="text-primary fs-3"><i class="bi bi-check-circle"></i></div>
@@ -29,16 +30,27 @@
                     <i class="bi bi-person"></i>
                 </div>
                 <div class="col text-start" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
-                    {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name:content.active}}
+                    {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name:content.active | emptyField}}
                 </div>
             </div>
             <div class="row py-2 fs-5">
-                <div class="col-2">
-                    <i class="bi bi-geo-alt"></i>
-                </div>
-                <div class="col text-start">
-                    {{content.Location?.District}}, {{content.Location?.Province | provinceFilter}}
-                </div>
+                <ng-container *ngIf="type == 'S'; then realLocation; else preferredLocation"></ng-container>
+                <ng-template #realLocation>
+                    <div class="col-2">
+                        <i class="bi bi-house"></i>
+                    </div>
+                    <div class="col text-start">
+                        {{content.Location?.District | emptyField}}, {{content.Location?.Province | provinceFilter | emptyField }}
+                    </div>
+                </ng-template>
+                <ng-template #preferredLocation>
+                    <div class="col-2">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+                    <div class="col text-start">
+                        {{content.preferredDistrict | emptyField}}, {{content.preferredProvince | provinceFilter | emptyField }}
+                    </div>
+                </ng-template>
             </div>           
             <div *ngIf="type !== 'S'" class="row fs-5 py-2">
                 <div class="col-2">
@@ -53,7 +65,7 @@
                     <i class="bi bi-award"></i>
                 </div>
                 <div class="col text-start">
-                    {{content.highestEducation}}
+                    {{content.highestEducation | emptyField}}
                 </div>
             </div>
             <!-- <div *ngIf="type == 'S'" class="row fs-5 py-2">
@@ -66,7 +78,7 @@
             </div> -->
         </div>
     </div>
-    <div class="d-flex justify-content-start ms-3 mt-1">
+    <div class="d-flex justify-content-end ms-3 mt-1">
         อัพเดท {{content.dateUpdated}}
     </div>
     <div class="d-flex justify-content-between m-3">

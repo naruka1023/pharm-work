@@ -153,8 +153,17 @@ export class JobPostService {
       filters: "Active:true AND CategorySymbol:" + CategorySymbol
     })
   }
+  getJobNearUs(CategorySymbol:string, markerPosition: any) {
+    let index:SearchIndex = client.initIndex('pharm-work_index')
+    let searchOptions = {
+      filters: "Active:true AND CategorySymbol:" + CategorySymbol,
+      aroundLatLng: markerPosition.lat + ', ' + markerPosition.lng,
+      aroundRadius: 1000
+    }
+    return index.search('', searchOptions)
+  }
 
-  paginateJobCategoryResultsService(form:FormGroup<any>, CategorySymbol:string, paginationIndex: number, query: string, indexName2: string) {
+  paginateJobCategoryResultsService(form:FormGroup<any>, CategorySymbol:string, paginationIndex: number, query: string, indexName2: string, nearMapFlag: boolean) {
     let index:SearchIndex = client.initIndex(indexName2)
     let searchOptions: any = {
       hitsPerPage:this.hitsPerPage,
@@ -162,7 +171,7 @@ export class JobPostService {
       filters: 
         query
     } 
-    if(CategorySymbol == 'AA' && form.value.nearbyFlag){
+    if(nearMapFlag){
       searchOptions.aroundLatLng = form.value._geoloc?.lat + ', ' + form.value._geoloc?.lng 
       searchOptions.aroundRadius = form.value.radius
     }
@@ -184,6 +193,16 @@ export class JobPostService {
       } as userOperator
     })
 
+  }
+
+  async getJobCategoryServiceAll(CategorySymbol:string) {
+    let docs = await getDocs(query(collection(this.firestore, 'job-post'), where('CategorySymbol', '==', CategorySymbol), where('Active', '==', true), orderBy('dateUpdatedUnix', 'desc')))
+    return docs.docs.map((doc)=>{
+      return {
+        ...doc.data(),
+        custom_doc_id: doc.id
+      } as jobPostModel
+    })
   }
 
   async getJobCategoryServiceSmall(CategorySymbol:string) {
@@ -257,6 +276,8 @@ export class JobPostService {
             break;
           case '_geoloc':
             break;
+          case 'radius':
+            break;
           case 'nearbyFlag':
             break;
           case 'Location':
@@ -310,7 +331,7 @@ export class JobPostService {
         queryString += " AND (" +innerQueryString + ")"
       }
     })
-    let indexName = !sortByPrice?'pharm-work_index': 'pharm-work_index_salary_asc'
+    let indexName = !sortByPrice?'pharm-work_index_dateUpdated_desc': 'pharm-work_index_salary_asc'
     let index:SearchIndex = client.initIndex(indexName)
     let requestOptions: any = {
       hitsPerPage: this.hitsPerPage,

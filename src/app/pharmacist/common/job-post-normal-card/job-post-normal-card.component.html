@@ -77,10 +77,12 @@
 							</p>
 							<div class="fs-6 d-flex flex-row my-auto">
 								<div class="mx-2" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</div>
-								<div class="mx-2" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">{{content.Salary.Suffix}}</div>
-								<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
-								<ng-template #fullSub>บาท/เดือน</ng-template>
-								<ng-template #partSub>บาท/ชม</ng-template>
+								<div class="mx-2" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">{{content.Salary.Suffix | salaryType}}</div>
+								<div *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
+									<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
+									<ng-template #fullSub>บาท/เดือน</ng-template>
+									<ng-template #partSub>บาท/ชม</ng-template>
+								</div>
 							</div>
 						</div>
 					</div>

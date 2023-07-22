@@ -18,6 +18,7 @@ declare var window: any;
 export class UserListComponent {
   accuracy!: number;
   _geoLoc: any;
+  locationRadiusFlag: boolean = true;
   constructor(private store:Store, private fb:FormBuilder,private router: Router,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){
     let extras = this.router.getCurrentNavigation()?.extras
     if(extras!.state !== undefined){
@@ -29,6 +30,7 @@ export class UserListComponent {
       }else{
         this.initializeFormGroupUrgent();
         this.newUserFormUrgent.patchValue(this.router.getCurrentNavigation()!.extras.state!)
+        this.locationRadiusFlag = this.newUserFormUrgent.value.nearbyFlag
       }
     }
   }
@@ -46,10 +48,10 @@ export class UserListComponent {
   infiniteScrollingLoadingFlag: boolean = false;
   loadingFlag: boolean = true;
   headerSearchFlag!: boolean
-  locationRadiusFlag: boolean = true;
   Users$!: Observable<UserPharma[]>
   newUserFormList!: FormGroup;
   newUserFormUrgent!: FormGroup;
+  nearMapFlag: boolean = false;
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
@@ -113,17 +115,17 @@ export class UserListComponent {
       })
       this.provinceUrgent$.subscribe(()=>{})
       this.districtUrgent$ = this.store.select((state: any)=>{
-        if(this.newUserFormUrgent.value.preferredLocation.Province === '' || this.newUserFormUrgent.value.preferredLocation.Province === null){
+        if(this.newUserFormUrgent.value.Location.Province === '' || this.newUserFormUrgent.value.Location.Province === null){
           return [];
         }
-        return Object.keys(state.address.list[this.newUserFormUrgent.value.preferredLocation.Province])
+        return Object.keys(state.address.list[this.newUserFormUrgent.value.Location.Province])
       })
       this.districtUrgent$.subscribe(()=>{})
       this.sectionUrgent$ = this.store.select((state: any)=>{
-        if(this.newUserFormUrgent.value.preferredLocation.District === '' || this.newUserFormUrgent.value.preferredLocation.District === null){
+        if(this.newUserFormUrgent.value.Location.District === '' || this.newUserFormUrgent.value.Location.District === null){
           return [];
         }
-        let section: string[] = state.address.list[this.newUserFormUrgent.value.preferredLocation.Province][this.newUserFormUrgent.value.preferredLocation.District].map((section: any)=>section.section);
+        let section: string[] = state.address.list[this.newUserFormUrgent.value.Location.Province][this.newUserFormUrgent.value.Location.District].map((section: any)=>section.section);
         return section
       })
       this.sectionUrgent$.subscribe(()=>{})
@@ -157,7 +159,7 @@ export class UserListComponent {
   provinceSelectedUrgent($event:any){
     this.newUserFormUrgent.patchValue({
       ...this.newUserFormUrgent.value.value,
-      preferredLocation:{
+      Location:{
         District:'',
           Section:''
         }
@@ -167,7 +169,7 @@ export class UserListComponent {
     districtSelectedUrgent($event:any){
       this.newUserFormUrgent.patchValue({
         ...this.newUserFormUrgent.value,
-        preferredLocation:{
+        Location:{
           Section:''
         }
       })
@@ -176,7 +178,7 @@ export class UserListComponent {
   onScroll() {
     if(this.paginationIndex < this.maxIndex){
       this.infiniteScrollingLoadingFlag = true
-      this.userService.paginateJobTypeResult(this.newUserFormUrgent,this.type, this.paginationIndex, this.query, this.indexName).then((user)=>{
+      this.userService.paginateJobTypeResult(this.newUserFormUrgent,this.type, this.paginationIndex, this.query, this.indexName, this.nearMapFlag).then((user)=>{
         this.paginationIndex++
         this.store.dispatch(updateUsersByJobType({users:user, jobType:this.type}))
         this.infiniteScrollingLoadingFlag = false;
@@ -245,17 +247,16 @@ export class UserListComponent {
   initializeFormGroupUrgent(){
     this.newUserFormUrgent = this.fb.group({
       onlineFlag: false,
-      radius: [''],
+      radius: [500],
       nearbyFlag: false,
-      // amountCompletedSort:[''],
       _geoloc:[''],
-      preferredLocation: this.fb.group({
+      Location: this.fb.group({
         Section: [''],
         District: [''],
         Province: [''],
       }),
     })
-    this.locationRadiusFlag = this.newUserFormUrgent.value.radiusFlag
+    this.locationRadiusFlag = this.newUserFormUrgent.value.nearbyFlag
   }
   resetUrgent(){
     this.initializeFormGroupUrgent();
@@ -267,13 +268,14 @@ export class UserListComponent {
     this.store.dispatch(toggleAddressChange())
   }
   searchUsersUrgent(){
-    this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
+    if(!this.headerSearchFlag){
+      this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
+    }
     this.paginationIndex = 0
     this.loadingFlag = true
     if(this.newUserFormUrgent.value.nearbyFlag && this.newUserFormUrgent.value.radius == ''){
       this.newUserFormUrgent.patchValue({
-        nearbyFlag: false,
-        preferredLocation: {
+        Location: {
           Section: '',
           District: '',
           Province: ''

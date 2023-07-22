@@ -100,7 +100,7 @@
                 <div class="col-xl-7 col-12 mb-3">
                     <div class="row mb-4">
                         <div class="col-4">
-                            <label for="universityName" class="textResponsive form-label"><b>ชื่อสถาบัน</b></label>
+                            <label for="universityName" class="textResponsive form-label"><b>ชื่อสถาบัน</b><label class="text-danger">*</label></label>
                         </div>
                         <div class="col">
                             <input style="background-color:#f2f2f2" formControlName="universityName" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="textResponsive fs-3 form-control me-3">
@@ -119,7 +119,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-4">
-                            <label for="major" class="textResponsive form-label"><b>คณะ</b></label>
+                            <label for="major" class="textResponsive form-label"><b>คณะ</b><label class="text-danger">*</label></label>
                         </div>
                         <div class="col">
                             <input formControlName="major" type="text" style="background-color:#f2f2f2" class="textResponsive fs-3 form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
@@ -130,7 +130,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-4">
-                            <label for="educationLevel" class="textResponsive form-label"><b>ระดับการศึกษา</b></label>
+                            <label for="educationLevel" class="textResponsive form-label"><b>ระดับการศึกษา</b><label class="text-danger">*</label></label>
                         </div>
                         <div class="col">
                             <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select textResponsive fs-3" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
@@ -145,7 +145,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-4 mb-3">
-                            <label for="yearGraduated" class="textResponsive form-label"><b>ปีที่จบ</b></label>
+                            <label for="yearGraduated" class="textResponsive form-label"><b>ปีที่จบ</b><label class="text-danger">*</label></label>
                         </div>
                         <div class="col">
                             <select formControlName="yearGraduated" class="textResponsive form-select fs-3" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
@@ -187,7 +187,7 @@
                     <div class="col-xl-10 col-12">
                         <div class="row mb-3">
                             <div class="col-xl-4 col-12">
-                                <label for="jobName" class="textResponsive form-label"><b>ตำแหน่ง</b></label>
+                                <label for="jobName" class="textResponsive form-label"><b>ตำแหน่ง</b><label class="text-danger">*</label></label>
                             </div>
                             <div class="col">
                                 <input style="background-color:#f2f2f2" formControlName="jobName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
@@ -198,7 +198,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-xl-4 col-12">
-                                <label for="companyName" class="textResponsive form-label"><b>ชื่อบริษัท</b></label>
+                                <label for="companyName" class="textResponsive form-label"><b>ชื่อบริษัท</b><label class="text-danger">*</label></label>
                             </div>
                             <div class="col">
                                 <input style="background-color:#f2f2f2" formControlName="companyName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors}">
@@ -209,7 +209,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-xl-4 col-12">
-                                <label class="form-label textResponsive"><b>ระยะเวลา</b></label>
+                                <label class="form-label textResponsive"><b>ระยะเวลา</b><label class="text-danger">*</label></label>
                             </div>
                             <div class="col">
                                 <label for="dateStarted" class="textResponsive form-label ">วันที่เริ่มต้น</label>

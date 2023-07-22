@@ -11,9 +11,7 @@
     [breakpoints]="breakingPointOperator"
     [pagination]="true"
     [autoplay]="true"
-    style="margin-top: 3em; text-align: center"
->
-
+    style="margin-top: 3em; text-align: center">
     <ng-template swiperSlide>
         <div class="img-container">
             <img class="landing-page_img" src="assets/banner9.png">
@@ -51,6 +49,22 @@
     </ng-template>
 </swiper>
 <div>
+    <!-- <div class="d-flex justify-content-center my-5" [ngStyle]="{'visibility':!loadingFlag?'hidden':'unset'}">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center my-3">
+        <google-map 
+            height="500px"
+            width="65vw"
+            [center]="allJobs[0]._geoloc!"
+            [zoom]="15"
+            (mapClick)="moveMap($event)"
+        >
+            <map-marker *ngFor="let job of allJobs" [position]="job._geoloc!"></map-marker>
+        </google-map>
+    </div> -->
     <div class="container pt-6">
         <ng-container *ngIf="loadingFlag$ | async; then loadBlock; else mainBlock"></ng-container>
         <ng-template #loadBlock>

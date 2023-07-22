@@ -9,8 +9,26 @@ export const headerArray: filterConditions [] = [
     loading: true,
     count: 0,
     allContent: [],
-    content: []
+    content: [],
+    bannerFlag: false
   },  
+  { 
+    header: 'งานจากร้านยา โรงพยาบาลและคลินิกชั้นนำ',
+    filterFlag: false,
+    CategorySymbol:"BA",
+    loading: true,
+    allContent: [],
+    count: 0,
+    bannerFlag: false
+  }, 
+  { 
+    header: 'งานจากบริษัทยาและโรงงานยาชั้นนำของประเทศไทย',
+    filterFlag: false,
+    CategorySymbol:"CB",
+    loading: true,
+    count: 0,
+    bannerFlag: false
+  },
   { 
     header: 'งานร้านยาทั่วไป',
     filterFlag: true,
@@ -19,7 +37,8 @@ export const headerArray: filterConditions [] = [
     loading: true,
     count: 0,
     allContent: [],
-    content: []
+    content: [],
+    bannerFlag: false
   }, 
   { 
     header: 'งานร้านยาแบรนด์',
@@ -29,16 +48,18 @@ export const headerArray: filterConditions [] = [
     loading: true,
     count: 0,
     allContent: [],
-    content: []
+    content: [],
+    bannerFlag: false
   },  
-  { 
-    header: 'งานจากร้านยาชั้นนำ',
+  {
+    CategorySymbol: '',
+    bannerFlag: true,
     filterFlag: false,
-    CategorySymbol:"BA",
-    loading: true,
-    allContent: [],
-    count: 0
-  }, 
+    header: '',
+    bannerType: 'long',
+    count: 0,
+    loading: true
+  },
   { 
     header: 'งานโรงพยาบาล/งานคลินิก',
     filterFlag: true,
@@ -47,7 +68,8 @@ export const headerArray: filterConditions [] = [
     loading: true,
     count: 0,
     allContent: [],
-    content: []
+    content: [],
+    bannerFlag: false
   }, 
   { 
     header: 'งานโรงงาน/งานบริษัท/งานวิจัย',
@@ -57,7 +79,17 @@ export const headerArray: filterConditions [] = [
     loading: true,
     count: 0,
     allContent: [],
-    content: []
+    content: [],
+    bannerFlag: false
+  },
+  {
+    CategorySymbol: '',
+    bannerFlag: true,
+    filterFlag: false,
+    header: '',
+    bannerType: 'long',
+    count: 0,
+    loading: true
   },
   { 
     header: 'งานอื่นๆ',
@@ -66,15 +98,27 @@ export const headerArray: filterConditions [] = [
     loading: true,
     count: 0,
     allContent: [],
-    content: []
-  }, 
-  { 
-    header: 'งานจากบริษัทยาและโรงงานยาชั้นนำของประเทศไทย',
+    content: [],
+    bannerFlag: false
+  },
+  {
+    CategorySymbol: '',
+    bannerFlag: true,
     filterFlag: false,
-    CategorySymbol:"CB",
-    loading: true,
-    count: 0
-  }
+    header: '',
+    bannerType: 'short',
+    count: 0,
+    loading: true
+  },
+  {
+    CategorySymbol: '',
+    bannerFlag: true,
+    filterFlag: false,
+    header: '',
+    bannerType: 'long',
+    count: 0,
+    loading: true
+  },
 ];
 
 export default headerArray;

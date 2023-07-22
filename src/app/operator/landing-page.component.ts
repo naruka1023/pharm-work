@@ -50,13 +50,15 @@ export class LandingPageComponent {
 
 
   ngOnInit(){
-    // getDocs(query(collection(this.db, "users"), where('jobType', '==', 'ร้านยา Brand'))).then((job)=>{
+    // getDocs(query(collection(this.db, "users"), where('role', '==', 'เภสัชกร'))).then((job)=>{
     //   console.log(job.docs.length)
     //   job.docs.forEach((j)=>{
-    //     let newJob = j.data() 
+    //     let newJob = j.data()
+    //     let newDate = new Date(newJob['dateUpdated'])
+
     //     newJob = {
     //       ...newJob,
-    //       jobType: 'ร้านยาแบรนด์'
+    //       dateUpdatedUnix: Math.floor(newDate.getTime() / 1000)
     //     }
         
     //     updateDoc(doc(this.db, 'users', j.id), newJob).then((prisoner)=>{
@@ -69,7 +71,7 @@ export class LandingPageComponent {
     )
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('requestViewModal')
-      );
+    );
       this.store.select((state: any)=>{
         return state.user
       }).subscribe((user)=>{
