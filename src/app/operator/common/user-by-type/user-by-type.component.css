@@ -1,12 +1,19 @@
-@media only screen and (max-width: 375px){
+@media only screen and (max-width: 450px){
   .title{
     display: flex;
-    font-size: 1.2rem!important;
+    font-size: 1rem!important;
+    align-items: center;
+  }
+  .goToListText{
+    display: flex;
+    font-size: 0.8rem!important;
+    color: #7fd858;
     align-items: center;
   }
 }
+
 @media only screen and (max-width: 576px){
-  .goToListText{
+  .arrow{
     display: none !important
   }
 }

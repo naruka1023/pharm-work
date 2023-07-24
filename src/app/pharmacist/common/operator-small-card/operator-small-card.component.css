@@ -1,5 +1,7 @@
 .brandIcon > img{
-    width: 60% !important;
+    width: -webkit-fill-available !important;
+    height: -webkit-fill-available;
+    border-radius: 100%;
     border-radius:100%
   }
   .brandIcon{

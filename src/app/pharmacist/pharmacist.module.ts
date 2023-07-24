@@ -52,6 +52,7 @@ import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
+import { FooterComponent } from './common/footer/footer.component';
 
 
 
@@ -82,6 +83,7 @@ import { WorkExperiencePipe } from './pipe/work-experience.pipe';
     LandingPageComponent,
     PharmaHomeComponent,
     SwiperModuleComponent,
+    FooterComponent,
     JobPostDetailsComponent,
     JobPostNormalCardComponent,
     JobPostSmallCardComponent,

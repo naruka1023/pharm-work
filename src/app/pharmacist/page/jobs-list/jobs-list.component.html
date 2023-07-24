@@ -264,8 +264,8 @@
 		  </div>
 		</div>
 	  </div>
-    <ng-container *ngIf="loadingFlag; then loadingScreen; else jobsList"></ng-container>
-    <ng-template #loadingScreen>
+    <!-- <ng-container *ngIf="loadingFlag; then loadingScreen; else jobsList"></ng-container> -->
+    <!-- <ng-template #loadingScreen> -->
         <div class="loading">
             <div style="text-align:center">
                 <div class="spinner-border text-primary" role="status">
@@ -273,8 +273,8 @@
                 </div>
             </div>
         </div>
-    </ng-template>
-    <ng-template #jobsList>
+    <!-- </ng-template> -->
+    <!-- <ng-template #jobsList>
 		<ng-container *ngIf="emptyResultFlag; then empty; else notEmpty"></ng-container>
         <ng-template #empty>
 			<div class="row d-flex justify-content-center">
@@ -302,5 +302,5 @@
                 </div>
             </div>
 		</ng-template>
-    </ng-template>
+    </ng-template> -->
 </div>

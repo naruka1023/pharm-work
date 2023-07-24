@@ -1,3 +1,25 @@
+@media only screen and (max-width: 450px){
+  .title{
+    display: flex;
+    font-size: 1rem!important;
+    align-items: center;
+  }
+}
+@media only screen and (max-width: 432px){
+  .innerText{
+    font-size: 1rem!important;
+  }
+}
+@media only screen and (max-width: 426px){
+  .innerTimeFrame{
+    font-size: 0.9rem!important;
+  }
+}
+@media only screen and (max-width: 350px){
+  .innerText{
+    font-size: 0.8rem!important;
+  }
+}
 .btn-primary, btn-primary:hover{
     background:#5cdfe4;
     border-color: #5cdfe4

@@ -51,10 +51,7 @@ export class SwiperModuleComponent {
     },
     768: {
       slidesPerView: 2.5,
-    },
-    420: {
-      slidesPerView: 1.5,
-    },
+    }
   }
   
   constructor(private jobPostService:JobPostService, private router: Router, private store: Store, private activatedRoute:ActivatedRoute){}

@@ -33,8 +33,8 @@ export class UserByTypeComponent {
     768: {
       slidesPerView: 2.5
     },
-    420: {
-      slidesPerView: 1.5
+    500: {
+      slidesPerView: 2
     },
   }
 
