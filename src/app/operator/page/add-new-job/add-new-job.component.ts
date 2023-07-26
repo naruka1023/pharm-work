@@ -310,7 +310,7 @@ searchMap(event: any){
         processedInfo = 
         {
           ...processedInfo,
-          Duration: this.newJobForm.value.timeStart + ' - ' + this.newJobForm.value.timeStart
+          Duration: this.newJobForm.value.timeStart + ' - ' + this.newJobForm.value.timeEnd
         }
         this.newJobForm.removeControl('timeStart')
         this.newJobForm.removeControl('timeEnd')

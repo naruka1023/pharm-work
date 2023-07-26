@@ -53,6 +53,7 @@ import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 import { FooterComponent } from './common/footer/footer.component';
+import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 
 
 
@@ -115,7 +116,8 @@ import { FooterComponent } from './common/footer/footer.component';
     EmptyFieldPipePipe,
     EmptyFieldPipe,
     SalaryTypePipe,
-    WorkExperiencePipe
+    WorkExperiencePipe,
+    ProvinceFilterPipe
   ],
   providers:[PharmaProfileComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]

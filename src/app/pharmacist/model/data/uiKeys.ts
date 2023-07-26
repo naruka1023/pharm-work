@@ -106,15 +106,6 @@ export const headerArray: filterConditions [] = [
     bannerFlag: true,
     filterFlag: false,
     header: '',
-    bannerType: 'short',
-    count: 0,
-    loading: true
-  },
-  {
-    CategorySymbol: '',
-    bannerFlag: true,
-    filterFlag: false,
-    header: '',
     bannerType: 'long',
     count: 0,
     loading: true

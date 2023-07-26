@@ -1,5 +1,5 @@
 <div *ngIf="userFlag">
-    <div class="d-flex justify-content-between fs-3 my-5">
+    <div class="d-flex justify-content-between fs-3 my-sm-5 my-3">
         <div class="title align-self-center">{{title}}</div>
         <button style="background-color:#f2f2f2" class="btn d-flex fs-3" (click)="goToList()">
             <span class="goToListText">ดูทั้งหมด</span>
@@ -11,8 +11,8 @@
             [slidesPerView]="1.5"
             [spaceBetween]="25"
             [breakpoints]="breakingPoint"            
-            style="margin-top: 3em; text-align: center"
-            class="mb-3"
+            style="text-align: center"
+            class="mb-3 mt-sm-3 mt-1"
         >
         <ng-template swiperSlide *ngFor="let user of Users$ | async">
             <app-small-user-card [content]="user" [type]="type"></app-small-user-card>

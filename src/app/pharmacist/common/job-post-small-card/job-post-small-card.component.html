@@ -9,7 +9,7 @@
 					</div>
 				</div>
 				<div class="addressList">
-					<p class="mb-2 fs-6" style="width: max-content; text-align: left; padding-left: 1rem"><i class="bi bi-geo-alt me-3 fs-6"></i><i>{{content.Location.Province}}</i></p>
+					<p class="mb-2 fs-6" style="width: max-content; text-align: left; padding-left: 1rem"><i class="bi bi-geo-alt me-sm-3 me-1 fs-6"></i><i>{{content.Location.Province | provinceFilter}}</i></p>
 				</div>
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 					</div>
 					<hr class="w-100 my-2">
 					<div class="d-flex justify-content-center">
-						<div class="d-flex flex-row align-items-center py-2">
+						<div class="urgentDisplay d-sm-flex d-block flex-row align-items-center py-2">
 							<b class="me-3">ทำงานวันที่</b>
 							<div>{{ content.DateOfJob }}</div>
 						</div>
@@ -36,7 +36,7 @@
 			</ng-template>
 			<ng-template #cardHeader>
 				<div class="d-flex justify-content-center">
-					<div [ngStyle]="{'background' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6', 'border-color' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6'}" class="p-2 d-flex justify-content-center flex align-items-center" style="color: white; text-align: center; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
+					<div [ngStyle]="{'background' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6', 'border-color' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6'}" class="timeFrameHeader p-2 d-flex justify-content-center flex align-items-center" style="color: white; text-align: center; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
 						<b>{{content.TimeFrame}}</b>
 					</div>
 				</div>

@@ -133,20 +133,20 @@
   <div class="offcanvas-body">
     <ng-container *ngIf="loginFlag; then loggedNav; else notLoggedNav"></ng-container>
     <ng-template #loggedNav>
-      <ul class="nav nav-pills nav-fill fs-2 mb-3" id="myTab" role="tablist">
+      <!-- <ul class="nav nav-pills nav-fill fs-2 mb-3" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="Profile-tab" data-bs-toggle="tab" data-bs-target="#Profile" type="button" role="tab" aria-controls="Profile" aria-selected="false"><i class="bi bi-person-circle"></i></button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab" aria-controls="search" aria-selected="true"><i class="bi bi-search"></i></button>
         </li>
-        <!-- <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation">
           <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button" role="tab" aria-controls="chat" aria-selected="false"><i class="bi bi-chat-left-dots"></i></button>
-        </li> -->
+        </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab" aria-controls="notifications" aria-selected="false"><i class="bi bi-bell"></i></button>
         </li>
-      </ul>
+      </ul> -->
       
       <!-- Tab panes -->
       <div class="tab-content">
@@ -200,24 +200,26 @@
             </button>
           </li>
           <li class="nav-item ms-3 my-2">
-            <button type="button" (click)="goToPage('register', true, {isPharma: false})" class="btn" style="background:#dfa5d6; border-color:#dfa5d6">
+            <button type="button" (click)="goToPage('register', true, {isPharma: false})" class="btn" style="background:#dfa5d6; border-color:#dfa5d6; color:white">
               สำหรับผู้ประกอบการ
             </button>
           </li>
-        <li class="nav-item dropdown ms-3 my-2">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางาน</a>
-            <ul class="dropdown-menu p-2">
-                <li><a class="dropdown-item" (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
-                <li><a class="dropdown-item">งานร้านยา</a>
-                    <ul>
-                        <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AB')">ร้านยาทั่วไป</a></li>
-                        <li class="landing-page_pharmacy-dropdown"><a class="dropdown-item" (click)="redirectToList('AC')">งานร้านยาแบรนด์</a></li>
-                    </ul>    
-                </li>
-                <li><a class="dropdown-item" (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
-                <li><a class="dropdown-item" (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
-                <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
+        <li class="nav-item ms-3 my-2">
+            <a class="nav-link text-center" role="button" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">หางาน</a>
+            <div id="collapseExample" class="collapse">
+              <ul class="p-2">
+                  <li><a  (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
+                  <li><a>งานร้านยา</a>
+                      <ul>
+                          <li class="landing-page_pharmacy-dropdown"><a (click)="redirectToList('AB')">ร้านยาทั่วไป</a></li>
+                          <li class="landing-page_pharmacy-dropdown"><a (click)="redirectToList('AC')">งานร้านยาแบรนด์</a></li>
+                      </ul>    
+                  </li>
+                  <li><a (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
+                  <li><a (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
+                  <li><a (click)="redirectToList('CA')">งานอื่นๆ</a></li>
               </ul>
+            </div>
         </li>
         <li class="nav-item ms-3 my-2"><a class="nav-link" >ติดต่อเรา</a></li>
     </ul>

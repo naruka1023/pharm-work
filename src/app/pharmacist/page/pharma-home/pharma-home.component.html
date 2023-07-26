@@ -65,7 +65,7 @@
             <map-marker *ngFor="let job of allJobs" [position]="job._geoloc!"></map-marker>
         </google-map>
     </div> -->
-    <div class="container pt-6">
+    <div class="container pt-6 mt-5">
         <ng-container *ngIf="loadingFlag$ | async; then loadBlock; else mainBlock"></ng-container>
         <ng-template #loadBlock>
             <div style="text-align:center">

@@ -233,7 +233,9 @@ export class LandingPageComponent {
   }
   
   confirmSignout(){
-    this.auth.signOut();
-    this.store.dispatch(removeCurrentUser());
+    this.auth.signOut().then(()=>{
+      this.store.dispatch(removeCurrentUser());
+      location.reload()
+    });
   }
 }

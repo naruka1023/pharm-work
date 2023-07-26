@@ -73,13 +73,13 @@
     text-align: center
   }
   .fourPointKeyValuePreferred{
-    font-size: small
+    font-size: smaller
   }
   .editButtonText{
     font-size: medium !important
   }
   .fourPointKeyValue{
-    font-size: small
+    font-size: smaller
   }
 }
 @media only screen and (max-width: 576px) {

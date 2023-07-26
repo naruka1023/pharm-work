@@ -148,6 +148,7 @@ searchMap(event: any){
       this.route.navigate([this.url], queryParams)
     }
   }
+
   onSave(){
     
     this.store.dispatch(toggleLoading())

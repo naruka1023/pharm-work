@@ -6,7 +6,7 @@ import { User } from './model/user.model';
 import { removeDefaultKey } from './state/actions/address.action';
 import { getCurrentUser, setCurrentUser } from './state/actions/users.action';
 import { UserService } from './service/user.service';
-import { Auth, user } from '@angular/fire/auth';
+import { Auth, signOut, user } from '@angular/fire/auth';
 import { relativeTimeThreshold } from 'moment';
 
 

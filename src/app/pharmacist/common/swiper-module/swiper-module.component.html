@@ -1,11 +1,11 @@
-<div *ngIf="!filterFlags.bannerFlag" class="d-flex justify-content-between" style="margin-top:4rem">
+<div *ngIf="!filterFlags.bannerFlag" class="d-flex justify-content-between">
     <div class="letSideHeader d-flex flex-row align-items-end mb-0">
             <p class="headerTitle h2 d-flex align-items-end">{{ filterFlags.header }}</p>
-        <div class="fs-4 jobCount align-self-center ms-3" *ngIf="filterFlags.CategorySymbol !== 'CB' && filterFlags.CategorySymbol !== 'BA'">{{ filterFlags.count }} ตำแหน่งงาน</div>
+        <div class="fs-4 jobCount align-self-center ms-3 d-md-block d-none" *ngIf="filterFlags.CategorySymbol !== 'CB' && filterFlags.CategorySymbol !== 'BA'">{{ filterFlags.count }} ตำแหน่งงาน</div>
     </div>
-    <div *ngIf="filterFlags.filterFlag" style="cursor: pointer; background-color:#f2f2f2" (click)="goToList()"class="d-flex flex-row align-items-center">
+    <div *ngIf="filterFlags.filterFlag" style="cursor: pointer; background-color:#f2f2f2" (click)="goToList()"class="goToListText d-flex flex-row align-items-center">
         <p class="goToListText h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
-        <i class="d-flex bi bi-arrow-right-square align-items-center" style="font-size:1.5rem"></i>
+        <i class="d-flex bi bi-arrow-right-square align-items-center d-md-block d-none" style="font-size:1.5rem"></i>
     </div>
 </div>
     <ng-container
@@ -33,7 +33,7 @@
 						[centeredSlides]="true"
 						[pagination]="true"
 						[autoplay]="true"
-						style="margin-top: 3em; text-align: center"
+						style="margin-bottom: 3em; text-align: center"
 					>
 						<ng-template swiperSlide>
 							<div class="img-container">
@@ -59,7 +59,7 @@
 						[centeredSlides]="true"
 						[pagination]="true"
 						[autoplay]="true"
-						style="margin-top: 3em; text-align: center"
+						style="margin-bottom: 3em; text-align: center"
 					>
 						<ng-template swiperSlide>
 							<div class="img-container">
@@ -74,7 +74,8 @@
 					</swiper>
 				</ng-template>
 				<ng-template #notBanner>
-					<swiper [slidesPerView]="2" 
+					<swiper 
+							[slidesPerView]="2" 
 							style="height:46rem"
 							[autoplay]="true"
 							[spaceBetween]="25" 
@@ -83,7 +84,7 @@
 							}"
 							[navigation]="true" 
 							[breakpoints]="breakingPointOperator"
-							class="swiper">
+							class="swiper operatorBanner">
 						<ng-template swiperSlide *ngFor="let items of filterFlags.content">
 							<app-operator-small-card [content]="items"></app-operator-small-card>
 						</ng-template>

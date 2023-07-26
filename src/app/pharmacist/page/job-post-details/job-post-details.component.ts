@@ -341,4 +341,5 @@ export class JobPostDetailsComponent implements OnDestroy{
       behavior:"auto"
     });
   }
+  
 }

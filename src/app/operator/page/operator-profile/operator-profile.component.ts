@@ -18,6 +18,7 @@ export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
   loadingFlag: boolean = true;
 
   constructor(private profileService:UtilService, private store:Store, private activatedRoute: ActivatedRoute, private jobService:JobService){}
+
   ngOnInit(): void {
     this.subscription.add(this.store.select((state:any)=>{
       return state.createdJobs.loading
@@ -44,10 +45,13 @@ export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
     this.subscription = this.profileService.getCallView().pipe().subscribe(()=>{
       this.openFormModal();
     })
+    this.scrollUp()
   }
+
   scrollIntoView(){
     document.getElementById('navToScroll')!.scrollIntoView();
   }
+
   ngAfterViewInit(){
     this.activatedRoute.data.subscribe((url: any)=>{
       if(url.scrollFlag == null){
@@ -58,22 +62,26 @@ export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
         this.selectTab(url.target)
     })
   }
+
   scrollUp(){
-    window.scroll({ 
+    window.scrollTo({ 
       top: 0, 
       left: 0, 
       behavior:"auto"
     });
   }
+
   selectTab(target:string){
     let triggerEl = document.getElementById(target)!;
     if(triggerEl !== null){
       triggerEl.click()
     }
   }
+
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+
   openFormModal() {
     this.formModal.show();
   }

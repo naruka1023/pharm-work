@@ -81,6 +81,15 @@ export class JobsListComponent implements OnDestroy{
     this.subscription.add(this.content$.subscribe((content) =>{
       this.emptyResultFlag = (content!.length == 0)? true: false
     }))
+    this.scrollUp()
+  }
+
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
   }
 
   onScroll() {

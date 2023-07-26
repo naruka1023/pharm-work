@@ -59,6 +59,7 @@ export class UserListComponent {
   provinceUrgent$!: Observable<string[]>;
   districtUrgent$!: Observable<string[]>;
   sectionUrgent$!: Observable<string[]>;
+  
   ngOnInit(){
     this.loadingFlag = true;
     if(this.type == undefined){

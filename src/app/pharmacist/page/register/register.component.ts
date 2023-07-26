@@ -50,6 +50,14 @@ export class RegisterComponent implements AfterViewInit {
     }
   }
 
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
+  }
+
   initializeFormGroup(){
     this.registerFormPharmacist = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -161,9 +169,8 @@ export class RegisterComponent implements AfterViewInit {
       updateProfile(this.auth.currentUser!,{
         displayName: newUser.role == 'ผู้ประกอบการ'? newUser.nameOfPerson : newUser.name
       }).then(()=>{
-        sendEmailVerification(this.auth.currentUser!)
       })
-        delete newUser.password
+      delete newUser.password
         delete newUser.confirmPassword
         newUser.uid = user.user?.uid;
 
@@ -190,9 +197,11 @@ export class RegisterComponent implements AfterViewInit {
           setDoc(doc(this.db, 'users', user.user.uid), newUser)
           .then((value)=>{
             this.loadingFlag = false;
+            sendEmailVerification(this.auth.currentUser!).then(()=>{
+              location.reload()
+            })
           });
           })
-          location.reload()
         })
         .catch((error)=>{
           this.loadingFlag = false;

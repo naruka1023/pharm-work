@@ -26,11 +26,9 @@
     }
   }
   .loading {
-    position: absolute; 
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-    width: 100px;
-    height: 100px
+    position: relative;
+    margin-top: 45vh;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    height: 50vh;
   }

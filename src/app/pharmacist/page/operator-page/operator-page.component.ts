@@ -137,7 +137,16 @@ export class OperatorPageComponent implements OnDestroy{
       this.markerPosition = operator._geoloc!
     })
     this.store.dispatch(toggleJobs())
+    this.scrollUp()
   }
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
   }

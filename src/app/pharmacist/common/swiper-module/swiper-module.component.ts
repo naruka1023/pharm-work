@@ -35,9 +35,9 @@ export class SwiperModuleComponent {
     768: {
       slidesPerView: 2
     },
-    420: {
+    320: {
       slidesPerView: 1.5,
-    },
+    }
   }
   breakingPointOperator = {
     1400: {

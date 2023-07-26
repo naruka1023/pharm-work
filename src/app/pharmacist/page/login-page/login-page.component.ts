@@ -17,7 +17,7 @@ export class LoginPageComponent implements AfterViewInit{
   modalErrorFlag: boolean = false;
   modalLoadingFlag:boolean = false;
   errorFlag:boolean = false;
-  errorMessage: string = 'Please enter email and password';
+  errorMessage: string = 'โปรดใส่อีเมลและรหัสผ่านให้ถูก';
   swiper!: any;
   header: string = 'เภสัช'
   loginForm!:FormGroup;
@@ -39,6 +39,15 @@ export class LoginPageComponent implements AfterViewInit{
       this.resetSuccessful = false;
       this.resetButtonFlag = true;
     })
+    this.scrollUp();
+  }
+    
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
   }
 
   changeHeader(isPharma: boolean){
