@@ -9,15 +9,17 @@
     <ng-template #notLoading>
       <div class="mx-sm-4 mx-2 fs-2">
         <div class="my-3" id="innerProfileTitle"><b>ผู้สมัครงาน</b></div> 
-        <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row tabList" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
-            <li class="nav-item">
-                <button class="myTab nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">คำขอสมัครงาน</button>
-            </li>
-            <li class="nav-item">
-                <button class="myTab nav-link flex-lg-fill text-lg-center" id='private-profile' data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ขอดูข้อมูลผู้สมัคร</button>
-            </li>
-            <hr style="width: 100%" class="m-auto">
-        </ul>
+        <div class="requestJobTabList">
+          <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-row tabList" style="width: max-content; top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+              <li class="nav-item">
+                  <button class="myTab nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">คำขอสมัครงาน</button>
+              </li>
+              <li class="nav-item">
+                  <button class="myTab nav-link flex-lg-fill text-lg-center" id='private-profile' data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ขอดูข้อมูลผู้สมัคร</button>
+              </li>
+              <hr style="width: 100%" class="m-auto">
+          </ul>
+        </div>
         <div class="tab-content fs-3 mx-md-5 mx-sm-3 mx-1">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
               <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>

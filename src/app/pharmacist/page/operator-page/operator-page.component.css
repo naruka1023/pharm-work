@@ -1,3 +1,19 @@
+@media only screen and (max-width: 430px) {
+    .jobTabList, .companyProfileTabList{
+        overflow-x:scroll 
+    }
+}
+@media only screen and (max-width: 992px) {
+    .mainTabList > ul{
+        font-size:medium !important
+    }
+    .jobTabList > ul{
+        font-size:medium !important
+    }
+    .companyProfileTabList > ul{
+        font-size:medium !important
+    }
+}
 @media only screen and (max-width: 768px) {
     .keyLabel{
         display:block !important
@@ -21,7 +37,7 @@
     position: relative;
     margin-top: 45vh;
     width: -webkit-fill-available;
-    width: -mox-available;
+    width: -moz-available;
     height: 50vh;
   }
   .nav-item{

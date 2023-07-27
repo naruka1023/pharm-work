@@ -28,7 +28,7 @@
                     </div>
         
                     <div id="coverPhoto"  class="coverPhoto img-container mh-100">
-                        <img id="innerPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl" />
+                        <img id="innerPhoto" class="innerCoverPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl"/>
                     </div>
                 </div>
                 <div class="outerHeader2Pharma d-flex justify-content-between" style="height:7rem">
@@ -161,8 +161,11 @@
             </div>
         </div>
         <div *ngSwitchCase="'job-post'" class="container" >
-            <div id="coverPhoto"  class="coverPhoto img-container mh-100">
-                <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
+            <div style="position:relative">
+                
+                <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+                    <img id="innerPhoto" class="innerCoverPhoto" draggable='false' [src]="result.coverPhotoPictureUrl" />
+                </div>
             </div>
             <div class="outerHeader2 d-lg-flex justify-content-between pb-md-0 pb-1 mb-5" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
                 <div class="outerHeader d-flex justify-content-lg-between">
@@ -205,7 +208,7 @@
         </div>
         <div *ngSwitchCase="'operator-profile'"  class="container px-0 pb-2" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
             <div id="coverPhoto"  class="coverPhoto img-container mh-100">
-                <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
+                <img id="innerPhoto" class="innerCoverPhoto" [src]="result.coverPhotoPictureUrl" />
             </div>
             <div class="outerHeader2 d-flex justify-content-between"  style="height:15vh">
                 <div class="outerHeader d-flex justify-content-between">

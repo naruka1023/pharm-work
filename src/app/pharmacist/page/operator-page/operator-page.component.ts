@@ -19,6 +19,8 @@ export class OperatorPageComponent implements OnDestroy{
   allJobs$!: Observable<jobPostModel[]>
   allJobs!: jobPostModel[]
   allJobsFlag!:boolean
+  allJobsFlagUrgent:boolean = false
+  allJobsFlagNormal:boolean = false
   User$!: Observable<User>;
   loading$!:Observable<boolean>
   user!: User;
@@ -56,6 +58,18 @@ export class OperatorPageComponent implements OnDestroy{
           let operator2 = operator.data() as userOperator
           this.userService.getNumberOfFollowers(operator.id).then((count)=>{
             this.allJobsFlag = jobs.length !== 0;
+            if(this.allJobsFlag){
+              jobs.forEach((job)=>{
+                if(job.Urgency){
+                  this.allJobsFlagUrgent = true
+                }else{
+                  this.allJobsFlagNormal = true
+                }
+              })
+            }else{
+              this.allJobsFlagNormal = false;
+              this.allJobsFlagUrgent = false;
+            }
             let payload: any = {
               ...operator2,
               followers:count
@@ -126,11 +140,21 @@ export class OperatorPageComponent implements OnDestroy{
         this.jobPostService.getJobOfOperator(this.operatorUID).then((jobs)=>{
           this.userService.getNumberOfFollowers(this.operatorUID).then((count)=>{
             this.allJobsFlag = jobs.length !== 0;
+            if(this.allJobsFlag){
+              jobs.forEach((job)=>{
+                if(job.Urgency){
+                  this.allJobsFlagUrgent = true
+                }else{
+                  this.allJobsFlagNormal = true
+                }
+              })
+            }else{
+              this.allJobsFlagNormal = false;
+              this.allJobsFlagUrgent = false;
+            }
             this.store.dispatch(setExistingOperatorData({operatorUID: this.operatorUID, jobType: this.jobType, followers:count, jobs: jobs}))
           })
         })
-      }else{
-        this.allJobsFlag = true
       }
       this.operator = operator
       this.center = operator._geoloc!

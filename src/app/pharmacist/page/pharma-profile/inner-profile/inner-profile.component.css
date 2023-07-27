@@ -1,24 +1,34 @@
+@media only screen and (max-width: 400px) {
+    .innerProfileTabList{
+      overflow-x:scroll
+    }
+}
 @media only screen and (max-width: 450px) {
-    .privacySection{
-      display:block !important;
-      text-align:center;
-      margin-top: 3rem
-    }
     .privacySection > button {
-        margin: auto
+        margin: auto;
+        font-size:small !important
     }
-
+    .privacySection > div {
+        font-size:small !important
+    }
+    .privacySection{
+        font-size:small !important
+    }
+    .privacyDropdown > li > a{
+        font-size:small !important
+    }
+    .privacyDropdown > li > a > div{
+        font-size:small !important
+    }
 }
 @media only screen and (max-width: 576px) {
     .privacySection{
-      display:block !important;
       text-align:center;
       margin-top: 3rem
     }
     .privacySection > button {
         margin: auto
     }
-
 }
 @media only screen and (max-width: 768px) {
     .upperTitle{

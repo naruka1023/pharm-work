@@ -1,3 +1,8 @@
+@media only screen and (max-width: 780px) {
+    .operatorPageTabList{
+        overflow-x:scroll
+    }
+  }
 @media only screen and (max-width: 515px) {
     .contentContainer{
         padding: 1rem !important
@@ -62,6 +67,9 @@
     }
     .textResponsive{
         font-size: smaller !important
+    }
+    .tabList{
+        font-size:medium !important
     }
 }
 @media only screen and (max-width: 768px) {

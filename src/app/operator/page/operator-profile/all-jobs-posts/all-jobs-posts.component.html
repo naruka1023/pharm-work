@@ -9,18 +9,20 @@
 <ng-template #notLoading>
     <div class="mx-sm-4 mx-2 fs-2">
         <div class="my-3 innerProfileTitle"><b>ประกาศงาน</b></div> 
-        <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row tabList" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
-            <li class="nav-item">
-                <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงานทั้งหมด</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ประกาศงานทั่วไป</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">ประกาศงานด่วนรายวัน</a>
-            </li>
-            <hr style="width: 100%" class="m-auto">
-        </ul>
+        <div class="allJobsTab"> 
+            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-row tabList" style="width: max-content; top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+                <li class="nav-item">
+                    <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงานทั้งหมด</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ประกาศงานทั่วไป</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">ประกาศงานด่วนรายวัน</a>
+                </li>
+                <hr style="width: 100%" class="m-auto">
+            </ul>
+        </div>
         <div class="tab-content">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>

@@ -1,20 +1,22 @@
 <div class="container">
     <app-profileheader profileType="pharma-profile"></app-profileheader>
     <div id="navToScroll" class="container my-4 sticky-top" style="top:97px; border-radius:60px; background:white">
-        <ul class="nav nav-underline py-3 mb-2 fs-2  flex-column flex-lg-row tabList" style="top:180px; --bs-nav-underline-gap:0 1rem; z-index: 0">
-            <li class="nav-item">
-                <a class="flex-lg-fill text-lg-center nav-link active" id="main-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">โปรไฟล์</a>
-            </li>
-            <li class="nav-item">
-              <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ข้อมูลส่วนตัว</a>
-            </li>
-            <li class="nav-item">
-              <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="urgent-jobs" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">การรับงานด่วน</a>
-            </li> -->
-        </ul>
+        <div class="operatorPageTabList">
+            <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row tabList" style="width:max-content; top:180px; --bs-nav-underline-gap:0 1rem; z-index: 0">
+                <li class="nav-item">
+                    <a class="flex-lg-fill text-lg-center nav-link active" id="main-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">โปรไฟล์</a>
+                </li>
+                <li class="nav-item">
+                  <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ข้อมูลส่วนตัว</a>
+                </li>
+                <li class="nav-item">
+                  <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="urgent-jobs" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">การรับงานด่วน</a>
+                </li> -->
+            </ul>
+        </div>
     </div>
     <div class="container mt-4 historyContainer" style="padding:4rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
         <div class="tab-content fs-3" style="line-break: auto">

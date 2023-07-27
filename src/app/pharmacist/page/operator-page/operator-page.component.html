@@ -10,8 +10,8 @@
 </ng-template>
 <ng-template #notLoading>
     <app-profileheader  [requestViewFlag]="requestViewFlag" [followerFlag]="followFlag" profileType="operator-profile"></app-profileheader>
-    <div id="navToScroll" class="container my-4 sticky-top" style="z-index: 1; top:97px; border-radius:60px; background:white">
-        <ul class="nav nav-underline py-3 mb-2 fs-2 flex-column flex-md-row" style="top:180px; --bs-nav-underline-gap:0 1rem">
+    <div id="navToScroll" class="container my-4 sticky-top mainTabList" style="z-index: 1; top:97px; border-radius:60px; background:white">
+        <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row" style="width: max-content; top:180px; --bs-nav-underline-gap:0 1rem">
             <li class="nav-item">
                 <a class="flex-md-fill text-md-center nav-link active" id="active-jobs" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงาน</a>
             </li>
@@ -23,61 +23,95 @@
     <div class="container mt-4 pt-3 contentContainer" style="padding:2rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
         <div class="tab-content fs-3">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
-                <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
-                    <li class="nav-item">
-                        <a class="flex-md-fill text-md-center nav-link active" data-bs-toggle="tab" id="Both" data-bs-target="#tabNine" aria-controls="tabNine" type="button" role="tab">ทั้งหมด </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="Urgent" data-bs-target="#tabSeven" aria-controls="tabSeven" type="button" role="tab">เฉพาะงานด่วน</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="notUrgent" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab" aria-current="page">เฉพาะงานทั่วไป</a>
-                    </li>
-                    <hr style="width: 100%" class="m-auto">
-                </ul>
+                <div class="jobTabList">
+                    <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-row" style="width: max-content; top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 3">
+                        <li class="nav-item">
+                            <a class="flex-md-fill text-md-center nav-link active" data-bs-toggle="tab" id="Both" data-bs-target="#tabNine" aria-controls="tabNine" type="button" role="tab">ทั้งหมด </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="Urgent" data-bs-target="#tabSeven" aria-controls="tabSeven" type="button" role="tab">เฉพาะงานด่วน</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="notUrgent" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab" aria-current="page">เฉพาะงานทั่วไป</a>
+                        </li>
+                        <hr style="width: 100%" class="m-auto">
+                    </ul>
+                </div>
                 <div class="tab-content fs-3">
                     <div class="tab-pane active" id="tabNine" role="tabpanel" aria-labelledby="tabNine-tab">
-                        <div *ngIf="allJobsFlag"class="row row-cols-xl-2 mb-5">
+                        <ng-container *ngIf="allJobsFlag; then notEmpty; else empty"></ng-container>
+                        <ng-template #notEmpty>
+                            <div class="row row-cols-xl-2 mb-5">
                             <ng-container *ngFor="let job of allJobs">
                                 <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
                             </ng-container>
-                        </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #empty>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                                    <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
+                                </div>
+                            </div>
+                        </ng-template>
                     </div>
                 </div>
                 <div class="tab-content fs-3">
                     <div class="tab-pane" id="tabSeven" role="tabpanel" aria-labelledby="tabSeven-tab">
-                        <div *ngIf="allJobsFlag"class="row row-cols-xl-2 mb-5">
-                            <ng-container *ngFor="let job of allJobs">
-                                <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="job.Urgency"></app-job-post-normal-card>
-                            </ng-container>
-                        </div>
+                        <ng-container *ngIf="allJobsFlagUrgent; then notEmptyUrgent; else emptyUrgent"></ng-container>
+                        <ng-template #notEmptyUrgent>
+                            <div class="row row-cols-xl-2 mb-5">
+                                <ng-container *ngFor="let job of allJobs">
+                                    <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="job.Urgency"></app-job-post-normal-card>
+                                </ng-container>
+                            </div>
+                        </ng-template>
+                        <ng-template #emptyUrgent>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                                    <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
+                                </div>
+                            </div>
+                        </ng-template>
                     </div>
                 </div>
                 <div class="tab-content fs-3">
                     <div class="tab-pane" id="tabEight" role="tabpanel" aria-labelledby="tabEight-tab">
-                        <div *ngIf="allJobsFlag"class="row row-cols-xl-2 mb-5">
-                            <ng-container *ngFor="let job of allJobs">
-                                <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="!job.Urgency"></app-job-post-normal-card>
-                            </ng-container>
-                        </div>
+                        <ng-container *ngIf="allJobsFlagNormal; then notEmptyNormal; else emptyNormal"></ng-container>
+                        <ng-template #notEmptyNormal>
+                            <div class="row row-cols-xl-2 mb-5">
+                                <ng-container *ngFor="let job of allJobs">
+                                    <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="!job.Urgency"></app-job-post-normal-card>
+                                </ng-container>
+                            </div>
+                        </ng-template>
+                        <ng-template #emptyNormal>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                                    <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
+                                </div>
+                            </div>
+                        </ng-template>
                     </div>
                 </div>
             </div>
         </div>
         <div class="tab-content fs-3">
             <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
-                <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-sm-row" style="top:185px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 0">
-                    <li class="nav-item">
-                      <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" id="overall-info"  data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">ข้อมูลทั่วไป</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="flex-sm-fill text-sm-center nav-link" id="contact" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">ติดต่อ</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" id="benefits"  data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab" aria-current="page">สวัสดิการ</a>
-                    </li>
-                    <hr style="width: 100%" class="m-auto">
-                </ul>
+                <div class="companyProfileTabList">
+                    <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-row" style="width: max-content; top:185px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 0">
+                        <li class="nav-item">
+                          <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" id="overall-info"  data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">ข้อมูลทั่วไป</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="flex-sm-fill text-sm-center nav-link" id="contact" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">ติดต่อ</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" id="benefits"  data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab" aria-current="page">สวัสดิการ</a>
+                        </li>
+                        <hr style="width: 100%" class="m-auto">
+                    </ul>
+                </div>
                 <div class="tab-content fs-3">
                     <div class="tab-pane active" id="tabFour" role="tabpanel" aria-labelledby="tabFour-tab">
                         <div class="d-flex flex-row verticalKeyGap keyLabel">
@@ -147,7 +181,7 @@
                                 <div class="keyValueGap"><i class="bi bi-geo"></i></div>
                                 <div class="keyValueGap"><b>ปักหมุดที่ตั้งบริษัท</b></div>
                             </div>
-                            <div class="d-flex">
+                            <div class="d-flex justify-content-center">
                                 <google-map 
                                     height="500px"
                                     width="65vw"

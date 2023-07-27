@@ -218,22 +218,11 @@ goToPage(page: string, queryFlag = false, queryParams:any = {}, target = ''){
   }
 
   redirectToList(categorySymbol: string){
-    if(localStorage.getItem('loginState') == 'true'){
-      this.route.navigate(['jobs-list'],
-      {
-        relativeTo:this.activatedRoute,
-        queryParams: 
-        {
-          CategorySymbol: categorySymbol,
-        }
-      })
-    }else{
-      this.route.navigate(['login'],
-      {
-        relativeTo:this.activatedRoute
-      })
-    }
-    this.offCanvas.hide()
+    let element = document.getElementById(categorySymbol + "toScroll")!
+    element.scrollIntoView({ block: "start" });
+    setTimeout(() => {
+      this.offCanvas.hide()
+    }, 1000)
   }
   scrollUp(){
     window.scroll({ 

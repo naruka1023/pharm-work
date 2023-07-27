@@ -9,7 +9,8 @@
 <ng-template #notLoading>
     <div class="mx-sm-4 mx-2 fs-2">
         <div class="my-3 innerProfileTitle"><b>โปรไฟล์บริษัท</b></div> 
-            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-column flex-md-row tabList" style="top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 5">
+        <div class="innerProfileTabList">
+            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-row tabList" style="width:max-content; top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 5">
                 <li class="nav-item">
                     <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ข้อมูลทั่วไป</a>
                 </li>
@@ -21,7 +22,8 @@
                 </li>
                 <hr style="width: 100%" class="m-auto">
             </ul>
-            <div class="tab-content fs-3 mx-sm-5" style="line-break: auto">
+        </div>
+        <div class="tab-content fs-3 mx-sm-5" style="line-break: auto">
                 <div class="align-items-baseline d-flex justify-content-end ms-md-3 editButton mb-md-0 mb-3"><button [ngStyle]="{'visibility': !profileEditState?'unset':'hidden'}" (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
                 <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <ng-container *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"></ng-container>
@@ -167,7 +169,7 @@
                                 <b>ปักหมุดที่อยู่ของบริษัทหรือปักหมุดในพื้นที่ๆต้องการหาเภสัชกร</b>
                             </div>
                         </div>
-                        <div class="col"  style="overflow: scroll">
+                        <div class="col d-flex justify-content-center"  style="overflow: scroll">
                             <google-map 
                                 height="500px"
                                 width="65vw"

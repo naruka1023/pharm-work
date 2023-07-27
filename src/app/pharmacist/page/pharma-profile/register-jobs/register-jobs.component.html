@@ -1,13 +1,15 @@
-<div class="mx-4" style="overflow-x: scroll">
+<div class="mx-4">
   <div class="my-3 fs-2 mainTitle"><b>สมัครงาน</b></div>
-  <ul class="nav nav-underline py-3 fs-3 mb-5 sticky-top tabList" style="width:max-content; top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 2">
-      <li class="nav-item">
-        <a class="nav-link flex-lg-fill text-lg-center active" id="request-jobs" routerLink="request-jobs" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">งานที่กดสมัคร</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="request-views" routerLink="request-views" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">คำขอดูข้อมูล</a>
-      </li>
-      <hr style="width: 100%" class="m-auto borderLine">
-  </ul>
+  <div class="registerJobsTabList">
+    <ul class="nav nav-underline py-3 fs-3 mb-5 sticky-top tabList" style="width:max-content; top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 2">
+        <li class="nav-item">
+          <a class="nav-link flex-lg-fill text-lg-center active" id="request-jobs" routerLink="request-jobs" data-bs-toggle="tab" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab">งานที่กดสมัคร</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="request-views" routerLink="request-views" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">คำขอดูข้อมูล</a>
+        </li>
+        <hr style="width: 100%" class="m-auto borderLine">
+    </ul>
+  </div>
   <router-outlet></router-outlet>
 </div>

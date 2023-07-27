@@ -1,3 +1,8 @@
+@media only screen and (max-width: 350px) {
+    .registerJobsTabList{
+        overflow-x:scroll
+    }
+}
 @media only screen and (max-width: 992px) {
     .mainTitle{
         text-align:center
