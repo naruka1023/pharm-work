@@ -168,6 +168,7 @@
                                                             />
                                                             <div *ngIf="submitted && fP['license'].errors" class="invalid-feedback">
                                                                 <div *ngIf="fP['license'].errors['required']">กรุณาระบุเลขที่ใบประกอบวิชาชีพเภสัชกร</div>
+                                                                <div *ngIf="fP['license'].errors['minlength'] || fP['license'].errors['maxlength']">กรุณาใส่เลขใบประกอบวิชาชีพ 5 หลัก</div>
                                                             </div>
                                                         </div>
                                                     </div>

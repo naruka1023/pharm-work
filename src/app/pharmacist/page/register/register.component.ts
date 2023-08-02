@@ -67,7 +67,7 @@ export class RegisterComponent implements AfterViewInit {
       gender: ['', [Validators.required]],
       nickName: [''],
       surname: ['', [Validators.required]],
-      license: ['', [Validators.required]],
+      license: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
       Agreement: [false, [Validators.requiredTrue]],
       preferredJobType: this.fb.group({
         S: [false],

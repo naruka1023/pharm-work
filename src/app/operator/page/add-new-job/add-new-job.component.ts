@@ -105,14 +105,13 @@ export class AddNewJobComponent {
       this.initializeFormGroup();
     })
     this.initializeFormGroup();
-    this.newJobForm.get('Salary.salaryStart')!.addValidators(Validators.max(this.newJobForm.value.Salary.salaryEnd))
 
-    this.newJobForm.statusChanges.subscribe((value: any)=>{
-      if(value !== 'VALID'){
-        this.newJobForm.get('Salary.salaryStart')!.setValidators([Validators.max(this.newJobForm.value.Salary.salaryEnd), Validators.required])
-        this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
-      }
-    })
+    // this.newJobForm.statusChanges.subscribe((value: any)=>{
+    //   if(value !== 'VALID'){
+    //     this.newJobForm.get('Salary.salaryStart')!.setValidators([Validators.max(this.newJobForm.value.Salary.salaryEnd), Validators.required])
+    //     this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
+    //   }
+    // })
 
     this.newJobForm.valueChanges.subscribe((form: any) =>{
       if(!this.urgency){
@@ -235,8 +234,8 @@ searchMap(event: any){
         Amount:[''],
         Cap: [''],
         Suffix: 'SalaryNumbers',
-        salaryStart: [{value: '', disabled:this.salaryRadioFlag}, [Validators.required]],
-        salaryEnd: [{value: '', disabled:this.salaryRadioFlag}]
+        salaryStart: [0, [Validators.required]],
+        salaryEnd: [0, [Validators.required]]
       }, 
      ),
       OnlineInterview: [false],
@@ -247,7 +246,7 @@ searchMap(event: any){
         Province: ['', [Validators.required]],
       }),
       Contacts: this.fb.group({
-        nameRepresentative: [''],
+        nameRepresentative: ['', [Validators.required]],
         areaOfContact: [this.userState.contacts?.areaOfContact],
         phone: [this.userState.contacts?.phone, [Validators.required]],
         email: [this.userState.contacts?.email, [Validators.required]],
@@ -277,6 +276,7 @@ searchMap(event: any){
       coverPhotoPictureUrl:this.userState.coverPhotoPictureUrl,
       coverPhotoOffset: this.userState.coverPhotoOffset
     });
+    // this.newJobForm.get('Salary.salaryStart')!.addValidators(Validators.max(this.newJobForm.value.Salary.salaryEnd))
     if(this.userState.jobType === 'ร้านยาแบรนด์'){
       this.newJobForm.addControl('Franchise', this.fb.control(['']));
     }
@@ -298,13 +298,13 @@ searchMap(event: any){
     if(this.newJobForm.invalid ){
       return
     }else{
-      let processedInfo = {};
+      let processedInfo: any = {};
         processedInfo = 
         {
           Salary: {
-            Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: this.newJobForm.value.Salary.salaryStart,
+            Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: Math.round(this.newJobForm.value.Salary.salaryStart),
             Suffix: this.newJobForm.value.Salary.Suffix,
-            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? Math.round(this.newJobForm.value.Salary.salaryEnd) - Math.round(this.newJobForm.value.Salary.salaryStart): 0
           }
         };
         processedInfo = 
@@ -312,6 +312,8 @@ searchMap(event: any){
           ...processedInfo,
           Duration: this.newJobForm.value.timeStart + ' - ' + this.newJobForm.value.timeEnd
         }
+        processedInfo.Salary!.Amount = Math.round(processedInfo.Salary!.Amount);
+        processedInfo.Salary!.Cap = Math.round(processedInfo.Salary!.Cap);
         this.newJobForm.removeControl('timeStart')
         this.newJobForm.removeControl('timeEnd')
       processedInfo = {

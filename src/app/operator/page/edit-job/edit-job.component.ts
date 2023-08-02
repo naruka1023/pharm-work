@@ -89,14 +89,14 @@ export class EditJobComponent implements OnDestroy{
       this.userState = user;
     })
     this.initializeFormGroup();
-    this.newJobForm.get('Salary.salaryStart')!.addValidators(Validators.max(this.newJobForm.value.Salary.salaryEnd))
+    // this.newJobForm.get('Salary.salaryStart')!.addValidators(Validators.max(this.newJobForm.value.Salary.salaryEnd))
 
-    this.newJobForm.statusChanges.subscribe((value: any)=>{
-      if(value !== 'VALID'){
-        this.newJobForm.get('Salary.salaryStart')!.setValidators([Validators.max(this.newJobForm.value.Salary.salaryEnd), Validators.required])
-        this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
-      }
-    })    
+    // this.newJobForm.statusChanges.subscribe((value: any)=>{
+    //   if(value !== 'VALID'){
+    //     this.newJobForm.get('Salary.salaryStart')!.setValidators([Validators.max(this.newJobForm.value.Salary.salaryEnd), Validators.required])
+    //     this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
+    //   }
+    // })    
     let uid = this.route.snapshot.queryParamMap.get('id');
     this.subToDestroy = this.store.select((state:any)=>{
       let newState = _.cloneDeep(state.createdJobs.JobPost) as jobPostModel[];
@@ -263,8 +263,8 @@ searchMap(event: any){
         Amount:[''],
         Cap: [''],
         Suffix: [''],
-        salaryStart: [{value: '', disabled:this.salaryRadioFlag}, [Validators.required]],
-        salaryEnd: [{value: '', disabled:this.salaryRadioFlag}]
+        salaryStart: [0, [Validators.required]],
+        salaryEnd: [0]
       }),
       OnlineInterview: [false],
       WorkFromHome: [false],
@@ -274,7 +274,7 @@ searchMap(event: any){
         Province: ['', [Validators.required]],
       }),
       Contacts: this.fb.group({
-        nameRepresentative: [''],
+        nameRepresentative: ['', [Validators.required]],
         areaOfContact: [''],        
         phone: ['', [Validators.required]],
         email: ['', [Validators.required]],
@@ -324,15 +324,17 @@ searchMap(event: any){
     if(this.newJobForm.invalid){
       return
     }else{
-      let processedInfo = {};
+      let processedInfo: any = {};
         processedInfo = 
         {
           Salary: {
-            Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: this.newJobForm.value.Salary.salaryStart,
+            Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: Math.round(this.newJobForm.value.Salary.salaryStart),
             Suffix: this.newJobForm.value.Salary.Suffix,
-            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart: 0
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? Math.round(this.newJobForm.value.Salary.salaryEnd) - Math.round(this.newJobForm.value.Salary.salaryStart): 0
           }
         };
+        processedInfo.Salary!.Amount = Math.round(processedInfo.Salary!.Amount);
+        processedInfo.Salary!.Cap = Math.round(processedInfo.Salary!.Cap);
       if(this.timeStart !== '' && this.timeEnd !== ''){
         processedInfo = 
         {

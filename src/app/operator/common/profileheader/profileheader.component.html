@@ -2,12 +2,11 @@
     <div *ngSwitchCase="'operator-profile'">
         <div class="container" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
             <div style="position:relative">
-                <div *ngIf="editCoverPhotoFlag"  id="coverPhotoEditButtonPositionDropdown"  class="dropdown" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '1.5rem', 'z-index': '3', 'height': '10vh'}">
+                <div *ngIf="editCoverPhotoFlag"  id="coverPhotoEditButtonPositionDropdown"  class="dropdown me-md-3 d-sm-block d-none" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '6'}">
                     <button data-bs-toggle="dropdown" 
                             aria-expanded="false" 
-                            id='coverPhotoEditButtonPosition' 
                             aria-expanded="false" 
-                            class="btn btn-secondary fs-3">
+                            class="btn btn-secondary fs-3 coverPhotoEditButtonPosition">
                             <i class="bi bi-camera fs-3 me-1"></i> ปรับแต่งรูป
                     </button>
                     <ul class="dropdown-menu p-2">
@@ -16,15 +15,17 @@
                     </ul>
                 </div>
                 
-                <div *ngIf="!editCoverPhotoFlag" class="d-flex justify-content-end p-3" style=" position: absolute; z-index: 2; right: 0">
-                    <div *ngIf="savePhotoLoadingFlag" class="align-self-center spinner-border text-primary me-3" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                <div *ngIf="!editCoverPhotoFlag" class="d-sm-flex d-none px-sm-0 px-4 justify-content-between justify-content-sm-end p-3" style=" position: absolute; z-index: 2; right: 0">
+                    <div class="d-flex justify-content-start">
+                        <div *ngIf="savePhotoLoadingFlag" class="align-self-center spinner-border text-primary me-3" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <button class="btn btn-primary me-3" *ngIf="pathToUploadPicture" (click)="uploadCoverPhotoClick()">Save</button>
+                        <button class="btn btn-primary me-3" *ngIf="!pathToUploadPicture" (click)="saveCoverPhotoClick()">Save</button>
                     </div>
-                    <button class="btn btn-primary me-3" *ngIf="pathToUploadPicture" (click)="uploadCoverPhotoClick()">Save</button>
-                    <button class="btn btn-primary me-3" *ngIf="!pathToUploadPicture" (click)="saveCoverPhotoClick()">Save</button>
                     <button class="btn btn-secondary" (click)="cancelCoverPhotoClick()">Cancel</button>
                 </div>
-                <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+                <div id="coverPhoto" style='touch-action: none' class="coverPhoto img-container mh-100">
                     <img id="innerPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl" />
                 </div>
             </div>
@@ -84,11 +85,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-lg-4 mt-0">
-                    <div class="editButton fs-2 d-lg-none d-flex justify-content-end">
-                        <button class="rounded btn btn-light fs-4 ms-lg-3" type="button" (click)="editIntroTextClicked()" *ngIf="!editFlag"><i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว</button>
-                        <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div> -->
-                        <!-- <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
+                <div class="mt-4">
+                    <div class="editButton fs-2 d-sm-flex text-center justify-content-end align-items-center">
+                        <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <button *ngIf="!editFlag" class="editButtonText rounded btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
+                            <i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว
+                        </button>
+                        <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>
+                        <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
+                        <div *ngIf="editCoverPhotoFlag" class="dropdown me-md-3 d-sm-none" [ngStyle]="{'visibility': photoFlag, 'z-index': '6'}">
+                            <button data-bs-toggle="dropdown" 
+                                    aria-expanded="false"  
+                                    class="btn btn-secondary fs-4 ms-3 coverPhotoEditButtonPosition">
+                                    <i class="bi bi-camera me-1"></i> ปรับแต่งรูป
+                            </button>
+                            <ul class="dropdown-menu p-2">
+                                <li><a class="dropdown-item" (click)="uploadNewPhotoClick()"><i class="bi bi-cloud-upload me-1"></i><input type="file" id="fileUpload"  (change)="repositionGuard($event)" hidden/>อัพโหลดรูป</a></li>
+                                <li><a class="dropdown-item" (click)="editCoverPhotoClick()"><i class="bi bi-arrow-down-up me-1"></i>เปลี่ยนตำแหน่ง</a></li>
+                                <!-- <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item"><i class="bi bi-trash3 me-1"></i>ลบรูป</a></li> -->
+                            </ul>
+                        </div>
+                        <div *ngIf="!editCoverPhotoFlag" class="d-sm-none d-flex px-sm-0 px-4 justify-content-between justify-content-sm-end p-3" style=" position: absolute; z-index: 2; right: 0">
+                            <div class="d-flex justify-content-start">
+                                <div *ngIf="savePhotoLoadingFlag" class="align-self-center spinner-border text-primary me-3" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <button class="btn btn-primary me-3" *ngIf="pathToUploadPicture" (click)="uploadCoverPhotoClick()">Save</button>
+                                <button class="btn btn-primary me-3" *ngIf="!pathToUploadPicture" (click)="saveCoverPhotoClick()">Save</button>
+                            </div>
+                            <button class="btn btn-secondary" (click)="cancelCoverPhotoClick()">Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,7 +142,7 @@
         <div class="img-container mh-100" id="coverPhoto">
             <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
         </div>
-        <div class="outerHeader2 d-flex justify-content-between pb-md-0 pb-1 mb-5" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+        <div class="outerHeader2 d-lg-flex justify-content-between pb-md-0 pb-1 mb-md-5" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
             <div class="outerHeader d-flex justify-content-between">
                 <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                 <div>

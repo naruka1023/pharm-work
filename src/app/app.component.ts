@@ -21,14 +21,14 @@ export class AppComponent {
   private auth: Auth = inject(Auth)  
   role!: string
   ngOnInit(){
-    let de : any = document.documentElement;
-    if (de.requestFullscreen) { de.requestFullscreen(); }
-    else if (de.mozRequestFullScreen) { de.mozRequestFullScreen(); }
-    else if (de.webkitRequestFullscreen) { de.webkitRequestFullscreen(); }
-    else if (de.msRequestFullscreen) { de.msRequestFullscreen(); }
+    // let de : any = document.documentElement;
+    // if (de.requestFullscreen) { de.requestFullscreen(); }
+    // else if (de.mozRequestFullScreen) { de.mozRequestFullScreen(); }
+    // else if (de.webkitRequestFullscreen) { de.webkitRequestFullscreen(); }
+    // else if (de.msRequestFullscreen) { de.msRequestFullscreen(); }
 
-    // (A2) THEN LOCK ORIENTATION
-    screen.orientation.lock('portrait');
+    // // (A2) THEN LOCK ORIENTATION
+    // screen.orientation.lock('portrait');
     this.store.dispatch(removeDefaultKey())
     this.store.select((state: any)=>{
       return state.user.role

@@ -8,6 +8,7 @@ import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Validation from 'src/app/utils/validation';
+import moment from 'moment';
 
 @Component({
   selector: 'app-main-profile',
@@ -57,6 +58,12 @@ export class MainProfileComponent {
       controlGroup.forEach((group: FormGroup, innerIndex)=>{
       if(innerIndex != index){
         group.get('activeFlag')?.setValue(false);
+      }else{
+        let extra = moment().month().toString().split('').length == 1?'0':''
+        let date = moment().year() + '-' + extra + moment().month()   
+        console.log(group.get('dateEnded')!.value)
+        group.get('dateEnded')?.patchValue(date)
+        console.log(group.get('dateEnded')!.value)
       }
     })
   }

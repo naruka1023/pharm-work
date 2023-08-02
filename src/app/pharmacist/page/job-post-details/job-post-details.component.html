@@ -58,7 +58,8 @@
 									<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
 								</div>
 								<div class="col">
-									<div class="valuePart">{{profile.Duration | emptyFieldPipe}} น.</div>
+									<div class="valuePart" *ngIf="profile.Duration !== ' - '">{{profile.Duration}} น.</div>
+									<div class="valuePart" *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
 								</div>
 							</div>
 							<div>
@@ -163,7 +164,8 @@
 									<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
 								</div>
 								<div class="col">
-									<div class="valuePart">{{profile.Duration | emptyFieldPipe}} น.</div>
+									<div class="valuePart" *ngIf="profile.Duration !== ' - '">{{profile.Duration}} น.</div>
+									<div class="valuePart" *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
 								</div>
 							</div>
 							<div>
@@ -252,7 +254,7 @@
 					<h1>
 						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
 						<ng-template #loading>
-							<div class="loading">
+							<div>
 							<div style="text-align:center">
 								<div class="spinner-border text-primary" role="status">
 								<span class="visually-hidden">Loading...</span>

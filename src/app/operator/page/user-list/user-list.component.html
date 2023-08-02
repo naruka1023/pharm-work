@@ -17,10 +17,15 @@
                         <div class="row my-3">
                             <div class="col-1 text-center"><i class="bi bi-geo"></i></div>
                             <div class="col-lg-5 col-10">
-                                <b>ดูเภสัชกรใกล้คุณ</b>
+                                <div class="d-inline-flex gap-1">
+                                    <b>ดูเภสัชกรใกล้คุณ</b>
+                                    <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="bi bi-question"></i>
+                                    </a>
+                                </div>
                             </div>
                             <div class="col">
-                                <div class="form-switch mb-3">
+                                <div class="form-switch mb-md-3">
                                     <input class="form-check-input me-3" type="checkbox" formControlName="nearbyFlag" (click)="onChangeEvent($event)" [checked]="locationRadiusFlag" role="switch" id="flexSwitchCheckDefault">
                                 </div>
                                 <div *ngIf="locationRadiusFlag" class="col" >
@@ -34,6 +39,11 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row my-3 mt-sm-3 mt-0">
+                            <div class="mx-5 collapse" style="width:-webkit-fill-available" id="collapseExample">
+                                สามารถเปลี่ยนปักหมุดได้ในหน้า profile หัวข้อ โปรไฟล์บริษัท >> ข้อมูลทั่วไป >> ปักหมุดที่อยู่ของบริษัทหรือปักหมุดในพื้นที่ๆต้องการหาเภสัชกร
                             </div>
                         </div>
                         <div *ngIf="!locationRadiusFlag" class="row" formGroupName="Location">

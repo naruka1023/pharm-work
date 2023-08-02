@@ -170,7 +170,7 @@ onClose(){
 goToConfirm(){
   this.route.navigate(['confirm']);
 }
-goToPage(page: string, queryFlag = false, queryParams:any = {}, target = ''){
+goToPage(page: string, queryFlag = false, queryParams:any = {}){
   let splitTarget = page.split('/')
   let finalTarget = ''
   if(this.route.url.indexOf('profile-pharma') !== -1){

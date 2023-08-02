@@ -21,14 +21,24 @@
 						<div class="row my-3">
 							<div class="col-1 text-center"><i class="bi bi-geo"></i></div>
 							<div class="col-md-5 col-10">
-								<b>งานใกล้ฉัน</b>
+								<div class="d-inline-flex gap-1">
+									<b>งานใกล้ฉัน</b>
+                                    <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="bi bi-question"></i>
+                                    </a>
+								</div>
 							</div>
 							<div class="col">
-								<div class="form-switch mb-3">
+								<div class="form-switch mb-sm-3">
 									<input class="form-check-input me-3" type="checkbox" formControlName="nearbyFlag" role="switch" id="flexSwitchCheckDefault">
 								</div>
 							</div>
 						</div>
+						<div class="row my-3 mt-sm-3 mt-0">
+                            <div class="mx-5 collapse" style="width:-webkit-fill-available" id="collapseExample">
+                                สามารถเปลี่ยนปักหมุดได้ในหน้า profile หัวข้อ ฝากประวัติ >> ข้อมูลส่วนตัว >> ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน
+                            </div>
+                        </div>
 						<div class="row my-3" *ngIf="urgentFilterForm.value.nearbyFlag">		
 							<div class="col-1 text-center" style="visibility:hidden"><i class="bi bi-geo"></i></div>
 							<div class="col-md-5 col-10">

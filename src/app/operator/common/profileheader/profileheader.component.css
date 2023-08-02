@@ -81,6 +81,9 @@
     display: block !important;
     text-align: center
   }
+  .coverPhotoEditButtonPosition{
+    font-size: medium !important
+  }
   .fourPointersPharma{
     padding: 0 18px !important
   }
@@ -95,6 +98,9 @@
   }
 }
 @media only screen and (max-width: 576px) {
+  .operatorHeader > div{
+    font-size: 1.5rem !important; 
+  }
   .fourPointersContainer{
     height: unset !important
   }
@@ -113,15 +119,12 @@
   .mainHeaderContent{
     font-size: 2rem !important;
   }
-  #coverPhotoEditButtonPositionDropdown{
-    bottom: 4.5rem !important
-  }
   .followButton{
     margin-bottom:0 !important
   }
   .profileUploadButton{
     left: 55vw !important;
-    z-index: 10 !important
+    z-index: 5 !important
   }
   .fourPointers > div > div {
     margin: 8px 0
@@ -209,7 +212,7 @@ div.img-container {
     width: 50px;
     border-radius: 100%;
     background:lightgray;
-    z-index: 3;
+    z-index: 5;
     display: flex;
     align-items: center;
     justify-content: center;

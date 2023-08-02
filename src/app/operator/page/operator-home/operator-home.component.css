@@ -2,6 +2,9 @@
   .headerText{
     font-size: smaller !important
   }
+  #collapseExample{
+    font-size: small !important
+  }
 }
 .img-container > img {
   width: 100%;

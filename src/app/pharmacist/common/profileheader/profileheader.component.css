@@ -56,7 +56,7 @@
     text-align:center
   }
   .outerHeaderPharma > div {
-    height: 133.4px
+    height: 129.4px
   }
   .fourPointers{
     padding-right:0 !important;
@@ -75,6 +75,9 @@
   .fourPointKeyValuePreferred{
     font-size: smaller
   }
+  .coverPhotoEditButtonPosition{
+    font-size: medium !important
+  }
   .editButtonText{
     font-size: medium !important
   }
@@ -86,12 +89,9 @@
   .jobCounts, .jobCounts2 {
     text-align:center
   }
-  #coverPhotoEditButtonPositionDropdown{
-    bottom: 5.5rem !important
-  }
   .profileUploadButton{
     left: 52vw !important;
-    z-index: 10 !important
+    z-index: 5 !important
   }
   .job-post_profile-picture{
     z-index:5 !important
@@ -212,7 +212,7 @@
   width: 50px;
   border-radius: 100%;
   background:lightgray;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;

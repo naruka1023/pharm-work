@@ -12,7 +12,7 @@
                     </div>
                     <div class="col">
                         <div *ngIf="submitted && getParentFormGroup['Province']!.errors" class="invalid-feedback2">
-                            <div *ngIf="getParentFormGroup['Province']!.errors!['required']">กรุณาระบุจังหวด</div>
+                            <div *ngIf="getParentFormGroup['Province']!.errors!['required']">กรุณาระบุจังหวัด</div>
                         </div>
                         <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['Province']!.errors}" [ngStyle]="{'background-color':'#f2f2f2'}">
                             <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>

@@ -1,15 +1,12 @@
 <div style="background-color:#f2f2f2">
 	<div class="outerCard py-0">
-		<div class="d-flex justify-content-start align-items-start">
+		<div class="d-flex justify-content-start align-items-center">
 			<img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToOperatorProfile()"  class="profilePic card-img-top rounded-circle" style="width:5rem;height:5rem; padding-top:0.5rem" height="50" width="50">
 			<div>
 				<div class="d-flex justify-content-between">
 					<div class="fs-6" style="text-align:left; padding:1rem; padding-top:0.5rem; height: 3.5em; overflow:hidden; word-break: break-word; display:-webkit-box; -webkit-line-clamp: 2;">
 						{{ content.Establishment}}
 					</div>
-				</div>
-				<div class="addressList">
-					<p class="mb-2 fs-6" style="width: max-content; text-align: left; padding-left: 1rem"><i class="bi bi-geo-alt me-sm-3 me-1 fs-6"></i><i>{{content.Location.Province | provinceFilter}}</i></p>
 				</div>
 			</div>
 		</div>
@@ -65,12 +62,10 @@
 						<i class="col-2 bi bi-people fs-6"></i>
 						<div class="col text-start fs-6">{{content.Amount}} อัตรา</div>
 					</div>
-					<div [ngStyle]="{'visibility': content.OnlineInterview?'unset': 'hidden'}" class="row my-2">
-						<div class="col-2 my-auto ">
-							<i class="my-auto h2 bi bi-tv fs-6"></i>
-						</div>
-						<div class="col my-auto text-start fs-6" *ngIf="content.OnlineInterview">สัมภาษณ์ออนไลน์</div>
-					</div>
+				</div>
+				<div class="row my-2">
+					<i class="fs-6 my-auto  col-2 bi bi-geo-alt"></i>
+					<p class="my-auto text-start col fs-6">{{content.Location.Province}}</p>
 				</div>
 			</div>
 		</div>	

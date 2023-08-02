@@ -16,16 +16,16 @@
                 <ul>
                     <li class="educationCell" style="margin-bottom:4rem" *ngFor="let eduGroup of innerProfileInformation.educationHistory">
                         <div class="d-flex flex-row verticalKeyGap">
-                            <div class="textResponsive">{{eduGroup.yearGraduated}}</div>
+                            <div class="textResponsive">{{eduGroup.yearGraduated | emptyFieldPipe}}</div>
                         </div>
                         <div class="row verticalKeyGap">
-                            <div class="textResponsive col-sm-8 col-12"><b>มหาวิทยาลัย</b> {{eduGroup.universityName}}</div>
-                            <div class="textResponsive col my-sm-0 my-3"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel}}</div>
+                            <div class="textResponsive col-sm-8 col-12"><b>มหาวิทยาลัย</b> {{eduGroup.universityName | emptyFieldPipe}}</div>
+                            <div class="textResponsive col my-sm-0 my-3"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel | emptyFieldPipe}}</div>
     
                         </div>
                         <div class="row">
-                            <div class="textResponsive col-sm-8 col-12 mb-sm-0 mb-3"><b>คณะ</b> {{eduGroup.major}}</div>
-                            <div class="textResponsive col"><b>สาขา</b> {{eduGroup.franchise}}</div>
+                            <div class="textResponsive col"><b>สาขา</b> {{eduGroup.franchise | emptyFieldPipe}}</div>
+                            <div class="textResponsive col-sm-8 col-12 mb-sm-0 mb-3"><b>คณะ</b> {{eduGroup.major | emptyFieldPipe}}</div>
                         </div>
                     </li>
                 </ul>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="d-flex">
                     <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                    <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
+                    <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag | emptyFieldPipe}}</div>
                 </div>
             </div>
             <div class="mt-4 historyContent" style="padding-left: 6rem">
@@ -55,17 +55,17 @@
                     <li *ngFor="let jobGroup of innerProfileInformation.jobHistory">
                         <div class="textResponsive verticalKeyGap d-flex justify-content-start">
                             <div class="me-5">
-                                {{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded}}
+                                {{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded | emptyFieldPipe}}
                             </div>
                             <div>
-                                {{jobGroup.activeFlag? '':jobGroup.workExperience}}
+                                {{jobGroup.activeFlag? '':jobGroup.workExperience | emptyFieldPipe}}
                             </div>
                         </div>
                         <div class="textResponsive verticalKeyGap">
-                            <div>{{jobGroup.companyName}}</div>
+                            <div>{{jobGroup.companyName | emptyFieldPipe}}</div>
                         </div>
                         <div class="textResponsive verticalKeyGap">
-                            <div>{{jobGroup.jobName}}</div>
+                            <div>{{jobGroup.jobName | emptyFieldPipe}}</div>
                         </div>
                         <div [innerHtml]="jobGroup.description" class="textResponsive verticalKeyGap">
                         </div>
@@ -187,23 +187,23 @@
                     <div class="col-xl-10 col-12">
                         <div class="row mb-3">
                             <div class="col-xl-4 col-12">
-                                <label for="jobName" class="textResponsive form-label"><b>ตำแหน่ง</b><label class="text-danger">*</label></label>
-                            </div>
-                            <div class="col">
-                                <input style="background-color:#f2f2f2" formControlName="jobName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
-                                <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-xl-4 col-12">
                                 <label for="companyName" class="textResponsive form-label"><b>ชื่อบริษัท</b><label class="text-danger">*</label></label>
                             </div>
                             <div class="col">
                                 <input style="background-color:#f2f2f2" formControlName="companyName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors}">
                                 <div *ngIf="submitted && number.controls['companyName'].errors" class="invalid-feedback">
                                     <div *ngIf="number.controls['companyName'].errors['required']">กรุณาระบุชื่อบริษัท</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-xl-4 col-12">
+                                <label for="jobName" class="textResponsive form-label"><b>ตำแหน่ง</b><label class="text-danger">*</label></label>
+                            </div>
+                            <div class="col">
+                                <input style="background-color:#f2f2f2" formControlName="jobName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
+                                <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
                                 </div>
                                 <label for="dateEnded" class="textResponsive form-label">วันที่สิ้นสุด</label>
 
-                                <input style="background-color:#f2f2f2" formControlName="dateEnded" type="month" class="textResponsive form-control mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['dateEnded'].errors}">
+                                <input style="background-color:#f2f2f2" formControlName="dateEnded" type="month" class="textResponsive form-control mb-3 fs-3" [ngClass]="{'is-invalid': submitted && number.controls['dateEnded'].errors}">
                                 <div *ngIf="submitted && number.controls['dateEnded'].errors" class="invalid-feedback">
                                     <div *ngIf="number.controls['dateEnded'].errors['required']">กรุณาระบุวันที่สิ้นสุด</div>
                                 </div>
@@ -253,7 +253,7 @@
                         </div>
                         <div class="form-check">
                             <input class="textResponsive form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
-                            <label for="active" class="textResponsive text-center fs-5 form-check-label">
+                            <label for="activeFlag" class="textResponsive text-center fs-5 form-check-label">
                                 ยังอยู่ในตำแหน่งนี้
                             </label>
                         </div>

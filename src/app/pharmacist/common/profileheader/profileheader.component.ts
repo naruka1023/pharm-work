@@ -402,6 +402,16 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
     let ele = document.getElementById('coverPhoto')!
     let pos = { top: 0, left: 0, x: 0, y: 0 };
     const mouseDownHandler = function (e: any) {
+      if(e.clientX == undefined){
+        pos = {
+            // The current scroll
+            left: ele.scrollLeft,
+            top: ele.scrollTop,
+            // Get the current mouse position
+            x: e.changedTouches[0].clientX,
+            y: e.changedTouches[0].clientY,
+        };
+      }else{
         pos = {
             // The current scroll
             left: ele.scrollLeft,
@@ -410,20 +420,32 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
             x: e.clientX,
             y: e.clientY,
         };
+      }
         ele.style.cursor = 'grabbing';
+        document.addEventListener('touchmove', mouseMoveHandler);
+        document.addEventListener('touchend', mouseUpHandler);
         document.addEventListener('mousemove', mouseMoveHandler);
         document.addEventListener('mouseup', mouseUpHandler);
     };
     const mouseMoveHandler = function (e: any) {
         // How far the mouse has been moved
-        const dx = e.clientX - pos.x;
-        const dy = e.clientY - pos.y;
+        let dx = 0
+        let dy = 0
+        if(e.clientX == undefined){
+          dx = e.changedTouches[0].clientX - pos.x;
+          dy = e.changedTouches[0].clientY - pos.y;
+        }else{
+          dx = e.clientX - pos.x;
+          dy = e.clientY - pos.y;
+        }
     
         // Scroll the element
         ele.scrollTop = pos.top - dy;
         ele.scrollLeft = pos.left - dx;
     };
     const mouseUpHandler = function () {
+        document.removeEventListener('touchmove', mouseMoveHandler);
+        document.removeEventListener('touchend', mouseUpHandler);
         document.removeEventListener('mousemove', mouseMoveHandler);
         document.removeEventListener('mouseup', mouseUpHandler);
     
@@ -433,17 +455,20 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
     this.coverListenerObservable.subscribe((cmd:string)=>{
       switch(cmd){
         case "enter":
+            ele.addEventListener('touchstart', mouseDownHandler);
             ele.addEventListener('mousedown', mouseDownHandler);
-          break;
-          case "exit":
-            ele.scrollTop = this.coverPhotoVerticalPosition
-            let stg: any = document.getElementById('innerPhoto');
-            stg.src = this.result.coverPhotoPictureUrl
-            ele.removeEventListener('mousedown', mouseDownHandler);
             break;
-            case "upload":
-              this.savePhotoLoadingFlag = true;
+            case "exit":
+              ele.scrollTop = this.coverPhotoVerticalPosition
+              let stg: any = document.getElementById('innerPhoto');
+              stg.src = this.result.coverPhotoPictureUrl
+              ele.removeEventListener('touchstart', mouseDownHandler);
               ele.removeEventListener('mousedown', mouseDownHandler);
+              break;
+              case "upload":
+                this.savePhotoLoadingFlag = true;
+                ele.removeEventListener('touchstart', mouseDownHandler);
+                ele.removeEventListener('mousedown', mouseDownHandler);
               uploadBytes(ref(this.storage, 'users/' + this.userUID + '/cover-photo'), this.file).then(()=>{
                 if(this.result.coverPhotoPictureUrl.indexOf('placeholder') !== -1){
                   let user:Partial<User> = {uid:this.userUID, coverPhotoOffset: ele.scrollTop}
@@ -469,6 +494,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
               break;
             case "save":
               this.savePhotoLoadingFlag = true;
+              ele.removeEventListener('touchstart', mouseDownHandler);
               ele.removeEventListener('mousedown', mouseDownHandler);
               let user:Partial<User> = {uid:this.userUID, coverPhotoOffset: ele.scrollTop, coverPhotoPictureUrl:this.result.coverPhotoPictureUrl.split('?t=')[0] + '?t='  + new Date().getTime()}
               this.userService.updateUser(user).then(()=>{
@@ -489,7 +515,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
     case "operator-profile": 
       document.getElementById('innerPhoto')?.addEventListener('load', ()=>{
         const ele = document.getElementById('coverPhoto')!;
-        document.getElementById('coverPhoto')!.scrollTop = this.result.coverPhotoOffset
+        ele.scrollTop = this.result.coverPhotoOffset
       })!;
       break;
       case "pharmacist-profile":

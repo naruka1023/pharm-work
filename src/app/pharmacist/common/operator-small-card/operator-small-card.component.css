@@ -1,8 +1,13 @@
+@media only screen and (max-width: 500px) {
+  .companyName{
+    font-size:1rem !important
+  }
+}
 .brandIcon > img{
-    width: -webkit-fill-available !important;
+    /* width: -webkit-fill-available !important;
     height: -webkit-fill-available;
     width: -moz-available !important;
-    height: -moz-available;
+    height: -moz-available; */
     border-radius: 100%;
     border-radius:100%
   }

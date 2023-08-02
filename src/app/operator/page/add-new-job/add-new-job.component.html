@@ -124,25 +124,27 @@
                 <div class="me-3">ค่าจ้าง:<label class="text-danger">*</label></div>
             </div>
             <div class="col">
-                <div class="form-check verticalKeyGap">
-                    <div class="d-flex">
+                <div class="form-check">
+                    <div class="d-xl-flex d-block verticalKeyGap">
                         <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="SalaryNumbers" type="radio">
                         <div class="ms-3 d-flex flex-row verticalKeyGap">
                             <input [min]="0" formControlName="salaryStart" type="number" class="form-control salaryNumbers" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['Salary'].get('salaryStart')!.errors! }" style="background-color:#f2f2f2">
                             <div class=mx-3>-</div>
-                            <input [min]="0" formControlName="salaryEnd" type="number" class="form-control salaryNumbers" style="background-color:#f2f2f2">
+                            <input [min]="0" formControlName="salaryEnd" type="number" class="form-control salaryNumbers" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['Salary'].get('salaryEnd')!.errors! }" style="background-color:#f2f2f2">
                         </div>
-                        <div class="ms-3">
-                            {{urgency?"บาท / ชั่วโมง":"บาท / เดือน"}}
+                        <div class="ms-xl-3 d-xl-block d-flex justify-content-end">
+                            {{ getNewJobForm['TimeFrame'].value == 'Part-Time'?"บาท / ชั่วโมง":"บาท / เดือน"}}
                         </div>
                     </div>
                     <div *ngIf="submitted && getNewJobForm['Salary'].get('salaryStart')!.errors!" class="invalid-feedback2">
-                        <div *ngIf="getNewJobForm['Salary'].get('salaryStart')!.errors!['required']">กรุณาระบุช่วงเวลาทำงาน</div>
-                        <div *ngIf="getNewJobForm['Salary'].get('salaryStart')!.errors!['max']">please max salary</div>
+                        <div *ngIf="getNewJobForm['Salary'].get('salaryStart')!.errors!['required']">กรุณาระบุช่วงเวลาเริ่มต้นทำงาน</div>
+                    </div>
+                    <div *ngIf="submitted && getNewJobForm['Salary'].get('salaryEnd')!.errors!" class="invalid-feedback2">
+                        <div *ngIf="getNewJobForm['Salary'].get('salaryEnd')!.errors!['required']">กรุณาระบุช่วงเวลาทำงานจบ</div>
                     </div>
                 </div>
-                <div class="form-check verticalKeyGap">
-                    <div class="d-flex">                        
+                <div class="form-check">
+                    <div class="d-flex verticalKeyGap">                        
                             <input class="form-check-input salaryRadio" (change)="salaryRadioChange($event)" formControlName="Suffix" value="Negotiable" type="radio">
                         <label class="ms-3" for="Negotiable">ตามตกลง</label>
                     </div>
@@ -293,10 +295,13 @@
             <div class="col" formGroupName="Contacts">
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="nameRepresentative" class="me-3">ชื่อผู้ติดต่อ:</label>
+                        <label for="nameRepresentative" class="me-3">ชื่อผู้ติดต่อ:<label class="text-danger">*</label></label>
                     </div>
                     <div class="col">
-                        <input formControlName="nameRepresentative" class="form-control" name="nameRepresentative" style="background-color:#f2f2f2">
+                        <input formControlName="nameRepresentative" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['nameRepresentative'].errors! }" class="form-control" name="nameRepresentative" style="background-color:#f2f2f2">
+                        <div *ngIf="submitted && getNewJobForm['nameRepresentative'].errors" class="invalid-feedback mb-3">
+                            <div *ngIf="getNewJobForm['nameRepresentative'].errors['required']">กรุณาระบุชื่อผู้ติดต่อ</div>
+                        </div>
                     </div>
                 </div>
                 <div class="row verticalKeyGap">

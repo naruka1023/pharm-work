@@ -3,17 +3,19 @@
       <div class="d-flex flex-row align-items-center">
         <div class="fs-3">
           <a class="navbar-brand" routerLink="/pharma">
-              <img src="/assets/logo.png" class="rounded-pill" alt="" width="200">
+            <img src="/assets/logo.png" class="rounded-pill" alt="" width="200">
           </a>
         </div>
-        <div class="headerLabel fs-2 me-3">
-          <i class="bi bi-file-earmark-text"></i> 345
-        </div>
-        <div class="headerLabel fs-2 me-3">
-          <i class="bi bi-people"></i> 100
-        </div>
-        <div class="headerLabel fs-2 me-3">
-          <i class="bi bi-building"></i> 23
+        <div class="d-xl-flex d-none flex-row align-items-center">
+          <div class="headerLabel fs-2 me-3">
+            <i class="bi bi-file-earmark-text"></i> 345
+          </div>
+          <div class="headerLabel fs-2 me-3">
+            <i class="bi bi-people"></i> 100
+          </div>
+          <div class="headerLabel fs-2 me-3">
+            <i class="bi bi-building"></i> 23
+          </div>
         </div>
       </div>
       <div class="headerLabel d-flex p-2 flex-row-reverse" style="justify-content:space-between">
@@ -63,7 +65,7 @@
                     </div>
                   </li>
                   <hr style="width: 80%" class="my-2 m-auto">
-                  <li><a class="dropdown-item" (click)="goToPage('profile-pharma')"><i class="bi bi-inboxes me-3"></i>ฝากประวัติ</a></li>
+                  <li><a class="dropdown-item" (click)="goToPage('profile-pharma', true, {scrollFlag:true})"><i class="bi bi-person me-3"></i>ฝากประวัติ</a></li>
                   <li><a class="dropdown-item" (click)="goToPage('profile-pharma/bookmark')"><i class="bi bi-bookmark me-3"></i>งานที่บันทึก</a></li>
                   <li><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-views')"><i class="bi bi-eye me-3"></i>คำขอดูข้อมูล</a></li>
                   <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
@@ -159,6 +161,7 @@
               </div>
             </li>
             <hr style="width: 80%" class="my-2 m-auto">
+            <li><a class="dropdown-item" (click)="goToPage('profile-pharma', true, {scrollFlag:true})"><i class="bi bi-person me-3"></i>ฝากประวัติ</a></li>
             <li>
               <a class="dropdown-item" (click)="goToPage('profile-pharma/bookmark')">
                 <i class="bi bi-bookmark me-3"></i>

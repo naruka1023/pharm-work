@@ -123,11 +123,11 @@
 						</div>
 					</div>
 				</ng-template>
-				<ng-template #notLoading><i (click)="openModal()" class="me-3 fs-4 bi bi-trash me-3"></i></ng-template>
-			<button type="button" (click)="editFlag()" class="btn btn-light fs-4 me-3" style="color:black"><i class="bi-pencil-square"></i> แก้ไข</button>
+				<ng-template #notLoading><i (click)="openModal()" class="me-3 fs-4 bi bi-trash me-3 fontButtonSet"></i></ng-template>
+			<button type="button" (click)="editFlag()" class="btn btn-light fs-4 me-3 fontButtonSet" style="color:black"><i class="bi-pencil-square"></i> แก้ไข</button>
 			<ng-container *ngIf="activeLoadingFlag; then loadingActive; else notLoadingActive"></ng-container>
 			<ng-template #notLoadingActive>
-				<div class="form-switch form-check fs-3 me-3">
+				<div class="form-switch form-check fs-4 me-3 fontButtonSet">
 					<label style="min-width: 6rem" class="form-check-label" for="flexSwitchCheckDefault">
 						{{activeFlag?'แสดงประกาศงาน': 'ปิดประกาศงาน'}}
 					</label>

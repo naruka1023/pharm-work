@@ -9,8 +9,8 @@
 <ng-template #notLoading>
     <div class="mx-sm-4 mx-2 fs-2">
         <div class="my-3 innerProfileTitle"><b>โปรไฟล์บริษัท</b></div> 
-        <div class="innerProfileTabList">
-            <ul class="nav nav-underline py-3 mb-2 fs-3 sticky-top flex-row tabList" style="width:max-content; top:180px; background:white; --bs-nav-underline-gap:0 1rem; z-index: 5">
+        <div class="innerProfileTabList sticky-top" style="top:180px; background:white; z-index:4">
+            <ul class="nav nav-underline py-3 mb-2 fs-3flex-row tabList" style="width:max-content; --bs-nav-underline-gap:0 1rem">
                 <li class="nav-item">
                     <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ข้อมูลทั่วไป</a>
                 </li>

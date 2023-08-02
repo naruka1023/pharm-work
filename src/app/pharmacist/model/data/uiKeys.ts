@@ -22,7 +22,7 @@ export const headerArray: filterConditions [] = [
     bannerFlag: false
   }, 
   { 
-    header: 'งานจากบริษัทยาและโรงงานยาชั้นนำของประเทศไทย',
+    header: 'งานจากบริษัทยาและโรงงานยาชั้นนำ',
     filterFlag: false,
     CategorySymbol:"CB",
     loading: true,
