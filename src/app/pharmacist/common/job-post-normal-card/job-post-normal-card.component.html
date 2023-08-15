@@ -136,6 +136,11 @@
 					<i class="fs-3 bi bi-share"></i>
 				</h1>
 			</button> -->
+			<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
+				<h1 style="display:flex">
+					<i class="bi bi-share-fill fs-3"></i>
+				</h1>
+			</button>
 			<button (click)="toggleBookmark()" type="button" class="btn">
 					<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
 					<ng-template #loading>
@@ -148,14 +153,15 @@
 						</div>
 					</ng-template>
 					<ng-template #notLoading>
-						<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
-						<ng-template #black>
+						<h1 class="d-flex">
+							<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
+							<ng-template #black>
 							<i class="fs-3 bi bi-bookmark"></i>
-							
-						</ng-template>
-						<ng-template #red>
-							<i style="color:red" class="fs-3 bi bi-bookmark-fill"></i>
-						</ng-template>
+							</ng-template>
+							<ng-template #red>
+								<i style="color:red" class="fs-3 bi bi-bookmark-fill"></i>
+							</ng-template>
+						</h1>
 					</ng-template>
 			</button>
 		</div>

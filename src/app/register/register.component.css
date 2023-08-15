@@ -1,0 +1,18 @@
+.form-group{
+    text-align:left
+}
+.nav-link{
+    color:black
+  }
+  .nav-tabs .nav-link.active{
+    color:#7fd858 !important
+  }
+  .btn-primary, btn-primary:hover{
+    background:#5cdfe4;
+    border-color: #5cdfe4
+  }
+.btn-success{
+  background:#7fd858;
+  border-color: #7fd858
+  
+}

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="d-flex">
+    <div>
+        <img width="600px" height="600px" src="https://firebasestorage.googleapis.com/v0/b/pharm-work.appspot.com/o/placeholder%2Foperator-profile.png?alt=media&token=c8408394-4990-4558-9ffc-83042f61f4b9"/>
+    </div>
+    <div>
+        <div style="position:absolute; margin-top:5rem !important" class="m-5 mainSize">
+          <div class="mb-4">${establishment}</div>
+          <div class="mb-2">รับสมัคร ${jobName} </div>
+          <div class="d-flex">
+            <div class="text-white p-2 fs-2 rounded-pill" style="background-color:#f15455">งานรายวัน</div>
+            <div class="p-2 fs-2">ทำงานวันที่ ${dateOfJob}</div>
+          </div>
+          <div class="fs-2 my-4" style="color: #f15455">
+            รายได้รวม ${salary}-${Number(salary)+Number(cap)} บาท/เดือน
+          </div>
+          <div class="fs-2">
+            <i class="bi bi-geo-alt-fill me-2" style="color: #f15455"></i> ${province}, ${district}
+          </div>
+        </div>
+        <img width="600px" height="600px" src="https://firebasestorage.googleapis.com/v0/b/pharm-work.appspot.com/o/socialMediaBanners%2Furgent.jpg?alt=media&token=cefb9edd-b2df-4c9b-94cf-f1eedc42120a"/>
+    </div>
+</div>
+</body>
+  <style>  html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.mainSize{
+  font-size:3rem
+}
+
+.title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 55px;
+}
+
+.description {
+    font-size: 25px;
+    color: #676565
+}</style>
+</html>`

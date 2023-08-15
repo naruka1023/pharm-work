@@ -7,18 +7,18 @@
           </a>
         </div>
         <div class="d-xl-flex d-none flex-row align-items-center">
-          <div class="headerLabel fs-2 me-3">
-            <i class="bi bi-file-earmark-text"></i> 345
+          <div class="d-lg-block d-none fs-2 me-3">
+            <i class="bi bi-file-earmark-text"></i> {{ aggregationGroup.jobCount }}
           </div>
-          <div class="headerLabel fs-2 me-3">
-            <i class="bi bi-people"></i> 100
+          <div class="fs-2 me-3">
+            <i class="bi bi-people"></i>  {{ aggregationGroup.userPharmaCount }}
           </div>
-          <div class="headerLabel fs-2 me-3">
-            <i class="bi bi-building"></i> 23
+          <div class="fs-2 me-3">
+            <i class="bi bi-building"></i> {{ aggregationGroup.userOperatorCount }}
           </div>
         </div>
       </div>
-      <div class="headerLabel d-flex p-2 flex-row-reverse" style="justify-content:space-between">
+      <div class="d-lg-block d-none d-flex p-2 flex-row-reverse" style="justify-content:space-between">
         <ng-container *ngIf="loginFlag; then loginNav; else normalNav"></ng-container>
         <ng-template #loginNav>
           <ul style="list-style-type: none; margin-bottom:0" class="navClass fs-5 d-flex align-items-center">
@@ -94,7 +94,7 @@
                     <li><a class="dropdown-item" (click)="redirectToList('CA')">งานอื่นๆ</a></li>
                   </ul>
               </li>
-              <li class="nav-item ms-3"><a class="nav-link" >ติดต่อเรา</a></li>
+              <!-- <li class="nav-item ms-3"><a class="nav-link" >ติดต่อเรา</a></li> -->
               <li class="nav-item ms-3">
                 <button type="button" routerLink="login" class="btn btn-primary">เข้าสู่ระบบ</button>
                 <!-- <button type="button" (click)='goToConfirm()' class="btn btn-primary">เข้าสู่ระบ</button> -->
@@ -112,7 +112,7 @@
           </ul>
         </ng-template>
       </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <button class="navbar-toggler d-lg-none " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
@@ -121,13 +121,13 @@
   <div class="offcanvas-header">
     <div class="d-flex flex-row align-items-center justify-content-center">
       <div class="fs-2 me-3">
-        <i class="bi bi-file-earmark-text"></i> 345
+        <i class="bi bi-file-earmark-text"></i> {{ aggregationGroup.jobCount }}
       </div>
       <div class="fs-2 me-3">
-        <i class="bi bi-people"></i> 100
+        <i class="bi bi-people"></i>  {{ aggregationGroup.userPharmaCount }}
       </div>
       <div class="fs-2 me-3">
-        <i class="bi bi-building"></i> 23
+        <i class="bi bi-building"></i> {{ aggregationGroup.userOperatorCount }}
       </div>
     </div>
     <button type="button" class="d-flex flex-row-reverse btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -250,3 +250,28 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">แชร์งานที่คุณถูกใจเลย!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+			<div class="modal-body">
+        <div class="input-group mb-3">
+          <input type="text" [value]="nameToShare" id="myInput" class="form-control">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary"  type="button" (click)="copyString()">{{copy}}</button>
+          </div>
+        </div>
+        <share-buttons theme="circles-dark"
+          [include]="[ 'facebook', 'messenger', 'line', 'twitter']"
+          [url]="nameToShare"
+          image="assets/banner11.png"
+          [showIcon]="true"
+          [showText]="false">
+        </share-buttons>
+		  </div>
+	  </div>
+	</div>
+</div>  

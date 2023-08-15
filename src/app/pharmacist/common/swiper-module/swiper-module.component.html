@@ -63,12 +63,17 @@
 					>
 						<ng-template swiperSlide>
 							<div class="img-container">
-								<img class="landing-page_img" src="assets/bannerLong1.jpeg" style="width:-webkit-fill-available; width:-moz-available">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
 							</div>
 						</ng-template>
 						<ng-template swiperSlide>
 							<div class="img-container">
-								<img class="landing-page_img" src="assets/bannerLong2.jpeg" style="width:-webkit-fill-available; width:-moz-available">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
 							</div>
 						</ng-template>
 					</swiper>
@@ -85,8 +90,58 @@
 							[navigation]="true" 
 							[breakpoints]="breakingPointOperator"
 							class="swiper operatorBanner">
-						<ng-template swiperSlide *ngFor="let items of filterFlags.content">
+						<!-- <ng-template swiperSlide *ngFor="let items of filterFlags.content">
 							<app-operator-small-card [content]="items"></app-operator-small-card>
+						</ng-template> -->
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
+						</ng-template>
+						<ng-template swiperSlide>
+							<div class="img-container">
+								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
+							</div>
 						</ng-template>
 					</swiper>
 				</ng-template>
@@ -103,20 +158,26 @@
 			</div>
 		</ng-template>
 		<ng-template #notLoading>
-			<swiper
-				[navigation]="true"
-				[slidesPerView]="1"
-				[spaceBetween]="25"
-				[breakpoints]="breakingPoint"
-				style="margin-top: 1em; text-align: center"
-			>
-				<ng-template swiperSlide *ngFor="let item of filterFlags.content">
-					<app-job-post-small-card 
-						[urgentFlag]="item.CategorySymbol == 'AA'" 
-						[fullTimeFlag]="item.TimeFrame === 'Full-Time'?true:false"
-						[content]="item">
-					</app-job-post-small-card>
-				</ng-template>
-			</swiper>
+			<ng-container *ngIf="filterFlags.count > 0; then notEmpty; else empty"></ng-container>
+			<ng-template #notEmpty>
+				<swiper
+					[navigation]="true"
+					[slidesPerView]="1"
+					[spaceBetween]="25"
+					[breakpoints]="breakingPoint"
+					style="margin-top: 1em; text-align: center"
+				>
+					<ng-template swiperSlide *ngFor="let item of filterFlags.content">
+						<app-job-post-small-card 
+							[urgentFlag]="item.CategorySymbol == 'AA'" 
+							[fullTimeFlag]="item.TimeFrame === 'Full-Time'?true:false"
+							[content]="item">
+						</app-job-post-small-card>
+					</ng-template>
+				</swiper>
+			</ng-template>
+			<ng-template #empty>
+				<img src="assets/empty/transparentPharma.png" style="width:-webkit-fill-available; width:-moz-available">
+			</ng-template>
 		</ng-template>
     </ng-template>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { RouterModule } from '@angular/router';
@@ -46,6 +46,8 @@ import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 import { FooterComponent } from './common/footer/footer.component';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
 
 
@@ -88,6 +90,8 @@ import { FooterComponent } from './common/footer/footer.component';
     GoogleMapsModule,
     GooglePlaceModule,
     InfiniteScrollModule,
+    ShareButtonsModule,
+    ShareIconsModule,
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
@@ -101,6 +105,7 @@ import { FooterComponent } from './common/footer/footer.component';
     StoreModule.forFeature("operatorProfile", operatorProfileReducer),
     OperatorAppRoutingModule,
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [RequestJobComponent, OperatorProfileComponent, AllJobsPostsComponent],
   exports: [InfiniteScrollModule],
   bootstrap:[LandingPageComponent]

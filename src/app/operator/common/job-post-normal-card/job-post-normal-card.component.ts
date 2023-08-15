@@ -6,7 +6,8 @@ import { jobPostModel } from '../../model/jobPost.model';
 import { JobService } from '../../service/job.service';
 import { UtilService } from '../../service/util.service';
 import { AllJobsPostsComponent } from '../../page/operator-profile/all-jobs-posts/all-jobs-posts.component';
-declare var window: any;
+import { LandingPageComponent } from '../../landing-page.component';
+declare let window: any;
 @Component({
   selector: 'app-job-post-normal-card',
   templateUrl: './job-post-normal-card.component.html',
@@ -34,7 +35,7 @@ export class JobPostNormalCardComponent{
   usersRequestList: boolean = false
   childrenPath?: string;
   
-  constructor(private allJobPostComponent:AllJobsPostsComponent,private store:Store, private utilService:UtilService, private router: Router, private jobService:JobService, private activatedRoute:ActivatedRoute){}
+  constructor(private landingPageComponent: LandingPageComponent,private allJobPostComponent:AllJobsPostsComponent,private store:Store, private utilService:UtilService, private router: Router, private jobService:JobService, private activatedRoute:ActivatedRoute){}
 
   ngOnInit(){
     this.childrenPath = this.activatedRoute.snapshot.routeConfig!.path;
@@ -70,6 +71,9 @@ export class JobPostNormalCardComponent{
 
       this.activeFlag = active;
     })
+  }
+  toggleShare(){
+    this.landingPageComponent.toggleShare(this.content.custom_doc_id)
   }
 
   getUsers(){

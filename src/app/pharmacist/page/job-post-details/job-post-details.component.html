@@ -110,7 +110,7 @@
 							</div>
 						</div>
 						<div class="col-12 col-md-6 pt-md-4 rightPanelDetails">
-							<div class="row pb-3" *ngIf="profile.Amount !== ''">
+							<div class="row pb-3"*ngIf="profile.Amount !== null || profile.Amount !== 0">
 								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 									<i class="bi bi-people me-2"></i><b>รับสมัคร</b>
 								</div>
@@ -250,6 +250,11 @@
 				<p class="lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}}</p>
 			</div>
 			<div class="choices d-flex justify-content-start">
+				<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
+					<h1 style="display:flex">
+						<i class="bi bi-share-fill"></i>
+					</h1>
+				</button>
 				<button (click)="toggleBookmark()" type="button" class="btn">
 					<h1>
 						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
@@ -399,6 +404,7 @@
 							*ngIf="profile._geoloc !== undefined"
 							height="500px"
 							width="65vw"
+							[options]="none"
 							[center]="center"
 							[zoom]="zoom">
 							<map-marker

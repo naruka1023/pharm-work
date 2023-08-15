@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription, from, map } from 'rxjs';
@@ -10,7 +10,7 @@ import { clearFavorites, setFavorites } from './state/actions/users-actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UtilService } from './service/util.service';
-import { User, UserPharma, requestView } from './model/user.model';
+import { User, UserPharma, aggregationCount, requestView } from './model/user.model';
 import { addRequestView } from './state/actions/request-view.actions';
 import { Auth, sendEmailVerification, user } from '@angular/fire/auth';
 import { Firestore, collection, getDocs, query, updateDoc, doc, where, addDoc, deleteDoc } from '@angular/fire/firestore';
@@ -20,21 +20,29 @@ import { OperatorProfileComponent } from './page/operator-profile/operator-profi
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
 import { userOperator } from '../pharmacist/model/typescriptModel/jobPost.model';
 import moment from 'moment';
-declare var window: any;
+declare let window: any;
 
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css']
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements AfterViewInit {
   private auth: Auth = inject(Auth)
   private db:Firestore = inject(Firestore)
   subject!:Subscription
   requestViewForm!: FormGroup
+  idToShare: string = ''
+  nameToShare!: string
   user!: User;
   followFlag: boolean = true;
+  copy: string = 'Copy'
   emailVerifiedFlag: boolean = true
+  aggregationGroup: aggregationCount = {
+    jobCount: 0,
+    userOperatorCount: 0,
+    userPharmaCount: 0
+  }
   content!: UserPharma
   requestViewLoadingFlag = false;
   formModal!: any;
@@ -44,31 +52,18 @@ export class LandingPageComponent {
   requestViewModel = {
     editorData: ''
   };
+  shareModal!: any
   offCanvas!: any
 
   constructor(private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
-
-
   ngOnInit(){
-    // getDocs(query(collection(this.db, "users"), where('role', '==', 'เภสัชกร'))).then((job)=>{
-    //   console.log(job.docs.length)
-    //   job.docs.forEach((j)=>{
-    //     let newJob = j.data()
-    //     let newDate = new Date(newJob['dateUpdated'])
-
-    //     newJob = {
-    //       ...newJob,
-    //       dateUpdatedUnix: Math.floor(newDate.getTime() / 1000)
-    //     }
-        
-    //     updateDoc(doc(this.db, 'users', j.id), newJob).then((prisoner)=>{
-    //       console.log('succesful')
-    //     })
-    //   })
-    // })
     this.offCanvas = new window.bootstrap.Offcanvas(
       document.getElementById('offcanvasExample')
     )
+    this.shareModal = new window.bootstrap.Modal(
+      document.getElementById('shareModal')
+    )
+    
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('requestViewModal')
     );
@@ -81,9 +76,9 @@ export class LandingPageComponent {
         }
       })
       user(this.auth).subscribe((user)=>{
-      if(user){
-        this.emailVerifiedFlag = user.emailVerified
-        this.store.select((state: any)=>{
+        if(user){
+          this.emailVerifiedFlag = user.emailVerified
+          this.store.select((state: any)=>{
           return state.recentlySeen
         }).subscribe((recentlySeen: any)=>{
           if(recentlySeen.length > 10){
@@ -100,7 +95,7 @@ export class LandingPageComponent {
           if(this.followFlag){
             this.followFlag = !this.followFlag
             this.userService.getNumberOfFollowers(followers.uid).then((number: number)=>{
-              let payload: any = {
+              const payload: any = {
                 followers: number
               }
               this.store.dispatch(setCurrentUser({user:payload}))
@@ -127,9 +122,34 @@ export class LandingPageComponent {
     this.initializeFormGroup()
   }
 
+  copyString() {
+    // Get the text field
+    const copyText: any = document.getElementById("myInput")!;
+  
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+  
+     // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value)
+    this.copy = "Copied"
+  }
+
+  ngAfterViewInit(): void {
+    this.userService.getCountGroup().then((aggregations)=>{
+      this.aggregationGroup = aggregations
+    })
+  }
+  toggleShare(id: string){
+    this.idToShare = id
+    this.nameToShare = 'https://pharm-work.com/landing/job-post/' + this.idToShare 
+    this.copy = "Copy"
+    this.shareModal.show()
+  }
+
   goToPage(page: string, isRequestView: boolean = false, scrollFlag: boolean = false){
-    let newPage = page.indexOf('?') !== -1? page.split('?')[0]: page
-    let splitTarget = newPage.split('/')
+    const newPage = page.indexOf('?') !== -1? page.split('?')[0]: page
+    const splitTarget = newPage.split('/')
     let finalTarget = ''
     if(page.indexOf('profile-operator') !== -1){
       finalTarget = splitTarget[splitTarget.length-1]

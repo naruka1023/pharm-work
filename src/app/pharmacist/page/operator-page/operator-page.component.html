@@ -10,7 +10,7 @@
 </ng-template>
 <ng-template #notLoading>
     <app-profileheader  [requestViewFlag]="requestViewFlag" [followerFlag]="followFlag" profileType="operator-profile"></app-profileheader>
-    <div id="navToScroll" class="container my-4 sticky-top mainTabList" style="z-index: 1; top:97px; border-radius:60px; background:white">
+    <div id="navToScroll2" class="container my-4 sticky-top mainTabList" style="z-index: 1; top:97px; border-radius:60px; background:white">
         <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row" style="width: max-content; top:180px; --bs-nav-underline-gap:0 1rem">
             <li class="nav-item">
                 <a class="flex-md-fill text-md-center nav-link active" id="active-jobs" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงาน</a>
@@ -176,7 +176,7 @@
                                 <div class="valueLabel">{{operator?.areaOfContact | emptyFieldPipe}}</div>
                             </div>
                         </div>
-                        <div class="verticalKeyGap keyLabel">
+                        <div class="verticalKeyGap keyLabel" *ngIf="geolocFlag">
                             <div class="d-flex mb-3">
                                 <div class="keyValueGap"><i class="bi bi-geo"></i></div>
                                 <div class="keyValueGap"><b>ปักหมุดที่ตั้งบริษัท</b></div>
@@ -186,6 +186,7 @@
                                     height="500px"
                                     width="65vw"
                                     [center]="center"
+                                    [options]="none"
                                     [zoom]="zoom">
                                     <map-marker
                                     [position]="markerPosition"></map-marker>

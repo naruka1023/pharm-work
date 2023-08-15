@@ -113,8 +113,11 @@
 	</div>
 </div>
 <div class="row my-3">
-	<div class="col-sm d-flex flex-sm-row-reverse justify-content-start">
-		<div *ngIf="buttonSetFlag" class="d-sm-flex align-items-center justify-content-sm-end">
+	<div class="col-md d-flex flex-md-row-reverse justify-content-start">
+		<div *ngIf="buttonSetFlag" class="d-md-flex align-items-center justify-content-md-end">
+			<button (click)="toggleShare()" type="button" class="btn fs-4 px-0 me-3">
+					<i class="bi bi-share-fill"></i>
+			</button>
 				<ng-container *ngIf="deleteLoadingFlag; then loading; else notLoading"></ng-container>
 				<ng-template #loading>
 					<div style="text-align:center" class="mt-5">
@@ -123,7 +126,7 @@
 						</div>
 					</div>
 				</ng-template>
-				<ng-template #notLoading><i (click)="openModal()" class="me-3 fs-4 bi bi-trash me-3 fontButtonSet"></i></ng-template>
+				<ng-template #notLoading><button class="btn me-3 fs-4 me-3 fontButtonSet"><i class="bi bi-trash" (click)="openModal()"></i></button></ng-template>
 			<button type="button" (click)="editFlag()" class="btn btn-light fs-4 me-3 fontButtonSet" style="color:black"><i class="bi-pencil-square"></i> แก้ไข</button>
 			<ng-container *ngIf="activeLoadingFlag; then loadingActive; else notLoadingActive"></ng-container>
 			<ng-template #notLoadingActive>

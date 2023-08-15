@@ -59,8 +59,22 @@ export class UtilService {
   updateUser(user: Partial<User>){
     return updateDoc(doc(this.db, 'users', user.uid!), user)
   }
+  async updateCompanyName(companyID: string, companyName: string){
+    const jobs = await this.getUID(companyID)
+    const batch = writeBatch(this.db)
+
+    jobs.docs.forEach((doc2)=>{
+        batch.update(doc(this.db, 'job-post',doc2.id) ,{
+          ...doc2.data(),
+          Establishment: companyName,
+        })
+    })
+    return batch.commit();
+  }
+
   getUID(uid: string){
     return getDocs(query(collection(this.db, 'job-post'), where('OperatorUID', '==', uid)))
+    
   }
   updateUserJobsCoverPhoto(docs: QuerySnapshot<DocumentData>, coverPhotoPictureUrl: string, coverPhotoOffset: number){
     
@@ -99,15 +113,15 @@ export class UtilService {
     return userForm
   }
   convertUserPharmaListToArray(userPharmaList: userPharmaList): UserPharma[]{
-    let keys = Object.keys(userPharmaList);
-    let arrayPayload: UserPharma[] = []
+    const keys = Object.keys(userPharmaList);
+    const arrayPayload: UserPharma[] = []
     keys.forEach((key)=>{
       arrayPayload.push(userPharmaList[key])
     })
     return arrayPayload
   }
   populateObjectWithLocationFields(userForm:UserPharma | UserSearchForm | UserUrgentSearchForm){
-    let newUser: any = userForm;
+    const newUser: any = userForm;
     newUser.preferredAddress =  userForm.preferredLocation?.address !== undefined? userForm.preferredLocation.address: ''
     newUser.preferredDistrict =  userForm.preferredLocation?.District  !== undefined? userForm.preferredLocation.District: '' 
     newUser.preferredProvince =  userForm.preferredLocation?.Province  !== undefined? userForm.preferredLocation.Province: '' 

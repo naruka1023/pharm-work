@@ -40,7 +40,7 @@
 			</ng-template>
 			<div class="card-body py-0">
 				<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'padding': urgentFlag?'0':'1rem', 'height': urgentFlag? '3.2em':'4em', 'word-break': 'break-word', 'overflow':'hidden', 'text-align': 'center', '-webkit-line-clamp': '2'}">
-					<b>{{limitMethod(content.JobName, limit)}}</b>
+					<b>{{content.JobName}}</b>
 				</div>
 				<div *ngIf="urgentFlag" class="row my-2">
 					<i class="col-2 my-auto fs-6 bi bi-clock"></i>
@@ -51,7 +51,7 @@
 						<i class="fs-6 my-auto bi bi-currency-bitcoin"></i>
 					</p>
 					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
-						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}
+						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}} {{urgentFlag?'บาท/ชม': ''}}
 					</div>
 					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
 						{{content.Salary.Suffix | salaryType}}
@@ -91,6 +91,11 @@
 						<i class="bi bi-share"></i>
 					</h1>
 				</button> -->
+				<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
+					<h1 style="display:flex">
+						<i class="bi bi-share-fill"></i>
+					</h1>
+				</button>
 				<button (click)="toggleBookmark()" type="button" class="btn px-0">
 					<h1 style="display:flex">
 						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>

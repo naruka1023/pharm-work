@@ -8,6 +8,7 @@ import { RoutingService } from '../../service/routing.service';
 import { UtilService } from '../../service/util.service';
 import { removeBookmark, removeJobRequest } from '../../state/actions/job-post.actions';
 import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
+import { LandingPageComponent } from '../../landing-page.component';
 @Component({
   selector: 'app-job-post-normal-card',
   templateUrl: './job-post-normal-card.component.html',
@@ -31,7 +32,7 @@ export class JobPostNormalCardComponent{
   cancelJobFlag: boolean = false
   jobRequestUID!: string;
   
-  constructor(private activatedRoute:ActivatedRoute, private store: Store,private utilService:UtilService, private jobPostService: JobPostService, private router: Router, private routeService:RoutingService){}
+  constructor(private landingPageComponent: LandingPageComponent, private activatedRoute:ActivatedRoute, private store: Store,private utilService:UtilService, private jobPostService: JobPostService, private router: Router, private routeService:RoutingService){}
 
   ngOnInit(){
     this.store.select((state: any)=>{
@@ -71,8 +72,8 @@ export class JobPostNormalCardComponent{
     this.bookmarkFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userID !== ''){
-        let newState: AppState = state.jobpost
-        let bookmark: Bookmark = newState.Bookmarks[this.content.custom_doc_id + '-' + this.userID]
+        const newState: AppState = state.jobpost
+        const bookmark: Bookmark = newState.Bookmarks[this.content.custom_doc_id + '-' + this.userID]
         if(bookmark === undefined){
           flag = false;
         }else{
@@ -87,9 +88,13 @@ export class JobPostNormalCardComponent{
     }
   }
 
+toggleShare(){
+  this.landingPageComponent.toggleShare(this.content)
+}
+
   cancelRequestJob(){
     this.jobPostService.cancelRequest(this.jobRequestUID).then(()=>{
-      let jobRequest:jobRequest = {
+      const jobRequest:jobRequest = {
         operatorUID: this.content.OperatorUID,
         userUID: this.userID,
         jobUID: this.content.custom_doc_id
@@ -104,7 +109,7 @@ export class JobPostNormalCardComponent{
       this.router.navigate(['pharma/login'])
     }else{
       this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
-        let jobRequest:jobRequest = {
+        const jobRequest:jobRequest = {
           operatorUID: this.content.OperatorUID,
           userUID: this.userID,
           jobUID: this.content.custom_doc_id,

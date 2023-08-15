@@ -1,0 +1,97 @@
+<div style="background-color:#f2f2f2">
+	<div class="outerCard py-0">
+		<div class="d-flex justify-content-start align-items-center">
+			<img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" class="profilePic card-img-top rounded-circle" style="width:5rem;height:5rem; padding-top:0.5rem" height="50" width="50">
+			<div>
+				<div class="d-flex justify-content-between">
+					<div class="fs-6" style="text-align:left; padding:1rem; padding-top:0.5rem; height: 3.5em; overflow:hidden; word-break: break-word; display:-webkit-box; -webkit-line-clamp: 2;">
+						{{ content.Establishment}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div (click)="goToProfile()" class="mainCard card rounded" style="width: -webkit-fill-available; width:-moz-available">
+			<ng-container *ngIf="urgentFlag; then cardUrgentHeader; else cardHeader">
+			</ng-container>
+			<ng-template #cardUrgentHeader>
+				<div style="padding: 1rem" class="py-0">
+					<div class="d-flex justify-content-center">
+						<div class="py-2 d-flex align-items-center" style="text-align: center">
+							<b>{{content.JobType}}</b>
+						</div>
+					</div>
+					<hr class="w-100 my-2">
+					<div class="d-flex justify-content-center">
+						<div class="urgentDisplay d-sm-flex d-block flex-row align-items-center py-2">
+							<b class="me-3">ทำงานวันที่</b>
+							<div>{{ content.DateOfJob }}</div>
+						</div>
+					</div>
+					<hr class="w-100 my-2">
+				</div>
+			</ng-template>
+			<ng-template #cardHeader>
+				<div class="d-flex justify-content-center">
+					<div [ngStyle]="{'background' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6', 'border-color' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6'}" class="timeFrameHeader p-2 d-flex justify-content-center flex align-items-center" style="color: white; text-align: center; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
+						<b>{{content.TimeFrame}}</b>
+					</div>
+				</div>
+			</ng-template>
+			<div class="card-body py-0">
+				<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'padding': urgentFlag?'0':'1rem', 'height': urgentFlag? '3.2em':'4em', 'word-break': 'break-word', 'overflow':'hidden', 'text-align': 'center', '-webkit-line-clamp': '2'}">
+					<b>{{content.JobName}}</b>
+				</div>
+				<div *ngIf="urgentFlag" class="row my-2">
+					<i class="col-2 my-auto fs-6 bi bi-clock"></i>
+					<p class="my-auto text-start col fs-6">{{content.Duration}} น.</p>
+				</div>
+				<div class="row my-2">
+					<p class="my-auto  col-2">
+						<i class="fs-6 my-auto bi bi-currency-bitcoin"></i>
+					</p>
+					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
+						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}} {{urgentFlag?'บาท/ชม': ''}}
+					</div>
+					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
+						{{content.Salary.Suffix | salaryType}}
+					</div>
+				</div>
+				<div *ngIf="!urgentFlag">
+					<div class="row d-flex flex-row my-2" *ngIf="content.Amount !== ''">
+						<i class="col-2 bi bi-people fs-6"></i>
+						<div class="col text-start fs-6">{{content.Amount}} อัตรา</div>
+					</div>
+				</div>
+				<div class="row my-2">
+					<i class="fs-6 my-auto  col-2 bi bi-geo-alt"></i>
+					<p class="my-auto text-start col fs-6">{{content.Location.Province}}</p>
+				</div>
+			</div>
+		</div>	
+		<div class="outerCard pt-0">
+			<div class="d-flex justify-content-between">
+				<div style="font-size:0.75rem;">
+					{{content.dateUpdated}}
+				</div>
+			<!-- <ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+			<ng-template #alreadyRequest>
+				<div (click)="requestJob()" class="btn justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'color': 'white', 'background-color':'#7fd858', 'width': '-webkit-fill-available', 'visibility': urgentFlag?'hidden': 'unset'}" type="button">
+				<div class="fs-5">สมัครงาน</div>
+			</div>
+			</ng-template>
+			<ng-template #requestButton>
+				<div class="btn btn-warning justify-content-center my-2 align-items-center d-flex" style="width:-moz-available" [ngStyle]="{'width': '-webkit-fill-available', 'visibility': urgentFlag?'hidden': 'unset'}" type="button">
+					<div class="fs-5">รอ confirm</div>
+				</div>
+			</ng-template> -->
+			<div class="d-flex flex-row">
+				<!-- <button type="button" class="btn">
+					<h1 style="display:flex">
+						<i class="bi bi-share"></i>
+					</h1>
+				</button> -->
+			</div>
+		</div>
+		</div>
+</div>

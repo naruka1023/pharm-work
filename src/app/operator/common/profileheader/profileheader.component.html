@@ -90,7 +90,7 @@
                         <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <button *ngIf="!editFlag" class="editButtonText rounded btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
+                        <button *ngIf="!editFlag" class="editButtonText rounded btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3 d-lg-none" type="button" (click)="editIntroTextClicked()">
                             <i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว
                         </button>
                         <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>

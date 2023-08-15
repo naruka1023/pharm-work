@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import * as _ from 'lodash';
-import { Favorite, User, UserPharma, UserSearchForm, UserUrgentSearchForm, requestView, requestViewList, requestViewState } from '../model/user.model';
+import { Favorite, User, UserPharma, UserSearchForm, UserUrgentSearchForm, aggregationCount, requestView, requestViewList, requestViewState } from '../model/user.model';
 import { DocumentData, Firestore, QuerySnapshot, Unsubscribe, addDoc, collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
@@ -262,6 +262,18 @@ export class UsersService {
   async getNumberOfFollowers(operatorUID: string){
     let count = await getCountFromServer(query(collection(this.db, 'followers'), where('operatorUID', '==', operatorUID)))
     return count.data().count
+  }
+
+  async getCountGroup(): Promise<aggregationCount>{
+    const jobcount = await getCountFromServer(query(collection(this.db, 'job-post'), where('Active', '==', true)))
+    const userPharmaCount = await getCountFromServer(query(collection(this.db, 'users'), where('role', '==', 'เภสัชกร')))
+    const userOperatorCount = await getCountFromServer(query(collection(this.db, 'users'), where('role', '!=', 'เภสัชกร')))
+    const result = {
+      jobCount: jobcount.data().count,
+      userPharmaCount: userPharmaCount.data().count,
+      userOperatorCount: userOperatorCount.data().count
+    }
+    return result
   }
 
   async paginateJobTypeResult(form:FormGroup<any>, type: string, paginationIndex: number, query: string, indexName2: string, nearMapFlag: boolean){

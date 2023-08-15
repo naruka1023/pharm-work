@@ -14,6 +14,79 @@ export interface _geoloc{
     lng: number
 }
 
+export interface Location
+{
+    address?: string;
+    Section: string;
+    District: string;
+    Province: string;
+}
+
+export interface jobPostModel {
+    Amount: string;
+    CategorySymbol: string;
+    BTS: {
+        Near: boolean;
+        Station: string;
+    };
+    Establishment: string;
+    Franchise: string;
+    JobName: string;
+    JobType: string;
+    Location: {
+        Section: string;
+        District: string;
+        Province: string;
+    };
+    MRT: {
+        Near: false;
+        Station: string;
+    };
+    SRT: {
+        Near: false;
+        Station: string;
+    };
+    ARL: {
+        Near: false;
+        Station: string;
+    };
+    OnlineInterview: boolean;
+    WorkFromHome: boolean;
+    Salary: {
+        Amount: number;
+        Cap: number;
+        Suffix: string
+    };
+    Contacts: {
+        nameRepresentative: string,
+        areaOfContact: string,
+        phone: string;
+        email: string;
+        line: string;
+        website: string;
+        facebook: string;
+    },
+    JobDetails: string,
+    TravelInstructions: string,
+    qualityApplicants: string,
+    jobBenefits: string,
+    applyInstructions: string,
+    OperatorUID: string;
+    TimeFrame: string;
+    Urgency: boolean;
+    Duration: string;
+    Active:boolean;
+    DateOfJob: Date [];
+    _geoloc?: _geoloc;
+    dateCreated: string;
+    dateUpdated: string;
+    dateUpdatedUnix: number;
+    custom_doc_id: string;
+    cropProfilePictureUrl?: string;
+    profilePictureUrl?:string;
+    coverPhotoPictureUrl?:string
+}
+
 export interface User{
     role: string;
     email: string;

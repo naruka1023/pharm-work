@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { LandingPageComponent } from './landing-page.component';
 import { StoreModule } from '@ngrx/store';
 import { PharmaAppRoutingModule } from './pharma-app-routing.module';
@@ -54,7 +54,9 @@ import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 import { FooterComponent } from './common/footer/footer.component';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
-
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -67,6 +69,9 @@ import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
     ReactiveFormsModule,
     GoogleMapsModule,
     GooglePlaceModule,
+    ShareButtonsModule,
+    ShareIconsModule,
+    FontAwesomeModule,
     CKEditorModule,
     FormsModule,
     SwiperModule,
@@ -79,6 +84,7 @@ import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
     StoreModule.forFeature('urgentJobs', urgentJobsReducer),
     StoreModule.forFeature('requestView', requestViewReducer),
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports: [InfiniteScrollModule],
   declarations: [
     LandingPageComponent,

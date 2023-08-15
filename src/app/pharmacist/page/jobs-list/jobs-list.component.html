@@ -20,7 +20,7 @@
 					<form [formGroup]="urgentFilterForm" class="px-3 fs-5 urgentForm" style="overflow-y: scroll">
 						<div class="row my-3">
 							<div class="col-1 text-center"><i class="bi bi-geo"></i></div>
-							<div class="col-md-5 col-10">
+							<div class="col-md-5 col-sm-7 col-8">
 								<div class="d-inline-flex gap-1">
 									<b>งานใกล้ฉัน</b>
                                     <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -28,9 +28,9 @@
                                     </a>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-sm col-1">
 								<div class="form-switch mb-sm-3">
-									<input class="form-check-input me-3" type="checkbox" formControlName="nearbyFlag" role="switch" id="flexSwitchCheckDefault">
+									<input class="form-check-input me-3" type="checkbox" formControlName="nearbyFlag" (click)="onChangeEvent($event)" role="switch" id="flexSwitchCheckDefault">
 								</div>
 							</div>
 						</div>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
 						<div class="row my-3" *ngIf="urgentFilterForm.value.nearbyFlag">		
-							<div class="col-1 text-center" style="visibility:hidden"><i class="bi bi-geo"></i></div>
+							<div class="col-1 text-center"><i class="bi bi-geo-alt"></i></div>
 							<div class="col-md-5 col-10">
 								<b>ค้นหาภายในระยะ</b>
 							</div>
@@ -62,7 +62,7 @@
 							<div class="col">
 								<div class="row mt-3">
 									<div class="col-md-4 col-12">
-										<label class="me-3"><b>จังหวด</b></label>
+										<label class="me-3"><b>จังหวัด</b></label>
 									</div>
 									<div class="col">
 										<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select">
@@ -176,7 +176,7 @@
 							<div class="col">
 								<div class="row mt-3">
 									<div class="col-md-4 col-12">
-										<label class="me-3"><b>จังหวด</b></label>
+										<label class="me-3"><b>จังหวัด</b></label>
 									</div>
 									<div class="col">
 										<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="form-select">
@@ -260,7 +260,7 @@
 							</div>
 							<div class="col">
 								<div class="form-check form-switch">
-									<input class="form-check-input" formControlName="OnlineInterview" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+									<input class="form-check-input" formControlName="OnlineInterview" type="checkbox" role="switch">
 								</div>
 							</div>
 						</div>

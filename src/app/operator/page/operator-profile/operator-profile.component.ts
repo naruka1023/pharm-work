@@ -5,14 +5,14 @@ import { JobService } from '../../service/job.service';
 import { UtilService } from '../../service/util.service';
 import { ActivatedRoute } from '@angular/router';
 
-declare var window: any;
+declare let window: any;
 
 @Component({
   selector: 'app-operator-profile',
   templateUrl: './operator-profile.component.html',
   styleUrls: ['./operator-profile.component.css']
 })
-export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
+export class OperatorProfileComponent implements OnDestroy{
   subscription:Subscription = new Subscription;
   formModal!: any
   loadingFlag: boolean = true;
@@ -42,24 +42,30 @@ export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModalOperator')
     );
-    this.subscription = this.profileService.getCallView().pipe().subscribe(()=>{
-      this.openFormModal();
-    })
+    // this.subscription = this.profileService.getCallView().pipe().subscribe(()=>{
+    //   this.openFormModal();
+    // })
     this.scrollUp()
   }
 
   scrollIntoView(){
     document.getElementById('navToScroll')!.scrollIntoView();
   }
+  
 
   ngAfterViewInit(){
     this.activatedRoute.data.subscribe((url: any)=>{
-      if(url.scrollFlag == null){
-        document.getElementById('navToScroll')!.scrollIntoView();
+      if(url.scrollFlag == null && url.scrollFlag == undefined){
+        if(this.activatedRoute.snapshot.queryParamMap.get('googleMapPointer')! == undefined && this.activatedRoute.snapshot.queryParamMap.get('googleMapPointer')! == null){
+          document.getElementById('navToScroll')!.scrollIntoView(); 
+        }
       }else{
         this.scrollUp();
       }
+      if(url.target !== undefined){
+
         this.selectTab(url.target)
+      }
     })
   }
 
@@ -72,7 +78,7 @@ export class OperatorProfileComponent implements OnDestroy, AfterViewInit{
   }
 
   selectTab(target:string){
-    let triggerEl = document.getElementById(target)!;
+    const triggerEl = document.getElementById(target)!;
     if(triggerEl !== null){
       triggerEl.click()
     }

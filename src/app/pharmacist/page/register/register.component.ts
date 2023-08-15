@@ -1,7 +1,7 @@
 import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
 import { SwiperComponent } from "swiper/angular";
 import SwiperCore, { Virtual } from 'swiper';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Validation from 'src/app/utils/validation';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { UtilService } from '../../service/util.service';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { Auth, createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateCurrentUser, updateProfile } from '@angular/fire/auth';
 import { Firestore, doc, setDoc} from '@angular/fire/firestore';
+import { atLeastOneCheckboxCheckedValidator } from './require-checkboxes-to-be-checked.validator';
+
 SwiperCore.use([Virtual]);
 
 @Component({
@@ -69,19 +71,19 @@ export class RegisterComponent implements AfterViewInit {
       surname: ['', [Validators.required]],
       license: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
       Agreement: [false, [Validators.requiredTrue]],
-      preferredJobType: this.fb.group({
-        S: [false],
-        AA: [false],
-        AB: [false],
-        AC: [false],
-        BA: [false],
-        BB: [false],
-        BC: [false],
-        CA: [false],
-        CB: [false],
-      }),
+      preferredJobType: new FormGroup({
+        S: new FormControl(false),
+        AA: new FormControl(false),
+        AB: new FormControl(false),
+        AC: new FormControl(false),
+        BA: new FormControl(false),
+        BB: new FormControl(false),
+        BC: new FormControl(false),
+        CA: new FormControl(false),
+        CB: new FormControl(false),
+      }, atLeastOneCheckboxCheckedValidator()),
       showProfileFlag: true,
-      preferredTimeFrame: [''],
+      preferredTimeFrame: ['Full-Time และ Part-Time'],
       preferredLocation: this.fb.group({
         Section: [''],
         District: [''],
@@ -122,7 +124,7 @@ export class RegisterComponent implements AfterViewInit {
   }
   nextSlide(){
     this.swiperFormPharma?.swiperRef.slideNext()
-    let display = 'block'
+    const display = 'block'
     const excessForm = document.querySelectorAll('.excessForm');
     this.header = 'งานที่กำลังมองหา'
     excessForm.forEach((eF: any) => {
@@ -132,7 +134,7 @@ export class RegisterComponent implements AfterViewInit {
   }
   backSlide(){
     this.swiperFormPharma?.swiperRef.slidePrev() 
-    let display = 'none'
+    const display = 'none'
     const excessForm = document.querySelectorAll('.excessForm');
     this.header = 'ลงทะเบียน'
     excessForm.forEach((eF: any) => {
@@ -174,7 +176,7 @@ export class RegisterComponent implements AfterViewInit {
         delete newUser.confirmPassword
         newUser.uid = user.user?.uid;
 
-        let promises: Promise<any>[] = [];
+        const promises: Promise<any>[] = [];
         if(newUser.role == 'เภสัชกร'){
           if(newUser.gender == 'ชาย'){
             promises.push(getDownloadURL(ref(this.storage, 'placeholder/male-pharma-profile.png')))
@@ -208,10 +210,10 @@ export class RegisterComponent implements AfterViewInit {
           const code = error.code;
           switch(code){
             case 'auth/weak-password':
-              this.errorMessage = 'Password needs to be at least 6 characters long';
+              this.errorMessage = 'รหัสผ่านต้องอย่างน้อย 6 ตัวอักษร';
               break;
             case 'auth/email-already-in-use':
-              this.errorMessage = 'Email already exists';
+              this.errorMessage = 'อีเมลนี้ถูกสมัครใช้งานเรียบร้อยแล้ว';
               break;
           }
         });

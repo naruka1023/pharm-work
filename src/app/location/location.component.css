@@ -1,0 +1,16 @@
+@media only screen and (max-width: 992px) {
+    .textResponsive{
+        font-size:smaller !important
+    }
+}
+@media only screen and (max-width: 768px) {
+    .textResponsive{
+        font-size:medium !important
+    }
+}
+.textResponsive{
+    font-size:1.75rem
+}
+.form-group{
+    text-align:left
+}

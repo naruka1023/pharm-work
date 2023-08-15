@@ -13,16 +13,43 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { RegisterComponent } from './register/register.component';
+import { LocationComponent } from './location/location.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SwiperModule } from 'swiper/angular';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { JobPostComponent } from './job-post/job-post.component';
+import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
+import { EmptyFieldPipe } from './pipe/empty-field.pipe';
+import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
+import { SalaryTypePipe } from './pipe/salary-type.pipe';
+import { WorkExperiencePipe } from './pipe/work-experience.pipe';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { JobPostSmallCardComponent } from './job-post-small-card/job-post-small-card.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     DemoLandingComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    RegisterComponent,
+    LocationComponent,
+    LandingPageComponent,
+    JobPostComponent,
+    EmptyFieldPipePipe,
+    EmptyFieldPipe,
+    SalaryTypePipe,
+    WorkExperiencePipe,
+    ProvinceFilterPipe,
+    JobPostSmallCardComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
+    GoogleMapsModule,
+    ReactiveFormsModule,
+    SwiperModule,
     StoreModule.forRoot({
       user: usersReducer,
       address: addressReducer
@@ -35,7 +62,7 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
     provideAuth(()=>getAuth()),
     provideStorage(()=>getStorage()),
   ],
-  providers: [],
+  providers: [],  // add this line
   bootstrap: [AppComponent]
 })
 export class AppModule { }

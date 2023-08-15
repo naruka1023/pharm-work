@@ -1,0 +1,156 @@
+@media only screen and (max-width: 1200px) {
+    .mainHeader{
+      display:block !important
+    }
+}
+@media only screen and (max-width: 768px) {
+    .outerHeader{
+        display:block !important;
+        text-align:center
+      }
+    .rightPanelDetails{
+      padding-left: 0 !important
+    }
+    .leftPanelDetails{
+      border-right:unset !important
+    }
+    .outerHeader > img{
+        top: 0 
+      }
+      .job-post_profile-picture{
+        left: 0 !important
+      }      
+    .outerHeader2{
+        position: relative;
+        top: -75px;
+        display:block !important
+      }
+    .oneRow{
+      display:unset !important
+    }
+    .twoRows{
+      display: none !important
+    }
+  }
+  
+  @media only screen and (max-width: 992px) {
+    .outerHeader2Pharma{
+        display:block !important
+      }
+    .valuePart{
+      font-size:large !important
+    }
+    .panelHeader{
+      display: block !important;
+      text-align: center
+    }
+    .jobName{
+      padding-right: 0 !important
+    }
+  }
+  @media only screen and (max-width: 360px){
+    .urgentLabel{
+      font-size: 1.3rem !important
+    }
+  }
+  @media only screen and (max-width: 576px){
+    .job-post_profile-picture{
+        z-index:5 !important
+      }
+  }
+  @media only screen and (max-width: 520px){
+    .gridContact{
+      font-size: 1.1rem !important;
+      line-break: auto;
+    }
+    .footerMainHeader{
+      display: block !important
+    }
+    .dateUpdated{
+      text-align: center !important
+    }
+    .choices{
+      justify-content: center !important
+    }
+  }
+  .innerCoverPhoto {
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .mainHeaderContent{
+    text-align:center
+  }
+  
+  .oneRow{
+    display:none
+  }
+  .coverPhoto {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+    z-index: 1;
+    aspect-ratio: 4/1;
+    overflow: hidden;
+  }
+  .bi-arrow-up-square::before {
+    content: "\f147";
+    background-color: white;
+    border-radius: 1rem;
+  }
+  
+  .valuePart{
+    font-size:larger
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    row-gap: 2rem;
+    font-size: 1.5rem;
+  }
+  .rightPanelDetails{
+    padding-left:2.75rem
+  }
+  .rounded{
+    border-radius: 20px !important;
+  }
+  .gridContact {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+  .nav-item{
+    padding:0 1rem
+  }
+  
+.job-post_profile-picture {
+    position: relative;
+    top: -75px;
+    z-index: 2;
+    left: 22px;
+  }
+  #navToScroll{
+      scroll-margin-top: 90px;
+  }
+  .nav-link{
+      color:black
+  }
+  .nav-link.active{
+      color: rgb(127, 216, 88)
+  }
+  .btn-primary, btn-primary:hover{
+    background:#5cdfe4;
+    border-color: #5cdfe4
+  }
+  .btn-success{
+    background:rgb(127, 216, 88);
+    border:rgb(127, 216, 88)
+  }
+  .loading {
+    position: relative;
+    margin-top: 45vh;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    height: 50vh;
+  }

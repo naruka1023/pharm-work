@@ -9,7 +9,7 @@ import { UsersService } from '../../service/users.service';
 import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import { SetUsersByJobType, updateUsersByJobType } from '../../state/actions/users-actions';
-declare var window: any;
+declare let window: any;
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -20,7 +20,7 @@ export class UserListComponent {
   _geoLoc: any;
   locationRadiusFlag: boolean = true;
   constructor(private store:Store, private fb:FormBuilder,private router: Router,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){
-    let extras = this.router.getCurrentNavigation()?.extras
+    const extras = this.router.getCurrentNavigation()?.extras
     if(extras!.state !== undefined){
       this.type = this.router.getCurrentNavigation()!.extras.state!['jobType']
       this.headerSearchFlag = true;
@@ -45,6 +45,7 @@ export class UserListComponent {
   stuff!: string;
   indexName: string = 'pharm-work_user_index'
   emptyResultFlag: boolean = false;
+  geoLocFlag!: boolean;
   infiniteScrollingLoadingFlag: boolean = false;
   loadingFlag: boolean = true;
   headerSearchFlag!: boolean
@@ -90,10 +91,18 @@ export class UserListComponent {
       return state.user
     }).subscribe((user: any)=>{
       if(user._geoloc == undefined){
-        this._geoLoc = user._geolocCurrent
+        if(user._geolocCurrent == undefined){
+          this._geoLoc = {
+            lat: 0,
+            lng: 0
+          }
+        }else{
+          this._geoLoc = user._geolocCurrent
+        }
       }else{
         this._geoLoc = user._geoloc
       }
+      this.geoLocFlag = user._geoloc == undefined
     })
     this.Users$ = this.store.select((state:any)=>{
       return state.users.users[this.type].long;
@@ -111,7 +120,7 @@ export class UserListComponent {
         this.initializeFormGroupUrgent();
       }
       this.provinceUrgent$ = this.store.select((state: any)=>{
-        let result = Object.keys(state.address.list);
+        const result = Object.keys(state.address.list);
         return result
       })
       this.provinceUrgent$.subscribe(()=>{})
@@ -126,7 +135,7 @@ export class UserListComponent {
         if(this.newUserFormUrgent.value.Location.District === '' || this.newUserFormUrgent.value.Location.District === null){
           return [];
         }
-        let section: string[] = state.address.list[this.newUserFormUrgent.value.Location.Province][this.newUserFormUrgent.value.Location.District].map((section: any)=>section.section);
+        const section: string[] = state.address.list[this.newUserFormUrgent.value.Location.Province][this.newUserFormUrgent.value.Location.District].map((section: any)=>section.section);
         return section
       })
       this.sectionUrgent$.subscribe(()=>{})
@@ -135,7 +144,7 @@ export class UserListComponent {
         this.initializeFormGroup();
       }
       this.province$ = this.store.select((state: any)=>{
-        let result = Object.keys(state.address.list);
+        const result = Object.keys(state.address.list);
         return result
       })
       this.district$ = this.store.select((state: any)=>{
@@ -148,7 +157,7 @@ export class UserListComponent {
         if(this.newUserFormList.value.preferredLocation.District === '' || this.newUserFormList.value.preferredLocation.District === null){
           return [];
         }
-        let section: string[] = state.address.list[this.newUserFormList.value.preferredLocation.Province][this.newUserFormList.value.preferredLocation.District].map((section: any)=>section.section);
+        const section: string[] = state.address.list[this.newUserFormList.value.preferredLocation.Province][this.newUserFormList.value.preferredLocation.District].map((section: any)=>section.section);
         return section
       })
     }
@@ -189,6 +198,17 @@ export class UserListComponent {
   }
   onChangeEvent(event: any){
     this.locationRadiusFlag = event.target.checked;
+    if(this.locationRadiusFlag && this.geoLocFlag){
+      document.getElementById('flexSwitchCheckDefault')?.click()
+      this.searchModal.hide()
+      this.router.navigate(['operator/profile-operator'], {
+        queryParams:{
+          googleMapPointer:true
+        }
+      }).then(()=>{
+        // this.offCanvas.hide()
+      })
+    }
   }
   scrollUp(){
     window.scroll({ 
@@ -216,9 +236,11 @@ export class UserListComponent {
     })
     this.store.dispatch(toggleAddressChange())
   }
+
   sectionSelected($event:any){
     this.store.dispatch(toggleAddressChange())
   }
+
   searchUsers(){
     this.loadingFlag = true;
     this.paginationIndex = 0
@@ -232,6 +254,7 @@ export class UserListComponent {
       this.loadingFlag = false;
     })
   }
+
   initializeFormGroup(){
     this.newUserFormList = this.fb.group({
       preferredTimeFrame: [''], 
@@ -245,6 +268,7 @@ export class UserListComponent {
       active: ['']
     })
   }
+  
   initializeFormGroupUrgent(){
     this.newUserFormUrgent = this.fb.group({
       onlineFlag: false,
@@ -259,6 +283,7 @@ export class UserListComponent {
     })
     this.locationRadiusFlag = this.newUserFormUrgent.value.nearbyFlag
   }
+  
   resetUrgent(){
     this.initializeFormGroupUrgent();
     this.store.dispatch(toggleAddressChange())
@@ -268,6 +293,7 @@ export class UserListComponent {
     this.initializeFormGroup();
     this.store.dispatch(toggleAddressChange())
   }
+  
   searchUsersUrgent(){
     if(!this.headerSearchFlag){
       this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})

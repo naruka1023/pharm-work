@@ -9,6 +9,7 @@ import { paginateJobCategory, retrievedJobCategorySuccess } from '../../state/ac
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { toggleAddressChange } from 'src/app/state/actions/address.action';
 import _ from 'lodash';
+declare let window: any;
 SwiperCore.use([Grid, Pagination, Navigation]);
 
 @Component({
@@ -27,9 +28,11 @@ export class JobsListComponent implements OnDestroy{
   nearMapFlag: boolean = false
   maxIndex: number = 0
   count!: number; 
+  geoLocFlag!: boolean;
   brandToCategory!: string;
   emptyResultFlag: boolean = false;
   dateOfJob!: any
+  searchModal: any
   indexName: string = 'pharm-work_index_dateUpdated_desc'
   _geoLoc!: _geoloc
   subscription: Subscription = new Subscription();
@@ -42,9 +45,12 @@ export class JobsListComponent implements OnDestroy{
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
   
-  constructor(private route: ActivatedRoute, private store: Store, private jobPostService:JobPostService, private fb: FormBuilder){}
+  constructor(private route: ActivatedRoute, private router:Router,private store: Store, private jobPostService:JobPostService, private fb: FormBuilder){}
   
   ngOnInit(){
+    this.searchModal = new window.bootstrap.Modal(
+      document.getElementById('searchModal')
+      );
     this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
     this.count$ = this.store.select((state: any) =>{
       const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{
@@ -65,10 +71,18 @@ export class JobsListComponent implements OnDestroy{
       return state.user
     }).subscribe((user: any)=>{
       if(user._geoloc == undefined){
-        this._geoLoc = user._geolocCurrent
+        if(user._geolocCurrent == undefined){
+          this._geoLoc = {
+            lat: 0,
+            lng: 0
+          }
+        }else{
+          this._geoLoc = user._geolocCurrent
+        }
       }else{
         this._geoLoc = user._geoloc
       }
+      this.geoLocFlag = user._geoloc == undefined
     })
     this.btsStations$ = this.store.select((state: any)=>{
       return state.address.bts
@@ -82,6 +96,18 @@ export class JobsListComponent implements OnDestroy{
       this.emptyResultFlag = (content!.length == 0)? true: false
     }))
     this.scrollUp()
+  }
+
+  onChangeEvent(event: any){
+    if(event.target.checked && this.geoLocFlag){
+      document.getElementById('flexSwitchCheckDefault')?.click()
+      this.searchModal.hide()
+      this.router.navigate(['pharma/profile-pharma'], {
+        queryParams:{
+          googleMapPointer:true
+        }
+      })
+    }
   }
 
   scrollUp(){
@@ -98,10 +124,10 @@ export class JobsListComponent implements OnDestroy{
       this.jobPostService.paginateJobCategoryResultsService(this.urgentFilterForm, this.CategorySymbol, this.paginationIndex, this.query, this.indexName, this.nearMapFlag).then((job)=>{
         this.paginationIndex++
         this.maxIndex = job.nbPages
-        let payload: jobPostPayload = {
+        const payload: jobPostPayload = {
           CategorySymbol: this.CategorySymbol,
           JobsPost: job.hits.map((hit: any)=>{
-            let newHit = _.cloneDeep(hit)
+            const newHit = _.cloneDeep(hit)
             newHit.custom_doc_id = hit.objectID
             delete newHit.objectID
             return newHit
@@ -135,7 +161,7 @@ export class JobsListComponent implements OnDestroy{
           }
       })
     }
-    let finalForm = this.urgentFilterForm.value
+    const finalForm = this.urgentFilterForm.value
     if(finalForm.Salary !== '' && finalForm.Salary !== undefined){
       finalForm.Salary = Number(finalForm.Salary)
     }
@@ -147,13 +173,13 @@ export class JobsListComponent implements OnDestroy{
       this.paginationIndex = 1;
       this.maxIndex = jobs.result.nbPages
       this.indexName = jobs.indexName
-      let newSrc = jobs.result.hits.map((hit: any)=>{
-        let newHit = _.cloneDeep(hit);
+      const newSrc = jobs.result.hits.map((hit: any)=>{
+        const newHit = _.cloneDeep(hit);
         newHit.custom_doc_id = newHit.objectID
         delete newHit.objectID
         return newHit
       })
-      let res: jobPostPayload = {
+      const res: jobPostPayload = {
         JobsPost: newSrc,
         CategorySymbol: this.CategorySymbol,
         count: newSrc.length
@@ -165,7 +191,7 @@ export class JobsListComponent implements OnDestroy{
 
   initializeSelector(){
     this.province$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
+      const result = Object.keys(state.address.list);
       return result
     })
     this.district$ = this.store.select((state: any)=>{
@@ -178,10 +204,11 @@ export class JobsListComponent implements OnDestroy{
       if(this.urgentFilterForm.value.Location.District === ''){
         return [];
       }
-      let section: string[] = state.address.list[this.urgentFilterForm.value.Location.Province][this.urgentFilterForm.value.Location.District].map((section: any)=>section.section);
+      const section: string[] = state.address.list[this.urgentFilterForm.value.Location.Province][this.urgentFilterForm.value.Location.District].map((section: any)=>section.section);
       return section
     })
   }
+
   provinceSelected($event:any){
     this.urgentFilterForm.patchValue({
         ...this.urgentFilterForm.value,
@@ -257,13 +284,13 @@ export class JobsListComponent implements OnDestroy{
       this.paginationIndex++;
       this.maxIndex = jobPosts.nbPages
       this.query = "Active:true AND CategorySymbol:" + this.CategorySymbol
-      let newSrc = jobPosts.hits.map((hit: any)=>{
-        let newHit = _.cloneDeep(hit);
+      const newSrc = jobPosts.hits.map((hit: any)=>{
+        const newHit = _.cloneDeep(hit);
         newHit.custom_doc_id = newHit.objectID
         delete newHit.objectID
         return newHit
       })
-      let res: jobPostPayload = {
+      const res: jobPostPayload = {
         JobsPost: newSrc,
         CategorySymbol: this.CategorySymbol,
         count: newSrc.length

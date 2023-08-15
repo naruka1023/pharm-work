@@ -9,8 +9,8 @@ export class UserService {
   private db: Firestore = inject(Firestore)
 
   async getUser(uid: string){
-    let user = await getDoc(doc(this.db, 'users', uid))
-    let result: User = {
+    const user = await getDoc(doc(this.db, 'users', uid))
+    const result: User = {
       ...user.data() as User,
       uid:uid
     }

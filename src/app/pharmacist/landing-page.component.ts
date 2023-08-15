@@ -10,11 +10,13 @@ import { Bookmark, Follow, jobPostModel, jobRequest } from './model/typescriptMo
 import { UtilService } from './service/util.service';
 import { User } from '../model/user.model';
 import { UserServiceService } from './service/user-service.service';
-import { requestView } from './model/typescriptModel/users.model';
-import { Unsubscribe } from 'firebase/firestore';
+import { aggregationCount, requestView } from './model/typescriptModel/users.model';
+import { Firestore, Unsubscribe } from 'firebase/firestore';
 import { Auth, user,sendEmailVerification } from '@angular/fire/auth';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import * as _ from 'lodash';
+import { Meta, MetaDefinition } from '@angular/platform-browser';
+import { collection, getDocs, query, where } from '@angular/fire/firestore';
 declare var window: any;
 
 
@@ -25,6 +27,7 @@ declare var window: any;
 })
 export class LandingPageComponent {
   private auth: Auth = inject(Auth);
+  // private firebase: Firestore = inject(Firestore);
   address: any = {}
   loginFlag: boolean = false;
   subject!: Subscription;
@@ -37,6 +40,15 @@ export class LandingPageComponent {
     dateSent: '',
     status: ''
   }
+  copy: string = 'Copy'
+  idToShare: string = ''
+  nameToShare: string = ''
+  aggregationGroup: aggregationCount = {
+    jobCount: 0,
+    userOperatorCount: 0,
+    userPharmaCount: 0
+  }
+  shareModal!: any;
   i: number = 0;
   parsedJobs: jobPostModel[] = []
   subscription: any = {};
@@ -45,11 +57,19 @@ export class LandingPageComponent {
   bookmarkSubscription: {
     [key:string]:Unsubscribe
   } = {}
-constructor(private pharmaProfileComponent: PharmaProfileComponent, private userService: UserServiceService, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router,  private utilService:UtilService) {
-  
-}
+  constructor(private meta: Meta, private pharmaProfileComponent: PharmaProfileComponent, private userService: UserServiceService, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router,  private utilService:UtilService) {
+    
+  }
+  ngOnInit(){  
 
-ngOnInit(){  
+  // getDocs(query(collection(this.firebase, 'job-post'), where('OperatorUID', '==', 'INGAXkwcFbbtQirdgRKMJW14Q7q1'))).then((jobs)=>{
+  //   jobs.docs.forEach((job)=>{
+  //     console.log(job.data());
+  //   })
+  // })
+  this.shareModal = new window.bootstrap.Modal(
+    document.getElementById('shareModal')
+  );
   this.formModal = new window.bootstrap.Modal(
     document.getElementById('requestViewModal')
   );
@@ -73,6 +93,9 @@ ngOnInit(){
   })
   this.subject = user(this.auth).subscribe((user)=>{
     if(user){
+      this.userService.getCountGroup().then((aggregation)=>{
+        this.aggregationGroup = aggregation
+      })
       this.jobService.getUserBookmark(user.uid).then((bookmarks)=>{
           bookmarks.forEach((bookmark: Bookmark)=>{
             this.bookmarkSubscription[bookmark.jobUID] = this.jobService.getJobFromBookmark(bookmark) as Unsubscribe
@@ -130,6 +153,9 @@ ngOnInit(){
         this.subscription[value.jobUID] = this.jobService.getJobFromJobRequest(value.jobUID, value)
       })
     }else{
+      this.userService.getCountGroup().then((aggregation)=>{
+        this.aggregationGroup = aggregation
+      })
       this.store.dispatch(EmptyJobPostAppState());
     }
     this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
@@ -143,6 +169,19 @@ ngOnInit(){
   })
 }
 
+toggleShare(jobPost: jobPostModel){
+  this.idToShare = jobPost.custom_doc_id
+  this.nameToShare = 'https://pharm-work.com/landing/job-post/' + this.idToShare 
+  this.copy = 'Copy'
+  let imageURL = encodeURI(`https://us-central1-pharm-work.cloudfunctions.net/imageGeneration/og-image?establishment=${jobPost.Establishment}&jobName=${jobPost.JobName}&urgency=${jobPost.Urgency}&timeFrame=${jobPost.TimeFrame}&dateOfJob=${jobPost.DateOfJob == undefined?'':jobPost.DateOfJob}&salary=${jobPost.Salary.Amount}&cap=${jobPost.Salary.Cap}&province=${jobPost.Location.Province}&district=${jobPost.Location.District}&profileImage=${jobPost.cropProfilePictureUrl !== undefined? jobPost.cropProfilePictureUrl : jobPost.profilePictureUrl}`)
+  let meta: MetaDefinition = {
+    name: 'image',
+    content: imageURL
+  }
+  this.meta.updateTag(meta)
+  this.shareModal.show()
+}
+
 goRegister(isPharma: boolean){
   this.route.navigate(['/pharma/register'], {
     queryParams: 
@@ -150,6 +189,18 @@ goRegister(isPharma: boolean){
       isPharma: isPharma
     }
   })
+}
+copyString() {
+  // Get the text field
+  const copyText: any = document.getElementById("myInput")!;
+
+  // Select the text field
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.value)
+  this.copy = "Copied"
 }
 
 sendVerificationEmail(){

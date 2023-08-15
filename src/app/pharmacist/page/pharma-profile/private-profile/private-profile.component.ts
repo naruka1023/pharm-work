@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
 import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
+import { PharmaProfileComponent } from '../pharma-profile.component';
 
 @Component({
   selector: 'app-private-profile',
@@ -17,8 +19,12 @@ export class PrivateProfileComponent {
   editFlag:boolean = false
   loadingFlag: boolean = false
   profileEdit!:FormGroup
+  googleMapFlag!:boolean
   display: any;
   zoom = 15;
+  none: google.maps.MapOptions = {
+    gestureHandling:'greedy'
+  };
   center: google.maps.LatLngLiteral = {
       lat: 0,
       lng: 0
@@ -28,9 +34,9 @@ export class PrivateProfileComponent {
     lng: 0
   }
   markerOptions: google.maps.MarkerOptions = {draggable: false};
-  constructor(private store: Store, private fb: FormBuilder, private utilService:UtilService, private userService: UserServiceService){
-  }
 
+  constructor(private route: ActivatedRoute,private store: Store, private fb: FormBuilder, private utilService:UtilService, private userService: UserServiceService, private pharmaProfile:PharmaProfileComponent){
+  }
   ngOnInit(){
     this.store.select((state: any)=>{
       return state.user
@@ -39,13 +45,32 @@ export class PrivateProfileComponent {
       if(this.innerProfileInformation._geoloc !== undefined){
         this.center = this.innerProfileInformation._geoloc
       }else{
-        this.center = this.innerProfileInformation._geolocCurrent!
+        if(this.innerProfileInformation._geolocCurrent == undefined){
+          this.center = {
+            lat: 0,
+            lng: 0
+          }
+        }else{
+          this.center = this.innerProfileInformation._geolocCurrent!
+        }
       }
+      this.googleMapFlag = this.innerProfileInformation._geoloc !== undefined
       this.markerPosition = this.center
       if(this.innerProfileInformation.role !== ''){
         this.resetFormGroup();
       }
     })
+  }
+
+  ngAfterViewInit(): void {
+    if(this.route.snapshot.queryParamMap.get('googleMapPointer')! !== undefined && this.route.snapshot.queryParamMap.get('googleMapPointer')! !== null){
+      setTimeout(()=>{
+        document.getElementById('googleMapScroll')?.scrollIntoView()
+        setTimeout(()=>{
+          this.pharmaProfile.openFormModal()
+        }, 700)
+      }, 700)
+    }
   }
 
   cancelClick(){
@@ -111,11 +136,14 @@ export class PrivateProfileComponent {
   }
 
   onSave(){
-    let payload = {
+    const payload = {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       dateUpdated: new Date().toISOString().split('T')[0],
       dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
+    }
+    if(payload._geoloc == ''){
+      delete payload._geoloc
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{

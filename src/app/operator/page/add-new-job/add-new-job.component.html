@@ -111,13 +111,31 @@
             <div class="col-md-3 col-12">
                 <div class="me-3">ช่วงเวลาทำงาน:</div>
             </div>
-            <div class="col">
-                <div class="d-flex flex-row verticalKeyGap">
-                    <input formControlName="timeStart" name="time" type="time" class="form-control" style="background-color:#f2f2f2">
-                    <div class=mx-3>-</div>
-                    <input  formControlName="timeEnd" name="time" type="time" class="form-control" style="background-color:#f2f2f2">
+            <ng-container *ngIf="urgency; then required; else notRequired"></ng-container>
+            <ng-template #required>
+                <div class="col">
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <input formControlName="timeStart" name="time" type="time" class="form-control" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['timeStart'].errors }" style="background-color:#f2f2f2">
+                        <div class=mx-3>-</div>
+                        <input  formControlName="timeEnd" name="time" type="time" class="form-control" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['timeEnd'].errors }" style="background-color:#f2f2f2">
+                    </div>
+                    <div *ngIf="submitted && getNewJobForm['timeStart'].errors" class="invalid-feedback2">
+                        <div *ngIf="getNewJobForm['timeStart'].errors!['required']">กรุณาระบุช่วงเวลาเข้าทำงาน</div>
+                    </div>
+                    <div *ngIf="submitted && getNewJobForm['timeEnd'].errors" class="invalid-feedback2">
+                        <div *ngIf="getNewJobForm['timeEnd'].errors!['required']">กรุณาระบุช่วงเวลาเลิกงาน</div>
+                    </div>
                 </div>
-            </div>
+            </ng-template>
+            <ng-template #notRequired>
+                <div class="col">
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <input formControlName="timeStart" name="time" type="time" class="form-control" style="background-color:#f2f2f2">
+                        <div class=mx-3>-</div>
+                        <input  formControlName="timeEnd" name="time" type="time" class="form-control" style="background-color:#f2f2f2">
+                    </div>
+                </div>
+            </ng-template>
         </div>
         <div class="row mt-3 verticalKeyGap" formGroupName="Salary">
             <div class="col-md-3 col-12">
@@ -137,10 +155,10 @@
                         </div>
                     </div>
                     <div *ngIf="submitted && getNewJobForm['Salary'].get('salaryStart')!.errors!" class="invalid-feedback2">
-                        <div *ngIf="getNewJobForm['Salary'].get('salaryStart')!.errors!['required']">กรุณาระบุช่วงเวลาเริ่มต้นทำงาน</div>
+                        <div *ngIf="getNewJobForm['Salary'].get('salaryStart')!.errors!['required']">กรุณาระบุค่าจ้างเริ่มต้น</div>
                     </div>
                     <div *ngIf="submitted && getNewJobForm['Salary'].get('salaryEnd')!.errors!" class="invalid-feedback2">
-                        <div *ngIf="getNewJobForm['Salary'].get('salaryEnd')!.errors!['required']">กรุณาระบุช่วงเวลาทำงานจบ</div>
+                        <div *ngIf="getNewJobForm['Salary'].get('salaryEnd')!.errors!['required']">กรุณาระบุค่าจ้างจบ</div>
                     </div>
                 </div>
                 <div class="form-check">
@@ -285,28 +303,28 @@
         </div>
     </div>
     <div class="container p-5 my-5" style="border-radius: 20px; background-color:white">
-        <div class="mb-5 border-bottom border-secondary py-3 verticalKeyGap">
+        <div class="mb-5 border-bottom border-secondary py-3  verticalKeyGap">
             <h3>ข้อมูลติดต่อเพิ่มเติม</h3>
         </div>
         <div class="row mt-3 verticalKeyGap">
-            <div class="col-md-3 col-12">
-                <label class="me-3">ข้อมูลติดต่อเพิ่มเติม</label>
+            <div class="col-md-3 col-12 mb-md-0 mb-3">
+                <label class="me-sm-3">ข้อมูลติดต่อเพิ่มเติม</label>
             </div>
             <div class="col" formGroupName="Contacts">
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="nameRepresentative" class="me-3">ชื่อผู้ติดต่อ:<label class="text-danger">*</label></label>
+                        <label for="nameRepresentative" class="me-sm-3">ชื่อผู้ติดต่อ:<label class="text-danger">*</label></label>
                     </div>
                     <div class="col">
-                        <input formControlName="nameRepresentative" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['nameRepresentative'].errors! }" class="form-control" name="nameRepresentative" style="background-color:#f2f2f2">
-                        <div *ngIf="submitted && getNewJobForm['nameRepresentative'].errors" class="invalid-feedback mb-3">
-                            <div *ngIf="getNewJobForm['nameRepresentative'].errors['required']">กรุณาระบุชื่อผู้ติดต่อ</div>
+                        <input formControlName="nameRepresentative" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['Contacts'].get('nameRepresentative')!.errors! }" class="form-control" name="nameRepresentative" style="background-color:#f2f2f2">
+                        <div *ngIf="submitted && getNewJobForm['Contacts'].get('nameRepresentative')!.errors" class="invalid-feedback mb-3">
+                            <div *ngIf="getNewJobForm['Contacts'].get('nameRepresentative')!.errors!['required']">กรุณาระบุชื่อผู้ติดต่อ</div>
                         </div>
                     </div>
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="areaOfContact" class="me-3">สถานที่ติดต่อ:</label>
+                        <label for="areaOfContact" class="me-sm-3">สถานที่ติดต่อ:</label>
                     </div>
                     <div class="col">
                         <input formControlName="areaOfContact" class="form-control" name="nameRepresentative" style="background-color:#f2f2f2">
@@ -314,7 +332,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="phone" class="me-3">เบอร์โทร:<label class="text-danger">*</label></label>
+                        <label for="phone" class="me-sm-3">เบอร์โทร:<label class="text-danger">*</label></label>
                     </div>
                     <div class="col">
                         <input formControlName="phone" class="form-control" name="phone" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['Contacts'].get('phone')!.errors! }" style="background-color:#f2f2f2">
@@ -325,7 +343,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="email" class="me-3">Email:<label class="text-danger">*</label></label>
+                        <label for="email" class="me-sm-3">Email:<label class="text-danger">*</label></label>
                     </div>
                     <div class="col">
                         <input formControlName="email" class="form-control" name="email" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['Contacts'].get('email')!.errors! }" style="background-color:#f2f2f2">
@@ -336,7 +354,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="website" class="me-3">Website:</label>
+                        <label for="website" class="me-sm-3">Website:</label>
                     </div>
                     <div class="col">
                         <input formControlName="website" class="form-control" name="website" style="background-color:#f2f2f2">
@@ -344,7 +362,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="line" class="me-3">LINE:</label>
+                        <label for="line" class="me-sm-3">LINE:</label>
                     </div>
                     <div class="col">
                         <input formControlName="line" class="form-control" name="line" style="background-color:#f2f2f2">
@@ -352,7 +370,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="facebook" class="me-3">Facebook:</label>
+                        <label for="facebook" class="me-sm-3">Facebook:</label>
                     </div>
                     <div class="col">
                         <input formControlName="facebook" class="form-control" name="facebook" style="background-color:#f2f2f2">
@@ -382,7 +400,7 @@
                 (onAddressChange)="searchMap($event)" style="background-color:#f2f2f2"
             />
           </div>
-          <div class="col d-flex justify-content-center">
+          <div class="col d-flex justify-content-center" style="overflow:scroll">
             <div *ngIf="submitted && getNewJobForm['_geoloc']!.errors" class="invalid-feedback2 mb-3">
               <div *ngIf="getNewJobForm['_geoloc']!.errors!['required']">กรุณาระบุปักหมุด google map</div>
           </div>
@@ -390,6 +408,7 @@
                 height="500px"
                 width="65vw"
                 [center]="center"
+                [options]="none"
                 [zoom]="zoom"
                 (mapClick)="moveMap($event)"
                 (mapMousemove)="move($event)">

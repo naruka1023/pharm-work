@@ -27,6 +27,7 @@ export class OperatorPageComponent implements OnDestroy{
   content!: userOperator  
   jobType!: string
   operatorExistFlag: boolean = false
+  geolocFlag!: boolean;
   requestViewFlag: boolean = false
   followFlag: boolean = false
   viewFlag:boolean = false
@@ -34,6 +35,9 @@ export class OperatorPageComponent implements OnDestroy{
   subscription: Subscription = new Subscription
   zoom:number = 15
   operator?: userOperator
+  none: google.maps.MapOptions = {
+    gestureHandling:'greedy'
+  };
   center: google.maps.LatLngLiteral = {
     lat: 0,
     lng: 0
@@ -43,10 +47,10 @@ export class OperatorPageComponent implements OnDestroy{
     lng: 0
   }
   ngOnInit(){
-    let follow = this.route.snapshot.queryParamMap.get('followFlag')
+    const follow = this.route.snapshot.queryParamMap.get('followFlag')
     this.followFlag = (follow == 'false'? false: true)
     this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
-    let request = this.route.snapshot.queryParamMap.get('requestViewFlag')!;
+    const request = this.route.snapshot.queryParamMap.get('requestViewFlag')!;
     this.requestViewFlag = (request == 'false'?false: true)
     this.jobType = this.route.snapshot.queryParamMap.get('jobType')!
 
@@ -55,7 +59,7 @@ export class OperatorPageComponent implements OnDestroy{
       this.store.dispatch(emptyOperatorData())
       this.jobPostService.getJobOfOperator(this.operatorUID).then((jobs: jobPostModel[])=>{
         this.userService.getOperatorData(this.operatorUID).then((operator)=>{
-          let operator2 = operator.data() as userOperator
+          const operator2 = operator.data() as userOperator
           this.userService.getNumberOfFollowers(operator.id).then((count)=>{
             this.allJobsFlag = jobs.length !== 0;
             if(this.allJobsFlag){
@@ -70,7 +74,7 @@ export class OperatorPageComponent implements OnDestroy{
               this.allJobsFlagNormal = false;
               this.allJobsFlagUrgent = false;
             }
-            let payload: any = {
+            const payload: any = {
               ...operator2,
               followers:count
             }
@@ -82,8 +86,8 @@ export class OperatorPageComponent implements OnDestroy{
     }
     this.loading$ = this.store.select((state:any) =>{
       if(this.operatorExistFlag){
-        let categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
-        let fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
+        const categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+        const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
           return filterCondition.CategorySymbol == categorySymbol
         }) as filterConditions
         return fC.content.find((user: userOperator)=>{
@@ -95,13 +99,13 @@ export class OperatorPageComponent implements OnDestroy{
     this.subscription.add(
       this.store.select((state:any)=>{
         if(this.operatorExistFlag){
-          let categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
-            let jobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
+          const categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+            const jobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find((user: userOperator)=>{
               return user.uid == this.operatorUID
             }).operatorJobs
-            let payload: jobPostModel[] = []
+            const payload: jobPostModel[] = []
             if(jobs !== undefined){
               Object.keys(jobs).forEach((key)=>{
                 payload.push(jobs[key])
@@ -109,8 +113,8 @@ export class OperatorPageComponent implements OnDestroy{
             }
             return payload
         }else{
-          let jobs =  state.operator.operatorJobs
-          let payload: jobPostModel[] = []
+          const jobs =  state.operator.operatorJobs
+          const payload: jobPostModel[] = []
           if(jobs !== undefined){
             Object.keys(jobs).forEach((key)=>{
               payload.push(jobs[key])
@@ -125,8 +129,8 @@ export class OperatorPageComponent implements OnDestroy{
     )
     this.store.select((state:any)=>{
       if(this.operatorExistFlag){
-        let categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
-          let fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
+        const categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+          const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
             return filterCondition.CategorySymbol == categorySymbol
           }) as filterConditions
           return fC.content.find((user: userOperator)=>{
@@ -158,6 +162,11 @@ export class OperatorPageComponent implements OnDestroy{
       }
       this.operator = operator
       this.center = operator._geoloc!
+      if(operator._geoloc !== undefined){
+        this.geolocFlag = true
+      }else{
+        this.geolocFlag = false
+      }
       this.markerPosition = operator._geoloc!
     })
     this.store.dispatch(toggleJobs())

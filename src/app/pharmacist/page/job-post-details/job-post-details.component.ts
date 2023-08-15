@@ -9,7 +9,8 @@ import { UtilService } from '../../service/util.service';
 import { removeBookmark, updateJobFromJobCategory, updateJobFromHome } from '../../state/actions/job-post.actions';
 import { getUrgentJobsSuccess } from '../../state/actions/urgent-jobs.actions';
 import { updateRecentlySeenJob } from '../../state/actions/recently-seen.actions';
-declare var window: any;
+import { LandingPageComponent } from '../../landing-page.component';
+declare let window: any;
 
 @Component({
   selector: 'app-job-post-details',
@@ -18,7 +19,7 @@ declare var window: any;
 })
 export class JobPostDetailsComponent implements OnDestroy{
 
-  constructor(private jobPostService:JobPostService, private route: ActivatedRoute, private utilService:UtilService , private router: Router, private store: Store){}
+  constructor(private landingPageComponent: LandingPageComponent, private jobPostService:JobPostService, private route: ActivatedRoute, private utilService:UtilService , private router: Router, private store: Store){}
 
   loading$!:Observable<boolean>;
   id!: string;
@@ -103,6 +104,9 @@ export class JobPostDetailsComponent implements OnDestroy{
     custom_doc_id: ''
   };
   zoom: number = 15
+  none: google.maps.MapOptions = {
+    gestureHandling:'greedy'
+  };
   center: google.maps.LatLngLiteral = {
     lat: 0,
     lng: 0
@@ -184,11 +188,11 @@ export class JobPostDetailsComponent implements OnDestroy{
           break;
         case 'operator-page':
           if(this.route.snapshot.queryParamMap.get('operatorExistFlag') !== null){
-            let flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
+            const flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
             if(flag){ 
-              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
-              let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
-              let filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
+              const categorySymbol = this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+              const operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
+              const filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
                 return filter.CategorySymbol === categorySymbol
               })
               newJob = filter.content.find((userOperator:userOperator)=>{
@@ -255,8 +259,8 @@ export class JobPostDetailsComponent implements OnDestroy{
     this.bookmarkFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userID !== ''){
-        let newState: AppState = state.jobpost
-        let bookmark: Bookmark = newState.Bookmarks[this.profile.custom_doc_id + '-' + this.userID]
+        const newState: AppState = state.jobpost
+        const bookmark: Bookmark = newState.Bookmarks[this.profile.custom_doc_id + '-' + this.userID]
         if(bookmark === undefined){
           flag = false;
         }else{
@@ -291,7 +295,7 @@ export class JobPostDetailsComponent implements OnDestroy{
       this.jobPostService.requestJob(this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then((value: any)=>{
         this.loadingConfirmRequestFlag = false
         this.successFlag = true
-        let jobRequest:jobRequest = {
+        const jobRequest:jobRequest = {
           operatorUID: this.profile.OperatorUID,
           userUID: this.userID,
           jobUID: this.profile.custom_doc_id,
@@ -332,6 +336,9 @@ export class JobPostDetailsComponent implements OnDestroy{
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['login'])
     }
+  }
+  toggleShare(){
+    this.landingPageComponent.toggleShare(this.profile)
   }
   
   scrollUp(){

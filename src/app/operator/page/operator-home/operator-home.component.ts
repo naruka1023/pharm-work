@@ -10,6 +10,7 @@ import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import { funnelUsers, toggleLoading } from '../../state/actions/users-actions';
 import { ActivatedRoute, Router } from '@angular/router';
+import { userOperator } from 'src/app/pharmacist/model/typescriptModel/jobPost.model';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 
@@ -25,7 +26,7 @@ export class OperatorHomeComponent implements OnDestroy{
   userJobType$!: Observable<string>;
   locationRadiusFlag!: boolean
   loadingUsers$!: Observable<boolean>;
-  
+  geoLocFlag!: boolean
   loadingFlag:boolean = true;
   loadingNormalFlag: boolean = false;
   loadingUrgentFlag: boolean = false;
@@ -68,15 +69,27 @@ export class OperatorHomeComponent implements OnDestroy{
       }
     })
     this.store.select((state: any)=>{
-      return state.user._geoloc
-    }).subscribe((_geoloc: any)=>{
-      this._geoLoc = _geoloc
+      return state.user
+    }).subscribe((user: userOperator)=>{
+      if(user._geoloc == undefined){
+        if(user._geolocCurrent == undefined){
+          this._geoLoc = {
+            lat: 0,
+            lng:0
+          }
+        }else{
+          this._geoLoc = user._geolocCurrent!
+          }
+      }else{
+        this._geoLoc = user._geoloc
+      }
+      this.geoLocFlag = user._geoloc == undefined
     })
     this.initializeFormGroup();
     this.initializeFormGroupUrgent();
 
     this.provinceUrgent$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
+      const result = Object.keys(state.address.list);
       return result
     })
     this.districtUrgent$ = this.store.select((state: any)=>{
@@ -89,7 +102,7 @@ export class OperatorHomeComponent implements OnDestroy{
       if(this.newUserFormUrgent.value.Location.District === '' || this.newUserFormUrgent.value.Location.District === null){
         return [];
       }
-      let section: string[] = state.address.list[this.newUserFormUrgent.value.Location.Province][this.newUserFormUrgent.value.Location.District].map((section: any)=>section.section);
+      const section: string[] = state.address.list[this.newUserFormUrgent.value.Location.Province][this.newUserFormUrgent.value.Location.District].map((section: any)=>section.section);
       return section
     })
     this.subscription.add(this.sectionUrgent$.subscribe())
@@ -97,7 +110,7 @@ export class OperatorHomeComponent implements OnDestroy{
     this.subscription.add(this.districtUrgent$.subscribe())
 
     this.province$ = this.store.select((state: any)=>{
-      let result = Object.keys(state.address.list);
+      const result = Object.keys(state.address.list);
       return result
     })
     this.district$ = this.store.select((state: any)=>{
@@ -110,13 +123,15 @@ export class OperatorHomeComponent implements OnDestroy{
       if(this.newUserForm.value.preferredLocation.District === '' || this.newUserForm.value.preferredLocation.District === null){
         return [];
       }
-      let section: string[] = state.address.list[this.newUserForm.value.preferredLocation.Province][this.newUserForm.value.preferredLocation.District].map((section: any)=>section.section);
+      const section: string[] = state.address.list[this.newUserForm.value.preferredLocation.Province][this.newUserForm.value.preferredLocation.District].map((section: any)=>section.section);
       return section
     })
     this.subscription.add(this.section$.subscribe())
     this.subscription.add(this.province$.subscribe())
     this.subscription.add(this.district$.subscribe())
   }
+
+  
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
   }
@@ -229,11 +244,19 @@ export class OperatorHomeComponent implements OnDestroy{
       this.router.navigateByUrl('operator/users-list', { state: this.newUserForm.value});
     }
   }
-
   onChangeEvent(event: any){
     this.locationRadiusFlag = event.target.checked;
+    if(this.locationRadiusFlag && this.geoLocFlag){
+      document.getElementById('flexSwitchCheckDefault')?.click()
+      this.router.navigate(['operator/profile-operator'], {
+        queryParams:{
+          googleMapPointer:true
+        }
+      }).then(()=>{
+        // this.offCanvas.hide()
+      })
+    }
   }
-  
   scrollUp(){
     window.scroll({ 
       top: 0, 

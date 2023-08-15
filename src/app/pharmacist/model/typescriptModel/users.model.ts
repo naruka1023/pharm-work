@@ -11,6 +11,11 @@ export interface registerFormOperator{
     phoneNumber: string,
     role: string
 }
+export interface aggregationCount{
+    jobCount: number;
+    userPharmaCount: number;
+    userOperatorCount: number
+}
 export interface registerFormPharmacist{
     email: string,
     password?: string,

@@ -27,6 +27,11 @@ export interface User{
     },
     uid: string;
 }
+export interface aggregationCount{
+    jobCount: number;
+    userPharmaCount: number;
+    userOperatorCount: number
+}
 
 export interface Location
 {

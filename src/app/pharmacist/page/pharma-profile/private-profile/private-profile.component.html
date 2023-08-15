@@ -82,10 +82,11 @@
                     <b>ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน</b>
                 </div>
             </div>
-            <div class="col d-flex justify-content-center" style="overflow: scroll">
+            <div class="col d-flex justify-content-center" id="googleMapScroll" style="overflow: scroll">
                 <google-map 
                     height="500px"
                     width="65vw"
+                    [options]="none"
                     [center]="center"
                     [zoom]="zoom">
                     <map-marker
@@ -93,6 +94,7 @@
                 </google-map>
             </div>
             <div class="text-danger"><i>*ไม่แสดงให้ผู้อื่นเห็น</i></div>
+            <div class="text-danger" *ngIf="!googleMapFlag"><i>*หมุดยังไม่ปัก</i></div>
         </div>
         <div class="d-flex flex-row verticalKeyGap">
             <div class="keyValueGap">
@@ -183,6 +185,7 @@
                             width="65vw"
                             [center]="center"
                             [zoom]="zoom"
+                            [options]="none"
                             (mapClick)="moveMap($event)"
                             (mapMousemove)="move($event)">
                             <map-marker

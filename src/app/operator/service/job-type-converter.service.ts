@@ -61,6 +61,9 @@ export class JobTypeConverterService {
       case "งานร้านยา Brand":
         title = 'AB'
         break;
+      case "งานร้านยาแบรนด์":
+        title = 'AB'
+        break;
       case "งานโรงพยาบาล":
         title = 'AC'
         break;

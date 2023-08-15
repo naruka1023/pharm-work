@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
@@ -8,19 +8,21 @@ import { RoutingService } from '../../service/routing.service';
 import { UtilService } from '../../service/util.service';
 import { removeBookmark } from '../../state/actions/job-post.actions';
 import { addRecentlySeen } from '../../state/actions/recently-seen.actions';
+import { LandingPageComponent } from '../../landing-page.component';
 
 @Component({
   selector: 'app-job-post-small-card',
   templateUrl: './job-post-small-card.component.html',
   styleUrls: ['./job-post-small-card.component.css']
 })
-export class JobPostSmallCardComponent {
+export class JobPostSmallCardComponent  {
 
-  constructor(private utilService: UtilService, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
+  constructor(private landingPageComponent: LandingPageComponent, private utilService: UtilService, private jobPostService: JobPostService, private store: Store, private router: Router, private routeService: RoutingService){}
 
   @Input() fullTimeFlag = true 
   @Input() urgentFlag = false;
   @Input() content!: jobPostModel
+  modalID! : string
   bookmarkLoadingFlag!:boolean;  
   bookmarkFlag$:Observable<boolean> = of(true);
   userID!: string
@@ -33,6 +35,7 @@ export class JobPostSmallCardComponent {
   jobName!: string;
   establishmentName!: string;
   ngOnInit(){
+    this.modalID = 'shareModal' + this.content.custom_doc_id
     if(this.content.cropProfilePictureUrl == ''){
       delete this.content.cropProfilePictureUrl
     }
@@ -49,8 +52,8 @@ export class JobPostSmallCardComponent {
     this.bookmarkFlag$ = this.store.select((state: any) =>{
       let flag = true;
       if(this.userID !== ''){
-        let newState: AppState = state.jobpost
-        let bookmark: Bookmark = newState.Bookmarks[this.content.custom_doc_id + '-' + this.userID]
+        const newState: AppState = state.jobpost
+        const bookmark: Bookmark = newState.Bookmarks[this.content.custom_doc_id + '-' + this.userID]
         if(bookmark === undefined){
           flag = false;
         }else{
@@ -64,15 +67,10 @@ export class JobPostSmallCardComponent {
       this.fullTimeFlag = false;
     }
 }
-  limitMethod (string = '', limit = 0) {  
-    // let dot = ''
-    // if(document.getElementById('jobName' + this.content.custom_doc_id)!.clientHeight < document.getElementById('jobName' + this.content.custom_doc_id)!.scrollHeight){
-    //   console.log(string)
-    // }else{
-    //   dot = string
-    // }
-    return  string
-  }
+toggleShare(){
+  this.landingPageComponent.toggleShare(this.content)
+}
+
   getBookmarkPayload(){
     return {jobUID: this.content.custom_doc_id, userUID: this.userID, bookmarkUID: this.bookmarkID, JobPost:this.content};
   }
@@ -96,6 +94,7 @@ export class JobPostSmallCardComponent {
       if(this.localFlag === true){
         
         this.jobPostService.removeBookMarkService(this.bookmarkID).then((value: any)=>{
+          this.utilService.sendRemoveBookmarkSubject(this.content.custom_doc_id)
           this.store.dispatch(removeBookmark(this.getBookmarkPayload()));
           this.bookmarkLoadingFlag = false
         })
@@ -114,7 +113,7 @@ export class JobPostSmallCardComponent {
       this.router.navigate(['pharma/login'])
     }else{
       this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
-          let jobRequest:jobRequest = {
+          const jobRequest:jobRequest = {
             operatorUID: this.content.OperatorUID,
             userUID: this.userID,
             jobUID: this.content.custom_doc_id,

@@ -111,13 +111,31 @@
             <div class="col-md-3 col-12">
                 <div class="me-3">ช่วงเวลาทำงาน:</div>
             </div>
-            <div class="col verticalKeyGap">
-                <div class="d-flex flex-row">
-                    <input [ngModelOptions]="{standalone: true}" [(ngModel)]="timeStart" type="time" class="form-control" style="background-color:#f2f2f2">
-                    <div class=mx-3>-</div>
-                    <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="timeEnd" type="time" class="form-control" style="background-color:#f2f2f2">
+            <ng-container *ngIf="urgency; then required; else notRequired"></ng-container>
+            <ng-template #required>
+                <div class="col">
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <input formControlName="timeStart" name="time" type="time" class="form-control" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['timeStart'].errors }" style="background-color:#f2f2f2">
+                        <div class=mx-3>-</div>
+                        <input  formControlName="timeEnd" name="time" type="time" class="form-control" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['timeEnd'].errors }" style="background-color:#f2f2f2">
+                    </div>
+                    <div *ngIf="submitted && getEditNewForm['timeStart'].errors" class="invalid-feedback2">
+                        <div *ngIf="getEditNewForm['timeStart'].errors!['required']">กรุณาระบุช่วงเวลาเข้าทำงาน</div>
+                    </div>
+                    <div *ngIf="submitted && getEditNewForm['timeEnd'].errors" class="invalid-feedback2">
+                        <div *ngIf="getEditNewForm['timeEnd'].errors!['required']">กรุณาระบุช่วงเวลาเลิกงาน</div>
+                    </div>
                 </div>
-            </div>
+            </ng-template>
+            <ng-template #notRequired>
+                <div class="col">
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <input formControlName="timeStart" name="time" type="time" class="form-control" style="background-color:#f2f2f2">
+                        <div class=mx-3>-</div>
+                        <input  formControlName="timeEnd" name="time" type="time" class="form-control" style="background-color:#f2f2f2">
+                    </div>
+                </div>
+            </ng-template>
         </div>
                 <div class="row mt-3 verticalKeyGap" formGroupName="Salary">
             <div class="col-md-3 col-12">
@@ -289,24 +307,24 @@
             <h3>ข้อมูลติดต่อเพิ่มเติม</h3>
         </div>
         <div class="row mt-3 verticalKeyGap">
-            <div class="col-md-3 col-12">
+            <div class="col-md-3 col-12 mb-md-0 mb-3">
                 <label class="me-3">ข้อมูลติดต่อเพิ่มเติม</label>
             </div>
             <div class="col" formGroupName="Contacts">
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="nameRepresentative" class="me-3">ชื่อผู้ติดต่อ:</label>
+                        <label for="nameRepresentative" class="me-sm-3">ชื่อผู้ติดต่อ:</label>
                     </div>
                     <div class="col">
-                        <input formControlName="nameRepresentative" class="form-control" name="nameRepresentative" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['nameRepresentative'].errors! }">
-                        <div *ngIf="submitted && getEditNewForm['nameRepresentative'].errors" class="invalid-feedback mb-3">
-                            <div *ngIf="getEditNewForm['nameRepresentative'].errors['required']">กรุณาระบุชื่อผู้ติดต่อ</div>
+                        <input formControlName="nameRepresentative" class="form-control" name="nameRepresentative" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Contacts'].get('nameRepresentative')!.errors!! }">
+                        <div *ngIf="submitted && getEditNewForm['Contacts'].get('nameRepresentative')!.errors!" class="invalid-feedback mb-3">
+                            <div *ngIf="getEditNewForm['Contacts'].get('nameRepresentative')!.errors!['required']">กรุณาระบุชื่อผู้ติดต่อ</div>
                         </div>
                     </div>
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="areaOfContact" class="me-3">สถานที่ติดต่อ:</label>
+                        <label for="areaOfContact" class="me-sm-3">สถานที่ติดต่อ:</label>
                     </div>
                     <div class="col">
                         <input formControlName="areaOfContact" class="form-control" name="areaOfContact" style="background-color:#f2f2f2">
@@ -314,7 +332,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="phone" class="me-3">เบอร์โทร:</label>
+                        <label for="phone" class="me-sm-3">เบอร์โทร:</label>
                     </div>
                     <div class="col">
                         <input formControlName="phone" class="form-control" name="phone" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Contacts'].get('phone')!.errors! }" style="background-color:#f2f2f2">
@@ -325,7 +343,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="website" class="me-3">Website:</label>
+                        <label for="website" class="me-sm-3">Website:</label>
                     </div>
                     <div class="col">
                         <input formControlName="website" class="form-control" name="website" style="background-color:#f2f2f2">
@@ -333,7 +351,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="email" class="me-3">Email:</label>
+                        <label for="email" class="me-sm-3">Email:</label>
                     </div>
                     <div class="col">
                         <input formControlName="email" class="form-control" name="email" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Contacts'].get('email')!.errors! }" style="background-color:#f2f2f2">
@@ -344,7 +362,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="line" class="me-3">LINE:</label>
+                        <label for="line" class="me-sm-3">LINE:</label>
                     </div>
                     <div class="col">
                         <input formControlName="line" class="form-control" name="line" style="background-color:#f2f2f2">
@@ -352,7 +370,7 @@
                 </div>
                 <div class="row verticalKeyGap">
                     <div class="col-4 mb-3">
-                        <label for="facebook" class="me-3">Facebook:</label>
+                        <label for="facebook" class="me-sm-3">Facebook:</label>
                     </div>
                     <div class="col">
                         <input formControlName="facebook" class="form-control" name="facebook" style="background-color:#f2f2f2">
@@ -382,11 +400,12 @@
                 (onAddressChange)="searchMap($event)" style="background-color:#f2f2f2"
             />
           </div>
-        <div class="col d-flex justify-content-center">
+        <div class="col d-flex justify-content-center"  style="overflow:scroll">
             <google-map 
                 height="500px"
                 width="65vw"
                 [center]="center"
+                [options]="none"
                 [zoom]="zoom"
                 (mapClick)="moveMap($event)"
                 (mapMousemove)="move($event)">

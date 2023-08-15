@@ -46,6 +46,9 @@ export class AddNewJobComponent {
   mrtStations$!: Observable<string[]>;
   display: any;
   zoom: number = 15
+  none: google.maps.MapOptions = {
+    gestureHandling:'greedy'
+  };
   center: any = 'undefined';
   markerPosition: google.maps.LatLngLiteral = {
     lat: 0,
@@ -99,7 +102,14 @@ export class AddNewJobComponent {
       if(this.userState._geoloc !== undefined){
         this.center = this.userState._geoloc
       }else{
-        this.center = this.userState._geolocCurrent!
+        if(this.userState._geolocCurrent == undefined){
+          this.center = {
+            lat: 0,
+            lng:0
+          }
+        }else{
+          this.center = this.userState._geolocCurrent!
+          }
       }
       this.markerPosition = this.center
       this.initializeFormGroup();
@@ -211,7 +221,7 @@ searchMap(event: any){
   get getNewJobForm(): { [key: string]: AbstractControl } { 
     return this.newJobForm.controls;
   }
-  
+
   initializeFormGroup(){
     this.newJobForm = this.fb.group({
       JobType: this.userState.jobType,
@@ -227,8 +237,8 @@ searchMap(event: any){
       _geoloc: [this.center, [Validators.required]],
       Active: [true],
       Duration: [''],
-      timeStart: [''],
-      timeEnd: [''],
+      timeStart: this.urgency?['', [Validators.required]]:[''],
+      timeEnd: this.urgency?['', [Validators.required]]:[''],
       Urgency: [this.urgency],
       Salary: this.fb.group({
         Amount:[''],
@@ -346,7 +356,7 @@ searchMap(event: any){
           this.sub = this.newJobService.addMultipleJobs(postJobForm)
         }else{
           if(this.newJobForm.value.DateOfJob.length !== 0){
-            let processedDate = moment(postJobForm.DateOfJob[0]).format('yyyy-MM-DD') 
+            const processedDate = moment(postJobForm.DateOfJob[0]).format('yyyy-MM-DD') 
             postJobForm = {
               ...postJobForm,
               DateOfJob:processedDate

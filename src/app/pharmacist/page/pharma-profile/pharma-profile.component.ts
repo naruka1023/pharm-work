@@ -5,7 +5,7 @@ import { UserServiceService } from '../../service/user-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterJobsComponent } from './register-jobs/register-jobs.component';
 
-declare var window: any;
+declare let window: any;
 
 @Component({
   selector: 'app-pharma-profile',
@@ -28,9 +28,9 @@ export class PharmaProfileComponent implements OnDestroy{
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModalPharma')
     );
-    this.sub.add(this.userService.getCallView().pipe().subscribe(()=>{
-      this.openFormModal();
-    }))
+    // this.sub.add(this.userService.getCallView().pipe().subscribe(()=>{
+    //   this.openFormModal();
+    // }))
   }
   setChildFlag(flag: boolean){
     this.selectChildTab = flag
@@ -38,11 +38,15 @@ export class PharmaProfileComponent implements OnDestroy{
   ngAfterViewInit(){
     this.activatedRoute.data.subscribe((url: any)=>{
       if(url.scrollFlag){
-        document.getElementById('navToScroll')!.scrollIntoView();
+          setTimeout(()=>{
+            document.getElementById('navToScroll')!.scrollIntoView(); 
+          }, 700)
       }else{
-        this.scrollUp();
+        this.scrollUp(); 
       }
-      this.selectTab(url.target)
+      if(url.target.indexOf('?') == -1){
+        this.selectTab(url.target)
+      }
     })
   }
   selectTab(target:string){
@@ -55,7 +59,7 @@ export class PharmaProfileComponent implements OnDestroy{
     }else{
       this.setChildFlag(false)
     }
-    let triggerEl = document.getElementById(newTarget)!;
+    const triggerEl = document.getElementById(newTarget)!;
     triggerEl.click()
     if(this.selectChildTab){
       if(target == 'request-jobs' || target == 'request-views'){

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { requestView, requestViewList, User } from '../model/typescriptModel/users.model';
+import { aggregationCount, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
 import { collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, query, updateDoc, where } from '@angular/fire/firestore';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
 
@@ -15,6 +15,18 @@ export class UserServiceService {
   leaveEditSubject: Subject<string> = new Subject();
   selectTabSubject: Subject<string> = new Subject();
   callView: Subject<void> = new Subject();
+
+  async getCountGroup(): Promise<aggregationCount>{
+    const jobcount = await getCountFromServer(query(collection(this.firestore, 'job-post'), where('Active', '==', true)))
+    const userPharmaCount = await getCountFromServer(query(collection(this.firestore, 'users'), where('role', '==', 'เภสัชกร')))
+    const userOperatorCount = await getCountFromServer(query(collection(this.firestore, 'users'), where('role', '==', 'ผู้ประกอบการ')))
+    const result = {
+      jobCount: jobcount.data().count,
+      userPharmaCount: userPharmaCount.data().count,
+      userOperatorCount: userOperatorCount.data().count
+    }
+    return result
+  }
   
   async getNumberOfFollowers(operatorUID: string){
     let count = await getCountFromServer(query(collection(this.firestore, 'followers'), where('operatorUID', '==', operatorUID)))
