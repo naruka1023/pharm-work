@@ -4,6 +4,7 @@ export interface filterConditions{
     brandToCategory?: string;
     filterFlag?: boolean;
     header: string;
+    idList?: string[];
     bannerFlag: boolean;
     bannerType?: string,
     count: number;

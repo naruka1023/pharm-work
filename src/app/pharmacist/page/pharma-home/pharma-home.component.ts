@@ -78,9 +78,10 @@ export class PharmaHomeComponent {
       })
       categorySymbols.forEach((categorySymbol:string)=>{
         switch(categorySymbol){
-          case 'BA':
+          case 'CB':
+            let empty: string[] = []
             promises.push(
-              this.jobPostService.getOperatorsByType('ร้านยาแบรนด์').then((operators)=>{
+              this.jobPostService.getOperatorsByType(empty).then((operators)=>{
                 let res: jobPostPayload = {
                   UserOperator: operators,
                   CategorySymbol: categorySymbol,
@@ -89,9 +90,12 @@ export class PharmaHomeComponent {
               })
             )
             break;
-          case 'CB':
+          case 'BA':
+            let idList : string[] = headerArray.find((header)=>{
+              return header.CategorySymbol == 'BA'
+            })!.idList!
             promises.push(
-              this.jobPostService.getOperatorsByType('บริษัท | โรงงาน').then((operators)=>{
+              this.jobPostService.getOperatorsByType(idList).then((operators)=>{
                 let res: jobPostPayload = {
                   UserOperator: operators,
                   CategorySymbol: categorySymbol,

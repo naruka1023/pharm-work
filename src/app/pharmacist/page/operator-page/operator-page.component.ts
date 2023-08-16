@@ -159,6 +159,20 @@ export class OperatorPageComponent implements OnDestroy{
             this.store.dispatch(setExistingOperatorData({operatorUID: this.operatorUID, jobType: this.jobType, followers:count, jobs: jobs}))
           })
         })
+      }else{
+        this.allJobsFlag = this.allJobs.length !== 0;
+        if(this.allJobsFlag){
+          this.allJobs.forEach((job)=>{
+            if(job.Urgency){
+              this.allJobsFlagUrgent = true
+            }else{
+              this.allJobsFlagNormal = true
+            }
+          })
+        }else{
+          this.allJobsFlagNormal = false;
+          this.allJobsFlagUrgent = false;
+        }
       }
       this.operator = operator
       this.center = operator._geoloc!

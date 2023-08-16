@@ -397,7 +397,7 @@
 				<div class="my-3">
 					<h2>สถานที่ปฏิบัติการ/วิธีเดินทาง</h2>
 					<div class="fs-4 d-flex justify-content-between">
-						<div class=" fs-4" [innerHtml]="profile.TravelInstructions | emptyFieldPipe"></div>
+						<div style="line-break:anywhere" class="fs-4" [innerHtml]="profile.TravelInstructions | emptyFieldPipe"></div>
 					</div>
 					<div class="d-flex justify-content-center" style="overflow: scroll;">
 						<google-map 

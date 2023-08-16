@@ -16,6 +16,7 @@ export const headerArray: filterConditions [] = [
     header: 'งานจากร้านยา โรงพยาบาลและคลินิกชั้นนำ',
     filterFlag: false,
     CategorySymbol:"BA",
+    idList:['INGAXkwcFbbtQirdgRKMJW14Q7q1'],
     loading: true,
     allContent: [],
     count: 0,
@@ -25,6 +26,7 @@ export const headerArray: filterConditions [] = [
     header: 'งานจากบริษัทยาและโรงงานยาชั้นนำ',
     filterFlag: false,
     CategorySymbol:"CB",
+    allContent: [],
     loading: true,
     count: 0,
     bannerFlag: false

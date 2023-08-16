@@ -29,6 +29,7 @@ export class JobPostNormalCardComponent{
   bookmarkID!: string; 
   localFlag: boolean = true;
   requestButtonFlag:boolean = false
+  bypassOperatorFlag: boolean = false
   cancelJobFlag: boolean = false
   jobRequestUID!: string;
   
@@ -45,6 +46,7 @@ export class JobPostNormalCardComponent{
     this.childrenPath = this.activatedRoute.snapshot.routeConfig!.path!;
     switch(this.activatedRoute.snapshot.routeConfig?.path){
       case 'operator-page':
+        this.bypassOperatorFlag = true
         this.requestButtonFlag = true
         break;
       case 'jobs-list':
@@ -148,16 +150,18 @@ toggleShare(){
   }
 
   goToOperatorProfile(){
-    this.router.navigate(['/pharma/operator-page'], {
-      queryParams: 
-      {
-        operatorUID: this.content.OperatorUID,
-        requestViewFlag: false,
-        followFlag: false,
-        operatorExistFlag: false,
-        jobType: this.content.JobType
-      }
-    })
+    if(!this.bypassOperatorFlag){
+      this.router.navigate(['/pharma/operator-page'], {
+        queryParams: 
+        {
+          operatorUID: this.content.OperatorUID,
+          requestViewFlag: false,
+          followFlag: false,
+          operatorExistFlag: false,
+          jobType: this.content.JobType
+        }
+      })
+    }
   }
 
   goToProfile(){

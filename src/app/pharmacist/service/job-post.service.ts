@@ -178,19 +178,21 @@ export class JobPostService {
     return index.search('',searchOptions)
   }
 
-  async getOperatorsByType(jobType: string){
-    let docs
-    if(jobType.indexOf('|') !== -1){
-      docs = await getDocs(query(collection(this.firestore, 'users'), where('role', '==', 'ผู้ประกอบการ'), where('jobType', 'in', jobType.split(' | '))))
-    }else{
-      docs = await getDocs(query(collection(this.firestore, 'users'), where('role', '==', 'ผู้ประกอบการ'), where('jobType', '==', jobType)))
-    }
-    return docs.docs.map((doc)=>{
-      return {
-        ...doc.data(),
-        uid: doc.id,
-        loadingOperator: true
-      } as userOperator
+  getOperatorsByType(idList: string[]){
+    let promises : Promise<any>[] = []
+    idList.forEach((operatorID: string) => {
+      promises.push(getDoc(doc(this.firestore, 'users', operatorID)))
+    })
+    return Promise.all(promises).then((operator)=>{
+      let payload: userOperator[] = [];
+      operator.forEach((value: any)=>{
+        payload.push({
+          ...value.data(),
+          uid: value.id, 
+          loadingOperator:true
+        })
+      })
+      return payload
     })
 
   }
