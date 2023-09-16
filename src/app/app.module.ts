@@ -26,6 +26,7 @@ import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { JobPostSmallCardComponent } from './job-post-small-card/job-post-small-card.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { JobPostSmallCardComponent } from './job-post-small-card/job-post-small-
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     GoogleMapsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     SwiperModule,
     StoreModule.forRoot({

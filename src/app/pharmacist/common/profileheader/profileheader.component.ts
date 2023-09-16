@@ -4,15 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import Cropper from 'cropperjs';
 import { Observable, Subject } from 'rxjs';
-import { coverPhotoLoadSuccessful, setCurrentUser, updateCoverPhoto, updateCropProfilePicture, updateProfilePicture } from 'src/app/state/actions/users.action';
+import { coverPhotoLoadSuccessful, setCurrentUser, updateCoverPhoto, updateCropProfilePicture, updateProfilePicture, upgradeToPharma } from 'src/app/state/actions/users.action';
 import { profileHeaderJobPost, profileHeaderOperator, profileHeaderPharma } from '../../model/typescriptModel/header.model';
 import { AppState, Follow, filterConditions, jobPostModel, userOperator } from '../../model/typescriptModel/jobPost.model';
 import { User } from '../../model/typescriptModel/users.model';
 import { JobPostService } from '../../service/job-post.service';
 import { UserServiceService } from '../../service/user-service.service';
 import { addFollowers, removeFollowers } from '../../state/actions/job-post.actions';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { emptyOperatorData } from '../../state/actions/operator.actions';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 declare var window: any;
  
 @Component({
@@ -26,14 +25,17 @@ private storage: Storage = inject(Storage);
 @Input() profileType! : string;
 @Input() followerFlag = false;
 @Input() requestViewFlag = false;
+submitted: boolean = false;
 followingFlag: boolean = true
 result!: any
+upgradeStage!: string
 jobCount!: {
   urgentJobs: number,
   normalJobs: number
 }
 operatorExistFlag!: boolean 
 editFlag: boolean = false
+upgradeLoadingFlag: boolean = false
 profileInformation$!: User
 followers$!: Observable<number>
 coverPhotoFlag$!: Observable<boolean>;
@@ -48,7 +50,9 @@ coverPhotoVerticalPosition!: number;
 followedText: string = 'ติดตามแล้ว'
 profilePictureFile!: any
 formModal: any
+upgradeModal: any
 introTextForm!: FormGroup
+upgradeToPharmaForm!: FormGroup
 operator!:userOperator;
 followerUID!: string
 categorySymbol!: string
@@ -72,9 +76,15 @@ pageSrc!: string
 constructor(private fb: FormBuilder, private store: Store, private userService: UserServiceService, private jobPostService: JobPostService, private router: Router, private route: ActivatedRoute){}
 
   ngOnInit(){
+    this.upgradeStage = 'first'
+    this.upgradeModal = new window.bootstrap.Modal(
+      document.getElementById('studentUpgradeModal')
+    );
+
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModal')
     );
+
     document.getElementById('myModal')?.addEventListener('hidden.bs.modal', ()=>{
       this.dynamicScale = 0.5
       this.profilePictureFile = null;
@@ -82,6 +92,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       this.fixedScale = 0.5
       this.loadProfilePictureFlag = true
     })
+
     this.store.select((state: any)=>{
       return state.user.uid
     }).subscribe((value)=>{
@@ -89,12 +100,15 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         this.userUID = value
       }
     })
+
     this.coverPhotoFlag$ = this.store.select((state:any)=>{
       return state.user.coverPhotoFlag
     })
+
     this.coverPhotoFlag$.subscribe((flag:boolean)=>{
       this.photoFlag = flag?"hidden":"unset"
     })
+
     switch(this.profileType){
       case "job-post":
         this.id = this.route.snapshot.queryParamMap.get('id')!;
@@ -136,7 +150,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
                   if(this.route.snapshot.queryParamMap.get('operatorExistFlag') !== null){
                     let flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
                     if(flag){ 
-                      let categorySymbol = this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+                      let categorySymbol = this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล' || this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
                       let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
                       let filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
                         return filter.CategorySymbol === categorySymbol
@@ -233,7 +247,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
                 return state.requestView[this.userUID + '-' + this.operatorUID].content
              }
             if(this.operatorExistFlag){
-              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
               return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
                 return filterCondition.CategorySymbol == categorySymbol
               }).content.find((user:userOperator)=>{
@@ -251,7 +265,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         })
         this.followers$ = this.store.select((state: any)=>{
           if(this.operatorExistFlag){
-            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
             return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find((user:userOperator)=>{
@@ -268,7 +282,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
           let operatorJobs: any
           if(this.operatorExistFlag){
             let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')  
-            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
             operatorJobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find(((operator:userOperator)=>{
@@ -303,6 +317,8 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
           this.profileInformation$ = state.user;
           let result = {
             nickName: this.profileInformation$.nickName!,
+            name: this.profileInformation$.name!,
+            surname: this.profileInformation$.surname!,
             Location: this.profileInformation$.Location,
             profilePictureUrl: this.profileInformation$.profilePictureUrl,
             coverPhotoPictureUrl: this.profileInformation$.coverPhotoPictureUrl,
@@ -310,6 +326,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
             coverPhotoOffset: this.profileInformation$.coverPhotoOffset!,
             uid: this.profileInformation$.uid,
             introText: this.profileInformation$.introText,
+            studentFlag: this.profileInformation$.studentFlag,
             preferred:{
               timeFrame: this.profileInformation$.preferredTimeFrame,
               jobType: this.profileInformation$.preferredJobType,
@@ -332,6 +349,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         })
         break;
     }
+
     this.followFlag$ = this.store.select((state: any) => {
       let flag = true;
       if(this.userUID !== ''){
@@ -346,6 +364,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       }
       return flag 
     })
+
     this.followFlag$.subscribe((follow: any)=>{
       this.followingFlag = follow
     })
@@ -543,6 +562,37 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       this.coverListenerSubject.next('enter')
     }
 
+    initializeUpgradeFormGroup(){
+      this.upgradeToPharmaForm = this.fb.group({
+        license:['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]]
+      });
+    }
+    get getUpgradeForm(): { [key: string]: AbstractControl } {
+      return this.upgradeToPharmaForm.controls;
+    }
+    authenticateLicense(){
+      this.submitted = true
+      if(this.upgradeToPharmaForm.invalid){
+        return
+      }
+      this.upgradeLoadingFlag = true
+      this.userService.authenticateLicense(this.profileInformation$.name, this.profileInformation$.surname, this.upgradeToPharmaForm.value.license).subscribe((response: any)=>{
+        if(response.result){
+          this.userService.upgradeToPharma(this.profileInformation$.uid, this.upgradeToPharmaForm.value.license).then(()=>{
+            this.upgradeLoadingFlag = false;
+            this.store.dispatch(upgradeToPharma({license: this.upgradeToPharmaForm.value.license}));
+            // this.profileInformation$.studentFlag = false
+            this.changeStage('secondSuccess')
+          })
+        }
+        else{
+          this.submitted = false
+          this.changeStage('secondFail')
+          this.upgradeLoadingFlag = false;
+        }
+      })
+    }
+
     initializeFormGroup(){
       this.introTextForm = this.fb.group({
         introText:[''],
@@ -667,6 +717,17 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         self.formModal.show()
       })
       
+    }
+
+
+    changeStage(stage: string){
+      this.upgradeStage = stage
+    }
+
+    upgradeModalClick(){
+      this.initializeUpgradeFormGroup();
+      this.upgradeStage = 'first'
+      this.upgradeModal.show();
     }
     
     repositionGuard(event:any){

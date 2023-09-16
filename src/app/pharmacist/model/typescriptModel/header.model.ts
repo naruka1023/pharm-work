@@ -16,6 +16,7 @@ export interface profileHeaderOperator {
 
 export interface profileHeaderPharma {
     nickName: string;
+    studentFlag: boolean;
     Location?: {
         Section: string;
         District: string;

@@ -11,7 +11,6 @@ const routes: Routes = [
   { path: '', component: DemoLandingComponent},
   { path: 'landing', component: LandingPageComponent, children:[
     {path:'register', component:RegisterComponent},
-    {path:'job-post/:id', component:JobPostComponent},
   ]},
   { path: 'confirm', component: ConfirmEmailComponent},
   {

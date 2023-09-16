@@ -154,7 +154,7 @@ export const jobPostReducer = createReducer(
   }),
   on(setExistingOperatorData, (state, { jobType, operatorUID, jobs, followers }) => {
     let newState: AppState =  _.cloneDeep(state);
-    let categorySymbol = jobType == 'ร้านยาแบรนด์'? 'BA': 'CB'
+    let categorySymbol = jobType == 'ร้านยาแบรนด์'|| jobType == 'โรงพยาบาล'? 'BA': 'CB'
     let formattedJobs: any = {}
     jobs.forEach((job)=>{
       formattedJobs[job.custom_doc_id] = job

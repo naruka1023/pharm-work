@@ -88,7 +88,7 @@
             </div>
         </div>
         
-        <ng-container formArrayName="educationHistory" >
+        <ng-container formArrayName="educationHistory">
             <div class="row" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
                 <div class="col-xl-3 col-12 text-xxl-start text-center my-xl-2 my-5">
                     <label *ngIf='i == 0' class="textResponsive form-label"><b>ประวัติการศึกษา </b></label>

@@ -1,3 +1,7 @@
+.btn-success{
+  background:rgb(127, 216, 88);
+  border:rgb(127, 216, 88)
+}
 .fourPointKeyValuePreferred, .fourPointKeyValue{
   display:flex
 }
@@ -56,7 +60,7 @@
     text-align:center
   }
   .outerHeaderPharma > div {
-    height: 129.4px
+    height: 109.4px
   }
   .fourPointers{
     padding-right:0 !important;
@@ -230,16 +234,23 @@
   background:white
 }
 
+.btn-modal{ 
+  border-radius: 50px !important
+}
+
 .btn-outline-primary:hover{
   color: red;
   border-color: red;
   background:white
 }
 
-
-.btn-primary, .btn-primary:hover{
+.btn-primary, btn-primary:hover{
   background:#5cdfe4;
-  border: #5cdfe4
+  border-color: #5cdfe4
+}
+.btn-success{
+  background:#7fd858;
+  border-color: #7fd858
 }
 
 .user-buttons:hover{

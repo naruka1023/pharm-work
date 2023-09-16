@@ -87,7 +87,6 @@ export class SwiperModuleComponent {
     this.filterVisibleFlag = !this.filterVisibleFlag
   }
   goToList(){
-    if(localStorage.getItem('loginState') == 'true'){
       this.router.navigate(['jobs-list'],
       {
         relativeTo:this.activatedRoute,
@@ -96,10 +95,6 @@ export class SwiperModuleComponent {
           CategorySymbol: this.filterFlags.CategorySymbol,
         }
       })
-    }else{
-      this.router.navigate(['login'],{
-        relativeTo:this.activatedRoute
-      })
-    }
+   
   }
 }

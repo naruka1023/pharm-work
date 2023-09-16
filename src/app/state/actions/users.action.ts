@@ -9,6 +9,10 @@ export const setCurrentUser = createAction(
     '[User] set Current User',
     props<{ user: Partial<User> }>()
 );
+export const upgradeToPharma = createAction(
+    '[User] Upgrade to Pharma',
+    props<{ license: string }>()
+);
 export const toggleLoading = createAction(
     '[User] Toggle Loading',
 );

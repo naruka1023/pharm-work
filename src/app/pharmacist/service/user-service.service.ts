@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { delay, Observable, of, Subject, switchMap, timer } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { aggregationCount, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
 import { collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, query, updateDoc, where } from '@angular/fire/firestore';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ import { modifyRequestView, removeRequestView, setRequestView } from '../state/a
 export class UserServiceService {
   private firestore: Firestore = inject(Firestore)
   
-  constructor(private store: Store) { }
+  constructor(private store: Store, private http: HttpClient) { }
   leaveEditSubject: Subject<string> = new Subject();
   selectTabSubject: Subject<string> = new Subject();
   callView: Subject<void> = new Subject();
@@ -27,7 +29,21 @@ export class UserServiceService {
     }
     return result
   }
-  
+  upgradeToPharma(operatorUID: string, license: string){
+    return updateDoc(doc(this.firestore, 'users',operatorUID!), {
+      studentFlag: false,
+      license: license
+    })
+  }
+  authenticateLicense(name: string = '', surname: string = '', license: string = ''){
+    const params = new HttpParams().set('name', name).set('surname', surname).set('licenseID', license)
+    return this.http.get(url.licenseAuthentication, {
+      params:params,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+    })
+  }
   async getNumberOfFollowers(operatorUID: string){
     let count = await getCountFromServer(query(collection(this.firestore, 'followers'), where('operatorUID', '==', operatorUID)))
     return count.data().count

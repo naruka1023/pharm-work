@@ -49,7 +49,7 @@ export class UsersService {
     })
     query = (query == '')?"":" AND " + query
     let index:SearchIndex = client.initIndex(indexName)
-    let filter = "role:'เภสัชกร'" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(categorySymbol) + "'"
+    let filter = "role:'เภสัชกร' AND studentFlag:false" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(categorySymbol) + "'"
     let user = await index.search('',{
               hitsPerPage: this.hitsPerPage,
               page:0,
@@ -98,7 +98,7 @@ export class UsersService {
         requestOptions.aroundRadius = form.radius
       }
     }
-    let filter = "role:'เภสัชกร'" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol('S') + "'"
+    let filter = "role:'เภสัชกร' AND studentFlag:false" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol('S') + "'"
     requestOptions.filters = filter
     let users = await index.search('',requestOptions)
     let allUsers:UserPharma[] = []
@@ -142,7 +142,7 @@ export class UsersService {
       requestOptions.aroundLatLng = form._geoloc?.lat + ', ' + form._geoloc?.lng 
       requestOptions.aroundRadius = form.radius
     }
-    let filter = "role:'เภสัชกร'" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol('S') + "'"
+    let filter = "role:'เภสัชกร' AND studentFlag:false" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol('S') + "'"
     requestOptions.filters = filter
     let users = await index.search('',requestOptions)
     let finalUsers = users.hits.map((hit:any)=>{
@@ -192,7 +192,7 @@ export class UsersService {
     let index:SearchIndex = client.initIndex(indexName)
     this.converter.getPlaceHolderObject().forEach((placeHolder)=>{
       if(placeHolder.categorySymbol !== 'S'){
-        let filter = "role:'เภสัชกร'" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol) + "'"
+        let filter = "role:'เภสัชกร' AND studentFlag:false" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol) + "'"
         promises.push(
            index.search('',{
             hitsPerPage:this.hitsPerPage,
@@ -233,7 +233,7 @@ export class UsersService {
       let promises: any = []
       this.converter.getPlaceHolderObject().forEach((placeHolder)=>{
         promises.push(
-          getDocs(query(collection(this.db, 'users'), where('role', '==', 'เภสัชกร'),limit(5), where('preferredJobType', 'array-contains', this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol)), orderBy('dateUpdatedUnix', 'desc')))
+          getDocs(query(collection(this.db, 'users'), where('role', '==', 'เภสัชกร'),limit(5),where('studentFlag', '==', false), where('preferredJobType', 'array-contains', this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol)), orderBy('dateUpdatedUnix', 'desc')))
         )
       })
       let users: QuerySnapshot<DocumentData>[] = await Promise.all(promises)
@@ -301,7 +301,7 @@ export class UsersService {
   async getPharmaUserByJobType(title: string, paginationIndex: number){
     let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     let index:SearchIndex = client.initIndex(indexName)
-    let filter = "role:'เภสัชกร' AND preferredJobType:'" + title + "'"
+    let filter = "role:'เภสัชกร' AND studentFlag:false AND preferredJobType:'" + title + "'"
     let doc = await index.search('', {
       hitsPerPage:this.hitsPerPage,
       page:paginationIndex,

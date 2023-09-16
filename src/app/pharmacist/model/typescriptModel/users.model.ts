@@ -85,6 +85,7 @@ export interface User{
     license: string;
     gender?: string;
     education?: string;
+    studentFlag: boolean;
     birthday?: string;
     age?: string;
     _geoloc?: _geoloc;

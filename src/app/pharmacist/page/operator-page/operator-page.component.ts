@@ -86,7 +86,7 @@ export class OperatorPageComponent implements OnDestroy{
     }
     this.loading$ = this.store.select((state:any) =>{
       if(this.operatorExistFlag){
-        const categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+        const categorySymbol = this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
         const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
           return filterCondition.CategorySymbol == categorySymbol
         }) as filterConditions
@@ -99,7 +99,7 @@ export class OperatorPageComponent implements OnDestroy{
     this.subscription.add(
       this.store.select((state:any)=>{
         if(this.operatorExistFlag){
-          const categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+          const categorySymbol = this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
             const jobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find((user: userOperator)=>{
@@ -129,7 +129,7 @@ export class OperatorPageComponent implements OnDestroy{
     )
     this.store.select((state:any)=>{
       if(this.operatorExistFlag){
-        const categorySymbol = this.jobType == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+        const categorySymbol = this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
           const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
             return filterCondition.CategorySymbol == categorySymbol
           }) as filterConditions

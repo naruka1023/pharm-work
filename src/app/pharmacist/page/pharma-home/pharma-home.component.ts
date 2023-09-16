@@ -79,9 +79,11 @@ export class PharmaHomeComponent {
       categorySymbols.forEach((categorySymbol:string)=>{
         switch(categorySymbol){
           case 'CB':
-            let empty: string[] = []
+            let idList2 : string[] = headerArray.find((header)=>{
+              return header.CategorySymbol == 'CB'
+            })!.idList!
             promises.push(
-              this.jobPostService.getOperatorsByType(empty).then((operators)=>{
+              this.jobPostService.getOperatorsByType(idList2).then((operators)=>{
                 let res: jobPostPayload = {
                   UserOperator: operators,
                   CategorySymbol: categorySymbol,
@@ -126,7 +128,7 @@ export class PharmaHomeComponent {
           newJobs[job.CategorySymbol] = job
         })
         let finalPayload: filterConditions[] = headerArray.map((header:filterConditions)=>{
-          return {
+          let payload: filterConditions = {
             ...header,
             content: newJobs[header.CategorySymbol].CategorySymbol == 'BA' ||
                      newJobs[header.CategorySymbol].CategorySymbol == 'CB' ? 
@@ -134,6 +136,15 @@ export class PharmaHomeComponent {
             loading:false,
             count:newJobs[header.CategorySymbol].count!
           }
+          if(newJobs[header.CategorySymbol].CategorySymbol == 'BA' || newJobs[header.CategorySymbol].CategorySymbol == 'CB'){
+            const complementaryCount = 10 - payload.content!.length
+            let i = 0;
+            while(i < complementaryCount){
+              i++;
+              payload.content!.push('empty');
+            }
+          }
+          return payload;
         }) 
         this.store.dispatch(retrievedJobSuccess({jobs: finalPayload}))
       })

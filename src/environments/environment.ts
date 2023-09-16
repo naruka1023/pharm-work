@@ -16,6 +16,10 @@ export const algoliaEnvironment = {
   api_key: '41292c1f6520cc8d83b9fbdc044fbc0d',
   user_api_key:'578b006f28d32e3f156838d8ca6f55c5'
 }
+export const url = {
+  licenseAuthentication: 'https://us-central1-pharm-work.cloudfunctions.net/authenticateLicense/start',
+  shareJob: 'https://public.pharm-work.com/job-post/',
+}
 export const serviceAccountEnvironment = {
   type: "service_account",
   project_id: "pharm-work",

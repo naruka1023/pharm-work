@@ -20,6 +20,7 @@ import { OperatorProfileComponent } from './page/operator-profile/operator-profi
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
 import { userOperator } from '../pharmacist/model/typescriptModel/jobPost.model';
 import moment from 'moment';
+import { url } from 'src/environments/environment';
 declare let window: any;
 
 @Component({
@@ -142,8 +143,8 @@ export class LandingPageComponent implements AfterViewInit {
   }
   toggleShare(id: string){
     this.idToShare = id
-    this.nameToShare = 'https://pharm-work.com/landing/job-post/' + this.idToShare 
-    this.copy = "Copy"
+    this.nameToShare = url.shareJob + this.idToShare 
+    this.copy = 'Copy'
     this.shareModal.show()
   }
 

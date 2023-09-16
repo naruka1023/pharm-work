@@ -12,7 +12,6 @@
         *ngIf="filterFlags.filterFlag === false; then ifBlock; else elseBlock">
     </ng-container>
     <ng-template #ifBlock>
-
 		<div class="mt-3">
 			<ng-container *ngIf="filterFlags.loading; then loading2; else notLoading2"></ng-container>
 			<ng-template #loading2>
@@ -91,50 +90,8 @@
 							[breakpoints]="breakingPointOperator"
 							class="swiper operatorBanner">
 						<ng-template swiperSlide *ngFor="let items of filterFlags.content">
-							<app-operator-small-card [content]="items"></app-operator-small-card>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
+							<app-operator-small-card *ngIf="items !== 'empty'" [content]="items"></app-operator-small-card>
+							<div class="img-container" *ngIf="items == 'empty'">
 								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
 							</div>
 						</ng-template>

@@ -50,7 +50,9 @@ export class AllJobsPostsComponent {
     })
     let myModalEl = document.getElementById('confirmRequest')!
     let removeJob = (event: any)=>{
-      this.jobService.removeJob(this.idToDelete)
+      if(this.deleteJobCardFlag){
+        this.jobService.removeJob(this.idToDelete)
+      }
     }
     myModalEl.addEventListener('hidden.bs.modal', removeJob)
   }
