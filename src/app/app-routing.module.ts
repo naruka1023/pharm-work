@@ -6,11 +6,13 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { RegisterComponent } from './register/register.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { JobPostComponent } from './job-post/job-post.component';
+import { OperatorPageComponent } from './pharmacist/page/operator-page/operator-page.component';
 
 const routes: Routes = [
   { path: '', component: DemoLandingComponent},
-  { path: 'landing', component: LandingPageComponent, children:[
+  { path: 'landing', children:[
     {path:'register', component:RegisterComponent},
+    {path:'operator-page/:operatorUID', component:OperatorPageComponent},
   ]},
   { path: 'confirm', component: ConfirmEmailComponent},
   {

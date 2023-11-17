@@ -26,7 +26,7 @@ export class RegisterComponent implements AfterViewInit {
   private db: Firestore = inject(Firestore)
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
-  isPharma: boolean = true
+  isPharma: boolean | string = true
   registerFormPharmacist!:FormGroup;
   registerFormStudent!:FormGroup;
   registerFormOperator!:FormGroup;
@@ -48,11 +48,21 @@ export class RegisterComponent implements AfterViewInit {
   
   ngAfterViewInit(){
     if(this.route.snapshot.queryParamMap.get('isPharma') !== null){
-      this.isPharma = this.route.snapshot.queryParamMap.get('isPharma') == 'true'? true:false
+      if(this.isPharma = this.route.snapshot.queryParamMap.get('isPharma') !== 'student'){
+        this.isPharma = this.route.snapshot.queryParamMap.get('isPharma') == 'true'? true:false
+      }else{
+        this.isPharma = 'student'
+      }
     }
-    if(!this.isPharma){
-      this.changeRoles('operator')
-      document.getElementById('urgent-job')?.click()
+    if(this.isPharma !== 'student'){
+      if(!this.isPharma){
+        this.changeRoles('operator')
+        document.getElementById('urgent-job')?.click()
+      }
+    }else{
+      this.changeRoles('student')
+      document.getElementById('student')?.click()
+      
     }
   }
 

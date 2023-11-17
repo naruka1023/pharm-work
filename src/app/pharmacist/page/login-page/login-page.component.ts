@@ -50,8 +50,12 @@ export class LoginPageComponent implements AfterViewInit{
     });
   }
 
-  changeHeader(isPharma: boolean){
-    this.header = isPharma? 'เภสัช' : 'ผู้ประกอบการ'
+  changeHeader(isPharma: boolean | string){
+    if(isPharma == 'student'){
+      this.header = 'นักษึกษาเภสัชกร'
+    }else{
+      this.header = isPharma? 'เภสัช' : 'ผู้ประกอบการ'
+    }
   }
 
   ngAfterViewInit(): void {

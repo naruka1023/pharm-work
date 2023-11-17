@@ -190,7 +190,7 @@ export class JobPostDetailsComponent implements OnDestroy{
           if(this.route.snapshot.queryParamMap.get('operatorExistFlag') !== null){
             const flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
             if(flag){ 
-              const categorySymbol = this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')! == 'โรงพยาบาล'? 'BA' : 'CB'
+              const categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')! == 'โรงพยาบาล'? 'BA' : 'CB'
               const operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
               const filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
                 return filter.CategorySymbol === categorySymbol

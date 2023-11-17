@@ -361,8 +361,8 @@
                                             <div class="form-group">
                                                 <div class="d-block">
                                                     <label for="jobType" class="form-label">ประเภทธุรกิจ<label class="text-danger">*</label></label>
-                                                    <div  style="text-align:end">
-                                                        <label for="jobType" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
+                                                    <div  style="text-align:start">
+                                                        <label for="jobType" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
                                                     </div>
                                                 </div>
                                                 <select formControlName="jobType" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fO['jobType'].errors }" aria-label="Default select example">
@@ -383,7 +383,7 @@
                                         <div class="mb-3">
                                             <div class="form-group">
                                                 <label for="companyID" class="form-label">เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา<label class="text-danger">*</label></label>
-                                                <div style="text-align:end">
+                                                <div style="text-align:start">
                                                     <label for="companyID" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
                                                 </div>
                                                 <input
@@ -599,15 +599,7 @@
                                                 </div>
                                             </ng-template>
                                             <ng-template swiperSlide>
-                                                <div class="form-group pb-3" style="background-color:white">
-                                                    <label for="highestEducation" class="me-3 form-label">ระดับการศึกษา</label>
-                                                    <select formControlName="highestEducation"  class="form-select mb-3"  style="background-color:#f2f2f2" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && fS['highestEducation'].errors }">
-                                                        <option selected value="ปริญญาตรี">ปริญญาตรี</option>
-                                                    </select>
-                                                    <div *ngIf="submitted && fS['highestEducation'].errors" class="invalid-feedback">
-                                                        <div *ngIf="fS['highestEducation'].errors['required']">กรุณาระบุระดับการศึกษาสูงสุด</div>
-                                                    </div>
-                                                </div>
+
                                                 <ng-container  formArrayName="educationHistory">
                                                     <div style="background-color:white" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
                                                             <div class="form-group pb-3">
@@ -640,8 +632,6 @@
                                                                 <div class="col">
                                                                     <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
                                                                         <option selected value="ปริญญาตรี">ปริญญาตรี</option>
-                                                                        <option value="ปริญญาโท">ปริญญาโท</option>
-                                                                        <option value="ปริญญาโท">ปริญญาเอก</option>
                                                                     </select>
                                                                     <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
                                                                         <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>

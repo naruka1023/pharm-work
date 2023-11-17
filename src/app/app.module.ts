@@ -27,6 +27,9 @@ import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { JobPostSmallCardComponent } from './job-post-small-card/job-post-small-card.component';
 import { HttpClientModule } from '@angular/common/http';
+import { operatorReducer } from './pharmacist/state/reducers/operator-reducers';
+import { jobPostReducer } from './pharmacist/state/reducers/job-post-reducers';
+import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-card/job-post-normal-card.component';
 
 
 @NgModule({
@@ -54,7 +57,9 @@ import { HttpClientModule } from '@angular/common/http';
     SwiperModule,
     StoreModule.forRoot({
       user: usersReducer,
-      address: addressReducer
+      address: addressReducer,
+      operator: operatorReducer,
+      jobpost: jobPostReducer
     }),
     StoreDevtoolsModule.instrument({
       // logOnly: environment.production, // Restrict extension to log-only mode
@@ -64,7 +69,7 @@ import { HttpClientModule } from '@angular/common/http';
     provideAuth(()=>getAuth()),
     provideStorage(()=>getStorage()),
   ],
-  providers: [],  // add this line
+  providers: [LandingPageComponent],  // add this line
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -77,9 +77,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SwiperModule,
     PharmaAppRoutingModule,
     FlatpickrModule.forRoot(),
-    StoreModule.forFeature('jobpost', jobPostReducer),
     StoreModule.forFeature('recentlySeen', recentlySeenReducer),
     StoreModule.forFeature('pharmaProfile', pharmaProfileReducer),
+    StoreModule.forFeature('jobpost', jobPostReducer),
     StoreModule.forFeature('operator', operatorReducer),
     StoreModule.forFeature('urgentJobs', urgentJobsReducer),
     StoreModule.forFeature('requestView', requestViewReducer),
@@ -125,7 +125,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     WorkExperiencePipe,
     ProvinceFilterPipe
   ],
-  providers:[PharmaProfileComponent, RegisterJobsComponent],
+  providers:[PharmaProfileComponent, LandingPageComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]
 })
 export class PharmacistModule { }

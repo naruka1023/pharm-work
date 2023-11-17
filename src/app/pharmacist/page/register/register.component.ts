@@ -87,7 +87,6 @@ export class RegisterComponent implements AfterViewInit {
       nickName: [''],
       surname: ['', [Validators.required]],
       // license: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-      highestEducation: ['', [Validators.required]],
       // Agreement: [false, [Validators.requiredTrue]],
       educationHistory: this.fb.array([]),
       showProfileFlag: true,

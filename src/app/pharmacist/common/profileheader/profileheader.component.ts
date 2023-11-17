@@ -150,7 +150,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
                   if(this.route.snapshot.queryParamMap.get('operatorExistFlag') !== null){
                     let flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
                     if(flag){ 
-                      let categorySymbol = this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล' || this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+                      let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล' || this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
                       let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
                       let filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
                         return filter.CategorySymbol === categorySymbol
@@ -237,6 +237,9 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         break;
         case "operator-profile":
           this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
+          if(this.operatorUID == null){
+            this.route.snapshot.params['operatorUID']
+          }
           this.operatorExistFlag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'?true:false
 
           this.store.select((state:any)=> {
@@ -247,7 +250,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
                 return state.requestView[this.userUID + '-' + this.operatorUID].content
              }
             if(this.operatorExistFlag){
-              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
+              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
               return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
                 return filterCondition.CategorySymbol == categorySymbol
               }).content.find((user:userOperator)=>{
@@ -265,7 +268,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         })
         this.followers$ = this.store.select((state: any)=>{
           if(this.operatorExistFlag){
-            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
+            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
             return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find((user:userOperator)=>{
@@ -282,7 +285,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
           let operatorJobs: any
           if(this.operatorExistFlag){
             let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')  
-            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
+            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
             operatorJobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find(((operator:userOperator)=>{

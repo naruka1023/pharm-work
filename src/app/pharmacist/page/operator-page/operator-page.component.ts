@@ -48,11 +48,18 @@ export class OperatorPageComponent implements OnDestroy{
   }
   ngOnInit(){
     const follow = this.route.snapshot.queryParamMap.get('followFlag')
-    this.followFlag = (follow == 'false'? false: true)
     this.operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')!;
-    const request = this.route.snapshot.queryParamMap.get('requestViewFlag')!;
-    this.requestViewFlag = (request == 'false'?false: true)
+    if(this.operatorUID == null){
+      this.operatorUID = this.route.snapshot.params['operatorUID']
+      this.followFlag = false
+      this.requestViewFlag = false
+    }else{
+      this.followFlag = (follow == 'true'? true: false)
+      const request = this.route.snapshot.queryParamMap.get('requestViewFlag')!;
+      this.requestViewFlag = (request == 'true'? true: false)
+    }
     this.jobType = this.route.snapshot.queryParamMap.get('jobType')!
+    this.jobType = 'ร้านยาทั่วไป'
 
     this.operatorExistFlag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
     if(!this.operatorExistFlag){
@@ -86,7 +93,7 @@ export class OperatorPageComponent implements OnDestroy{
     }
     this.loading$ = this.store.select((state:any) =>{
       if(this.operatorExistFlag){
-        const categorySymbol = this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
+        const categorySymbol = this.jobType == 'ร้านยาทั่วไป' || this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
         const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
           return filterCondition.CategorySymbol == categorySymbol
         }) as filterConditions
@@ -99,7 +106,7 @@ export class OperatorPageComponent implements OnDestroy{
     this.subscription.add(
       this.store.select((state:any)=>{
         if(this.operatorExistFlag){
-          const categorySymbol = this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
+          const categorySymbol = this.jobType == 'ร้านยาทั่วไป' || this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
             const jobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find((user: userOperator)=>{
@@ -129,7 +136,7 @@ export class OperatorPageComponent implements OnDestroy{
     )
     this.store.select((state:any)=>{
       if(this.operatorExistFlag){
-        const categorySymbol = this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
+        const categorySymbol = this.jobType == 'ร้านยาทั่วไป' || this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
           const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
             return filterCondition.CategorySymbol == categorySymbol
           }) as filterConditions
