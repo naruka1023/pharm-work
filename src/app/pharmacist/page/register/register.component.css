@@ -16,3 +16,6 @@
   border-color: #7fd858
   
 }
+:host ::ng-deep .swiperFormPharma .swiper-slide{
+  background-color:white
+}

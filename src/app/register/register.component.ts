@@ -12,6 +12,7 @@ import { atLeastOneCheckboxCheckedValidator } from './require-checkboxes-to-be-c
 import { UserServiceService } from '../pharmacist/service/user-service.service';
 import { JobTypeConverterService } from '../service/job-type-converter.service';
 import { UtilService } from '../service/util.service';
+import { JobHistory } from '../model/user.model';
 
 SwiperCore.use([Virtual]);
 
@@ -115,6 +116,23 @@ export class RegisterComponent implements AfterViewInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      highestEducation: ['ปริญญาตรี'],
+      educationHistory: this.fb.array([this.fb.group({
+        universityName: ['', [Validators.required]],
+        franchise: [''],
+        yearGraduated: [''],
+        educationLevel: ['', [Validators.required]],
+        major: ['', [Validators.required]]
+      })]),
+      jobHistory: this.fb.array([this.fb.group({
+        jobName: ['', [Validators.required]],
+        activeFlag: false,
+        companyName: ['', [Validators.required]],
+        description: [''],
+        dateStarted: ['', [Validators.required]],
+        workExperience: 0,
+        dateEnded: ['', [Validators.required]],
+      })]),
       name: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       nickName: [''],
@@ -164,6 +182,34 @@ export class RegisterComponent implements AfterViewInit {
     {
       validators: [Validation.match('password', 'confirmPassword')]
     });
+    this.registerFormPharmacist.get('jobHistory')?.valueChanges.subscribe((profile: any)=>{
+      profile.forEach((pr:JobHistory)=>{
+        if(pr.activeFlag){
+          let date : any = new Date().toISOString().split('T')[0].split('-')
+          pr.dateEnded = date[0] + '-' + date[1]
+        }
+        if(pr.dateStarted !== '' && pr.dateEnded !== ''){
+          let dateDiff = this.calculateDateDiff(pr.dateStarted, pr.dateEnded)
+          let years = Math.floor(dateDiff/12) > 0? Math.floor(dateDiff/12) + ' ปี': '';
+          let months = dateDiff % 12 > 0? + dateDiff % 12 + ' เดือน': '';
+          pr.workExperience =  years + " " + months
+        }
+        pr.dateStarted = pr.dateStarted.replace('-', '/') 
+        pr.dateEnded = pr.dateEnded.replace('-', '/')
+      })
+      this.registerFormPharmacist.patchValue(profile)
+    })
+  }
+
+  calculateDateDiff(startDate:string, endDate:string){
+    let months;
+    let parsedStart = new Date(startDate);
+    let parsedEnd = new Date(endDate);
+    months = (parsedEnd.getFullYear() - parsedStart.getFullYear()) * 12;
+    months -= parsedStart.getMonth();
+    months += parsedEnd.getMonth();
+    let ans = months <= 0 ? 0 : months
+    return ans;
   }
 
   get fP(): { [key: string]: AbstractControl } {
@@ -178,6 +224,17 @@ export class RegisterComponent implements AfterViewInit {
   get FormEduData(): any{
     let entity = this.registerFormStudent.get('educationHistory') as FormArray;
     return entity.controls;
+  }
+  get pharmaFormEduData(): any{
+    let entity = this.registerFormPharmacist.get('educationHistory') as FormArray;
+    return entity.controls;
+  }
+  get pharmaFormJobData(): any{
+    let entity = this.registerFormPharmacist.get('jobHistory') as FormArray;
+    return entity.controls;
+  }
+  get activeIndex(): any{
+    return this.swiperFormPharma?.swiperRef.activeIndex
   }
   nextSlideStudent(){
     this.swiperFormStudent?.swiperRef.slideNext()
@@ -201,23 +258,57 @@ export class RegisterComponent implements AfterViewInit {
   }
   nextSlide(){
     this.swiperFormPharma?.swiperRef.slideNext()
-    const display = 'block'
-    const excessForm = document.querySelectorAll('.excessForm');
-    this.header = 'งานที่กำลังมองหา'
+    let display = 'k'
+    let display2 = 'k'
+    switch(this.swiperFormPharma?.swiperRef.activeIndex){
+        case 1:
+          display = 'none'
+          display2 = 'none'
+          this.header = 'งานที่กำลังมองหา'
+          this.pharmaForm = true;
+        break;
+        case 2:
+          display = 'none'
+          display2 = 'block'
+          this.header = 'ข้อมูลการศึกษา ณ ปัจจุบัน'
+          this.pharmaForm = true;
+        break;
+    }
+    const excessForm = document.querySelectorAll('.excessForm') as any;
     excessForm.forEach((eF: any) => {
       eF.style.display = display;
     });
-    this.pharmaForm = false;
+    const excessForm2 = document.querySelectorAll('.excessFormSecond') as any;
+    excessForm2.forEach((eF: any) => {
+      eF.style.display = display2;
+    });
   }
   backSlide(){
     this.swiperFormPharma?.swiperRef.slidePrev() 
-    const display = 'none'
-    const excessForm = document.querySelectorAll('.excessForm');
-    this.header = 'ลงทะเบียน'
+    let display = 'k'
+    let display2 = 'k'
+    switch(this.swiperFormPharma?.swiperRef.activeIndex){
+      case 0:
+        display = 'block'
+          display2 = 'none'
+          this.header = 'ลงทะเบียน'
+          this.pharmaForm = false;
+        break;
+        case 1:
+          display = 'none'
+          display2 = 'none'
+          this.header = 'งานที่กำลังมองหา'
+          this.pharmaForm = true;
+        break;
+    }
+    const excessForm = document.querySelectorAll('.excessForm') as any;
     excessForm.forEach((eF: any) => {
       eF.style.display = display;
     });
-    this.pharmaForm = true;
+    const excessForm2 = document.querySelectorAll('.excessFormSecond') as any;
+    excessForm2.forEach((eF: any) => {
+      eF.style.display = display2;
+    });
   }
   async onSubmit(){
     this.submitted = true;
@@ -234,6 +325,28 @@ export class RegisterComponent implements AfterViewInit {
           newUser['role'] = 'เภสัชกร';
           newUser['showProfileFlag'] = true;
           newUser['studentFlag'] = false
+          
+          let totalMonths: number = 0 
+          let totalYear : number = 0
+          let jobHistoryList: JobHistory[] =this.registerFormPharmacist.get('jobHistory')?.value
+          jobHistoryList.forEach((jobHistory, index)=>{
+            let workExp = jobHistory.workExperience.trim().split(' ')
+            if(workExp.length > 2){
+              totalMonths += Number(workExp[2])
+              totalYear += Number(workExp[0])
+            }else{
+              totalMonths += Number(workExp[0])
+            }
+          })
+          totalYear += Math.floor(totalMonths/12)
+          newUser = {
+            ...newUser,
+            jobHistory: jobHistoryList,
+            WorkExperience: totalYear == 0? totalMonths: totalYear,
+            yearFlag: totalYear !== 0, 
+            dateUpdatedUnix: Math.floor(new Date().getTime() / 1000), 
+            dateUpdated: new Date().toISOString().split('T')[0]
+          }
         }
         newUser.preferredJobType = this.converter.objectToArray(newUser.preferredJobType);
         break;
