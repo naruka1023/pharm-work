@@ -1,19 +1,28 @@
-@media only screen and (max-width: 550px){
-    .loginPanel{
-      width: 90vw !important
+  @media only screen and (max-width: 992px) {
+    .login-background{
+        height:26vh !important
     }
-  }
+}
 @media only screen and (max-width: 370px){
     .footer{
         display: block !important;
         text-align:center
     }
   }
+  .nav-item > button{
+    color:#949191
+  }
   .nav-link{
     color:black
   }
-  .nav-tabs .nav-link.active{
+  .nav-tabs .nav-pharma.active{
     color:#7fd858 !important
+  }
+  .nav-tabs .nav-student.active{
+    color:#5cdfe4 !important
+  }
+  .nav-tabs .nav-operator.active{
+    color:#D3A1F7 !important
   }
   .btn-primary, btn-primary:hover{
     background:#5cdfe4;

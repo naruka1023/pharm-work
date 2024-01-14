@@ -12,6 +12,9 @@
   .tooltip{
     font-size: 3rem !important;
  }
+.dropdown-menu2{
+  left:-13vw !important
+}
 .btn-primary, btn-primary:hover{
   background:#5cdfe4;
   border-color: #5cdfe4

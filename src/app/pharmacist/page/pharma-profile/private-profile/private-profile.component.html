@@ -1,79 +1,73 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3 my-3 my-sm-0 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
-        <div class="d-flex justify-content-between">
+    <div class="p-5 my-4 cyan-color semi-border-input">
+        <div style="color:blue" class="mb-4">
+            *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
+            เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
+        </div>
+        <div class="px-4">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap"><i class="bi bi-person-fill"></i></div>
+                    <div>
+                        <div class="keyValueGap">
+                            <div><b>ชื่อ-นามสกุล</b></div>
+                        </div>
+                        <div class="col d-flex">
+                            <div class="me-2">{{innerProfileInformation.name | emptyFieldPipe}}</div><div>{{innerProfileInformation.surname | emptyFieldPipe}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="d-flex flex-row verticalKeyGap">
-                <div class="keyValueGap"><i class="bi bi-person"></i></div>
-                <div class="keyValueGap">
-                    <div><b>เภสัชกร</b></div>
-                </div>
-                <div class="col d-flex">
-                    <div class="me-2">{{innerProfileInformation.name | emptyFieldPipe}}</div><div>{{innerProfileInformation.surname | emptyFieldPipe}}</div>
-                </div>
-                <!-- <div class="d-flex col d-flex flex-row-reverse">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" [(ngModel)]="showSwitch" (change)="switchShowProfile($event)" type="checkbox" id="flexSwitchCheckDefault" >
-                        <label class="form-check-label" for="flexSwitchCheckDefault">เปิดเผยข้อมูล</label>
+                    <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                    <div>
+                        <div class="keyValueGap"><b>เพศ</b></div>
+                        <div>{{innerProfileInformation.gender | emptyFieldPipe}}</div>
                     </div>
-                    <div *ngIf="showSwitchLoadingFlag" class="spinner-border text-primary me-3" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-pin-map-fill"></i></div>
+                    <div>
+                        <div class="keyValueGap">
+                            <div class="nobr"><b>ที่อยู่</b></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                        <div>{{innerProfileInformation.Location?.Province | emptyFieldPipe}}, {{innerProfileInformation.Location?.District | emptyFieldPipe}}, {{innerProfileInformation.Location?.Section | emptyFieldPipe}}</div>                    
                     </div>
-                </div> -->
-            </div>
-        </div>
-        <!-- <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap">
-                <div><b>วันเกิด</b></div>
-            </div>
-            <div class="col">
-                <div class="me-3">{{innerProfileInformation.birthday}}</div>
-            </div>
-        </div> -->
-        <div class="d-flex flex-row verticalKeyGap">
-                <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
-                <div class="keyValueGap"><b>เพศ</b></div>
-                <div>{{innerProfileInformation.gender | emptyFieldPipe}}</div>
-        </div>
-        <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap"><i class="bi bi-house"></i></div>
-            <div class="keyValueGap">
-                <div class="nobr"><b>ที่อยู่</b></div>
-            </div>
-            <div class="d-flex flex-row">
-                <div>{{innerProfileInformation.Location?.Province | emptyFieldPipe}}, {{innerProfileInformation.Location?.District | emptyFieldPipe}}, {{innerProfileInformation.Location?.Section | emptyFieldPipe}}</div>                    
-            </div>
-        </div>
-        <div class="verticalKeyGap">
-            <div class="d-flex flex-row">
-                <div class="keyValueGap">
-                    <i class="bi bi-phone"></i>
-                </div>
-                <div class="keyValueGap">
-                    <div><b>ข้อมูลการติดต่อ</b></div>
                 </div>
             </div>
-            <div class="mt-4 contacts" style="margin-left:6rem">
-                <div class="d-flex flex-row verticalKeyGap">
-                    <i class="bi bi-telephone keyValueGap"></i>
+            <div>
+                <div class="d-flex flex-row">
                     <div class="keyValueGap">
-                        <div class="nobr">เบอร์โทร</div>
+                        <i class="bi bi-telephone-plus-fill"></i>
                     </div>
-                    <div class="col">
-                        <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyFieldPipe}}</div>
+                    <div class="keyValueGap">
+                        <div><b>ข้อมูลการติดต่อ</b></div>
                     </div>
                 </div>
-                <div class="d-flex flex-row verticalKeyGap">
-                    <i class="bi bi-envelope-at keyValueGap"></i>
-                    <div class="keyValueGap">
-                        <div>Email</div>
+                <div class="contacts" style="margin-left:4.3rem">
+                    <div class="d-flex flex-row">
+                        <div class="keyValueGap">
+                            <div class="nobr">เบอร์โทร</div>
+                        </div>
+                        <div class="col">
+                            <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyFieldPipe}}</div>
+                        </div>
                     </div>
-                    <div class="col" style="line-break: auto">
-                        <div class="me-3">{{innerProfileInformation.contacts?.email | emptyFieldPipe}}</div>
+                    <div class="d-flex flex-row">
+                        <div class="keyValueGap">
+                            <div>Email</div>
+                        </div>
+                        <div class="col" style="line-break: auto">
+                            <div class="me-3">{{innerProfileInformation.contacts?.email | emptyFieldPipe}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="verticalKeyGap">
+    </div>
+        <!-- <div class="verticalKeyGap">
             <div class="d-flex flex-row mb-4">
                 <div class="keyValueGap">
                     <i class="bi bi-geo"></i>
@@ -95,116 +89,128 @@
             </div>
             <div class="text-danger"><i>*ไม่แสดงให้ผู้อื่นเห็น</i></div>
             <div class="text-danger" *ngIf="!googleMapFlag"><i>*ท่านยังไม่ได้ปักหมุดในแผนที่ กรุณาปักหมุดเพื่อเปิดใช้งานตัวกรองใกล้ฉัน</i></div>
+        </div> -->
+        <div class="p-5 my-5 light-red-color semi-border-input">
+            <div style="color:red" class="mb-4">
+                *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
+                เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
+            </div>
+            <div class="px-4">
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                    <div>
+                        <div class="keyValueGap">
+                            <b>เลขที่ใบประกอบ ภ</b>
+                        </div>
+                        <div class="col">
+                            <div class="me-3">{{innerProfileInformation.license | emptyFieldPipe}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap">
-                <i class="bi bi-person-vcard"></i>
-            </div>
-            <div class="keyValueGap">
-                <b>เลขที่ใบประกอบ ภ</b>
-            </div>
-            <div class="col">
-                <div class="me-3">{{innerProfileInformation.license | emptyFieldPipe}}</div>
-            </div>
-        </div>
+        <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="border-input btn green-color" style="color:white; padding: 0.5rem 2rem">แก้ไขข้อมูลส่วนตัว</button></div>
     </ng-template>
     <ng-template #editPage>
-        <div class="container">
-            <form [formGroup]="profileEdit">
-                <div class="fs-5 mb-2 text-danger" style="text-align:right">
-                    <i>*ชื่อ-นามสกุล ไม่สามารแก้ไขได้ หากต้องการแก้ไขให้ส่งคำขอมาที่ 'ติดต่อเรา'</i>
+        <form [formGroup]="profileEdit">
+            <div class="p-5 my-5 cyan-color semi-border-input">
+                <div style="color:blue" class="mb-4">
+                    *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
+                    เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
                 </div>
-                <div class="verticalKeyGap">
-                    <div class="keyValueGap">
-                        <label for="name" class="form-label">
-                            <b>ชื่อ</b>
-                        </label>
+                <div class="px-4">
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-person-check-fill"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
+                            <div class="keyValueGap">
+                                <div><b>ชื่อ-นามสกุล</b></div>
+                            </div>
+                            <div class="col d-flex">
+                                <input disabled class="border-input form-control fs-3" style="width:-webkit-fill-available; width:-moz-available" placeholder="{{innerProfileInformation.name + ' ' + innerProfileInformation.surname | emptyFieldPipe}}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col">
-                        <div>{{innerProfileInformation.name | emptyFieldPipe}}</div>
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
+                            <div class="keyValueGap">
+                                <div><b>เพศ</b></div>
+                            </div>
+                            <div class="col d-flex">
+                                <select formControlName="gender" class="form-select fs-3 border-input" style="width:-webkit-fill-available; width:-moz-available">
+                                    <option value="ชาย">ชาย</option>
+                                    <option selected value="หญิง">หญิง</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="verticalKeyGap">
-                    <div class="keyValueGap">
-                        <label for="surname" class="form-label"><b>นามสกุล</b></label>
+                    <app-location [parentFormGroup]="profileEdit"></app-location>
+                    <div class="my-3" formGroupName="contacts">
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap"><i class="bi bi-telephone-plus-fill"></i></div>
+                            <div style="width:-webkit-fill-available; width:-moz-available">
+                                <div class="keyValueGap">
+                                    <div><b>ข้อมูลติดต่อ</b></div>
+                                </div>
+                                <input formControlName="phone" type="text" placeholder="ใส่เบอร์โทรติดต่อ" class="border-input mb-3 form-control fs-3" style="width:-webkit-fill-available; width:-moz-available">
+                                <input formControlName="email" type="text" class="border-input mb-3 form-control fs-3" placeholder="ใส่อีเมล" style="width:-webkit-fill-available; width:-moz-available">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col">
-                        <div>{{innerProfileInformation.surname | emptyFieldPipe}}</div>
-                    </div>
-                </div>
-                <div class="verticalKeyGap">
-                    <div class="keyValueGap">
-                        <label for="gender" class="form-label"><b>เพศ</b></label>
-                    </div>
-                    <div>
-                        <select formControlName="gender" class="form-select fs-3" style="width:10rem; background-color:#f2f2f2" aria-label="Default select example">
-                            <option selected value="ชาย">ชาย</option>
-                            <option value="หญิง">หญิง</option>
-                        </select>
-                    </div>
-                </div>
-                <app-location [parentFormGroup]="profileEdit"></app-location>
-                <div class="my-3" formGroupName="contacts">
-                    <label class="verticalKeyGap form-label">
+                    <!-- <div class="verticalKeyGap">
+                        <div class="keyValueGap">
+                            <label for="mapLatLng" class="form-label"><b>ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน</b></label>
+                        </div>
                         <div>
-                            <b>ข้อมูลการติดต่อ</b>
+                            <input
+                                type="text"
+                                class="form-control my-3"
+                                ngx-google-places-autocomplete 
+                                (onAddressChange)="searchMap($event)"
+                            />
+                          </div>
+                        <div style="overflow: scroll" class="col d-flex justify-content-center">
+                            <google-map 
+                                height="500px"
+                                width="65vw"
+                                [center]="center"
+                                [zoom]="zoom"
+                                [options]="none"
+                                (mapClick)="moveMap($event)"
+                                (mapMousemove)="move($event)">
+                                <map-marker
+                                [position]="markerPosition"></map-marker>
+                            </google-map>
                         </div>
-                    </label>
-                    <div class="verticalKeyGap">
+                        <div class="text-danger"><i>*ไม่แสดงให้ผู้อื่นเห็น</i></div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="p-5 my-5 light-red-color semi-border-input">
+                <div style="color:red" class="mb-4">
+                    *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
+                    เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
+                </div>
+                <div class="px-4">
+                    <div class="d-flex flex-row verticalKeyGap">
                         <div class="keyValueGap">
-                            <label for="phone" class="form-label ms-3">เบอร์โทร</label>
+                            <i class="bi bi-check2-circle"></i>
                         </div>
-                        <div class="col">
-                            <input formControlName="phone" type="text" class="ms-3 form-control fs-3" style="background-color:#f2f2f2">
-                        </div>
-                    </div>
-                    <div class="verticalKeyGap">
-                        <div class="keyValueGap">
-                            <label for="email" class="form-label ms-3">Email</label>
-                        </div>
-                        <div class="col">
-                            <input formControlName="email" type="text" class="ms-3 form-control fs-3" style="background-color:#f2f2f2">
+                        <div>
+                            <div class="keyValueGap">
+                                <b>เลขที่ใบประกอบ ภ</b>
+                            </div>
+                            <div class="col">
+                                <div class="me-3">{{innerProfileInformation.license | emptyFieldPipe}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="verticalKeyGap">
-                    <div class="keyValueGap">
-                        <label for="mapLatLng" class="form-label"><b>ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน</b></label>
-                    </div>
-                    <div>
-                        <input
-                            type="text"
-                            class="form-control my-3"
-                            ngx-google-places-autocomplete 
-                            (onAddressChange)="searchMap($event)"
-                        />
-                      </div>
-                    <div style="overflow: scroll" class="col d-flex justify-content-center">
-                        <google-map 
-                            height="500px"
-                            width="65vw"
-                            [center]="center"
-                            [zoom]="zoom"
-                            [options]="none"
-                            (mapClick)="moveMap($event)"
-                            (mapMousemove)="move($event)">
-                            <map-marker
-                            [position]="markerPosition"></map-marker>
-                        </google-map>
-                    </div>
-                    <div class="text-danger"><i>*ไม่แสดงให้ผู้อื่นเห็น</i></div>
-                </div>
-                <div class="verticalKeyGap">
-                    <div class="keyValueGap">
-                        <label for="license" class="form-label"><b>เลขที่ใบประกอบ ภ</b></label>
-                    </div>
-                    <div class="col">
-                        <div class="fs-3">{{innerProfileInformation.license}}</div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="align-items-baseline d-flex justify-content-center ms-3">
+            </div>
+        </form>
+        <div class="align-items-baseline d-flex justify-content-center mb-5 ms-3">
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>

@@ -41,10 +41,6 @@
   border-top-right-radius: 20px !important
 }
 
-.card:hover{
-  background-color: rgba(88, 92, 89, 0.3);
-  cursor:pointer
-}
 
 .fullTime{
   background:#5cdfe4;

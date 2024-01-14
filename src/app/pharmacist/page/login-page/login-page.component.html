@@ -1,114 +1,117 @@
-<div class="d-flex justify-content-center align-items-center flex-column" style="height:90vh">
-  <div class="card my-auto" style="border-radius:20px">
-    <div style="background-color:white; border-radius: 20px">
-      <ul class="nav justify-content-center fs-4 nav-tabs nav-fill nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" style="border-top-left-radius: 20px" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" (click)='changeHeader(true)' type="button" role="tab" aria-controls="normal-job-pane" aria-selected="true">เภสัชกร</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" style="border-top-right-radius: 20px" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" (click)='changeHeader(false)' type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">ผู้ประกอบการ</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" style="border-top-right-radius: 20px" id="urgent-job" data-bs-toggle="tab" data-bs-target="#student-pane" (click)='changeHeader("student")' type="button" role="tab" aria-controls="student-pane" aria-selected="false">นักศึกษาเภสัชกร</button>
-        </li>
-      </ul>
-  <div class="card-body">
-    <div class="tab-content" style='background:white' id="myTabContent">
-      <div class="loginPanel" style="width: 30rem;">
-                  <h5 class="text-center card-title">เข้าสู่ระบบ{{header}}</h5>
-                  <div style="text-align:center" *ngIf="loginFlag">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                      <ng-container *ngIf="errorFlag; then error; else invisible"></ng-container>
-                      <ng-template #error>
-                          <span class="help-block text-danger">
-                           {{this.errorMessage}}
-                         </span>
-  
-                      </ng-template>                        
-                      <ng-template #invisible>
-                          <span style='visibility:hidden'class="help-block">
-                            กรุณาใส่ข้อมูลที่ถูกต้อง
-                         </span>
-  
-                      </ng-template>                        
-                      <div class="form-group">
-                          <div class="d-flex justify-content-between">
-                              <label for="userName">Email</label>
-                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">จำเป็น</label>
-                          </div>
-                          <input type="text" class="form-control"
-                          id="userName" formControlName = "userName">
-                      </div>
-              
-                        <div class="form-group">
-                          <div class="d-flex justify-content-between">
-                              <label for="password">Password</label>
-                              <label class="text-danger" *ngIf="loginForm.errors?.['required']">จำเป็น</label>
-                          </div>
-                              <input type="password" type="password" class="form-control" 
-                           id="password" formControlName = "password">
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style=border-radius:20px>
+      <div>
+        <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link nav-pharma active" style="border-top-left-radius: 20px" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane-login" (click)='changeHeader(true)' type="button" role="tab" aria-controls="normal-job-pane-login" aria-selected="true">เภสัชกร</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link nav-student" id="urgent-job" data-bs-toggle="tab" data-bs-target="#student-pane-login" (click)='changeHeader("student")' type="button" role="tab" aria-controls="student-pane-login" aria-selected="false">นักศึกษาเภสัชกร</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link nav-operator" style="border-top-right-radius: 20px" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane-login" (click)='changeHeader(false)' type="button" role="tab" aria-controls="urgent-job-pane-login" aria-selected="false">บริษัท</button>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-body px-5">
+        <div class="tab-content" style='background:white' id="myTabContent">
+          <div class="loginPanel">
+                      <h3 class="text-center card-title" style="font-weight:bold" *ngIf="mainPageFlag" [innerHTML]="header"></h3>
+                      <h3 class="text-center card-title" style="font-weight:bold" *ngIf="!mainPageFlag">{{header}}</h3>
+                      <div style="text-align:center" class="my-1" *ngIf="loginFlag">
+                        <div class="spinner-border text-primary" role="status">
+                            <div class="visually-hidden text-center">Loading...</div>
                         </div>
+                    </div>
+                    <div *ngIf="mainPageFlag">
+                      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                          <ng-container *ngIf="errorFlag; then error; else invisible"></ng-container>
+                          <ng-template #error>
+                              <div class="help-block text-center  text-danger">
+                               {{this.errorMessage}}
+                             </div>
+      
+                          </ng-template>                        
+                          <ng-template #invisible>
+                              <div style='visibility:hidden'class=" text-center help-block">
+                                กรุณาใส่ข้อมูลที่ถูกต้อง
+                             </div>
+      
+                          </ng-template>   
+                          <div class="row">
+                            <div class="login-background col-lg-6 col-12" [ngStyle]="{'background-image': loginImage}" style="background-size: cover; background-position: center; background-repeat: no-repeat; height: auto">
+
+                            </div>
+                            <div class="col-lg-6 col-12 py-lg-5 my-3">
+                              <div class="form-group mb-4">
+                                  <div class="d-flex justify-content-between">
+                                      <label class="text-danger" *ngIf="loginForm.errors?.['required']">จำเป็น</label>
+                                  </div>
+                                  <input type="text" class="form-control" placeholder="อีเมล"
+                                  id="userName" formControlName = "userName" style="border-radius:100px">
+                              </div>
+                      
+                              <div class="form-group">
+                                <div class="d-flex justify-content-between">
+                                    <label class="text-danger" *ngIf="loginForm.errors?.['required']">จำเป็น</label>
+                                </div>
+                                    <input type="password" type="password" class="form-control" placeholder="รหัสผ่าน"
+                                  id="password" formControlName = "password" style="border-radius:100px">
+                                  <div class="mt-1 text-end"><a style="color:#7fd858; cursor:pointer" (click)="forgetPasswordOpen()">ลืมรหัสผ่าน</a></div>
+                              </div>
+                            </div>
+                          </div>   
+                          <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary my-1 py-1 px-4 text-center fs-4" style="border-radius:100px; color:white" [ngClass]="pharmaFlag == 'student'?'blue-color': pharmaFlag? 'green-color':'purple-color'" type="submit">เข้าสู่ระบบ</button> 
+                          </div>                  
+                          
+                                     <div class="footer my-4 d-flex justify-content-center fs-5">
+                                         <div>ยังไม่ได้เป็นสมาชิก Pharmwork? <a style="text-decoration:none; cursor:pointer" class="green-text" data-bs-toggle="modal" data-bs-target="#registerModal">สมัครสมาชิก</a></div>
+                                     </div>
+                        </form>
+                    </div>
+                    <div *ngIf="!mainPageFlag">
+                      <ng-container *ngIf="resetSuccessful; then resetMessage; else normalBody"></ng-container>
+                      <ng-template #resetMessage>
+                          <label>รีเซ็ตรหัสผ่านแล้วเรียบร้อย!</label>
+                      </ng-template>
+                      <ng-template #normalBody>
+                          <div style="text-align:center" class="my-1" *ngIf="modalLoadingFlag">
+                              <div class="spinner-border text-primary" role="status">
+                                  <span class="visually-hidden">Loading...</span>
+                              </div>
+                          </div>
+                          <ng-container *ngIf="modalErrorFlag; then errorModal; else invisibleModal"></ng-container>
+                                  <ng-template #errorModal>
+                                      <span class="help-block text-danger text-center mt-3">
+                                        ไม่พบอีเมลดังกล่าวในระบบ
+                                     </span>
               
-                         <div class="footer mt-3 d-flex justify-content-between">
-                             <div><a style="color:#7fd858; cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModal">ลืมรหัสผ่าน</a></div>
-                             <div>ยังไม่ได้เป็นสมาชิก? <a routerLink="register">สมัครสมาชิก</a></div>
-                         </div>
-                      <button class="btn btn-primary mb-1 mt-2" style="width:-webkit-fill-available; width: -moz-available;" type="submit">Submit</button> 
-                    </form>
-              </div>
-          </div>
+                                  </ng-template>                        
+                                  <ng-template #invisibleModal>
+                                      <span style='visibility:hidden'class="help-block">
+                                        กรุณาใส่ข้อมูลที่ถูกต้อง
+                                     </span>
+              
+                                  </ng-template> 
+                        <form class="mt-2">
+                          <div class="row">
+                            <div class="col-7 offset-2">
+                              <div class="form-group">
+                                <input class="form-control" placeholder="อีเมล" id="email" type="text" style="border-radius:100px" [formControl]="email">
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </ng-template>
+                      <div class="d-flex justify-content-center">
+                        <button class="btn my-2 py-1 px-4 text-center fs-4" (click)="onForgetPassword()"[disabled]="!this.email.valid" *ngIf="resetButtonFlag"style="border-radius:100px; color:white" [ngClass]="pharmaFlag == 'student'?'blue-color': pharmaFlag? 'green-color':'purple-color'">ยืนยัน</button> 
+                      </div>     
+                    </div>
+                  </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">ลืมพาสเวิร์ด?</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <ng-container *ngIf="resetSuccessful; then resetMessage; else normalBody"></ng-container>
-            <ng-template #resetMessage>
-                <label>รีเซ็ตรหัสผ่านแล้วเรียบร้อย!</label>
-            </ng-template>
-            <ng-template #normalBody>
-                <div style="text-align:center" *ngIf="modalLoadingFlag">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-                <p>โปรดใส่อีเมลเพื่อรีเซ็ตรหัสผ่าน</p>
-                <ng-container *ngIf="modalErrorFlag; then errorModal; else invisibleModal"></ng-container>
-                        <ng-template #errorModal>
-                            <span class="help-block text-danger">
-                              ไม่พบอีเมลดังกล่าวในระบบ
-                           </span>
-    
-                        </ng-template>                        
-                        <ng-template #invisibleModal>
-                            <span style='visibility:hidden'class="help-block">
-                              กรุณาใส่ข้อมูลที่ถูกต้อง
-                           </span>
-    
-                        </ng-template> 
-              <form class="mt-2">
-                  <div class="form-group">
-                    <label for="email">อีเมล</label>
-                    <input class="form-control" id="email" type="text" [formControl]="email">
-                  </div>
-              </form>
-            </ng-template>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="closeButton" data-bs-dismiss="modal">ยกเลิก</button>
-          <button type="button" class="btn btn-primary" *ngIf="resetButtonFlag" (click)="onForgetPassword()"[disabled]="!this.email.valid">ยืนยัน</button>
-        </div>
-      </div>
-    </div>
-  </div>

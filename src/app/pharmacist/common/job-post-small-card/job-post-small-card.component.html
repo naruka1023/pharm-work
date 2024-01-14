@@ -11,7 +11,7 @@
 			</div>
 		</div>
 	</div>
-		<div (click)="goToProfile()" class="mainCard card rounded" style="width: -webkit-fill-available; width:-moz-available">
+		<div (click)="goToProfile()" class="mainCard card rounded standard-shadow" style="width: -webkit-fill-available; width:-moz-available">
 			<ng-container *ngIf="urgentFlag; then cardUrgentHeader; else cardHeader">
 			</ng-container>
 			<ng-template #cardUrgentHeader>
@@ -33,7 +33,7 @@
 			</ng-template>
 			<ng-template #cardHeader>
 				<div class="d-flex justify-content-center">
-					<div [ngStyle]="{'background' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6', 'border-color' : content.TimeFrame == 'Full-Time'? '#5cdfe4': content.TimeFrame == 'Part-Time'?'#7fd858': '#dfa5d6'}" class="timeFrameHeader p-2 d-flex justify-content-center flex align-items-center" style="color: white; text-align: center; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
+					<div [ngClass]="content.TimeFrame == 'Full-Time'? 'green-color': content.TimeFrame == 'Part-Time'?'blue-color': 'purple-color'" class="timeFrameHeader p-2 d-flex justify-content-center flex align-items-center" style="color: white; text-align: center; border-radius:20px 20px 0px 0px; width: -webkit-fill-available; width: -moz-available">
 						<b>{{content.TimeFrame}}</b>
 					</div>
 				</div>
@@ -42,13 +42,9 @@
 				<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'padding': urgentFlag?'0':'1rem', 'height': urgentFlag? '3.2em':'4em', 'word-break': 'break-word', 'overflow':'hidden', 'text-align': 'center', '-webkit-line-clamp': '2'}">
 					<b>{{content.JobName}}</b>
 				</div>
-				<div *ngIf="urgentFlag" class="row my-2">
-					<i class="col-2 my-auto fs-6 bi bi-clock"></i>
-					<p class="my-auto text-start col fs-6">{{content.Duration}} น.</p>
-				</div>
 				<div class="row my-2">
 					<p class="my-auto  col-2">
-						<i class="fs-6 my-auto bi bi-currency-bitcoin"></i>
+						<i class="fs-6 my-auto bi bi-bootstrap"></i>
 					</p>
 					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
 						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}} {{urgentFlag?'บาท/ชม': ''}}
@@ -57,20 +53,24 @@
 						{{content.Salary.Suffix | salaryType}}
 					</div>
 				</div>
+				<div *ngIf="urgentFlag" class="row my-2">
+					<i class="col-2 my-auto fs-6 bi bi-clock"></i>
+					<p class="my-auto text-start col fs-6">{{content.Duration}} น.</p>
+				</div>
 				<div *ngIf="!urgentFlag">
 					<div class="row d-flex flex-row my-2" *ngIf="content.Amount !== ''">
-						<i class="col-2 bi bi-people fs-6"></i>
+						<i class="col-2 bi bi-person fs-6"></i>
 						<div class="col text-start fs-6">{{content.Amount}} อัตรา</div>
 					</div>
 				</div>
 				<div class="row my-2">
-					<i class="fs-6 my-auto  col-2 bi bi-geo-alt"></i>
+					<i class="fs-6 my-auto  col-2 bi bi-geo"></i>
 					<p class="my-auto text-start col fs-6">{{content.Location.Province}}</p>
 				</div>
 			</div>
 		</div>	
 		<div class="outerCard pt-0">
-			<div class="d-flex justify-content-between">
+			<div class="d-flex justify-content-between align-items-center">
 				<div style="font-size:0.75rem;">
 					{{content.dateUpdated}}
 				</div>
@@ -92,12 +92,12 @@
 					</h1>
 				</button> -->
 				<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
-					<h1 style="display:flex">
+					<h1 class="mb-0"  style="display:flex">
 						<i class="bi bi-share-fill"></i>
 					</h1>
 				</button>
 				<button (click)="toggleBookmark()" type="button" class="btn px-0">
-					<h1 style="display:flex">
+					<h1  class="mb-0" style="display:flex">
 						<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
 						<ng-template #loading>
 							<div>

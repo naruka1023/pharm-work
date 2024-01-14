@@ -7,10 +7,9 @@
     </div>
 </ng-template>
 <ng-template #notEmptyNormal>
-    <div class="row row-cols-xl-2">
+    <div class="row row-cols-xl-2 container">
         <ng-container *ngFor="let requestView of requestViews$ | async; index as i">
                 <app-operator-normal-card [content]="requestView.content!" [requestViewFlag]="requestViewFlag"></app-operator-normal-card>
-            <hr class="mt-3" style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
         </ng-container>
     </div>
 </ng-template>  

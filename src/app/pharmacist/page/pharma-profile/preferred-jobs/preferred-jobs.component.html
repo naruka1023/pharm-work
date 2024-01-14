@@ -1,138 +1,153 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
+
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
-    <div class="verticalKeyGap d-flex flex-row">
-        <i class="bi bi-clipboard keyValueGap"></i>
-        <div><b>ประเภทงานที่สนใจ</b></div>
-        <div class="ms-3" *ngIf="resultPayload.length == 0">ไม่ระบุ</div>
-    </div>
-    <div *ngIf="resultPayload.length > 0" class="jobTypePayload" style="padding-left:6rem">
-        <ul class="row row-cols-2">
-            <li class="verticalKeyGap col" *ngFor="let jobType of resultPayload">
-                {{jobType}}
-            </li>
-        </ul>
-    </div>
     <div class="d-flex flex-row verticalKeyGap">
-        <div class="keyValueGap d-flex flex-row">
-            <i class="bi bi-lightbulb keyValueGap"></i>
-            <div><b>ชนิดของพนักงาน</b></div>
-        </div>
-        <div>
-            {{innerProfileInformation.preferredTimeFrame | emptyFieldPipe}}
-        </div>
-    </div>
-    <div class="d-flex flex-row verticalKeyGap">
-        <div class="keyValueGap d-flex flex-row">
-            <i class="bi bi-currency-bitcoin keyValueGap"></i>
-            <div><b>เงินเดือนที่ต้องการ</b></div>
-        </div>
-        <div>
-                {{innerProfileInformation.preferredSalary | emptyFieldPipe}}
-        </div>
-    </div>
-    <div class="d-flex flex-row verticalKeyGap">
-        <div class="keyValueGap d-flex flex-row">
-            <i class="bi bi-check2-circle keyValueGap"></i><div><b>สามารถเริ่มงานได้ </b></div>
-        </div>
-        <div>
-                {{innerProfileInformation.preferredStartTime | emptyFieldPipe}}
-        </div>
-    </div>
-    <div class="d-flex flex-row verticalKeyGap">
-        <div class="keyValueGap d-flex flex-row">
-            <i class="bi bi-geo-alt keyValueGap"></i>
-            <div><b>หางานพื้นที่ </b></div>
-        </div>
-        <div class="contacts">
-            <div class="row">
-                <div class="keyValueGap">
-                    {{innerProfileInformation.preferredLocation?.Section | emptyFieldPipe}}, {{innerProfileInformation.preferredLocation?.District | emptyFieldPipe}}, {{innerProfileInformation.preferredLocation?.Province | emptyFieldPipe}}
-                </div>
+        <div class="keyValueGap"><i style="color:red" class="bi bi-heart-fill"></i></div>
+        <div style="width:-webkit-fill-available; width:-moz-available">
+            <div>
+                <div><b>ประเภทงานที่สนใจ</b></div>
+            </div>
+            <div class="fs-3" *ngIf="resultPayload.length == 0">ไม่ระบุ</div>
+            <div *ngIf="resultPayload.length > 0" class="jobTypePayload">
+                <ul class="fs-3">
+                    <li *ngFor="let jobType of resultPayload">
+                        {{jobType}}
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap"><i class="bi bi-lightbulb-fill"></i></div>
+        <div style="width:-webkit-fill-available; width:-moz-available">
+            <div class="keyValueGap">
+                <div><b>ชนิดของพนักงาน</b></div>
+            </div>
+            <div>
+                {{innerProfileInformation.preferredTimeFrame | emptyFieldPipe}}
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap"><i class="bi bi-bootstrap"></i></div>
+        <div style="width:-webkit-fill-available; width:-moz-available">
+            <div class="keyValueGap">
+                <div><b>เงินเดือนที่ต้องการ</b></div>
+            </div>
+            <div>
+                {{innerProfileInformation.preferredSalary | emptyFieldPipe}}
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap"><i class="bi bi-clock-fill"></i></div>
+        <div style="width:-webkit-fill-available; width:-moz-available">
+            <div class="keyValueGap">
+                <div><b>สามารถเริ่มงานได้</b></div>
+            </div>
+            <div>
+                {{innerProfileInformation.preferredStartTime | emptyFieldPipe}}
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap"><i class="bi bi-geo-fill"></i></div>
+        <div style="width:-webkit-fill-available; width:-moz-available">
+            <div class="keyValueGap">
+                <div><b>หางานพื้นที่</b></div>
+            </div>
+            <div>
+                {{innerProfileInformation.preferredLocation?.Section | emptyFieldPipe}}, {{innerProfileInformation.preferredLocation?.District | emptyFieldPipe}}, {{innerProfileInformation.preferredLocation?.Province | emptyFieldPipe}}
+            </div>
+        </div>
+    </div>
+    <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}"(click)="editClick()" type="button" class="btn fs-3 green-color" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 </ng-template>
 <ng-template #editPage>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
-        <div class="row mb-3">
-            <div class="col-lg-3 col-12">
-                <div class="responsiveText me-3"><b>ประเภทงานที่สนใจ</b></div>
-            </div>
-            <div class="col" formGroupName="preferredJobType" [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredJobType')!.errors! }">
-                <div class="row row-cols-2">
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="S" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="S">
-                        <label class="responsiveText form-check-label" for="S">
-                            งานด่วนรายวัน
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="AA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AA">
-                        <label class="responsiveText form-check-label" for="AA">
-                            งานร้านยาทั่วไป
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="AB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AB">
-                        <label class="responsiveText form-check-label" for="AB">
-                            งานร้านยา Brand
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="AC" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AC">
-                        <label class="responsiveText form-check-label" for="AC">
-                            งานโรงพยาบาล
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="BA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BA">
-                        <label class="responsiveText form-check-label" for="BA">
-                            งานคลินิก
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="BB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BB">
-                        <label class="responsiveText form-check-label" for="BB">
-                            งานโรงงาน
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="BC" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BC">
-                        <label class="responsiveText form-check-label" for="BC">
-                            งานบริษัท
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="CA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="CA">
-                        <label class="responsiveText form-check-label" for="CA">
-                            งานวิจัย
-                        </label>
-                    </div>
-                    <div class="d-flex flex-row-start mb-3">
-                        <input formControlName="CB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="CB">
-                        <label class="responsiveText form-check-label" for="CB">
-                            งานอื่นๆ
-                        </label>
+        <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i class="bi bi-briefcase-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
+                <div class="keyValueGap">
+                    <div><b>ประเภทงานที่สนใจ</b> (เลือกได้มากกว่า 1 ชนิด)</div>
+                </div>
+                <div class="col d-flex">
+                    <div  formGroupName="preferredJobType" [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredJobType')!.errors! }">
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="S" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="S">
+                            <label class="responsiveText form-check-label" for="S">
+                                งานด่วนรายวัน
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="AA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AA">
+                            <label class="responsiveText form-check-label" for="AA">
+                                งานร้านยาทั่วไป
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="AB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AB">
+                            <label class="responsiveText form-check-label" for="AB">
+                                งานร้านยา Brand
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="AC" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AC">
+                            <label class="responsiveText form-check-label" for="AC">
+                                งานโรงพยาบาล
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="BA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BA">
+                            <label class="responsiveText form-check-label" for="BA">
+                                งานคลินิก
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="BB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BB">
+                            <label class="responsiveText form-check-label" for="BB">
+                                งานโรงงาน
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="BC" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="BC">
+                            <label class="responsiveText form-check-label" for="BC">
+                                งานบริษัท
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="CA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="CA">
+                            <label class="responsiveText form-check-label" for="CA">
+                                งานวิจัย
+                            </label>
+                        </div>
+                        <div class="d-flex flex-row-start mb-3 form-check">
+                            <input formControlName="CB" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="CB">
+                            <label class="responsiveText form-check-label" for="CB">
+                                งานอื่นๆ
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="submitted && profileEdit.get('preferredJobType')!.errors!" class="invalid-feedback">
-                <div class="row">
-                    <div class="col-lg-3 col-12col-3">
-                        <div class="responsiveText me-3" style="visibility:hidden"><b>ชนิดของพนักงาน</b></div>
+                <div *ngIf="submitted && profileEdit.get('preferredJobType')!.errors!" class="invalid-feedback">
+                    <div class="row">
+                        <div class="col-lg-3 col-12col-3">
+                            <div class="responsiveText me-3" style="visibility:hidden"><b>ชนิดของพนักงาน</b></div>
+                        </div>
+                        <div class="col">กรุณาเลือกประเภทงานที่สนใจอย่างน้อย 1 ชนิด</div>
                     </div>
-                    <div class="col">กรุณาเลือกประเภทงานที่สนใจอย่างน้อย 1 ชนิด</div>
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-lg-3 col-12col-3">
-                <div class="responsiveText me-3"><b>ชนิดของพนักงาน</b></div>
-            </div>
-            <div class="col">
-                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredTimeFrame')!.errors! }">
-                    <option selected value="Full-Time">Full-Time</option>
+        <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i class="bi bi-lightbulb-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
+                <div class="keyValueGap">
+                    <div><b>ชนิดของพนักงานที่สนใจ</b></div>
+                </div>
+                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="border-input form-select mb-3 fs-3"  [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredTimeFrame')!.errors! }">
+                    <option selected disabled value="">เลือกชนิดของพนักงาน</option>
+                    <option value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
                     <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
                 </select>
@@ -142,30 +157,34 @@
             </div>
         </div>
         <app-location [parentFormGroup]="profileEdit" [formGroupName]="'preferredLocation'"></app-location>
-        <div class="row mb-3">
-            <div class="col-lg-3 col-12">
-                <div class="responsiveText me-3"><b>เงินเดือนขั้นต่ำที่ต้องการ</b></div>
-            </div>
-            <div class="col">
-                <select formControlName="preferredSalary" name="preferredSalary" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2">
-                    <option selected value="20,000">20,000</option>
-                    <option selected value="30,000">30,000</option>
-                    <option selected value="40,000">40,000</option>
-                    <option selected value="50,000">50,000</option>
-                    <option selected value="60,000">60,000</option>
-                    <option selected value="70,000">70,000</option>
-                    <option selected value="80,000">80,000</option>
-                    <option selected value="90,000">90,000</option>
-                    <option selected value="100,000+">100,000+</option>
+        <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i class="bi bi-bootstrap-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
+                <div class="keyValueGap">
+                    <div><b>เงินเดือนขั้นต่ำที่ต้องการ</b></div>
+                </div>
+                <select formControlName="preferredSalary" name="preferredSalary" class="border-input form-select mb-3 fs-3" >
+                    <option value="" selected disabled>ระบุเงินเดือนขั้นต่ำที่ต้องการ</option>
+                    <option value="20,000">20,000</option>
+                    <option value="30,000">30,000</option>
+                    <option value="40,000">40,000</option>
+                    <option value="50,000">50,000</option>
+                    <option value="60,000">60,000</option>
+                    <option value="70,000">70,000</option>
+                    <option value="80,000">80,000</option>
+                    <option value="90,000">90,000</option>
+                    <option value="100,000+">100,000+</option>
                 </select>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="responsiveText col-lg-3 col-12">
-                <div><b>สามารถเริ่มงานได้</b></div>
-            </div>
-            <div class="col">
-                <select formControlName="preferredStartTime" name="preferredStartTime" class="responsiveText form-select mb-3 fs-3" style="background-color:#f2f2f2">
+        <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i class="bi bi-clock-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
+                <div class="keyValueGap">
+                    <div><b>สามารถเริ่มงานได้เมื่อไหร่</b></div>
+                </div>
+                <select formControlName="preferredStartTime" name="preferredStartTime" class="border-input form-select mb-3 fs-3" >
+                    <option value="" selected disabled>เลือกวันที่ท่านสามารถเริ่มงานได้</option>
                     <option selected value="ทันที">ทันที</option>
                     <option selected value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
                     <option selected value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>

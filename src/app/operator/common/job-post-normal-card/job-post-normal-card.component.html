@@ -47,7 +47,7 @@
 					<div class="row mb-2">
 						<div class="col-sm col-12 d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
-								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
+								<i class="fs-5 my-auto bi bi-bootstrap"></i>
 							</p>
 							<div class=" fs-6 d-flex flex-row my-auto">
 									<div *ngIf="content.Salary.Suffix == 'SalaryNumbers'" class="mx-2">{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap!}}</div>
@@ -56,7 +56,7 @@
 						</div>
 						<div *ngIf="!urgentFlag" class="col-sm col-12 d-flex">
 							<p class="my-auto me-2">
-								<i class="my-auto fs-6 bi bi-people"></i>
+								<i class="my-auto fs-6 bi bi-person"></i>
 							</p>
 							<p class="my-auto fs-6 ms-2">{{content.Amount}} ตำแหน่ง</p>
 						</div>
@@ -68,7 +68,7 @@
 						</div>
 						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
-								<i class="fs-6 my-auto bi bi-geo-alt"></i>
+								<i class="fs-6 my-auto bi bi-geo"></i>
 							</p>
 							<div class="d-flex flex-row my-auto">
 								<div class="mx-2 fs-6">{{content.Location.District}}, {{content.Location.Province}}</div>
@@ -78,7 +78,7 @@
 					<div class="row">
 						<div class="col-sm col-12 d-flex" *ngIf="urgentFlag">
 							<p class="my-auto me-2">
-								<i class="fs-5 my-auto bi bi-currency-bitcoin"></i>
+								<i class="fs-5 my-auto bi bi-bootstrap"></i>
 							</p>
 							<div class="fs-6 d-flex flex-row my-auto">
 								<div class="mx-2" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">{{content.Salary.Amount}}</div>
@@ -92,7 +92,7 @@
 					<div class="row">
 						<div class="col-sm col-12 d-flex" *ngIf="!urgentFlag">
 							<p class="my-auto me-2">
-								<i class="fs-6 my-auto bi bi-geo-alt"></i>
+								<i class="fs-6 my-auto bi bi-geo"></i>
 							</p>
 							<div class="d-flex flex-row my-auto">
 								<div class="mx-2 fs-6">{{content.Location.Province}}</div>

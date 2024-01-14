@@ -4,12 +4,39 @@
 .nav-link{
     color:black
   }
-  .nav-tabs .nav-link.active{
+  .nav-tabs .nav-pharma.active{
     color:#7fd858 !important
+  }
+  .nav-tabs .nav-student.active{
+    color:#5cdfe4 !important
+  }
+  @media only screen and (max-width: 992px) {
+    .border-line{
+        border-right:unset !important
+    }
+}
+
+.nav-item > button{
+  color:#949191
+}
+  .nav-tabs .nav-operator.active{
+    color:#D3A1F7 !important
   }
   .btn-primary, btn-primary:hover{
     background:#5cdfe4;
     border-color: #5cdfe4
+  }
+
+  ::ng-deep .swiper-button-next{
+    display:none
+  }
+
+  .background-height{
+    height:60vh !important
+  }
+  
+  :host::ng-deep .swiper-slide{
+    background:white !important
   }
 .btn-success{
   background:#7fd858;

@@ -1,326 +1,309 @@
-<div class="align-items-baseline d-flex justify-content-end ms-3 editButton mb-md-0 mb-3"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}"(click)="editClick()" type="button" class="btn btn-primary" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="verticalKeyGap">
-            <div class="historyHeader d-flex flex-row">
+            <div class="historyHeader d-flex verticalKeyGap flex-row">
                 <div class="d-flex flex-row">
-                    <div class="keyValueGap" style="display: flex; align-items:center"><i class="textResponsive bi bi-award me-2"></i></div>
+                    <div class="keyValueGap" style="display: flex; align-items:center"><i class="textResponsive bi bi-mortarboard-fill me-2"></i></div>
                     <div class="textResponsive"><b>ประวัติการศึกษา</b></div>
                 </div>
                 <div class="d-flex">
-                    <div class="phantom keyValueGap" style="visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                    <div class="textResponsive subHeader">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyFieldPipe}}</div>
+                    <div style="border:1px solid red" class="border-input textResponsive subHeader px-3">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyFieldPipe}}</div>
                 </div>
             </div>
-            <div class="mt-4 historyContent" style="padding-left:6rem">
-                <ul>
-                    <li class="educationCell" style="margin-bottom:4rem" *ngFor="let eduGroup of innerProfileInformation.educationHistory">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="textResponsive">{{eduGroup.yearGraduated | emptyFieldPipe}}</div>
-                        </div>
-                        <div class="row verticalKeyGap">
-                            <div class="textResponsive col-sm-6 col-12 flex-wrap"><b>มหาวิทยาลัย</b> {{eduGroup.universityName | emptyFieldPipe}}</div>
-                            <div class="textResponsive col-6 my-sm-0 my-3 flex-wrap"><b>คณะ</b> {{eduGroup.major | emptyFieldPipe}}</div>
-                            
-                        </div>
-                        <div class="row">
-                            <div class="textResponsive col-sm col-12 flex-wrap mb-sm-0 mb-3"><b>สาขา</b> {{eduGroup.franchise | emptyFieldPipe}}</div>
-                            <div class="textResponsive col flex-wrap"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel | emptyFieldPipe}}</div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="historyContent">
+                <div class="d-flex">
+                    <div class="keyValueGap" style="visibility:hidden; display: flex; align-items:center"><i class="textResponsive bi bi-mortarboard-fill me-2"></i></div>
+                    <ul>
+                        <li class="educationCell" *ngFor="let eduGroup of innerProfileInformation.educationHistory">
+                            <div class="verticalKeyGap"><b>ปีที่จบ</b> {{eduGroup.yearGraduated | emptyFieldPipe}}</div>
+                            <div class="verticalKeyGap"><b>มหาวิทยาลัย</b> {{eduGroup.universityName | emptyFieldPipe}}</div>
+                            <div class="verticalKeyGap"><b>คณะ</b> {{eduGroup.major | emptyFieldPipe}}</div>
+                            <div class="verticalKeyGap"><b>สาขา</b> {{eduGroup.franchise | emptyFieldPipe}}</div>
+                            <div class="verticalKeyGap"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel | emptyFieldPipe}}</div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <!-- <div class="row mb-3">
-            <div class="col-3">
-                <div class="me-3"><b>ประสบการณ์งาน</b></div>
-            </div>
-            <div class="col">
-                {{ WorkExperience }}
-            </div>
-        </div> -->
         <div class="verticalKeyGap">
-            <div class="d-flex flex-row historyHeader">
+            <div class="d-flex flex-row historyHeader verticalKeyGap">
                 <div class="d-flex flex-row">
-                    <div class="keyValueGap textResponsive" style="display: flex; align-items: center"><i class="bi bi-briefcase me-2"></i></div>
+                    <div class="keyValueGap textResponsive" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
                     <div class="textResponsive"><b>ประวัติการทำงาน</b></div>
                 </div>
                 <div class="d-flex">
-                    <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                    <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag | emptyFieldPipe}}</div>
+                    <div style="border:1px solid red" class="border-input subHeader textResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag | emptyFieldPipe}}</div>
                 </div>
             </div>
-            <div class="mt-4 historyContent" style="padding-left: 6rem">
-                <ul>
-                    <li *ngFor="let jobGroup of innerProfileInformation.jobHistory">
-                        <div class="textResponsive verticalKeyGap d-flex justify-content-start">
-                            <div class="me-5"><b>{{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded | emptyFieldPipe}}</b></div>
-                            <div><b>{{jobGroup.activeFlag? '':jobGroup.workExperience | emptyFieldPipe}}</b></div>
-                        </div>
-                        <div class="textResponsive verticalKeyGap">
-                            <div><b>{{jobGroup.companyName | emptyFieldPipe}}</b></div>
-                        </div>
-                        <div class="textResponsive verticalKeyGap">
-                            <div><b>{{jobGroup.jobName | emptyFieldPipe}}</b></div>
-                        </div>
-                        <div [innerHtml]="jobGroup.description" class="mt-3 textResponsive verticalKeyGap">
-                        </div>
-                    </li>
-                </ul>
+            <div class="historyContent">
+                <div class="d-flex">
+                    <div class="keyValueGap textResponsive" style="visibility:hidden; display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
+                    <ul>
+                        <li *ngFor="let jobGroup of innerProfileInformation.jobHistory">
+                            <div class="textResponsive verticalKeyGap d-flex justify-content-start">
+                                <div class="me-5"><b>{{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded | emptyFieldPipe}}</b></div>
+                                <div>{{jobGroup.activeFlag? '':jobGroup.workExperience | emptyFieldPipe}}</div>
+                            </div>
+                            <div class="textResponsive verticalKeyGap">
+                                <div>{{jobGroup.companyName | emptyFieldPipe}}</div>
+                            </div>
+                            <div class="textResponsive verticalKeyGap">
+                                <div>{{jobGroup.jobName | emptyFieldPipe}}</div>
+                            </div>
+                            <div [innerHtml]="jobGroup.description" class="textResponsive verticalKeyGap">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+        <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}"(click)="editClick()" type="button" class="btn fs-3 green-color" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 </ng-template>
 <ng-template #editPage>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
-        <div class="row">
-            <div class="col-xl-3 col-12">
-                <label for="highestEducation" class="textResponsive me-3 form-label"><b>ระดับการศึกษาสูงสุด</b></label>
+        <div class="d-flex flex-row">
+            <div class="m-3 ms-0">
+                <b><i class="bi bi-mortarboard-fill fs-2"></i></b>
             </div>
-            <div class="col-xl-7 col-12 mb-xl-0 mb-3">
-                <select formControlName="highestEducation"  class="textResponsive form-select mb-3 fs-3"  style="background-color:#f2f2f2" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && profileEditControls['highestEducation'].errors }">
-                    <option selected value="ปริญญาตรี">ปริญญาตรี</option>
-                    <option value="ปริญญาโท">ปริญญาโท</option>
-                    <option value="ปริญญาโท">ปริญญาเอก</option>
-                </select>
-                <div *ngIf="submitted && profileEditControls['highestEducation'].errors" class="invalid-feedback">
-                    <div *ngIf="profileEditControls['highestEducation'].errors['required']">กรุณาระบุระดับการศึกษาสูงสุด</div>
-                </div>
-            </div>
-        </div>
-        
-        <ng-container formArrayName="educationHistory">
-            <div class="row" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
-                <div class="col-xl-3 col-12 text-xxl-start text-center my-xl-2 my-5">
-                    <label *ngIf='i == 0' class="textResponsive form-label"><b>ประวัติการศึกษา </b></label>
-                </div>
-                <div class="col-xl-7 col-12 mb-3">
-                    <div class="row mb-4">
-                        <div class="col-4">
-                            <label for="universityName" class="textResponsive form-label"><b>ชื่อสถาบัน</b><label class="text-danger">*</label></label>
+            <div class="w-100">
+                <label class="fs-2 form-label my-3"><b>ประวัติการทำงาน</b></label>
+                <div class="verticalKeyGap">
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div class="keyValueGap">
+                            <div>ระดับการศึกษาสูงสุดของท่าน</div>
                         </div>
-                        <div class="col">
-                            <input style="background-color:#f2f2f2" formControlName="universityName" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="textResponsive fs-3 form-control me-3">
-                            <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
-                                <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-4">
-                            <label for="major" class="textResponsive form-label"><b>คณะ</b><label class="text-danger">*</label></label>
-                        </div>
-                        <div class="col">
-                            <input formControlName="major" type="text" style="background-color:#f2f2f2" class="textResponsive fs-3 form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
-                            <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
-                                <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-4">
-                            <label for="franchise" class="textResponsive form-label"><b>สาขา</b></label>
-                        </div>
-                        <div class="col">
-                            <input formControlName="franchise" type="text" class="textResponsive fs-3 form-control" style="background-color:#f2f2f2">
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-4">
-                            <label for="educationLevel" class="textResponsive form-label"><b>ระดับการศึกษา</b><label class="text-danger">*</label></label>
-                        </div>
-                        <div class="col">
-                            <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select textResponsive fs-3" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
-                                <option selected value="ปริญญาตรี">ปริญญาตรี</option>
+                        <div class="col d-flex">
+                            <!-- <input disabled class="border-input form-select fs-3" style="width:-webkit-fill-available; width:-moz-available" placeholder="{{innerProfileInformation.name + ' ' + innerProfileInformation.surname | emptyFieldPipe}}"> -->
+                            <select formControlName="highestEducation"  class="border-input form-select fs-3" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && profileEditControls['highestEducation'].errors }">
+                                <option selected disabled value="">ระดับการศึกษาสูงสุดของท่าน</option>
+                                <option value="ปริญญาตรี">ปริญญาตรี</option>
                                 <option value="ปริญญาโท">ปริญญาโท</option>
                                 <option value="ปริญญาโท">ปริญญาเอก</option>
                             </select>
-                            <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
-                                <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
+                            <div *ngIf="submitted && profileEditControls['highestEducation'].errors" class="invalid-feedback">
+                                <div *ngIf="profileEditControls['highestEducation'].errors['required']">กรุณาระบุระดับการศึกษาสูงสุด</div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-4">
-                        <div class="col-4 mb-3">
-                            <label for="yearGraduated" class="textResponsive form-label"><b>ปีที่จบ</b><label class="text-danger">*</label></label>
-                        </div>
+                </div>
+                <ng-container formArrayName="educationHistory">
+                    <div class="row" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
                         <div class="col">
-                            <select formControlName="yearGraduated" class="textResponsive form-select fs-3" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
-                                <option selected value="2023">2023</option>
-                                <option value="2022">2022</option>
-                                <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
-                                <option value="2018">2018</option>
-                                <option value="2017">2017</option>
-                                <option value="2016">2016</option>
-                                <option value="2015">2015</option>
-                                <option value="2014">2014</option>
-                                <option value="2013">2013</option>
-                                <option value="2012">2012</option>
-                                <option value="2011">2011</option>
-                                <option value="2010">2010</option>
-                                <option value="2009">2009</option>
-                                <option value="2008">2008</option>
-                                <option value="2007">2007</option>
-                                <option value="2006">2006</option>
-                                <option value="2005">2005</option>
-                                <option value="2004">2004</option>
-                                <option value="2003">2003</option>
-                                <option value="2002">2002</option>
-                                <option value="2001">2001</option>
-                                <option value="2000">2000</option>
-                                <option value="1999">1999</option>
-                                <option value="1998">1998</option>
-                                <option value="1997">1997</option>
-                                <option value="1996">1996</option>
-                                <option value="1995">1995</option>
-                                <option value="1994">1994</option>
-                                <option value="1993">1993</option>
-                                <option value="1992">1992</option>
-                                <option value="1991">1991</option>
-                                <option value="1990">1990</option>
-                                <option value="1989">1989</option>
-                                <option value="1988">1988</option>
-                                <option value="1987">1987</option>
-                                <option value="1986">1986</option>
-                                <option value="1985">1985</option>
-                                <option value="1984">1984</option>
-                                <option value="1983">1983</option>
-                                <option value="1982">1982</option>
-                                <option value="1981">1981</option>
-                                <option value="1980">1980</option>
-                                <option value="1979">1979</option>
-                                <option value="1978">1978</option>
-                                <option value="1977">1977</option>
-                                <option value="1976">1976</option>
-                                <option value="1975">1975</option>
-                                <option value="1974">1974</option>
-                                <option value="1973">1973</option>
-                                <option value="1972">1972</option>
-                                <option value="1971">1971</option>
-                                <option value="1970">1970</option>
-                                <option value="1969">1969</option>
-                                <option value="1968">1968</option>
-                                <option value="1967">1967</option>
-                                <option value="1966">1966</option>
-                                <option value="1965">1965</option>
-                                <option value="1964">1964</option>
-                                <option value="1963">1963</option>
-                                <option value="1962">1962</option>
-                                <option value="1961">1961</option>
-                                <option value="1960">1960</option>
-                                <option value="1959">1959</option>
-                                <option value="1958">1958</option>
-                                <option value="1957">1957</option>
-                                <option value="1956">1956</option>
-                                <option value="1955">1955</option>
-                                <option value="1954">1954</option>
-                                <option value="1953">1953</option>
-                                <option value="1952">1952</option>
-                                <option value="1951">1951</option>
-                                <option value="1950">1950</option>
-                            </select>
-                            <div *ngIf="submitted && number.controls['yearGraduated'].errors" class="invalid-feedback">
-                                <div *ngIf="number.controls['yearGraduated'].errors['required']">กรุณาระบุปีที่จบ</div>
+                            <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                <div class="keyValueGap">
+                                    <div>ชื่อมหาวิทยาลัย/ชื่อสถาบัน</div>
+                                </div>
+                                    <input formControlName="universityName" placeholder="ชื่อมหาวิทยาลัย หรือ ชื่อสถาบันการศึกษา" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="border-input form-control fs-3">
+                                    <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
+                                        <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
+                                    </div>
+                            </div>
+                            <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                <div class="keyValueGap">
+                                    <div>คณะ</div>
+                                </div>
+                                    <input formControlName="major" placeholder="คณะ" type="text"  class="border-input form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
+                                    <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
+                                        <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
+                                    </div>
+                            </div>
+                            <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                <div class="keyValueGap">
+                                    <div>สาขา</div>
+                                </div>
+                                <div class="d-flex">
+                                    <input formControlName="franchise" type="text" class="border-input form-control fs-3" >
+                                </div>
+                            </div>
+                            <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                <div class="keyValueGap">
+                                    <div>ระดับการศึกษา</div>
+                                </div>
+                                    <select formControlName="educationLevel"  class="form-select border-input fs-3" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
+                                        <option selected disabled value="">ระดับการศึกษา</option>
+                                        <option value="ปริญญาโท">ปริญญาโท</option>
+                                        <option value="ปริญญาเอก">ปริญญาเอก</option>
+                                        <option value="ปริญญาตรี">ปริญญาตรี</option>
+                                    </select>
+                                    <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
+                                        <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
+                                    </div>
+                            </div>
+                            <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                <div class="keyValueGap">
+                                    <div>ปีที่จบการศึกษา</div>
+                                </div>
+                                <select formControlName="yearGraduated" class="border-input form-select fs-3"  [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
+                                    <option disabled selected value="">เลือกปีที่จบการศึกษา</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2008">2008</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2006">2006</option>
+                                    <option value="2005">2005</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2001">2001</option>
+                                    <option value="2000">2000</option>
+                                    <option value="1999">1999</option>
+                                    <option value="1998">1998</option>
+                                    <option value="1997">1997</option>
+                                    <option value="1996">1996</option>
+                                    <option value="1995">1995</option>
+                                    <option value="1994">1994</option>
+                                    <option value="1993">1993</option>
+                                    <option value="1992">1992</option>
+                                    <option value="1991">1991</option>
+                                    <option value="1990">1990</option>
+                                    <option value="1989">1989</option>
+                                    <option value="1988">1988</option>
+                                    <option value="1987">1987</option>
+                                    <option value="1986">1986</option>
+                                    <option value="1985">1985</option>
+                                    <option value="1984">1984</option>
+                                    <option value="1983">1983</option>
+                                    <option value="1982">1982</option>
+                                    <option value="1981">1981</option>
+                                    <option value="1980">1980</option>
+                                    <option value="1979">1979</option>
+                                    <option value="1978">1978</option>
+                                    <option value="1977">1977</option>
+                                    <option value="1976">1976</option>
+                                    <option value="1975">1975</option>
+                                    <option value="1974">1974</option>
+                                    <option value="1973">1973</option>
+                                    <option value="1972">1972</option>
+                                    <option value="1971">1971</option>
+                                    <option value="1970">1970</option>
+                                    <option value="1969">1969</option>
+                                    <option value="1968">1968</option>
+                                    <option value="1967">1967</option>
+                                    <option value="1966">1966</option>
+                                    <option value="1965">1965</option>
+                                    <option value="1964">1964</option>
+                                    <option value="1963">1963</option>
+                                    <option value="1962">1962</option>
+                                    <option value="1961">1961</option>
+                                    <option value="1960">1960</option>
+                                    <option value="1959">1959</option>
+                                    <option value="1958">1958</option>
+                                    <option value="1957">1957</option>
+                                    <option value="1956">1956</option>
+                                    <option value="1955">1955</option>
+                                    <option value="1954">1954</option>
+                                    <option value="1953">1953</option>
+                                    <option value="1952">1952</option>
+                                    <option value="1951">1951</option>
+                                    <option value="1950">1950</option>
+                                </select>
+                                <div *ngIf="submitted && number.controls['yearGraduated'].errors" class="invalid-feedback">
+                                    <div *ngIf="number.controls['yearGraduated'].errors['required']">กรุณาระบุปีที่จบ</div>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-1 d-flex justify-content-center">
+                            <i *ngIf="i == 0" (click)="addEducation()" class="textResponsive button bi bi-plus-circle"></i>
+                            <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" textResponsive button bi bi-trash"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="col responsiveButton">
-                    <i *ngIf="i == 0" (click)="addEducation()" class="textResponsive button bi bi-plus-circle"></i>
-                    <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" textResponsive button bi bi-trash"></i>
-                </div>
+                </ng-container>
             </div>
-        </ng-container>
-        <ng-container formArrayName="jobHistory">
-            <ng-container [formGroupName]="i" *ngFor="let number of FormJobData; let i = index">
-                <div class="row">
-                    <div class="col-xl-3 col-12 text-xxl-start text-center my-xl-2 my-5">
-                        <label *ngIf='i == 0' class="textResponsive form-label"><b>ประวัติการทำงาน</b></label>
-                    </div>
-                    <div class="col-xl-10 col-12">
-                        <div class="row mb-3">
-                            <div class="col-xl-4 col-12">
-                                <label for="companyName" class="textResponsive form-label"><b>ชื่อบริษัท</b><label class="text-danger">*</label></label>
-                            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="m-3 ms-0">
+                <b><i class="bi bi-award-fill fs-2"></i></b>
+            </div>
+            <div class="w-100">
+                <label class="fs-2 form-label my-3"><b>ประวัติการทำงาน</b></label>
+                <ng-container formArrayName="jobHistory">
+                    <ng-container [formGroupName]="i" *ngFor="let number of FormJobData; let i = index">
+                        <div class="row">
                             <div class="col">
-                                <input style="background-color:#f2f2f2" formControlName="companyName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors}">
-                                <div *ngIf="submitted && number.controls['companyName'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['companyName'].errors['required']">กรุณาระบุชื่อบริษัท</div>
+                                <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                    <div class="keyValueGap">
+                                        <div>ชื่อบริษัท</div>
+                                    </div>
+                                    <input  formControlName="companyName" placeholder="ชื่อบริษัท" type="text" class="border-input form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors}">
+                                    <div *ngIf="submitted && number.controls['companyName'].errors" class="invalid-feedback">
+                                        <div *ngIf="number.controls['companyName'].errors['required']">กรุณาระบุชื่อบริษัท</div>
+                                    </div>
+                                </div>
+                                <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                    <div class="keyValueGap">
+                                        <div>ตำแหน่ง</div>
+                                    </div>
+                                    <input  formControlName="jobName" placeholder="ตำแหน่ง" type="text" class="border-input form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
+                                    <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
+                                        <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-xl-5 col-12">
+                                        <div class="textResponsive me-3">ประสบการณ์ทำงาน</div>
+                                    </div>
+                                    <div class="textResponsive col">
+                                        {{ number.value.workExperience }}
+                                    </div>
+                                </div>
+                                <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                    <div class="keyValueGap">
+                                        <div>ระยะเวลา</div>
+                                    </div>
+                                    <input  formControlName="dateStarted" placeholder="เริ่มทำงานเมื่อใด?" type="month" class="border-input form-control mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['dateStarted'].errors}">
+                                    <div *ngIf="submitted && number.controls['dateStarted'].errors" class="invalid-feedback">
+                                        <div *ngIf="number.controls['dateStarted'].errors['required']">กรุณาระบุวันที่เริ่มต้น</div>
+                                    </div>
+                                    <input  formControlName="dateEnded" placeholder="สิ้นสุดหน้าที่ในตำแหน่งนี้เมื่อใด?" type="month" class="border-input form-control mb-3 fs-3" [ngClass]="{'is-invalid': submitted && number.controls['dateEnded'].errors}">
+                                    <div *ngIf="submitted && number.controls['dateEnded'].errors" class="invalid-feedback">
+                                        <div *ngIf="number.controls['dateEnded'].errors['required']">กรุณาระบุวันที่สิ้นสุด</div>
+                                    </div>
+                                </div>
+                                <div class="form-check verticalKeyGap fs-3">
+                                    <input class="textResponsive form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
+                                    <label for="activeFlag" class="textResponsive text-center form-check-label">
+                                        ยังอยู่ในตำแหน่งนี้
+                                    </label>
+                                </div>
+                                <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
+                                    <div class="keyValueGap">
+                                        <div>อธิบายงาน</div>
+                                    </div>
+                                    <ckeditor formControlName="description" class="border-input fs-3" [editor]="descriptionEditor" name="editor"></ckeditor>
+                                </div>
+                            </div>
+                            <div class="col-1 d-flex justify-content-center">
+                                <div>
+                                    <div class="d-flex flex-start responsiveButton">
+                                        <i *ngIf="i == 0" (click)="addOccupation()" class="textResponsive button bi bi-plus-circle"></i>
+                                        <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class="textResponsive button bi bi-trash"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-xl-4 col-12">
-                                <label for="jobName" class="textResponsive form-label"><b>ตำแหน่ง</b><label class="text-danger">*</label></label>
-                            </div>
-                            <div class="col">
-                                <input style="background-color:#f2f2f2" formControlName="jobName" type="text" class="textResponsive form-control fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
-                                <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-xl-4 col-12">
-                                <label class="form-label textResponsive"><b>ระยะเวลา</b><label class="text-danger">*</label></label>
-                            </div>
-                            <div class="col">
-                                <label for="dateStarted" class="textResponsive form-label ">วันที่เริ่มต้น</label>
-                                <input style="background-color:#f2f2f2" formControlName="dateStarted" type="month" class="textResponsive form-control mb-3 fs-3" [ngClass]="{ 'is-invalid': submitted && number.controls['dateStarted'].errors}">
-                                <div *ngIf="submitted && number.controls['dateStarted'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['dateStarted'].errors['required']">กรุณาระบุวันที่เริ่มต้น</div>
-                                </div>
-                                <label for="dateEnded" class="textResponsive form-label">วันที่สิ้นสุด</label>
-
-                                <input style="background-color:#f2f2f2" formControlName="dateEnded" type="month" class="textResponsive form-control mb-3 fs-3" [ngClass]="{'is-invalid': submitted && number.controls['dateEnded'].errors}">
-                                <div *ngIf="submitted && number.controls['dateEnded'].errors" class="invalid-feedback">
-                                    <div *ngIf="number.controls['dateEnded'].errors['required']">กรุณาระบุวันที่สิ้นสุด</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-xl-5 col-12">
-                                <div class="textResponsive me-3"><b>ประสบการณ์ทำงาน</b></div>
-                            </div>
-                            <div class="textResponsive col">
-                                {{ number.value.workExperience }}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-xl-4 col-12">
-                                <label for="description" class="textResponsive mb-3 form-label"><b>อธิบายงาน</b></label>
-                            </div>
-                            <div class="col">
-                                <div class="mb-xxl-5 mb-1">
-                                    <ckeditor formControlName="description" class="textResponsive fs-3" [editor]="descriptionEditor" name="editor"></ckeditor>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col operatorHeader">
-                        <div>
-                            <div class="d-flex flex-start responsiveButton">
-                                <i *ngIf="i == 0" (click)="addOccupation()" class="textResponsive button bi bi-plus-circle"></i>
-                                <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class="textResponsive button bi bi-trash"></i>
-                            </div>
-                        </div>
-                        <div class="form-check">
-                            <input class="textResponsive form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
-                            <label for="activeFlag" class="textResponsive text-center fs-5 form-check-label">
-                                ยังอยู่ในตำแหน่งนี้
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
-        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
         <div class="align-items-baseline d-flex justify-content-center ms-3">
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button (click)="cancelClick()" class="btn btn-light saveButton" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-            <button type="submit" class="btn saveButton ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+            <button (click)="cancelClick()" class="btn fs-3 btn-light saveButton" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+            <button type="submit" class="btn fs-3 saveButton ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </form>
 </ng-template>

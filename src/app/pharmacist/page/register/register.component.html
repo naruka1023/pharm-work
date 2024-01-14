@@ -1,45 +1,46 @@
-<div class="container">
-    <div style="display:block; padding: 5vh 0">
-        <div class="d-lg-flex d-block justify-content-between">
-            <div class="col-lg-6 col-12">
-                <div class="card my-auto me-lg-4" style="border-radius: 20px; width: -webkit-fill-available; width: -moz-available;">
-                    <div class="card-body p-0">
-                        <div style="background-color:white;padding-bottom:2rem; border-radius: 20px">
-                            <ul class="nav justify-content-center fs-4 nav-tabs nav-fill nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" style="border-top-left-radius: 20px" (click)="changeRoles('pharma')" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" type="button" role="tab" aria-controls="normal-job-pane" aria-selected="false">เภสัชกร</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" style="border-top-right-radius: 20px" (click)="changeRoles('operator')" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">ผู้ประกอบการ</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" style="border-top-right-radius: 20px" (click)="changeRoles('student')" id="student" data-bs-toggle="tab" data-bs-target="#student-pane" type="button" role="tab" aria-controls="student-pane" aria-selected="false">นักศึกษาเภสัชกร</button>
-                                </li>
-                            </ul>
-                            <div style="text-align:center" class="mt-3" *ngIf="loadingFlag">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                            <div class="tab-content" style='background:white' id="myTabContent">
-                                <div class="d-flex my-3 justify-content-center card-title px-sm-5 px-3">
-                                    <h3>{{header}}</h3>
-                                </div>
-                                <div class="text-center text-danger my-3">{{errorMessage}}</div>
-                                <div class="px-sm-5 px-3 my-3 fs-6 text-danger" *ngIf="activeIndex == 1"><i>*ข้อมูลงานที่กำลังมองหาสามารถข้ามได้ โดยแก้ไขในหน้าโปรไฟล์ หัวข้องานที่กำลังมองหา</i></div>
-                                <div class="px-sm-5 px-3 my-3 fs-6 text-danger" *ngIf="activeIndex == 1"><i>*หากไม่เลือกประเภทงานที่สนใจ ผู้ประกอบการจะไม่พบข้อมูลของท่าน</i></div>
-                                <div class="px-sm-5 px-3 tab-pane fade show active" id="normal-job-pane" role="tabpanel" aria-labelledby="normal-job" tabindex="0">
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content" style=border-radius:20px>
+        <div>
+            <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link nav-pharma active" style="border-top-left-radius: 20px" (click)="changeRoles('pharma')" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" type="button" role="tab" aria-controls="normal-job-pane" aria-selected="false">เภสัชกร</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link nav-student" (click)="changeRoles('student')" id="student" data-bs-toggle="tab" data-bs-target="#student-pane" type="button" role="tab" aria-controls="student-pane" aria-selected="false">นักศึกษาเภสัชกร</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link nav-operator" style="border-top-right-radius: 20px" (click)="changeRoles('operator')" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">บริษัท</button>
+                </li>
+            </ul>
+        </div>
+            <div class="modal-body">
+                <h3 class="text-center card-title my-3" style="font-weight:bold" [innerHTML]="header"></h3>
+                <div style="text-align:center" class="mt-3" *ngIf="loadingFlag">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div class="tab-content" style='background:white' id="myTabContent">
+                    <div class="text-center text-danger my-3">{{errorMessage}}</div>
+                    <!-- <div class="px-sm-5 px-3 my-3 fs-6 text-danger" *ngIf="activeIndex == 1"><i>*ข้อมูลงานที่กำลังมองหาสามารถข้ามได้ โดยแก้ไขในหน้าโปรไฟล์ หัวข้องานที่กำลังมองหา</i></div>
+                    <div class="px-sm-5 px-3 my-3 fs-6 text-danger" *ngIf="activeIndex == 1"><i>*หากไม่เลือกประเภทงานที่สนใจ ผู้ประกอบการจะไม่พบข้อมูลของท่าน</i></div> -->
+                    <div class="px-sm-5 px-4 tab-pane fade show active" id="normal-job-pane" role="tabpanel" aria-labelledby="normal-job" tabindex="0">
 
-                                    <form [formGroup]="registerFormPharmacist">
-                                        <swiper #swiperFormPharma [allowTouchMove]="false" [virtual]="true" class="swiperFormPharma">
-                                            <ng-template swiperSlide>
-                                                <div style="background-color: white">
+                        <form [formGroup]="registerFormPharmacist">
+                            <swiper #swiperFormPharma (activeIndexChange)="onSwiper($event)" [navigation]="true" [allowTouchMove]="false" [virtual]="true" class="swiperFormPharma">
+                                <ng-template swiperSlide>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12 background-height" style="background-image:url('assets/pharmacist.png'); background-size: contain; background-position:center; background-repeat: no-repeat; height: auto">
+                                        </div>
+                                        <div class="col pe-lg-5 px-4">
+                                                <div class="d-flex justify-content-between flex-column" style="background-color: white">
                                                     <div class="form-group mb-3">
-                                                        <label for="email" class="form-label">Email<label class="text-danger">*</label></label>
                                                         <input
                                                             type="text"
                                                             formControlName="email"
-                                                            class="form-control"
+                                                            placeholder="อีเมล"
+                                                            class="form-control border-input"
                                                             [ngClass]="{ 'is-invalid': submitted && fP['email'].errors }"
                                                             style='background-color:#f2f2f2'
                                                         />
@@ -50,11 +51,11 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="password" class="form-label">Password<label class="text-danger">*</label></label>
                                                             <input
                                                                 type="password"
                                                                 formControlName="password"
-                                                                class="form-control"
+                                                                placeholder="รหัสผ่าน"
+                                                                class="form-control border-input"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['password'].errors }"
                                                                 style='background-color:#f2f2f2'
                                                             />
@@ -66,11 +67,11 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="confirmPassword" class="form-label">Confirm Password<label class="text-danger">*</label></label>
                                                             <input
                                                                 type="password"
                                                                 formControlName="confirmPassword"
-                                                                class="form-control"
+                                                                placeholder="ยืนยันรหัสผ"
+                                                                class="form-control border-input"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['confirmPassword'].errors }"
                                                                 style='background-color:#f2f2f2'
                                                             />
@@ -85,20 +86,20 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="nickName" class="form-label">ชื่อ Username</label>
                                                             <input
                                                                 type="text"
                                                                 formControlName="nickName"
-                                                                class="form-control"
+                                                                placeholder="ชื่อผู้ใช้งาน"
+                                                                class="form-control border-input"
                                                                 style="background-color:#f2f2f2"
                                                             />
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="gender" class="form-label">เพศ<label class="text-danger">*</label></label>
-                                                            <select formControlName="gender" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fP['gender'].errors }" aria-label="Default select example">
-                                                                <option selected value="ชาย">ชาย</option>
+                                                            <select formControlName="gender" class="form-select border-input" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fP['gender'].errors }" placeholder="เพศ" aria-label="Default select example">
+                                                                <option value="" disabled selected>เพศ</option>
+                                                                <option value="ชาย">ชาย</option>
                                                                 <option value="หญิง">หญิง</option>
                                                             </select>
                                                             <div *ngIf="submitted && fP['gender'].errors" class="invalid-feedback">
@@ -108,36 +109,26 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <div class="d-block">
-                                                                <label for="name" class="mb-0 form-label">ชื่อ ตามบัตรประชาชน<label class="text-danger">*</label></label>
-                                                                <div>
-                                                                    <label for="name" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
-                                                                </div>
-                                                            </div>
                                                             <input
                                                                 type="text"
                                                                 formControlName="name"
-                                                                class="form-control"
+                                                                class="form-control border-input"
                                                                 style="background-color:#f2f2f2"
+                                                                placeholder="ชื่อจริงตามบัตรประชาชน"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['name'].errors }"
                                                             />
                                                             <div *ngIf="submitted && fP['name'].errors" class="invalid-feedback">
-                                                                <div *ngIf="fP['name'].errors['required']">กรุณาระบุชื่อจริงตามบัตรประชาชน</div>
+                                                                <div *ngIf="fP['name'].errors['required']">กรุณาระบุชื่อจริงตามบัตรประชาชน (ไม่ต้องใส่คำนำหน้าชื่อ)</div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3 excessForm">
+                                                    <div class="mb-3">
                                                         <div class="form-group">
-                                                            <div class="d-block">
-                                                                <label for="surname" class="mb-0 form-label">นามสกุล ตามบัตรประชาชน<label class="text-danger">*</label></label>
-                                                                <div>
-                                                                    <label for="surname" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
-                                                                </div>
-                                                            </div>
                                                             <input
                                                                 type="text"
                                                                 formControlName="surname"
-                                                                class="form-control"
+                                                                class="form-control border-input"
+                                                                placeholder="นามสกุลจริงตามบัตรประชาชน"
                                                                 style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['surname'].errors }"
                                                             />
@@ -146,18 +137,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3 excessForm">
+                                                    <div class="mb-3">
                                                         <div class="form-group">
-                                                            <div class="d-block">
-                                                                <label for="license" class="mb-0 form-label">เลขใบประกอบ ภ.<label class="text-danger">*</label></label>
-                                                                <div>
-                                                                    <label for="license" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
-                                                                </div>
-                                                            </div>
                                                             <input
                                                                 type="number"
                                                                 formControlName="license"
-                                                                class="form-control"
+                                                                class="form-control border-input"
+                                                                placeholder="เลขใบประกอบวิชาชีพเภสัชกรรม"
                                                                 style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['license'].errors }"
                                                             />
@@ -167,321 +153,356 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <div class="form-check d-flex"> 
-                                                            <input formControlName="Agreement" class="me-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fP['Agreement'].errors }">
-                                                            <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
-                                                                ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label class="text-danger">*</label>
-                                                            </label>
-                                                            <div *ngIf="submitted && fP['Agreement'].errors" style="width:auto" class="invalid-feedback">
-                                                                <div *ngIf="fP['Agreement'].errors['required']" style="text-align: left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
+                               
+                                                </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template swiperSlide>
+                                    <!-- <div class="d-flex justify-content-start" style="background-color:white">
+                                        <button class="btn btn-primary mb-1 mt-2" (click)="backSlide()">Back <i class="bi bi-arrow-left"></i></button> 
+                                    </div> -->
+                                    <div class="row" style="background:white">
+                                        <div class="col-lg-6 col-12">
+                                            <label for="preferredJobType" class="form-label mb-lg-2"><label class="text-danger">*</label>งานที่ท่านกำลังมองหาหรืองานที่สนใจ</label>
+                                            <div *ngIf="submitted && registerFormPharmacist.get('preferredJobType')!.errors!" class="invalid-feedback d-block mb-3">
+                                                <div class="row">
+                                                    <div class="col">กรุณาเลือกประเภทงานที่สนใจอย่างน้อย 1 ชนิด</div>
+                                                </div>
+                                            </div>
+                                            <div  class="d-flex flex-column justify-content-between form-group mb-3 ps-lg-5 border-line"  formGroupName="preferredJobType" [ngClass]="{ 'is-invalid': submitted && registerFormPharmacist.get('preferredJobType')!.errors! }" style="border-right:1px solid grey; height:100%">
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="S" class="me-3 form-check-input" type="checkbox" value="" id="S">
+                                                        <label class="form-check-label" for="S">
+                                                            งานด่วนรายวัน
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="AA" class="me-3 form-check-input" type="checkbox" value="" id="AA">
+                                                        <label class="form-check-label" for="AA">
+                                                            งานร้านยาทั่วไป
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="AB" class="me-3 form-check-input" type="checkbox" value="" id="AB">
+                                                        <label class="form-check-label" for="AB">
+                                                            งานร้านยา Brand
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="AC" class="me-3 form-check-input" type="checkbox" value="" id="AC">
+                                                        <label class="form-check-label" for="AC">
+                                                            งานโรงพยาบาล
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="BA" class="me-3 form-check-input" type="checkbox" value="" id="BA">
+                                                        <label class="form-check-label" for="BA">
+                                                            งานคลินิก
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="BB" class="me-3 form-check-input" type="checkbox" value="" id="BB">
+                                                        <label class="form-check-label" for="BB">
+                                                            งานโรงงาน
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="BC" class="me-3 form-check-input" type="checkbox" value="" id="BC">
+                                                        <label class="form-check-label" for="BC">
+                                                            งานบริษัท
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="CA" class="me-3 form-check-input" type="checkbox" value="" id="CA">
+                                                        <label class="form-check-label" for="CA">
+                                                            งานวิจัย
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-flex flex-row-start mb-3">
+                                                        <input formControlName="CB" class="me-3 form-check-input" type="checkbox" value="" id="CB">
+                                                        <label class="form-check-label" for="CB">
+                                                            งานอื่นๆ
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-lg-6 col-12 pt-lg-0 pt-4">
+                                            <div class="form-group mb-3">
+                                                <label for="preferredTimeFrame" class="form-label"><label class="text-danger">*</label>ชนิดของพนักงานที่สนใจ</label>
+                                                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select border-input mb-3" style="background-color:#f2f2f2">
+                                                    <option value="" disabled selected>เลือกชนิดของพนักงาน</option>
+                                                    <option value="Full-Time">Full-Time</option>
+                                                    <option value="Part-Time">Part-Time</option>
+                                                    <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
+                                                </select>
+                                            </div>
+                                            <app-location [parentFormGroup]="registerFormPharmacist" [formGroupName]="'preferredLocation'" [registerFlag]="true"></app-location>
+                                            <div class="form-group">
+                                                <label for="preferredSalary" class="form-label"><label class="text-danger" style="visibility:hidden">*</label>เงินเดือนขั้นต่ำที่ต้องการ</label>
+                                                <select formControlName="preferredSalary" name="preferredSalary" class="form-select border-input mb-3" style="background-color:#f2f2f2">
+                                                    <option value="" disabled selected>ระบุเงินเดือนขั้นต่ำที่ต้องการ</option>
+                                                    <option  value="20,000">20,000</option>
+                                                    <option  value="30,000">30,000</option>
+                                                    <option  value="40,000">40,000</option>
+                                                    <option  value="50,000">50,000</option>
+                                                    <option  value="60,000">60,000</option>
+                                                    <option  value="70,000">70,000</option>
+                                                    <option  value="80,000">80,000</option>
+                                                    <option  value="90,000">90,000</option>
+                                                    <option  value="100,000+">100,000+</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="สามารถเริ่มงานได้เมื่อไหร่" class="form-label"><label class="text-danger" style="visibility:hidden">*</label>สามารถเริ่มงานได้เมื่อไหร่</label>
+                                                <select formControlName="preferredStartTime" name="preferredStartTime" class="form-select border-input mb-3" style="background-color:#f2f2f2">
+                                                    <option value="" disabled selected>เลือกวันที่สามารถเริ่มงานได้</option>
+                                                    <option  value="ทันที">ทันที</option>
+                                                    <option  value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
+                                                    <option  value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
+                                                    <option  value="ภายใน 3 สัปดาห์">ภายใน 3 สัปดาห์</option>
+                                                    <option  value="ภายใน 1 เดือน">ภายใน 1 เดือน</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template swiperSlide>
+                                    <!-- <div class="d-flex justify-content-start" style="background-color:white">
+                                        <button class="btn btn-primary mb-1 mt-2" (click)="backSlide()">Back <i class="bi bi-arrow-left">   </i></button> 
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="ps-lg-5 col-lg-6 col-12 border-line" style="border-right:1px solid grey">
+                                            <h3 style="background:white" class="d-flex flex-row-start mb-5 mt-3 text-center">
+                                                <div>
+                                                    <i class="bi bi-award-fill"></i>
+                                                </div>
+                                                <div class="text-start ps-3">
+                                                    <b>ข้อมูลการศึกษา ณ ปัจจุบัน</b>
+                                                    <span style='visibility: hidden'><b>ข้อมูลการศึกษา ณ ปัจจุบัน</b></span>
+                                                </div>
+                                            </h3>
+                                            <ng-container  formArrayName="educationHistory">
+                                                <div style="background-color:white" *ngFor="let number of pharmaFormEduData let i = index" [formGroupName] = "i">
+                                                        <div class="form-group pb-3">
+                                                            <label for="universityName" class="form-label">ชื่อมหาวิทยาลัย/ชื่อสถาบัน<label class="text-danger">*</label></label>
+                                                            <input 
+                                                                type="text" 
+                                                                formControlName="universityName" 
+                                                                class="form-control border-input"
+                                                                placeholder="ชื่อมหาวิทยาลัย"
+                                                                [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" 
+                                                                style="background-color:#f2f2f2">
+                                                            <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
+                                                                <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" (click)="nextSlide()">Next</button> 
-                                                </div>
-                                            </ng-template>
-                                            <ng-template swiperSlide>
-                                                <div class="d-flex justify-content-start" style="background-color:white">
-                                                    <button class="btn btn-primary mb-1 mt-2" (click)="backSlide()">Back <i class="bi bi-arrow-left"></i></button> 
-                                                </div>
-                                                <div style="background:white">
-                                                    <div class="form-group mb-3" formGroupName="preferredJobType" [ngClass]="{ 'is-invalid': submitted && registerFormPharmacist.get('preferredJobType')!.errors! }">
-                                                        <label for="preferredJobType" class="form-label">ประเภทงานที่สนใจ</label>
-                                                        <div class="row row-cols-xxl-3 row-cols-lg-2 row-cols-md-3 row-cols-2">
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="S" class="me-3 form-check-input" type="checkbox" value="" id="S">
-                                                                <label class="form-check-label" for="S">
-                                                                    งานด่วนรายวัน
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="AA" class="me-3 form-check-input" type="checkbox" value="" id="AA">
-                                                                <label class="form-check-label" for="AA">
-                                                                    งานร้านยาทั่วไป
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="AB" class="me-3 form-check-input" type="checkbox" value="" id="AB">
-                                                                <label class="form-check-label" for="AB">
-                                                                    งานร้านยา Brand
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="AC" class="me-3 form-check-input" type="checkbox" value="" id="AC">
-                                                                <label class="form-check-label" for="AC">
-                                                                    งานโรงพยาบาล
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="BA" class="me-3 form-check-input" type="checkbox" value="" id="BA">
-                                                                <label class="form-check-label" for="BA">
-                                                                    งานคลินิก
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="BB" class="me-3 form-check-input" type="checkbox" value="" id="BB">
-                                                                <label class="form-check-label" for="BB">
-                                                                    งานโรงงาน
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="BC" class="me-3 form-check-input" type="checkbox" value="" id="BC">
-                                                                <label class="form-check-label" for="BC">
-                                                                    งานบริษัท
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="CA" class="me-3 form-check-input" type="checkbox" value="" id="CA">
-                                                                <label class="form-check-label" for="CA">
-                                                                    งานวิจัย
-                                                                </label>
-                                                            </div>
-                                                            <div class="d-flex flex-row-start mb-3">
-                                                                <input formControlName="CB" class="me-3 form-check-input" type="checkbox" value="" id="CB">
-                                                                <label class="form-check-label" for="CB">
-                                                                    งานอื่นๆ
-                                                                </label>
+                                                        <div class="form-group mb-3">
+                                                            <label for="major" class="form-label">คณะ<label class="text-danger">*</label></label>
+                                                            <input formControlName="major" type="text" placeholder="คณะ" style="background-color:#f2f2f2" class="form-control border-input" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
+                                                            <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
+                                                                <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div *ngIf="submitted && registerFormPharmacist.get('preferredJobType')!.errors!" class="invalid-feedback">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-12col-3">
-                                                                <div class="responsiveText me-3" style="visibility:hidden"><b>ชนิดของพนักงาน</b></div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="franchise" class="form-label">สาขา</label>
+                                                            <div class="col">
+                                                                <input formControlName="franchise" placeholder="สาขา" type="text" class="form-control border-input" style="background-color:#f2f2f2">
                                                             </div>
-                                                            <div class="col">กรุณาเลือกประเภทงานที่สนใจอย่างน้อย 1 ชนิด</div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label for="preferredTimeFrame" class="form-label">ชนิดของพนักงาน</label>
-                                                        <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="form-select mb-3" style="background-color:#f2f2f2">
-                                                            <option value="Full-Time">Full-Time</option>
-                                                            <option value="Part-Time">Part-Time</option>
-                                                            <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
-                                                        </select>
-                                                    </div>
-                                                    <app-location [parentFormGroup]="registerFormPharmacist" [formGroupName]="'preferredLocation'" [registerFlag]="true"></app-location>
-                                                    <div class="form-group">
-                                                        <label for="preferredSalary" class="form-label">เงินเดือนขั้นต่ำที่ต้องการ</label>
-                                                        <select formControlName="preferredSalary" name="preferredSalary" class="form-select mb-3" style="background-color:#f2f2f2">
-                                                            <option selected value="20,000">20,000</option>
-                                                            <option  value="30,000">30,000</option>
-                                                            <option  value="40,000">40,000</option>
-                                                            <option  value="50,000">50,000</option>
-                                                            <option  value="60,000">60,000</option>
-                                                            <option  value="70,000">70,000</option>
-                                                            <option  value="80,000">80,000</option>
-                                                            <option  value="90,000">90,000</option>
-                                                            <option  value="100,000+">100,000+</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="สามารถเริ่มงานได้" class="form-label">สามารถเริ่มงานได้</label>
-                                                        <select formControlName="preferredStartTime" name="preferredStartTime" class="form-select mb-3" style="background-color:#f2f2f2">
-                                                            <option selected value="ทันที">ทันที</option>
-                                                            <option  value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
-                                                            <option  value="ภายใน 2 สัปดาห์">ภายใน 2 สัปดาห์</option>
-                                                            <option  value="ภายใน 3 สัปดาห์">ภายใน 3 สัปดาห์</option>
-                                                            <option  value="ภายใน 1 เดือน">ภายใน 1 เดือน</option>
-                                                        </select>
-                                                    </div>
-                                                    <button class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" (click)="nextSlide()">Next</button> 
+                                                        <div class="form-group mb-3">
+                                                            <label for="educationLevel" class="form-label">ระดับการศึกษา<label class="text-danger">*</label></label>
+                                                            <div class="col">
+                                                                <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select border-input" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
+                                                                    <option value="" selected disabled>ระดับการศึกษา</option>
+                                                                    <option value="ปริญญาตรี">ปริญญาตรี</option>
+                                                                </select>
+                                                                <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
+                                                                    <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="yearGraduated" class="form-label">ปีที่จบการศึกษา</label>
+                                                            <!-- <label class="form-label">(เฉพาะนศภ.ที่จบการศึกษาแล้วแต่ยังไม่ได้รับใบประกอบวิชาชีพ)</label> -->
+                                                            <div class="col">
+                                                                <select formControlName="yearGraduated" class="form-select border-input" style="background-color:#f2f2f2">
+                                                                    <option value="" selected disabled>เลือกปีที่จบการศึกษา</option>
+                                                                    <option value="2023">2023</option>
+                                                                    <option value="2022">2022</option>
+                                                                    <option value="2021">2021</option>
+                                                                    <option value="2020">2020</option>
+                                                                    <option value="2019">2019</option>
+                                                                    <option value="2018">2018</option>
+                                                                    <option value="2017">2017</option>
+                                                                    <option value="2016">2016</option>
+                                                                    <option value="2015">2015</option>
+                                                                    <option value="2014">2014</option>
+                                                                    <option value="2013">2013</option>
+                                                                    <option value="2012">2012</option>
+                                                                    <option value="2011">2011</option>
+                                                                    <option value="2010">2010</option>
+                                                                    <option value="2009">2009</option>
+                                                                    <option value="2008">2008</option>
+                                                                    <option value="2007">2007</option>
+                                                                    <option value="2006">2006</option>
+                                                                    <option value="2005">2005</option>
+                                                                    <option value="2004">2004</option>
+                                                                    <option value="2003">2003</option>
+                                                                    <option value="2002">2002</option>
+                                                                    <option value="2001">2001</option>
+                                                                    <option value="2000">2000</option>
+                                                                    <option value="1999">1999</option>
+                                                                    <option value="1998">1998</option>
+                                                                    <option value="1997">1997</option>
+                                                                    <option value="1996">1996</option>
+                                                                    <option value="1995">1995</option>
+                                                                    <option value="1994">1994</option>
+                                                                    <option value="1993">1993</option>
+                                                                    <option value="1992">1992</option>
+                                                                    <option value="1991">1991</option>
+                                                                    <option value="1990">1990</option>
+                                                                    <option value="1989">1989</option>
+                                                                    <option value="1988">1988</option>
+                                                                    <option value="1987">1987</option>
+                                                                    <option value="1986">1986</option>
+                                                                    <option value="1985">1985</option>
+                                                                    <option value="1984">1984</option>
+                                                                    <option value="1983">1983</option>
+                                                                    <option value="1982">1982</option>
+                                                                    <option value="1981">1981</option>
+                                                                    <option value="1980">1980</option>
+                                                                    <option value="1979">1979</option>
+                                                                    <option value="1978">1978</option>
+                                                                    <option value="1977">1977</option>
+                                                                    <option value="1976">1976</option>
+                                                                    <option value="1975">1975</option>
+                                                                    <option value="1974">1974</option>
+                                                                    <option value="1973">1973</option>
+                                                                    <option value="1972">1972</option>
+                                                                    <option value="1971">1971</option>
+                                                                    <option value="1970">1970</option>
+                                                                    <option value="1969">1969</option>
+                                                                    <option value="1968">1968</option>
+                                                                    <option value="1967">1967</option>
+                                                                    <option value="1966">1966</option>
+                                                                    <option value="1965">1965</option>
+                                                                    <option value="1964">1964</option>
+                                                                    <option value="1963">1963</option>
+                                                                    <option value="1962">1962</option>
+                                                                    <option value="1961">1961</option>
+                                                                    <option value="1960">1960</option>
+                                                                    <option value="1959">1959</option>
+                                                                    <option value="1958">1958</option>
+                                                                    <option value="1957">1957</option>
+                                                                    <option value="1956">1956</option>
+                                                                    <option value="1955">1955</option>
+                                                                    <option value="1954">1954</option>
+                                                                    <option value="1953">1953</option>
+                                                                    <option value="1952">1952</option>
+                                                                    <option value="1951">1951</option>
+                                                                    <option value="1950">1950</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                 </div>
-                                            </ng-template>
-                                            <ng-template swiperSlide>
-                                                <div class="d-flex justify-content-start" style="background-color:white">
-                                                    <button class="btn btn-primary mb-1 mt-2" (click)="backSlide()">Back <i class="bi bi-arrow-left"></i></button> 
+                                            </ng-container>
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <h3 style="background:white" class="d-flex flex-row-start mb-5 mt-3 text-center">
+                                                <div>
+                                                    <i class="bi bi-mortarboard-fill"></i>
                                                 </div>
-                                                <ng-container  formArrayName="educationHistory">
-                                                    <div style="background-color:white" *ngFor="let number of pharmaFormEduData let i = index" [formGroupName] = "i">
+                                                <div class="text-start ps-3">
+                                                    <b>ตำแหน่งงานปัจจุบันหรือตำแหน่งงานล่าสุดที่ท่านเคยทำ</b>
+                                                </div>
+                                            </h3>
+                                            <ng-container  formArrayName="jobHistory">
+                                                <div>
+                                                    <div style="background-color:white" *ngFor="let number of pharmaFormJobData let i = index" [formGroupName] = "i">
                                                             <div class="form-group pb-3">
-                                                                <label for="universityName" class="form-label">ชื่อสถาบัน<label class="text-danger">*</label></label>
+                                                                <label for="companyName" class="form-label">ชื่อบริษัท<label class="text-danger">*</label></label>
                                                                 <input 
                                                                     type="text" 
-                                                                    formControlName="universityName" 
-                                                                    class="form-control"
-                                                                    [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" 
+                                                                    formControlName="companyName" 
+                                                                    class="form-control border-input"
+                                                                    placeholder="ชื่อบริษัท"
+                                                                    [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors }" 
                                                                     style="background-color:#f2f2f2">
-                                                                <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
-                                                                    <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
+                                                                <div *ngIf="submitted && number.controls['companyName'].errors" class="invalid-feedback">
+                                                                    <div *ngIf="number.controls['companyName'].errors['required']">กรุณาระบุชื่อบริษัท</div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group mb-3">
-                                                                <label for="major" class="form-label">คณะ<label class="text-danger">*</label></label>
-                                                                <input formControlName="major" type="text" style="background-color:#f2f2f2" class="form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
-                                                                <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
-                                                                    <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
+                                                                <label for="jobName" class="form-label">ตำแหน่ง<label class="text-danger">*</label></label>
+                                                                <input formControlName="jobName" placeholder="ตำแหน่ง" type="text" style="background-color:#f2f2f2" class="form-control border-input" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors }">
+                                                                <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
+                                                                    <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group mb-3">
-                                                                <label for="franchise" class="form-label">สาขา</label>
+                                                                <label for="date" class="form-label">ระยะเวลา<label class="text-danger">*</label></label>
                                                                 <div class="col">
-                                                                    <input formControlName="franchise" type="text" class="form-control" style="background-color:#f2f2f2">
+                                                                    <input placeholder="เริ่มทำงานเมื่อใด?" style="background-color:#f2f2f2" formControlName="dateStarted" type="month" class="border-input textResponsive form-control mb-3" [ngClass]="{ 'is-invalid': submitted && number.controls['dateStarted'].errors}">
+                                                                    <div *ngIf="submitted && number.controls['dateStarted'].errors" class="invalid-feedback">
+                                                                        <div *ngIf="number.controls['dateStarted'].errors['required']">กรุณาระบุวันที่เริ่มต้น</div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="form-group mb-3">
-                                                                <label for="educationLevel" class="form-label">ระดับการศึกษา<label class="text-danger">*</label></label>
                                                                 <div class="col">
-                                                                    <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
-                                                                        <option selected value="ปริญญาตรี">ปริญญาตรี</option>
-                                                                    </select>
-                                                                    <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
-                                                                        <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
+                                                                    <input placeholder="สิ้นสุดหน้าที่ในตำแหน่งนี้เมื่อใด?" style="background-color:#f2f2f2" formControlName="dateEnded" type="month" class="border-input textResponsive form-control mb-3" [ngClass]="{'is-invalid': submitted && number.controls['dateEnded'].errors}">
+                                                                    <div *ngIf="submitted && number.controls['dateEnded'].errors" class="invalid-feedback">
+                                                                        <div *ngIf="number.controls['dateEnded'].errors['required']">กรุณาระบุวันที่สิ้นสุด</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label for="yearGraduated" class="form-label">ปีที่จบ</label>
-                                                                <label class="form-label">(เฉพาะนศภ.ที่จบการศึกษาแล้วแต่ยังไม่ได้รับใบประกอบวิชาชีพ)</label>
-                                                                <div class="col">
-                                                                    <select formControlName="yearGraduated" class="form-select " style="background-color:#f2f2f2">
-                                                                        <option selected value="2023">2023</option>
-                                                                        <option value="2022">2022</option>
-                                                                        <option value="2021">2021</option>
-                                                                        <option value="2020">2020</option>
-                                                                        <option value="2019">2019</option>
-                                                                        <option value="2018">2018</option>
-                                                                        <option value="2017">2017</option>
-                                                                        <option value="2016">2016</option>
-                                                                        <option value="2015">2015</option>
-                                                                        <option value="2014">2014</option>
-                                                                        <option value="2013">2013</option>
-                                                                        <option value="2012">2012</option>
-                                                                        <option value="2011">2011</option>
-                                                                        <option value="2010">2010</option>
-                                                                        <option value="2009">2009</option>
-                                                                        <option value="2008">2008</option>
-                                                                        <option value="2007">2007</option>
-                                                                        <option value="2006">2006</option>
-                                                                        <option value="2005">2005</option>
-                                                                        <option value="2004">2004</option>
-                                                                        <option value="2003">2003</option>
-                                                                        <option value="2002">2002</option>
-                                                                        <option value="2001">2001</option>
-                                                                        <option value="2000">2000</option>
-                                                                        <option value="1999">1999</option>
-                                                                        <option value="1998">1998</option>
-                                                                        <option value="1997">1997</option>
-                                                                        <option value="1996">1996</option>
-                                                                        <option value="1995">1995</option>
-                                                                        <option value="1994">1994</option>
-                                                                        <option value="1993">1993</option>
-                                                                        <option value="1992">1992</option>
-                                                                        <option value="1991">1991</option>
-                                                                        <option value="1990">1990</option>
-                                                                        <option value="1989">1989</option>
-                                                                        <option value="1988">1988</option>
-                                                                        <option value="1987">1987</option>
-                                                                        <option value="1986">1986</option>
-                                                                        <option value="1985">1985</option>
-                                                                        <option value="1984">1984</option>
-                                                                        <option value="1983">1983</option>
-                                                                        <option value="1982">1982</option>
-                                                                        <option value="1981">1981</option>
-                                                                        <option value="1980">1980</option>
-                                                                        <option value="1979">1979</option>
-                                                                        <option value="1978">1978</option>
-                                                                        <option value="1977">1977</option>
-                                                                        <option value="1976">1976</option>
-                                                                        <option value="1975">1975</option>
-                                                                        <option value="1974">1974</option>
-                                                                        <option value="1973">1973</option>
-                                                                        <option value="1972">1972</option>
-                                                                        <option value="1971">1971</option>
-                                                                        <option value="1970">1970</option>
-                                                                        <option value="1969">1969</option>
-                                                                        <option value="1968">1968</option>
-                                                                        <option value="1967">1967</option>
-                                                                        <option value="1966">1966</option>
-                                                                        <option value="1965">1965</option>
-                                                                        <option value="1964">1964</option>
-                                                                        <option value="1963">1963</option>
-                                                                        <option value="1962">1962</option>
-                                                                        <option value="1961">1961</option>
-                                                                        <option value="1960">1960</option>
-                                                                        <option value="1959">1959</option>
-                                                                        <option value="1958">1958</option>
-                                                                        <option value="1957">1957</option>
-                                                                        <option value="1956">1956</option>
-                                                                        <option value="1955">1955</option>
-                                                                        <option value="1954">1954</option>
-                                                                        <option value="1953">1953</option>
-                                                                        <option value="1952">1952</option>
-                                                                        <option value="1951">1951</option>
-                                                                        <option value="1950">1950</option>
-                                                                    </select>
+                                                            <div class="form-group mb-3">
+                                                                <div class="form-check">
+                                                                    <input formControlName="activeFlag" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                                        ฉันยังทำงานอยู่ในตำแหน่งนี้
+                                                                    </label>
                                                                 </div>
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                                <label for="description" class="form-label">อธิบายงานโดยสังเขป</label>
+                                                                <input formControlName="description" placeholder="อธิบายการทำงานในตำแหน่งนี้..." type="textbox" style="background-color:#f2f2f2" class="form-control border-input">
                                                             </div>
                                                     </div>
-                                                </ng-container>
-                                                <h5 style="background:white; display: none" class="mb-0 excessFormSecond py-5 text-center">ตำแหน่งงานปัจจุบันหรือตำแหน่งงานล่าสุดที่ท่านเคยทำ</h5>
-                                                <ng-container  formArrayName="jobHistory">
-                                                    <div class="excessFormSecond" style="display:none">
-                                                        <div style="background-color:white" *ngFor="let number of pharmaFormJobData let i = index" [formGroupName] = "i">
-                                                                <div class="form-group pb-3">
-                                                                    <label for="companyName" class="form-label">ชื่อบริษัท<label class="text-danger">*</label></label>
-                                                                    <input 
-                                                                        type="text" 
-                                                                        formControlName="companyName" 
-                                                                        class="form-control"
-                                                                        placeholder="ชื่อบริษัท"
-                                                                        [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors }" 
-                                                                        style="background-color:#f2f2f2">
-                                                                    <div *ngIf="submitted && number.controls['companyName'].errors" class="invalid-feedback">
-                                                                        <div *ngIf="number.controls['companyName'].errors['required']">กรุณาระบุชื่อบริษัท</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group mb-3">
-                                                                    <label for="jobName" class="form-label">ตำแหน่ง<label class="text-danger">*</label></label>
-                                                                    <input formControlName="jobName" placeholder="ตำแหน่ง" type="text" style="background-color:#f2f2f2" class="form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors }">
-                                                                    <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
-                                                                        <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group mb-3">
-                                                                    <label for="date" class="form-label">ระยะเวลา<label class="text-danger">*</label></label>
-                                                                    <div class="col">
-                                                                        <input placeholder="เริ่มทำงานเมื่อใด?" style="background-color:#f2f2f2" formControlName="dateStarted" type="month" class="textResponsive form-control mb-3" [ngClass]="{ 'is-invalid': submitted && number.controls['dateStarted'].errors}">
-                                                                        <div *ngIf="submitted && number.controls['dateStarted'].errors" class="invalid-feedback">
-                                                                            <div *ngIf="number.controls['dateStarted'].errors['required']">กรุณาระบุวันที่เริ่มต้น</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <input placeholder="สิ้นสุดหน้าที่ในตำแหน่งนี้เมื่อใด?" style="background-color:#f2f2f2" formControlName="dateEnded" type="month" class="textResponsive form-control mb-3" [ngClass]="{'is-invalid': submitted && number.controls['dateEnded'].errors}">
-                                                                        <div *ngIf="submitted && number.controls['dateEnded'].errors" class="invalid-feedback">
-                                                                            <div *ngIf="number.controls['dateEnded'].errors['required']">กรุณาระบุวันที่สิ้นสุด</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group mb-3">
-                                                                    <div class="form-check">
-                                                                        <input formControlName="activeFlag" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                                            ฉันยังทำงานอยู่ในตำแหน่งนี้
-                                                                        </label>
-                                                                      </div>
-                                                                </div>
-                                                                <div class="form-group mb-3">
-                                                                    <label for="description" class="form-label">อธิบายงานโดยสังเขป</label>
-                                                                    <input formControlName="description" placeholder="อธิบายการทำงานในตำแหน่งนี้..." type="textbox" style="background-color:#f2f2f2" class="form-control">
-                                                                </div>
-                                                        </div>
-                                                    </div>
-                                                </ng-container>
-                                                <button class="btn btn-primary my-1 mt-4" style="width: -webkit-fill-available; width: -moz-available;" (click)="onSubmit()">Submit</button> 
-                                                </ng-template>
-                                          </swiper>
-                                    </form>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mb-1">
+                                            <div class="form-check fs-lg-5 fs-6  mt-1"> 
+                                                <input formControlName="Agreement" class="border-input me-lg-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fP['Agreement'].errors }">
+                                                <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
+                                                    ฉันยอมรับ<span class="green-text">เงื่อนไข</span>และ<span class="green-text">ข้อตกลง</span>ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label>*</label>
+                                                </label>
+                                                <div *ngIf="submitted && fP['Agreement'].errors" style="width:auto" class="invalid-feedback">
+                                                    <div *ngIf="fP['Agreement'].errors['required']" style="text-align: left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </ng-template>
+                            </swiper>
+                        </form>
+                    </div>
+                    <div class="px-sm-5 px-3 tab-pane fade" id="urgent-job-pane" role="tabpanel" aria-labelledby="urgent-job" tabindex="0">
+                        <form [formGroup]="registerFormOperator" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-lg-6 col-12 background-height" style="background-image:url('assets/operator.png'); background-size: contain; background-position:center; background-repeat: no-repeat; height: auto">
                                 </div>
-                                <div class="px-sm-5 px-3 tab-pane fade" id="urgent-job-pane" role="tabpanel" aria-labelledby="urgent-job" tabindex="0">
-                                    <form [formGroup]="registerFormOperator" (ngSubmit)="onSubmit()">
+                                <div class="col pe-lg-5 px-4">
+                                    <div class="d-flex justify-content-between flex-column" style="background-color: white">
                                         <div class="form-group mb-3">
-                                            <label for="email" class="form-label">Email<label class="text-danger">*</label></label>
                                             <input
                                               type="text"
                                               formControlName="email"
-                                              class="form-control"
+                                              placeholder="อีเมล"
+                                              class="form-control border-input"
                                               style="background-color:#f2f2f2"
                                               [ngClass]="{ 'is-invalid': submitted && fO['email'].errors }"
                                             />
@@ -492,12 +513,12 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="password" class="form-label">Password<label class="text-danger">*</label></label>
                                                 <input
                                                     type="password"
+                                                    placeholder="รหัสผ่าน"
                                                     formControlName="password"
                                                     style="background-color:#f2f2f2"
-                                                    class="form-control"
+                                                    class="form-control border-input"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['password'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['password'].errors" class="invalid-feedback">
@@ -508,12 +529,12 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="confirmPassword" class="form-label">Confirm Password<label class="text-danger">*</label></label>
                                                 <input
                                                     type="password"
+                                                    placeholder="ยืนยันรหัสผ่าน"
                                                     formControlName="confirmPassword"
                                                     style="background-color:#f2f2f2"
-                                                    class="form-control"
+                                                    class="form-control border-input"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['confirmPassword'].errors }"
                                                 />
                                                 <div *ngIf="submitted && fO['confirmPassword'].errors" class="invalid-feedback">
@@ -527,11 +548,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="companyName" class="form-label">ชื่อธุรกิจที่จดทะเบียน<label class="text-danger">*</label></label>
                                                 <input
                                                     type="text"
                                                     formControlName="companyName"
-                                                    class="form-control"
+                                                    placeholder="ชื่อธุรกิจที่จดทะเบียนการค้า"
+                                                    class="form-control border-input"
                                                     style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['companyName'].errors }"
                                                 />
@@ -542,13 +563,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <div class="d-block">
-                                                    <label for="jobType" class="form-label">ประเภทธุรกิจ<label class="text-danger">*</label></label>
-                                                    <div  style="text-align:start">
-                                                        <label for="jobType" class="fs-6 form-label"><i>(ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
-                                                    </div>
-                                                </div>
-                                                <select formControlName="jobType" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fO['jobType'].errors }" aria-label="Default select example">
+                                                <select formControlName="jobType" class="form-select border-input" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fO['jobType'].errors }" aria-label="Default select example">
+                                                    <option selected disabled value="">เลือกประเภทธุรกิจ</option>
                                                     <option value="ร้านยาทั่วไป">ร้านยาทั่วไป</option>
                                                     <option value="ร้านยาแบรนด์">ร้านยาแบรนด์</option>
                                                     <option value="โรงพยาบาล">โรงพยาบาล</option>
@@ -565,14 +581,12 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="companyID" class="form-label">เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา<label class="text-danger">*</label></label>
-                                                <div style="text-align:start">
-                                                    <label for="companyID" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
-                                                </div>
+                                                <div class="mb-1"><i class="bi bi-question"></i></div>
                                                 <input
                                                     type="text"
                                                     formControlName="companyID"
-                                                    class="form-control"
+                                                    placeholder="เลขทะเบียนพาณิชย์ 13 หลัก"
+                                                    class="form-control border-input"
                                                     style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['companyID'].errors }"
                                                 />
@@ -584,11 +598,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="nameOfPerson" class="form-label">ชื่อผู้ติดต่อ<label class="text-danger">*</label></label>
                                                 <input
                                                     type="text"
                                                     formControlName="nameOfPerson"
-                                                    class="form-control"
+                                                    class="form-control border-input"
+                                                    placeholder="ชื่อผู้ติดต่อ"
                                                     style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['nameOfPerson'].errors }"
                                                 />
@@ -599,11 +613,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="phoneNumber" class="form-label">เบอร์โทรผู้ติดต่อ<label class="text-danger">*</label></label>
                                                 <input
                                                     type="text"
                                                     formControlName="phoneNumber"
-                                                    class="form-control"
+                                                    class="form-control border-input"
+                                                    placeholder="เบอร์โทรผู้ติดต่อ"
                                                     style="background-color:#f2f2f2"
                                                     [ngClass]="{ 'is-invalid': submitted && fO['phoneNumber'].errors }"
                                                 />
@@ -612,34 +626,37 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <div class="form-check d-flex"> 
-                                                <input formControlName="Agreement" class="me-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fO['Agreement'].errors }">
-                                                <label class="form-check-label" for="Agreement" style="color:black !important; text-align:left">
-                                                    ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้ประกอบการทุกประการ<label class="text-danger">*</label>
-                                                </label>
-                                                <div *ngIf="submitted && fO['Agreement'].errors" style="width:auto" class="invalid-feedback">
-                                                    <div *ngIf="fO['Agreement'].errors['required']" style="text-align:left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" type="submit">Submit</button> 
-                                    </form>
-                                </div>
-                                <div class="px-sm-5 px-3 tab-pane fade show" id="student-pane" role="tabpanel" aria-labelledby="student" tabindex="0">
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn btn-primary mb-1 mt-2" [ngStyle]="{'display':studentForm?'none': 'block'}" (click)="backSlideStudent()">Back <i class="bi bi-arrow-left"></i></button> 
                                     </div>
-                                    <form [formGroup]="registerFormStudent">
-                                        <swiper #swiperFormStudent [allowTouchMove]="false" [virtual]="true">
-                                            <ng-template swiperSlide>
-                                                <div style="background-color: white">
+                                </div>
+                            </div>
+                            <div class="mt-3 mb-1 d-flex justify-content-center">
+                                <div class="form-check fs-lg-5  mt-1"> 
+                                    <input formControlName="Agreement" class="me-lg-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fO['Agreement'].errors }">
+                                    <label class="form-check-label" for="Agreement" style="color:black !important; text-align:left">
+                                        ฉันยอมรับ<span class="purple-text">เงื่อนไข</span>และ<span class="purple-text">ข้อตกลง</span>ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label>*</label>
+                                    </label>
+                                    <div *ngIf="submitted && fO['Agreement'].errors" style="width:auto" class="invalid-feedback">
+                                        <div *ngIf="fO['Agreement'].errors['required']" style="text-align:left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="px-sm-5 px-3 tab-pane fade show" id="student-pane" role="tabpanel" aria-labelledby="student" tabindex="0">
+                        <form [formGroup]="registerFormStudent">
+                            <swiper #swiperFormStudent (activeIndexChange)="onSwiperStudent($event)" [navigation]="true" [allowTouchMove]="false" [virtual]="true">
+                                <ng-template swiperSlide>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12 background-height" style="background-image:url('assets/student.png'); background-size: contain; background-position:center; background-repeat: no-repeat; height: auto">
+                                        </div>
+                                        <div class="col pe-lg-5 px-4">
+                                            <div class="d-flex justify-content-between flex-column" style="background-color: white">
                                                     <div class="form-group mb-3">
-                                                        <label for="email" class="form-label">Email<label class="text-danger">*</label></label>
                                                         <input
                                                             type="text"
                                                             formControlName="email"
-                                                            class="form-control"
+                                                            class="form-control border-input"
+                                                            placeholder="อีเมล"
                                                             [ngClass]="{ 'is-invalid': submitted && fS['email'].errors }"
                                                             style='background-color:#f2f2f2'
                                                         />
@@ -650,11 +667,11 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="password" class="form-label">Password<label class="text-danger">*</label></label>
                                                             <input
                                                                 type="password"
                                                                 formControlName="password"
-                                                                class="form-control"
+                                                                class="form-control border-input"
+                                                                placeholder="รหัสผ่าน"
                                                                 [ngClass]="{ 'is-invalid': submitted && fS['password'].errors }"
                                                                 style='background-color:#f2f2f2'
                                                             />
@@ -666,11 +683,11 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="confirmPassword" class="form-label">Confirm Password<label class="text-danger">*</label></label>
                                                             <input
                                                                 type="password"
                                                                 formControlName="confirmPassword"
-                                                                class="form-control"
+                                                                class="form-control border-input"
+                                                                placeholder="ยืนยันรหัสผ่าน"
                                                                 [ngClass]="{ 'is-invalid': submitted && fS['confirmPassword'].errors }"
                                                                 style='background-color:#f2f2f2'
                                                             />
@@ -685,19 +702,19 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <div class="form-group">
-                                                            <label for="nickName" class="form-label">ชื่อ Username</label>
                                                             <input
                                                                 type="text"
+                                                                placeholder="ชื่อผู้ใช้งาน"
                                                                 formControlName="nickName"
-                                                                class="form-control"
+                                                                class="form-control border-input"
                                                                 style="background-color:#f2f2f2"
                                                             />
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <div class="form-group excessFormStudent">
-                                                            <label for="gender" class="form-label">เพศ<label class="text-danger">*</label></label>
-                                                            <select formControlName="gender" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fS['gender'].errors }" aria-label="Default select example">
+                                                        <div class="form-group">
+                                                            <select formControlName="gender" class="form-select border-input" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fS['gender'].errors }" aria-label="Default select example">
+                                                                <option selected disabled value="">เพศ</option>
                                                                 <option selected value="ชาย">ชาย</option>
                                                                 <option value="หญิง">หญิง</option>
                                                             </select>
@@ -707,17 +724,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <div class="form-group excessFormStudent">
-                                                            <div class="d-block">
-                                                                <label for="name" class="mb-0 form-label">ชื่อ ตามบัตรประชาชน<label class="text-danger">*</label></label>
-                                                                <div>
-                                                                    <label for="name" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
-                                                                </div>
-                                                            </div>
+                                                        <div class="form-group">
                                                             <input
                                                                 type="text"
                                                                 formControlName="name"
-                                                                class="form-control"
+                                                                class="form-control border-input"
+                                                                placeholder="ชื่อจริงตามบัตรประชาชน"
                                                                 style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fS['name'].errors }"
                                                             />
@@ -727,17 +739,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <div class="form-group excessFormStudent">
-                                                            <div class="d-block">
-                                                                <label for="surname" class="mb-0 form-label">นามสกุล ตามบัตรประชาชน<label class="text-danger">*</label></label>
-                                                                <div>
-                                                                    <label for="surname" class="fs-6 form-label"><i>(ไม่ต้องใส่คำนำหน้าชื่อ,ไม่สามารถแก้ไขได้ในภายหลัง)</i></label>
-                                                                </div>
-                                                            </div>
+                                                        <div class="form-group">
                                                             <input
                                                                 type="text"
                                                                 formControlName="surname"
-                                                                class="form-control"
+                                                                placeholder="นามสกุลจริงตามบัตรประชาชน"
+                                                                class="form-control border-input"
                                                                 style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fS['surname'].errors }"
                                                             />
@@ -747,7 +754,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- <div class="mb-3">
-                                                        <div class="form-group excessFormStudent">
+                                                        <div class="form-group">
                                                             <div class="d-block">
                                                                 <label for="license" class="mb-0 form-label">เลขใบประกอบ ภ.<label class="text-danger">*</label></label>
                                                                 <div>
@@ -757,7 +764,7 @@
                                                             <input
                                                                 type="text"
                                                                 formControlName="license"
-                                                                class="form-control"
+                                                                class="form-control border-input"
                                                                 style="background-color:#f2f2f2"
                                                                 [ngClass]="{ 'is-invalid': submitted && fP['license'].errors }"
                                                             />
@@ -768,7 +775,7 @@
                                                         </div>
                                                     </div> -->
                                                     <!-- <div class="mb-3">
-                                                        <div class="form-check d-flex excessFormStudent"> 
+                                                        <div class="form-check d-flex"> 
                                                             <input formControlName="Agreement" class="me-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fP['Agreement'].errors }">
                                                             <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
                                                                 ฉันยอมรับ เงื่อนไข และ ข้อตกลง ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label class="text-danger">*</label>
@@ -778,153 +785,186 @@
                                                             </div>
                                                         </div>
                                                     </div> -->
-                                                    <button type="button" class="btn btn-primary mb-1 mt-2" style="width: -webkit-fill-available; width: -moz-available;" (click)="nextSlideStudent()">Next</button> 
                                                 </div>
-                                            </ng-template>
-                                            <ng-template swiperSlide>
-
-                                                <ng-container  formArrayName="educationHistory">
-                                                    <div style="background-color:white" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
-                                                            <div class="form-group pb-3">
-                                                                <label for="universityName" class="form-label">ชื่อสถาบัน<label class="text-danger">*</label></label>
-                                                                <input 
-                                                                    type="text" 
-                                                                    formControlName="universityName" 
-                                                                    class="form-control"
-                                                                    [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" 
-                                                                    style="background-color:#f2f2f2">
-                                                                <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
-                                                                    <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template swiperSlide>
+                                    <h3 style="background:white" class="mb-5 mt-3">
+                                        <div class="text-center ps-3">
+                                            <b>ประวัติการศึกษา</b>
+                                        </div>
+                                    </h3>
+                                    <ng-container  formArrayName="educationHistory">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12 offset-lg-3">
+                                                <div style="background-color:white" *ngFor="let number of FormEduData let i = index" [formGroupName] = "i">
+                                                        <div class="form-group pb-3">
+                                                            <input 
+                                                                type="text" 
+                                                                formControlName="universityName" 
+                                                                class="form-control border-input"
+                                                                placeholder="ระบุชื่อมหาวิทยาลัย"
+                                                                [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" 
+                                                                style="background-color:#f2f2f2">
+                                                            <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
+                                                                <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <input formControlName="major" type="text" placeholder="ระบุคณะ" style="background-color:#f2f2f2" class="form-control border-input" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
+                                                            <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
+                                                                <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="franchise" class="form-label">สาขาที่ท่านกำลังศึกษา หรือ สำเร็จการศึกษา</label>
+                                                            <div class="col">
+                                                                <input formControlName="franchise" placeholder="ระบุสาขา" type="text" class="form-control border-input" style="background-color:#f2f2f2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <div class="col">
+                                                                <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select border-input" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
+                                                                    <option selected disabled value="">ระดับการศึกษา</option>
+                                                                    <option selected value="ปริญญาตรี">ปริญญาตรี</option>
+                                                                </select>
+                                                                <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
+                                                                    <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group mb-3">
-                                                                <label for="major" class="form-label">คณะ<label class="text-danger">*</label></label>
-                                                                <input formControlName="major" type="text" style="background-color:#f2f2f2" class="form-control" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
-                                                                <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
-                                                                    <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
-                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col">
+                                                                <select formControlName="yearGraduated" class="form-select border-input" style="background-color:#f2f2f2">
+                                                                    <option selected disabled value="">เลือกปีที่จบการศึกษา</option>
+                                                                    <option selected value="2023">2023</option>
+                                                                    <option value="2022">2022</option>
+                                                                    <option value="2021">2021</option>
+                                                                    <option value="2020">2020</option>
+                                                                    <option value="2019">2019</option>
+                                                                    <option value="2018">2018</option>
+                                                                    <option value="2017">2017</option>
+                                                                    <option value="2016">2016</option>
+                                                                    <option value="2015">2015</option>
+                                                                    <option value="2014">2014</option>
+                                                                    <option value="2013">2013</option>
+                                                                    <option value="2012">2012</option>
+                                                                    <option value="2011">2011</option>
+                                                                    <option value="2010">2010</option>
+                                                                    <option value="2009">2009</option>
+                                                                    <option value="2008">2008</option>
+                                                                    <option value="2007">2007</option>
+                                                                    <option value="2006">2006</option>
+                                                                    <option value="2005">2005</option>
+                                                                    <option value="2004">2004</option>
+                                                                    <option value="2003">2003</option>
+                                                                    <option value="2002">2002</option>
+                                                                    <option value="2001">2001</option>
+                                                                    <option value="2000">2000</option>
+                                                                    <option value="1999">1999</option>
+                                                                    <option value="1998">1998</option>
+                                                                    <option value="1997">1997</option>
+                                                                    <option value="1996">1996</option>
+                                                                    <option value="1995">1995</option>
+                                                                    <option value="1994">1994</option>
+                                                                    <option value="1993">1993</option>
+                                                                    <option value="1992">1992</option>
+                                                                    <option value="1991">1991</option>
+                                                                    <option value="1990">1990</option>
+                                                                    <option value="1989">1989</option>
+                                                                    <option value="1988">1988</option>
+                                                                    <option value="1987">1987</option>
+                                                                    <option value="1986">1986</option>
+                                                                    <option value="1985">1985</option>
+                                                                    <option value="1984">1984</option>
+                                                                    <option value="1983">1983</option>
+                                                                    <option value="1982">1982</option>
+                                                                    <option value="1981">1981</option>
+                                                                    <option value="1980">1980</option>
+                                                                    <option value="1979">1979</option>
+                                                                    <option value="1978">1978</option>
+                                                                    <option value="1977">1977</option>
+                                                                    <option value="1976">1976</option>
+                                                                    <option value="1975">1975</option>
+                                                                    <option value="1974">1974</option>
+                                                                    <option value="1973">1973</option>
+                                                                    <option value="1972">1972</option>
+                                                                    <option value="1971">1971</option>
+                                                                    <option value="1970">1970</option>
+                                                                    <option value="1969">1969</option>
+                                                                    <option value="1968">1968</option>
+                                                                    <option value="1967">1967</option>
+                                                                    <option value="1966">1966</option>
+                                                                    <option value="1965">1965</option>
+                                                                    <option value="1964">1964</option>
+                                                                    <option value="1963">1963</option>
+                                                                    <option value="1962">1962</option>
+                                                                    <option value="1961">1961</option>
+                                                                    <option value="1960">1960</option>
+                                                                    <option value="1959">1959</option>
+                                                                    <option value="1958">1958</option>
+                                                                    <option value="1957">1957</option>
+                                                                    <option value="1956">1956</option>
+                                                                    <option value="1955">1955</option>
+                                                                    <option value="1954">1954</option>
+                                                                    <option value="1953">1953</option>
+                                                                    <option value="1952">1952</option>
+                                                                    <option value="1951">1951</option>
+                                                                    <option value="1950">1950</option>
+                                                                </select>
                                                             </div>
-                                                            <div class="form-group mb-3">
-                                                                <label for="franchise" class="form-label">สาขา</label>
-                                                                <div class="col">
-                                                                    <input formControlName="franchise" type="text" class="form-control" style="background-color:#f2f2f2">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group mb-3">
-                                                                <label for="educationLevel" class="form-label">ระดับการศึกษา<label class="text-danger">*</label></label>
-                                                                <div class="col">
-                                                                    <select formControlName="educationLevel" style="background-color:#f2f2f2" class="form-select" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
-                                                                        <option selected value="ปริญญาตรี">ปริญญาตรี</option>
-                                                                    </select>
-                                                                    <div *ngIf="submitted && number.controls['educationLevel'].errors" class="invalid-feedback">
-                                                                        <div *ngIf="number.controls['educationLevel'].errors['required']">กรุณาระบุระดับการศึกษา</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="yearGraduated" class="form-label">ปีที่จบ</label>
-                                                                <label class="form-label">(เฉพาะนศภ.ที่จบการศึกษาแล้วแต่ยังไม่ได้รับใบประกอบวิชาชีพ)</label>
-                                                                <div class="col">
-                                                                    <select formControlName="yearGraduated" class="form-select " style="background-color:#f2f2f2">
-                                                                        <option selected value="2023">2023</option>
-                                                                        <option value="2022">2022</option>
-                                                                        <option value="2021">2021</option>
-                                                                        <option value="2020">2020</option>
-                                                                        <option value="2019">2019</option>
-                                                                        <option value="2018">2018</option>
-                                                                        <option value="2017">2017</option>
-                                                                        <option value="2016">2016</option>
-                                                                        <option value="2015">2015</option>
-                                                                        <option value="2014">2014</option>
-                                                                        <option value="2013">2013</option>
-                                                                        <option value="2012">2012</option>
-                                                                        <option value="2011">2011</option>
-                                                                        <option value="2010">2010</option>
-                                                                        <option value="2009">2009</option>
-                                                                        <option value="2008">2008</option>
-                                                                        <option value="2007">2007</option>
-                                                                        <option value="2006">2006</option>
-                                                                        <option value="2005">2005</option>
-                                                                        <option value="2004">2004</option>
-                                                                        <option value="2003">2003</option>
-                                                                        <option value="2002">2002</option>
-                                                                        <option value="2001">2001</option>
-                                                                        <option value="2000">2000</option>
-                                                                        <option value="1999">1999</option>
-                                                                        <option value="1998">1998</option>
-                                                                        <option value="1997">1997</option>
-                                                                        <option value="1996">1996</option>
-                                                                        <option value="1995">1995</option>
-                                                                        <option value="1994">1994</option>
-                                                                        <option value="1993">1993</option>
-                                                                        <option value="1992">1992</option>
-                                                                        <option value="1991">1991</option>
-                                                                        <option value="1990">1990</option>
-                                                                        <option value="1989">1989</option>
-                                                                        <option value="1988">1988</option>
-                                                                        <option value="1987">1987</option>
-                                                                        <option value="1986">1986</option>
-                                                                        <option value="1985">1985</option>
-                                                                        <option value="1984">1984</option>
-                                                                        <option value="1983">1983</option>
-                                                                        <option value="1982">1982</option>
-                                                                        <option value="1981">1981</option>
-                                                                        <option value="1980">1980</option>
-                                                                        <option value="1979">1979</option>
-                                                                        <option value="1978">1978</option>
-                                                                        <option value="1977">1977</option>
-                                                                        <option value="1976">1976</option>
-                                                                        <option value="1975">1975</option>
-                                                                        <option value="1974">1974</option>
-                                                                        <option value="1973">1973</option>
-                                                                        <option value="1972">1972</option>
-                                                                        <option value="1971">1971</option>
-                                                                        <option value="1970">1970</option>
-                                                                        <option value="1969">1969</option>
-                                                                        <option value="1968">1968</option>
-                                                                        <option value="1967">1967</option>
-                                                                        <option value="1966">1966</option>
-                                                                        <option value="1965">1965</option>
-                                                                        <option value="1964">1964</option>
-                                                                        <option value="1963">1963</option>
-                                                                        <option value="1962">1962</option>
-                                                                        <option value="1961">1961</option>
-                                                                        <option value="1960">1960</option>
-                                                                        <option value="1959">1959</option>
-                                                                        <option value="1958">1958</option>
-                                                                        <option value="1957">1957</option>
-                                                                        <option value="1956">1956</option>
-                                                                        <option value="1955">1955</option>
-                                                                        <option value="1954">1954</option>
-                                                                        <option value="1953">1953</option>
-                                                                        <option value="1952">1952</option>
-                                                                        <option value="1951">1951</option>
-                                                                        <option value="1950">1950</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                </ng-container>
-                                                <div style="background:white">
-                                                    <button class="btn btn-primary mb-1 mt-3" style="width: -webkit-fill-available; width: -moz-available;" (click)="onSubmit()">Submit</button> 
+                                                        </div>
                                                 </div>
-                                            </ng-template>
-                                          </swiper>
-                                    </form>
-                                </div>
-                              
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mt-3 mb-1">
+                                            <div class="form-check fs-lg-5 fs-6  mt-1"> 
+                                                <input formControlName="Agreement" class="border-input me-lg-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fS['Agreement'].errors }">
+                                                <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
+                                                    ฉันยอมรับ<span class="blue-text">เงื่อนไข</span>และ<span class="blue-text">ข้อตกลง</span>ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label>*</label>
+                                                </label>
+                                                <div *ngIf="submitted && fS['Agreement'].errors" style="width:auto" class="invalid-feedback">
+                                                    <div *ngIf="fS['Agreement'].errors['required']" style="text-align: left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                              </swiper>
+                        </form>
+                    </div>
+                    <div [ngSwitch]="role" class="mt-2">
+                        <div *ngSwitchCase="'เภสัชกร'">
+                            <div class="d-flex justify-content-center">
+                                <button class="green-color btn my-1 py-1 px-5 text-center fs-4" style="border-radius:100px; color:white" (click)="onSubmit()" [ngStyle]="{'display': swiperPharmaIndex !== 2?'none': 'unset'}">สมัครสมาชิก</button> 
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button class="green-color btn my-1 py-1 px-5 text-center fs-4" style="border-radius:100px; color:white" (click)="nextSlide(role == 'student')" [ngStyle]="{'display': swiperPharmaIndex == 2?'none': 'unset'}">ถัดไป</button> 
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'student'">
+                            <div class="d-flex justify-content-center">
+                                <button class="btn blue-color my-1 py-1 px-5 text-center fs-4" style="border-radius:100px; color:white" (click)="onSubmit()" [ngStyle]="{'display': swiperStudentIndex !== 0?'unset': 'none'}">สมัครสมาชิก</button> 
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn blue-color my-1 py-1 px-5 text-center fs-4" style="border-radius:100px; color:white" (click)="nextSlide(role == 'student')" [ngStyle]="{'display': swiperStudentIndex == 0?'unset': 'none'}">ถัดไป</button> 
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'ผู้ประกอบการ'">
+                            <div class="d-flex justify-content-center">
+                                <button class="btn purple-color my-1 py-1 px-5 text-center fs-4" style="border-radius:100px; color:white" (click)="onSubmit()">สมัครสมาชิก</button> 
                             </div>
                         </div>
                     </div>
+                    <div class="footer my-4 d-flex justify-content-center fs-5">
+                        <div>เป็นสมาชิกของ Pharmwork อยู่แล้ว? <a style="text-decoration:none; cursor:pointer" class="green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a></div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6 d-lg-block d-none">
-                <swiper #swiper [virtual]="true" [allowTouchMove]="false">
-                    <ng-template swiperSlide><img style="width: -webkit-fill-available; width: -moz-available;" src="assets/pharmacist.png"></ng-template>
-                    <ng-template swiperSlide><img style="width: -webkit-fill-available; width: -moz-available;" src="assets/operator.png"></ng-template>
-                    <ng-template swiperSlide><img style="width: -webkit-fill-available; width: -moz-available;" src="assets/student.png"></ng-template>
-                  </swiper>
             </div>
         </div>
     </div>
 </div>
+

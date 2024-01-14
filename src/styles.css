@@ -1,5 +1,62 @@
+@font-face {
+    font-family: 'NotoSans';
+    src: url('assets/fonts/NotoSansThai/NotoSansThai.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.cyan-color{
+    background: #CBEFFF;
+
+}
+.light-red-color{
+    background: #FFCBCB;
+}
+.online-interview-color{
+    background:#FFD4D4 !important;
+}
+.work-from-home-color{
+    background:#FDFF9C !important
+}
+
 /* You can add global styles to this file, and also import other style files */
 .ck-editor__editable_inline {
     min-height: 500px;
 }
+.semi-border-input{
+    border-radius:40px !important
+}
+.standard-shadow{
+    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.circle-shadow{
+    box-shadow: 0 0 0 3px #e78267;
+}
 html { scroll-behavior: smooth; }
+.green-text{
+    color: rgb(127, 216, 88) !important
+}
+.purple-text{
+    color: #D3A1F7
+}
+.border-input{
+    border-radius:100px !important
+}
+.blue-text{
+    color: #5cdfe4
+}
+.purple-color{
+    background-color:  #D3A1F7 !important;
+    border-color:  #D3A1F7 !important
+}
+.green-color{
+    background-color: rgb(127, 216, 88) !important;
+    border-color: rgb(127, 216, 88) !important
+}
+
+.green-border-color{
+    border: 4px solid rgb(127, 216, 88) !important
+}
+.blue-color{
+  background-color:#5cdfe4 !important;
+  border-color: #5cdfe4 !important;
+}

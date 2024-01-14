@@ -4,8 +4,7 @@
         <div class="fs-4 jobCount align-self-center ms-3 d-md-block d-none" *ngIf="filterFlags.CategorySymbol !== 'CB' && filterFlags.CategorySymbol !== 'BA'">{{ filterFlags.count }} ตำแหน่งงาน</div>
     </div>
     <div *ngIf="filterFlags.filterFlag"  style="cursor: pointer; background-color:#f2f2f2" (click)="goToList()"class="goToListText d-flex flex-row align-items-center">
-        <p class="goToListText h4 d-flex align-items-center me-3">ดูทั้งหมด</p>
-        <i class="d-flex bi bi-arrow-right-square align-items-center d-md-block d-none" style="font-size:1.5rem"></i>
+        <p class="green-text mb-0 goToListText h3 d-flex align-items-center me-3">ดูทั้งหมด</p>
     </div>
 </div>
     <ng-container

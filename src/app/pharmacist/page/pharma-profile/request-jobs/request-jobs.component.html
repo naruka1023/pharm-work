@@ -7,12 +7,11 @@
     </div>
 </ng-template>
 <ng-template #notEmpty>
-    <div class="row row-cols-xl-2">
+    <div class="row row-cols-xl-2 container">
         <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
             <div>
                 <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
             </div>
-            <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
         </ng-container>
     </div>
 </ng-template>

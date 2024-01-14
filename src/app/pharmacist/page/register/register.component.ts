@@ -1,5 +1,5 @@
 import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
-import { SwiperComponent } from "swiper/angular";
+import { EventsParams, SwiperComponent } from "swiper/angular";
 import SwiperCore, { Virtual } from 'swiper';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Validation from 'src/app/utils/validation';
@@ -22,6 +22,8 @@ SwiperCore.use([Virtual]);
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements AfterViewInit {
+  swiperPharmaIndex: number = 0;
+  swiperStudentIndex: number = 0;
   constructor(private userService:UserServiceService, private converter:JobTypeConverterService, private utilService:UtilService, private store:Store, private route: ActivatedRoute, private fb: FormBuilder){}
   private auth: Auth = inject(Auth)
   private db: Firestore = inject(Firestore)
@@ -35,16 +37,23 @@ export class RegisterComponent implements AfterViewInit {
   errorMessage: string = '';
   submitted:boolean = false;
   storage = getStorage();
-  header: string = 'ลงทะเบียน'
+  header: string = 'สมัครสมาชิก<span class="green-text">เภสัช</span>'
   pharmaForm:boolean = true;
   studentForm:boolean = true;
   
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
-  @ViewChild('swiperFormPharma', { static: false }) swiperFormPharma?: SwiperComponent;
-  @ViewChild('swiperFormStudent', { static: false }) swiperFormStudent?: SwiperComponent;
+  @ViewChild('swiperFormPharma', { static: false }) swiperFormPharma!: SwiperComponent;
+  @ViewChild('swiperFormStudent', { static: false }) swiperFormStudent!: SwiperComponent;
 
   ngOnInit(){
     this.initializeFormGroup()
+  }
+
+  onSwiper(params: any){
+    this.swiperPharmaIndex = this.swiperFormPharma?.swiperRef.activeIndex
+  }
+  onSwiperStudent(params: any){
+    this.swiperStudentIndex = this.swiperFormStudent?.swiperRef.activeIndex
   }
   
   ngAfterViewInit(){
@@ -88,7 +97,7 @@ export class RegisterComponent implements AfterViewInit {
       nickName: [''],
       surname: ['', [Validators.required]],
       // license: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-      // Agreement: [false, [Validators.requiredTrue]],
+      Agreement: [false, [Validators.requiredTrue]],
       educationHistory: this.fb.array([]),
       showProfileFlag: true,
       dateUpdated: new Date().toISOString().split('T')[0],
@@ -127,7 +136,6 @@ export class RegisterComponent implements AfterViewInit {
       nickName: [''],
       surname: ['', [Validators.required]],
       license: ['' , [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-      Agreement: [false, [Validators.requiredTrue]],
       preferredJobType: new FormGroup({
         S: new FormControl(false),
         AA: new FormControl(false),
@@ -149,6 +157,7 @@ export class RegisterComponent implements AfterViewInit {
       preferredStartTime: [''],
       dateUpdated: new Date().toISOString().split('T')[0],
       dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),
+      Agreement: [false, [Validators.requiredTrue]],
       preferredSalary: [''],
       WorkExperience: 0,
       AmountCompleted: 0,
@@ -166,7 +175,7 @@ export class RegisterComponent implements AfterViewInit {
       companyID: ['', [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
       nameOfPerson: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
-      Agreement: ['', [Validators.requiredTrue]]
+      Agreement: [false, [Validators.requiredTrue]]
     },
     {
       validators: [Validation.match('password', 'confirmPassword')]
@@ -228,49 +237,32 @@ export class RegisterComponent implements AfterViewInit {
   nextSlideStudent(){
     this.swiperFormStudent?.swiperRef.slideNext()
     const display = 'none'
-    const excessForm = document.querySelectorAll('.excessFormStudent');
-    this.header = 'ประวัติการศึกษา'
-    excessForm.forEach((eF: any) => {
-      eF.style.display = display;
-    });
     this.studentForm = false;
   }
   backSlideStudent(){
     this.swiperFormStudent?.swiperRef.slidePrev() 
     const display = 'block'
-    const excessForm = document.querySelectorAll('.excessFormStudent');
-    this.header = 'ลงทะเบียน'
-    excessForm.forEach((eF: any) => {
-      eF.style.display = display;
-    });
-    this.studentForm = true;
   }
-  nextSlide(){
-    this.swiperFormPharma?.swiperRef.slideNext()
-    let display = 'k'
-    let display2 = 'k'
-    switch(this.swiperFormPharma?.swiperRef.activeIndex){
-        case 1:
-          display = 'none'
-          display2 = 'none'
-          this.header = 'งานที่กำลังมองหา'
-          this.pharmaForm = true;
-        break;
-        case 2:
-          display = 'none'
-          display2 = 'block'
-          this.header = 'ข้อมูลการศึกษา ณ ปัจจุบัน'
-          this.pharmaForm = true;
-        break;
+  nextSlide(studentFlag: boolean){
+    if(studentFlag){
+      this.nextSlideStudent()
+    }else{
+      this.swiperFormPharma?.swiperRef.slideNext()
+      let display = 'k'
+      let display2 = 'k'
+      switch(this.swiperFormPharma?.swiperRef.activeIndex){
+          case 1:
+            display = 'none'
+            display2 = 'none'
+            this.pharmaForm = true;
+          break;
+          case 2:
+            display = 'none'
+            display2 = 'block'
+            this.pharmaForm = true;
+          break;
+      }
     }
-    const excessForm = document.querySelectorAll('.excessForm') as any;
-    excessForm.forEach((eF: any) => {
-      eF.style.display = display;
-    });
-    const excessForm2 = document.querySelectorAll('.excessFormSecond') as any;
-    excessForm2.forEach((eF: any) => {
-      eF.style.display = display2;
-    });
   }
   backSlide(){
     this.swiperFormPharma?.swiperRef.slidePrev() 
@@ -280,13 +272,11 @@ export class RegisterComponent implements AfterViewInit {
       case 0:
         display = 'block'
           display2 = 'none'
-          this.header = 'ลงทะเบียน'
           this.pharmaForm = false;
         break;
         case 1:
           display = 'none'
           display2 = 'none'
-          this.header = 'งานที่กำลังมองหา'
           this.pharmaForm = true;
         break;
     }
@@ -437,16 +427,18 @@ export class RegisterComponent implements AfterViewInit {
       case 'pharma':
         this.swiper?.swiperRef.slideTo(0) 
         this.role = 'เภสัชกร';
+        this.header = 'สมัครสมาชิก<span class="green-text">เภสัช</span>'
         this.backSlide()
         break;
         case 'operator':
-        this.swiper?.swiperRef.slideTo(1) 
+        this.swiper?.swiperRef.slideTo(2) 
         this.role = 'ผู้ประกอบการ';
-        this.header = 'ลงทะเบียน'
+        this.header = 'สมัครสมาชิก<span class="purple-text">บริษัท</span>'
         break;
         case 'student':
-          this.swiper?.swiperRef.slideTo(2) 
+          this.swiper?.swiperRef.slideTo(1) 
           this.role = 'student';
+          this.header = 'สมัครสมาชิก<span class="blue-text">นักศึกเภสัช</span>'
           this.backSlideStudent();
           break;
     }

@@ -1,11 +1,11 @@
 <div [ngSwitch]="profileType">
         <div *ngSwitchCase="'pharmacist-profile'" >
-            <div class="container" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+            <div class="container semi-border-input standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
                 <div style="position:relative">
                     <div *ngIf="editCoverPhotoFlag" id="coverPhotoEditButtonPositionDropdown" class="dropdown me-md-3 d-sm-block d-none" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '6'}">
                         <button data-bs-toggle="dropdown" 
                                 aria-expanded="false" 
-                                class="btn btn-secondary fs-3 coverPhotoEditButtonPosition">
+                                class="border-input btn btn-secondary fs-3 coverPhotoEditButtonPosition">
                                 <i class="bi bi-camera me-1"></i> ปรับแต่งรูป
                         </button>
                         <ul class="dropdown-menu p-2">
@@ -31,8 +31,8 @@
                         <img id="innerPhoto" class="innerCoverPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl"/>
                     </div>
                 </div>
-                <div class="outerHeader2Pharma d-flex justify-content-between" style="height:7rem">
-                    <div class="outerHeaderPharma d-flex justify-content-between">
+                <div class="outerHeader2Pharma d-flex justify-content-between">
+                    <div class="ms-4 mt-4 outerHeaderPharma d-flex justify-content-between">
                         <div>
                             <img class="job-post_profile-picture border border-5 border-white rounded-circle" id="profilePicture" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                             <div class="profileUploadButton" data-bs-toggle="dropdown">
@@ -50,17 +50,17 @@
                             <ng-template #editNickName>
                                 <div class="ms-lg-5">
                                     <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
-                                        <input class="form-control nickNameForm" style="font-size:3rem" formControlName="nickName">
+                                        <input class="form-control nickNameForm mt-1 border-input" style="font-size:3rem" formControlName="nickName">
                                     </form>
                                 </div>
                                 <div class="d-flex mainHeader">
-                                    <h5 style='align-self:end' class="mainHeaderContent mb-0 mt-lg-2 ms-lg-5"><i class="bi bi-house me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
+                                    <h5 style='align-self:end' class="mainHeaderContent mb-0 mt-lg-2 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
                                 </div>
                             </ng-template>
                             <ng-template #displayNickName>
                                 <div class="mainHeader">
-                                    <h2 style="font-size:3.5rem" class="mt-3 mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName}}</h2>
-                                     <h5 style='align-self:end' class="mainHeaderContent mb-0 mt-lg-2 ms-lg-5"><i class="bi bi-house me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
+                                    <h3  class="mt-4 mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName}}</h3>
+                                     <h5 style='align-self:end' class="mainHeaderContent mb-0 mt-lg-2 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
                                 </div>
                             </ng-template>
                             <div>
@@ -73,8 +73,8 @@
                             <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
-                            <button *ngIf="!editFlag" class="editButtonText rounded btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
-                                <i data-bs-toggle="tooltip" title='แก้ไขโปรไฟล์' class="user-buttons bi bi-pencil-square me-3"></i>แก้ไขแนะนำตัว
+                            <button *ngIf="!editFlag" class="editButtonText border-input btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
+                                แก้ไขโปรไฟล์
                             </button>
                             <button *ngIf="profileInformation$.studentFlag" class="btn-success editButtonText rounded btn fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="upgradeModalClick()">
                                 อัพเกรดบัญชี
@@ -84,7 +84,7 @@
                             <div *ngIf="editCoverPhotoFlag" class="dropdown me-md-3 d-sm-none" [ngStyle]="{'visibility': photoFlag, 'z-index': '6'}">
                                 <button data-bs-toggle="dropdown" 
                                         aria-expanded="false"  
-                                        class="btn btn-secondary fs-4 ms-sm-3 coverPhotoEditButtonPosition">
+                                        class="btn btn-secondary border-input fs-4 ms-sm-3 coverPhotoEditButtonPosition">
                                         <i class="bi bi-camera me-1"></i> ปรับแต่งรูป
                                 </button>
                                 <ul class="dropdown-menu p-2">
@@ -108,62 +108,59 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div class="d-lg-block d-none" style="visibility:hidden">
-                        <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="10" />
-                    </div>
-                    <div class="fs-5 mb-5 mt-4 ms-lg-5 fourPointersPharma" style="width: -webkit-fill-available; width: -moz-available">
+                    <div class="px-lg-4 fs-3 mb-4 ms-5 fourPointersPharma" style="width: -webkit-fill-available; width: -moz-available">
                         <div class="d-flex"></div>
-                        <div class="row my-2">
-                            <div class=" col-md-5 col-12 fourPointKeyValue">
+                        <div class="row my-3">
+                            <div class="col-12 fourPointKeyValue">
                                 <div class="d-flex me-xl-3">
-                                    <i class="bi bi-lightbulb me-3"></i>
+                                    <i class="bi bi-lightbulb-fill me-3"></i>
                                     หางาน  
                                 </div>
                                 <div class="d-flex">
                                     <div class="phantomPadding">
                                         <i class="bi bi-lightbulb me-3"></i>
                                     </div>
-                                    {{result.preferred.timeFrame | emptyFieldPipe}}
+                                    <b>{{result.preferred.timeFrame | emptyFieldPipe}}</b>
                                 </div>
                             </div>
-                            <div class="col fourPointKeyValue">
+                            <div class="col mt-3 fourPointKeyValue">
                                 <div class="d-flex me-xl-3">
-                                    <i class="bi bi-currency-bitcoin me-3"></i>
+                                    <i class="bi bi-bootstrap-fill me-3"></i>
                                     เงินเดือนขั้นต่ำที่ต้องการ 
                                 </div>
                                 <div class="d-flex">
                                     <div class="phantomPadding">
                                         <i class="bi bi-lightbulb me-3"></i>
                                     </div>
-                                    {{result.preferred.salary | emptyFieldPipe}}
+                                    <b>{{result.preferred.salary | emptyFieldPipe}}</b>
                                 </div>
                             </div>
                         </div>
-                        <div class="row my-2">
-                            <div class=" col-md-5 col-12 fourPointKeyValue">
+                        <div class="row my-3">
+                            <div class="col-12 fourPointKeyValue">
                                 <div class="d-flex me-xl-3">
-                                    <i class="bi bi-geo-alt me-3"></i>
+                                    <i class="bi bi-geo-fill me-3"></i>
                                     หางานพื้นที่
                                 </div>
                                 <div class="d-flex">
                                     <div class="phantomPadding">
                                         <i class="bi bi-lightbulb me-3"></i>
                                     </div>
-                                    {{result.preferred.district | emptyFieldPipe}}, {{result.preferred.province | emptyFieldPipe}}
+                                    <b>{{result.preferred.district | emptyFieldPipe}}, {{result.preferred.province | emptyFieldPipe}}</b>
                                 </div>
                             </div>
-                            <div class="col pe-lg-5 fourPointKeyValuePreferred">
+                            <div class="col mt-3 pe-lg-5 fourPointKeyValuePreferred">
                                 <div class="d-flex me-xl-3 me-3">
-                                    <i class="bi bi-clipboard me-3"></i>
+                                    <i class="bi bi-heart-fill me-3" style="color:red"></i>
                                     สนใจ 
                                 </div>
                                 <ng-container *ngIf="result.preferred.jobType == 0; then noPreferred; else Preferred"></ng-container>
                                 <ng-template #noPreferred>
-                                    <div>ไม่ระบุ</div>
+                                    <b><div>ไม่ระบุ</div></b>
                                 </ng-template>
                                 <ng-template #Preferred>
                                     <div class="preferredJobs">
-                                        <span class="badge rounded-pill text-bg-primary me-2" style="line-break: auto" *ngFor="let job of result.preferred.jobType">{{job}}</span>
+                                        <span class="badge rounded-pill text-bg-primary me-2" style="line-break: auto" *ngFor="let job of result.preferred.jobType"><b>{{job}}</b></span>
                                     </div>
                                 </ng-template>
                             </div>
@@ -173,30 +170,34 @@
                 </div>
                 <ng-container *ngIf="editFlag; then edit; else display"></ng-container>
                 <ng-template #edit>
-                    <div class="pb-5" style="padding: 0 10vw">
-                        <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
-                            <textarea class="form-control fs-3 pb-5" formControlName="introText" id="exampleFormControlTextarea1" rows="3"></textarea>
-                            <div class="d-flex justify-content-end mt-3">
-                                <button class="fs-2 btn btn-light"  (click)="cancelIntroText()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                                <button type="submit" class="ms-3 btn fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-                            </div>
-                        </form>
+                    <div class="d-flex">
+                        <div class="pb-5 ms-5">
+                            <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
+                                <textarea class="form-control fs-3" formControlName="introText" id="exampleFormControlTextarea1" cols="50"></textarea>
+                                <div class="d-flex justify-content-end mt-3">
+                                    <button class="fs-2 btn btn-light"  (click)="cancelIntroText()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                                    <button type="submit" class="ms-3 btn fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </ng-template>
                 <ng-template #display>
-                    <div class="fs-3 pb-5 introText" style="padding: 0 10vw; text-indent: 20px">{{result.introText}}</div>
+                    <div class="d-flex">
+                        <div class="ms-5 fs-3 pb-5 introText" [ngStyle]="{'display':result.introText == undefined?'none':'block'}">{{result.introText}}</div>
+                    </div>
                 </ng-template>
             </div>
         </div>
-        <div *ngSwitchCase="'job-post'" class="container" >
+        <div *ngSwitchCase="'job-post'" class="container standard-shadow" style="border-bottom-left-radius:40px; border-bottom-right-radius:40px">
             <div style="position:relative">
                 
                 <div id="coverPhoto"  class="coverPhoto img-container mh-100">
                     <img id="innerPhoto" class="innerCoverPhoto" draggable='false' [src]="result.coverPhotoPictureUrl" />
                 </div>
             </div>
-            <div class="outerHeader2 d-lg-flex justify-content-between pb-md-0 pb-1 mb-md-5" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-                <div class="outerHeader d-flex justify-content-lg-between">
+            <div class="outerHeader2 d-lg-flex justify-content-between pb-md-0 pb-1 mb-md-5" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
+                <div class="outerHeader m-4 d-flex justify-content-lg-between">
                     <img class="job-post_profile-picture border border-5 border-white rounded-circle" (click)="goToOperatorProfile()" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                     <div>
                         <div class="mainHeader">
@@ -209,7 +210,7 @@
                 </div>
                 <div class="mt-md-4 mt-2">
                     <div class="followButton d-flex justify-content-lg-between justify-content-center pb-0 pb-5">
-                        <button (click)="toggleFollow()" id="mouseTarget3" style="min-width: 12rem" class="btn mx-3 me-lg-5"  [ngClass]="!followingFlag? 'btn-outline-secondary': 'btn-outline-primary'">
+                        <button (click)="toggleFollow()" id="mouseTarget3" style="min-width: 12rem" class="btn mx-3 me-lg-5 border-input"  [ngClass]="!followingFlag? 'btn-outline-secondary': 'btn-outline-primary'">
                             <ng-container *ngIf="followLoading; then loading; else notLoading"></ng-container>
                             <ng-template #loading>
                                 <div>
@@ -234,24 +235,24 @@
                 </div>
             </div>
         </div>
-        <div *ngSwitchCase="'operator-profile'"  class="container px-0 pb-2" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+        <div *ngSwitchCase="'operator-profile'"  class="container px-0 pb-2 standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
             <div id="coverPhoto"  class="coverPhoto img-container mh-100">
                 <img id="innerPhoto" class="innerCoverPhoto" [src]="result.coverPhotoPictureUrl" />
             </div>
-            <div class="outerHeader2 d-flex justify-content-between"  style="height:15vh">
-                <div class="outerHeader d-flex justify-content-between">
+            <div class="outerHeader2 d-flex justify-content-between">
+                <div class="outerHeader m-4 d-flex justify-content-between">
                     <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                         <div class="align-items-center mainHeader">
                             <h3 class="m-4 ms-5 mb-0 me-md-2">{{result.companyName | emptyFieldPipe}}</h3> 
-                            <h5 style='align-self:end' class="my-2 ms-5 mb-0 me-md-2"><i class="bi bi-house me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
+                            <h5 style='align-self:end' class="my-2 ms-5 mb-0 me-md-2"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
                         </div>
                         <!-- <div>
                             <h6 class="mx-4"><i>{{result.JobType}}</i></h6>
                         </div> -->
                 </div>
-                <div class="mt-4">
+                <div class="m-4">
                     <div id="operatorFollow" class="followButton d-flex justify-content-between">
-                        <button (click)="toggleFollow()" id="mouseTarget" style="min-width: 12rem" class="btn mx-3 me-md-5"  [ngClass]="!followingFlag? 'btn-outline-secondary': 'btn-outline-primary'">
+                        <button (click)="toggleFollow()" id="mouseTarget" style="min-width: 12rem" class="btn border-input"  [ngClass]="!followingFlag? 'btn-outline-secondary': 'btn-outline-primary'">
                             <ng-container *ngIf="followLoading; then loading; else notLoading"></ng-container>
                             <ng-template #loading>
                                 <div>
@@ -276,27 +277,24 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="d-md-block d-none" style="visibility:hidden">
-                    <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="10" />
-                </div>
-                <div class="fs-5 fourPointers ms-5" style="width: -webkit-fill-available; width: -moz-available">
+                <div class="fs-3 fourPointers mx-5" style="width: -webkit-fill-available; width: -moz-available">
                     <div class="row my-sm-2 my-0">
-                        <div class="col-sm col-12 jobCounts2">
-                            <i class="bi bi-building me-3"></i>{{result.jobType | emptyFieldPipe}}
+                        <div class="col-sm col-offset-xl-3 col-12 jobCounts2">
+                            <i class="bi bi-bank2 me-3"></i>{{result.jobType | emptyFieldPipe}}
                         </div>
-                        <div class="col-sm col-12 jobCounts">
-                            <i class="bi bi-person me-3"></i>ผู้ติดตาม {{followers$ | async}} คน
-                            
-                             <!--<span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span> -->
+                        <div class="col-sm col-12 jobCounts2">
+                            <i class="bi bi-briefcase-fill me-3"></i>ประกาศงานทั่วไป 
+                            {{jobCount.normalJobs}}
                         </div>
                     </div>
                     <div class="row my-sm-2 my-0">
-                        <div class="col-sm col-12 jobCounts2">
-                            <i class="bi bi-briefcase me-3"></i>ประกาศงานทั่วไป 
-                            {{jobCount.normalJobs}}
+                        <div class="col-sm col-offset-xl-3 col-12 jobCounts">
+                            <i class="bi bi-people-fill me-3"></i>ผู้ติดตาม {{followers$ | async}} คน
+                            
+                            <!--<span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span> -->
                         </div>
                         <div class="col-sm col-12 jobCounts">
-                            <i class="bi bi-card-checklist me-3"></i>ประกาศงานด่วน 
+                            <i class="bi bi-calendar-check me-3"></i>ประกาศงานด่วน 
                             {{jobCount.urgentJobs}}
                         </div>
                     </div>
@@ -327,7 +325,7 @@
                     </button>
                 </div>
             </div>
-            <div class="fs-3 pb-5 introText" style="padding: 0 10vw; text-indent: 20px;">{{result.introText}}</div>
+            <div class="fs-3 pb-5 introText" [ngStyle]="{'display':result.introText == undefined?'none':'block'}" style="padding: 0 5vw; text-indent: 20px;">{{result.introText}}</div>
         </div>
     </div>
     <div class="modal fade" id="studentUpgradeModal" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">

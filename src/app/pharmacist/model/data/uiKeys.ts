@@ -2,21 +2,11 @@ import { filterConditions } from "../typescriptModel/jobPost.model";
 
 
 export const headerArray: filterConditions [] = [
-  // { 
-  //   header: 'งานเภสัชด่วนรายวัน',
-  //   filterFlag: true,
-  //   CategorySymbol:"AA",
-  //   loading: true,
-  //   count: 0,
-  //   allContent: [],
-  //   content: [],
-  //   bannerFlag: false
-  // },  
   { 
     header: 'งานจากร้านยา โรงพยาบาลและคลินิกชั้นนำ',
     filterFlag: false,
     CategorySymbol:"BA",
-    idList:['INGAXkwcFbbtQirdgRKMJW14Q7q1', 'Iw1OVpV7jPN9EhABx3j7uJQQcv53', 'nDct5ztDnnObt4KEW2XxGZQNRwp2', 'DHibmLGqGOfkjJVd3PRQgbWHspR2', 'jqAb1bpJOONmsfORePtGjjpxWdE2', 'ot1gOqcz4MZs5VCBB3XaLZmH7423', '6pSjZM6TGwbIEsq7rBoLf4d3y692', 'N7obV20LAIgiXYQSFKgr3FKOVMz2', 'TwJV9DwkPbWj7mTRIhaWRFlueSY2', 'N1JqQLcCLSfEQntq4Sl4e8IFOSt2'],
+    idList:['INGAXkwcFbbtQirdgRKMJW14Q7q1', 'Iw1OVpV7jPN9EhABx3j7uJQQcv53', 'eQPnLbi8z3e3G7ypwngwrOmDBLO2', 'lTdZbAZenmPW88Ra15Qfbr5ArQ33', 'nDct5ztDnnObt4KEW2XxGZQNRwp2',  'DHibmLGqGOfkjJVd3PRQgbWHspR2', 'jqAb1bpJOONmsfORePtGjjpxWdE2', 'ot1gOqcz4MZs5VCBB3XaLZmH7423', '6pSjZM6TGwbIEsq7rBoLf4d3y692', 'N7obV20LAIgiXYQSFKgr3FKOVMz2'],
     loading: true,
     allContent: [],
     count: 0,
@@ -32,6 +22,16 @@ export const headerArray: filterConditions [] = [
     count: 0,
     bannerFlag: false
   },
+  { 
+    header: 'งานเภสัชด่วนรายวัน',
+    filterFlag: true,
+    CategorySymbol:"AA",
+    loading: true,
+    count: 0,
+    allContent: [],
+    content: [],
+    bannerFlag: false
+  },  
   { 
     header: 'งานร้านยาทั่วไป',
     filterFlag: true,

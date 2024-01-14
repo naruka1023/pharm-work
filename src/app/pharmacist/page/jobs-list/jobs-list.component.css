@@ -5,6 +5,26 @@
   width: -moz-available;
   height: 50vh;
 }
+.input-icons i {
+  position: absolute;
+  right:6rem
+}
+
+.input-icons {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.icon {
+  padding: 10px;
+  min-width: 40px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+}
   @media only screen and (max-width: 768px) {
     .urgentForm, .notUrgentForm{
       height: 65vh !important;
@@ -18,4 +38,7 @@
       display: block !important;
       text-align:center !important 
     }
+  }
+  .headerContent{
+    border-top:2px solid lightgrey
   }

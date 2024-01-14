@@ -31,8 +31,6 @@ const routes: Routes = [
     { path: '', component: PharmaHomeComponent},
     { path: 'job-post', component: JobPostDetailsComponent, canDeactivate:[UrgentJobsGuard]},
     { path: 'jobs-list', component: JobsListComponent},
-    { path: 'login', component: LoginPageComponent},
-    { path: 'register', component: RegisterComponent},
     { path: 'operator-page', component: OperatorPageComponent,canActivate:[OperatorPageGuard]},
     { path: 'profile-pharma', component: PharmaProfileComponent,canActivate:[InnerProfileGuard], children:[
       { path: '',   redirectTo: 'inner-profile', pathMatch: 'full' },

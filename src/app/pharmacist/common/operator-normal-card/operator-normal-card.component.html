@@ -1,7 +1,7 @@
-<div class="card rounded">
+<div [ngClass]="requestViewFlag?requestStatus.status !== 'Pending'?'green-border-color':'':''" class="card semi-border-input standard-shadow">
     <div class="innerContent d-flex justify-content-start p-3 ">
         <div style='text-align:center'>
-            <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" (click)="goToOperatorProfile()" class="card-img-top m-auto my-3" style="width:fit-content" height="150" width="150">
+            <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" (click)="goToOperatorProfile()" class="card-img-top m-auto" style="width:fit-content" height="150" width="150">
         </div>
         <div class="fs-4 m-auto px-3 textContent" style="width:-webkit-fill-available; width:-moz-available">
             <div class="row">
@@ -13,60 +13,37 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <i class="bi bi-building me-3"></i>
+                    <i class="bi bi-bank2 me-3"></i>
                     {{content.jobType}}
                 </div>
             </div>
             <div class="row">
             <!-- <div class="row" *ngIf="content.Location !== undefined"> -->
                 <div class="col">
-                    <i class="me-3 bi bi-geo-alt "></i>
+                    <i class="me-3 bi bi-geo-fill"></i>
                     {{content.Location?.District | emptyFieldPipe}}, {{content.Location?.Province | emptyFieldPipe}}
                 </div>
             </div>
-            <!-- <div *ngIf="content.contacts !== undefined">
-                <div class="row" *ngIf="content.contacts!.email !== undefined">
-                    <div class="col">
-                        <i class="bi bi-envelope me-3"></i>
-                        {{content.contacts!.email}}
-                    </div>
-                </div>
-                <div class="row" *ngIf="content.contacts!.website !== undefined">
-                    <div class="col">
-                        <i class="bi bi-globe2 me-3"></i>
-                        {{content.contacts!.website}}
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </div>
         <ng-container *ngIf="requestViewFlag; then requestView; else notRequestView"></ng-container>
         <ng-template #requestView>
-            <div class="requestView d-flex justify-content-between align-items-center mt-3" style="width:-webkit-fill-available; width: -moz-available">
-                <div class="fs-5">ส่งเมื่อ {{ requestStatus.dateSent }}</div>
-                <div class="d-flex justify-content-end align-items-center fs-5">
+            <div class="requestView d-flex fs-3 justify-content-between align-items-center mt-3" style="width:-webkit-fill-available; width: -moz-available">
+                <div class="fs-4">ส่งเมื่อ {{ requestStatus.dateSent }}</div>
+                <div class="d-flex justify-content-end align-items-center">
                     <div *ngIf="requestViewLoading"style="text-align:center">
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    <ng-container *ngIf="requestStatus.status !== 'Pending'; then accepted; else notAccepted"></ng-container>
-                    <ng-template #accepted>
-                        <button class="btn btn-success ms-3 rounded" style="color:white">
-                            {{ requestStatus.status !== 'Pending'?'ยืนยันแล้ว':'ยืนยันเปิดเผยข้อมูล' }}
-                        </button>
-                    </ng-template>
-                    <ng-template #notAccepted>
-                        <button (click)="confirmRequestView()" class="btn btn-warning ms-3 rounded" style="color:white">
-                            {{ requestStatus.status !== 'Pending'?'ยืนยันแล้ว':'ยืนยันเปิดเผยข้อมูล' }}
-                        </button>
-
-                    </ng-template>
-                    <button (click)="revealText()"class="btn btn-warning ms-3 rounded" style="color:white">
+                    <button (click)="completeConfirmRequestView()" class="btn-width btn btn-outline-secondary me-3 px-3 border-input" [ngClass]="requestStatus.status !== 'Pending'?'green-text green-border-color':''">
+                        {{ requestStatus.status !== 'Pending'?'ยืนยันแล้ว':'ยืนยันเปิดเผยข้อมูล' }}
+                    </button>
+                    <button (click)="revealText()"class="btn-width btn btn-outline-secondary ms-3 px-3 border-input">
                         ดูข้อความแนบ
                     </button>
-                    <div (click)="removeRequestView()"><i class="bi bi-trash3 ms-3"></i></div>
+                    <div (click)="removeRequestView()"><i class="bi bi-trash3 ms-3 fs-3"></i></div>
                 </div>
             </div>
         </ng-template>
@@ -83,48 +60,9 @@
             </ng-template>
             <ng-template #notLoading>
                 <div class="followButton mb-3">
-                    <button (click)="unFollowOperator()" class="btn mt-3 btn-outline-primary" [id]="target" style="min-width: 12rem">
+                    <button (click)="unFollowOperator()" class="btn mt-3 border-input btn-outline-primary" [id]="target" style="min-width: 12rem">
                         <h3 class="mb-0" (mouseleave)="changeFollowedText('ติดตามแล้ว')" (mouseenter)="changeFollowedText('ยกเลิกติดตาม')">{{ followedText }}</h3>
                     </button>            
                 </div>
             </ng-template>
-        </ng-template>  
-        <div class="modal fade" id="confirmRequestView" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-md fs-4">
-              <div class="modal-content p-5">
-                  <ng-container *ngIf="successFlag; then success; else notSuccess"></ng-container>
-                  <ng-template #success>
-                    <div>
-                        <div class="d-flex justify-content-center">
-                            <i class="pe-auto bi bi-check-circle-fill" style="color:#7fd858"></i>
-                            <div class="fs-5 ms-2">ระบบจัดส่งใบสมัครของคุณเรียบร้อยแล้ว</div>
-                        </div>
-                        <div style="text-align:center" [ngStyle]="{'text-align': 'center', 'visibility':'hidden'}" class="my-3">
-                            <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-around mt-3 fs-4">
-                            <button class="btn btn-success px-4 p-2 fs-3" (click)="onClose()">ตกลง</button>
-                        </div>
-                    </div>
-                </ng-template>
-                <ng-template #notSuccess>
-                    <div>
-                        <div class="d-flex justify-content-center">
-                            คุณต้องการยืนยันเปิดเผยข้อมูลใช่หรือไม่
-                        </div>
-                        <div style="text-align:center" [ngStyle]="{'text-align': 'center', 'visibility': loadingConfirmRequestFlag? 'unset':'hidden'}" class="my-3">
-                            <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-around mt-3 fs-4">
-                            <button class="btn btn-light p-2 px-4 fs-3" (click)="onClose()">ยกเลิก</button>
-                            <button class="btn  p-2 px-4 fs-3" style="border-color: #7fd858; background:#7fd858" (click)="completeConfirmRequestView()">ตกลง</button>
-                        </div>
-                    </div>
-                    </ng-template>
-              </div>
-            </div>
-          </div>            
+        </ng-template>       

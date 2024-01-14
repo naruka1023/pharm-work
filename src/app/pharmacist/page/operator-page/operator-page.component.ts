@@ -59,7 +59,6 @@ export class OperatorPageComponent implements OnDestroy{
       this.requestViewFlag = (request == 'true'? true: false)
     }
     this.jobType = this.route.snapshot.queryParamMap.get('jobType')!
-    this.jobType = 'ร้านยาทั่วไป'
 
     this.operatorExistFlag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
     if(!this.operatorExistFlag){

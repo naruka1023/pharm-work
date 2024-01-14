@@ -210,7 +210,8 @@ export class JobPostDetailsComponent implements OnDestroy{
       return newJob
     }).subscribe((res: jobPostModel)=> {
       if(res !== undefined) {
-        if(Object.keys(res).length <= 22){
+        console.log(Object.keys(res).length)
+        if(Object.keys(res).length <= 24){
           this.jobPostService.getJob(this.id).then((job: jobPostModel)=>{
             switch(this.childrenPath){
               case 'homePage':

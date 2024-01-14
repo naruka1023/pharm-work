@@ -262,6 +262,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
           this.operator =  operator;
           this.operatorUID = operator.uid;
           this.result = operator
+          console.log(this.result)
           if(this.result.cropProfilePictureUrl == ''){
             delete this.result.cropProfilePictureUrl
           }

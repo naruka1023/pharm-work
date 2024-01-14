@@ -61,9 +61,6 @@
 .subHeader{
     margin-left:5rem
 }
-.editButton > button, .saveButton, .textResponsive{
-    font-size:1.75rem
-}
 .phantom{
     display:none
 }

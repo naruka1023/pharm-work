@@ -22,7 +22,6 @@ export class OperatorNormalCardComponent{
   @Input()followerUID: string = '';
   @Input()requestViewFlag: boolean = false;
   localFlag: any;
-  formModal: any;
 
   target: string = "mouseTarget" + this.followerUID
   loadingConfirmRequestFlag: boolean = false
@@ -36,9 +35,6 @@ export class OperatorNormalCardComponent{
   operatorUID!: string;
 
   ngOnInit(){
-    this.formModal = new window.bootstrap.Modal(
-      document.getElementById('confirmRequestView')
-      );
     if(this.content.cropProfilePictureUrl == ''){
       delete this.content.cropProfilePictureUrl
     }
@@ -62,26 +58,19 @@ export class OperatorNormalCardComponent{
     this.followedText = text;
   }
 
-  onClose(){
-    this.formModal.hide()
-  }
 
   
   revealText(){
     this.utilService.sendRequestViewSubject(this.requestStatus)
   }
 
-  confirmRequestView(){
-    this.formModal.show()
-  }
 
   completeConfirmRequestView(){
-    this.loadingConfirmRequestFlag = true
-    this.formModal.hide()
-    this.userService.confirmRequestView(this.requestStatus).then(()=>{
-      this.loadingConfirmRequestFlag = false
-      this.successFlag = true
-    })
+    if(this.requestStatus.status == 'Pending'){
+      this.userService.confirmRequestView(this.requestStatus)
+    }else{
+      this.userService.confirmRequestPendingView(this.requestStatus)
+    }
   }
 
   removeRequestView(){

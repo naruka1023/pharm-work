@@ -122,6 +122,11 @@ export class UserServiceService {
       status: 'Accepted'
     })
   }
+  confirmRequestPendingView(requestStatus: requestView){
+    return updateDoc(doc(this.firestore, 'request-view',requestStatus.requestViewUID!), {
+      status: 'Pending'
+    })
+  }
 
   getListOfUsersFromRequestView(array:requestView[]): Promise<requestView[]> {
     let promises: Promise<any>[] = []

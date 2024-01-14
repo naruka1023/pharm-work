@@ -12,14 +12,17 @@ SwiperCore.use([Navigation]);
 })
 
 export class LoginPageComponent implements AfterViewInit{
+  mainPageFlag: boolean = true
   private auth: Auth = inject(Auth)
   loginFlag:boolean = false;
   modalErrorFlag: boolean = false;
   modalLoadingFlag:boolean = false;
   errorFlag:boolean = false;
+  loginImage: string = 'url("assets/pharmaLogin.png")'
   errorMessage: string = 'โปรดใส่อีเมลและรหัสผ่านให้ถูก';
   swiper!: any;
-  header: string = 'เภสัช'
+  pharmaFlag: string | boolean = true
+  header: string = 'เข้าสู่ระบบ<span class="green-text">เภสัช</span>'
   loginForm!:FormGroup;
   email!: FormControl;
   resetSuccessful: boolean = false;
@@ -51,10 +54,14 @@ export class LoginPageComponent implements AfterViewInit{
   }
 
   changeHeader(isPharma: boolean | string){
+    this.mainPageFlag = true
+    this.pharmaFlag = isPharma;
     if(isPharma == 'student'){
-      this.header = 'นักษึกษาเภสัชกร'
+      this.header = 'เข้าสู่ระบบ<span class="blue-text">นักศึกเภสัช</span>'
+      this.loginImage = 'url("assets/studentLogin.png")'
     }else{
-      this.header = isPharma? 'เภสัช' : 'ผู้ประกอบการ'
+      this.header = isPharma? 'เข้าสู่ระบบ<span class="green-text">เภสัช</span>' : 'เข้าสู่ระบบ<span class="purple-text">บริษัท</span>'
+      this.loginImage = isPharma? 'url("assets/pharmaLogin.png")' : 'url("assets/operatorLogin.png")'
     }
   }
 
@@ -74,6 +81,11 @@ export class LoginPageComponent implements AfterViewInit{
       this.modalErrorFlag = true;
       this.modalLoadingFlag = false
     });
+  }
+
+  forgetPasswordOpen(){
+    this.header = 'โปรดใส่อีเมลเพื่อรีเซ็ตรหัสผ่าน'
+    this.mainPageFlag = false
   }
 
   onSubmit(){

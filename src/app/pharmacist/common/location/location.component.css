@@ -3,6 +3,15 @@
         font-size:smaller !important
     }
 }
+@media only screen and (max-width: 576px) {
+    .keyValueGap{
+        margin-right: 1rem !important
+    }
+
+}
+.keyValueGap{
+    margin-right:2.5rem
+}
 @media only screen and (max-width: 768px) {
     .textResponsive{
         font-size:medium !important

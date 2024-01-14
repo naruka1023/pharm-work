@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class EmptyFieldPipePipe implements PipeTransform {
 
   transform(value:any, ...args: unknown[]): unknown {
-    if(value == '' || value == undefined || value == null){
+    if(value == ' - ' || value == '' || value == undefined || value == null){
       return 'ไม่ระบุ'
     }
     return value;
