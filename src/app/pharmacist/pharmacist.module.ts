@@ -45,7 +45,6 @@ import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/pre
 import { requestViewReducer } from './state/reducers/request-view.reducers';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { OperatorSmallCardComponent } from './common/operator-small-card/operator-small-card.component';
 import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
@@ -57,7 +56,7 @@ import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
 
 
 @NgModule({

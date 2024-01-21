@@ -1,3 +1,8 @@
+@media only screen and (max-width: 515px) {
+    .contentContainer{
+        padding: 1rem !important
+    }
+}
 @media only screen and (max-width: 830px) {
     .contentContainer{
       overflow-x:scroll
@@ -12,11 +17,6 @@
     }
     .tabList{
         font-size: medium !important
-    }
-}
-@media only screen and (max-width: 515px) {
-    .contentContainer{
-        padding: 1rem !important
     }
 }
 .nav-item{

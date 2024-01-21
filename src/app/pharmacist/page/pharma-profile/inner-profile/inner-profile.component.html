@@ -10,25 +10,40 @@
         <div class="mx-sm-4 mx-0 fs-2">
             <div class="upperTitle d-flex justify-content-between">
                 <div class="my-lg-3 mainTitle"><b>ฝากประวัติ</b></div> 
-                <div class="privacySection d-flex justify-content-center align-items-center">
+                <div class="privacySection textProfileResponsive d-flex justify-content-center align-items-center">
                     <div style="text-align:center" class="me-3" *ngIf="privacyLoadingFlag">
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
                     <i class="bi bi-question-lg me-3" (click)="openModal()" style="cursor:pointer"></i>
-                    <div class="me-md-3 fs-5">ระดับการเปิดเผยข้อมูล</div>
-                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex btn align-items-center fs-5 ms-lg-3 dropdown-toggle">
+                    <div class="me-md-3">ระดับการเปิดเผยข้อมูล</div>
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex btn align-items-center ms-lg-3 dropdown-toggle">
                         <div class="me-3">{{privacyLabel}}</div>
                     </button>
                     <ul class="dropdown-menu privacyDropdown">
-                        <li (click)="changePrivacy(0, 'อนุญาตให้ดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 0?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">อนุญาตให้ดูข้อมูล</div></a></li>
-                        <li (click)="changePrivacy(1, 'จำกัดการดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 1?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">จำกัดการดูข้อมูล</div></a></li>
-                        <li (click)="changePrivacy(2, 'ไม่อนุญาติให้ดูข้อมูล')" class="fs-5 px-3" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}"><i [ngStyle]="{'visibility': privacyLevel === 2?'unset':'hidden'}" class="bi bi-check-circle px-3"></i><div class="fs-5">ไม่อนุญาติให้ดูข้อมูล</div></a></li>
+                        <li (click)="changePrivacy(0, 'อนุญาตให้ดูข้อมูล')" class="px-3" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}">
+                            <a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 0?'#5cdfe4':'black'}">
+                                <i [ngStyle]="{'visibility': privacyLevel === 0?'unset':'hidden'}" class="bi bi-check-circle px-3"></i>
+                                <div class="fs-5">อนุญาตให้ดูข้อมูล</div>
+                            </a>
+                        </li>
+                        <li (click)="changePrivacy(1, 'จำกัดการดูข้อมูล')" class="px-3" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}">
+                            <a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 1?'#5cdfe4':'black'}">
+                                <i [ngStyle]="{'visibility': privacyLevel === 1?'unset':'hidden'}" class="bi bi-check-circle px-3"></i>
+                                <div class="fs-5">จำกัดการดูข้อมูล</div>
+                            </a>
+                        </li>
+                        <li (click)="changePrivacy(2, 'ไม่อนุญาติให้ดูข้อมูล')" class="px-3" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}">
+                            <a class="d-flex align-items-center dropdown-item" [ngStyle]="{'color': privacyLevel === 2?'#5cdfe4':'black'}">
+                                <i [ngStyle]="{'visibility': privacyLevel === 2?'unset':'hidden'}" class="bi bi-check-circle px-3"></i>
+                                <div class="fs-5">ไม่อนุญาติให้ดูข้อมูล</div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="innerProfileTabList sticky-top" style="top:177px; background:white; z-index: 2">
+            <div class="innerProfileTabList contentContainer sticky-top" style="top:177px; background:white; z-index: 2">
                 <ul class="nav nav-underline py-3 mb-2 fs-3 flex-md-row tabList" style="width: max-content; --bs-nav-underline-gap:0 1rem">
                     <li class="nav-item">
                       <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="private-profile" routerLink="private-profile" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab" aria-current="page">ข้อมูลส่วนตัว</a>
@@ -39,18 +54,44 @@
                     <li class="nav-item">
                       <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="preferred-jobs" routerLink="preferred-jobs" data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" id="urgent-jobs" routerLink="urgent-jobs" data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab" aria-current="page">งานเภสัชรายวัน</a>
+                      </li>
                     <hr style="width: 100%" class="m-auto borderLine">
                 </ul>
             </div>
-            <div class="fs-3 mx-md-5">
+            <div class="textProfileResponsive mx-md-5">
                 <router-outlet></router-outlet>
             </div>
         </div>
 </ng-template>
-<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+<div class="modal fade" id="confirmViewProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md fs-5 modal-dialog-centered">
         <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ระดับการเปิดเผยข้อมูล</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
             <div class="modal-body p-4">
+                <div class="mb-3 text-center">หากเปลี่ยนแปลงระดับการเปิดเผยข้อมูลเป็น<span style="color:blue">จำกัดการดูข้อมูล</span> 
+                    หรือ<span style="color:red">ไม่อนุญาตให้ดูข้อมูล</span>ระบบหางานรายวันจะถูกปิดการ
+                    ใช้งานโดยอัตโนมัติ ท่านยืนยันที่จะเปลี่ยนแปลงระดับการเปิดเผย
+                    ข้อมูลหรือไม่?</div>
+                    <div class="align-items-baseline d-flex justify-content-center mt-3 ms-3">
+                        <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <button (click)="cancel()" class="fs-5 me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                        <button (click)="confirmChangePrivacy()" class="fs-5 btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
                 <div class="my-1"><b>อนุญาตให้ดูข้อมูล</b></div>
                 <div class="my-1 mb-3">แสดงข้อมูลติดต่อของท่านต่อผู้ประกอบการ ทำให้มีโอกาศได้งานสูง</div>
                 

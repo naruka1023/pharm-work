@@ -43,8 +43,13 @@
   .choices{
     justify-content: center !important
   }
+  .paddingCustom{
+    padding:0 3rem
+  }
 }
-
+.paddingCustom{
+  padding:0 6rem
+}
 .container{
   padding-left: 0 !important;
   padding-right: 0 !important;

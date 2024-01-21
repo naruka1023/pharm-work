@@ -24,7 +24,7 @@
             </ul>
         </div>
         <div class="tab-content fs-3 mx-sm-5" style="line-break: auto">
-                <div class="align-items-baseline d-flex justify-content-end ms-md-3 editButton mb-md-0 mb-3"><button [ngStyle]="{'visibility': !profileEditState?'unset':'hidden'}" (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
+                <div class="align-items-baseline d-flex justify-content-end ms-md-3 textProfileResponsive mb-md-0 mb-3"><button [ngStyle]="{'visibility': !profileEditState?'unset':'hidden'}" (click)="toggleEdit()" type="button" class="btn btn-primary fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
                 <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <ng-container *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"></ng-container>
                 <ng-template #displayProfileOne>
@@ -243,12 +243,12 @@
                                     <label for="mapLatLng" class="form-label"><b>ปักหมุดที่อยู่ของบริษัทหรือปักหมุดในพื้นที่ๆต้องการหาเภสัชกร</b></label>
                                 </div>
                                 <div>
-                                    <input
+                                    <!-- <input
                                         type="text"
                                         class="form-control my-3"
                                         ngx-google-places-autocomplete 
                                         (onAddressChange)="searchMap($event)"
-                                        style="background-color:#f2f2f2"/>
+                                        style="background-color:#f2f2f2"/> -->
                                   </div>
                                 <div style="overflow:scroll" class="col d-flex justify-content-center">
                                     <google-map 
@@ -313,8 +313,8 @@
                         </div>
                     </form>
                     <div class="align-items-baseline d-flex justify-content-center ms-3">
-                        <button (click)="cancelClick()" class="me-3 btn saveButton btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                        <button (click)="onSave()" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                        <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                        <button (click)="onSave()" class="btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
                     </div>
                 </ng-template>
             </div>
@@ -511,8 +511,8 @@
                         </div>
                     </form>    
                     <div class="align-items-baseline d-flex justify-content-center ms-3">
-                        <button (click)="cancelClick()" class="me-3 btn saveButton btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                        <button (click)="onSave()" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                        <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                        <button (click)="onSave()" class="btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
                     </div>                
                 </ng-template>
             </div>
@@ -544,8 +544,8 @@
                         </div>
                 </form>
                 <div class="align-items-baseline d-flex justify-content-center ms-3">
-                    <button (click)="cancelClick()" class="me-3 btn saveButton btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                    <button (click)="onSave()" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                    <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                    <button (click)="onSave()" class="btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
                 </div>
                 </ng-template>
             </div>

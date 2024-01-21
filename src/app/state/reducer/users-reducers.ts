@@ -17,6 +17,14 @@ export const initialState: User = {
   profilePictureUrl: '',
   coverPhotoPictureUrl: '',
   license: '',
+  urgentTimeFrame: '',
+  urgentPreferredDay: [],
+  preferredUrgentLocation: {
+    Province: "",
+    District: "",
+    Section: ""
+  },
+  urgentDescription: '',
   coverPhotoFlag: true,
   AmountCompleted: 0,
   WorkExperience: 0,

@@ -20,19 +20,6 @@ export class UserListComponent {
   _geoLoc: any;
   locationRadiusFlag: boolean = true;
   constructor(private store:Store, private fb:FormBuilder,private router: Router,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){
-    const extras = this.router.getCurrentNavigation()?.extras
-    if(extras!.state !== undefined){
-      this.type = this.router.getCurrentNavigation()!.extras.state!['jobType']
-      this.headerSearchFlag = true;
-      if(this.type !== 'S'){
-        this.initializeFormGroup();
-        this.newUserFormList.patchValue(this.router.getCurrentNavigation()!.extras.state!)
-      }else{
-        this.initializeFormGroupUrgent();
-        this.newUserFormUrgent.patchValue(this.router.getCurrentNavigation()!.extras.state!)
-        this.locationRadiusFlag = this.newUserFormUrgent.value.nearbyFlag
-      }
-    }
   }
   type!: string;
   title!: string;

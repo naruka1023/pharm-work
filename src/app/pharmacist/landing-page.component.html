@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background:#f2f2f2; border-bottom:1px solid #cccccc">
+<nav class="navbar navbar-expand-xl navbar-light sticky-top" style="background:#f2f2f2; border-bottom:1px solid #cccccc">
     <div class="container-fluid">
       <div class="d-flex flex-row align-items-center">
         <div class="fs-3">
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class="d-lg-block d-none d-flex p-2 justify-content-between" style="justify-content:space-between">
+      <div class="d-xl-block d-none d-flex p-2 justify-content-between" style="justify-content:space-between">
         <ng-container *ngIf="loginFlag; then loginNav; else normalNav"></ng-container>
         <ng-template #loginNav>
           <ul style="list-style-type: none; margin-bottom:0" class="navClass fs-3 d-flex align-items-end">
@@ -106,21 +106,21 @@
               <li class="nav-item ms-3">
                 <a class="nav-link"  data-bs-toggle="modal" data-bs-target="#registerModal">สมัครสมาชิก</a>
               </li>
-              <li class="nav-item ms-3">
+              <!-- <li class="nav-item ms-3">
                 <a class="nav-link">ผู้ประกอบการ</a>
-              </li>
+              </li> -->
               <li class="nav-item ms-3">
                 <a class="nav-link">ติดต่อเรา</a>
               </li>
           </ul>
         </ng-template>
       </div>
-      <button class="navbar-toggler d-lg-none " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <button class="navbar-toggler d-xl-none " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
   </nav>
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header">
     <div class="d-flex flex-row align-items-center justify-content-center">
       <div class="fs-2 me-3">
@@ -212,7 +212,34 @@
       </div>
     </ng-template>
     <ng-template #notLoggedNav>
-      <ul class="fs-5 navbar-nav d-flex align-items-center">
+      <ul class="fs-3 navbar-nav">
+        <li class="nav-item ms-3" style="cursor:pointer">
+          <a class="nav-link green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a>
+        </li>
+        <li class="nav-item ms-3">
+          <a class="nav-link"  data-bs-toggle="modal" data-bs-target="#registerModal">สมัครสมาชิก</a>
+        </li>
+        <!-- <li class="nav-item ms-3">
+          <a class="nav-link">ผู้ประกอบการ</a>
+        </li> -->
+        <li class="nav-item ms-3">
+          <a class="nav-link">ติดต่อเรา</a>
+        </li>
+        <li class="my-3">
+          <a class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#pharmaJobsMobile" role="button"><i class="bi bi-ui-checks-grid mx-3"></i>งานด้านเภสัชกรรม</a>
+          <div class="collapse py-2 fs-3" id="pharmaJobsMobile">
+            <ul class="ps-0 redirectFont">
+              <li class="my-3 dropdown-item"><a (click)="redirectToList('AA')"><i style="visibility:hidden" class="bi bi-calendar-check-fill mx-3"></i>งานเภสัชรายวัน (freelance)</a></li>
+              <li class="my-3 dropdown-item"><a (click)="redirectToList('AB')"><i style="visibility:hidden" class="bi bi-house-fill mx-3"></i>ร้านยาเดี่ยว (Stand alone)</a></li>
+              <li class="my-3 dropdown-item"><a (click)="redirectToList('AC')"><i style="visibility:hidden" class="bi bi-basket3-fill mx-3"></i>ร้านยาแบรนด์ (Chain)</a></li>
+              <li class="my-3 dropdown-item"><a (click)="redirectToList('BB')"><i style="visibility:hidden" class="bi bi-bandaid-fill mx-3"></i>โรงพยาบาล/คลินิก</a></li>
+              <li class="my-3 dropdown-item"><a (click)="redirectToList('BC')"><i style="visibility:hidden" class="bi bi-bank2 mx-3"></i>โรงงาน/บริษัท/วิจัย</a></li>
+              <li class="my-3 dropdown-item"><a (click)="redirectToList('CA')"><i style="visibility:hidden" class="bi bi-ui-radios-grid mx-3"></i>งานอื่นๆ</a></li>
+            </ul>
+          </div>
+        </li>
+    </ul>
+      <!-- <ul class="fs-5 navbar-nav d-flex align-items-center">
           <li class="nav-item ms-3 my-2">
             <button type="button" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-primary" >
               เข้าสู่ระบบ
@@ -245,7 +272,7 @@
             </div>
         </li>
         <li class="nav-item ms-3 my-2"><a class="nav-link" >ติดต่อเรา</a></li>
-    </ul>
+    </ul> -->
     </ng-template>
   </div>
 </div>

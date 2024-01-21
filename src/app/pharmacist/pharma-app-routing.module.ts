@@ -38,16 +38,12 @@ const routes: Routes = [
         {path: '', redirectTo: 'private-profile', pathMatch: 'full'},
         {path:'main-profile', component:MainProfileComponent},
         {path:'private-profile', component:PrivateProfileComponent},
-        {path:'preferred-jobs', component:PreferredJobsComponent}
+        {path:'preferred-jobs', component:PreferredJobsComponent},
+        {path:'urgent-jobs', component:UrgentJobsComponent},
       ]},
       {path:'bookmark', component:BookmarkComponent},
       { path: 'followers', component: FollowersPageComponent},
       {path:'recently-seen-job', component:RecentlySeenJobsComponent},
-      {path:'urgent-jobs', component:UrgentJobsComponent, children: [
-        { path: '',   redirectTo: 'urgent-jobs-page', pathMatch: 'full' },
-        {path:'urgent-jobs-page', component:UrgentJobsPageComponent},
-        {path:'urgent-jobs-history', component:UrgentJobHistoryComponent}
-      ]},
       {path:'register-jobs', component:RegisterJobsComponent, children: [
         { path: '',   redirectTo: 'request-jobs', pathMatch: 'prefix' },
         {path:'request-jobs', component:RequestJobsComponent},

@@ -3,7 +3,7 @@
             <p class="headerTitle h2 d-flex align-items-end">{{ filterFlags.header }}</p>
         <div class="fs-4 jobCount align-self-center ms-3 d-md-block d-none" *ngIf="filterFlags.CategorySymbol !== 'CB' && filterFlags.CategorySymbol !== 'BA'">{{ filterFlags.count }} ตำแหน่งงาน</div>
     </div>
-    <div *ngIf="filterFlags.filterFlag"  style="cursor: pointer; background-color:#f2f2f2" (click)="goToList()"class="goToListText d-flex flex-row align-items-center">
+    <div *ngIf="filterFlags.filterFlag"  style="cursor: pointer" (click)="goToList()"class="goToListText d-flex flex-row align-items-center">
         <p class="green-text mb-0 goToListText h3 d-flex align-items-center me-3">ดูทั้งหมด</p>
     </div>
 </div>
@@ -78,7 +78,7 @@
 				</ng-template>
 				<ng-template #notBanner>
 					<swiper 
-							[slidesPerView]="2" 
+							[slidesPerView]="1" 
 							style="height:550px"
 							[autoplay]="true"
 							[spaceBetween]="25" 

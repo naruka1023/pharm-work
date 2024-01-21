@@ -1,137 +1,5 @@
-.btn-success{
-  background:rgb(127, 216, 88);
-  border:rgb(127, 216, 88)
-}
-.fourPointKeyValuePreferred, .fourPointKeyValue{
-  display:flex
-}
-.container{
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-@media only screen and (max-width: 1400px) {
-  .nickNameForm, .mainHeader > h2{
-    font-size:2.5rem !important
-  }
-  /* .fourPointers{
-    padding-left: 15rem !important
-  } */
-}
-@media only screen and (max-width: 1200px) {
-  .introText{
-    font-size: 1.5rem !important;
-  }
-  .mainHeader{
-    display:block !important
-  }
-  .phantomPadding{
-    display: unset !important
-  }
-}
-@media only screen and (max-width: 992px) {
-  .fourPointersPharma{
-    padding-right: 0 !important;
-    margin-top: 14rem !important;
-    margin-bottom: 2rem !important;
-    padding: 0 2%;
-  }
-  .editButton{
-    justify-content:center !important;
-    position: relative;
-    top: -50px
-  }
-  .preferredJobs{
-    display: block !important;
-  }
-  .profileUploadButton{
-    left: 382px ;
-    bottom: 7rem !important
-  }
-  .jobCounts{
-    text-align:left
-  }
-  .outerHeaderPharma{
-    display:block !important;
-    text-align:center
-  }
-  .outerHeaderPharma > div {
-    height: 109.4px
-  }
-  .outerHeader2Pharma{
-    display:block !important
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .preferredJobs{
-    display: block !important;
-    text-align: center
-  }
-  .coverPhotoEditButtonPosition{
-    font-size: medium !important
-  }
-  .editButtonText{
-    font-size: medium !important
-  }
-}
-@media only screen and (max-width: 576px) {
-  .jobCounts, .jobCounts2 {
-    text-align:center
-  }
-  .profileUploadButton{
-    left: 52vw !important;
-    z-index: 5 !important
-  }
-  .introText{
-    padding: 0 1rem 1.5rem 1rem !important;
-    font-size: 0.9rem !important;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .profileUploadButton{
-    left: 292px;
-  }
-  .fourPointKeyValuePreferred > div{
-    justify-content:left;
-    display:flex;
-    margin: 0.5rem 0
-  }
-  .fourPointKeyValue > div{
-    justify-content:center;
-    display:flex;
-    margin: 0.5rem 0
-  }
-  .outerHeader{
-    display:block !important;
-    text-align:center
-  }
-  .outerHeader > img{
-    top: 0 
-  }
-  .outerHeader2{
-    position: relative;
-    top: -75px;
-    display:block !important
-  }
-  #operatorFollow{
-    display: none !important
-  }
-  #operatorFollowTwo{
-    display: unset !important
-  }
-  .mainHeaderContent{
-    text-align:center
-  }
-  .followButton{
-    justify-content:center !important;
-    margin:2rem
-  }
-  .introText{
-    padding: 0 3rem !important;
-    padding-bottom: 1.5rem !important;
-    font-size: 1.1rem !important;
-  }
+.outerHeader2{
+  height:12rem;
 }
 .fourPointersPharma{
   padding-right:20rem;
@@ -216,4 +84,169 @@
 
 .user-buttons:hover{
   color:grey
+}
+
+.btn-success{
+  background:rgb(127, 216, 88);
+  border:rgb(127, 216, 88)
+}
+.fourPointKeyValuePreferred, .fourPointKeyValue{
+  display:flex
+}
+.container{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+@media only screen and (max-width: 1400px) {
+  .mainHeader > h2{
+    font-size:2.5rem !important
+  }
+  /* .fourPointers{
+    padding-left: 15rem !important
+  } */
+}
+@media only screen and (max-width: 1200px) {
+  .mainHeader{
+    display:block !important
+  }
+  .phantomPadding{
+    display: unset !important
+  }
+}
+@media only screen and (max-width: 992px) {
+  .fourPointersPharma{
+    padding-right: 0 !important;
+    margin-bottom: 2rem !important;
+    padding: 0 2%;
+  }
+  .jobCounts2, .jobCounts{
+    font-size:large !important;
+  }
+  .editButton{
+    justify-content:center !important;
+  }
+  .outerHeader2{
+    height:16rem !important;
+  }
+  .outerHeaderOperator{
+    height:14rem !important;
+  }
+  .preferredJobs{
+    display: block !important;
+  }
+  .profileUploadButton{
+    left: 382px ;
+    bottom: 4rem !important
+  }
+  .jobCounts{
+    text-align:left
+  }
+  .outerHeaderPharma{
+    display:block !important;
+    text-align:center
+  }
+  .outerHeader2Pharma{
+    display:block !important
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .profileUploadButton{
+    left: 292px;
+  }
+  .fourPointKeyValuePreferred > div{
+    justify-content:left;
+    display:flex;
+    margin: 0.25rem 0
+  }
+  .fourPointKeyValue > div{
+    justify-content:center;
+    display:flex;
+    margin: 0.25rem 0
+  }
+  .outerHeader{
+    display:block !important;
+    text-align:center
+  }
+  .outerHeader > img{
+    top: 0 ;
+    z-index: 16 !important;
+    position: relative;
+  }
+  .outerHeader2{
+    position: relative;
+    height:20em !important;
+    top: -75px;
+    display:block !important
+  }
+  .outerHeaderOperator{
+    height: 14rem!important
+  }
+  #operatorFollow{
+    display: none !important
+  }
+  #operatorFollowTwo{
+    display: unset !important
+  }
+  .mainHeaderContent{
+    text-align:center
+  }
+  .followButton{
+    justify-content:center !important;
+    margin:2rem
+  }
+  .introText{
+    padding: 0 3rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .profileUploadButton{
+    left: 52vw !important;
+    z-index: 5 !important
+  }
+  .introText{
+    padding: 0 2rem 1.5rem 2rem !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .preferredJobs{
+    display: block !important;
+    text-align: center
+  }
+  .coverPhotoEditButtonPosition{
+    font-size: medium !important
+  }
+  .fourPointers{
+    margin: 0 2rem !important
+  }
+  .editButtonText{
+    font-size: medium !important
+  }
+  .jobCounts2, .jobCounts{
+    font-size:medium !important;
+  }
+}
+@media only screen and (max-width: 396px){
+  .companyName{
+    font-size: large !important
+  }
+  #mouseTarget2{
+    font-size: medium !important
+  }
+  .subheaderLocation{
+    font-size:medium !important
+  }
+  .jobCounts2, .jobCounts{
+    font-size:small !important;
+  }
+}
+@media only screen and (max-width: 353px){
+  #mouseTarget2{
+    font-size: small !important
+  }
+  .jobCounts2, .jobCounts{
+    font-size: x-small !important
+  }
 }

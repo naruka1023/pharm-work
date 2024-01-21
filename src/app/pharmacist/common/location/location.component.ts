@@ -42,6 +42,7 @@ export class LocationComponent {
     })
   }
   provinceSelected(){
+    console.log(this.genericFormGroup.value)
     this.genericFormGroup.patchValue({
         ...this.genericFormGroup.value,
         District:'',

@@ -5,7 +5,7 @@
             *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
             เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
         </div>
-        <div class="px-4">
+        <div class="px-4 ps-sm-4 ps-0">
             <div class="d-flex justify-content-between">
                 <div class="d-flex flex-row verticalKeyGap">
                     <div class="keyValueGap"><i class="bi bi-person-fill"></i></div>
@@ -67,35 +67,12 @@
             </div>
         </div>
     </div>
-        <!-- <div class="verticalKeyGap">
-            <div class="d-flex flex-row mb-4">
-                <div class="keyValueGap">
-                    <i class="bi bi-geo"></i>
-                </div>
-                <div class="keyValueGap">
-                    <b>ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน</b>
-                </div>
-            </div>
-            <div class="col d-flex justify-content-center" id="googleMapScroll" style="overflow: scroll">
-                <google-map 
-                    height="500px"
-                    width="65vw"
-                    [options]="none"
-                    [center]="center"
-                    [zoom]="zoom">
-                    <map-marker
-                    [position]="markerPosition"></map-marker>
-                </google-map>
-            </div>
-            <div class="text-danger"><i>*ไม่แสดงให้ผู้อื่นเห็น</i></div>
-            <div class="text-danger" *ngIf="!googleMapFlag"><i>*ท่านยังไม่ได้ปักหมุดในแผนที่ กรุณาปักหมุดเพื่อเปิดใช้งานตัวกรองใกล้ฉัน</i></div>
-        </div> -->
         <div class="p-5 my-5 light-red-color semi-border-input">
             <div style="color:red" class="mb-4">
                 *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
                 เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
             </div>
-            <div class="px-4">
+            <div class="px-4 ps-sm-4 ps-0">
                 <div class="d-flex flex-row verticalKeyGap">
                     <div class="keyValueGap">
                         <i class="bi bi-check2-circle"></i>
@@ -111,7 +88,7 @@
                 </div>
             </div>
         </div>
-        <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="border-input btn green-color" style="color:white; padding: 0.5rem 2rem">แก้ไขข้อมูลส่วนตัว</button></div>
+        <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="border-input btn green-color textProfileResponsive" style="color:white; padding: 0.5rem 2rem">แก้ไขข้อมูลส่วนตัว</button></div>
     </ng-template>
     <ng-template #editPage>
         <form [formGroup]="profileEdit">
@@ -120,7 +97,7 @@
                     *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
                     เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
                 </div>
-                <div class="px-4">
+                <div class="px-4 ps-sm-4 ps-0">
                     <div class="d-flex flex-row verticalKeyGap">
                         <div class="keyValueGap"><i class="bi bi-person-check-fill"></i></div>
                         <div style="width:-webkit-fill-available; width:-moz-available">
@@ -128,7 +105,7 @@
                                 <div><b>ชื่อ-นามสกุล</b></div>
                             </div>
                             <div class="col d-flex">
-                                <input disabled class="border-input form-control fs-3" style="width:-webkit-fill-available; width:-moz-available" placeholder="{{innerProfileInformation.name + ' ' + innerProfileInformation.surname | emptyFieldPipe}}">
+                                <input disabled class="border-input form-control" style="width:-webkit-fill-available; width:-moz-available" placeholder="{{innerProfileInformation.name + ' ' + innerProfileInformation.surname | emptyFieldPipe}}">
                             </div>
                         </div>
                     </div>
@@ -139,7 +116,7 @@
                                 <div><b>เพศ</b></div>
                             </div>
                             <div class="col d-flex">
-                                <select formControlName="gender" class="form-select fs-3 border-input" style="width:-webkit-fill-available; width:-moz-available">
+                                <select formControlName="gender" class="form-select  border-input" style="width:-webkit-fill-available; width:-moz-available">
                                     <option value="ชาย">ชาย</option>
                                     <option selected value="หญิง">หญิง</option>
                                 </select>
@@ -154,38 +131,11 @@
                                 <div class="keyValueGap">
                                     <div><b>ข้อมูลติดต่อ</b></div>
                                 </div>
-                                <input formControlName="phone" type="text" placeholder="ใส่เบอร์โทรติดต่อ" class="border-input mb-3 form-control fs-3" style="width:-webkit-fill-available; width:-moz-available">
-                                <input formControlName="email" type="text" class="border-input mb-3 form-control fs-3" placeholder="ใส่อีเมล" style="width:-webkit-fill-available; width:-moz-available">
+                                <input formControlName="phone" type="text" placeholder="ใส่เบอร์โทรติดต่อ" class="border-input mb-3 form-control " style="width:-webkit-fill-available; width:-moz-available">
+                                <input formControlName="email" type="text" class="border-input mb-3 form-control " placeholder="ใส่อีเมล" style="width:-webkit-fill-available; width:-moz-available">
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="verticalKeyGap">
-                        <div class="keyValueGap">
-                            <label for="mapLatLng" class="form-label"><b>ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน</b></label>
-                        </div>
-                        <div>
-                            <input
-                                type="text"
-                                class="form-control my-3"
-                                ngx-google-places-autocomplete 
-                                (onAddressChange)="searchMap($event)"
-                            />
-                          </div>
-                        <div style="overflow: scroll" class="col d-flex justify-content-center">
-                            <google-map 
-                                height="500px"
-                                width="65vw"
-                                [center]="center"
-                                [zoom]="zoom"
-                                [options]="none"
-                                (mapClick)="moveMap($event)"
-                                (mapMousemove)="move($event)">
-                                <map-marker
-                                [position]="markerPosition"></map-marker>
-                            </google-map>
-                        </div>
-                        <div class="text-danger"><i>*ไม่แสดงให้ผู้อื่นเห็น</i></div>
-                    </div> -->
                 </div>
             </div>
             <div class="p-5 my-5 light-red-color semi-border-input">
@@ -193,7 +143,7 @@
                     *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
                     เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
                 </div>
-                <div class="px-4">
+                <div class="px-4 ps-sm-4 ps-0">
                     <div class="d-flex flex-row verticalKeyGap">
                         <div class="keyValueGap">
                             <i class="bi bi-check2-circle"></i>
@@ -214,7 +164,7 @@
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button (click)="cancelClick()" class="me-3 btn saveButton btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-            <button (click)="onSave()" class="btn saveButton" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+            <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+            <button (click)="onSave()" class="btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </ng-template>

@@ -1,12 +1,12 @@
-<div [ngClass]="requestViewFlag?requestStatus.status !== 'Pending'?'green-border-color':'':''" class="card semi-border-input standard-shadow">
-    <div class="innerContent d-flex justify-content-start p-3 ">
+<div [ngClass]="requestViewFlag?requestStatus.status !== 'Pending'?'green-border-color':'':''" class="textResponsive semi-border-input standard-shadow">
+    <div class="innerContent align-items-center d-flex justify-content-start p-3 ">
         <div style='text-align:center'>
             <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl" (click)="goToOperatorProfile()" class="card-img-top m-auto" style="width:fit-content" height="150" width="150">
         </div>
-        <div class="fs-4 m-auto px-3 textContent" style="width:-webkit-fill-available; width:-moz-available">
+        <div class=" m-auto px-3 textContent" style="width:-webkit-fill-available; width:-moz-available">
             <div class="row">
                 <div class="col">
-                    <div class="fs-4 pe-3">
+                    <div class=" pe-3">
                         <b>{{content.companyName}}</b>
                     </div>
                 </div>
@@ -29,8 +29,8 @@
 </div>
         <ng-container *ngIf="requestViewFlag; then requestView; else notRequestView"></ng-container>
         <ng-template #requestView>
-            <div class="requestView d-flex fs-3 justify-content-between align-items-center mt-3" style="width:-webkit-fill-available; width: -moz-available">
-                <div class="fs-4">ส่งเมื่อ {{ requestStatus.dateSent }}</div>
+            <div class="requestView textResponsive justify-content-between align-items-center mt-3" style="width:-webkit-fill-available; width: -moz-available">
+                <div class="">ส่งเมื่อ {{ requestStatus.dateSent }}</div>
                 <div class="d-flex justify-content-end align-items-center">
                     <div *ngIf="requestViewLoading"style="text-align:center">
                         <div class="spinner-border text-primary" role="status">
@@ -43,7 +43,7 @@
                     <button (click)="revealText()"class="btn-width btn btn-outline-secondary ms-3 px-3 border-input">
                         ดูข้อความแนบ
                     </button>
-                    <div (click)="removeRequestView()"><i class="bi bi-trash3 ms-3 fs-3"></i></div>
+                    <div (click)="removeRequestView()"><i class="bi bi-trash3 ms-3 "></i></div>
                 </div>
             </div>
         </ng-template>
@@ -59,9 +59,9 @@
                 </div>
             </ng-template>
             <ng-template #notLoading>
-                <div class="followButton mb-3">
+                <div class="followButton mb-3 textResponsive">
                     <button (click)="unFollowOperator()" class="btn mt-3 border-input btn-outline-primary" [id]="target" style="min-width: 12rem">
-                        <h3 class="mb-0" (mouseleave)="changeFollowedText('ติดตามแล้ว')" (mouseenter)="changeFollowedText('ยกเลิกติดตาม')">{{ followedText }}</h3>
+                        <div class="mb-0" (mouseleave)="changeFollowedText('ติดตามแล้ว')" (mouseenter)="changeFollowedText('ยกเลิกติดตาม')">{{ followedText }}</div>
                     </button>            
                 </div>
             </ng-template>

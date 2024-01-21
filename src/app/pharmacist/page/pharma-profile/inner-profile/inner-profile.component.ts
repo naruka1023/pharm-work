@@ -20,17 +20,24 @@ export class InnerProfileComponent{
   
   loadingFlag: boolean = true;
   searchModal!: any
+  confirmViewProfile!: any
   innerProfileInformation!: User
   privacyLevel: number = 0;
   privacyLabel: string = 'อนุญาตให้ดูข้อมูล'
+  tempLevel: number = 0;
+  tempLabel: string = 'อนุญาตให้ดูข้อมูล'
   privacyLoadingFlag: boolean = false;
   
-  constructor(private utilService: UtilService, private converter: JobTypeConverterService, private route: Router, private fb: FormBuilder, private userService: UserServiceService, private store: Store, private modalService: NgbModal){  
+  
+  constructor(private userService: UserServiceService, private store: Store){  
   }
   
   ngOnInit(){
     this.searchModal = new window.bootstrap.Modal(
       document.getElementById('searchModal')
+      );
+    this.confirmViewProfile = new window.bootstrap.Modal(
+      document.getElementById('confirmViewProfile')
       );
     this.store.select((state: any)=>{
       return state.user
@@ -58,17 +65,57 @@ export class InnerProfileComponent{
     this.searchModal.show()
   }
 
-  changePrivacy(privacyLevel: number, privacyLabel: string){
-    this.privacyLevel = privacyLevel
-    this.privacyLabel = privacyLabel
+  openModalConfirmViewProfile(){
+    this.confirmViewProfile.show()
+  }
+
+  resetTemp(){
+    this.tempLabel = 'อนุญาตให้ดูข้อมูล'
+    this.tempLevel = 0
+  }
+  cancel(){
+    this.resetTemp
+    this.confirmViewProfile.hide()
+  }
+
+  confirmChangePrivacy(){
+
+    this.privacyLevel = this.tempLevel
+    this.privacyLabel = this.tempLabel
+    this.resetTemp()
+    this.confirmViewProfile.hide()
+    let newJobPreferredType = this.innerProfileInformation.preferredJobType?.filter((jobType)=>{
+      return jobType !== "งานด่วนรายวัน"
+    })
     this.privacyLoadingFlag = true;
-    this.userService.updateUser({uid: this.innerProfileInformation.uid, active:this.privacyLabel}).then(()=>{
+    this.userService.updateUser({uid: this.innerProfileInformation.uid, active:this.privacyLabel, preferredJobType: newJobPreferredType}).then(()=>{
       this.privacyLoadingFlag = false;
       let payload: any = {
-        active: privacyLabel
+        preferredJobType: newJobPreferredType,
+        active: this.privacyLabel
       }
       this.store.dispatch(setCurrentUser({user:payload}))
     })
+  }
+  
+  changePrivacy(privacyLevel: number, privacyLabel: string){
+    this.resetTemp()
+    if(privacyLevel > 0){
+      this.openModalConfirmViewProfile()
+      this.tempLevel = privacyLevel
+      this.tempLabel = privacyLabel
+    }else{
+      this.privacyLevel = privacyLevel
+      this.privacyLabel = privacyLabel
+      this.privacyLoadingFlag = true;
+      this.userService.updateUser({uid: this.innerProfileInformation.uid, active:this.privacyLabel}).then(()=>{
+        this.privacyLoadingFlag = false;
+        let payload: any = {
+          active: this.privacyLabel
+        }
+        this.store.dispatch(setCurrentUser({user:payload}))
+      })
+    }
   }
 }
 

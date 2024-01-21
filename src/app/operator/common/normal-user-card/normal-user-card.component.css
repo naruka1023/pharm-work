@@ -1,26 +1,3 @@
-@media only screen and (max-width: 576px){
-  .cardContent > div{
-    display: flex;
-    justify-content: center;
-  }
-  .nickName{
-    text-align: center
-  }
-  .cardKeyValue{
-    width: 40vw
-  }
-}
-@media only screen and (max-width: 482px){
-  .cardKeyValue{
-    width: 50vw !important
-  }
-}
-
-@media only screen and (max-width: 450px){
-  .cardContent > div{
-    font-size: smaller !important
-  }
-}
 .grid {
     display: grid;
     grid-template-columns: auto auto;
@@ -30,10 +7,6 @@
   }
 .rounded{
   border-radius:20px !important
-}
-.card:hover{
-  background-color: rgba(88, 92, 89, 0.3);
-  cursor:pointer
 }
 .btn-primary, btn-primary:hover{
   background:#5cdfe4;

@@ -31,7 +31,9 @@
                             <swiper #swiperFormPharma (activeIndexChange)="onSwiper($event)" [navigation]="true" [allowTouchMove]="false" [virtual]="true" class="swiperFormPharma">
                                 <ng-template swiperSlide>
                                     <div class="row">
-                                        <div class="col-lg-6 col-12 background-height" style="background-image:url('assets/pharmacist.png'); background-size: contain; background-position:center; background-repeat: no-repeat; height: auto">
+                                        <div class="d-lg-none d-block col-lg-6 col-12 background-height" style="background-image:url('assets/pharmaMobile.png'); background-size: contain; background-position:center; background-repeat: no-repeat">
+                                        </div>
+                                        <div class="d-lg-block d-none col-lg-6 col-12 background-height" style="background-image:url('assets/pharmacist.png'); background-size: contain; background-position:center; background-repeat: no-repeat">
                                         </div>
                                         <div class="col pe-lg-5 px-4">
                                                 <div class="d-flex justify-content-between flex-column" style="background-color: white">
@@ -409,7 +411,7 @@
                                             </ng-container>
                                         </div>
                                         <div class="col-lg-6 col-12">
-                                            <h3 style="background:white" class="d-flex flex-row-start mb-5 mt-3 text-center">
+                                            <h3 style="background:white" class="d-flex flex-row-start mb-5 mt-lg-3 mt-5 text-center">
                                                 <div>
                                                     <i class="bi bi-mortarboard-fill"></i>
                                                 </div>
@@ -493,7 +495,9 @@
                     <div class="px-sm-5 px-3 tab-pane fade" id="urgent-job-pane" role="tabpanel" aria-labelledby="urgent-job" tabindex="0">
                         <form [formGroup]="registerFormOperator" (ngSubmit)="onSubmit()">
                             <div class="row">
-                                <div class="col-lg-6 col-12 background-height" style="background-image:url('assets/operator.png'); background-size: contain; background-position:center; background-repeat: no-repeat; height: auto">
+                                <div class="col-lg-6 col-12 d-lg-none d-block background-height" style="background-image:url('assets/operatorMobile.png'); background-size: contain; background-position:center; background-repeat: no-repeat">
+                                </div>
+                                <div class="d-lg-block d-none col-lg-6 col-12 background-height" style="background-image:url('assets/operator.png'); background-size: contain; background-position:center; background-repeat: no-repeat">
                                 </div>
                                 <div class="col pe-lg-5 px-4">
                                     <div class="d-flex justify-content-between flex-column" style="background-color: white">
@@ -647,7 +651,9 @@
                             <swiper #swiperFormStudent (activeIndexChange)="onSwiperStudent($event)" [navigation]="true" [allowTouchMove]="false" [virtual]="true">
                                 <ng-template swiperSlide>
                                     <div class="row">
-                                        <div class="col-lg-6 col-12 background-height" style="background-image:url('assets/student.png'); background-size: contain; background-position:center; background-repeat: no-repeat; height: auto">
+                                        <div class="d-lg-none d-block col-lg-6 col-12 background-height" style="background-image:url('assets/studentMobile.png'); background-size: contain; background-position:center; background-repeat: no-repeat">
+                                        </div>
+                                        <div class="d-lg-block d-none col-lg-6 col-12 background-height" style="background-image:url('assets/student.png'); background-size: contain; background-position:center; background-repeat: no-repeat">
                                         </div>
                                         <div class="col pe-lg-5 px-4">
                                             <div class="d-flex justify-content-between flex-column" style="background-color: white">

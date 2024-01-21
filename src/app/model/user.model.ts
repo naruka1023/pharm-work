@@ -116,6 +116,22 @@ export interface User{
         educationLevel: string;
         major: string;
     } [],
+    otherSkills?: string;
+    urgentTimeFrame: string;
+    urgentPreferredDay: string[];
+    preferredUrgentLocation: Location;
+    urgentDescription: string;
+    skills?: {
+        word: string;
+        excel: string;
+        powerpoint: string;
+    };
+    englishComprehension?: {
+        listening: string;
+        reading: string;
+        speaking: string;
+        writing: string;
+    };
     jobHistory?: JobHistory[],
     loading: boolean,
     preferredJobType?:string[],

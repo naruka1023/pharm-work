@@ -7,6 +7,85 @@ export class JobTypeConverterService {
 
   constructor() { }
 
+  arrayToObjectUrgent(array:any){
+    let placeHolderObject = {
+      M: false,
+      T: false,
+      W: false,
+      TH: false,
+      F: false,
+      SA: false,
+      SU: false,
+      NA: false,
+    }
+    array.forEach((jobType: any)=>{
+      switch(jobType){
+        case 'จันทร์': 
+          placeHolderObject.M = true;
+          break;
+        case 'อังคาร': 
+          placeHolderObject.T = true;
+          break;
+        case 'พุธ': 
+          placeHolderObject.W = true;
+          break;
+        case 'พฤหัส': 
+          placeHolderObject.TH = true;
+          break;
+        case 'ศุกร์': 
+          placeHolderObject.F = true;
+          break;
+        case 'เสาร์': 
+          placeHolderObject.SA = true;
+          break;
+        case 'อาทิตย์': 
+          placeHolderObject.SU = true;
+          break;
+        case 'เวลาว่างไม่แน่นอน': 
+          placeHolderObject.NA = true;
+          break;
+      }
+    })
+    return placeHolderObject;
+  }
+
+  objectToArrayUrgent(obj:any){
+    let array = [];
+    for(const [key, value] of Object.entries(obj)){
+      if(obj[key] == true){
+        let jobLabel = ''
+        switch(key){
+          case "M":
+            jobLabel = 'จันทร์'
+            break;
+          case "T":
+            jobLabel = 'อังคาร'
+            break;
+          case "W":
+            jobLabel = 'พุธ'
+            break;
+          case "TH":
+            jobLabel = 'พฤหัส'
+            break;
+          case "F":
+            jobLabel = 'ศุกร์'
+            break;
+          case "SA":
+            jobLabel = 'เสาร์'
+            break;
+          case "SU":
+            jobLabel = 'อาทิตย์'
+            break;
+          case "NA":
+            jobLabel = 'เวลาว่างไม่แน่นอน'
+            break;
+        }
+        array.push(jobLabel);
+      }
+    }
+    return array
+  }
+
   arrayToObject(array:any){
     const placeHolderObject = {
       S: false,

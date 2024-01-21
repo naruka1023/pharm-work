@@ -393,12 +393,12 @@
             </div>
         </div>
         <div>
-            <input
+            <!-- <input
                 type="text"
                 class="form-control my-3"
                 ngx-google-places-autocomplete 
                 (onAddressChange)="searchMap($event)" style="background-color:#f2f2f2"
-            />
+            /> -->
           </div>
           <div class="col d-flex justify-content-center" style="overflow:scroll">
             <div *ngIf="submitted && getNewJobForm['_geoloc']!.errors" class="invalid-feedback2 mb-3">
@@ -417,8 +417,8 @@
             </google-map>
         </div>
         <div class="align-items-baseline d-flex justify-content-center mt-5 ms-3">
-            <button (click)="cancelClick()" class="me-3 btn saveButton btn-light fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-            <button (click)="onSave()" class="btn saveButton fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+            <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+            <button (click)="onSave()" class="btn textProfileResponsive fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </div>
 </form>

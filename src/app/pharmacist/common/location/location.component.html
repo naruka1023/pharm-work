@@ -1,5 +1,29 @@
 <div [formGroup]="parentFormGroup">
-    <ng-container *ngIf="registerFlag; then register; else normal"></ng-container>
+    <ng-container *ngIf="registerFlag; then register; else formGroupName=='preferredUrgentLocation'?urgent: normal"></ng-container>
+    <ng-template #urgent>
+        <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i class="bi bi-geo-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
+                <div class="verticalKeyGap">
+                    <div class="verticalKeyGap"><b>มองหางานรายวันพื้นที่ใด?</b></div>
+                </div>
+                <div class="form-group" [formGroupName]="formGroupName">
+                    <select formControlName="Province" (change)="provinceSelected()" name="province" class="border-input form-select  mb-3">
+                        <option value="" disabled selected>จังหวัด</option>
+                        <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
+                    </select>
+                    <select formControlName="District" (change)="districtSelected()" name="district" class="border-input form-select  mb-3">
+                        <option value="" disabled selected>เขต</option>
+                        <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
+                    </select>
+                    <select formControlName="Section" (change)="sectionSelected()" name="section" class="border-input form-select  mb-3">
+                        <option value="" disabled selected>แขวง</option>
+                        <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </ng-template>
     <ng-template #register>
         <div class="form-group" [formGroupName]="formGroupName">
             <div class="my-3"><label class="text-danger" style="visibility:hidden">*</label>มองหางานพื้นที่</div>
@@ -25,15 +49,15 @@
                         <div><b>พื้นที่ที่อาศัยอยู่ในปัจจุบัน</b></div>
                     </div>
                     <div [formGroupName]="formGroupName">
-                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="mb-3 form-select fs-3 border-input">
+                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="mb-3 form-select border-input">
                             <option selected disabled value="">เลือกจังหวัด</option>
                             <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
                         </select>
-                        <select formControlName="District" (change)="districtSelected()" name="district" class="mb-3 form-select fs-3 border-input">
+                        <select formControlName="District" (change)="districtSelected()" name="district" class="mb-3 form-select border-input">
                             <option selected disabled value="">เลือกเขต</option>
                             <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
                         </select>
-                        <select formControlName="Section" (change)="sectionSelected()" name="section" class="mb-3 form-select fs-3 border-input">
+                        <select formControlName="Section" (change)="sectionSelected()" name="section" class="mb-3 form-select border-input">
                             <option selected disabled value="">เลือกแขวง</option>
                             <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
                         </select>

@@ -91,6 +91,22 @@ export interface User{
     _geoloc?: _geoloc;
     _geolocCurrent?: _geoloc;
     showProfileFlag: boolean;
+    otherSkills?: string;
+    urgentTimeFrame: string;
+    urgentPreferredDay: string[];
+    preferredUrgentLocation: Location;
+    urgentDescription: string;
+    skills?: {
+        word: string;
+        excel: string;
+        powerpoint: string;
+    };
+    englishComprehension?: {
+        listening: string;
+        reading: string;
+        speaking: string;
+        writing: string;
+    };
     contacts?: {
         phone: string;
         email: string;

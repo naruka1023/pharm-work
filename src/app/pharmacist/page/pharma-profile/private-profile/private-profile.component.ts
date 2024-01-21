@@ -19,58 +19,18 @@ export class PrivateProfileComponent {
   editFlag:boolean = false
   loadingFlag: boolean = false
   profileEdit!:FormGroup
-  googleMapFlag!:boolean
-  display: any;
-  zoom = 15;
-  none: google.maps.MapOptions = {
-    gestureHandling:'greedy'
-  };
-  center: google.maps.LatLngLiteral = {
-      lat: 0,
-      lng: 0
-  };
-  markerPosition: google.maps.LatLngLiteral = {
-    lat: 0,
-    lng: 0
-  }
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
 
-  constructor(private route: ActivatedRoute,private store: Store, private fb: FormBuilder, private utilService:UtilService, private userService: UserServiceService, private pharmaProfile:PharmaProfileComponent){
+  constructor(private store: Store, private fb: FormBuilder,  private userService: UserServiceService, private pharmaProfile:PharmaProfileComponent){
   }
   ngOnInit(){
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((value: User)=>{
       this.innerProfileInformation = _.cloneDeep(value);
-      if(this.innerProfileInformation._geoloc !== undefined){
-        this.center = this.innerProfileInformation._geoloc
-      }else{
-        if(this.innerProfileInformation._geolocCurrent == undefined){
-          this.center = {
-            lat: 0,
-            lng: 0
-          }
-        }else{
-          this.center = this.innerProfileInformation._geolocCurrent!
-        }
-      }
-      this.googleMapFlag = this.innerProfileInformation._geoloc !== undefined
-      this.markerPosition = this.center
       if(this.innerProfileInformation.role !== ''){
         this.resetFormGroup();
       }
     })
-  }
-
-  ngAfterViewInit(): void {
-    if(this.route.snapshot.queryParamMap.get('googleMapPointer')! !== undefined && this.route.snapshot.queryParamMap.get('googleMapPointer')! !== null){
-      setTimeout(()=>{
-        document.getElementById('googleMapScroll')?.scrollIntoView()
-        setTimeout(()=>{
-          this.pharmaProfile.openFormModal()
-        }, 700)
-      }, 700)
-    }
   }
 
   cancelClick(){
@@ -101,7 +61,6 @@ export class PrivateProfileComponent {
         facebook: [''],
       }),
       license: [''],
-      _geoloc: [''],
       active: ['true'],
       showProfileFlag: true,
     });
@@ -113,27 +72,6 @@ export class PrivateProfileComponent {
       ...this.innerProfileInformation,
     })
   }
-  
-  move(event: google.maps.MapMouseEvent) {
-      if (event.latLng != null) this.display = event.latLng.toJSON();
-  }
-
-  moveMap(event: any){
-    this.markerPosition = {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    }
-    this.center = this.markerPosition
-    this.profileEdit.patchValue({_geoloc: this.markerPosition})
-  }
-  searchMap(event: any){
-    this.markerPosition = {
-      lat: event.geometry.location.lat(),
-      lng: event.geometry.location.lng()
-    }
-    this.center = this.markerPosition
-    this.profileEdit.patchValue({_geoloc: this.markerPosition})
-  }
 
   onSave(){
     const payload = {
@@ -141,9 +79,6 @@ export class PrivateProfileComponent {
       uid: this.innerProfileInformation.uid,
       dateUpdated: new Date().toISOString().split('T')[0],
       dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
-    }
-    if(payload._geoloc == ''){
-      delete payload._geoloc
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{

@@ -6,8 +6,8 @@
 	<div class="card rounded">
 		<div class="card-body p-4">
 			<div class="panelHeader d-flex justify-content-between pb-4 border-bottom">
-					<div class="fs-1 jobName" style="padding-right:2.5rem">{{profile.JobName}}</div>
-					<div class="fs-1 ms-sm-3" *ngIf="profile.TimeFrame === 'Part-Time'">
+					<div class="fs-2 jobName" style="padding-right:2.5rem">{{profile.JobName}}</div>
+					<div class="fs-2 ms-sm-3" *ngIf="profile.TimeFrame === 'Part-Time'">
 						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
 						<ng-template #urgentFlag>
 							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
@@ -16,7 +16,7 @@
 							<span class="badge text-light" style="background: #7fd858">Part-Time</span>
 						</ng-template>
 					</div>
-					<div class="fs-1 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time'">
+					<div class="fs-2 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time'">
 						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
 						<ng-template #urgentFlag>
 							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
@@ -25,7 +25,7 @@
 							<span class="badge text-light" style="background:#5cdfe4">Full-Time</span>
 						</ng-template>
 					</div>
-					<div class="fs-1 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time และ Part-Time'">
+					<div class="fs-2 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time และ Part-Time'">
 						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
 						<ng-template #urgentFlag>
 							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>

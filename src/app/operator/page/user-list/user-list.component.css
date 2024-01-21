@@ -2,9 +2,6 @@
     .userListHeader{
       display: block !important
     }
-    .userListTitle, .userListButton {
-        text-align: center
-    }
   }
   @media only screen and (max-width: 576px){
     #collapseExample{
@@ -12,9 +9,6 @@
     }
   }
   @media only screen and (max-width: 400px){
-    .userListTitle, .userListButton > button{
-      font-size: larger !important
-    }
   }
   @media only screen and (max-width: 768px) {
     .urgentForm, .notUrgentForm{

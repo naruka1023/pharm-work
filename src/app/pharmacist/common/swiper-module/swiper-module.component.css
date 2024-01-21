@@ -19,7 +19,7 @@
   }
   .goToListText{
     display: flex;
-    font-size: 0.8rem!important;
+    font-size: 1rem!important;
     color: #7fd858;
     align-items: center;
   }
@@ -57,7 +57,6 @@
   width: 80vw;
   text-align: center;
   font-size: 18px;
-  background: #f2f2f2;
   height: calc((100% - 30px) / 2) !important;
   margin-top:0 !important;
   /* Center slide text vertically */

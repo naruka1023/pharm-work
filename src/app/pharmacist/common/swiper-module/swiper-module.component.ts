@@ -35,7 +35,7 @@ export class SwiperModuleComponent {
     768: {
       slidesPerView: 2
     },
-    320: {
+    425: {
       slidesPerView: 1.5,
     }
   }
@@ -51,6 +51,9 @@ export class SwiperModuleComponent {
     },
     768: {
       slidesPerView: 2.5,
+    },
+    320: {
+      slidesPerView: 2,
     }
   }
   

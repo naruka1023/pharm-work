@@ -11,7 +11,7 @@
 <ng-template #notLoading>
     <app-profileheader  [requestViewFlag]="requestViewFlag" [followerFlag]="followFlag" profileType="operator-profile"></app-profileheader>
     <div id="navToScroll2" class="semi-border-input standard-shadow container my-4 sticky-top mainTabList" style="z-index: 1; top:97px; border-radius:60px; background:white">
-        <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row" style="width: max-content; top:180px; --bs-nav-underline-gap:0 1rem">
+        <ul class="nav nav-underline py-3 mb-2  flex-row" style="width: max-content; top:180px; --bs-nav-underline-gap:0 1rem">
             <li class="nav-item">
                 <a class="flex-md-fill text-md-center nav-link active" id="active-jobs" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงาน</a>
             </li>
@@ -20,11 +20,11 @@
             </li>
         </ul>
     </div>
-    <div class="semi-border-input standard-shadow container mt-4 pt-3 contentContainer" style="padding:2rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
-        <div class="tab-content fs-3">
+    <div class="semi-border-input standard-shadow container mt-4 pt-3 textProfileResponsive contentContainer" style="padding:2rem 0; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
+        <div class="container tab-content">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <div class="jobTabList sticky-top" style="top:180px; z-index:2; background:white">
-                    <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row" style="width: max-content; background:white; --bs-nav-underline-gap:0 1rem">
+                    <ul class="nav nav-underline py-3 mb-2  flex-row" style="width: max-content; background:white; --bs-nav-underline-gap:0 1rem">
                         <li class="nav-item">
                             <a class="flex-md-fill text-md-center nav-link active" data-bs-toggle="tab" id="Both" data-bs-target="#tabNine" aria-controls="tabNine" type="button" role="tab">ทั้งหมด </a>
                         </li>
@@ -37,7 +37,7 @@
                         <hr style="width: 100%" class="m-auto">
                     </ul>
                 </div>
-                <div class="tab-content fs-3">
+                <div class="tab-content">
                     <div class="tab-pane active" id="tabNine" role="tabpanel" aria-labelledby="tabNine-tab">
                         <ng-container *ngIf="allJobsFlag; then notEmpty; else empty"></ng-container>
                         <ng-template #notEmpty>
@@ -56,7 +56,7 @@
                         </ng-template>
                     </div>
                 </div>
-                <div class="tab-content fs-3">
+                <div class="tab-content">
                     <div class="tab-pane" id="tabSeven" role="tabpanel" aria-labelledby="tabSeven-tab">
                         <ng-container *ngIf="allJobsFlagUrgent; then notEmptyUrgent; else emptyUrgent"></ng-container>
                         <ng-template #notEmptyUrgent>
@@ -75,7 +75,7 @@
                         </ng-template>
                     </div>
                 </div>
-                <div class="tab-content fs-3">
+                <div class="tab-content">
                     <div class="tab-pane" id="tabEight" role="tabpanel" aria-labelledby="tabEight-tab">
                         <ng-container *ngIf="allJobsFlagNormal; then notEmptyNormal; else emptyNormal"></ng-container>
                         <ng-template #notEmptyNormal>
@@ -96,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-content fs-3">
+        <div class="container tab-content">
             <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
                 <div class="companyProfileTabList sticky-top" style="top: 185px; z-index: 0; background:white">
                     <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row" style="width: max-content; background:white; --bs-nav-underline-gap:0 1rem">
@@ -112,7 +112,7 @@
                         <hr style="width: 100%" class="m-auto">
                     </ul>
                 </div>
-                <div class="tab-content fs-3">
+                <div class="tab-content ">
                     <div class="tab-pane active" id="tabFour" role="tabpanel" aria-labelledby="tabFour-tab">
                         <div class="d-flex flex-row verticalKeyGap keyLabel">
                             <div class="d-flex">
@@ -139,14 +139,13 @@
                             </div> -->
                         </div>
                         <div class="d-flex flex-row verticalKeyGap keyLabel">
-                            <div class="keyValueGap"><i class="bi bi-bag-plus-fill"></i></div>
-                            <div class="keyValueGap">
-                                <div><b>สินค้าและบริการ</b></div>
-                                <div class="valueLabel" [innerHTML]='operator?.productsAndServices | emptyFieldPipe'></div>
+                            <div class="d-flex">
+                                <div class="keyValueGap"><i class="bi bi-bag-plus-fill"></i></div>
+                                <div class="keyValueGap">
+                                    <div><b>สินค้าและบริการ</b></div>
+                                    <div class="valueLabel" [innerHTML]='operator?.productsAndServices | emptyFieldPipe'></div>
+                                </div>
                             </div>
-                            <!-- <div class="d-flex">
-                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-cart4"></i></div>
-                            </div> -->
                         </div>
                         <div class="d-flex flex-row verticalKeyGap keyLabel">
                             <div class="d-flex">
@@ -203,9 +202,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-content fs-3">
+                <div class="tab-content ">
                     <div class="tab-pane" id="tabFive" role="tabpanel" aria-labelledby="tabFive-tab">
-                        <div class="row my-3 fs-3">
+                        <div>
                             <div class="d-flex flex-row verticalKeyGap keyLabel">
                                 <div class="d-flex">
                                     <div class="keyValueGap"><i class="bi bi-telephone-fill"></i></div>
@@ -316,7 +315,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-content fs-3">
+                    <div class="tab-content ">
                         <div class="tab-pane" id="tabSix" role="tabpanel" aria-labelledby="tabSix-tab">
                             <div class="d-flex flex-row verticalKeyGap">
                                 <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>

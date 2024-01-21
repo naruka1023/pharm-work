@@ -298,7 +298,7 @@ export class UsersService {
     })
   }
 
-  async getPharmaUserByJobType(title: string, paginationIndex: number){
+  async getPharmaUserByJobType(title: string, paginationIndex: number, jobTypeFlag: boolean = true){
     let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     let index:SearchIndex = client.initIndex(indexName)
     let filter = "role:'เภสัชกร' AND studentFlag:false AND preferredJobType:'" + title + "'"

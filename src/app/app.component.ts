@@ -89,6 +89,14 @@ export class AppComponent {
                 showProfileFlag: true,
                 loading: true,
                 AmountCompleted: 0,
+                urgentTimeFrame: '',
+                urgentPreferredDay: [],
+                preferredUrgentLocation: {
+                  Province: "",
+                  District: "",
+                  Section: ""
+                },
+                urgentDescription: '',
                 introText: '',
                 WorkExperience: 0,
                 yearFlag: true,
@@ -111,6 +119,14 @@ export class AppComponent {
             email: '',
             uid: '',
             license: '',
+            urgentTimeFrame: '',
+            urgentPreferredDay: [],
+            preferredUrgentLocation: {
+              Province: "",
+              District: "",
+              Section: ""
+            },
+            urgentDescription: '',
             name: '',
             surname: '',
             showProfileFlag: true,

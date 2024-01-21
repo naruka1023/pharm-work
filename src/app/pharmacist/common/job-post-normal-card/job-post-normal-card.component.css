@@ -3,7 +3,12 @@
     justify-content: center !important
   }
 }
-@media only screen and (max-width: 576px) {}
+
+@media only screen and (max-width: 576px) {
+  .applyJobBtn{
+    padding:0 1rem !important
+  }
+}
 @media only screen and (max-width: 768px) {
   .borderRight{
     border-right:0 !important
@@ -14,12 +19,12 @@
   .mainImage{
     display: none !important
   }
+  .subImage{
+    display: unset !important
+  }
   .subImageContainer{
     align-items:end !important;
     justify-content: start !important
-  }
-  .subImage{
-    display: unset !important
   }
   .subImage > img{
     width: 5rem !important

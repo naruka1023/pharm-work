@@ -59,13 +59,13 @@
 .keyValueGap{
     margin-right:2.5rem
 }
+.verticalKeyGap{
+    margin-bottom:2rem
+}
 .contacts > .verticalKeyGap > .keyValueGap{
     margin-right:1rem
 }
 .btn-primary, btn-primary:hover{
     background:#5cdfe4;
     border-color: #5cdfe4
-}
-.verticalKeyGap{
-    margin-bottom:2rem
 }

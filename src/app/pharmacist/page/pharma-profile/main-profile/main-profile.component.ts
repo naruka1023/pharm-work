@@ -22,6 +22,7 @@ export class MainProfileComponent {
   submitted: boolean = false
   profileEdit!:any
   descriptionEditor = ClassicEditor;
+  otherSkillsEditor = ClassicEditor;
   descriptionModel = {
     editorData: ''
   };
@@ -88,6 +89,16 @@ export class MainProfileComponent {
     return entity.controls;
   }
 
+  get FormEnglishData(): any{
+    let entity = this.profileEdit.get('englishComprehension') as FormGroup;
+    return entity;
+  }
+  
+  get FormSkillData(): any{
+    let entity = this.profileEdit.get('skills') as FormGroup;
+    return entity;
+  }
+
   get FormJobData(): any{
     let entity = this.profileEdit.get('jobHistory') as FormArray;
     return entity.controls;
@@ -145,6 +156,18 @@ export class MainProfileComponent {
       jobHistory: this.fb.array([]),
       highestEducation: ['', [Validators.required]],
       WorkExperience: [''],
+      otherSkills: [''],
+      englishComprehension: this.fb.group({
+        listening: [''],
+        reading: [''],
+        speaking: [''],
+        writing: [''],
+      }),
+      skills: this.fb.group({
+        word: [''],
+        excel: [''],
+        powerpoint: [''],
+      }),
     });
   }
 

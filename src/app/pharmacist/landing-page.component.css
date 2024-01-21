@@ -12,6 +12,9 @@
   .tooltip{
     font-size: 3rem !important;
  }
+.redirectFont{
+  font-size:large !important
+}
 .dropdown-menu2{
   left:-13vw !important
 }

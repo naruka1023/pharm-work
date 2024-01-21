@@ -40,7 +40,7 @@ import { requestViewReducer } from './state/reducer/request-view.reducer';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
@@ -88,7 +88,7 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
     CKEditorModule,
     RouterModule,
     GoogleMapsModule,
-    GooglePlaceModule,
+    // GooglePlaceModule,
     InfiniteScrollModule,
     ShareButtonsModule,
     ShareIconsModule,

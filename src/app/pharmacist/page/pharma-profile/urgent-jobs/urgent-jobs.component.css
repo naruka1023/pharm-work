@@ -25,3 +25,9 @@
 .nav-link.active{
     color: rgb(127, 216, 88)
 }
+.keyValueGap{
+    margin-right:1rem
+}
+.verticalKeyGap{
+    margin-bottom:2rem
+}

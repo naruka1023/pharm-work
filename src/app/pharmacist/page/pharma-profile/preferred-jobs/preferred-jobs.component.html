@@ -2,14 +2,22 @@
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap"><i class="bi bi-briefcase-fill"></i></div>
+        <div style="width:-webkit-fill-available; width:-moz-available">
+            <div>
+                <div><b>งานที่กำลังมองหา</b></div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
         <div class="keyValueGap"><i style="color:red" class="bi bi-heart-fill"></i></div>
         <div style="width:-webkit-fill-available; width:-moz-available">
             <div>
                 <div><b>ประเภทงานที่สนใจ</b></div>
             </div>
-            <div class="fs-3" *ngIf="resultPayload.length == 0">ไม่ระบุ</div>
+            <div *ngIf="resultPayload.length == 0">ไม่ระบุ</div>
             <div *ngIf="resultPayload.length > 0" class="jobTypePayload">
-                <ul class="fs-3">
+                <ul >
                     <li *ngFor="let jobType of resultPayload">
                         {{jobType}}
                     </li>
@@ -61,24 +69,26 @@
             </div>
         </div>
     </div>
-    <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5 editButton"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}"(click)="editClick()" type="button" class="btn fs-3 green-color" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
+    <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}"(click)="editClick()" type="button" class="btn  green-color textProfileResponsive" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 </ng-template>
 <ng-template #editPage>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
         <div class="d-flex flex-row verticalKeyGap">
             <div class="keyValueGap"><i class="bi bi-briefcase-fill"></i></div>
             <div style="width:-webkit-fill-available; width:-moz-available">
+                <div>
+                    <div><b>งานที่กำลังมองหา</b></div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i style="color:red" class="bi bi-heart-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
                 <div class="keyValueGap">
                     <div><b>ประเภทงานที่สนใจ</b> (เลือกได้มากกว่า 1 ชนิด)</div>
                 </div>
                 <div class="col d-flex">
                     <div  formGroupName="preferredJobType" [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredJobType')!.errors! }">
-                        <div class="d-flex flex-row-start mb-3 form-check">
-                            <input formControlName="S" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="S">
-                            <label class="responsiveText form-check-label" for="S">
-                                งานด่วนรายวัน
-                            </label>
-                        </div>
                         <div class="d-flex flex-row-start mb-3 form-check">
                             <input formControlName="AA" class="responsiveText me-3 form-check-input" type="checkbox" value="" id="AA">
                             <label class="responsiveText form-check-label" for="AA">
@@ -145,7 +155,7 @@
                 <div class="keyValueGap">
                     <div><b>ชนิดของพนักงานที่สนใจ</b></div>
                 </div>
-                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="border-input form-select mb-3 fs-3"  [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredTimeFrame')!.errors! }">
+                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="border-input form-select mb-3 "  [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredTimeFrame')!.errors! }">
                     <option selected disabled value="">เลือกชนิดของพนักงาน</option>
                     <option value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
@@ -156,14 +166,14 @@
                 </div>
             </div>
         </div>
-        <app-location [parentFormGroup]="profileEdit" [formGroupName]="'preferredLocation'"></app-location>
+        <app-location [parentFormGroup]="profileEdit" formGroupName="preferredLocation"></app-location>
         <div class="d-flex flex-row verticalKeyGap">
             <div class="keyValueGap"><i class="bi bi-bootstrap-fill"></i></div>
             <div style="width:-webkit-fill-available; width:-moz-available">
                 <div class="keyValueGap">
                     <div><b>เงินเดือนขั้นต่ำที่ต้องการ</b></div>
                 </div>
-                <select formControlName="preferredSalary" name="preferredSalary" class="border-input form-select mb-3 fs-3" >
+                <select formControlName="preferredSalary" name="preferredSalary" class="border-input form-select mb-3 " >
                     <option value="" selected disabled>ระบุเงินเดือนขั้นต่ำที่ต้องการ</option>
                     <option value="20,000">20,000</option>
                     <option value="30,000">30,000</option>
@@ -183,7 +193,7 @@
                 <div class="keyValueGap">
                     <div><b>สามารถเริ่มงานได้เมื่อไหร่</b></div>
                 </div>
-                <select formControlName="preferredStartTime" name="preferredStartTime" class="border-input form-select mb-3 fs-3" >
+                <select formControlName="preferredStartTime" name="preferredStartTime" class="border-input form-select mb-3 " >
                     <option value="" selected disabled>เลือกวันที่ท่านสามารถเริ่มงานได้</option>
                     <option selected value="ทันที">ทันที</option>
                     <option selected value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>
@@ -197,8 +207,8 @@
             <div *ngIf="loadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <button class="btn btn-light saveButton" (click)="cancelClick()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-            <button type="submit" class="btn saveButton ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+            <button class="btn btn-light textProfileResponsive" (click)="cancelClick()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+            <button type="submit" class="btn textProfileResponsive ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </form>
 </ng-template>

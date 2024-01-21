@@ -86,6 +86,22 @@ export interface UserPharma{
         line: string;
         facebook: string;
     }
+    urgentTimeFrame: string;
+    urgentPreferredDay: string[];
+    preferredUrgentLocation: Location;
+    urgentDescription: string;
+    otherSkills?: string;
+    skills?: {
+        word: string;
+        excel: string;
+        powerpoint: string;
+    };
+    englishComprehension?: {
+        listening: string;
+        reading: string;
+        speaking: string;
+        writing: string;
+    };
     name: string;
     surname: string;
     Location?: Location,

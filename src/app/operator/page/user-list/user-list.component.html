@@ -1,5 +1,4 @@
 <div class="userListHeader py-3 px-5 d-flex justify-content-between align-items-center" style="border-bottom: 1px lightgrey solid; top: 94px; left: 0px; right: 0px; position: fixed; z-index: 5; background-color:#f2f2f2">
-    <div class="h2 userListTitle">{{newTitle}}</div>
     <div class="userListButton dropdown">
         <button class="btn badge rounded-pill text-black fs-3 dropdown-toggle" style="font-weight: unset; background-color:#e6e6e6" data-bs-toggle="modal" data-bs-target="#searchModal" aria-expanded="false">
             ตัวกรอง
@@ -84,29 +83,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row my-3">
-                            <div class="col-1 text-center"><i class="bi bi-card-checklist"></i></div>
-                            <div class="col-lg-5 col-10">
-                                <b>จำนวนงานด่วนที่เคยรับ</b>
-                            </div>
-                            <div class="col d-flex flex-row-start">
-                                <select formControlName="amountCompletedSort" class="form-select" style="background-color:#f2f2f2">
-                                    <option value="desc">จากมากไปน้อย</option>
-                                    <option value="asc">จากน้อยไปมาก</option>
-                                </select>
-                            </div>
-                        </div> -->
-                        <!-- <div class="row my-3">
-                            <div class="col-1 text-center"><i class="bi bi-person-badge"></i></div>
-                            <div class="col-lg-5 col-10">
-                                <b>เฉพาะที่กำลัง online</b>
-                            </div>
-                            <div class="col">
-                                <div class="form-switch">
-                                    <input class="form-check-input me-3" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="row my-3"  *ngIf="type !=='S'">
                             <div class="col-lg-4 col-10 me-3">
                                 <b>ประสบการณ์การทำงาน:</b>
@@ -236,6 +212,20 @@
     </div>
 </div>
 <div style="margin-top:7rem" class="container">
+    <div class="my-3 text-center textProfileResponsive">{{newTitle}}</div>
+    <div class="row">
+        <form [formGroup]="newUserFormList">
+            <div class="col-6 border-right">
+                <div class="verticalKeyGap">
+                    <i class="bi bi-bank2-fill me-3"></i>
+                    <div></div>
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+        </form>
+    </div>
     <ng-container *ngIf="loadingFlag; then loadingScreen; else jobsList"></ng-container>
     <ng-template #loadingScreen>
         <div class="loading">
@@ -256,14 +246,13 @@
 			</div>
         </ng-template>
         <ng-template #notEmpty>
-            <div class="row row-cols-lg-2 search-results"
+            <div class="row search-results"
                 infinite-scroll
                 [infiniteScrollDistance]="distance"
                 [infiniteScrollThrottle]="throttle"
                 (scrolled)="onScroll()">
                 <ng-container *ngFor="let content of Users$ | async ; index as i" >
                     <app-normal-user-card [content]="content" [type]="type"></app-normal-user-card> 
-                    <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
                 </ng-container>
             </div>
             <div *ngIf="infiniteScrollingLoadingFlag" style="text-align:center" class="my-5">

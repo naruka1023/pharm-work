@@ -3,6 +3,7 @@
       overflow-x:scroll
     }
 }
+
 @media only screen and (max-width: 450px) {
     .privacySection > button {
         margin: auto;
@@ -21,10 +22,15 @@
         font-size:small !important
     }
 }
+@media only screen and (max-width: 515px) {
+    .contentContainer{
+        padding: 1rem !important
+    }
+}
 @media only screen and (max-width: 576px) {
     .privacySection{
       text-align:center;
-      margin-top: 3rem
+      margin-top: 1rem
     }
     .privacySection > button {
         margin: auto
@@ -37,6 +43,11 @@
     .privacySection{
       display:flex 
     }
+@media only screen and (max-width: 830px) {
+    .contentContainer{
+      overflow-x:scroll
+    }
+}
 }
 @media only screen and (max-width: 992px) {
     .sticky-top{
