@@ -95,6 +95,9 @@ export interface User{
     urgentTimeFrame: string;
     urgentPreferredDay: string[];
     preferredUrgentLocation: Location;
+    preferredUrgentProvince?: string;
+    preferredUrgentDistrict?: string;
+    preferredUrgentSection?: string;
     urgentDescription: string;
     skills?: {
         word: string;

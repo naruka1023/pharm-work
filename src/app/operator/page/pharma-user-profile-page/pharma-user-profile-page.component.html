@@ -1,6 +1,6 @@
 <div class="container">
     <app-profileheader profileType="pharma-profile"></app-profileheader>
-    <div id="navToScroll" class="container my-4 sticky-top" style="top:97px; z-index:0; border-radius:60px; background:white">
+    <div id="navToScroll" class="container my-4 sticky-top standard-shadow" style="top:97px; z-index:0; border-radius:60px; background:white">
         <div class="operatorPageTabList">
             <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row tabList" style="width:max-content; top:180px; --bs-nav-underline-gap:0 1rem; z-index: 0">
                 <li class="nav-item">
@@ -12,88 +12,143 @@
                 <li class="nav-item">
                   <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">งานที่กำลังมองหา</a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="urgent-jobs" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">การรับงานด่วน</a>
-                </li> -->
+                <li class="nav-item">
+                  <a class="flex-lg-fill text-lg-center nav-link" data-bs-toggle="tab" id="urgent-jobs" data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">งานเภสัชรายวัน</a>
+                </li>
             </ul>
         </div>
     </div>
-    <div class="container mt-4 historyContainer" style="padding:4rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
-        <div class="tab-content fs-3" style="line-break: auto">
+    <div class="container mt-4 historyContainer standard-shadow semi-border-input" style="padding:4rem; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
+        <div class="tab-content" style="line-break: auto">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <div class="verticalKeyGap">
-                    <div class="historyHeader d-flex flex-row">
+                    <div class="historyHeader d-flex verticalKeyGap flex-row">
                         <div class="d-flex flex-row">
-                            <div class="keyValueGap"><i class="textResponsive bi bi-award me-2"></i></div>
-                            <div class="textResponsive"><b>ประวัติการศึกษา</b></div>
+                            <div class="keyValueGap" style="display: flex; align-items:center"><i class="textProfileResponsive bi bi-mortarboard-fill me-2"></i></div>
+                            <div class="textProfileResponsive"><b>ประวัติการศึกษา</b></div>
                         </div>
                         <div class="d-flex">
-                            <div class="phantom keyValueGap" style="visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                            <div style="margin-left:5rem" class="textResponsive subHeader">ระดับการศึกษาสูงสุด {{innerProfileInformation!.highestEducation | emptyField}}</div>
+                            <div style="border:1px solid red" class="border-input textProfileResponsive subHeader px-3">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyField}}</div>
                         </div>
                     </div>
-                    <div class="mt-4 historyContent" style="padding-left:6rem">
-                        <ul>
-                            <li style="margin-bottom:4rem" class="educationCell" *ngFor="let eduGroup of innerProfileInformation!.educationHistory">
-                                <div class="d-flex flex-row verticalKeyGap">
-                                    <div class="textResponsive">{{eduGroup.yearGraduated}}</div>
-                                </div>
-                                <div class="row verticalKeyGap">
-                                    <div class="textResponsive col-6"><b>มหาวิทยาลัย</b> {{eduGroup.universityName}}</div>
-                                    <div class="textResponsive col-6"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="textResponsive col-6"><b>คณะ</b> {{eduGroup.major}}</div>
-                                    <div class="textResponsive col-6"><b>สาขา</b> {{eduGroup.franchise}}</div>
-                                </div>
-                            </li>
-                        </ul>
+                    <div class="historyContent textProfileResponsive">
+                        <div class="d-flex">
+                            <div class="keyValueGap" style="visibility:hidden; display: flex; align-items:center"><i class="textProfileResponsive bi bi-mortarboard-fill me-2"></i></div>
+                            <ul>
+                                <li class="educationCell" *ngFor="let eduGroup of innerProfileInformation.educationHistory">
+                                    <div class="verticalKeyGap"><b>ปีที่จบ</b> {{eduGroup.yearGraduated | emptyField}}</div>
+                                    <div class="verticalKeyGap"><b>มหาวิทยาลัย</b> {{eduGroup.universityName | emptyField}}</div>
+                                    <div class="verticalKeyGap"><b>คณะ</b> {{eduGroup.major | emptyField}}</div>
+                                    <div class="verticalKeyGap"><b>สาขา</b> {{eduGroup.franchise | emptyField}}</div>
+                                    <div class="verticalKeyGap"><b>ระดับการศึกษา</b> {{eduGroup.educationLevel | emptyField}}</div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <!-- <div class="row mb-3">
-                    <div class="col-3">
-                        <div class="me-3"><b>ประสบการณ์งาน</b></div>
-                    </div>
-                    <div class="col">
-                        {{ WorkExperience }}
-                    </div>
-                </div> -->
                 <div class="verticalKeyGap">
-                    <div class="d-flex flex-row historyHeader">
+                    <div class="d-flex flex-row historyHeader verticalKeyGap">
                         <div class="d-flex flex-row">
-                            <div class="keyValueGap textResponsive"><i class="bi bi-briefcase me-2"></i></div>
-                            <div class="textResponsive"><b>ประวัติการทำงาน</b></div>
+                            <div class="keyValueGap textProfileResponsive" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
+                            <div class="textProfileResponsive"><b>ประวัติการทำงาน</b></div>
                         </div>
                         <div class="d-flex">
-                            <div class="phantom keyValueGap textResponsive" style="display:none; visibility:hidden"><i class="bi bi-briefcase me-2"></i></div>
-                            <div class="subHeader textResponsive" style="margin-left:5rem">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation!.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
+                            <div style="border:1px solid red" class="border-input subHeader textProfileResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag | emptyField}}</div>
                         </div>
                     </div>
-                    <div class="mt-4 historyCount" style="padding-left: 6rem">
-                        <ul>
-                            <li *ngFor="let jobGroup of innerProfileInformation!.jobHistory">
-                                <div class="textResponsive verticalKeyGap d-flex justify-content-start">
-                                    <div class="me-5">
-                                        {{jobGroup.dateStarted.replace('-', '/')}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded.replace('-', '/')}}
+                    <div class="historyContent textProfileResponsive">
+                        <div class="d-flex">
+                            <div class="keyValueGap textProfileResponsive" style="visibility:hidden; display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
+                            <ul>
+                                <li *ngFor="let jobGroup of innerProfileInformation.jobHistory">
+                                    <div class="textProfileResponsive verticalKeyGap d-flex justify-content-start">
+                                        <div class="me-5"><b>{{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded | emptyField}}</b></div>
+                                        <div>{{jobGroup.activeFlag? '':jobGroup.workExperience | emptyField}}</div>
                                     </div>
-                                    <div>
-                                        {{jobGroup.activeFlag? '':jobGroup.workExperience}}
+                                    <div class="textProfileResponsive verticalKeyGap">
+                                        <div>{{jobGroup.companyName | emptyField}}</div>
                                     </div>
-                                </div>
-                                <div class="verticalKeyGap textResponsive">
-                                    <div>{{jobGroup.companyName}}</div>
-                                </div>
-                                <div class="verticalKeyGap textResponsive">
-                                    <div>{{jobGroup.jobName}}</div>
-                                </div>
-                                <div class="verticalKeyGap textResponsive" [innerHTML]="jobGroup.description | emptyField">
-                                </div>
-                            </li>
-                        </ul>
+                                    <div class="textProfileResponsive verticalKeyGap">
+                                        <div>{{jobGroup.jobName | emptyField}}</div>
+                                    </div>
+                                    <div [innerHtml]="jobGroup.description" class="textProfileResponsive verticalKeyGap">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                    <div class="d-flex flex-row textProfileResponsive">
+                        <div class="keyValueGap">
+                            <b><i class="bi bi-stars "></i></b>
+                        </div>
+                        <div class="w-100">
+                            <label class=""><b>ความสามารถเพิ่มเติม</b></label>
+                            <div class="verticalKeyGap">
+                                <ul>
+                                    <li>
+                                        <div class="keyValueGap verticalKeyGap">
+                                            <div>ภาษาอังกฤษ</div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="align-items-center keyValueGap col-3">ฟัง</label>
+                                            <div class="col">ระดับทักษะ</div>
+                                            <div class="col verticalKeyGap">{{innerProfileInformation.englishComprehension?.listening | emptyField}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="align-items-center keyValueGap col-3">พูด</label>
+                                            <div class="col">ระดับทักษะ</div>
+                                            <div class="col verticalKeyGap">{{innerProfileInformation.englishComprehension?.speaking | emptyField}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="align-items-center keyValueGap col-3">อ่าน</label>
+                                            <div class="col">ระดับทักษะ</div>
+                                            <div class="col verticalKeyGap">{{innerProfileInformation.englishComprehension?.reading | emptyField}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="align-items-center keyValueGap col-3">เขียน</label>
+                                            <div class="col">ระดับทักษะ</div>
+                                            <div class="col verticalKeyGap">{{innerProfileInformation.englishComprehension?.writing | emptyField}}</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="keyValueGap verticalKeyGap">
+                                            <div>คอมพิวเตอร์</div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="align-items-center keyValueGap col-3">Word</label>
+                                            <div class="col">ระดับทักษะ</div>
+                                            <div class="col verticalKeyGap">{{innerProfileInformation.skills?.word | emptyField}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="align-items-center keyValueGap col-3">Excel</label>
+                                            <div class="col">ระดับทักษะ</div>
+                                            <div class="col verticalKeyGap">{{innerProfileInformation.skills?.excel | emptyField}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="align-items-center keyValueGap col-3">Powerpoint</label>
+                                            <div class="col">ระดับทักษะ</div>
+                                            <div class="col verticalKeyGap">{{innerProfileInformation.skills?.powerpoint | emptyField}}</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="keyValueGap verticalKeyGap">
+                                            <div>ทักษะอื่นๆ</div>
+                                        </div>
+                                        <ng-container *ngIf="innerProfileInformation.otherSkills == null; then emptyOtherSkills; else notEmptyOtherSkills"></ng-container>
+                                        <ng-template #emptyOtherSkills>
+                                            ไม่ระบุ
+                                        </ng-template>
+                                        <ng-template #notEmptyOtherSkills>
+                                            <div [innerHtml]="innerProfileInformation.otherSkills" class=" verticalKeyGap"></div>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
-            <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
+            <div class="tab-pane textProfileResponsive" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
                 <div *ngIf="!allowView">
                     <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'จำกัดการดูข้อมูล'" style="margin-bottom:5rem">
                         <div class="container cannotView" style="padding: 0 12rem; text-align:center">
@@ -138,7 +193,7 @@
                     <div class="verticalKeyGap">
                         <div class="d-flex flex-row">
                             <div class="keyValueGap">
-                                <i class="bi bi-phone"></i>
+                                <i class="bi bi-telephone-plus-fill"></i>
                             </div>
                             <div class="keyValueGap">
                                 <div><b>ข้อมูลการติดต่อ</b></div>
@@ -167,123 +222,184 @@
                     </div>
                 </ng-template>
                 <ng-template #notAllowView>
-                    <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-person"></i></div>
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-person-check-fill"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
                             <div class="keyValueGap">
                                 <div><b>เภสัชกร</b></div>
                             </div>
-                            <div class="col d-flex">
+                            <div class="d-flex">
                                 <div class="me-2">{{innerProfileInformation.name | emptyField}}</div><div>{{innerProfileInformation.surname | emptyField}}</div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
-                            <div class="keyValueGap"><b>เพศ</b></div>
-                            <div>{{innerProfileInformation.gender | emptyField}}</div>
+                        <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
+                            <div class="keyValueGap">
+                                <div><b>เพศ</b></div>
+                            </div>
+                            <div>
+                                <div class="me-2">{{innerProfileInformation.gender | emptyField}}</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-house"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>ที่อยู่</b></div>
-                        </div>
-                        <div class="d-flex flex-row">
-                            <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
+                        <div class="keyValueGap"><i class="bi bi-pin-map-fill"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
+                            <div class="keyValueGap">
+                                <div><b>ที่อยู่</b></div>
+                            </div>
+                            <div>
+                                <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
+                            </div>
                         </div>
                     </div>
-                    <div class="verticalKeyGap" *ngIf="innerProfileInformation?.active == 'อนุญาตให้ดูข้อมูล'">
-                        <div class="d-flex flex-row">
-                            <div class="keyValueGap">
-                                <i class="bi bi-phone"></i>
-                            </div>
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-telephone-plus-fill"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
                             <div class="keyValueGap">
                                 <div><b>ข้อมูลการติดต่อ</b></div>
                             </div>
-                        </div>
-                        <div class="mt-4 contacts" style="margin-left:6rem">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <i class="bi bi-telephone" style="margin-right:2rem"></i>
-                                <div class="keyValueGap">
-                                    <div>เบอร์โทร</div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <i class="bi bi-envelope-at" style="margin-right:2rem"></i>
-                                <div class="keyValueGap">
-                                    <div>Email</div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-3">{{innerProfileInformation.contacts?.email | emptyField}}</div>
-                                </div>
+                            <div class="keyValueGap">
+                                <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
+                                <div>{{innerProfileInformation.contacts?.email | emptyField}}</div>
                             </div>
                         </div>
                     </div>
                 </ng-template>
             </div>
-            <div class="tab-pane" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
+            <div class="tab-pane textProfileResponsive" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
+                <div class="d-flex flex-row verticalKeyGap textResponsiveHeader">
+                    <div class="keyValueGap"><i class="bi bi-briefcase-fill"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div>
+                            <div><b>งานที่กำลังมองหา</b></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="d-flex flex-row verticalKeyGap">
-                    <i class="bi bi-clipboard keyValueGap"></i>
-                    <div><b>ประเภทงานที่สนใจ</b></div>
-                    <div class="ms-3" *ngIf="innerProfileInformation!.preferredJobType!.length == 0">ไม่ระบุ</div>
+                    <div class="keyValueGap"><i style="color:red" class="bi bi-heart-fill"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div>
+                            <div><b>ประเภทงานที่สนใจ</b></div>
+                        </div>
+                        <div *ngIf="innerProfileInformation.preferredJobType!.length == 0">ไม่ระบุ</div>
+                        <div *ngIf="innerProfileInformation.preferredJobType!.length > 0" class="jobTypePayload">
+                            <ul >
+                                <li *ngFor="let jobType of innerProfileInformation.preferredJobType!">
+                                    {{jobType}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="innerProfileInformation!.preferredJobType!.length > 0" class="jobTypePayload" style="padding-left:6rem">
-                    <ul class="row row-cols-2">
-                        <li class="verticalKeyGap col" *ngFor="let jobType of innerProfileInformation!.preferredJobType">
-                            {{jobType}}
-                        </li>
-                    </ul>
-                </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap d-flex flex-row">
-                            <i class="bi bi-lightbulb keyValueGap"></i>
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap"><i class="bi bi-lightbulb-fill"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div class="keyValueGap">
                             <div><b>ชนิดของพนักงาน</b></div>
                         </div>
                         <div>
-                            {{innerProfileInformation!.preferredTimeFrame | emptyField}}
+                            {{innerProfileInformation.preferredTimeFrame | emptyField}}
                         </div>
                     </div>
-                    <div class="d-flex flex-row align-items-center verticalKeyGap">
-                        <div class="keyValueGap d-flex flex-row">
-                            <i class="bi bi-geo keyValueGap"></i>
-                            <div><b>หางานพื้นที่</b></div>
-                        </div>
-                        <div class="contacts">
-                            <div class="row">
-                                <div class="keyValueGap">
-                                    {{innerProfileInformation!.preferredDistrict | emptyField}}, {{innerProfileInformation!.preferredProvince | emptyField}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap d-flex flex-row">
-                            <i class="bi bi-bootstrap keyValueGap"></i>
+                </div>
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap"><i class="bi bi-bootstrap"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div class="keyValueGap">
                             <div><b>เงินเดือนที่ต้องการ</b></div>
                         </div>
                         <div>
-                                {{innerProfileInformation!.preferredSalary | emptyField}}
+                            {{innerProfileInformation.preferredSalary | emptyField}}
                         </div>
                     </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap d-flex flex-row">
-                            <i class="bi bi-check2-circle keyValueGap"></i><div><b>สามารถเริ่มงานได้ </b></div>
+                </div>
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap"><i class="bi bi-clock-fill"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div class="keyValueGap">
+                            <div><b>สามารถเริ่มงานได้</b></div>
                         </div>
                         <div>
-                                {{innerProfileInformation!.preferredStartTime | emptyField}}
+                            {{innerProfileInformation.preferredStartTime | emptyField}}
                         </div>
                     </div>
-            </div>
-            <div class="tab-pane" id="tabFour" role="tabpanel" aria-labelledby="tabOnFour-tab">
-                <div class="container cannotView" style="padding: 0 12rem; text-align:center">
-                    <div><i style="font-size:5rem"  [class]="urgentJobObject.icon"></i></div>
-                    <div>{{urgentJobObject.text}}</div>
-                    <div class="mt-4"><i style="font-size:5rem" class="bi bi-card-checklist"></i></div>
-                    <div>จำนวนงานด่วนที่เคยรับ {{innerProfileInformation!.AmountCompleted}} งาน</div>
                 </div>
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap"><i class="bi bi-geo-fill"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div class="keyValueGap">
+                            <div><b>หางานพื้นที่</b></div>
+                        </div>
+                        <div>
+                            {{innerProfileInformation.preferredLocation?.Section | emptyField}}, {{innerProfileInformation.preferredLocation?.District | emptyField}}, {{innerProfileInformation.preferredLocation?.Province | emptyField}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane textProfileResponsive" id="tabFour" role="tabpanel" aria-labelledby="tabOnFour-tab">
+                <div class="my-5 justify-content-center textResponsiveHeader d-flex" *ngIf="innerProfileInformation.preferredJobType!.includes('งานด่วนรายวัน')">
+                    <i class="bi bi-calendar2-check me-3"></i>
+                    <div>
+                        เภสัชกรท่านนี้เปิดใช้ระบบหางานรายวัน
+                    </div>
+                </div>
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap"><i class="bi bi-asterisk"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                      <div class="keyValueGap">
+                        <div><b>สถานะการทำงานของท่านในตอนนี้</b></div>
+                      </div>
+                      <div>
+                        {{innerProfileInformation.urgentTimeFrame | emptyField}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap"><i class="bi bi-tags-fill"></i></div>
+                    <div style="width:-webkit-fill-available; width:-moz-available">
+                      <div class="keyValueGap verticalKeyGap">
+                        <div><b>ในหนึ่งสับดาห์ วันที่ท่านสะดวกรับงานคือ</b></div>
+                      </div>
+                      <ng-container *ngIf="innerProfileInformation.urgentPreferredDay == null; then emptyPreferredDay; else notEmptyPreferredDay"></ng-container>
+                      <ng-template #emptyPreferredDay>
+                          <div class="" >ไม่ระบุ</div>
+
+                      </ng-template>
+                      <ng-template #notEmptyPreferredDay>
+                          <div *ngIf="innerProfileInformation.urgentPreferredDay.length > 0">
+                              <ul class="">
+                                  <li *ngFor="let preferredDays of innerProfileInformation.urgentPreferredDay" class="verticalKeyGap">
+                                      {{preferredDays}}
+                                  </li>
+                                </ul>
+                            </div>
+                      </ng-template>
+                    </div>
+                      </div>
+                      <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-pin-fill"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
+                          <div class="keyValueGap">
+                            <div><b>มองหางานรายวันพื้นที่ใด?</b></div>
+                          </div>
+                          <div>
+                            {{innerProfileInformation.preferredUrgentProvince| emptyField}}, {{innerProfileInformation.preferredUrgentDistrict| emptyField}}, {{innerProfileInformation.preferredUrgentSection| emptyField}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-arrow-up-right-square-fill"></i></div>
+                        <div style="width:-webkit-fill-available; width:-moz-available">
+                          <div class="keyValueGap">
+                            <div><b>ข้อมูลเกี่ยวกับเวลาว่างรับงานของท่านเพิ่มเติม</b></div>
+                          </div>
+                          <div [innerHTML]="innerProfileInformation.urgentDescription| emptyField">
+                          </div>
+                        </div>
+                      </div>
             </div>
           </div>
     </div>

@@ -20,7 +20,7 @@ export class UsersService {
   private db: Firestore = inject(Firestore) 
   constructor(private converter:JobTypeConverterService, private store: Store, private utilService:UtilService) { }
 
-  async searchPharmaUsersByPreferredJobType(form:UserSearchForm, categorySymbol: string){
+  async searchPharmaUsersByPreferredJobType(form:UserSearchForm){
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
     let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
@@ -34,22 +34,30 @@ export class UsersService {
       if(newForm[key] !== ''){
         if(query == ''){
           if(key == 'WorkExperience'){
-            query = key + " <= " + newForm[key] + " AND yearFlag: true"
+            query = key + " <= " + newForm[key]
           }else{
-            query = key + ":'" + newForm[key] + "'"
+            if(key == 'preferredJobType'){
+              query = key + ":'" + this.converter.getTitleFromCategorySymbol(newForm[key]) + "'"
+            }else{
+              query = key + ":'" + newForm[key] + "'"
+            }
           }
         }else{
           if(key == 'WorkExperience'){
-            query = query + ' AND ' + key + " <= " + newForm[key] + " AND yearFlag: true"
+            query = query + ' AND ' + key + " <= " + newForm[key]
           }else{
-            query = query + ' AND ' + key + ":'" + newForm[key] + "'"
+            if(key == 'preferredJobType'){
+              query = key + ":'" + this.converter.getTitleFromCategorySymbol(newForm[key]) + "'"
+            }else{
+              query = query + ' AND ' + key + ":'" + newForm[key] + "'"
+            }
           }
         }
       }
     })
     query = (query == '')?"":" AND " + query
     let index:SearchIndex = client.initIndex(indexName)
-    let filter = "role:'เภสัชกร' AND studentFlag:false" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(categorySymbol) + "'"
+    let filter = "role:'เภสัชกร' AND studentFlag:false" + query 
     let user = await index.search('',{
               hitsPerPage: this.hitsPerPage,
               page:0,
@@ -70,7 +78,7 @@ export class UsersService {
     }
   }
   async searchPharmaUsersUrgentByPreferredJobType(form:UserUrgentSearchForm) {
-    let newForm = this.utilService.populateObjectWithLocationFields(form)
+    let newForm = this.utilService.populateObjectWithUrgentLocationFields(form)
     let query = ''
     let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     // if(newForm.amountCompletedSort !== ''){
@@ -82,16 +90,27 @@ export class UsersService {
       hitsPerPage:this.hitsPerPage,
       page:0,
     }
+    
     if(!newForm.nearbyFlag){
-      if(newForm.Location.Section !== ''){
-        query = ' AND Location.Section:' + "'" + newForm.Location.Section + "'"
+      if(newForm.preferredUrgentSection !== ''){
+        query += ' AND preferredUrgentSection:' + "'" + newForm.preferredUrgentSection + "'"
       }
-      if(newForm.Location.District !== ''){
-        query = ' AND Location.District:' + "'" + newForm.Location.District + "'"
+      if(newForm.preferredUrgentDistrict !== ''){
+        query += ' AND preferredUrgentDistrict:' + "'" + newForm.preferredUrgentDistrict + "'"
       }
-      if(newForm.Location.Province !== ''){
-        query = ' AND Location.Province:' + "'" + newForm.Location.Province + "'"
+      if(newForm.preferredUrgentProvince !== ''){
+        query += ' AND preferredUrgentProvince:' + "'" + newForm.preferredUrgentProvince + "'"
       }
+      if(newForm.urgentTimeFrame !== ''){
+        query += ' AND urgentTimeFrame:' + "'" + newForm.urgentTimeFrame + "'"
+      }
+      if(newForm.urgentPreferredDay !== ''){
+        query += ' AND urgentPreferredDay:' + "'" + newForm.urgentPreferredDay + "'"
+      }
+      if(newForm.highestEducation !== ''){
+        query += ' AND highestEducation:' + "'" + newForm.highestEducation + "'"
+      }
+
     }else{
       requestOptions.aroundLatLng = form._geoloc?.lat + ', ' + form._geoloc?.lng 
       if(form.radius !== ''){
@@ -114,119 +133,6 @@ export class UsersService {
       indexName: indexName,
       totalPage: users.nbPages
     }
-  }
-  async searchPharmaUsersUrgent(form:UserUrgentSearchForm){
-    let newForm = this.utilService.populateObjectWithLocationFields(form)
-    let query = ''
-    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
-    if(newForm.amountCompletedSort !== ''){
-      indexName = 'pharm-work_user_index_AmountCompleted_' + newForm['amountCompletedSort']
-    }
-    let index:SearchIndex = client.initIndex(indexName)
-    let requestOptions: any = 
-    {
-      hitsPerPage:5,
-      page:0,
-    }
-    if(!newForm.nearbyFlag){
-      if(newForm.preferredSection !== ''){
-        query = ' AND Location.Section:' + "'" + newForm.Location.Section + "'"
-      }
-      if(newForm.preferredDistrict !== ''){
-        query = ' AND Location.District:' + "'" + newForm.Location.District + "'"
-      }
-      if(newForm.preferredProvince !== ''){
-        query = ' AND Location.Province:' + "'" + newForm.Location.Province + "'"
-      }
-    }else{
-      requestOptions.aroundLatLng = form._geoloc?.lat + ', ' + form._geoloc?.lng 
-      requestOptions.aroundRadius = form.radius
-    }
-    let filter = "role:'เภสัชกร' AND studentFlag:false" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol('S') + "'"
-    requestOptions.filters = filter
-    let users = await index.search('',requestOptions)
-    let finalUsers = users.hits.map((hit:any)=>{
-      let newHit = _.cloneDeep(hit);
-      newHit.uid = newHit.objectID
-      delete newHit.objectID
-      return newHit
-    }) as unknown as UserPharma[]
-    let payload : {
-      S: {
-        [key:string]: UserPharma
-      }
-    } = {
-      S: {}
-    }
-    finalUsers.forEach((user)=>{
-      payload.S[user.uid] = user
-    })
-    return payload
-  }
-  async searchPharmaUsers(form:UserSearchForm){
-    let newForm = this.utilService.populateObjectWithLocationFields(form)
-    let query = ''
-    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
-    Object.keys(newForm).forEach((key, index)=>{
-      if(key == 'WorkExperience' && newForm[key] !== ''){
-        indexName = 'pharm-work_user_index_workExperience_desc'
-      }
-      if(newForm[key] !== ''){
-        if(query == ''){
-          if(key == 'WorkExperience'){
-            query = key + " <= " + newForm[key] + ""
-          }else{
-            query = key + ":'" + newForm[key] + "'"
-          }
-        }else{
-          if(key == 'WorkExperience'){
-            query = query + ' AND ' + key + " <= " + newForm[key] + ""
-          }else{
-            query = query + ' AND ' + key + ":'" + newForm[key] + "'"
-          }
-        }
-      }
-    })
-    query = (query == '')?"":" AND " + query
-    let promises: any = []
-    let index:SearchIndex = client.initIndex(indexName)
-    this.converter.getPlaceHolderObject().forEach((placeHolder)=>{
-      if(placeHolder.categorySymbol !== 'S'){
-        let filter = "role:'เภสัชกร' AND studentFlag:false" + query + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol(placeHolder.categorySymbol) + "'"
-        promises.push(
-           index.search('',{
-            hitsPerPage:this.hitsPerPage,
-            page:0,
-            filters: filter
-          })
-        )
-      }
-    })
-    let users = await Promise.all(promises)
-    let allUsers: {
-      [key: string]: {
-        [key:string]: UserPharma
-      }
-    } = {}
-    users.forEach((usersByJobType, index)=>{
-      let placeholder = this.converter.getPlaceHolderObject()[index]
-      usersByJobType.hits.forEach((hit:any)=>{
-        let newHit = _.cloneDeep(hit);
-        newHit.uid = newHit.objectID
-        delete newHit.objectID
-        if(placeholder.categorySymbol !== 'S'){
-          if(allUsers[placeholder.categorySymbol] == undefined){
-            allUsers[placeholder.categorySymbol] = {}
-          }
-          allUsers[placeholder.categorySymbol][newHit.uid] = 
-            {
-              ...newHit as UserPharma, 
-              uid: newHit.uid
-            }
-        }
-      })
-    })
-    return allUsers
   }
 
     async getAllPharmaUsers(){
@@ -298,10 +204,34 @@ export class UsersService {
     })
   }
 
-  async getPharmaUserByJobType(title: string, paginationIndex: number, jobTypeFlag: boolean = true){
+  async getUrgentPharmaUserByJobType(paginationIndex: number){
     let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
     let index:SearchIndex = client.initIndex(indexName)
-    let filter = "role:'เภสัชกร' AND studentFlag:false AND preferredJobType:'" + title + "'"
+    let filter = "role:'เภสัชกร' AND studentFlag:false" + " AND preferredJobType:'" + this.converter.getTitleFromCategorySymbol('S') + "'"
+
+    let doc = await index.search('', {
+      hitsPerPage:this.hitsPerPage,
+      page:paginationIndex,
+      filters: 
+        filter
+    })
+    return {
+      result: doc.hits.map((hit: any) => {
+        let newHit: UserPharma = _.cloneDeep(hit);
+        newHit.uid = newHit.objectID!;
+        delete newHit.objectID;
+        return newHit
+      }),
+      totalPage: doc.nbPages,
+      query:filter
+    }
+  }
+
+  async getPharmaUserByJobType(paginationIndex: number){
+    let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
+    let index:SearchIndex = client.initIndex(indexName)
+    let filter = "role:'เภสัชกร' AND studentFlag:false"
+
     let doc = await index.search('', {
       hitsPerPage:this.hitsPerPage,
       page:paginationIndex,

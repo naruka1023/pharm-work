@@ -44,7 +44,6 @@ export class NormalUserCardComponent {
         this.userID = value
       }
     })
-
     
 
     this.requestViewFlag$ = this.store.select((state: any) =>{

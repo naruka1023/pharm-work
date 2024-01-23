@@ -90,31 +90,10 @@ export class JobTypeConverterService {
     let title = '';
     switch(categorySymbol){
       case "S":
-        title = 'เภสัชกรที่สนใจงานด่วนรายวัน'
+        title = 'เภสัชกรที่สนใจงานเภสัชรายวัน (freelance)'
         break;
-      case "AA":
-        title = 'เภสัชกรที่สนใจงานร้านยาทั่วไป'
-        break;
-      case "AB":
-        title = 'เภสัชกรที่สนใจงานร้านยาแบรนด์'
-        break;
-      case "AC":
-        title = 'เภสัชกรที่สนใจงานโรงพยาบาล'
-        break;
-      case "BA":
-        title = 'เภสัชกรที่สนใจงานคลินิก'
-        break;
-      case "BB":
-        title = 'เภสัชกรที่สนใจงานโรงงาน'
-        break;
-      case "BC":
-        title = 'เภสัชกรที่สนใจงานบริษัท'
-        break;
-      case "CA":
-        title = 'เภสัชกรที่สนใจงานวิจัย'
-        break;
-      case "CB":
-        title = 'เภสัชกรที่สนใจงานอื่นๆ'
+        case "N":
+        title = 'เภสัชกรที่สนใจงานทั่วไปทั้งหมด'
         break;
     }
     return title;

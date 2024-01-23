@@ -179,7 +179,7 @@
 
     <ng-template #displayPage>
       <div class="d-flex flex-row verticalKeyGap">
-        <div class="keyValueGap"><i class="bi bi-tags-fill"></i></div>
+        <div class="keyValueGap"><i class="bi bi-asterisk"></i></div>
         <div style="width:-webkit-fill-available; width:-moz-available">
           <div class="keyValueGap">
             <div><b>สถานะการทำงานของท่านในตอนนี้</b></div>
@@ -212,7 +212,7 @@
                 <div><b>มองหางานรายวันพื้นที่ใด?</b></div>
               </div>
               <div>
-                {{innerProfileInformation.preferredUrgentLocation.Province| emptyFieldPipe}}, {{innerProfileInformation.preferredUrgentLocation.District| emptyFieldPipe}}, {{innerProfileInformation.preferredUrgentLocation.Section| emptyFieldPipe}}
+                {{innerProfileInformation.preferredUrgentProvince| emptyFieldPipe}}, {{innerProfileInformation.preferredUrgentDistrict| emptyFieldPipe}}, {{innerProfileInformation.preferredUrgentSection| emptyFieldPipe}}
               </div>
             </div>
           </div>

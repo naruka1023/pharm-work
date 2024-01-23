@@ -22,7 +22,6 @@ import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
     { path: '', component: OperatorHomeComponent},
-    { path: 'users-list', component: UserListComponent},
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'edit-jobs', component: EditJobComponent},

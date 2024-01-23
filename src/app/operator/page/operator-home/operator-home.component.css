@@ -40,7 +40,8 @@
 .nav-link{
   color:black
 }
-.nav-tabs .nav-link.active{
-  color:#7fd858 !important
+.nav-item .nav-link.active{
+  color:#7fd858 !important;
+  background-color:unset
 }
   

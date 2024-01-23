@@ -27,6 +27,11 @@
   .fourPointKeyValue{
     display:block
   }
+  .fourPointersPharma{
+    padding-right: 0 !important;
+    margin-bottom: 2rem !important;
+    padding: 0 2%;
+  }
   .mainHeaderContent > div{
     justify-content: center !important
   }
@@ -45,9 +50,6 @@
   .profileUploadButton{
     left: 382px;
     bottom: 4rem !important
-  }
-  .job-post_profile-picture{
-    left: 0 !important
   }
   .jobCounts{
     text-align:left
@@ -76,69 +78,8 @@
   }
 }
 
-@media only screen and (max-width: 450px) {
-  .preferredJobs{
-    display: block !important;
-    text-align: center
-  }
-  .coverPhotoEditButtonPosition{
-    font-size: medium !important
-  }
-  .fourPointersPharma{
-    padding: 0 18px !important
-  }
-  .fourPointKeyValuePreferred{
-    font-size: small
-  }
-  .editButtonText{
-    font-size: medium !important
-  }
-  .fourPointKeyValue{
-    font-size: small
-  }
-}
-@media only screen and (max-width: 576px) {
-  .operatorHeader > div{
-    font-size: 1.5rem !important; 
-  }
-  .fourPointersContainer{
-    height: unset !important
-  }
-  .jobCounts, .jobCounts2 {
-    text-align:center
-  }
-  .buttonSet{
-    display: block !important
-  }
-  .buttonSet > button{
-    margin: 7px auto !important
-  }
-  .fourPointersPharma{
-    padding:0 5vw !important;
-  }
-  .mainHeaderContent{
-    font-size: 2rem !important;
-  }
-  .followButton{
-    margin-bottom:0 !important
-  }
-  .profileUploadButton{
-    left: 55vw !important;
-    z-index: 5 !important
-  }
-  .fourPointers > div > div {
-    margin: 8px 0
-  }
-  .job-post_profile-picture{
-    z-index:5 !important
-  }
-  .introText{
-    padding: 0 1rem 1.5rem 1rem !important;
-    font-size: 0.9rem !important;
-  }
-}
-  
-  
+
+
   @media only screen and (max-width: 768px) {
   .profileUploadButton{
     left: 292px;
@@ -196,6 +137,73 @@
     font-size: 1.1rem !important;
   }
 }
+@media only screen and (max-width: 576px) {
+  .operatorHeader > div{
+    font-size: 1.5rem !important; 
+  }
+  .fourPointersContainer{
+    height: unset !important
+  }
+  .jobCounts, .jobCounts2 {
+    text-align:center
+  }
+  .buttonSet{
+    display: block !important
+  }
+  .buttonSet > button{
+    margin: 7px auto !important
+  }
+  .fourPointersPharma{
+    padding:0 5vw !important;
+  }
+  .mainHeaderContent{
+    font-size: 2rem !important;
+  }
+  .followButton{
+    margin-bottom:0 !important
+  }
+  .profileUploadButton{
+    left: 55vw !important;
+    z-index: 5 !important
+  }
+  .fourPointers > div > div {
+    margin: 8px 0
+  }
+  .job-post_profile-picture{
+    z-index:5 !important
+  }
+  .introText{
+    padding: 0 1rem 1.5rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .preferredJobs{
+    display: block !important;
+    text-align: center
+  }
+  .coverPhotoEditButtonPosition{
+    font-size: medium !important
+  }
+  .fourPointersPharma{
+    padding: 0 18px !important
+  }
+  .fourPointKeyValuePreferred{
+    font-size: small
+  }
+  .editButtonText{
+    font-size: medium !important
+  }
+  .fourPointKeyValue{
+    font-size: small
+  }
+}
+.fourPointKeyValuePreferred, .fourPointKeyValue{
+  display:flex
+}
+.fourPointersPharma{
+  padding-right:20rem;
+}
 div.img-container {
     width: 100%;
     margin: 0 auto;
@@ -220,12 +228,6 @@ div.img-container {
     right: -122px;
   }
   
-  .job-post_profile-picture {
-    position: relative;
-    top: -75px;
-    z-index: 1;
-    left: 22px;
-  }
 
   .user-buttons:hover{
     color:grey

@@ -31,9 +31,9 @@
                         <img id="innerPhoto" class="innerCoverPhoto" [ngStyle]="{'visibility': photoFlag}" draggable='false' [src]="result.coverPhotoPictureUrl"/>
                     </div>
                 </div>
-                <div class="outerHeader2Pharma d-flex justify-content-between">
-                    <div class="ms-lg-4 mt-2 outerHeaderPharma d-flex justify-content-between">
-                        <div style="height:10em">
+                <div class="outerHeader2Pharma d-flex justify-content-between align-items-center">
+                    <div class="ms-lg-4 outerHeaderPharma d-flex justify-content-between align-items-center">
+                        <div>
                             <img class="job-post_profile-picture border border-5 border-white rounded-circle" id="profilePicture" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                             <div class="profileUploadButton" data-bs-toggle="dropdown">
                                 <i class="bi bi-camera-fill fs-3"></i>
@@ -54,13 +54,13 @@
                                     </form>
                                 </div>
                                 <div class="d-flex mainHeader">
-                                    <h5 style='align-self:end' class="mainHeaderContent mb-0 mt-lg-2 mt-1 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
+                                    <h5 style='align-self:end' class="mainHeaderContent mb-0 mt-1 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
                                 </div>
                             </ng-template>
                             <ng-template #displayNickName>
                                 <div class="mainHeader">
-                                    <h3  class="mt-lg-4 mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName}}</h3>
-                                     <h5 style='align-self:end' class="mt-2 mainHeaderContent mb-0 mt-lg-2 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
+                                    <h3  class="mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName}}</h3>
+                                     <h5 style='align-self:end' class="mainHeaderContent mb-0 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
                                 </div>
                             </ng-template>
                             <div>
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4">
+                    <div>
                         <div class="editButton fs-2 text-center justify-content-end align-items-center">
                             <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                                 <span class="visually-hidden">Loading...</span>
@@ -196,14 +196,14 @@
                     <img id="innerPhoto" class="innerCoverPhoto" draggable='false' [src]="result.coverPhotoPictureUrl" />
                 </div>
             </div>
-            <div class="outerHeader2 d-lg-flex justify-content-between pb-md-0 pb-1 mb-5" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
-                <div class="outerHeader m-4 d-flex justify-content-lg-between">
+            <div class="outerHeader2 d-lg-flex justify-content-between pb-md-0 pb-1 mb-5 align-items-center" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
+                <div class="outerHeader m-4 d-flex justify-content-lg-between align-items-center">
                     <img class="job-post_profile-picture border border-5 border-white rounded-circle" (click)="goToOperatorProfile()" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                     <div>
                         <div class="mainHeader">
-                            <h3 class="mt-lg-4 my-2 ms-lg-5 me-0 mainHeaderContent">{{result.Establishment | emptyFieldPipe}}</h3> 
+                            <h3 class="ms-lg-5 me-0 mainHeaderContent">{{result.Establishment | emptyFieldPipe}}</h3> 
                         </div>
-                        <div class="d-lg-flex mt-md-4 ms-lg-5"> 
+                        <div class="d-lg-flex ms-lg-5"> 
                             <h4 class="mainHeaderContent ms-lg-0 ms-md-4 me-md-3 my-md-0 my-2 align-self-center"><i>{{result.JobType | emptyFieldPipe}}</i></h4>
                         </div>
                     </div>
@@ -239,12 +239,12 @@
             <div id="coverPhoto"  class="coverPhoto img-container mh-100">
                 <img id="innerPhoto" class="innerCoverPhoto" [src]="result.coverPhotoPictureUrl" />
             </div>
-            <div class="outerHeader2 outerHeaderOperator d-flex justify-content-between">
-                <div class="outerHeader m-4 d-flex justify-content-between">
+            <div class="outerHeader2 outerHeaderOperator d-flex justify-content-between align-items-center">
+                <div class="outerHeader m-4 d-flex justify-content-between align-items-center">
                     <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                         <div class="align-items-center mainHeader">
-                            <div class="fs-4 companyName m-4 ms-lg-5 ms-md-3 mb-0 me-md-2">{{result.companyName | emptyFieldPipe}}</div> 
-                            <div style='align-self:end' class="fs-5 subheaderLocation my-2 ms-lg-5 ms-md-3 mb-0 me-md-2"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</div>
+                            <div class="h3 companyName m-4 ms-lg-5 ms-md-3 mb-0 me-md-2">{{result.companyName | emptyFieldPipe}}</div> 
+                            <div style='align-self:end' class="h4 subheaderLocation my-2 ms-lg-5 ms-md-3 mb-0 me-md-2"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</div>
                         </div>
                         <!-- <div>
                             <h6 class="mx-4"><i>{{result.JobType}}</i></h6>

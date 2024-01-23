@@ -71,7 +71,6 @@ export class UrgentJobsComponent {
       this.googleMapFlag = this.innerProfileInformation._geoloc !== undefined
       this.markerPosition = this.center
       if(this.innerProfileInformation.role !== ''){
-        this.innerProfileInformation = this.utilService.populateLocationFieldsWithObject(this.innerProfileInformation);
         this.resultPayload = this.innerProfileInformation.urgentPreferredDay!;
         this.urgentJobFlag = this.converter.arrayToObject(this.innerProfileInformation.preferredJobType).S
         this.resetFormGroup();
@@ -99,6 +98,7 @@ export class UrgentJobsComponent {
       delete payload._geoloc
     }
     this.loadingFlagUrgent = true
+    payload = this.utilService.populateObjectWithUrgentLocationFields(payload);
     this.userService.updateUser(payload).then(()=>{
       this.loadingFlagUrgent = false
       this.store.dispatch(setCurrentUser({user: payload}))

@@ -49,17 +49,20 @@ export interface UserSearchForm
     preferredStartTime?: string,
     preferredJobType?: string,
     active: string,
-
+    
 }
 
 export interface UserUrgentSearchForm 
 {
     amountCompletedSort: string,
+    preferredUrgentLocation: Location;
+    urgentTimeFrame: string;
+    urgentPreferredDay: string;
+    highestEducation: string;
     nearbyFlag: boolean,
     _geoloc?: _geoloc
     onlineFlag?:boolean,
     radius: string | number,
-    preferredLocation:Location,
 }
 
 export interface _geoloc{
@@ -89,6 +92,9 @@ export interface UserPharma{
     urgentTimeFrame: string;
     urgentPreferredDay: string[];
     preferredUrgentLocation: Location;
+    preferredUrgentProvince?: string;
+    preferredUrgentDistrict?: string;
+    preferredUrgentSection?: string;
     urgentDescription: string;
     otherSkills?: string;
     skills?: {

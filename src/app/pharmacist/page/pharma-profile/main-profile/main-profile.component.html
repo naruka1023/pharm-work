@@ -3,16 +3,16 @@
     <div class="verticalKeyGap">
             <div class="historyHeader d-flex verticalKeyGap flex-row">
                 <div class="d-flex flex-row">
-                    <div class="keyValueGap" style="display: flex; align-items:center"><i class="textResponsive bi bi-mortarboard-fill me-2"></i></div>
-                    <div class="textResponsive"><b>ประวัติการศึกษา</b></div>
+                    <div class="keyValueGap" style="display: flex; align-items:center"><i class="textProfileResponsive bi bi-mortarboard-fill me-2"></i></div>
+                    <div class="textProfileResponsive"><b>ประวัติการศึกษา</b></div>
                 </div>
                 <div class="d-flex">
-                    <div style="border:1px solid red" class="border-input textResponsive subHeader px-3">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyFieldPipe}}</div>
+                    <div style="border:1px solid red" class="border-input textProfileResponsive subHeader px-3">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyFieldPipe}}</div>
                 </div>
             </div>
             <div class="historyContent">
                 <div class="d-flex">
-                    <div class="keyValueGap" style="visibility:hidden; display: flex; align-items:center"><i class="textResponsive bi bi-mortarboard-fill me-2"></i></div>
+                    <div class="keyValueGap" style="visibility:hidden; display: flex; align-items:center"><i class="textProfileResponsive bi bi-mortarboard-fill me-2"></i></div>
                     <ul>
                         <li class="educationCell" *ngFor="let eduGroup of innerProfileInformation.educationHistory">
                             <div class="verticalKeyGap"><b>ปีที่จบ</b> {{eduGroup.yearGraduated | emptyFieldPipe}}</div>
@@ -28,29 +28,29 @@
         <div class="verticalKeyGap">
             <div class="d-flex flex-row historyHeader verticalKeyGap">
                 <div class="d-flex flex-row">
-                    <div class="keyValueGap textResponsive" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
-                    <div class="textResponsive"><b>ประวัติการทำงาน</b></div>
+                    <div class="keyValueGap textProfileResponsive" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
+                    <div class="textProfileResponsive"><b>ประวัติการทำงาน</b></div>
                 </div>
                 <div class="d-flex">
-                    <div style="border:1px solid red" class="border-input subHeader textResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag | emptyFieldPipe}}</div>
+                    <div style="border:1px solid red" class="border-input subHeader textProfileResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag | emptyFieldPipe}}</div>
                 </div>
             </div>
             <div class="historyContent">
                 <div class="d-flex">
-                    <div class="keyValueGap textResponsive" style="visibility:hidden; display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
+                    <div class="keyValueGap textProfileResponsive" style="visibility:hidden; display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
                     <ul>
                         <li *ngFor="let jobGroup of innerProfileInformation.jobHistory">
-                            <div class="textResponsive verticalKeyGap d-flex justify-content-start">
+                            <div class="textProfileResponsive verticalKeyGap d-flex justify-content-start">
                                 <div class="me-5"><b>{{jobGroup.dateStarted}} - {{jobGroup.activeFlag? "ปัจจุบัน":jobGroup.dateEnded | emptyFieldPipe}}</b></div>
                                 <div>{{jobGroup.activeFlag? '':jobGroup.workExperience | emptyFieldPipe}}</div>
                             </div>
-                            <div class="textResponsive verticalKeyGap">
+                            <div class="textProfileResponsive verticalKeyGap">
                                 <div>{{jobGroup.companyName | emptyFieldPipe}}</div>
                             </div>
-                            <div class="textResponsive verticalKeyGap">
+                            <div class="textProfileResponsive verticalKeyGap">
                                 <div>{{jobGroup.jobName | emptyFieldPipe}}</div>
                             </div>
-                            <div [innerHtml]="jobGroup.description" class="textResponsive verticalKeyGap">
+                            <div [innerHtml]="jobGroup.description" class="textProfileResponsive verticalKeyGap">
                             </div>
                         </li>
                     </ul>
@@ -279,8 +279,8 @@
                             </div>
                         </div>
                         <div class="col-1 d-flex justify-content-center">
-                            <i *ngIf="i == 0" (click)="addEducation()" class="textResponsive button bi bi-plus-circle"></i>
-                            <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" textResponsive button bi bi-trash"></i>
+                            <i *ngIf="i == 0" (click)="addEducation()" class="textProfileResponsive button bi bi-plus-circle"></i>
+                            <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" textProfileResponsive button bi bi-trash"></i>
                         </div>
                     </div>
                 </ng-container>
@@ -316,9 +316,9 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-xl-5 col-12">
-                                        <div class="textResponsive me-3">ประสบการณ์ทำงาน</div>
+                                        <div class="textProfileResponsive me-3">ประสบการณ์ทำงาน</div>
                                     </div>
-                                    <div class="textResponsive col">
+                                    <div class="textProfileResponsive col">
                                         {{ number.value.workExperience }}
                                     </div>
                                 </div>
@@ -336,8 +336,8 @@
                                     </div>
                                 </div>
                                 <div class="form-check verticalKeyGap ">
-                                    <input class="textResponsive form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
-                                    <label for="activeFlag" class="textResponsive text-center form-check-label">
+                                    <input class="textProfileResponsive form-check-input" type="checkbox" name="activeFlag" [value]="number.value.activeFlag" formControlName="activeFlag" (change)="changeDetected($event, i)">
+                                    <label for="activeFlag" class="textProfileResponsive text-center form-check-label">
                                         ยังอยู่ในตำแหน่งนี้
                                     </label>
                                 </div>
@@ -351,8 +351,8 @@
                             <div class="col-1 d-flex justify-content-center">
                                 <div>
                                     <div class="d-flex flex-start responsiveButton">
-                                        <i *ngIf="i == 0" (click)="addOccupation()" class="textResponsive button bi bi-plus-circle"></i>
-                                        <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class="textResponsive button bi bi-trash"></i>
+                                        <i *ngIf="i == 0" (click)="addOccupation()" class="textProfileResponsive button bi bi-plus-circle"></i>
+                                        <i (click)="removeOccupation(i)"  *ngIf='i !== 0' class="textProfileResponsive button bi bi-trash"></i>
                                     </div>
                                 </div>
                             </div>

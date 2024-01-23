@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Bookmark, jobRequest } from '../model/typescriptModel/jobPost.model';
 import { User, requestView } from '../model/typescriptModel/users.model';
+import { UserMetadata } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,25 @@ export class UtilService {
   
   sendEditSubject(){
     return this.editSubject.next(true);
+  }
+  populateObjectWithUrgentLocationFields(userForm:User){
+    const newUser: any = userForm;
+    newUser.preferredUrgentDistrict =  userForm.preferredUrgentLocation?.District  !== undefined? userForm.preferredUrgentLocation.District: '' 
+    newUser.preferredUrgentProvince =  userForm.preferredUrgentLocation?.Province  !== undefined? userForm.preferredUrgentLocation.Province: '' 
+    newUser.preferredUrgentSection =  userForm.preferredUrgentLocation?.Section  !== undefined? userForm.preferredUrgentLocation.Section: '' 
+    delete newUser.preferredUrgentLocation;
+    return newUser;
+  }
+  populateUrgentLocationFieldsWithObject(userForm:User){
+    userForm.preferredUrgentLocation = {
+      Province: userForm.preferredUrgentProvince !== undefined? userForm.preferredUrgentProvince: '' ,
+      District: userForm.preferredUrgentDistrict !== undefined? userForm.preferredUrgentDistrict: '' ,
+      Section: userForm.preferredUrgentSection !== undefined? userForm.preferredUrgentSection: '' ,
+    }
+    delete userForm.preferredUrgentProvince;
+    delete userForm.preferredUrgentDistrict;
+    delete userForm.preferredUrgentSection;
+    return userForm
   }
   populateLocationFieldsWithObject(userForm:User){
     userForm.preferredLocation = {

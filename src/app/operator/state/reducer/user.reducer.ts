@@ -7,6 +7,9 @@ const emptyUsers = {
     short:{},
     long: {}
   },
+  N: {
+    long: {}
+  },
   AA: {
     short:{},
     long: {}

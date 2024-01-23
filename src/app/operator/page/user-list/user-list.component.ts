@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,7 @@ export class UserListComponent {
   locationRadiusFlag: boolean = true;
   constructor(private store:Store, private fb:FormBuilder,private router: Router,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){
   }
-  type!: string;
+  @Input() type!: string;
   title!: string;
   distance: number = 1.5
   throttle: number = 500
@@ -35,7 +35,6 @@ export class UserListComponent {
   geoLocFlag!: boolean;
   infiniteScrollingLoadingFlag: boolean = false;
   loadingFlag: boolean = true;
-  headerSearchFlag!: boolean
   Users$!: Observable<UserPharma[]>
   newUserFormList!: FormGroup;
   newUserFormUrgent!: FormGroup;
@@ -43,36 +42,33 @@ export class UserListComponent {
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
-  searchModal: any
   provinceUrgent$!: Observable<string[]>;
   districtUrgent$!: Observable<string[]>;
   sectionUrgent$!: Observable<string[]>;
   
   ngOnInit(){
     this.loadingFlag = true;
-    if(this.type == undefined){
-      this.type = this.route.snapshot.queryParamMap.get('type')!;
-      this.headerSearchFlag = false;
-    }
-    this.searchModal = new window.bootstrap.Modal(
-      document.getElementById('searchModal')
-      );
     this.title = this.converter.getTitleFromCategorySymbol(this.type);
+    this.type = this.type == 'S'?'S': 'N'
     this.newTitle = this.converter.getNewTitleFromCategorySymbol(this.type);
-    if(this.headerSearchFlag){
-      if(this.type !== 'S'){
-        this.searchUsers()
-      }else{
-        this.searchUsersUrgent()
-      }
-    }else{
-      this.userService.getPharmaUserByJobType(this.title, this.paginationIndex).then((users)=>{
+    if(this.type == 'S'){
+      this.userService.getUrgentPharmaUserByJobType(this.paginationIndex).then((users)=>{
         this.query = users.query
         this.maxIndex = users.totalPage
         this.paginationIndex++
         this.store.dispatch(SetUsersByJobType({users:users.result, jobType:this.type}))
         this.loadingFlag = false;
       })
+
+    }else{
+      this.userService.getPharmaUserByJobType(this.paginationIndex).then((users)=>{
+        this.query = users.query
+        this.maxIndex = users.totalPage
+        this.paginationIndex++
+        this.store.dispatch(SetUsersByJobType({users:users.result, jobType:this.type}))
+        this.loadingFlag = false;
+      })
+
     }
     this.store.select((state: any)=>{
       return state.user
@@ -103,33 +99,32 @@ export class UserListComponent {
     })
 
     if(this.type == 'S'){
-      if(!this.headerSearchFlag){
-        this.initializeFormGroupUrgent();
-      }
+      this.initializeFormGroupUrgent();
+
       this.provinceUrgent$ = this.store.select((state: any)=>{
         const result = Object.keys(state.address.list);
         return result
       })
       this.provinceUrgent$.subscribe(()=>{})
+
       this.districtUrgent$ = this.store.select((state: any)=>{
-        if(this.newUserFormUrgent.value.Location.Province === '' || this.newUserFormUrgent.value.Location.Province === null){
+        if(this.newUserFormUrgent.value.preferredUrgentLocation.Province === '' || this.newUserFormUrgent.value.preferredUrgentLocation.Province === null){
           return [];
         }
-        return Object.keys(state.address.list[this.newUserFormUrgent.value.Location.Province])
+        return Object.keys(state.address.list[this.newUserFormUrgent.value.preferredUrgentLocation.Province])
       })
       this.districtUrgent$.subscribe(()=>{})
+
       this.sectionUrgent$ = this.store.select((state: any)=>{
-        if(this.newUserFormUrgent.value.Location.District === '' || this.newUserFormUrgent.value.Location.District === null){
+        if(this.newUserFormUrgent.value.preferredUrgentLocation.District === '' || this.newUserFormUrgent.value.preferredUrgentLocation.District === null){
           return [];
         }
-        const section: string[] = state.address.list[this.newUserFormUrgent.value.Location.Province][this.newUserFormUrgent.value.Location.District].map((section: any)=>section.section);
+        const section: string[] = state.address.list[this.newUserFormUrgent.value.preferredUrgentLocation.Province][this.newUserFormUrgent.value.preferredUrgentLocation.District].map((section: any)=>section.section);
         return section
       })
       this.sectionUrgent$.subscribe(()=>{})
     }else{
-      if(!this.headerSearchFlag){
-        this.initializeFormGroup();
-      }
+      this.initializeFormGroup();
       this.province$ = this.store.select((state: any)=>{
         const result = Object.keys(state.address.list);
         return result
@@ -155,7 +150,7 @@ export class UserListComponent {
   }
   provinceSelectedUrgent($event:any){
     this.newUserFormUrgent.patchValue({
-      ...this.newUserFormUrgent.value.value,
+      ...this.newUserFormUrgent.value,
       Location:{
         District:'',
           Section:''
@@ -187,7 +182,6 @@ export class UserListComponent {
     this.locationRadiusFlag = event.target.checked;
     if(this.locationRadiusFlag && this.geoLocFlag){
       document.getElementById('flexSwitchCheckDefault')?.click()
-      this.searchModal.hide()
       this.router.navigate(['operator/profile-operator'], {
         queryParams:{
           googleMapPointer:true
@@ -206,7 +200,7 @@ export class UserListComponent {
   }
   provinceSelected($event:any){
     this.newUserFormList.patchValue({
-        ...this.newUserFormList.value.value,
+        ...this.newUserFormList.value,
         preferredLocation:{
           District:'',
           Section:''
@@ -231,12 +225,12 @@ export class UserListComponent {
   searchUsers(){
     this.loadingFlag = true;
     this.paginationIndex = 0
-    this.searchModal.hide()
-    this.userService.searchPharmaUsersByPreferredJobType(this.newUserFormList.value, this.type).then((users)=>{
+    this.userService.searchPharmaUsersByPreferredJobType(this.newUserFormList.value).then((users)=>{
+      this.utilService.populateLocationFieldsWithObject(this.newUserFormList.value)
       this.maxIndex = users.totalPage
-      this.paginationIndex++
       this.query = users.query
       this.indexName = users.indexName
+      this.paginationIndex++;
       this.store.dispatch(SetUsersByJobType({users:users.results, jobType:this.type}))
       this.loadingFlag = false;
     })
@@ -244,6 +238,7 @@ export class UserListComponent {
 
   initializeFormGroup(){
     this.newUserFormList = this.fb.group({
+      preferredJobType: [''],
       preferredTimeFrame: [''], 
       WorkExperience: [''],
       preferredLocation: this.fb.group({
@@ -258,11 +253,13 @@ export class UserListComponent {
   
   initializeFormGroupUrgent(){
     this.newUserFormUrgent = this.fb.group({
-      onlineFlag: false,
-      radius: [500],
+      highestEducation: [''],
+      urgentTimeFrame: [''],
+      urgentPreferredDay: [''],
+      radius: [''],
       nearbyFlag: false,
       _geoloc:[''],
-      Location: this.fb.group({
+      preferredUrgentLocation: this.fb.group({
         Section: [''],
         District: [''],
         Province: [''],
@@ -282,22 +279,20 @@ export class UserListComponent {
   }
   
   searchUsersUrgent(){
-    if(!this.headerSearchFlag){
-      this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
-    }
+    this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
     this.paginationIndex = 0
     this.loadingFlag = true
     if(this.newUserFormUrgent.value.nearbyFlag && this.newUserFormUrgent.value.radius == ''){
       this.newUserFormUrgent.patchValue({
-        Location: {
+        preferredUrgentLocation: {
           Section: '',
           District: '',
           Province: ''
         }
       })
     }
-    this.searchModal.hide()
     this.userService.searchPharmaUsersUrgentByPreferredJobType(this.newUserFormUrgent.value).then((users)=>{
+      this.utilService.populateUrgentLocationFieldsWithObject(this.newUserFormUrgent.value)
       this.maxIndex = users.totalPage
       this.paginationIndex++
       this.query = users.query

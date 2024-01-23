@@ -99,6 +99,14 @@ export class UtilService {
     })
     return batch.commit();
   }
+  convertUserPharmaListToArray(userPharmaList: userPharmaList): UserPharma[]{
+    const keys = Object.keys(userPharmaList);
+    const arrayPayload: UserPharma[] = []
+    keys.forEach((key)=>{
+      arrayPayload.push(userPharmaList[key])
+    })
+    return arrayPayload
+  }
   populateLocationFieldsWithObject(userForm:UserPharma){
     userForm.preferredLocation = {
       address : userForm.preferredAddress !== undefined? userForm.preferredAddress: '' ,
@@ -112,15 +120,26 @@ export class UtilService {
     delete userForm.preferredSection;
     return userForm
   }
-  convertUserPharmaListToArray(userPharmaList: userPharmaList): UserPharma[]{
-    const keys = Object.keys(userPharmaList);
-    const arrayPayload: UserPharma[] = []
-    keys.forEach((key)=>{
-      arrayPayload.push(userPharmaList[key])
-    })
-    return arrayPayload
+  populateObjectWithUrgentLocationFields(userForm:UserPharma | UserUrgentSearchForm){
+    const newUser: any = userForm;
+    newUser.preferredUrgentDistrict =  userForm.preferredUrgentLocation?.District  !== undefined? userForm.preferredUrgentLocation.District: '' 
+    newUser.preferredUrgentProvince =  userForm.preferredUrgentLocation?.Province  !== undefined? userForm.preferredUrgentLocation.Province: '' 
+    newUser.preferredUrgentSection =  userForm.preferredUrgentLocation?.Section  !== undefined? userForm.preferredUrgentLocation.Section: '' 
+    delete newUser.preferredUrgentLocation;
+    return newUser;
   }
-  populateObjectWithLocationFields(userForm:UserPharma | UserSearchForm | UserUrgentSearchForm){
+  populateUrgentLocationFieldsWithObject(userForm:UserPharma){
+    userForm.preferredUrgentLocation = {
+      Province: userForm.preferredUrgentProvince !== undefined? userForm.preferredUrgentProvince: '' ,
+      District: userForm.preferredUrgentDistrict !== undefined? userForm.preferredUrgentDistrict: '' ,
+      Section: userForm.preferredUrgentSection !== undefined? userForm.preferredUrgentSection: '' ,
+    }
+    delete userForm.preferredUrgentProvince;
+    delete userForm.preferredUrgentDistrict;
+    delete userForm.preferredUrgentSection;
+    return userForm
+  }
+  populateObjectWithLocationFields(userForm:UserPharma | UserSearchForm){
     const newUser: any = userForm;
     newUser.preferredAddress =  userForm.preferredLocation?.address !== undefined? userForm.preferredLocation.address: ''
     newUser.preferredDistrict =  userForm.preferredLocation?.District  !== undefined? userForm.preferredLocation.District: '' 

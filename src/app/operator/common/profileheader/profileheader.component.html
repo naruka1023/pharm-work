@@ -30,9 +30,9 @@
                 </div>
             </div>
             <div class="outerHeaderContainer">
-                <div class="outerHeader2Pharma d-flex justify-content-between" style="height:8rem">
+                <div class="outerHeader2Pharma d-flex justify-content-between align-items-center" style="height:8rem">
                     <div class="outerHeaderPharma d-flex justify-content-between">
-                        <div style="height:9rem">
+                        <div>
                             <img class="job-post_profile-picture border border-5 border-white rounded-circle" id="profilePicture" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                             <div class="profileUploadButton" data-bs-toggle="dropdown">
                                 <i class="bi bi-camera-fill fs-3"></i>
@@ -48,8 +48,8 @@
         
                         <div>
                             <div class="operatorHeader">
-                                <div style="font-size: 2.5rem;" class="mt-3 mb-0 ms-lg-5 me-0" >{{result.companyName | emptyField}}</div>
-                                <h5 style='align-self:end' class="mb-2 mt-3 ms-lg-5"><i class="bi bi-house me-1"></i> {{result.Location?.District | emptyField}}, {{result.Location?.Province | emptyField}}</h5>
+                                <div class="h3 mt-3 mb-0 ms-lg-5 me-0" >{{result.companyName | emptyField}}</div>
+                                <h5 style='align-self:end' class="mb-2 mt-3 ms-lg-5 h4"><i class="bi bi-house me-1"></i> {{result.Location?.District | emptyField}}, {{result.Location?.Province | emptyField}}</h5>
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                 </div>
             </ng-template>
             <ng-template #display>
-                <div class="fs-3 pb-5 introText" style="padding: 0 6rem; text-indent: 20px">{{result.introText}}</div>
+                <div class="fs-3 pb-5 introText" style="padding: 0 3rem; text-indent: 20px">{{result.introText}}</div>
             </ng-template>
         </div>
     </div>
@@ -156,20 +156,19 @@
             </div>
         </div>
     </div>
-    <div *ngSwitchCase="'pharma-profile'" style="border-radius: 0 0 20px 20px; background: white">
+    <div *ngSwitchCase="'pharma-profile'" style="border-radius: 0 0 20px 20px; background: white" class="standard-shadow semi-border-input">
         <div class="coverPhoto img-container mh-100" id="coverPhoto">
             <img id="innerPhoto" [src]="result.coverPhotoPictureUrl" />
         </div>
-        <div class="outerHeaderContainer">
-            <div class="outerHeader2Pharma d-flex justify-content-between" style="height: 5rem">
-                <div class="outerHeaderPharma d-flex justify-content-between" style="width:-webkit-fill-available; width: -moz-available">
-                    <div class="d-flex flex-row innerHeaderPharma">
+            <div class="outerHeader2Pharma d-flex justify-content-between align-items-center">
+                <div class="ms-lg-4 mt-2 outerHeaderPharma d-flex justify-content-between align-items-center" style="width:-webkit-fill-available; width: -moz-available">
+                    <div class="d-flex flex-row innerHeaderPharma align-items-center">
                         <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150"/>
                         <div class="mainHeader flex-start align-items-baseline">
-                            <div style="font-size:2.5rem" class="mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName | emptyField}}</div>
-                            <div class="mainHeaderContent my-2 ms-lg-5">
-                                <div class="d-flex fs-5">
-                                    <i class="bi bi-house me-3"></i><div style='align-self:end'>{{result.Location?.District | emptyField}}, {{result.Location?.Province | emptyField}}</div>
+                            <div class="mb-0 ms-lg-5 me-0 mainHeaderContent h3">{{result.nickName | emptyField}}</div>
+                            <div class="mainHeaderContent h3 my-2 ms-lg-5">
+                                <div class="d-flex h4">
+                                    <i class="bi bi-geo-fill me-3"></i><div style='align-self:end'>{{result.Location?.District | emptyField}}, {{result.Location?.Province | emptyField}}</div>
                                 </div>
                             </div>
                         </div>
@@ -207,38 +206,68 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex px-lg-0 px-5">
-                <div class="d-lg-block d-none">
-                    <img class="invisible job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150"/>
-                </div>
-                <div class="fs-5 fourPointers mx-lg-5" style="margin:2rem 0; width: -webkit-fill-available; width: -moz-available">
-                    <div class="row my-sm-2 my-0">
-                        <div class="col-sm-6 col-lg-4 col-12">
-                            <i class="bi bi-lightbulb me-3"></i>หางาน  {{result.preferredTimeFrame | emptyField}}
+            <div class="d-flex mt-4">
+                <div class="px-lg-4 mb-4 ms-5 fourPointersPharma textProfileResponsive" style="width: -webkit-fill-available; width: -moz-available">
+                    <div class="d-flex"></div>
+                    <div class="row mt-md-0 mt-3">
+                        <div class="col-12 fourPointKeyValue">
+                            <div class="d-flex me-xl-3">
+                                <i class="bi bi-lightbulb-fill me-3"></i>
+                                หางาน  
+                            </div>
+                            <div class="d-flex">
+                                <div class="phantomPadding">
+                                    <i class="bi bi-lightbulb me-3"></i>
+                                </div>
+                                <b>{{result.preferredTimeFrame | emptyField}}</b>
+                            </div>
                         </div>
-                        <div class="col-sm col-12">
-                            <i class="bi bi-bootstrap me-3"></i>เงินเดือนขั้นต่ำที่ต้องการ {{result.preferredSalary | emptyField}}
+                        <div class="col mt-md-3 mt-1 fourPointKeyValue">
+                            <div class="d-flex me-xl-3">
+                                <i class="bi bi-bootstrap-fill me-3"></i>
+                                เงินเดือนขั้นต่ำที่ต้องการ 
+                            </div>
+                            <div class="d-flex">
+                                <div class="phantomPadding">
+                                    <i class="bi bi-lightbulb me-3"></i>
+                                </div>
+                                <b>{{result.preferredSalary | emptyField}}</b>
+                            </div>
                         </div>
                     </div>
-                    <div class="row my-sm-2 my-0">
-                        <div class="col-sm-6 col-lg-4 col-12">
-                            <i class="bi bi-geo me-3"></i>หางานพื้นที่ {{result.preferredDistrict | emptyField}}, {{result.preferredProvince | emptyField}}
+                    <div class="row ">
+                        <div class="col-12 mt-md-3 mt-1 fourPointKeyValue">
+                            <div class="d-flex me-xl-3">
+                                <i class="bi bi-geo-fill me-3"></i>
+                                หางานพื้นที่
+                            </div>
+                            <div class="d-flex">
+                                <div class="phantomPadding">
+                                    <i class="bi bi-lightbulb me-3"></i>
+                                </div>
+                                <b>{{result.preferredDistrict | emptyField}}, {{result.preferredProvince | emptyField}}</b>
+                            </div>
                         </div>
-                        <div class="col-sm col-12">
-                            <i class="bi bi-clipboard me-3"></i>สนใจ 
+                        <div class="col mt-md-3 mt-1 pe-lg-5 fourPointKeyValuePreferred">
+                            <div class="d-flex me-xl-3 me-3">
+                                <i class="bi bi-heart-fill me-3" style="color:red"></i>
+                                สนใจ 
+                            </div>
                             <ng-container *ngIf="result.preferredJobType == 0; then noPreferred; else Preferred"></ng-container>
                             <ng-template #noPreferred>
-                                <div>ไม่ระบุ</div>
+                                <b><div>ไม่ระบุ</div></b>
                             </ng-template>
                             <ng-template #Preferred>
-                                <span class="badge rounded-pill text-bg-primary me-2" *ngFor="let job of result.preferredJobType">{{job}}</span>
+                                <div class="preferredJobs">
+                                    <span class="badge rounded-pill text-bg-primary me-2" style="line-break: auto" *ngFor="let job of result.preferredJobType"><b>{{job}}</b></span>
+                                </div>
                             </ng-template>
                         </div>
                     </div>
+
                 </div>
             </div>
-        </div>
-        <div class="fs-3 pb-5 introText" style="padding: 0 6rem; text-indent: 20px">{{result.introText}}</div>
+        <div class="textProfileResponsive pb-5 introText" style="padding: 0 6rem; text-indent: 20px">{{result.introText}}</div>
     </div>
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
