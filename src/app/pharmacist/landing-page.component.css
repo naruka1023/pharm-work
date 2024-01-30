@@ -4,6 +4,16 @@
 .navClass > li {
     padding: 0 0.5rem
 }
+/* ::ng-deep .swiper-button-next{
+  display:none
+}
+
+:host::ng-deep .swiper-slide{
+  background:white !important
+}
+:host ::ng-deep .swiperFormPharma .swiper-slide{
+  background-color:white
+} */
 @media only screen and (max-width: 992px){
     .headerLabel{
       display: none !important

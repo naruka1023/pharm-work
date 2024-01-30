@@ -22,6 +22,9 @@
         border-right:0 !important
     }
 }
+.work-from-home-color{
+    background-color:lavender
+  }
 .subImage{
     display: none
   }
@@ -38,9 +41,4 @@
 .partTime{
     background:#7fd858;
     border-color: #7fd858
-}
-
-.card:hover{
-    background-color: rgba(88, 92, 89, 0.3);
-    cursor:pointer
 }

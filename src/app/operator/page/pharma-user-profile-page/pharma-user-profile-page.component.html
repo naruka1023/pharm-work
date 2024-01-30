@@ -149,25 +149,189 @@
                     </div>
             </div>
             <div class="tab-pane textProfileResponsive" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
-                <div *ngIf="!allowView">
-                    <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'จำกัดการดูข้อมูล'" style="margin-bottom:5rem">
-                        <div class="container cannotView" style="padding: 0 12rem; text-align:center">
-                            <div><i style="font-size:5rem"  class="bi bi-clipboard-check"></i></div>
-                            <div>เภสัชกรท่านนี้จำกัดการดูข้อมูล คุณสามารถกดปุ่ม ขอดูข้อมูล ด้านบนได้เพื่อขอดูข้อมูลติดต่อของผู้สมัคร</div>
+                <ng-container *ngIf="innerProfileInformation?.active == 'จำกัดการดูข้อมูล'">
+                    <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
+                    <ng-template #requestView>
+                        <div class="semi-border-input p-4" [ngClass]="requestStatus.status == 'Pending'?'cyan-color': 'light-green-color'" style="margin-bottom:5rem">
+                            <div class="textResponsiveHeader my-5 container d-flex justify-content-center" style="padding: 0 12rem">
+                                <div><i style="font-size:2em" class="bi me-3" [ngClass]="requestStatus.status == 'Pending'?'bi-file-earmark-arrow-down-fill': 'bi-file-earmark-check-fill'"></i></div>
+                                <div>{{requestStatus.status == 'Pending'? "เภสัชกรท่านนี้จำกัดการดูข้อมูลติดต่อท่านสามารถส่งคำขอดูข้อมูลได้": "ท่านได้รับอนุญาตให้ดูข้อมูลติดต่อของ เภสัชกรท่านนี้แล้ว ท่านจะสามารถดูข้อมูล ของเภสัชกรท่านนี้ได้จนกว่าจะมีการเปลี่ยนแปลงคำอนุญาต"}}</div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button style="height: fit-content; color:white" class="btn btn-secondary mt-3 border-input px-4 mx-4 textResponsive my-3 button-width" [ngStyle]="{'display': innerProfileInformation.active == 'จำกัดการดูข้อมูล'? 'block': 'none'}" [ngClass]="[requestStatus.status !== 'Pending'? 'green-color':'', requestStatus.status !== 'Pending'? 'green-mini-border-color':'']">{{ requestStatus.status == 'Pending'?'รอการอนุมัติ':'อนุญาตแล้ว' }}</button>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #notRequestView>
+                            <div class="semi-border-input p-4 cyan-color" style="margin-bottom:5rem">
+                                <div class="textResponsiveHeader my-5 container d-flex justify-content-center" style="padding: 0 12rem">
+                                    <div><i style="font-size:2em" class="bi me-3 bi-file-earmark-arrow-down-fill"></i></div>
+                                    <div>เภสัชกรท่านนี้จำกัดการดูข้อมูลติดต่อท่านสามารถส่งคำขอดูข้อมูลได้</div>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button (click)="openRequestViewModal()"[ngStyle]="{'display': innerProfileInformation.active == 'จำกัดการดูข้อมูล'? 'block': 'none'}"  style="height: fit-content" class="btn btn-outline-secondary mt-3 border-input button-width px-4 mx-4 textResponsive my-3">ขอดูข้อมูล</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                </ng-container>
+                <div class="d-flex justify-content-between semi-border-input p-4 light-red-color" *ngIf="innerProfileInformation?.active == 'ไม่อนุญาติให้ดูข้อมูล'" style="margin-bottom:5rem">
+                    <div class="my-5 container d-flex justify-content-center" style="padding: 0 12rem">
+                        <div><i style="font-size:2em" class="bi bi-file-earmark-arrow-down-fill me-3"></i></div>
+                        <div style="font-size:1em">เภสัชกรท่านนี้ ไม่อนุญาตให้ดูข้อมูล คุณจะไม่สามารถขอดูข้อมูลติดต่อของผู้สมัครได้</div>
+                    </div>
+                </div>
+                <ng-container *ngIf="innerProfileInformation.active == 'จำกัดการดูข้อมูล' then privateInfo; else notPrivateInfo "></ng-container>
+                <ng-template #privateInfo>
+                    <ng-container *ngIf="requestViewFlag$ | async; then requestContent; else notRequestContent"></ng-container>
+                    <ng-template #requestContent>
+                        <ng-container *ngIf="requestStatus.status == 'Accepted'; then allowViews; else notAllowView"></ng-container>
+                        <ng-template #allowViews>
+                            <div class="p-5 semi-border-input green-border-color standard-shadow verticalKeyGap">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row verticalKeyGap">
+                                        <div class="keyValueGap"><i class="bi bi-person-fill"></i></div>
+                                        <div class="keyValueGap">
+                                            <div><b>เภสัชกร</b></div>
+                                        </div>
+                                        <div class="col d-flex">
+                                            <div class="me-2">{{innerProfileInformation.name}}</div><div>{{innerProfileInformation.surname}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="verticalKeyGap">
+                                    <div class="d-flex flex-row">
+                                        <div class="keyValueGap">
+                                            <i class="bi bi-telephone-plus-fill"></i>
+                                        </div>
+                                        <div class="keyValueGap">
+                                            <div><b>ข้อมูลการติดต่อ</b></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 contacts" style="margin-left:6rem">
+                                        <div class="d-flex flex-row verticalKeyGap">
+                                            <i class="bi bi-telephone-fill" style="margin-right:2rem"></i>
+                                            <div class="keyValueGap">
+                                                <div class="nobr">เบอร์โทร</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row verticalKeyGap">
+                                            <i class="bi bi-envelope-at" style="margin-right:2rem"></i>
+                                            <div class="keyValueGap">
+                                                <div>Email</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="me-3">{{innerProfileInformation.contacts?.email | emptyField}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap">
+                                    <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                                    <div class="keyValueGap"><b>เพศ</b></div>
+                                    <div>{{innerProfileInformation.gender | emptyField}}</div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <div class="keyValueGap"><i class="bi bi-house-fill"></i></div>
+                                <div class="keyValueGap">
+                                    <div><b>ที่อยู่</b></div>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #notAllowView>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row verticalKeyGap">
+                                    <div class="keyValueGap"><i class="bi bi-person-fill"></i></div>
+                                    <div class="keyValueGap">
+                                        <div><b>เภสัชกร</b></div>
+                                    </div>
+                                    <div class="col d-flex">
+                                        <div class="me-2">{{innerProfileInformation.name}}</div><div>{{innerProfileInformation.surname}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="verticalKeyGap">
+                                <div class="d-flex flex-row">
+                                    <div class="keyValueGap">
+                                        <i class="bi bi-telephone-plus-fill"></i>
+                                    </div>
+                                    <div class="keyValueGap">
+                                        <div><b>ข้อมูลการติดต่อ</b></div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 contacts" style="margin-left:6rem">
+                                    <div class="d-flex flex-row verticalKeyGap">
+                                        <i class="bi bi-telephone-fill" style="margin-right:2rem"></i>
+                                        <div class="keyValueGap">
+                                            <div class="nobr">เบอร์โทร</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row verticalKeyGap">
+                                        <i class="bi bi-envelope-at-fill" style="margin-right:2rem"></i>
+                                        <div class="keyValueGap">
+                                            <div>Email</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="me-3">{{innerProfileInformation.contacts?.email | emptyField}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                                <div style="width:-webkit-fill-available; width:-moz-available">
+                                    <div class="keyValueGap">
+                                        <div><b>เพศ</b></div>
+                                    </div>
+                                    <div>
+                                        <div class="me-2">{{innerProfileInformation.gender | emptyField}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap">
+                                <div class="keyValueGap"><i class="bi bi-pin-map-fill"></i></div>
+                                <div style="width:-webkit-fill-available; width:-moz-available">
+                                    <div class="keyValueGap">
+                                        <div><b>ที่อยู่</b></div>
+                                    </div>
+                                    <div>
+                                        <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                    <ng-template #notRequestContent>
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                            <div class="keyValueGap"><b>เพศ</b></div>
+                            <div>{{innerProfileInformation.gender | emptyField}}</div>
+                    </div>
+                    <div class="d-flex flex-row verticalKeyGap">
+                        <div class="keyValueGap"><i class="bi bi-house-fill"></i></div>
+                        <div class="keyValueGap">
+                            <div><b>ที่อยู่</b></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
                         </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active == 'ไม่อนุญาติให้ดูข้อมูล'" style="margin-bottom:5rem">
-                    <div class="container cannotView" style="padding: 0 12rem; text-align:center">
-                        <div class="mt-4"><i style="font-size:5rem" class="bi bi-clipboard-x"></i></div>
-                        <div>เภสัชกรท่านนี้ ไม่อนุญาตให้ดูข้อมูล คุณจะไม่สามารถขอดูข้อมูลติดต่อของผู้สมัครได้</div>
-                    </div>
-                </div>
-                <ng-container *ngIf="allowView; then allowViews; else notAllowView"></ng-container>
-                <ng-template #allowViews>
-                    <div class="d-flex justify-content-between">
+                    </ng-template>
+                </ng-template>
+                <ng-template #notPrivateInfo>
+                    
+                    <div class="d-flex justify-content-between" *ngIf="innerProfileInformation?.active !== 'ไม่อนุญาติให้ดูข้อมูล'">
                         <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-person"></i></div>
+                            <div class="keyValueGap"><i class="bi bi-person-fill"></i></div>
                             <div class="keyValueGap">
                                 <div><b>เภสัชกร</b></div>
                             </div>
@@ -176,21 +340,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
-                            <div class="keyValueGap"><b>เพศ</b></div>
-                            <div>{{innerProfileInformation.gender | emptyField}}</div>
-                    </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-house"></i></div>
-                        <div class="keyValueGap">
-                            <div><b>ที่อยู่</b></div>
-                        </div>
-                        <div class="d-flex flex-row">
-                            <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
-                        </div>
-                    </div>
-                    <div class="verticalKeyGap">
+                    <div class="verticalKeyGap" *ngIf="innerProfileInformation?.active !== 'ไม่อนุญาติให้ดูข้อมูล'">
                         <div class="d-flex flex-row">
                             <div class="keyValueGap">
                                 <i class="bi bi-telephone-plus-fill"></i>
@@ -201,7 +351,7 @@
                         </div>
                         <div class="mt-4 contacts" style="margin-left:6rem">
                             <div class="d-flex flex-row verticalKeyGap">
-                                <i class="bi bi-telephone" style="margin-right:2rem"></i>
+                                <i class="bi bi-telephone-fill" style="margin-right:2rem"></i>
                                 <div class="keyValueGap">
                                     <div class="nobr">เบอร์โทร</div>
                                 </div>
@@ -210,7 +360,7 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-row verticalKeyGap">
-                                <i class="bi bi-envelope-at" style="margin-right:2rem"></i>
+                                <i class="bi bi-envelope-at-fill" style="margin-right:2rem"></i>
                                 <div class="keyValueGap">
                                     <div>Email</div>
                                 </div>
@@ -220,53 +370,20 @@
                             </div>
                         </div>
                     </div>
-                </ng-template>
-                <ng-template #notAllowView>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-person-check-fill"></i></div>
-                        <div style="width:-webkit-fill-available; width:-moz-available">
-                            <div class="keyValueGap">
-                                <div><b>เภสัชกร</b></div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="me-2">{{innerProfileInformation.name | emptyField}}</div><div>{{innerProfileInformation.surname | emptyField}}</div>
-                            </div>
+                        <div class="d-flex flex-row verticalKeyGap">
+                                <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
+                                <div class="keyValueGap"><b>เพศ</b></div>
+                                <div>{{innerProfileInformation.gender | emptyField}}</div>
                         </div>
-                    </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-gender-ambiguous"></i></div>
-                        <div style="width:-webkit-fill-available; width:-moz-available">
-                            <div class="keyValueGap">
-                                <div><b>เพศ</b></div>
-                            </div>
-                            <div>
-                                <div class="me-2">{{innerProfileInformation.gender | emptyField}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-pin-map-fill"></i></div>
-                        <div style="width:-webkit-fill-available; width:-moz-available">
+                        <div class="d-flex flex-row verticalKeyGap">
+                            <div class="keyValueGap"><i class="bi bi-house-fill"></i></div>
                             <div class="keyValueGap">
                                 <div><b>ที่อยู่</b></div>
                             </div>
-                            <div>
+                            <div class="d-flex flex-row">
                                 <div>{{innerProfileInformation!.Location?.Province | emptyField}}, {{innerProfileInformation!.Location?.District | emptyField}}</div>                    
                             </div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row verticalKeyGap">
-                        <div class="keyValueGap"><i class="bi bi-telephone-plus-fill"></i></div>
-                        <div style="width:-webkit-fill-available; width:-moz-available">
-                            <div class="keyValueGap">
-                                <div><b>ข้อมูลการติดต่อ</b></div>
-                            </div>
-                            <div class="keyValueGap">
-                                <div class="me-3">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
-                                <div>{{innerProfileInformation.contacts?.email | emptyField}}</div>
-                            </div>
-                        </div>
-                    </div>
+                        </div>                  
                 </ng-template>
             </div>
             <div class="tab-pane textProfileResponsive" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
@@ -334,7 +451,7 @@
                             <div><b>หางานพื้นที่</b></div>
                         </div>
                         <div>
-                            {{innerProfileInformation.preferredLocation?.Section | emptyField}}, {{innerProfileInformation.preferredLocation?.District | emptyField}}, {{innerProfileInformation.preferredLocation?.Province | emptyField}}
+                            {{innerProfileInformation.preferredSection | emptyField}}, {{innerProfileInformation.preferredDistrict | emptyField}}, {{innerProfileInformation.preferredProvince | emptyField}}
                         </div>
                     </div>
                 </div>

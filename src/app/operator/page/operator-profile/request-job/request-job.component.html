@@ -7,10 +7,10 @@
       </div>
     </ng-template>
     <ng-template #notLoading>
-      <div class="mx-sm-4 mx-2 fs-2">
+      <div class="p-sm-4 p-2 textProfileResponsive standard-shadow" style="border-radius:40px">
         <div class="my-3" id="innerProfileTitle"><b>ผู้สมัครงาน</b></div> 
         <div class="requestJobTabList sticky-top" style="top:180px; background:white; z-index: 3">
-          <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row tabList" style="width: max-content; --bs-nav-underline-gap:0 1rem">
+          <ul class="nav nav-underline py-3 mb-2 textProfileResponsive flex-row tabList" style="width: max-content; --bs-nav-underline-gap:0 1rem">
               <li class="nav-item">
                   <button class="myTab nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">คำขอสมัครงาน</button>
               </li>
@@ -20,7 +20,7 @@
               <hr style="width: 100%" class="m-auto">
           </ul>
         </div>
-        <div class="tab-content fs-3 mx-md-5 mx-sm-3 mx-1">
+        <div class="tab-content textResponsive mx-sm-3 mx-1">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
               <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
                 <ng-template #empty>
@@ -31,12 +31,11 @@
                   </div>
                 </ng-template>
                 <ng-template #notEmpty>
-                  <div class="row row-cols-xl-2">
+                  <div class="row">
                       <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
                           <div>
                               <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
                           </div>
-                          <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
                       </ng-container>
                   </div>
                 </ng-template>
@@ -51,10 +50,9 @@
                   </div>
                 </ng-template>
                 <ng-template #notEmptyNormal>
-                    <div class="row row-cols-xl-2">
+                    <div class="row">
                         <ng-container *ngFor="let requestView of requestViews$ | async; index as i">
                                 <app-normal-user-card  [content]="requestView.content!" [type]="'AA'"></app-normal-user-card>
-                            <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
                         </ng-container>
                     </div>
                 </ng-template>
@@ -76,7 +74,7 @@
               </div>
             </ng-template>
             <ng-template #notLoadingUsers> -->
-              <div class="row row-cols-xl-2 mb-5">
+              <div class="row mb-5">
                   <app-normal-user-card *ngFor="let user of usersPayload" [jobUID]="jobID" [profileLinkPage]="profileLinkFlag" [content]="user!" ></app-normal-user-card>
               </div>
             <!-- </ng-template> -->

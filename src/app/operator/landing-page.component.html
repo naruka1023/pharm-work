@@ -19,44 +19,65 @@
       </div>
     </div>
     <div class="headerLabel d-flex justify-content-between">
+      
       <div class="d-flex p-2 flex-row-reverse" id="collapsibleNavbar">
-          <ul class="navbar-nav d-flex align-items-center">
-            <li class="nav-item fs-2 me-2" data-bs-toggle="tooltip" title="สร้างประกาศงาน">
+          <ul style="list-style-type: none; margin-bottom:0" class="navClass fs-3 d-flex align-items-end">
+            <li class="nav-item ms-3" style="cursor:pointer">
+              <a class="nav-link green-text">ประวัติเภสัชกร</a>
+            </li>
+            <li class="nav-item ms-3">
+              <a class="nav-link">บอร์ดประกาศงาน</a>
+            </li>
+            <li class="nav-item ms-3">
+              <a class="nav-link">ฟีดประกาศงาน</a>
+            </li>
+            <li class="nav-item ms-3" data-bs-toggle="tooltip" title="สร้างประกาศงาน">
               <div class="dropdown">
-                <a data-bs-toggle='dropdown' class="nav-link" aria-expanded="false">
-                    <i class="bi bi-file-earmark-plus"></i>
-                    <ul class="dropdown-menu" style="background-color:#f2f2f2">
-                      <li><a class="dropdown-item" (click)="goToAddJob(false)">งานทั่วไป</a></li>
-                      <li><a class="dropdown-item" (click)="goToAddJob(true)">งานด่วนรายวัน</a></li>
-                    </ul>
+                <a (click)="openAddModal()" class="nav-link" aria-expanded="false">
+                    <i class="bi bi-file-earmark-plus-fill"></i>
                 </a>
               </div>
             </li>
-            <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ประกาศงานทั้งหมด" routerLink="profile-operator/all-jobs-posts"class="nav-link"><i class="bi bi-inboxes"></i></a></li>
-            <!-- <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มแชท" class="nav-link"><i class="bi bi-chat-left-dots"></i></a></li> -->
-            <!-- <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ตารางงานด่วนรายวัน" class="nav-link"><i class="bi bi-calendar-event"></i></a></li> -->
-            <!-- <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มแจ้งเตือน" class="nav-link"><i class="bi bi-bell"></i></a></li> -->
-            <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="Coming Soon" class="nav-link"><i class="bi bi-bell"></i></a></li>
-            <!-- <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มเ profile" class="nav-link" routerLink="profile-operator"><i class="bi bi-person-circle"></i></a></li> -->
-            <div class="nav-item fs-2 dropdown">
-              <a  data-bs-toggle="tooltip" title="ปุ่มเ profile" class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end fs-5" style="min-width: 15rem;">
-                <li>
-                  <div style="cursor:pointer" class="dropdown-header fs-5" (click)="goToPage('profile-operator/inner-profile', false, true)">
-                    <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle me-3" width="50" height="50">
-                    {{user.companyName}}
+            <!-- <li class="nav-item me-2"><a  data-bs-toggle="tooltip" title="ประกาศงานทั้งหมด" routerLink="profile-operator/all-jobs-posts"class="nav-link"><i class="bi bi-inboxes"></i></a></li> -->
+            <li class="nav-item ms-3"><a  data-bs-toggle="tooltip" title="Coming Soon" class="nav-link"><i class="bi bi-bell-fill"></i></a></li>
+            <li class="nav-item ms-3">
+              <div class="dropdown">
+                
+                <a  data-bs-toggle="tooltip"title="ปุ่ม profile" class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="d-flex flex-column justify-content-center">
+                    <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle" width="50" height="50">
                   </div>
-                </li>
-                <hr style="width: 80%" class="my-2 m-auto">
-                <li><a class="dropdown-item" (click)="goToPage('profile-operator/inner-profile')"><i class="bi bi-building me-3"></i>โปรไฟล์บริษัท</a></li>
-                <li><a class="dropdown-item" (click)="goToPage('profile-operator/all-jobs-posts')"><i class="bi bi-inboxes me-3"></i>ประกาศงานทั้งหมด</a></li>
-                <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs')"><i class="bi bi-envelope-exclamation me-3"></i>คำขอสมัครงาน</a></li>
-                <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
-                <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs', true)"><i class="bi bi-person-vcard me-3"></i>ขอดูข้อมูลผู้สมัคร</a></li>
-                <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/favorites')"><i class="bi bi-heart me-3"></i>ผู้สมัครที่ถูกใจ</a></li>
-                <li><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right me-3"></i>Sign Out</a></li>
-              </ul>
-            </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end fs-3" style="min-width: 15rem;">
+                  <li>
+                    <div style="cursor:pointer" class="dropdown-header" (click)="goToPage('profile-pharma')">
+                      <div class="d-flex flex-row-start align-items-center">
+                        <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle me-3" width="50" height="50">
+                        <div class="fs-3">
+                          <div>
+                            {{user.companyName}}
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <hr style="width:100%" class="my-2 m-auto">
+                  <li><a class="dropdown-item" (click)="goToPage('profile-operator/inner-profile')"><i class="bi bi-file-post mx-3"></i>โปรไฟล์บริษัท</a></li>
+                  <li><a class="dropdown-item" (click)="goToPage('profile-operator/all-jobs-posts')"><i class="bi bi-file-earmark-text-fill mx-3"></i>ประกาศงานทั้งหมด</a></li>
+                  <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs')"><i class="bi bi-inboxes-fill mx-3"></i>คำขอสมัครงาน</a></li>
+                  <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
+                  <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs', true)"><i class="bi bi-person-lines-fill mx-3"></i>ขอดูข้อมูลผู้สมัคร</a></li>
+                  <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/favorites')"><i class="bi bi-heart-fill mx-3"></i>ผู้สมัครที่ถูกใจ</a></li>
+                  <hr style="width:100%" class="my-2 m-auto">
+                  <li><a class="d-flex dropdown-item" (click)="openAddModal()"><i class="bi bi-file-earmark-plus-fill mx-3"></i>สร้างประกาศงาน</a></li>
+                  <hr style="width:100%" class="my-2 m-auto">
+                  <li><a class="d-flex dropdown-item"><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a></li>
+                  <hr style="width:100%" class="my-2 m-auto">
+                  <li><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right mx-3"></i>Sign Out</a></li>
+                </ul>
+              </div>
+            </li>
         </ul>
       </div>
     </div>
@@ -143,6 +164,36 @@
           [showIcon]="true"
           [showText]="false">
         </share-buttons>
+      </div>
+    </div>
+  </div>
+</div>  
+<div class="modal textProfileResponsive semi-border-input fade" id="addJobModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content semi-border-input">
+      <div class="modal-body">
+        <div class="my-4 text-center">คุณต้องการสร้างประกาศงานแบบใด?</div>
+ 
+        <div (click)="goToAddJob(false)" class="selectJob my-3 row semi-border-input m-3" style="background-color: #f2f2f2;">
+          <div class="col-4 d-flex justify-content-center align-items-center">
+            <i class="bi bi-file-earmark" style="font-size: 4em;"></i>
+          </div>
+          <div class="col align-items-center">
+            <div class="my-3 textProfileResponsive"> <b>ประกาศงานทั่วไป <i class="ms-3 bi bi-question-circle-fill"></i></b>
+            </div>
+          <div class="fs-4"> โพสรับสมัครเภสัชกรประจำแบบ Full-Time หรือ Part-Time มีสวัสดิการพนักงานประจำ </div>
+          </div>
+        </div>
+          <div (click)="goToAddJob(true)" class="selectJob my-3 row semi-border-input m-3" style="background-color: #f2f2f2;">
+            <div class="col-4 d-flex justify-content-center align-items-center">
+              <i class="bi bi-file-earmark" style="font-size: 4em;"></i>
+            </div>
+            <div class="col align-items-center">
+              <div class="my-3 textProfileResponsive"><b>ประกาศงานรายวัน<i class="ms-3 bi bi-question-circle-fill"></i></b>
+              </div>
+            <div class="fs-4">โพสรับสมัครเภสัชกรรายวัน ฟรีแลนด์ หรือ Part-Time เพียงบางวัน ท่านสามารถเลือกวันที่ๆต้องการเภสัชกรในประกาศงานได้</div>
+            </div>
+          </div>
       </div>
     </div>
   </div>

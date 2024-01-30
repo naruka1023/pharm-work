@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="semi-border-input standard-shadow">
 
-			<div class="fs-3">
+			<div class="textProfileResponsive">
 				<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
 				<ng-template #urgentFlag>
 					<div class="bg-light text-center py-1 urgentLabel" style="border-top-left-radius: 40px !important; border-top-right-radius: 40px !important; width:-webkit-fill-available; width:-moz-available;"
@@ -86,13 +86,13 @@
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-train-front me-2"></i> <b>BTS</b>
 									</div>
-									<div > {{profile.BTS.Station | emptyFieldPipe}}</div>
+									<div class="col"> {{profile.BTS.Station | emptyFieldPipe}}</div>
 								</div>
 								<div *ngIf="profile.ARL.Near"  class="pb-3 row">
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-train-front me-2"></i> <b>ARL</b>
 									</div>
-									<div > {{profile.ARL.Station | emptyFieldPipe}}</div>
+									<div class="col"> {{profile.ARL.Station | emptyFieldPipe}}</div>
 								</div>
 								<div class="pb-3 row" *ngIf="profile.OnlineInterview">
 									<div class="col-10 border-input py-1 text-center online-interview-color">
@@ -105,25 +105,25 @@
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
 									</div>
-									<div >{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
+									<div class="col">{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.Location.Section !== '' || profile.Location.Province !== ''">
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
 									</div>
-									<div > {{profile.Location.District | emptyFieldPipe}}, {{profile.Location.Province | emptyFieldPipe}}</div>
+									<div class="col"> {{profile.Location.District | emptyFieldPipe}}, {{profile.Location.Province | emptyFieldPipe}}</div>
 								</div>
 								<div *ngIf="profile.MRT.Near"  class="pb-3 row">
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-train-front me-2"></i> <b>MRT</b>
 									</div>
-									<div > {{profile.MRT.Station | emptyFieldPipe}}</div>
+									<div class="col"> {{profile.MRT.Station | emptyFieldPipe}}</div>
 								</div>
 								<div *ngIf="profile.SRT.Near" class="pb-3 row">
 									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
 										<i class="bi bi-train-front me-2"></i> <b>SRT</b>
 									</div>
-									<div > {{profile.SRT.Station | emptyFieldPipe}}</div>
+									<div class="col"> {{profile.SRT.Station | emptyFieldPipe}}</div>
 								</div>
 		
 								<!-- <div class="d-flex flex-row" class="d-flex flex-row">
@@ -138,7 +138,7 @@
 									<b>จังหวัด:</b>
 									<div class="ms-2"> </div>
 								</div> -->
-								<div class="d-flex flex-row px-3 border-input py-1 text-center work-from-home-color" *ngIf="profile.WorkFromHome">
+								<div class="d-flex flex-row border-input py-1 text-center work-from-home-color" *ngIf="profile.WorkFromHome">
 									<i class="bi bi-house me-2"></i><b>Work from home</b>
 								</div>
 							</div>

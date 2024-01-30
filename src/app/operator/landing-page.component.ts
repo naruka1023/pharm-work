@@ -53,6 +53,7 @@ export class LandingPageComponent implements AfterViewInit {
   requestViewModel = {
     editorData: ''
   };
+  addJobModal!: any
   shareModal!: any
   offCanvas!: any
 
@@ -63,6 +64,9 @@ export class LandingPageComponent implements AfterViewInit {
     )
     this.shareModal = new window.bootstrap.Modal(
       document.getElementById('shareModal')
+    )
+    this.addJobModal = new window.bootstrap.Modal(
+      document.getElementById('addJobModal')
     )
     
     this.formModal = new window.bootstrap.Modal(
@@ -121,6 +125,10 @@ export class LandingPageComponent implements AfterViewInit {
       })
     })
     this.initializeFormGroup()
+  }
+
+  openAddModal(){
+    this.addJobModal.show()
   }
 
   copyString() {
@@ -236,6 +244,7 @@ export class LandingPageComponent implements AfterViewInit {
         urgency: urgencyFlag
       }
     }).then(()=>{
+      this.addJobModal.hide()
       this.offCanvas.hide()
     })
   }

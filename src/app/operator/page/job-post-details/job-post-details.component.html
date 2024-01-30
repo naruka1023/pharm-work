@@ -3,316 +3,344 @@
 </div>
 <app-profileheader profileType="job-post"></app-profileheader>
 <div class="container">
-	<div class="card rounded">
-		<div class="card-body p-4">
-			<div class="panelHeader d-flex justify-content-between pb-4 border-bottom">
-					<div class="fs-2 jobName" style="padding-right:2.5rem">{{profile.JobName}}</div>
-					<div class="fs-2 ms-sm-3" *ngIf="profile.TimeFrame === 'Part-Time'">
-						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
-						<ng-template #urgentFlag>
-							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
-						</ng-template>
-						<ng-template #notUrgentFlag>
-							<span class="badge text-light" style="background: #7fd858">Part-Time</span>
-						</ng-template>
-					</div>
-					<div class="fs-2 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time'">
-						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
-						<ng-template #urgentFlag>
-							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
-						</ng-template>
-						<ng-template #notUrgentFlag>
-							<span class="badge text-light" style="background:#5cdfe4">Full-Time</span>
-						</ng-template>
-					</div>
-					<div class="fs-2 ms-3"  *ngIf="profile.TimeFrame === 'Full-Time และ Part-Time'">
-						<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
-						<ng-template #urgentFlag>
-							<span class="badge bg-secondary urgentLabel">ต้องการเภสัชวันที่ {{profile.DateOfJob}}</span>
-						</ng-template>
-						<ng-template #notUrgentFlag>
-							<span class="badge text-light" style="background:#dfa5d6">Full-Time และ Part-Time</span>
-						</ng-template>
-					</div>
-			</div>
-			<div class="mx-3 mb-3 fs-4">
-				<div class="row twoRows">
-					<div class="col-12 col-md-6 border-end pt-4 leftPanelDetails">
-						<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<b>สาขา</b>
-							</div>
-							<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyField}}</div>
-						</div>
-						<div class="row pb-3">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
-							</div>
-							<div class="col">
-								<div class="valuePart">{{profile.Duration | emptyField}} น.</div>
-							</div>
-						</div>
-						<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-							</div>
-							<div class="col">
-								<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount! + profile.Salary.Cap! | emptyField}} บาท/เดือน</div>
-								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-							</div>
-						</div>
-						<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-								<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-							</div>
-							<div class="col">
-								<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}}</div>
-								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-							</div>
-						</div>
-						<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-							</div>
-							<div class="col">
-								<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/ชม</div>
-								<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-							</div>
-						</div>
-						<div *ngIf="profile.BTS.Near"  class="pb-3 row">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-train-front me-2"></i> <b>BTS</b>
-							</div>
-							<div class="col valuePart"> {{profile.BTS.Station | emptyField}}</div>
-						</div>
-						<div *ngIf="profile.ARL.Near"  class="pb-3 row">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-train-front me-2"></i> <b>ARL</b>
-							</div>
-							<div class="col valuePart"> {{profile.ARL.Station | emptyField}}</div>
-						</div>
-						<div class="pb-3 row" *ngIf="profile.OnlineInterview">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
-							</div>
-						</div>
-					</div>
-					<div class="col-6 pt-4" style="padding-left:2.75rem">
-						<div class="row pb-3">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
-							</div>
-							<div class="col valuePart">{{profile.Amount | emptyField}} ตำแหน่ง</div>
-						</div>
-						<div class="row pb-3">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
-							</div>
-							<div class="col valuePart"> {{profile.Location.Section | emptyField}}, {{profile.Location.Province | emptyField}}</div>
-						</div>
-						<div *ngIf="profile.MRT.Near"  class="pb-3 row">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-train-front me-2"></i> <b>MRT</b>
-							</div>
-							<div class="col valuePart"> {{profile.MRT.Station | emptyField}}</div>
-						</div>
-						<div *ngIf="profile.SRT.Near" class="pb-3 row">
-							<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-								<i class="bi bi-train-front me-2"></i> <b>SRT</b>
-							</div>
-							<div class="col valuePart"> {{profile.SRT.Station | emptyField}}</div>
-						</div>
+	<div class="d-flex align-items-center justify-content-between textProfileResponsive mb-3">
+		<div>หมวด {{profile.Urgency?'งานเภสัชรายวัน (freelance)': 'ร้านยาเดี่ยว (stand alone)'}}</div>
+		<div class="d-flex me-3" (click)="toggleActive()" >
+			<div [ngStyle]="{'color': !activeFlag?'white': 'black'}" [ngClass]="activeFlag?'color-lightgrey': 'color-grey'" class="px-3 " style="cursor:pointer; border-top-left-radius: 20px; border-bottom-left-radius: 20px">ปิดประกาศ</div>
+			<div [ngStyle]="{'color': activeFlag?'white': 'black'}" [ngClass]="!activeFlag?'color-lightgrey': 'green-color'" class="px-3" style="cursor:pointer; border-top-right-radius: 20px; border-bottom-right-radius: 20px">เปิดประกาศ</div>
+		</div>
+	</div>
+	<div class="semi-border-input standard-shadow" [ngClass]="activeFlag?'green-border-color':''">
 
-						<!-- <div class="d-flex flex-row" class="d-flex flex-row">
-							<b>แขวง:</b>
-							<div class="ms-2">{{profile.Location.District}}</div>
-						</div> -->
-						<!-- <div class="d-flex flex-row"> -->
-							<!-- <b>เขต:</b> -->
-							<!-- <div> {{profile.Location.Section}}, {{profile.Location.Province}}</div> -->
-						<!-- </div> -->
-						<!-- <div class="d-flex flex-row">
-							<b>จังหวัด:</b>
-							<div class="ms-2"> </div>
-						</div> -->
-						<div class="d-flex flex-row" *ngIf="profile.WorkFromHome">
-							<i class="bi bi-house me-2"></i><b>Work from home</b>
+		<div class="textProfileResponsive">
+			<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
+			<ng-template #urgentFlag>
+				<div class="bg-light text-center py-1 urgentLabel" style="border-top-left-radius: 40px !important; border-top-right-radius: 40px !important; width:-webkit-fill-available; width:-moz-available;"
+				>
+					
+				ทำงานวันที่ {{profile.DateOfJob}}
+				</div>
+			</ng-template>
+			<ng-template #notUrgentFlag>
+				<div class="text-light text-center py-1" style="border-top-left-radius: 40px !important; border-top-right-radius: 40px !important; width:-webkit-fill-available; width:-moz-available;"
+					[ngClass]="profile.TimeFrame === 'Full-Time'?'green-color': profile.TimeFrame === 'Full-Time และ Part-Time'?'purple-color':'blue-color'" 
+				>
+					
+					{{profile.TimeFrame}}
+				</div>
+			</ng-template>
+		</div>	
+		<div class="card semi-border-input" style="border-top-left-radius:0px !important; border-top-right-radius: 0px !important">
+			<div class="card-body textProfileResponsive p-4 pt-0">
+				<div class="panelHeader d-flex justify-content-between border-bottom py-2">
+					<div class="jobName" style="padding-right:2.5rem">{{profile.JobName}}</div>
+				</div>
+				<div class="mx-sm-3 mb-sm-3">
+					<div class="row twoRows">
+						<div class="col-12 col-md-6 border-end p-0 pt-4 leftPanelDetails">
+							<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<b>สาขา</b>
+								</div>
+								<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.Duration !== ''" class="row pb-3">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
+								</div>
+								<div class="col">
+									<div  *ngIf="profile.Duration !== ' - '">{{profile.Duration}} น.</div>
+									<div  *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
+								</div>
+							</div>
+							<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+								</div>
+								<div class="col">
+									<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/เดือน</div>
+									<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+								</div>
+							</div>
+							<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+								</div>
+								<div class="col">
+									<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}}</div>
+									<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+								</div>
+							</div>
+							<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+								</div>
+								<div class="col">
+									<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/ชม</div>
+									<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+								</div>
+							</div>
+							<div *ngIf="profile.BTS.Near"  class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>BTS</b>
+								</div>
+								<div class="col"> {{profile.BTS.Station | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.ARL.Near"  class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>ARL</b>
+								</div>
+								<div class="col"> {{profile.ARL.Station | emptyField}}</div>
+							</div>
+							<div class="pb-3 row" *ngIf="profile.OnlineInterview">
+								<div class="col-10 border-input py-1 text-center online-interview-color">
+									<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
+								</div>
+							</div>
 						</div>
+						<div class="col-12 col-md-6 pt-md-4 rightPanelDetails">
+							<div class="row pb-3"*ngIf="profile.Amount !== null || profile.Amount !== 0">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
+								</div>
+								<div class="col">{{profile.Amount | emptyField}} ตำแหน่ง</div>
+							</div>
+							<div class="row pb-3" *ngIf="profile.Location.Section !== '' || profile.Location.Province !== ''">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
+								</div>
+								<div class="col"> {{profile.Location.District | emptyField}}, {{profile.Location.Province | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.MRT.Near"  class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>MRT</b>
+								</div>
+								<div class="col"> {{profile.MRT.Station | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.SRT.Near" class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>SRT</b>
+								</div>
+								<div class="col"> {{profile.SRT.Station | emptyField}}</div>
+							</div>
+	
+							<!-- <div class="d-flex flex-row" class="d-flex flex-row">
+								<b>แขวง:</b>
+								<div class="ms-2">{{profile.Location.District}}</div>
+							</div> -->
+							<!-- <div class="d-flex flex-row"> -->
+								<!-- <b>เขต:</b> -->
+								<!-- <div> {{profile.Location.Section}}, {{profile.Location.Province}}</div> -->
+							<!-- </div> -->
+							<!-- <div class="d-flex flex-row">
+								<b>จังหวัด:</b>
+								<div class="ms-2"> </div>
+							</div> -->
+							<div class="d-flex flex-row border-input py-1 text-center work-from-home-color" *ngIf="profile.WorkFromHome">
+								<i class="bi bi-house me-2"></i><b>Work from home</b>
+							</div>
+						</div>
+					</div>
+					<div class="row oneRow">
+							<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<b>สาขา</b>
+								</div>
+								<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyField}}</div>
+							</div>
+							<div class="row pb-3" *ngIf="profile.Duration !== ''">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
+								</div>
+								<div class="col">
+									<div  *ngIf="profile.Duration !== ' - '">{{profile.Duration}} น.</div>
+									<div  *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
+								</div>
+							</div>
+							<div>
+								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+									</div>
+									<div class="col">
+										<div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/เดือน</div>
+										<div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+									</div>
+								</div>
+								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+									</div>
+									<div class="col">
+										<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}}</div>
+										<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+									</div>
+								</div>
+								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+									</div>
+									<div class="col">
+										<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/ชม</div>
+										<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
+									</div>
+								</div>
+							</div>
+							<div class="row pb-3" *ngIf="profile.Amount !== null || profile.Amount !== 0">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
+								</div>
+								<div class="col">{{profile.Amount | emptyField}} ตำแหน่ง</div>
+							</div>
+							<div class="row pb-3">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
+								</div>
+								<div class="col"> {{profile.Location.Section | emptyField}}, {{profile.Location.Province | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.BTS.Near"  class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>BTS</b>
+								</div>
+								<div class="col"> {{profile.BTS.Station | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.MRT.Near"  class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>MRT</b>
+								</div>
+								<div class="col"> {{profile.MRT.Station | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.SRT.Near" class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>SRT</b>
+								</div>
+								<div class="col"> {{profile.SRT.Station | emptyField}}</div>
+							</div>
+							<div *ngIf="profile.ARL.Near"  class="pb-3 row">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<i class="bi bi-train-front me-2"></i> <b>ARL</b>
+								</div>
+								<div class="col"> {{profile.ARL.Station | emptyField}}</div>
+							</div>
+							<div class="pb-3 row" *ngIf="profile.OnlineInterview">
+								<div class="col-12 px-3 border-input py-1 text-center online-interview-color">
+									<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
+								</div>
+							</div>
+							<div class="d-flex flex-row px-3 border-input py-1 text-center work-from-home-color" *ngIf="profile.WorkFromHome">
+								<i class="bi bi-house me-2"></i><b>Work from home</b>
+							</div>
 					</div>
 				</div>
-				<div class="row oneRow">
-					<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-							<b>สาขา</b>
-						</div>
-						<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyField}}</div>
-					</div>
-					<div class="row pb-3">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
-							<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
-						</div>
-						<div class="col">
-							<div class="valuePart">{{profile.Duration | emptyField}} น.</div>
-						</div>
-					</div>
-					<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-						</div>
-						<div class="col">
-							<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/เดือน</div>
-							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-						</div>
-					</div>
-					<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-						</div>
-						<div class="col">
-							<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}}</div>
-							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-						</div>
-					</div>
-					<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-						</div>
-						<div class="col">
-							<div class="valuePart" *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyField}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyField}} บาท/ชม</div>
-							<div class="valuePart" *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-						</div>
-					</div>
-					<div class="row pb-3">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
-						</div>
-						<div class="col valuePart">{{profile.Amount | emptyField}} ตำแหน่ง</div>
-					</div>
-					<div class="row pb-3">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
-						</div>
-						<div class="col valuePart"> {{profile.Location.Section | emptyField}}, {{profile.Location.Province | emptyField}}</div>
-					</div>
-					<div *ngIf="profile.BTS.Near"  class="pb-3 row">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-train-front me-2"></i> <b>BTS</b>
-						</div>
-						<div class="col valuePart"> {{profile.BTS.Station | emptyField}}</div>
-					</div>
-					<div *ngIf="profile.MRT.Near"  class="pb-3 row">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-train-front me-2"></i> <b>MRT</b>
-						</div>
-						<div class="col valuePart"> {{profile.MRT.Station | emptyField}}</div>
-					</div>
-					<div *ngIf="profile.SRT.Near" class="pb-3 row">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-train-front me-2"></i> <b>SRT</b>
-						</div>
-						<div class="col valuePart"> {{profile.SRT.Station | emptyField}}</div>
-					</div>
-					<div *ngIf="profile.ARL.Near"  class="pb-3 row">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-train-front me-2"></i> <b>ARL</b>
-						</div>
-						<div class="col valuePart"> {{profile.ARL.Station | emptyField}}</div>
-					</div>
-					<div class="pb-3 row" *ngIf="profile.OnlineInterview">
-						<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-							<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
-						</div>
-					</div>
-					<div class="d-flex flex-row" *ngIf="profile.WorkFromHome">
-						<i class="bi bi-house me-2"></i><b>Work from home</b>
-					</div>
-			</div>
 			</div>
 		</div>
 	</div>
 	<div class="footerMainHeader my-3 d-flex justify-content-start">
-		<p class="lead"> อัพเดทล่าสุด {{profile.dateUpdated}} </p>
+		<div class="dateUpdated">
+			<p class="lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}}</p>
+		</div>
 	</div>
-	<div class="card rounded">
-		<div class="card-body p-4">
+	<div class="card semi-border-input standard-shadow">
+		<div class="card-body textProfileResponsive p-4">
 			<div class="my-5 mt-3">
-				<h2>หน้าที่ความรับผิดชอบ</h2>
-				<div class="fs-4" [innerHtml]="profile.JobDetails | emptyField"></div>
+				<h2 class="pb-2" style="border-bottom:2px solid lightgrey">หน้าที่ความรับผิดชอบ</h2>
+				<div class="" [innerHtml]="profile.JobDetails | emptyField"></div>
 				<ng-container *ngIf="profile.Urgency === false">
-					<h2 class="mt-5">คุณสมบัติผู้สมัคร</h2>
-						<div class="fs-4" [innerHtml]="profile.qualityApplicants | emptyField"></div>
-					<h2 class="mt-5">สวัสดิการ</h2>
-						<div class="fs-4" [innerHtml]="profile.jobBenefits | emptyField"></div>
-					<h2 class="mt-5">วิธีสมัครงาน</h2>
-						<div class="fs-4" [innerHtml]="profile.applyInstructions | emptyField"></div>
+					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">คุณสมบัติผู้สมัคร</h2>
+						<div class="" [innerHtml]="profile.qualityApplicants | emptyField"></div>
+					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">สวัสดิการ</h2>
+						<div class="" [innerHtml]="profile.jobBenefits | emptyField"></div>
+					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">วิธีสมัครงาน</h2>
+						<div class="" [innerHtml]="profile.applyInstructions | emptyField"></div>
 				</ng-container>
 			</div>
 			<div class="my-5 mb-3">
-				<h2 class="my-5 mb-3">ช่องทางติดต่อ</h2>
-				<div class="d-sm-flex fs-4">
+				<h2 class="pb-2 mb-3" style="border-bottom:2px solid lightgrey">ช่องทางติดต่อ</h2>
+				<div class="d-sm-flex mb-3 ">
 					<div class="me-3">
-						<b>ชื่อผู้ติดต่อ: </b>
+						<i class="bi bi-telephone-fill"></i>
 					</div>
-					<div class="col ms-2">{{profile.Contacts.nameRepresentative | emptyField}}</div>
+					<div>
+						<div class="d-sm-flex mb-3 ">
+							<div class="me-3">
+								ชื่อผู้ติดต่อ
+							</div>
+							<div>{{profile.Contacts.nameRepresentative | emptyField}}</div>
+						</div>
+						<div>
+							<span class="me-3">โทร</span>{{profile.Contacts.phone | emptyField}}
+						</div>
+					</div>
 				</div>
-				<div class="d-sm-flex fs-4">
+				<div class="d-sm-flex mb-3 ">
 					<div class="me-3">
-						<b>สถานที่ติดต่อ: </b>
+						<i class="bi bi-house-door-fill"></i>
 					</div>
-					<div class="col ms-2">{{profile.Contacts.areaOfContact | emptyField}}</div>
+					<div class="me-3">
+						สถานที่ติดต่อ
+					</div>
+					<div>{{profile.Contacts.areaOfContact | emptyField}}</div>
 				</div>
-				<div class="d-sm-flex fs-4">
+				<div class="d-sm-flex mb-3 ">
 					<div class="me-3">
-						<b>โทร: </b>
+						<i class="bi bi-envelope-open-fill"></i>
 					</div>
-					<div class="col ms-2">{{profile.Contacts.phone | emptyField}}</div>
+					<div class="me-3">
+						Email
+					</div>
+					<div>{{profile.Contacts.email | emptyField}}</div>
 				</div>
-				<div class="d-sm-flex fs-4">
+				<div class="d-sm-flex mb-3 ">
 					<div class="me-3">
-						<b>Email: </b>
+						<i class="bi bi-line"></i>
 					</div>
-					<div class="col ms-2">{{profile.Contacts.email | emptyField}}</div>
+					<div class="me-3">
+						Line
+					</div>
+					<div>{{profile.Contacts.line | emptyField}}</div>
 				</div>
-				<div class="d-sm-flex fs-4">
+				<div class="d-sm-flex mb-3 ">
 					<div class="me-3">
-						<b>Line: </b>
+						<i class="bi bi-facebook"></i>
 					</div>
-					<div class="col ms-2">{{profile.Contacts.line | emptyField}}</div>
+					<div class="me-3">
+						Facebook
+					</div>
+					<div>{{profile.Contacts.facebook | emptyField}}</div>
 				</div>
-				<div class="d-sm-flex fs-4">
+				<div class="d-sm-flex mb-3 ">
 					<div class="me-3">
-						<b>Facebook: </b>
+						<i class="bi bi-globe2"></i>
 					</div>
-					<div class="col ms-2">{{profile.Contacts.facebook | emptyField}}</div>
-				</div>
-				<div class="d-sm-flex fs-4">
 					<div class="me-3">
-						<b>Website: </b>
+						Website
 					</div>
-					<div class="col ms-2">{{profile.Contacts.website | emptyField}}</div>
+					<div>{{profile.Contacts.website | emptyField}}</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="card rounded mt-5">
-		<div class="card-body px-4">
-			<div class="my-3">
-				<h2>สถานที่ปฏิบัติการ/วิธีเดินทาง</h2>
-				<div class="fs-4 d-flex justify-content-between">
-					<div class=" fs-4" [innerHtml]="profile.TravelInstructions | emptyField"></div>
+			<div class="card-body px-0 textProfileResponsive">
+				<div class="mb-5 mt-1">
+					<h2 class="mb-3 pb-3" style="border-bottom:2px solid lightgrey">สถานที่ปฏิบัติการ/วิธีเดินทาง</h2>
+					<div class=" d-flex justify-content-between">
+						<div style="line-break:anywhere" class="" [innerHtml]="profile.TravelInstructions | emptyField"></div>
+					</div>
+					<div style="overflow-x: scroll">
+						<google-map 
+							*ngIf="profile._geoloc !== undefined"
+							height="500px"
+							width="60vw"
+							[center]="center"
+							[zoom]="zoom">
+							<map-marker
+								[position]="markerPosition"
+								>
+							</map-marker>
+						</google-map>
+					</div>
 				</div>
-				<div class="d-flex justify-content-center" style="overflow:scroll">
-					<google-map 
-						*ngIf="profile._geoloc !== undefined"
-						height="500px"
-						width="65vw"
-						[center]="center"
-						[zoom]="zoom">
-						<map-marker
-							[position]="markerPosition"
-							>
-						</map-marker>
-					</google-map>
+				<div class="m-5 d-flex justify-content-between align-items-center">
+					<button class="btn button-width border-input btn-secondary textProfileResponsive text-center"><i class="me-3 bi bi-trash"></i>ลบประกาศงาน</button>
+					<button class="btn button-width border-input green-color   textProfileResponsive text-center" style="color:white" (click)="editFlag()"><i style="color:black !important" class="me-3 bi bi-pen"></i>แก้ไขประกาศงาน</button>
 				</div>
 			</div>
 		</div>

@@ -34,3 +34,9 @@
     font-size: 0.875em;
     color: #dc3545
   }
+  .keyValueGap{
+    margin-right:2.5rem
+  }
+  .verticalKeyGap{
+    margin-bottom:2rem
+  }

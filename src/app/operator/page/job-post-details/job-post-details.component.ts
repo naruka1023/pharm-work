@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { profileHeaderJobPost } from '../../model/header.model';
 import { jobPostModel } from '../../model/jobPost.model';
+import { JobService } from '../../service/job.service';
 
 @Component({
   selector: 'app-job-post-details',
@@ -12,10 +13,12 @@ import { jobPostModel } from '../../model/jobPost.model';
 })
 export class JobPostDetailsComponent {
 
-  constructor(private route: ActivatedRoute, private router: Router, private store: Store){}
+  constructor(private route: ActivatedRoute, private router: Router, private store: Store, private jobService:JobService){}
 
   profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
+  Active$!:Observable<boolean>;
+  activeFlag!: boolean
   id!: string;
   profile!:jobPostModel;
   bookmarkLoadingFlag: boolean = false;
@@ -50,6 +53,16 @@ export class JobPostDetailsComponent {
       })
       return newJob
     })
+    this.Active$ = this.store.select((state:any)=>{
+      const selectedJob = state.createdJobs.JobPost.find((job: jobPostModel)=>{
+        return job.custom_doc_id == this.id
+      })
+      return selectedJob !== undefined?selectedJob.Active: true;
+    })
+    this.Active$.subscribe((active)=>{
+
+      this.activeFlag = active;
+    })
     this.profilePayload$.subscribe((res: jobPostModel)=>{
       if(res !== undefined){
         this.profile = res;
@@ -61,6 +74,21 @@ export class JobPostDetailsComponent {
     })
     this.scrollUp();
   }
+
+  editFlag(){
+    this.router.navigate(['/operator/edit-jobs'], {
+      queryParams: 
+      {
+        urgency: this.profile.Urgency,
+        id: this.profile.custom_doc_id
+      }
+    })
+  }
+  
+  toggleActive(){
+    this.jobService.toggleActive(this.profile.custom_doc_id, this.activeFlag)
+  }
+
 
   
   scrollUp(){

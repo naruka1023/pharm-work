@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { UserPharma } from '../../model/user.model';
+import { UserPharma, requestView } from '../../model/user.model';
+import { Observable, of } from 'rxjs';
+import { UtilService } from '../../service/util.service';
 
 @Component({
   selector: 'app-pharma-user-profile-page',
@@ -16,12 +18,13 @@ export class PharmaUserProfilePageComponent {
   jobUID?: string
   requestUID?: string
   zoom: number = 15
+  requestViewFlag$: Observable<boolean> = of(true)
   userUID!: string
   pageType!: string
   sendUrgentJobsFlag!: boolean;
-  allowView: boolean = false
+  requestStatus!: requestView;
   urgentJobObject: any = {};
-  constructor(private route:ActivatedRoute, private store:Store){}
+  constructor(private route:ActivatedRoute, private store:Store, private profileService: UtilService){}
 
   ngOnInit(){
     this.categorySymbol = this.route.snapshot.queryParamMap.get('categorySymbol')!;
@@ -30,6 +33,20 @@ export class PharmaUserProfilePageComponent {
     this.jobUID = this.route.snapshot.queryParamMap.get('jobUID')!;
     this.requestUID = this.route.snapshot.queryParamMap.get('requestUID')!;
     this.profileLinkPage = (this.route.snapshot.queryParamMap.get('profileLinkPage')! == 'true')?true:false
+    this.requestViewFlag$ = this.store.select((state: any) =>{
+      let flag = true;
+      
+      if(this.userUID !== ''){
+        let requestView: requestView = state.requestView[this.userUID + '-' + state.user.uid]
+        if(requestView === undefined){
+          flag = false;
+        }else{
+          this.requestStatus = requestView
+        }
+      }
+      console.log(flag)
+      return flag 
+    })
     this.store.select((state:any)=>{
       let newState: any
       switch(this.pageType){
@@ -45,9 +62,6 @@ export class PharmaUserProfilePageComponent {
         case 'request-jobs':
           if(this.profileLinkPage){
             newState = state.requestView[this.userUID + '-' + state.user.uid]
-            if(newState.status !== 'Pending'){
-              this.allowView = true;
-            }
             newState = newState.content
             return newState
           }else{
@@ -83,6 +97,11 @@ export class PharmaUserProfilePageComponent {
     })
     this.scrollUp()
   }
+
+  openRequestViewModal(){
+    this.profileService.sendRequestViewSubject(this.innerProfileInformation)
+  }
+
   scrollUp(){
     window.scroll({ 
       top: 0, 

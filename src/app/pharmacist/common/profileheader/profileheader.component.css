@@ -41,7 +41,7 @@
 .profileUploadButton{
   cursor: pointer;
   position: relative;
-  bottom: 2.9rem;
+  bottom: -3rem;
   width: 50px;
   border-radius: 100%;
   background: lightgray;
@@ -50,7 +50,7 @@
   align-items: center;
   justify-content: center;
   height: 50px;
-  right: -108.9px;
+  right: 40.2px;
 }
 
 .btn-outline-primary{

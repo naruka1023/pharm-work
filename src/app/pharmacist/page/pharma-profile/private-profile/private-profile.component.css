@@ -51,9 +51,6 @@
 .nobr{
     white-space: nowrap
 }
-.keyValueGap{
-    margin-right:2.5rem
-}
 .btn-primary, btn-primary:hover{
     background:#5cdfe4;
     border-color: #5cdfe4
@@ -63,6 +60,9 @@
 }
 .contacts > .verticalKeyGap{
     margin-bottom:2rem
+}
+.keyValueGap{
+    margin-right:2.5rem
 }
 .verticalKeyGap{
     margin-bottom:2rem

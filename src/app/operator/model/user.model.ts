@@ -242,6 +242,7 @@ export interface Contacts{
     phone: string;
     email: string;
     line: string;
+    nameRepresentative: string;
     website: string;
     facebook: string;
     twitter: string;

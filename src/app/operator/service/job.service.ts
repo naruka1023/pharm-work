@@ -31,6 +31,14 @@ export class JobService {
     return updateDoc(doc(this.db, 'job-post', job.custom_doc_id), job)
   }
   toggleActive(uid: string, active:boolean){
+    if(!active){
+      return updateDoc(doc(this.db, 'job-post', uid), {
+        Active: !active,
+        dateUpdated: new Date().toISOString().split('T')[0],
+        dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
+      })
+
+    }
     return updateDoc(doc(this.db, 'job-post', uid), {
       Active: !active
     })

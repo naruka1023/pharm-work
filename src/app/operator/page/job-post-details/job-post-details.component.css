@@ -1,17 +1,3 @@
-@media only screen and (max-width: 768px) {
-  .rightPanelDetails{
-    padding-left: 0 !important
-  }
-  .leftPanelDetails{
-    border-right:unset !important
-  }
-  .oneRow{
-    display:unset !important
-  }
-  .twoRows{
-    display: none !important
-  }
-}
 @media only screen and (max-width: 992px) {
   .valuePart{
     font-size:large !important
@@ -24,9 +10,18 @@
     padding-right: 0 !important
   }
 }
-@media only screen and (max-width: 360px){
-  .urgentLabel{
-    font-size: 1rem !important
+@media only screen and (max-width: 768px) {
+  .rightPanelDetails{
+    padding-left: 0 !important
+  }
+  .leftPanelDetails{
+    border-right:unset !important
+  }
+  .oneRow{
+    display:unset !important
+  }
+  .twoRows{
+    display: none !important
   }
 }
 @media only screen and (max-width: 520px){
@@ -42,6 +37,11 @@
   }
   .choices{
     justify-content: center !important
+  }
+}
+@media only screen and (max-width: 360px){
+  .urgentLabel{
+    font-size: 1rem !important
   }
 }
 

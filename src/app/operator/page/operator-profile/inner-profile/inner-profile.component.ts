@@ -118,6 +118,7 @@ searchMap(event: any){
       }),
       contacts: this.fb.group({
         areaOfContact:[''],
+        nameRepresentative:[''],
         phone: [''],
         email: [''],
         line: [''],

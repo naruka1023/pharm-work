@@ -3,7 +3,9 @@
     justify-content: center !important
   }
 }
-
+.work-from-home-color{
+  background-color:lavender
+}
 @media only screen and (max-width: 576px) {
   .applyJobBtn{
     padding:0 1rem !important
@@ -58,7 +60,7 @@ border-color: #7fd858
 }
 
 #overlay {
-    border-radius: 20px !important;
+    border-radius: 40px !important;
     position: absolute;
     display: block;
     width: 100%;

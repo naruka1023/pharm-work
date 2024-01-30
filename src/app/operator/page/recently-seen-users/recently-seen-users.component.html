@@ -1,17 +1,19 @@
-<div class="my-3 innerProfileTitle mx-sm-4 mx-2 fs-2"><b>ที่ดูล่าสุด</b></div>
-<ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
-<ng-template #empty>
-    <div class="row d-flex justify-content-center">
-        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
-            <img class="w-100" src="assets/emptyOperator/emptyRecentlySeen.png">
+<div class="p-sm-4 p-2 textProfileResponsive semi-border-input standard-shadow">
+    <div class="my-3"><b>ที่ดูล่าสุด</b></div>
+    <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
+    <ng-template #empty>
+        <div class="row d-flex justify-content-center">
+            <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                <img class="w-100" src="assets/emptyOperator/emptyRecentlySeen.png">
+            </div>
         </div>
-    </div>
-</ng-template>
-<ng-template #notEmpty>
-    <div class="row row-cols-xl-2 mx-md-5 mx-sm-3 mx-1">
-        <ng-container *ngFor="let user of recentlySeen$ | async ; index as i" >
-            <app-normal-user-card [content]="user!" [type]="user.soleJobType!"></app-normal-user-card>
-            <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
-        </ng-container>
-    </div>
-</ng-template>    
+    </ng-template>
+    <ng-template #notEmpty>
+        <div class="row mx-sm-3 mx-1">
+            <ng-container *ngFor="let user of recentlySeen$ | async ; index as i" >
+                <app-normal-user-card [content]="user!" [type]="user.soleJobType!"></app-normal-user-card>
+                <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
+            </ng-container>
+        </div>
+    </ng-template>    
+</div>

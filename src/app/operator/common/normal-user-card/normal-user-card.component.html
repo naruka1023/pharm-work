@@ -1,4 +1,4 @@
-<div class="card semi-border-input standard-shadow my-sm-3 p-3">
+<div class="card semi-border-input standard-shadow my-sm-3 p-3" [ngClass]="requestStatusFlag && requestStatus.status !== 'Pending'? 'green-border-color':''">
     <div class="row">
         <div class="col-sm-2 col-12 text-center">
             <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToProfile()" class="card-img-top m-auto my-3 rounded-circle border border-5 border-white verticalKeyGap" style="width:fit-content" height="150" width="150">
@@ -20,7 +20,7 @@
                 <div class="col-sm" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
                     {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name + ' ' + content.surname:content.active}}
                 </div>
-                <button class="btn btn-outline-secondary border-input textProfileResponsive" (click)="goToProfile()">ดูโปรไฟล์</button>
+                <button class="btn btn-outline-secondary border-input textResponsive button-width" (click)="goToProfile()">ดูโปรไฟล์</button>
             </div>
             <div class="col-5 border-end">
                 <div class="py-1">
@@ -246,7 +246,7 @@
         </div>
     </div>
 </div>
-<div class="textProfileResponsive d-flex justify-content-between">
+<div class="textProfileResponsive" [ngClass]="!requestStatusFlag?'d-flex justify-content-between': ''">
     <div  *ngIf="!requestStatusFlag">
         อัพเดท {{content.dateUpdated}}
     </div>
@@ -269,13 +269,13 @@
                         </div>
                         <ng-container *ngIf="requestStatus.status == 'Pending'; then pending; else notPending"></ng-container>
                         <ng-template #pending>
-                                <button class="btn btn-warning textProfileResponsive ms-3 rounded" style="color:white">
-                                    <i class="bi bi-three-dots me-3"></i>รออนุมัติ
+                                <button class="btn btn-secondary textResponsive button-width ms-3 border-input" style="color:white">
+                                    รอการอนุมัติ
                                 </button>
                             </ng-template>
                             <ng-template #notPending>
-                                <button style="border-color: #7fd858; background:#7fd858" class="btn fs-5 ms-3 rounded" style="color:white">
-                                    <i class="bi bi-check-circle me-3"></i>อนุมัติแล้ว
+                                <button style="border-color: #7fd858; background:#7fd858; color:white" class="btn textResponsive button-width ms-3 border-input">
+                                    อนุญาตแล้ว
                                 </button>
                             </ng-template>
                             <div (click)="deleteRequestView()"><i class="bi bi-trash3 ms-3"></i></div>
@@ -285,10 +285,10 @@
             <ng-template #notStatus>
                 <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
                     <ng-template #requestView>
-                        <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn fs-3" style="color:white; background-color: grey">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
+                        <button [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-secondary textResponsive button-width border-input" style="color:white" [ngClass]="[requestStatus.status == 'Pending'?'':'green-color', requestStatus.status == 'Pending'?'':'green-mini-border-color']">{{ requestStatus.status == 'Pending'?'รออนุมัติ':'อนุมัติแล้ว' }}</button>
                     </ng-template>
                     <ng-template #notRequestView>
-                        <button (click)="openRequestViewModal()" [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-primary fs-3">ขอดูข้อมูล</button>
+                        <button (click)="openRequestViewModal()" [ngStyle]="{'display': type == 'S'?'none':'block','visibility': type !== 'S' && content.active == 'จำกัดการดูข้อมูล'? 'unset': 'hidden' }" class="btn btn-light textResponsive button-width border-input">ขอดูข้อมูล</button>
                     </ng-template>
                 <div class="text-danger textProfileResponsive">
                     <button (click)="toggleFavorite()" type="button" class="btn">

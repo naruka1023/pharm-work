@@ -29,23 +29,12 @@
     background:#5cdfe4;
     border-color: #5cdfe4
   }
-
-  ::ng-deep .swiper-button-next{
-    display:none
-  }
-
+  
   .background-height{
     height:60vh
-  }
-  
-  :host::ng-deep .swiper-slide{
-    background:white !important
   }
 .btn-success{
   background:#7fd858;
   border-color: #7fd858
   
-}
-:host ::ng-deep .swiperFormPharma .swiper-slide{
-  background-color:white
 }
