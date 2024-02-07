@@ -24,3 +24,23 @@
 background:#7fd858;
 border-color: #7fd858
 }
+@media only screen and (max-width: 992px) {
+  .border-end{
+    border-right:0px !important
+  }
+}
+@media only screen and (max-width: 768px) {
+  .imageResponsive{
+    height: 15vw !important
+  }
+}
+@media only screen and (max-width: 576px) {
+  .preferredResponsive{
+      padding-left:0.7rem  !important;   
+  }
+}
+@media only screen and (max-width: 330x) {
+  .preferredResponsive{
+      padding-left:0.9rem  !important;   
+  }
+}

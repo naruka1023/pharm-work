@@ -89,7 +89,7 @@
         <ng-template #normalNav>
           <ul class="fs-3 navbar-nav d-flex align-items-center">
               <li class="nav-item dropdown ms-3">
-                  <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางานเภสัช</a>
+                  <a style="cursor:pointer" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางานเภสัช</a>
                   <ul class="dropdown-menu p-2 fs-3">
                     <li><a class="dropdown-item" (click)="redirectToList('AA')"><i class="bi bi-calendar-check-fill me-3"></i>งานเภสัชรายวัน (freelance)</a></li>
                     <li><a class="dropdown-item" (click)="redirectToList('AB')"><i class="bi bi-house-fill me-3"></i>ร้านยาเดี่ยว (Stand alone)</a></li>
@@ -100,16 +100,16 @@
                   </ul>
               </li>
               <li class="nav-item ms-3" style="cursor:pointer">
-                <a class="nav-link green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a>
+                <a style="cursor:pointer" class="nav-link green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a>
               </li>
               <li class="nav-item ms-3">
-                <a class="nav-link"  data-bs-toggle="modal" data-bs-target="#registerModal">สมัครสมาชิก</a>
+                <a style="cursor:pointer" class="nav-link"  data-bs-toggle="modal" data-bs-target="#registerModal">สมัครสมาชิก</a>
               </li>
-              <!-- <li class="nav-item ms-3">
-                <a class="nav-link">ผู้ประกอบการ</a>
-              </li> -->
               <li class="nav-item ms-3">
-                <a class="nav-link">ติดต่อเรา</a>
+                <a style="cursor:pointer" class="nav-link"  data-bs-toggle="modal" data-bs-target="#operatorModal">ผู้ประกอบการ</a>
+              </li>
+              <li class="nav-item ms-3">
+                <a style="cursor:pointer" class="nav-link">ติดต่อเรา</a>
               </li>
           </ul>
         </ng-template>
@@ -226,7 +226,7 @@
         </li>
         <li class="my-3">
           <a class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#pharmaJobsMobile" role="button"><i class="bi bi-ui-checks-grid mx-3"></i>งานด้านเภสัชกรรม</a>
-          <div class="collapse py-2 fs-3" id="pharmaJobsMobile">
+          <div class="collapse py-2 textProfileResponsive" id="pharmaJobsMobile">
             <ul class="ps-0 redirectFont">
               <li class="my-3 dropdown-item"><a (click)="redirectToList('AA')"><i style="visibility:hidden" class="bi bi-calendar-check-fill mx-3"></i>งานเภสัชรายวัน (freelance)</a></li>
               <li class="my-3 dropdown-item"><a (click)="redirectToList('AB')"><i style="visibility:hidden" class="bi bi-house-fill mx-3"></i>ร้านยาเดี่ยว (Stand alone)</a></li>
@@ -238,48 +238,56 @@
           </div>
         </li>
     </ul>
-      <!-- <ul class="fs-5 navbar-nav d-flex align-items-center">
-          <li class="nav-item ms-3 my-2">
-            <button type="button" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-primary" >
-              เข้าสู่ระบบ
-            </button>
-          <li class="nav-item ms-3 my-2">
-            <button type="button" data-bs-toggle="modal" data-bs-target="#registerModal" class="btn btn-success">
-              สมัครสมาชิก
-            </button>
-          </li>
-          <li class="nav-item ms-3 my-2">
-            <button type="button" (click)="goToPage('register', true, {isPharma: false})" class="btn" style="background:#dfa5d6; border-color:#dfa5d6; color:white">
-              สำหรับผู้ประกอบการ
-            </button>
-          </li>
-        <li class="nav-item ms-3 my-2">
-            <a class="nav-link text-center" role="button" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">หางาน</a>
-            <div id="collapseExample" class="collapse">
-              <ul class="p-2">
-                  <li><a  (click)="redirectToList('AA')">งานเภสัชด่วนรายวัน</a></li>
-                  <li><a>งานร้านยา</a>
-                      <ul>
-                          <li class="landing-page_pharmacy-dropdown"><a (click)="redirectToList('AB')">ร้านยาทั่วไป</a></li>
-                          <li class="landing-page_pharmacy-dropdown"><a (click)="redirectToList('AC')">งานร้านยาแบรนด์</a></li>
-                      </ul>    
-                  </li>
-                  <li><a (click)="redirectToList('BB')">งานโรงพยาบาล/งานคลินิก</a></li>
-                  <li><a (click)="redirectToList('BC')">งานโรงงาน/งานบริษัท/งานวิจัย</a></li>
-                  <li><a (click)="redirectToList('CA')">งานอื่นๆ</a></li>
-              </ul>
-            </div>
-        </li>
-        <li class="nav-item ms-3 my-2"><a class="nav-link" >ติดต่อเรา</a></li>
-    </ul> -->
     </ng-template>
   </div>
 </div>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
+
+<div class="modal fade" id="operatorId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg textResponsive">
+    <div class="modal-content semi-border-input standard-shadow">
+      <div class="modal-header justify-content-center">
+        <h5 class="modal-title fs-3">เลขทะเบียนพาณิชย์ 13 หลัก</h5>
+      </div>
+      <div class="modal-body m-3">
+        <ul class="mb-3">
+          <li>ธุรกิจที่จดทะเบียนพาณิชย์แบบ นิติบุคคล บริษัท หรือ ห้างหุ้นส่วน ใช้เลขทะเบียนบริษัทหรือ<b>เลขทะเบียนนิติ
+            บุคคล 13 หลัก</b>ที่ออกโดยกรมพัฒนาธุรกิจการค้า
+           เป็นเลขทะเบียนพาณิชย์์</li>
+          <li>ธุรกิจที่จดทะเบียนพาณิชย์แบบ บุคคลธรรมดา ใช้<b>เลขประจำตัวประชาชน 13 หลัก</b>เป็นเลขทะเบียนพาณิชย์</li>
+        </ul>
+        <div class="d-flex justify-content-center">
+          <button class="border-input btn green-color p-3" style="color:white" data-bs-toggle="modal" data-bs-target="#registerModal">กลับสู่หน้าสมัครสมาชิก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="operatorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content semi-border-input standard-shadow">
+      <div class="modal-body m-3">
+        <div style="background-color:#f2f2f2" class="p-3 mb-3 text-center semi-border-input textResponsiveHeader">
+            <div class="d-flex justify-content-center align-items-center"><b>หา<span style="color:red">เภสัชกร</span>กับ <img style="width:8em" src="/assets/logo.png"> สิ!</b></div>
+            <div class="d-flex justify-content-center"><button (click)="onRegisterClick()" class="btn textProfileResponsive green-color border-input px-5 py-2" style="min-width:14em; color:white">สมัครสมาชิกผู้ประกอบการ</button></div>
+        </div>
+        <div class="textResponsive d-flex mb-3 justify-content-center">
+          <b>สร้างประกาศงานใน Pharmwork ดียังไง?</b>
+        </div>
+        <div style="background-color:#f2f2f2" class="p-3 text-center semi-border-input textProfileResponsive">
+            <div><b>หรือเป็นสมาชิกกับ Pharmwork อยู่แล้ว?</b></div>
+            <div class="d-flex justify-content-center"><button (click)="onLoginClick()" class="btn textProfileResponsive purple-color border-input px-5 py-2" style="min-width:14em; color:white">เข้าสู่ระบบผู้ประกอบการ</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="requestViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+    <div class="modal-content semi-border-input standard-shadow">
       <!-- <div class="modal-header">
         <h5 class="modal-title fs-3">เขียนข้อความแนบ</h5>
         <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
@@ -298,7 +306,7 @@
 </div>
 <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div class="modal-content semi-border-input standard-shadow">
       <div class="modal-header">
         <h5 class="modal-title">แชร์งานที่คุณถูกใจเลย!</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

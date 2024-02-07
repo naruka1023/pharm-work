@@ -4,9 +4,9 @@
     <div [formGroup]="parentFormGroup">
         <div class="row mt-3 verticalKeyGap" [formGroupName]="formGroupName">
             <div class="d-flex flex-row verticalKeyGap">
-                <div class="keyValueGap"><i class="bi bi-pin-map-fill"></i></div>
+                <div class="keyValueGap"><i class="textProfileResponsive i bi-pin-map-fill"></i></div>
                 <div style="width:-webkit-fill-available; width:-moz-available">
-                    <div class="keyValueGap">
+                    <div class="keyValueGap textProfileResponsive">
                         <div><b>พื้นที่ปฏิบัติงาน</b></div>
                     </div>
                     <div>
@@ -41,10 +41,10 @@
     <div [formGroup]="parentFormGroup">
         <div [formGroupName]="formGroupName">
             <div class="d-flex flex-row verticalKeyGap">
-                <div class="keyValueGap"><i class="bi bi-pin-map-fill"></i></div>
+                <div class="keyValueGap"><i class="textProfileResponsive bi bi-pin-map-fill"></i></div>
                 <div style="width:-webkit-fill-available; width:-moz-available">
-                    <div class="keyValueGap">
-                        <div><b>พื้นที่ตั้งของบริษัท</b></div>
+                    <div class="keyValueGap textProfileResponsive">
+                        <div class="textProfileResponsive"><b>พื้นที่ตั้งของบริษัท</b></div>
                     </div>
                     <div>
                         <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="form-select mb-3 border-input textProfileResponsive">

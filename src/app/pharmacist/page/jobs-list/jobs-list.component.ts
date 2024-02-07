@@ -6,9 +6,11 @@ import SwiperCore, { Grid, Navigation, Pagination } from "swiper";
 import { jobPostModel, filterConditions, jobPostPayload, _geoloc } from '../../model/typescriptModel/jobPost.model';
 import { JobPostService } from '../../service/job-post.service';
 import { paginateJobCategory, retrievedJobCategorySuccess } from '../../state/actions/job-post.actions';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { toggleAddressChange } from 'src/app/state/actions/address.action';
 import _ from 'lodash';
+import { setCurrentUser } from 'src/app/state/actions/users.action';
+import { UserServiceService } from '../../service/user-service.service';
 declare let window: any;
 SwiperCore.use([Grid, Pagination, Navigation]);
 
@@ -22,15 +24,31 @@ export class JobsListComponent implements OnDestroy{
   CategorySymbol!: string;
   header!: string;
   urgentFilterForm!: FormGroup;
+  googleMapForm!: FormGroup;
   query: string = ''
   infiniteScrollingLoadingFlag: boolean = false;
   paginationIndex: number = 0;
   nearMapFlag: boolean = false
   maxIndex: number = 0
   count!: number; 
+  id!: number;
   geoLocFlag!: boolean;
   brandToCategory!: string;
   emptyResultFlag: boolean = false;
+  display: any;
+  zoom: number = 15
+  submitted: boolean = false
+  none: google.maps.MapOptions = {
+    gestureHandling:'greedy'
+  };
+  center: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  };
+  markerPosition: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  }
   dateOfJob!: any
   searchModal: any
   indexName: string = 'pharm-work_index_dateUpdated_desc'
@@ -44,13 +62,24 @@ export class JobsListComponent implements OnDestroy{
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
+  googleMapLoadingFlag!: boolean;
+  googleMapModal: any;
   
-  constructor(private route: ActivatedRoute, private router:Router,private store: Store, private jobPostService:JobPostService, private fb: FormBuilder){}
+  constructor(private route: ActivatedRoute, private router:Router,private store: Store, private jobPostService:JobPostService, private fb: FormBuilder, private userService:UserServiceService){}
   
   ngOnInit(){
     this.searchModal = new window.bootstrap.Modal(
       document.getElementById('searchModal')
       );
+    this.googleMapModal = new window.bootstrap.Modal(
+      document.getElementById('googleMapModal')
+      );
+      document.getElementById('googleMapModal')?.addEventListener('hidden.bs.modal', ()=>{
+        this.urgentFilterForm.patchValue({
+          nearbyFlag: false
+        })
+      })
+    this.initializeGoogleMapForm()
     this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
     this.count$ = this.store.select((state: any) =>{
       const jobList : filterConditions =  state.jobpost.JobPost.find((res: any)=>{
@@ -70,6 +99,7 @@ export class JobsListComponent implements OnDestroy{
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((user: any)=>{
+      this.id = user.uid
       if(user._geoloc == undefined){
         if(user._geolocCurrent == undefined){
           this._geoLoc = {
@@ -98,15 +128,71 @@ export class JobsListComponent implements OnDestroy{
     this.scrollUp()
   }
 
+  move(event: google.maps.MapMouseEvent) {
+    if (event.latLng != null) this.display = event.latLng.toJSON();
+  }
+
+moveMap(event: any){
+  this.markerPosition = {
+    lat: event.latLng.lat(),
+    lng: event.latLng.lng()
+  }
+  this.center = this.markerPosition
+  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+}
+
+  
+  openGoogleMapModal(){
+    this.center = this._geoLoc
+    this.markerPosition = this._geoLoc
+    this.googleMapModal.show()
+  }
+
+    
+  onSaveGoogleMap(){
+    this.googleMapLoadingFlag = true
+    const payload = {
+      ...this.googleMapForm.value,
+      uid: this.id
+    }
+    this.userService.updateUser(payload).then(()=>{
+      this.googleMapLoadingFlag = false;
+      this.store.dispatch(setCurrentUser({user: payload}))
+      this.urgentFilterForm.patchValue({
+        nearbyFlag: false
+      })
+      this.googleMapModal.hide()
+    })
+    
+  }
+
+  onCloseGoogleMap(){
+    this.googleMapModal.hide()
+  }
+  
+searchMap(event: any){
+  this.markerPosition = {
+    lat: event.geometry.location.lat(),
+    lng: event.geometry.location.lng()
+  }
+  this.center = this.markerPosition
+  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+}
+
+get getGoogleMapForm(): { [key: string]: AbstractControl } {
+  return this.googleMapForm.controls;
+}
+
+initializeGoogleMapForm(){
+  this.googleMapForm = this.fb.group({
+    _geoloc: ['', [Validators.required]],
+  })
+}
+
   onChangeEvent(event: any){
     if(event.target.checked && this.geoLocFlag){
-      document.getElementById('flexSwitchCheckDefault')?.click()
       this.searchModal.hide()
-      this.router.navigate(['pharma/profile-pharma'], {
-        queryParams:{
-          googleMapPointer:true
-        }
-      })
+      this.openGoogleMapModal()
     }
   }
 

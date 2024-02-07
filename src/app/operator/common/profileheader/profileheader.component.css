@@ -10,12 +10,6 @@
   .operatorHeader{
     display: block !important
   }
-  .fourPointKeyValue{
-    display:block !important
-  }
-  .fourPointKeyValuePreferred{
-    display:block !important
-  }
   .introText{
     font-size: 1.5rem !important;
   }
@@ -24,22 +18,17 @@
   }
 }
 @media only screen and (max-width: 992px) {
-  .fourPointKeyValue{
-    display:block
-  }
   .fourPointersPharma{
     padding-right: 0 !important;
     margin-bottom: 2rem !important;
     padding: 0 2%;
+    width: 65vw !important
   }
   .mainHeaderContent > div{
     justify-content: center !important
   }
   .fourPointersPharma{
-    padding: 0 5rem !important;
-    margin-top: 9rem !important;
     margin-bottom: 2rem !important;
-    padding: 1rem;
   }
   .editButton{
     justify-content:center !important;
@@ -63,7 +52,7 @@
   } */
   .innerHeaderPharma{
     display: block !important;
-    margin-top: 6rem;
+    margin-bottom: 2rem;
   }
   .outerHeaderPharma > div > img{
     top: 0 
@@ -145,16 +134,13 @@
     height: unset !important
   }
   .jobCounts, .jobCounts2 {
-    text-align:center
-  }
-  .buttonSet{
-    display: block !important
+    text-align:start
   }
   .buttonSet > button{
     margin: 7px auto !important
   }
   .fourPointersPharma{
-    padding:0 5vw !important;
+    margin-top: 0rem !important;
   }
   .mainHeaderContent{
     font-size: 2rem !important;
@@ -185,24 +171,31 @@
   .coverPhotoEditButtonPosition{
     font-size: medium !important
   }
-  .fourPointersPharma{
-    padding: 0 18px !important
-  }
   .fourPointKeyValuePreferred{
-    font-size: small
+    font-size: medium
   }
   .editButtonText{
     font-size: medium !important
   }
   .fourPointKeyValue{
-    font-size: small
+    font-size: medium
+  }
+  .jobCounts, .jobCounts2 {
+    font-size:1rem !important
+  }
+}
+@media only screen and (max-width: 450px) {
+  .fourPointKeyValue, .fourPointKeyValuePreferred{
+    font-size:small !important
+  }
+}
+@media only screen and (max-width: 400px){
+  .jobCounts, .jobCounts2 {
+    font-size:0.7rem !important
   }
 }
 .fourPointKeyValuePreferred, .fourPointKeyValue{
   display:flex
-}
-.fourPointersPharma{
-  padding-right:20rem;
 }
 div.img-container {
     width: 100%;
@@ -245,9 +238,6 @@ div.img-container {
     object-position: center top;
   }
 
-  .fourPointersPharma{
-    padding:0 178px;
-  }
   .phantomPadding{
     display: none;
     visibility:hidden;

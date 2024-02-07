@@ -1,8 +1,8 @@
 <div class="modal fade" id="registerModal" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered">
-      <div class="modal-content" style=border-radius:20px>
+      <div class="modal-content semi-border-input standard-shadow" style=border-radius:20px>
         <div>
-            <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab" role="tablist">
+            <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab2" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link nav-pharma active" style="border-top-left-radius: 20px" (click)="changeRoles('pharma')" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" type="button" role="tab" aria-controls="normal-job-pane" aria-selected="false">เภสัชกร</button>
                 </li>
@@ -585,7 +585,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <div class="mb-1"><i class="bi bi-question"></i></div>
+                                                <div class="mb-1"><i data-bs-toggle="modal" data-bs-target="#operatorId" style="cursor:pointer" class="bi bi-question"></i></div>
                                                 <input
                                                     type="text"
                                                     formControlName="companyID"

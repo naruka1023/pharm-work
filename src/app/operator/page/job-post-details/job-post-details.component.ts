@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { profileHeaderJobPost } from '../../model/header.model';
 import { jobPostModel } from '../../model/jobPost.model';
 import { JobService } from '../../service/job.service';
+import { AllJobsPostsComponent } from '../operator-profile/all-jobs-posts/all-jobs-posts.component';
+declare let window: any;
 
 @Component({
   selector: 'app-job-post-details',
@@ -13,19 +15,21 @@ import { JobService } from '../../service/job.service';
 })
 export class JobPostDetailsComponent {
 
-  constructor(private route: ActivatedRoute, private router: Router, private store: Store, private jobService:JobService){}
+  constructor(private route: ActivatedRoute, private router: Router, private store: Store, private jobService:JobService, private allJobPostComponent:AllJobsPostsComponent){}
 
   profilePayload$!:Observable<jobPostModel>;
   loading$!:Observable<boolean>;
   Active$!:Observable<boolean>;
   activeFlag!: boolean
   id!: string;
+  toggleActiveModal: any
   profile!:jobPostModel;
   bookmarkLoadingFlag: boolean = false;
   bookmarkFlag$:Observable<boolean> = of(true);
   bookmarkID!: string; 
   localFlag: boolean = true;
   zoom: number = 15
+  deleteConfirmModal: any
   center: google.maps.LatLngLiteral = {
     lat: 0,
     lng: 0
@@ -40,6 +44,14 @@ export class JobPostDetailsComponent {
     this.loading$ = this.store.select((state: any) =>{
       return state.createdJobs.loading;
     });
+        
+    this.deleteConfirmModal = new window.bootstrap.Modal(
+      document.getElementById('deleteConfirmModal')
+    );
+        
+    this.toggleActiveModal = new window.bootstrap.Modal(
+      document.getElementById('toggleActiveModal')
+    );
     this.loading$.subscribe((res)=>{
       if(res){
         this.router.navigate(['/operator'])
@@ -75,6 +87,28 @@ export class JobPostDetailsComponent {
     this.scrollUp();
   }
 
+  deleteButton(){
+    this.deleteConfirmModal.show()
+  }
+
+  confirmDelete(){
+    this.deleteConfirmModal.hide()
+    this.router.navigate(['operator/profile-operator/all-jobs-posts'])
+    this.jobService.removeJob(this.id)
+  }
+
+  closeDelete(){
+    this.deleteConfirmModal.hide()
+  }
+
+  closeToggle(){
+    this.toggleActiveModal.hide()
+  }
+  
+  openToggle(){
+    this.toggleActiveModal.show()
+  }
+
   editFlag(){
     this.router.navigate(['/operator/edit-jobs'], {
       queryParams: 
@@ -86,6 +120,7 @@ export class JobPostDetailsComponent {
   }
   
   toggleActive(){
+    this.toggleActiveModal.hide()
     this.jobService.toggleActive(this.profile.custom_doc_id, this.activeFlag)
   }
 

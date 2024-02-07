@@ -7,7 +7,7 @@
     </div>
 </ng-template>
 <ng-template #notLoading>
-    <div class="p-4 textProfileResponsive standard-shadow semi-border-input">
+    <div class="p-md-4 p-2 textProfileResponsive standard-shadow semi-border-input">
         <div class="my-3 innerProfileTitle"><b>โปรไฟล์บริษัท</b></div> 
         <div class="innerProfileTabList sticky-top" style="top:180px; background:white; z-index:4">
             <ul class="nav nav-underline py-3 mb-2 flex-row tabList" style="width:max-content; --bs-nav-underline-gap:0 1rem">
@@ -23,11 +23,11 @@
                 <hr style="width: 100%" class="m-auto">
             </ul>
         </div>
-        <div class="tab-content textProfileResponsive  mx-sm-5" style="line-break: auto">
+        <div class="tab-content textProfileResponsive  mx-md-5" style="line-break: auto">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
             <ng-container *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"></ng-container>
             <ng-template #displayProfileOne>
-                <div class="p-5 my-4 cyan-color semi-border-input">
+                <div class="p-md-5 p-sm-4 p-3 my-4 cyan-color semi-border-input">
                     <div style="color:blue" class="mb-4">
                         *ข้อมูลในส่วนกรอบสีฟ้าจะแสดงให้ผู้อื่นเห็นเป็นสาธารณะ
                     </div>
@@ -122,32 +122,30 @@
                         </div>
                     </div>
                     <div class="container tab-content">
-                        <div class="d-flex justify-content-between">
                             <div class="d-flex flex-row">
                                 <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
-                                <div>
+                                <div style="width:-webkit-fill-available; width: -moz-available">
                                     <div class="keyValueGap">
                                         <div><b>ปักหมุดที่อยู่ของบริษัท</b></div>
                                     </div>
-                                    <div id="googleMapScroll">
-                                        <google-map 
-                                            height="500px"
-                                            width="40vw"
-                                            [options]="none"
-                                            [center]="center"
-                                            [zoom]="zoom">
-                                            <map-marker
-                                                [position]="markerPosition">
-                                            </map-marker>
-                                        </google-map>
-                                    </div>
-                                    <div class="text-danger" *ngIf="!googleMapFlag"><i>*ท่านยังไม่ได้ปักหมุดในแผนที่ กรุณาปักหมุดเพื่อเปิดใช้งานตัวกรองใกล้ฉัน</i></div>
                                 </div>
                             </div>
-                        </div>
+                                <div id="googleMapScroll" class="my-3">
+                                    <google-map 
+                                        height="500px"
+                                        width="100%"
+                                        [options]="none"
+                                        [center]="center"
+                                        [zoom]="zoom">
+                                        <map-marker
+                                            [position]="markerPosition">
+                                        </map-marker>
+                                    </google-map>
+                                </div>
+                                <div class="text-danger" *ngIf="!googleMapFlag"><i>*ท่านยังไม่ได้ปักหมุดในแผนที่ กรุณาปักหมุดเพื่อเปิดใช้งานตัวกรองใกล้ฉัน</i></div>
                     </div>
                 </div>
-                <div class="p-5 my-5 light-red-color semi-border-input">
+                <div class="p-md-5 p-sm-4 p-3 my-4 light-red-color semi-border-input">
                     <div style="color:red" class="mb-4 textResponsive">
                         **ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น 
                         มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
@@ -216,7 +214,7 @@
             </ng-template>
             <ng-template #editProfileOne>
                 <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
-                    <div class="p-5 my-4 cyan-color semi-border-input">
+                    <div class="p-md-5 p-sm-4 p-3 my-4 cyan-color semi-border-input">
                         <div style="color:blue" class="mb-4">
                             *ข้อมูลในส่วนกรอบสีฟ้าจะแสดงให้ผู้อื่นเห็นเป็นสาธารณะ
                         </div>
@@ -253,10 +251,10 @@
                                 <div class="keyValueGap">
                                     <div><b>สินค้าและบริการ</b></div>
                                 </div>
-                                <div class="col d-flex">
-                                    <ckeditor formControlName="productsAndServices" [editor]="productsAndServicesEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
-                                </div>
                             </div>
+                        </div>
+                        <div class="col d-flex mb-3">
+                            <ckeditor formControlName="productsAndServices" [editor]="productsAndServicesEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
                         </div>
                         <app-location-selector [parentFormGroup]="profileEdit"></app-location-selector>
                         <div class="d-flex flex-row verticalKeyGap">
@@ -265,40 +263,44 @@
                                 <div class="keyValueGap">
                                     <div><b>วิธีเดินทางไปบริษัท</b></div>
                                 </div>
-                                <div class="col d-flex">
-                                    <ckeditor formControlName="TravelInstructions" [editor]="TravelInstructionsEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
-                                </div>
                             </div>
                         </div>
-                        <div class="container tab-content d-flex flex-row">
-                            <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
-                            <div>
-                                <div class="keyValueGap mb-3">
-                                    <div><b>ปักหมุดที่อยู่ของบริษัท</b></div>
+                        <div class="col d-flex mb-3">
+                            <ckeditor formControlName="TravelInstructions" [editor]="TravelInstructionsEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
+                        </div>
+                        <div class="container tab-content">
+                            <div class="d-flex flex-row">
+                                <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
+                                <div>
+                                    <div class="keyValueGap mb-3">
+                                        <div><b>ปักหมุดที่อยู่ของบริษัท</b></div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="mb-3">
                                 <input
                                     type="text"
                                     class="form-control textProfileResponsive border-input my-3"
                                     ngx-google-places-autocomplete 
                                     (onAddressChange)="searchMap($event)"/>
                                 <div id="googleMapScroll">
-                                <google-map 
-                                    height="500px"
-                                    width="40vw"
-                                    [center]="center"
-                                    [zoom]="zoom"
-                                    style="overflow-x:scroll"
-                                    [options]="none"
-                                    (mapClick)="moveMap($event)"
-                                    (mapMousemove)="move($event)">
-                                    <map-marker [position]="markerPosition"></map-marker>
-                                </google-map>
+                                    <google-map 
+                                        height="500px"
+                                        width="100%"
+                                        [center]="center"
+                                        [zoom]="zoom"
+                                        style="overflow-x:scroll"
+                                        [options]="none"
+                                        (mapClick)="moveMap($event)"
+                                        (mapMousemove)="move($event)">
+                                        <map-marker [position]="markerPosition"></map-marker>
+                                    </google-map>
                                 </div>
                                 <div class="text-danger" *ngIf="!googleMapFlag"><i>*ท่านยังไม่ได้ปักหมุดในแผนที่ กรุณาปักหมุดเพื่อเปิดใช้งานตัวกรองใกล้ฉัน</i></div>
                             </div>
                         </div>
                     </div>
-                    <div class="p-5 my-5 light-red-color semi-border-input">
+                    <div class="p-md-5 p-sm-4 p-3 my-4 light-red-color semi-border-input">
                         <div style="color:red" class="mb-4 textResponsive">
                             **ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น 
                             มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้

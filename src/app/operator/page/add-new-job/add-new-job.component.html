@@ -24,7 +24,7 @@
     </div>
 </div>
 <form class="textProfileResponsive" [formGroup]="newJobForm">
-    <div class="semi-border-input standard-shadow container p-5" style="padding: 0 4rem; border-radius: 20px; background-color:white">
+    <div class="semi-border-input standard-shadow container p-sm-5 p-3" style="padding: 0 4rem; border-radius: 20px; background-color:white">
         <div class="mb-5  border-bottom border-secondary py-3">
             <div>รายละเอียดการสมัครงาน</div>
         </div>
@@ -248,7 +248,7 @@
             </div>
         </div>  
     </div>
-    <div class="container textProfileResponsive p-5 mt-5 semi-border-input standard-shadow" style="background-color:white">
+    <div class="container textProfileResponsive p-sm-5 p-3 mt-5 semi-border-input standard-shadow" style="background-color:white">
         <div class="mb-5 border-bottom border-secondary py-3">
             <div>รายละเอียดงานเพิ่มเติม</div>
         </div>
@@ -281,7 +281,7 @@
             <ckeditor formControlName="applyInstructions" [editor]="applyInstructionsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getNewJobForm['applyInstructions']!.errors! }"></ckeditor>
         </div>
     </div>
-    <div class="semi-border-input standard-shadow container p-5 mt-5 textProfileResponsive" style="background-color:white">
+    <div class="semi-border-input standard-shadow container p-sm-5 p-3 mt-5 textProfileResponsive" style="background-color:white">
         <div class="mb-5 border-bottom border-secondary py-3  verticalKeyGap">
             <div>ข้อมูลติดต่อเพิ่มเติม</div>
         </div>
@@ -351,58 +351,56 @@
                     </div>
                 </div>
             </div>   
-            <div class="d-flex flex-row verticalKeyGap">
-                <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
-                <div style="width:-webkit-fill-available; width:-moz-available">
-                    <div class="keyValueGap">
-                        <div><b>ที่อยู่ที่ทำงานและวิธีเดินทาง</b></div>
-                    </div>
-                    <div>
-                        <div *ngIf="submitted && getNewJobForm['TravelInstructions']!.errors" class="invalid-feedback2 mb-3">
-                            <div *ngIf="getNewJobForm['TravelInstructions']!.errors!['required']">กรุณาระบุวิธีเดินทาง</div>
-                        </div>
-                        <ckeditor [ngClass]="{ 'is-invalid': submitted && getNewJobForm['TravelInstructions'] }" [editor]="travelEditor" formControlName="TravelInstructions" name="editor"></ckeditor>
-                    </div>
+        </div>
+        <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
+            <div class="keyValueGap">
+                    <div><b>ที่อยู่ที่ทำงานและวิธีเดินทาง</b></div>
                 </div>
-            </div>   
-            <div class="d-flex flex-row verticalKeyGap">
-                <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
-                <div style="width:-webkit-fill-available; width:-moz-available">
-                    <div class="keyValueGap">
-                        <div><b>ปักหมุดที่ทำงานใน google map</b></div>
-                    </div>
-                    <div>
-                        <input
-                            type="text"
-                            class="form-control my-3 textProfileResponsive border-input"
-                            ngx-google-places-autocomplete 
-                            (onAddressChange)="searchMap($event)" 
-                        />
-                      </div>
-                      <div class="col d-flex justify-content-center">
-                        <div *ngIf="submitted && getNewJobForm['_geoloc']!.errors" class="invalid-feedback2 mb-3">
-                          <div *ngIf="getNewJobForm['_geoloc']!.errors!['required']">กรุณาระบุปักหมุด google map</div>
-                      </div>
-                        <google-map 
-                            height="500px"
-                            width="50vw"
-                            [center]="center"
-                            [options]="none"
-                            [zoom]="zoom"
-                            (mapClick)="moveMap($event)"
-                            (mapMousemove)="move($event)">
-                            <map-marker
-                            [position]="markerPosition"></map-marker>
-                        </google-map>
-                    </div>
-                    </div>
+                <div *ngIf="submitted && getNewJobForm['TravelInstructions']!.errors" class="invalid-feedback2 mb-3">
+                    <div *ngIf="getNewJobForm['TravelInstructions']!.errors!['required']">กรุณาระบุวิธีเดินทาง</div>
                 </div>
-            </div>   
+            </div>
+        </div>   
+        <ckeditor [ngClass]="{ 'is-invalid': submitted && getNewJobForm['TravelInstructions'] }" [editor]="travelEditor" formControlName="TravelInstructions" name="editor" class="verticalKeyGap"></ckeditor>
+        <div class="d-flex flex-row verticalKeyGap mt-3">
+            <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
+            <div style="width:-webkit-fill-available; width:-moz-available">
+                <div class="keyValueGap">
+                    <div><b>ปักหมุดที่ทำงานใน google map</b></div>
+                </div>
+            </div>
         </div>
         <div>
-        <div class="align-items-baseline d-flex justify-content-center mt-5 ms-3">
+            <input
+                type="text"
+                class="form-control my-3 textProfileResponsive border-input"
+                ngx-google-places-autocomplete 
+                (onAddressChange)="searchMap($event)" 
+            />
+            <div>
+              <div *ngIf="submitted && getNewJobForm['_geoloc']!.errors" class="invalid-feedback2 mb-3">
+                <div *ngIf="getNewJobForm['_geoloc']!.errors!['required']">กรุณาระบุปักหมุด google map</div>
+            </div>
+              <google-map 
+                  height="500px"
+                  width="100%"
+                  [center]="center"
+                  [options]="none"
+                  [zoom]="zoom"
+                  (mapClick)="moveMap($event)"
+                  (mapMousemove)="move($event)">
+                  <map-marker
+                  [position]="markerPosition"></map-marker>
+              </google-map>
+          </div>
+          </div>
+        </div>   
+        <div>
+        <div class="align-items-baseline d-flex justify-content-evenly mt-5 ms-3">
             <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light fs-2" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-            <button (click)="onSave()" class="btn textProfileResponsive fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+            <button (click)="onSaveOpenModal()" class="btn textProfileResponsive fs-2" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
         </div>
     </div>
 </form>

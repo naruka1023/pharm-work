@@ -53,7 +53,10 @@ export class LandingPageComponent {
   parsedJobs: jobPostModel[] = []
   subscription: any = {};
   formModal!: any;
+  loginModal!: any;
+  registerModal!: any
   offCanvas: any;
+  operatorModal: any;
   bookmarkSubscription: {
     [key:string]:Unsubscribe
   } = {}
@@ -67,6 +70,16 @@ export class LandingPageComponent {
   );
   this.formModal = new window.bootstrap.Modal(
     document.getElementById('requestViewModal')
+  );
+
+  this.loginModal = new window.bootstrap.Modal(
+    document.getElementById('loginModal')
+  );
+  this.registerModal = new window.bootstrap.Modal(
+    document.getElementById('registerModal')
+  );
+  this.operatorModal = new window.bootstrap.Modal(
+    document.getElementById('operatorModal')
   );
   this.offCanvas = new window.bootstrap.Offcanvas(
     document.getElementById('offcanvasExample')
@@ -179,6 +192,21 @@ goRegister(isPharma: boolean){
     }
   })
 }
+
+onLoginClick(){
+  this.operatorModal.hide()
+  const triggerEl :any = document.querySelector('#myTab button[data-bs-target="#urgent-job-pane-login"]')
+  triggerEl!.click()
+  this.loginModal.show()
+}
+
+onRegisterClick(){
+  const triggerEl :any = document.querySelector('#myTab2 button[data-bs-target="#urgent-job-pane"]')
+  triggerEl!.click()
+  this.operatorModal.hide()
+  this.registerModal.show()
+}
+
 copyString() {
   // Get the text field
   const copyText: any = document.getElementById("myInput")!;

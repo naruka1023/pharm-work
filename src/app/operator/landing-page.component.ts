@@ -7,7 +7,7 @@ import { UsersService } from './service/users.service';
 import { emptyRequestedJobs } from './state/actions/job-request-actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
 import { clearFavorites, setFavorites } from './state/actions/users-actions';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UtilService } from './service/util.service';
 import { User, UserPharma, aggregationCount, requestView } from './model/user.model';
@@ -29,8 +29,11 @@ declare let window: any;
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements AfterViewInit {
+  addJobConfirmModal: any
+  display: any;
   private auth: Auth = inject(Auth)
   private db:Firestore = inject(Firestore)
+  googleMapLoadingFlag: boolean = false
   subject!:Subscription
   requestViewForm!: FormGroup
   idToShare: string = ''
@@ -44,11 +47,29 @@ export class LandingPageComponent implements AfterViewInit {
     userOperatorCount: 0,
     userPharmaCount: 0
   }
+  accuracy!: number;
+  _geoLoc: any;
+  zoom: number = 15
+  submitted: boolean = false
+  none: google.maps.MapOptions = {
+    gestureHandling:'greedy'
+  };
+  center: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  };
+  markerPosition: google.maps.LatLngLiteral = {
+    lat: 0,
+    lng: 0
+  }
+  geoLocFlag!: boolean
+  googleMapModal: any;
   content!: UserPharma
   requestViewLoadingFlag = false;
   formModal!: any;
   requestViewEditor = ClassicEditor;
   operatorUID!: string;
+  googleMapForm!: FormGroup; 
   userUID!: string;
   requestViewModel = {
     editorData: ''
@@ -58,7 +79,18 @@ export class LandingPageComponent implements AfterViewInit {
   offCanvas!: any
 
   constructor(private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
+  
   ngOnInit(){
+    this.initializeGoogleMapForm()
+    this.addJobConfirmModal = new window.bootstrap.Modal(
+      document.getElementById('addJobConfirmModal')
+    )
+    this.googleMapModal = new window.bootstrap.Modal(
+      document.getElementById('googleMapModal')
+    );
+    document.getElementById('googleMapModal')?.addEventListener('hidden.bs.modal', ()=>{
+      this.initializeGoogleMapForm()
+    })
     this.offCanvas = new window.bootstrap.Offcanvas(
       document.getElementById('offcanvasExample')
     )
@@ -118,6 +150,9 @@ export class LandingPageComponent implements AfterViewInit {
         this.store.dispatch(clearFavorites());
         this.store.dispatch(emptyRequestedJobs());
       }
+      this.utilService.getGoogleMapSubject().subscribe((googleMap)=>{
+        this.openGoogleMapModal(googleMap)
+      })
       this.utilService.getRequestViewSubject().subscribe((user: UserPharma)=>{
         this.content = user
         this.userUID = user.uid
@@ -125,11 +160,84 @@ export class LandingPageComponent implements AfterViewInit {
       })
     })
     this.initializeFormGroup()
+    document.getElementById('googleMapModal')?.addEventListener('hide.bs.modal', ()=>{
+      this.utilService.sendRevertGoogleMapSubject()
+    })
   }
-
+  
+  selectAddJob(activeFlag: boolean){
+    this.closeAddJobConfirmModal()
+    console.log('flag: ' + activeFlag)
+    this.utilService.sendConfirmAddJobSubject(activeFlag)
+  }
+  openAddJobConfirmModal(){
+    this.addJobConfirmModal.show()
+  }
+  
+  closeAddJobConfirmModal(){
+    this.addJobConfirmModal.hide()
+  }
   openAddModal(){
     this.addJobModal.show()
   }
+
+  move(event: google.maps.MapMouseEvent) {
+    if (event.latLng != null) this.display = event.latLng.toJSON();
+  }
+
+moveMap(event: any){
+  this.markerPosition = {
+    lat: event.latLng.lat(),
+    lng: event.latLng.lng()
+  }
+  this.center = this.markerPosition
+  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+}
+
+  
+  openGoogleMapModal(geoLoc: any){
+    this.center = geoLoc
+    this.markerPosition = geoLoc
+    this.googleMapModal.show()
+  }
+
+    
+  onSaveGoogleMap(){
+    this.googleMapLoadingFlag = true
+    const payload = {
+      ...this.googleMapForm.value,
+      uid: this.user.uid
+    }
+    this.utilService.updateUser(payload).then(()=>{
+      this.googleMapLoadingFlag = false;
+      this.store.dispatch(setCurrentUser({user: payload}))
+      this.googleMapModal.hide()
+    })
+    
+  }
+
+  onCloseGoogleMap(){
+    this.googleMapModal.hide()
+  }
+  
+searchMap(event: any){
+  this.markerPosition = {
+    lat: event.geometry.location.lat(),
+    lng: event.geometry.location.lng()
+  }
+  this.center = this.markerPosition
+  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+}
+
+get getGoogleMapForm(): { [key: string]: AbstractControl } {
+  return this.googleMapForm.controls;
+}
+
+initializeGoogleMapForm(){
+  this.googleMapForm = this.fb.group({
+    _geoloc: ['', [Validators.required]],
+  })
+}
 
   copyString() {
     // Get the text field
@@ -237,16 +345,21 @@ export class LandingPageComponent implements AfterViewInit {
     });
   }
 
-  goToAddJob(urgencyFlag:boolean) {
-    this.route.navigate(['/operator/add-new-jobs'], {
-      queryParams: 
-      {
-        urgency: urgencyFlag
-      }
-    }).then(()=>{
-      this.addJobModal.hide()
+  goToAddJob(event: any, urgencyFlag:boolean) {
+    if(event.target.className.indexOf('question') == -1){
+      event.preventDefault()
+      this.route.navigate(['/operator/add-new-jobs'], {
+        queryParams: 
+        {
+          urgency: urgencyFlag
+        }
+      }).then(()=>{
+        this.addJobModal.hide()
+        this.offCanvas.hide()
+      })
+    }else{
       this.offCanvas.hide()
-    })
+    }
   }
   signOut(){
     if(this.route.url == '/operator') {

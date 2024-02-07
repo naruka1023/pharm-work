@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, first } from 'rxjs';
 import { Contacts, User } from '../../model/user.model';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,6 +12,10 @@ import { jobPostModel } from '../../model/jobPost.model';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import Validation from 'src/app/utils/validation';
 import moment from 'moment';
+import { UtilService } from '../../service/util.service';
+import { LandingPageComponent } from '../../landing-page.component';
+declare var window: any;
+
 
 @Component({
   selector: 'app-add-new-job',
@@ -19,7 +23,7 @@ import moment from 'moment';
   styleUrls: ['./add-new-job.component.css']
 })
 export class AddNewJobComponent {
-  constructor(private store: Store, private router:Router, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute){}
+  constructor(private store: Store, private router:Router, private utilService: UtilService, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute, private landingPage: LandingPageComponent){}
 
   user$!: Observable<User>;
   userState!: User
@@ -45,7 +49,7 @@ export class AddNewJobComponent {
   btsStations$!: Observable<string[]>;
   mrtStations$!: Observable<string[]>;
   display: any;
-  zoom: number = 15
+  zoom: number = 15.
   none: google.maps.MapOptions = {
     gestureHandling:'greedy'
   };
@@ -116,13 +120,6 @@ export class AddNewJobComponent {
     })
     this.initializeFormGroup();
 
-    // this.newJobForm.statusChanges.subscribe((value: any)=>{
-    //   if(value !== 'VALID'){
-    //     this.newJobForm.get('Salary.salaryStart')!.setValidators([Validators.max(this.newJobForm.value.Salary.salaryEnd), Validators.required])
-    //     this.newJobForm.get('Salary.salaryStart')!.updateValueAndValidity({onlySelf:true})
-    //   }
-    // })
-
     this.newJobForm.valueChanges.subscribe((form: any) =>{
       if(!this.urgency){
         this.timeFrame = form.TimeFrame
@@ -130,6 +127,14 @@ export class AddNewJobComponent {
     })
 
     this.scrollUp();
+    this.utilService.getConfirmAddJobSubject().pipe(first()).subscribe((activeFlag)=>{
+      this.onSave(activeFlag)
+      console.log('onsave')
+    })
+  }
+
+  onConfirmModalOpen(){
+    this.landingPage.openAddJobConfirmModal()
   }
 
   cancelClick(){
@@ -286,7 +291,6 @@ searchMap(event: any){
       coverPhotoPictureUrl:this.userState.coverPhotoPictureUrl,
       coverPhotoOffset: this.userState.coverPhotoOffset
     });
-    // this.newJobForm.get('Salary.salaryStart')!.addValidators(Validators.max(this.newJobForm.value.Salary.salaryEnd))
     if(this.userState.jobType === 'ร้านยาแบรนด์'){
       this.newJobForm.addControl('Franchise', this.fb.control(['']));
     }
@@ -302,12 +306,17 @@ searchMap(event: any){
       this.newJobForm.addControl('applyInstructions', this.fb.control('', Validators.required)); 
     } 
   }
-  onSave(){
+  onSaveOpenModal(){
     this.submitted = true;
     this.locationSubmitted = true
     if(this.newJobForm.invalid ){
       return
     }else{
+      this.onConfirmModalOpen()
+    }
+  }
+  onSave(activeBoolean: boolean){
+
       let processedInfo: any = {};
         processedInfo = 
         {
@@ -324,8 +333,8 @@ searchMap(event: any){
         }
         processedInfo.Salary!.Amount = Math.round(processedInfo.Salary!.Amount);
         processedInfo.Salary!.Cap = Math.round(processedInfo.Salary!.Cap);
-        this.newJobForm.removeControl('timeStart')
-        this.newJobForm.removeControl('timeEnd')
+        // this.newJobForm.removeControl('timeStart')
+        // this.newJobForm.removeControl('timeEnd')
       processedInfo = {
         ...processedInfo, 
         Urgency: this.urgency,
@@ -341,12 +350,17 @@ searchMap(event: any){
         ARL:{
           Near: this.nearARLFlag
         },
+        Active: activeBoolean,
         dateCreated: new Date().toISOString().split('T')[0],
         dateUpdated: new Date().toISOString().split('T')[0],
         dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
       }
       this.newJobForm.patchValue(processedInfo)
       let postJobForm = this.newJobForm.value
+
+      delete postJobForm.timeStart
+      delete postJobForm.timeEnd
+      
       delete postJobForm.Salary.salaryStart
       delete postJobForm.Salary.salaryEnd
 
@@ -371,6 +385,5 @@ searchMap(event: any){
         this.loadingFlag = false;
         this.router.navigate(['operator/profile-operator/all-jobs-posts'])
       })
-    }
   }
 }

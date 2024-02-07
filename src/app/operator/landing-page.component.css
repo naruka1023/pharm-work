@@ -1,4 +1,4 @@
-@media only screen and (max-width: 1200px){
+@media only screen and (max-width: 992px){
     .headerLabel{
       display: none !important
     }
@@ -10,3 +10,8 @@
   box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
   cursor:pointer
 }
+::ng-deep .modal { z-index: 1001 !important;} 
+
+::ng-deep .modal-backdrop {z-index: 1000 !important;}
+
+::ng-deep .pac-container {z-index: 1055 !important;}

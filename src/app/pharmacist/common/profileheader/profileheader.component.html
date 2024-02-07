@@ -70,18 +70,22 @@
                             <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
-                            <button *ngIf="!editFlag" class="editButtonText border-input btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
-                                แก้ไขโปรไฟล์
-                            </button>
-                            <button *ngIf="profileInformation$.studentFlag" class="btn-success textProfileResponsiveText rounded btn fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="upgradeModalClick()">
-                                อัพเกรดบัญชี
-                            </button>
+                            <div class="mb-3">
+                                <button *ngIf="!editFlag" class="editButtonText border-input btn btn-light textResponsive ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
+                                    แก้ไขโปรไฟล์
+                                </button>
+                            </div>
+                            <div>
+                                <button *ngIf="profileInformation$.studentFlag" class="btn-outline-primary border-input textResponsive btn ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="upgradeModalClick()">
+                                    อัพเกรดบัญชี
+                                </button>
+                            </div>
                             <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>
                             <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
                             <div *ngIf="editCoverPhotoFlag" class="dropdown me-md-3 d-sm-none" [ngStyle]="{'visibility': photoFlag, 'z-index': '6'}">
                                 <button data-bs-toggle="dropdown" 
                                         aria-expanded="false"  
-                                        class="btn btn-secondary border-input fs-4 ms-sm-3 coverPhotoEditButtonPosition">
+                                        class="btn btn-secondary border-input textProfileResponsive ms-sm-3 coverPhotoEditButtonPosition">
                                          ปรับแต่งรูป
                                 </button>
                                 <ul class="dropdown-menu p-2">
@@ -327,7 +331,7 @@
     </div>
     <div class="modal fade" id="studentUpgradeModal" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
+          <div class="modal-content semi-border-input standard-shadow">
             <div class="modal-body">
                 <div [ngSwitch]="upgradeStage">
                     <div *ngSwitchCase="'first'" class="m-3">
@@ -394,7 +398,7 @@
       </div>
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
+          <div class="modal-content semi-border-input standard-shadow">
             <div class="modal-body">
                 <div [ngStyle]="{'align-items':'center', 'display': 'flex', 'justify-content':'center', 'overflow': 'hidden', 'height' : '50vh'}">
                         <div class="loading" *ngIf="loadProfilePictureFlag">

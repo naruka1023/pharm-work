@@ -30,16 +30,6 @@
     /* .googleMap{
         width: 60vw
     } */
-    .verticalKeyGap > div{
-        font-size:smaller
-    }
-    .verticalKeyGap > div > input,
-    .verticalKeyGap > div > select,  
-    .verticalKeyGap > div > div,
-    .verticalKeyGap > div
-    {
-        font-size:smaller !important
-    }
     .editButton > button, .saveButton{
         font-size:smaller !important
     }
@@ -48,20 +38,8 @@
     .innerProfileTitle{
         text-align: center 
     }
-    .verticalKeyGap > div{
-        font-size:medium
-    }
     .phantom{
         display: unset !important
-    }
-    .verticalKeyGap{
-        display:block !important
-    }
-    .verticalKeyGap > div > input,
-    .verticalKeyGap > div > select,  
-    .verticalKeyGap > div > div
-    {
-        font-size:medium !important
     }
     .editButton > button, .saveButton{
         font-size:medium !important

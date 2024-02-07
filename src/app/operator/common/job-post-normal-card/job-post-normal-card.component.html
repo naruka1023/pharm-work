@@ -22,7 +22,7 @@
 						</div>
 						<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
 					</div>
-					<div class="d-flex justify-content-center" style="width:-webkit-fill-available; width: -moz-available" *ngIf="!urgentFlag">
+					<div class="d-flex justify-content-center" style="color:white;width:-webkit-fill-available; width: -moz-available" *ngIf="!urgentFlag">
 							<div class="py-2 text-center border-input" [ngClass]="content.TimeFrame == 'Full-Time'? 'green-color': content.TimeFrame == 'Part-Time'?'blue-color': 'purple-color'" style="min-width:70%">
 								<b>{{content.TimeFrame}}</b>
 							</div>
@@ -33,15 +33,17 @@
 				<div class="row">
 					<div class="col-12 w-100">
 						<div class="d-flex justify-content-between me-2 mb-md-0 mb-3 subImageContainer align-items-center">
-							<div class="subImage text-center align-self-center me-md-0 me-3">
-								<img style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
-							</div>
+							<div class="d-flex justify-content-start">
+								<div class="subImage text-center align-self-center me-md-0 me-3">
+									<img style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
+								</div>
 								<div>
 									<div class="text-left mb-2" [id]="'jobName' + content.custom_doc_id">
 										<b>{{content.JobName}}</b>
 									</div>
 									<p class="my-auto mb-3"><i>{{content.Establishment}}</i></p>
 								</div>
+							</div>
 								<button class="btn btn-outline-secondary textResponsive textResponsive2 border-input px-3" style="height:min-content" (click)="goToProfile()">ดูเพิ่มเติม</button>
 						</div>
 						<div class="container text-center">
@@ -143,12 +145,12 @@
 			สร้างประกาศเมื่อ {{content.dateCreated}}
 		</div>
 	</div>
-	<div class="row my-3">
+	<div class="row my-sm-3 my-1">
 		<div class="col-md d-flex flex-md-row-reverse justify-content-start textProfileResponsive">
 			<div *ngIf="buttonSetFlag" class="d-md-flex align-items-center justify-content-md-end">
 				<ng-container *ngIf="activeLoadingFlag; then loadingActive; else notLoadingActive"></ng-container>
 				<ng-template #notLoadingActive>
-					<div class="d-flex me-3" (click)="toggleActive()" >
+					<div class="d-flex me-3 textResponsive" (click)="toggleActive()" >
 						<div [ngStyle]="{'color': !activeFlag?'white': 'black'}" [ngClass]="activeFlag?'color-lightgrey': 'color-grey'" class="px-3 " style="cursor:pointer; border-top-left-radius: 20px; border-bottom-left-radius: 20px">ปิดประกาศ</div>
 						<div [ngStyle]="{'color': activeFlag?'white': 'black'}" [ngClass]="!activeFlag?'color-lightgrey': 'green-color'" class="px-3" style="cursor:pointer; border-top-right-radius: 20px; border-bottom-right-radius: 20px">เปิดประกาศ</div>
 					</div>

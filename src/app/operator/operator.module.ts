@@ -89,7 +89,6 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
     RouterModule,
     GoogleMapsModule,
     GooglePlaceModule,
-    // GooglePlaceModule,
     InfiniteScrollModule,
     ShareButtonsModule,
     ShareIconsModule,

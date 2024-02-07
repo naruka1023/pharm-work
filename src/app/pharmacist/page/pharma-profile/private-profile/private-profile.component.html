@@ -1,6 +1,11 @@
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
-<ng-template #displayPage>
-    <div class="p-5 my-4 cyan-color semi-border-input">
+    <ng-template #displayPage>
+    <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
+        <div style="color:red" class="mb-4">
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+        </div>
+    </div>
+    <div class="p-lg-5 p-4  my-4 cyan-color semi-border-input">
         <div style="color:blue" class="mb-4">
             *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
             เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
@@ -67,7 +72,7 @@
             </div>
         </div>
     </div>
-        <div class="p-5 my-5 light-red-color semi-border-input">
+        <div class="p-lg-5 p-4  my-5 light-red-color semi-border-input">
             <div style="color:red" class="mb-4">
                 *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
                 เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
@@ -91,8 +96,13 @@
         <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}" (click)="editClick()" type="button" class="border-input btn green-color textProfileResponsive" style="color:white; padding: 0.5rem 2rem">แก้ไขข้อมูลส่วนตัว</button></div>
     </ng-template>
     <ng-template #editPage>
+        <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
+            <div style="color:red" class="mb-4">
+                *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+            </div>
+        </div>
         <form [formGroup]="profileEdit">
-            <div class="p-5 my-5 cyan-color semi-border-input">
+            <div class="p-lg-5 p-4  my-5 cyan-color semi-border-input">
                 <div style="color:blue" class="mb-4">
                     *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
                     เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
@@ -138,7 +148,7 @@
                     </div>
                 </div>
             </div>
-            <div class="p-5 my-5 light-red-color semi-border-input">
+            <div class="p-lg-5 p-4  my-5 light-red-color semi-border-input">
                 <div style="color:red" class="mb-4">
                     *ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
                 </div>

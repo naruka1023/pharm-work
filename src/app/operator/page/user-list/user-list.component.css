@@ -1,8 +1,27 @@
+@media only screen and (max-width: 992px) {
+  .border-end{
+    border-right:0px !important
+  }
+}
+@media only screen and (max-width: 768px) {
+  .urgentForm, .notUrgentForm{
+    height: 65vh !important;
+  }
+}
 @media only screen and (max-width: 650px){
     .userListHeader{
       display: block !important
     }
   }
+@media only screen and (max-width: 610px) {
+  .headerText{
+    font-size: medium !important
+  }
+  .headerContent{
+    display: block !important;
+    text-align:center !important 
+  }
+}
   @media only screen and (max-width: 576px){
     #collapseExample{
       font-size: smaller !important
@@ -10,19 +29,11 @@
   }
   @media only screen and (max-width: 400px){
   }
-  @media only screen and (max-width: 768px) {
-    .urgentForm, .notUrgentForm{
-      height: 65vh !important;
-    }
-  }
-  @media only screen and (max-width: 610px) {
-    .headerText{
-      font-size: medium !important
-    }
-    .headerContent{
-      display: block !important;
-      text-align:center !important 
-    }
+  .invalid-feedback2{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545
   }
   .loading {
     position: relative;

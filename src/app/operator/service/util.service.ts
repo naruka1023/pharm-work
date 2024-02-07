@@ -11,13 +11,40 @@ import { DocumentData, Firestore, QuerySnapshot, collection, doc, getDocs, query
 export class UtilService {
   private db: Firestore = inject(Firestore)
   editSubject: Subject<boolean> = new Subject();
+  confirmAddJobSubject: Subject<boolean> = new Subject();
   leaveEditSubject: Subject<string> = new Subject();
   revertTabSubject: Subject<void> = new Subject();
+  googleMapRevertSubject: Subject<void> = new Subject();
   callView: Subject<void> = new Subject();
   regulateTabSubject: Subject<string> = new Subject();
   userRequestSubject: Subject<jobUIDForUser> = new Subject();
   removeRequestSubject: Subject<jobUIDForUser> = new Subject();
   requestViewSubject: Subject<UserPharma> = new Subject();
+  googleMapSubject: Subject<any> = new Subject();
+
+  getGoogleMapSubject(): Observable<any>{
+    return this.googleMapSubject.asObservable()
+  }
+
+  sendGoogleMapSubject(googleMap: any){
+    return this.googleMapSubject.next(googleMap);
+  }
+
+  getRevertGoogleMapSubject(): Observable<void>{
+    return this.googleMapRevertSubject.asObservable()
+  }
+
+  sendRevertGoogleMapSubject(){
+    return this.googleMapRevertSubject.next();
+  }
+
+  getConfirmAddJobSubject(): Observable<boolean>{
+    return this.confirmAddJobSubject.asObservable()
+  }
+
+  sendConfirmAddJobSubject(activeFlag: boolean){
+    return this.confirmAddJobSubject.next(activeFlag);
+  }
 
   getRequestViewSubject(): Observable<UserPharma>{
     return this.requestViewSubject.asObservable()

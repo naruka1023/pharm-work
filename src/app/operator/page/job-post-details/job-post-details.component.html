@@ -5,7 +5,7 @@
 <div class="container">
 	<div class="d-flex align-items-center justify-content-between textProfileResponsive mb-3">
 		<div>หมวด {{profile.Urgency?'งานเภสัชรายวัน (freelance)': 'ร้านยาเดี่ยว (stand alone)'}}</div>
-		<div class="d-flex me-3" (click)="toggleActive()" >
+		<div class="d-flex me-3" (click)="openToggle()" >
 			<div [ngStyle]="{'color': !activeFlag?'white': 'black'}" [ngClass]="activeFlag?'color-lightgrey': 'color-grey'" class="px-3 " style="cursor:pointer; border-top-left-radius: 20px; border-bottom-left-radius: 20px">ปิดประกาศ</div>
 			<div [ngStyle]="{'color': activeFlag?'white': 'black'}" [ngClass]="!activeFlag?'color-lightgrey': 'green-color'" class="px-3" style="cursor:pointer; border-top-right-radius: 20px; border-bottom-right-radius: 20px">เปิดประกาศ</div>
 		</div>
@@ -17,7 +17,6 @@
 			<ng-template #urgentFlag>
 				<div class="bg-light text-center py-1 urgentLabel" style="border-top-left-radius: 40px !important; border-top-right-radius: 40px !important; width:-webkit-fill-available; width:-moz-available;"
 				>
-					
 				ทำงานวันที่ {{profile.DateOfJob}}
 				</div>
 			</ng-template>
@@ -25,7 +24,6 @@
 				<div class="text-light text-center py-1" style="border-top-left-radius: 40px !important; border-top-right-radius: 40px !important; width:-webkit-fill-available; width:-moz-available;"
 					[ngClass]="profile.TimeFrame === 'Full-Time'?'green-color': profile.TimeFrame === 'Full-Time และ Part-Time'?'purple-color':'blue-color'" 
 				>
-					
 					{{profile.TimeFrame}}
 				</div>
 			</ng-template>
@@ -237,7 +235,7 @@
 	</div>
 	<div class="footerMainHeader my-3 d-flex justify-content-start">
 		<div class="dateUpdated">
-			<p class="lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}}</p>
+			<div class="textResponsive lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}}</div>
 		</div>
 	</div>
 	<div class="card semi-border-input standard-shadow">
@@ -328,7 +326,7 @@
 						<google-map 
 							*ngIf="profile._geoloc !== undefined"
 							height="500px"
-							width="60vw"
+							width="100%"
 							[center]="center"
 							[zoom]="zoom">
 							<map-marker
@@ -338,11 +336,47 @@
 						</google-map>
 					</div>
 				</div>
-				<div class="m-5 d-flex justify-content-between align-items-center">
-					<button class="btn button-width border-input btn-secondary textProfileResponsive text-center"><i class="me-3 bi bi-trash"></i>ลบประกาศงาน</button>
+				<div class="m-sm-5 m-3 d-flex justify-content-between align-items-center">
+					<button class="btn button-width border-input btn-light textProfileResponsive text-center" (click)="deleteButton()"><i class="me-3 bi bi-trash"></i>ลบประกาศงาน</button>
 					<button class="btn button-width border-input green-color   textProfileResponsive text-center" style="color:white" (click)="editFlag()"><i style="color:black !important" class="me-3 bi bi-pen"></i>แก้ไขประกาศงาน</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="toggleActiveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+	  <div class="modal-content semi-border-input standard-shadow">
+		<div class="modal-header justify-content-center">
+		  <div class="modal-title textProfileResponsive text-center">{{activeFlag?"ปิดประกาศงาน":"เปิดประกาศงาน"}}</div>
+		</div>
+			<div class="modal-body">
+			<div class="textResponsive text-center">
+				{{activeFlag? "คุณต้องการปิดประกาศงานรายวันนี้ใช่หรือไม่?": "คุณต้องการเปิดประกาศงานรายวันนี้ใช่หรือไม่?"}}
+			</div>
+		  </div>
+		  <div class="modal-footer justify-content-around">
+			  <button type="button" class="btn btn-light textResponsive border-input" (click)="closeToggle()">ยกเลิก</button>
+			  <button type="button" class="btn textResponsive border-input" (click)="toggleActive()" style="border-color: #7fd858; color:white; background:#7fd858">ยืนยัน</button>
+		  </div>
+	  </div>
+	</div>
+  </div>
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+	  <div class="modal-content semi-border-input standard-shadow">
+		<div class="modal-header justify-content-center">
+		  <div class="modal-title textProfileResponsive text-center"><i class="bi bi-trash"></i> ลบประกาศงาน</div>
+		</div>
+			<div class="modal-body">
+			<div class="textResponsive text-center">
+				คุณต้องการลบประกาศงานทั่วไปนี้ใช่หรือไม่
+			</div>
+		  </div>
+		  <div class="modal-footer justify-content-around">
+			  <button type="button" class="btn btn-light textResponsive border-input" (click)="closeDelete()">ยกเลิก</button>
+			  <button type="button" class="btn textResponsive border-input" (click)="confirmDelete()" style="border-color: #7fd858; color:white; background:#7fd858">ยืนยัน</button>
+		  </div>
+	  </div>
+	</div>
+  </div>

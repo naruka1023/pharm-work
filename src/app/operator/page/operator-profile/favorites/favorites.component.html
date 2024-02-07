@@ -1,4 +1,4 @@
-<div class="p-sm-4 p-2 textProfileResponsive standard-shadow semi-border-input">
+<div class="p-md-4 p-2 textProfileResponsive standard-shadow semi-border-input">
     <div class="my-3 innerProfileTitle"><b>ผู้สมัครที่ถูกใจ</b></div>
     <div class="sticky-top favoritesTabList" style="top:180px; background:white; z-index: 3">
         <ul class="nav nav-underline py-3 mb-2  flex-row tabList" style="width:max-content; --bs-nav-underline-gap:0 1rem">
@@ -24,7 +24,7 @@
             <ng-template #notEmptyNormal>
                 <div class="row ">
                     <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
-                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1 || favorites.content!.preferredJobType!.length > 1">
+                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1 || favorites.content!.preferredJobType!.length > 1" class="px-2">
                             <app-normal-user-card  [content]="favorites.content!" [type]="'AA'"></app-normal-user-card>
                         </div>
                         <!-- <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0 && favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1"> -->
@@ -42,10 +42,10 @@
                 </div>
             </ng-template>
             <ng-template #notEmptyUrgent>
-                <div class="row ">
+                <div class="row">
                     <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
-                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1">
-                            <app-normal-user-card  [content]="favorites.content!" [type]="'S'"></app-normal-user-card>
+                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1" class="px-2">
+                            <app-normal-user-card class="px-0" [content]="favorites.content!" [type]="'S'"></app-normal-user-card>
                         </div>
                         <!-- <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0 && favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1"> -->
                     </ng-container>

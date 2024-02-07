@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, take } from 'rxjs';
@@ -9,6 +9,7 @@ import { UsersService } from '../../service/users.service';
 import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import { SetUsersByJobType, updateUsersByJobType } from '../../state/actions/users-actions';
+import { LandingPageComponent } from '../../landing-page.component';
 declare let window: any;
 @Component({
   selector: 'app-user-list',
@@ -16,18 +17,18 @@ declare let window: any;
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent {
-  accuracy!: number;
   _geoLoc: any;
-  locationRadiusFlag: boolean = true;
-  constructor(private store:Store, private fb:FormBuilder,private router: Router,private route: ActivatedRoute, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){
+  constructor(private store:Store, private fb:FormBuilder, private converter:JobTypeConverterService, private utilService:UtilService ,private userService:UsersService){
   }
   @Input() type!: string;
-  title!: string;
   distance: number = 1.5
+  locationRadiusFlag: boolean = true
   throttle: number = 500
+  title!: string;
   paginationIndex:number = 0
   maxIndex: number = 0
   newTitle!: string;
+
   query: string = ''
   stuff!: string;
   indexName: string = 'pharm-work_user_index'
@@ -38,15 +39,18 @@ export class UserListComponent {
   Users$!: Observable<UserPharma[]>
   newUserFormList!: FormGroup;
   newUserFormUrgent!: FormGroup;
+  googleMapForm!: FormGroup;
   nearMapFlag: boolean = false;
   province$!: Observable<string[]>;
   district$!: Observable<string[]>;
   section$!: Observable<string[]>;
+  googleMapModal: any;
   provinceUrgent$!: Observable<string[]>;
   districtUrgent$!: Observable<string[]>;
   sectionUrgent$!: Observable<string[]>;
   
   ngOnInit(){
+
     this.loadingFlag = true;
     this.title = this.converter.getTitleFromCategorySymbol(this.type);
     this.type = this.type == 'S'?'S': 'N'
@@ -67,8 +71,7 @@ export class UserListComponent {
         this.paginationIndex++
         this.store.dispatch(SetUsersByJobType({users:users.result, jobType:this.type}))
         this.loadingFlag = false;
-      })
-
+        })
     }
     this.store.select((state: any)=>{
       return state.user
@@ -86,6 +89,10 @@ export class UserListComponent {
         this._geoLoc = user._geoloc
       }
       this.geoLocFlag = user._geoloc == undefined
+    })
+
+    this.utilService.getRevertGoogleMapSubject().subscribe(()=>{
+      this.revertNearbyFlag()
     })
     this.Users$ = this.store.select((state:any)=>{
       return state.users.users[this.type].long;
@@ -143,11 +150,15 @@ export class UserListComponent {
         return section
       })
     }
-
-
-
     this.scrollUp();
   }
+
+  
+  onOpen(){
+    this.utilService.sendGoogleMapSubject(this._geoLoc)
+  }
+  
+
   provinceSelectedUrgent($event:any){
     this.newUserFormUrgent.patchValue({
       ...this.newUserFormUrgent.value,
@@ -178,19 +189,21 @@ export class UserListComponent {
     }
 
   }
+
   onChangeEvent(event: any){
     this.locationRadiusFlag = event.target.checked;
     if(this.locationRadiusFlag && this.geoLocFlag){
-      document.getElementById('flexSwitchCheckDefault')?.click()
-      this.router.navigate(['operator/profile-operator'], {
-        queryParams:{
-          googleMapPointer:true
-        }
-      }).then(()=>{
-        // this.offCanvas.hide()
-      })
+     this.onOpen()
     }
   }
+  
+  revertNearbyFlag(){
+    this.initializeFormGroupUrgent();
+    this.newUserFormUrgent.patchValue({
+      nearbyFlag: false
+    })
+  }
+
   scrollUp(){
     window.scroll({ 
       top: 0, 

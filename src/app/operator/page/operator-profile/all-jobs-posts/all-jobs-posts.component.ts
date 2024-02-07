@@ -48,13 +48,6 @@ export class AllJobsPostsComponent {
     this.loading$ = this.store.select((state:any)=>{
       return state.createdJobs.loading
     })
-    let myModalEl = document.getElementById('confirmRequest')!
-    let removeJob = (event: any)=>{
-      if(this.deleteJobCardFlag){
-        this.jobService.removeJob(this.idToDelete)
-      }
-    }
-    myModalEl.addEventListener('hidden.bs.modal', removeJob)
   }
 
   openModal(id: string){
@@ -66,12 +59,12 @@ export class AllJobsPostsComponent {
     this.deleteJobCardFlag = false
     this.formModal.hide()
   }
- 
-
+  
+  
   deleteCard(){
-
     this.deleteJobCardFlag = true
     this.formModal.hide()
+    this.jobService.removeJob(this.idToDelete)
   }
 
 }

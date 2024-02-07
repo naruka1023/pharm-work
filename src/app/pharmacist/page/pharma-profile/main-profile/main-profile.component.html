@@ -1,5 +1,10 @@
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
+    <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
+        <div style="color:red" class="mb-4">
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+        </div>
+    </div>
     <div class="verticalKeyGap">
             <div class="historyHeader d-flex verticalKeyGap flex-row">
                 <div class="d-flex flex-row">
@@ -32,7 +37,7 @@
                     <div class="textProfileResponsive"><b>ประวัติการทำงาน</b></div>
                 </div>
                 <div class="d-flex">
-                    <div style="border:1px solid red" class="border-input subHeader textProfileResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag | emptyFieldPipe}}</div>
+                    <div style="border:1px solid red" class="border-input subHeader textProfileResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
                 </div>
             </div>
             <div class="historyContent">
@@ -123,6 +128,11 @@
         <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5 textProfileResponsive"><button [ngStyle]="{'visibility': !editFlag?'unset':'hidden'}"(click)="editClick()" type="button" class="btn textProfileResponsive green-color" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
 </ng-template>
 <ng-template #editPage>
+    <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
+        <div style="color:red" class="mb-4">
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+        </div>
+    </div>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
         <div class="d-flex flex-row">
             <div class="m-3 ms-0">

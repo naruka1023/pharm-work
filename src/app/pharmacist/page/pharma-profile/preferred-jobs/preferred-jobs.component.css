@@ -14,9 +14,6 @@
 
 }
 @media only screen and (max-width: 992px) {
-    .verticalKeyGap > div{
-        font-size:smaller
-    }
     .dangerText{
         font-size: smaller
     }
@@ -31,9 +28,6 @@
     }
 }
 @media only screen and (max-width: 768px) {
-    .verticalKeyGap > div{
-        font-size:medium
-    }
     .dangerText{
         font-size: medium !important
     }

@@ -3,8 +3,7 @@
         font-size:smaller !important
     }
     .subImageContainer{
-        align-items:end !important;
-        justify-content: start !important
+        align-items:center !important;
     }
     .mainImage{
         display: none !important

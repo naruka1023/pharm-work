@@ -13,9 +13,64 @@
             </div>
 		</div>
     </div>
+	<div class="modal fade" id="googleMapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		  <div class="modal-content semi-border-input">
+			<div class="modal-header justify-content-center">
+			  <div class="modal-title textProfileResponsive" id="exampleModalLabel">ปักหมุดแผนที่</div>
+			</div>
+			<div class="modal-body">
+			  <div class="d-flex justify-content-center">
+				<i class="bi bi-geo-alt-fill" style="font-size:6em"></i>
+			  </div>
+			  <div class="d-flex justify-content-center my-3 textResponsive">
+				กรุณาปักหมุดในพื้นที่ๆท่านต้องการให้เภสัชกรมาร่วมงานรายวัน
+			  </div>
+			  <div *ngIf="googleMapLoadingFlag" style="text-align:center" class="my-3">
+				<div class="spinner-border text-primary" role="status">
+				<span class="visually-hidden">Loading...</span>
+				</div>
+			  </div>
+			  <form [formGroup]="googleMapForm" (ngSubmit)="onSaveGoogleMap()">
+				  <div class="modal-body">
+					  <div>
+						  <input
+							  type="text"
+							  class="form-control my-3 textResponsive border-input"
+							  ngx-google-places-autocomplete 
+							  (onAddressChange)="searchMap($event)" 
+						  />
+						</div>
+					  <div>
+						  <div *ngIf="submitted && getGoogleMapForm['_geoloc']!.errors" class="invalid-feedback2 mb-3">
+							<div *ngIf="getGoogleMapForm['_geoloc']!.errors!['required']">กรุณาระบุปักหมุด google map</div>
+						</div>
+						  <google-map 
+							  height="500px"
+							  width="100%"
+							  [center]="center"
+							  [options]="none"
+							  [zoom]="zoom"
+							  (mapClick)="moveMap($event)"
+							  (mapMousemove)="move($event)">
+							  <map-marker
+							  [position]="markerPosition"></map-marker>
+						  </google-map>
+					  </div>
+				</div>
+			  </form>
+			  <div class="d-flex justify-content-evenly my-3">
+				<button type="button" class="btn btn-light textProfileResponsive border-input" data-dismiss="modal" (click)="onCloseGoogleMap()" style="min-width: 5em">ยกเลิก</button>
+				<button type="button" class="btn textProfileResponsive border-input green-color" style="color:white; min-width: 5em" (click)="onSaveGoogleMap()">ตกลง</button>
+			  </div>
+			</div>
+	  
+		  </div>
+		</div>
+	  </div>
 	<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius:20px">
 		<div class="modal-dialog modal-dialog-centered">
-		  <div class="modal-content">
+		  <div class="modal-content semi-border-input standard-shadow">
 			<div class="px-md-3 px-1 pt-2 modal-body">
 				<div class="text-center h2 mb-0 py-1 pt-3">
 					<b>ตัวกรอง</b>

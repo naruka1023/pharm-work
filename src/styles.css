@@ -10,18 +10,72 @@
 .textResponsive{
     font-size:1.5rem !important
 }
+.textResponsiveOperator{
+    font-size:1.5rem !important
+}
 .textResponsiveSmaller{
     font-size:1rem 
 }
 .textResponsiveHeader{
     font-size:2.5rem 
 }
+@media only screen and (max-width: 1700px){
+    .textResponsiveOperator{
+        font-size:large !important;
+    }
+    .textResponsiveSmaller{
+        font-size: small !important
+    }
+    .widthResponsive{
+        width: 10vw !important
+    }
+}
+@media only screen and (max-width: 1500px) {
+    .textResponsiveHeader{
+        font-size:2rem !important 
+    }
+    .widthResponsive{
+        width: 11vw !important
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .widthResponsive{
+        width:12vw !important;   
+    }
+    .textResponsiveSmaller{
+        font-size: smaller !important
+    }
+    
+    .textResponsiveOperator{
+        font-size:large !important;
+    }
+}
+
 @media only screen and (max-width: 1000px) {
     .textProfileResponsive{
         font-size:x-large !important;
     }
+    .textResponsiveHeader{
+        font-size:1.8rem !important 
+    }
 }
+
 @media only screen and (max-width: 992px) {
+    .gapMobile{
+        gap: 4vw !important
+    }
+    .textResponsiveHeader{
+        font-size:1.5rem !important 
+    }
+    .widthResponsive{
+        width:14vw !important;   
+    }
+    .textResponsiveSmaller{
+        font-size: x-small !important
+    }
+    .border-end-mobile{
+        border-right:unset !important
+    }
     .textProfileResponsive{
         font-size:large !important
     }
@@ -29,18 +83,37 @@
         font-size:medium !important
     }
 }
+@media only screen and (max-width: 640px) {
+    .widthResponsive{
+        width:18vw !important;   
+    }
+}
 @media only screen and (max-width: 576px) {
+    .widthResponsive{
+        width:16vw !important;   
+    }
     .textProfileResponsive{
         font-size:medium !important
     }
     .textResponsive{
         font-size:small !important
     }
+    .textResponsiveSmaller{
+        font-size:1.9vw !important 
+    }
+    .textResponsiveOperator{
+        font-size:3.5vw !important
+    }
 }
 @media only screen and (max-width: 384px) {
+    .textResponsiveSmaller{
+        font-size:1.9vw !important 
+    }
     .textResponsive{
         font-size:x-small !important
     }
+}
+@media only screen and (max-width: 345px) {
 }
 @media only screen and (max-width: 337px) {
     .textResponsive{

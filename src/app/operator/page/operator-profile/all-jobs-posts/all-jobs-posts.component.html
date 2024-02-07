@@ -7,7 +7,7 @@
     </div>
 </ng-template>
 <ng-template #notLoading>
-    <div class="p-sm-4 p-2 textProfileResponsive standard-shadow" style="border-radius:40px">
+    <div class="p-md-4 p-2 textProfileResponsive standard-shadow" style="border-radius:40px">
         <div class="my-3 innerProfileTitle"><b>ประกาศงาน</b></div> 
         <div class="allJobsTab sticky-top" style="top:180px; background:white; z-index: 3"> 
             <ul class="nav nav-underline py-3 mb-2 textProfileResponsive  flex-row tabList" style="width: max-content; --bs-nav-underline-gap:0 1rem">
@@ -34,7 +34,7 @@
                         </div>
                     </ng-template>
                     <ng-template #notEmpty>
-                        <div class="row textProfileResponsive mx-md-5 mx-sm-3 mx-1">
+                        <div class="row textProfileResponsive mx-md-5">
                             <div *ngFor="let content of allCreatedJobs$ | async">
                                 <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>            
                             </div>
@@ -51,7 +51,7 @@
                         </div>
                     </ng-template>
                     <ng-template #notEmptyTwo>
-                        <div class="row textProfileResponsive mx-md-5 mx-sm-3 mx-1">
+                        <div class="row textProfileResponsive mx-md-5">
                             <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': !content.Urgency? 'unset': 'none'}">
                                 <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="!content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
                             </div>
@@ -68,7 +68,7 @@
                     </div>
                 </ng-template>
                 <ng-template #notEmptyThree>
-                    <div class="row textProfileResponsive mx-md-5 mx-sm-3 mx-1">
+                    <div class="row textProfileResponsive mx-md-5">
                         <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': content.Urgency? 'unset': 'none'}">
                             <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
                         </div>
@@ -80,14 +80,14 @@
 </ng-template>
 <div class="modal fade" id="confirmRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md textProfileResponsive">
-      <div class="modal-content p-5">
+      <div class="modal-content semi-border-input standard-shadow p-5">
 			<div>
 				<div class="d-flex justify-content-center">
 					คุณต้องการลบการ์ดงานใช่หรือไม่
 				</div>
 				<div class="d-flex justify-content-around mt-3 textProfileResponsive">
-					<button class="btn btn-light p-2 px-4 textProfileResponsive" (click)="onClose()">ยกเลิก</button>
-					<button class="btn p-2 px-4 textProfileResponsive" style="border-color: #7fd858; color:white; background:#7fd858" (click)="deleteCard()">ตกลง</button>
+					<button class="btn btn-light p-2 px-4 textProfileResponsive border-input" (click)="onClose()">ยกเลิก</button>
+					<button class="btn p-2 px-4 textProfileResponsive border-input" style="border-color: #7fd858; color:white; background:#7fd858" (click)="deleteCard()">ตกลง</button>
 				</div>
 			</div>
       </div>

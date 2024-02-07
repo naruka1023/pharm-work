@@ -41,13 +41,13 @@
 						<div class="row twoRows">
 							<div class="col-12 col-md-6 border-end p-0 pt-4 leftPanelDetails">
 								<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
 										<b>สาขา</b>
 									</div>
 									<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyFieldPipe}}</div>
 								</div>
 								<div *ngIf="profile.Duration !== ''" class="row pb-3">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
 										<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
 									</div>
 									<div class="col">
@@ -56,7 +56,7 @@
 									</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
 									</div>
 									<div class="col">
@@ -65,7 +65,7 @@
 									</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
 									</div>
 									<div class="col">
@@ -74,7 +74,7 @@
 									</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
 									</div>
 									<div class="col">
@@ -83,13 +83,13 @@
 									</div>
 								</div>
 								<div *ngIf="profile.BTS.Near"  class="pb-3 row">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-train-front me-2"></i> <b>BTS</b>
 									</div>
 									<div class="col"> {{profile.BTS.Station | emptyFieldPipe}}</div>
 								</div>
 								<div *ngIf="profile.ARL.Near"  class="pb-3 row">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-train-front me-2"></i> <b>ARL</b>
 									</div>
 									<div class="col"> {{profile.ARL.Station | emptyFieldPipe}}</div>
@@ -102,13 +102,13 @@
 							</div>
 							<div class="col-12 col-md-6 pt-md-4 rightPanelDetails">
 								<div class="row pb-3"*ngIf="profile.Amount !== null || profile.Amount !== 0">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
 									</div>
 									<div class="col">{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.Location.Section !== '' || profile.Location.Province !== ''">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
 									</div>
 									<div class="col"> {{profile.Location.District | emptyFieldPipe}}, {{profile.Location.Province | emptyFieldPipe}}</div>
@@ -145,13 +145,13 @@
 						</div>
 						<div class="row oneRow">
 								<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
 										<b>สาขา</b>
 									</div>
 									<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyFieldPipe}}</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.Duration !== ''">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
 										<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
 									</div>
 									<div class="col">
@@ -161,7 +161,7 @@
 								</div>
 								<div>
 									<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 											<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
 										</div>
 										<div class="col">
@@ -170,7 +170,7 @@
 										</div>
 									</div>
 									<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 											<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
 										</div>
 										<div class="col">
@@ -179,7 +179,7 @@
 										</div>
 									</div>
 									<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 											<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
 										</div>
 										<div class="col">
@@ -189,7 +189,7 @@
 									</div>
 								</div>
 								<div class="row pb-3" *ngIf="profile.Amount !== null || profile.Amount !== 0">
-									<div class="col-12 col-sm-6 col-md-12 col-lg-5">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
 										<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
 									</div>
 									<div class="col">{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
@@ -380,11 +380,10 @@
 						<div class=" d-flex justify-content-between">
 							<div style="line-break:anywhere" class="" [innerHtml]="profile.TravelInstructions | emptyFieldPipe"></div>
 						</div>
-						<div class="d-flex justify-content-center" style="overflow: scroll;">
 							<google-map 
 								*ngIf="profile._geoloc !== undefined"
 								height="500px"
-								width="60vw"
+								width="100%"
 								[options]="none"
 								[center]="center"
 								[zoom]="zoom">
@@ -393,7 +392,6 @@
 									>
 								</map-marker>
 							</google-map>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -434,7 +432,7 @@
 </ng-template>
 <div class="modal fade" id="confirmRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md  fs-4">
-      <div class="modal-content p-5">
+      <div class="modal-content semi-border-input standard-shadow p-5">
 			<div *ngIf="!successFlag">
 				<div class="d-flex justify-content-center fs-4">
 					คุณต้องการสมัครงานนี้ใช่หรือไม่

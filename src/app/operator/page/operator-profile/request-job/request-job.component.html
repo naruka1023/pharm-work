@@ -7,7 +7,7 @@
       </div>
     </ng-template>
     <ng-template #notLoading>
-      <div class="p-sm-4 p-2 textProfileResponsive standard-shadow" style="border-radius:40px">
+      <div class="p-md-4 p-2 textProfileResponsive standard-shadow" style="border-radius:40px">
         <div class="my-3" id="innerProfileTitle"><b>ผู้สมัครงาน</b></div> 
         <div class="requestJobTabList sticky-top" style="top:180px; background:white; z-index: 3">
           <ul class="nav nav-underline py-3 mb-2 textProfileResponsive flex-row tabList" style="width: max-content; --bs-nav-underline-gap:0 1rem">
@@ -20,7 +20,7 @@
               <hr style="width: 100%" class="m-auto">
           </ul>
         </div>
-        <div class="tab-content textResponsive mx-sm-3 mx-1">
+        <div class="tab-content textResponsive mx-md-3 mx-1">
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
               <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
                 <ng-template #empty>
@@ -52,7 +52,7 @@
                 <ng-template #notEmptyNormal>
                     <div class="row">
                         <ng-container *ngFor="let requestView of requestViews$ | async; index as i">
-                                <app-normal-user-card  [content]="requestView.content!" [type]="'AA'"></app-normal-user-card>
+                                <app-normal-user-card [content]="requestView.content!" [type]="'AA'" class="px-2"></app-normal-user-card>
                         </ng-container>
                     </div>
                 </ng-template>
@@ -62,7 +62,7 @@
   </ng-template>
 <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen">
-    <div class="modal-content">
+    <div class="modal-content semi-border-input standard-shadow">
       <div class="modal-body">
         <div class="container">
             <!-- <ng-container *ngIf="modalLoadingFlag; then loadingUsers; else notLoadingUsers"></ng-container>
@@ -75,7 +75,7 @@
             </ng-template>
             <ng-template #notLoadingUsers> -->
               <div class="row mb-5">
-                  <app-normal-user-card *ngFor="let user of usersPayload" [jobUID]="jobID" [profileLinkPage]="profileLinkFlag" [content]="user!" ></app-normal-user-card>
+                  <app-normal-user-card class="px-0" *ngFor="let user of usersPayload" [jobUID]="jobID" [profileLinkPage]="profileLinkFlag" [content]="user!" class="px-2"></app-normal-user-card>
               </div>
             <!-- </ng-template> -->
             </div>
