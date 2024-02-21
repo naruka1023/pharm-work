@@ -9,6 +9,7 @@ import { JobPostComponent } from './job-post/job-post.component';
 import { OperatorPageComponent } from './pharmacist/page/operator-page/operator-page.component';
 
 const routes: Routes = [
+  { path: 'notifications', component: DemoLandingComponent},
   { path: '', component: DemoLandingComponent},
   { path: 'landing', children:[
     {path:'register', component:RegisterComponent},

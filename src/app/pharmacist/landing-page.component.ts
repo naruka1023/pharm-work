@@ -3,20 +3,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { JobPostService } from './service/job-post.service';
-import { updateFollowersList, addJobRequest, addBookmark, EmptyJobPostAppState, removeJobRequest, removeBookmark, retrievedJobSuccess } from './state/actions/job-post.actions';
+import { updateFollowersList, EmptyJobPostAppState, removeJobRequest } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
 import { removeCurrentUser } from '../state/actions/users.action';
 import { Bookmark, Follow, jobPostModel, jobRequest } from './model/typescriptModel/jobPost.model';
 import { UtilService } from './service/util.service';
 import { User } from '../model/user.model';
 import { UserServiceService } from './service/user-service.service';
-import { aggregationCount, requestView } from './model/typescriptModel/users.model';
+import { aggregationCount, notificationContent, requestView } from './model/typescriptModel/users.model';
 import { Auth, user,sendEmailVerification } from '@angular/fire/auth';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import * as _ from 'lodash';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
-import { Firestore, collection, getDocs, query, where, Unsubscribe, doc } from '@angular/fire/firestore';
-import { updateDoc } from 'firebase/firestore';
+import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot } from '@angular/fire/firestore';
 declare var window: any;
 
 
@@ -27,12 +26,12 @@ declare var window: any;
 })
 export class LandingPageComponent {
   private auth: Auth = inject(Auth);
-  private firebase: Firestore = inject(Firestore);
   address: any = {}
   loginFlag: boolean = false;
   subject!: Subscription;
   user!: User;
   emailVerifiedFlag: boolean = true
+  notificationsArchive: notificationContent[] = []
   requestView: requestView = {
     operatorUID: '',
     userUID: '',
@@ -51,20 +50,38 @@ export class LandingPageComponent {
   shareModal!: any;
   i: number = 0;
   parsedJobs: jobPostModel[] = []
-  subscription: any = {};
+  subscription: {
+    [key:string]:Unsubscribe
+  } = {} as any
   formModal!: any;
   loginModal!: any;
   registerModal!: any
   offCanvas: any;
   operatorModal: any;
+  jobPostUID?: string
+  notificationsFlag?: any 
+  type!: string 
   bookmarkSubscription: {
     [key:string]:Unsubscribe
   } = {}
   constructor(private meta: Meta, private pharmaProfileComponent: PharmaProfileComponent, private userService: UserServiceService, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router,  private utilService:UtilService) {
     
   }
+  private firestore = inject(Firestore)
   ngOnInit(){  
-
+    this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
+    this.notificationsFlag = this.notificationsFlag == 'true'?true:false
+  if(this.notificationsFlag){
+    this.jobPostUID = this.activatedRoute.snapshot.queryParamMap.get('url')!  
+    let payload = this.jobPostUID.split('?')[this.jobPostUID.split('?').length - 1]
+    this.jobPostUID = payload.split('=')[1]
+    this.type = payload.split('=')[0]
+    localStorage.setItem('type', this.type)
+    localStorage.setItem('jobUID', this.jobPostUID)
+  }else{
+    localStorage.removeItem('type')
+    localStorage.removeItem('jobUID')
+  }
   this.shareModal = new window.bootstrap.Modal(
     document.getElementById('shareModal')
   );
@@ -92,6 +109,16 @@ export class LandingPageComponent {
       delete this.user.cropProfilePictureUrl
     }
   })
+  this.store.select((state:any)=>{
+    return state.notifications.notificationsArchive
+  }).subscribe((notificationArchive)=>{
+    let temp: notificationContent[]= []
+    Object.keys(notificationArchive).map((key)=> {
+      temp.push(notificationArchive[key])
+    })
+    this.notificationsArchive = temp
+    console.log(notificationArchive)
+  })
   this.store.select((state: any)=>{
     return state.recentlySeen
   }).subscribe((recentlySeen)=>{
@@ -104,6 +131,7 @@ export class LandingPageComponent {
       this.userService.getCountGroup().then((aggregation)=>{
         this.aggregationGroup = aggregation
       })
+      this.userService.getNotifications(user.uid)
       this.jobService.getUserBookmark(user.uid).then((bookmarks)=>{
           bookmarks.forEach((bookmark: Bookmark)=>{
             this.bookmarkSubscription[bookmark.jobUID] = this.jobService.getJobFromBookmark(bookmark) as Unsubscribe
@@ -138,19 +166,27 @@ export class LandingPageComponent {
         })
 
       })
-      this.jobService.getRequestJob(user.uid).then((requestedJobs:any)=>{
-        requestedJobs = requestedJobs.docs.map((requestedJob:any)=> {
-          return {
-            ...requestedJob.data(),
-            custom_doc_id:requestedJob.id
+      onSnapshot(query(collection(this.firestore, 'job-request'), where('userUID', '==', user.uid)), (jobRequest)=>{
+        return jobRequest.docChanges().map((value)=>{
+          let requestJobPayload = {
+            payload: {
+              ...value.doc.data() as jobRequest,
+              custom_doc_uid: value.doc.id
+            },
+            type: value.type
           }
-        }) as jobRequest[]
-        let jobIDList:string[] = requestedJobs.map((request:any)=>{return request.jobUID})
-        jobIDList.forEach((jobUID:string)=>{
-          let payload = requestedJobs.find((jobRequest:any)=>{
-            return jobRequest.jobUID == jobUID
-          })
-          this.subscription[jobUID] = this.jobService.getJobFromJobRequest(jobUID, payload)
+          switch(value.type){
+            case 'added':
+              this.subscription[requestJobPayload.payload.jobUID] = this.jobService.getJobFromJobRequest(requestJobPayload.payload.jobUID, requestJobPayload.payload)
+              break;
+            case 'removed':
+              this.store.dispatch(removeJobRequest({jobRequest:{
+                ...requestJobPayload.payload,
+              }}))
+              this.subscription[requestJobPayload.payload.jobUID]();
+              delete this.subscription[requestJobPayload.payload.jobUID]
+              break;
+          }
         })
       })
       this.utilService.getRemoveRequestSubject().subscribe((value:any)=>{
@@ -174,6 +210,23 @@ export class LandingPageComponent {
   this.utilService.getRequestViewSubject().subscribe((requestView: requestView)=>{
     this.requestView = requestView
     this.formModal.show()
+  })
+}
+
+goToHome(){
+  localStorage.removeItem('type')
+  localStorage.removeItem('jobUID')
+  this.route.navigate(['pharma'])
+}
+
+goToNotifications(url: string){
+  const payload = url.split('/')[url.split('/').length-1].split('?')[1].split('=')
+  this.route.navigate(['notifications'], {
+    relativeTo: this.activatedRoute,
+    queryParams:{
+      jobUID: payload[1],
+      type: payload[0]
+    }
   })
 }
 

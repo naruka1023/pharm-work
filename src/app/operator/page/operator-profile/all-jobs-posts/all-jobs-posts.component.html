@@ -34,7 +34,7 @@
                         </div>
                     </ng-template>
                     <ng-template #notEmpty>
-                        <div class="row textProfileResponsive mx-md-5">
+                        <div class="row textProfileResponsive mx-lg-5">
                             <div *ngFor="let content of allCreatedJobs$ | async">
                                 <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>            
                             </div>
@@ -51,7 +51,7 @@
                         </div>
                     </ng-template>
                     <ng-template #notEmptyTwo>
-                        <div class="row textProfileResponsive mx-md-5">
+                        <div class="row textProfileResponsive mx-lg-5">
                             <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': !content.Urgency? 'unset': 'none'}">
                                 <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="!content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
                             </div>
@@ -68,7 +68,7 @@
                     </div>
                 </ng-template>
                 <ng-template #notEmptyThree>
-                    <div class="row textProfileResponsive mx-md-5">
+                    <div class="row textProfileResponsive mx-lg-5">
                         <div *ngFor="let content of allCreatedJobs$ | async" [ngStyle]="{'display': content.Urgency? 'unset': 'none'}">
                             <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" *ngIf="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>
                         </div>

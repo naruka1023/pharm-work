@@ -1,6 +1,6 @@
 <div class="card semi-border-input standard-shadow my-3 p-lg-3 p-md-2 p-sm-1 p-1" [ngClass]="requestStatusFlag && requestStatus.status !== 'Pending'? 'green-border-color':''">
     <div class="row">
-        <div class="col-lg-2 col-md-3 col-sm-4 col-3 text-center px-0">
+        <div class="col-lg-2 col-3 text-center px-0">
             <img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToProfile()" style="width:fit-content" height="150" width="150"class="card-img-top m-auto my-3 rounded-circle border border-5 border-white verticalKeyGap imageResponsive">
             <div *ngIf="type != 'S'">
                 <div *ngIf="content.preferredTimeFrame != '' || content.preferredTimeFrame != undefined" [ngClass]="content.preferredTimeFrame == 'Full-Time'?'green-color': content.preferredTimeFrame == 'Part-Time'?'blue-color':'purple-color'" style="width:8vw; color:white" class="m-auto text-center p-1 btn textResponsiveSmaller widthResponsive"> {{content.preferredTimeFrame | emptyField}}</div>    
@@ -17,13 +17,21 @@
         </div>
         <div class="col-sm col-9 my-sm-3 my-1 mx-auto textResponsiveOperator row px-0 pe-1">
             <div class="py-2 px-0 textResponsiveHeader d-flex justify-content-between">
-                <div class="col-sm" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
-                    {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name + ' ' + content.surname:content.active}}
-                </div>
+                <ng-container  *ngIf="!profileLinkPage; then jobRequestTitle else notJobRequestTitle"></ng-container>
+                <ng-template #jobRequestTitle>
+                    <div class="col-sm">
+                        {{content.name + ' ' + content.surname}}
+                    </div>
+                </ng-template>
+                <ng-template #notJobRequestTitle>
+                    <div class="col-sm" [ngStyle]="{'color': content.active === 'จำกัดการดูข้อมูล'? 'blue': content.active === 'ไม่อนุญาติให้ดูข้อมูล'? 'red': 'black' }">
+                        {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name + ' ' + content.surname:content.active}}
+                    </div>
+                </ng-template>
                 <button class="btn btn-outline-secondary border-input textResponsiveOperator button-width d-lg-block d-none" (click)="goToProfile()">ดูโปรไฟล์</button>
             </div>
             <div class="d-lg-none d-block px-0 pe-3">
-                <div class="py-1 d-lg-block d-flex">
+                <div class="py-1 d-lg-block d-md-flex d-block">
                     <div class="d-flex flex-row-start verticalKeyGap" style="white-space: nowrap">
                         <b>
                             <i class="bi bi-pin-map-fill me-3"></i>
@@ -84,7 +92,7 @@
                     </div>
                 </ng-template>
                 <ng-template #notUrgentProfile>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-geo-fill me-3"></i>
@@ -96,7 +104,7 @@
                                 {{content.preferredSection| emptyField}}, {{content.preferredDistrict | emptyField}}, {{content.preferredProvince | emptyField}}
                         </div>
                     </div>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-bootstrap-fill me-3"></i>
@@ -108,7 +116,7 @@
                             {{content.preferredSalary | emptyField}} {{content.preferredTimeFrame == 'Full-Time และ Part-Time'?'': content.preferredTimeFrame == 'Full-Time'?'บาท/เดือน': 'บาท/ชม'}}
                         </div>
                     </div>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-clock-fill me-3"></i>
@@ -228,19 +236,19 @@
                         </div>
                     </div>
                 </ng-template>
-                <div class="d-lg-flex d-block flex-row-start verticalKeyGap align-items-baseline">
+                <div style="white-space:nowrap" class="d-lg-flex d-block flex-row-start verticalKeyGap align-items-baseline">
                     <div><i class="bi bi-stars me-3"></i>
                     <b>ความสามารถเพิ่มเติม</b></div>
                     <ul style="display:flex; gap:3vw" class="me-3 gapMobile mb-1">
-                        <li>ภาษาอังกฤษ</li>
-                        <li>คอมพิวเตอร์</li>
-                        <li>ทักษะอื่นๆ</li>
+                        <li style="white-space:nowrap">ภาษาอังกฤษ</li>
+                        <li style="white-space:nowrap">คอมพิวเตอร์</li>
+                        <li style="white-space:nowrap">ทักษะอื่นๆ</li>
                     </ul>
                     <div style="color:lightgrey" class="textResponsiveSmaller"><i class="bi bi-arrow-right-short me-3"></i>ดูเพิ่มเติมในโปรไฟล์</div>
                 </div>
             </div>
             <div class="col-lg-5 col-12 border-end-mobile d-lg-block d-none">
-                <div class="py-1 d-lg-block d-flex">
+                <div class="py-1 d-lg-block d-md-flex d-block">
                     <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                         <b>
                             <i class="bi bi-pin-map-fill me-3"></i>
@@ -254,7 +262,7 @@
                 </div>
                 <ng-container *ngIf="type == 'S'; then urgentProfile; else notUrgentProfile"></ng-container>
                 <ng-template #urgentProfile>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-mortarboard-fill me-3"></i>
@@ -275,7 +283,7 @@
                             </div>
                         </ng-template>
                     </div>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-asterisk me-3"></i>
@@ -287,7 +295,7 @@
                             {{content.urgentTimeFrame| emptyField}}
                         </div>
                     </div>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-pin-fill me-3"></i>
@@ -301,7 +309,7 @@
                     </div>
                 </ng-template>
                 <ng-template #notUrgentProfile>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-geo-fill me-3"></i>
@@ -313,7 +321,7 @@
                                 {{content.preferredSection| emptyField}}, {{content.preferredDistrict | emptyField}}, {{content.preferredProvince | emptyField}}
                         </div>
                     </div>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-bootstrap-fill me-3"></i>
@@ -325,7 +333,7 @@
                             {{content.preferredSalary | emptyField}} {{content.preferredTimeFrame == 'Full-Time และ Part-Time'?'': content.preferredTimeFrame == 'Full-Time'?'บาท/เดือน': 'บาท/ชม'}}
                         </div>
                     </div>
-                    <div class="py-1 d-lg-block d-flex">
+                    <div class="py-1 d-lg-block d-md-flex d-block">
                         <div class="d-flex flex-row-start verticalKeyGap" style="white-space:nowrap">
                             <b>
                                 <i class="bi bi-clock-fill me-3"></i>
@@ -449,7 +457,7 @@
                 </ng-template>
             </div>
             <div class="py-1 d-lg-block d-none" *ngIf="type !== 'S'">
-                <div class="d-flex flex-row-start verticalKeyGap align-items-baseline">
+                <div  style="white-space:nowrap" class="d-flex flex-row-start verticalKeyGap align-items-baseline">
                     <div><i class="bi bi-stars me-3"></i>
                     <b>ความสามารถเพิ่มเติม</b></div>
                     <ul style="display:flex; gap:3vw" class="me-3">
@@ -457,10 +465,14 @@
                         <li>คอมพิวเตอร์</li>
                         <li>ทักษะอื่นๆ</li>
                     </ul>
-                    <div style="color:lightgrey" class="textResponsiveSmaller"><i class="bi bi-arrow-right-short me-3"></i>ดูเพิ่มเติมในโปรไฟล์</div>
                 </div>
+                <div style="color:lightgrey" class="textResponsiveSmaller"><i class="bi bi-arrow-right-short me-3"></i>ดูเพิ่มเติมในโปรไฟล์</div>
             </div>
         </div>
+    </div>
+    <div class="textProfileResponsive light-green-color p-lg-4 p-3 semi-border-input" *ngIf="!profileLinkPage">
+        <i class="bi bi-telephone-plus-fill me-3"></i> เบอร์โทร : {{content.contacts?.phone}}
+        <i class="bi bi-envelope-open-fill mx-3"></i> Email : {{content.contacts?.email}}
     </div>
 </div>
 <div class="textProfileResponsive align-items-center" [ngClass]="!requestStatusFlag?'d-flex justify-content-between': ''">
@@ -471,7 +483,30 @@
         <!-- <button *ngIf="type == 'S'" class="btn fs-3 ms-3" style="color:white; background-color: #7fd858">ส่งงานด่วน</button> -->
         <ng-container *ngIf="!profileLinkPage; then request; else notRequest"></ng-container>
         <ng-template #request>
-            <button class="btn btn-danger textProfileResponsive" (click)="cancelRequest()">cancel Request</button>
+            <div class="d-flex flex-row-start textProfileResponsive align-items-center">
+                <button (click)="toggleFavorite()" type="button" class="btn me-3">
+                    <ng-container *ngIf="favoriteLoadingFlag; then loading; else notLoading"></ng-container>
+                    <ng-template #loading>
+                        <div>
+                            <div style="text-align:center">
+                                <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #notLoading>
+                        <ng-container *ngIf="favoriteFlag$ | async; then red; else normal"></ng-container>
+                        <ng-template #normal>
+                            <div class="textProfileResponsive"><i class="bi bi-heart"></i></div>
+                        </ng-template>
+                        <ng-template #red>
+                            <div class="text-danger textProfileResponsive"><i class="bi bi-heart-fill"></i></div>
+                        </ng-template>
+                    </ng-template>
+                </button>
+                <div (click)="cancelRequest()"><i class="bi bi-trash3 ms-3"></i></div>
+            </div>
         </ng-template>
         <ng-template #notRequest>
             <ng-container *ngIf="requestStatusFlag; then status; else notStatus"></ng-container>

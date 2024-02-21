@@ -26,6 +26,7 @@ export class JobPostDetailsComponent implements OnDestroy{
   formModal: any
   categorySymbol!: string;
   childrenPath!: string;
+  studentFlag$!: Observable<boolean>;
   breakingPoint = {
     1400: {
       slidesPerView: 4.5
@@ -133,8 +134,11 @@ export class JobPostDetailsComponent implements OnDestroy{
   ngOnInit(){
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('confirmRequest')
-      );
+    );
     this.detailLeavingFlag = true;
+    this.studentFlag$ = this.store.select((state:any)=>{
+      return state.user.studentFlag  
+    })
     this.store.select((state: any)=>{
       return state.user.uid
     }).subscribe((value)=>{
@@ -180,6 +184,9 @@ export class JobPostDetailsComponent implements OnDestroy{
               return profile.custom_doc_id == this.id
           })
           break;
+        case 'notification':
+          newJob = state.notifications.job.content
+          break;
         case 'request-jobs':
           newJob = state.jobpost.JobRequests[this.id + '-' + state.user.uid].JobPost
           break;
@@ -210,7 +217,6 @@ export class JobPostDetailsComponent implements OnDestroy{
       return newJob
     }).subscribe((res: jobPostModel)=> {
       if(res !== undefined) {
-        console.log(Object.keys(res).length)
         if(Object.keys(res).length <= 24){
           this.jobPostService.getJob(this.id).then((job: jobPostModel)=>{
             switch(this.childrenPath){

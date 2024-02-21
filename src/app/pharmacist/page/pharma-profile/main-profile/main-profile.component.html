@@ -2,7 +2,7 @@
 <ng-template #displayPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
         <div style="color:red" class="mb-4">
-            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <div class="verticalKeyGap">
@@ -130,7 +130,7 @@
 <ng-template #editPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
         <div style="color:red" class="mb-4">
-            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a  data-bs-toggle="modal" data-bs-target="#studentUpgradeModal"class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
@@ -147,7 +147,7 @@
                         </div>
                         <div class="col d-flex">
                             <!-- <input disabled class="border-input form-select " style="width:-webkit-fill-available; width:-moz-available" placeholder="{{innerProfileInformation.name + ' ' + innerProfileInformation.surname | emptyFieldPipe}}"> -->
-                            <select formControlName="highestEducation"  class="border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && profileEditControls['highestEducation'].errors }">
+                            <select formControlName="highestEducation"  class="border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && profileEditControls['highestEducation'].errors }">
                                 <option selected disabled value="">ระดับการศึกษาสูงสุดของท่าน</option>
                                 <option value="ปริญญาตรี">ปริญญาตรี</option>
                                 <option value="ปริญญาโท">ปริญญาโท</option>
@@ -166,7 +166,7 @@
                                 <div class="keyValueGap">
                                     <div>ชื่อมหาวิทยาลัย/ชื่อสถาบัน</div>
                                 </div>
-                                    <input formControlName="universityName" placeholder="ชื่อมหาวิทยาลัย หรือ ชื่อสถาบันการศึกษา" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="border-input form-control ">
+                                    <input formControlName="universityName" placeholder="ชื่อมหาวิทยาลัย หรือ ชื่อสถาบันการศึกษา" [ngClass]="{ 'is-invalid': submitted && number.controls['universityName'].errors }" type="text" class="border-input form-control  textProfileResponsive">
                                     <div *ngIf="submitted && number.controls['universityName'].errors" class="invalid-feedback">
                                         <div *ngIf="number.controls['universityName'].errors['required']">กรุณาระบุชื่อสถาบัน</div>
                                     </div>
@@ -175,7 +175,7 @@
                                 <div class="keyValueGap">
                                     <div>คณะ</div>
                                 </div>
-                                    <input formControlName="major" placeholder="คณะ" type="text"  class="border-input form-control " [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
+                                    <input formControlName="major" placeholder="คณะ" type="text"  class="border-input form-control  textProfileResponsive" [ngClass]="{ 'is-invalid': submitted && number.controls['major'].errors }">
                                     <div *ngIf="submitted && number.controls['major'].errors" class="invalid-feedback">
                                         <div *ngIf="number.controls['major'].errors['required']">กรุณาระบุคณะ</div>
                                     </div>
@@ -185,14 +185,14 @@
                                     <div>สาขา</div>
                                 </div>
                                 <div class="d-flex">
-                                    <input formControlName="franchise" type="text" class="border-input form-control " >
+                                    <input formControlName="franchise" type="text" class="border-input form-control  textProfileResponsive" >
                                 </div>
                             </div>
                             <div class="verticalKeyGap" style="width:-webkit-fill-available; width:-moz-available">
                                 <div class="keyValueGap">
                                     <div>ระดับการศึกษา</div>
                                 </div>
-                                    <select formControlName="educationLevel"  class="form-select border-input " aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
+                                    <select formControlName="educationLevel"  class="form-select border-input  textProfileResponsive" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && number.controls['educationLevel'].errors }">
                                         <option selected disabled value="">ระดับการศึกษา</option>
                                         <option value="ปริญญาโท">ปริญญาโท</option>
                                         <option value="ปริญญาเอก">ปริญญาเอก</option>
@@ -206,7 +206,7 @@
                                 <div class="keyValueGap">
                                     <div>ปีที่จบการศึกษา</div>
                                 </div>
-                                <select formControlName="yearGraduated" class="border-input form-select "  [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
+                                <select formControlName="yearGraduated" class="border-input form-select  textProfileResponsive"  [ngClass]="{ 'is-invalid': submitted && number.controls['yearGraduated'].errors }">
                                     <option disabled selected value="">เลือกปีที่จบการศึกษา</option>
                                     <option value="2023">2023</option>
                                     <option value="2022">2022</option>
@@ -310,7 +310,7 @@
                                     <div class="keyValueGap">
                                         <div>ชื่อบริษัท</div>
                                     </div>
-                                    <input  formControlName="companyName" placeholder="ชื่อบริษัท" type="text" class="border-input form-control " [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors}">
+                                    <input  formControlName="companyName" placeholder="ชื่อบริษัท" type="text" class="border-input form-control  textProfileResponsive" [ngClass]="{ 'is-invalid': submitted && number.controls['companyName'].errors}">
                                     <div *ngIf="submitted && number.controls['companyName'].errors" class="invalid-feedback">
                                         <div *ngIf="number.controls['companyName'].errors['required']">กรุณาระบุชื่อบริษัท</div>
                                     </div>
@@ -319,7 +319,7 @@
                                     <div class="keyValueGap">
                                         <div>ตำแหน่ง</div>
                                     </div>
-                                    <input  formControlName="jobName" placeholder="ตำแหน่ง" type="text" class="border-input form-control " [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
+                                    <input  formControlName="jobName" placeholder="ตำแหน่ง" type="text" class="border-input form-control  textProfileResponsive" [ngClass]="{ 'is-invalid': submitted && number.controls['jobName'].errors}">
                                     <div *ngIf="submitted && number.controls['jobName'].errors" class="invalid-feedback">
                                         <div *ngIf="number.controls['jobName'].errors['required']">กรุณาระบุตำแหน่ง</div>
                                     </div>
@@ -336,11 +336,11 @@
                                     <div class="keyValueGap">
                                         <div>ระยะเวลา</div>
                                     </div>
-                                    <input  formControlName="dateStarted" placeholder="เริ่มทำงานเมื่อใด?" type="month" class="border-input form-control mb-3 " [ngClass]="{ 'is-invalid': submitted && number.controls['dateStarted'].errors}">
+                                    <input  formControlName="dateStarted" placeholder="เริ่มทำงานเมื่อใด?" type="month" class="border-input form-control mb-3  textProfileResponsive" [ngClass]="{ 'is-invalid': submitted && number.controls['dateStarted'].errors}">
                                     <div *ngIf="submitted && number.controls['dateStarted'].errors" class="invalid-feedback">
                                         <div *ngIf="number.controls['dateStarted'].errors['required']">กรุณาระบุวันที่เริ่มต้น</div>
                                     </div>
-                                    <input  formControlName="dateEnded" placeholder="สิ้นสุดหน้าที่ในตำแหน่งนี้เมื่อใด?" type="month" class="border-input form-control mb-3 " [ngClass]="{'is-invalid': submitted && number.controls['dateEnded'].errors}">
+                                    <input  formControlName="dateEnded" placeholder="สิ้นสุดหน้าที่ในตำแหน่งนี้เมื่อใด?" type="month" class="border-input form-control mb-3  textProfileResponsive" [ngClass]="{'is-invalid': submitted && number.controls['dateEnded'].errors}">
                                     <div *ngIf="submitted && number.controls['dateEnded'].errors" class="invalid-feedback">
                                         <div *ngIf="number.controls['dateEnded'].errors['required']">กรุณาระบุวันที่สิ้นสุด</div>
                                     </div>
@@ -355,7 +355,7 @@
                                     <div class="keyValueGap">
                                         <div>อธิบายงาน</div>
                                     </div>
-                                    <ckeditor formControlName="description" class="border-input" [editor]="descriptionEditor" name="editor"></ckeditor>
+                                    <ckeditor formControlName="description" class="border-input textProfileResponsive" [editor]="descriptionEditor" name="editor"></ckeditor>
                                 </div>
                             </div>
                             <div class="col-1 d-flex justify-content-center">
@@ -384,7 +384,7 @@
                     <ul [formGroup]="FormEnglishData">
                         <li class="d-flex mb-3 row">
                             <label class="align-items-center keyValueGap col-2">ฟัง</label>
-                            <select formControlName="listening"  class="col border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
+                            <select formControlName="listening"  class="col border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
                                 <option selected disabled value="">เลือกระดับทักษะ</option>
                                 <option value="เริ่มต้น">เริ่มต้น</option>
                                 <option value="พอใช้">พอใช้</option>
@@ -394,7 +394,7 @@
                         </li>
                         <li class="d-flex mb-3 row">
                             <label class="align-items-center keyValueGap col-2">พูด</label>
-                            <select formControlName="speaking"  class="col border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
+                            <select formControlName="speaking"  class="col border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
                                 <option selected disabled value="">เลือกระดับทักษะ</option>
                                 <option value="เริ่มต้น">เริ่มต้น</option>
                                 <option value="พอใช้">พอใช้</option>
@@ -404,7 +404,7 @@
                         </li>
                         <li class="d-flex mb-3 row">
                             <label class="align-items-center keyValueGap col-2">อ่าน</label>
-                            <select formControlName="reading"  class="col border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
+                            <select formControlName="reading"  class="col border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
                                 <option selected disabled value="">เลือกระดับทักษะ</option>
                                 <option value="เริ่มต้น">เริ่มต้น</option>
                                 <option value="พอใช้">พอใช้</option>
@@ -414,7 +414,7 @@
                         </li>
                         <li class="d-flex mb-3 row">
                             <label class="align-items-center keyValueGap col-2">เขียน</label>
-                            <select formControlName="writing"  class="col border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
+                            <select formControlName="writing"  class="col border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
                                 <option selected disabled value="">เลือกระดับทักษะ</option>
                                 <option value="เริ่มต้น">เริ่มต้น</option>
                                 <option value="พอใช้">พอใช้</option>
@@ -431,7 +431,7 @@
                     <ul [formGroup]="FormSkillData">
                         <li class="d-flex mb-3 row">
                             <label class="keyValueGap col-4 align-items-center">Word</label>
-                            <select formControlName="word"  class="col border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
+                            <select formControlName="word"  class="col border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
                                 <option selected disabled value="">เลือกระดับทักษะ</option>
                                 <option value="เริ่มต้น">เริ่มต้น</option>
                                 <option value="พอใช้">พอใช้</option>
@@ -441,7 +441,7 @@
                         </li>
                         <li class="d-flex mb-3 row">
                             <label class="keyValueGap col-4 align-items-center">Excel</label>
-                            <select formControlName="excel"  class="col border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
+                            <select formControlName="excel"  class="col border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
                                 <option selected disabled value="">เลือกระดับทักษะ</option>
                                 <option value="เริ่มต้น">เริ่มต้น</option>
                                 <option value="พอใช้">พอใช้</option>
@@ -451,7 +451,7 @@
                         </li>
                         <li class="d-flex mb-3 row">
                             <label class="keyValueGap col-4 align-items-center">Powerpoint</label>
-                            <select formControlName="powerpoint"  class="col border-input form-select " style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
+                            <select formControlName="powerpoint"  class="col border-input form-select  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" aria-label="Default select example">
                                 <option selected disabled value="">เลือกระดับทักษะ</option>
                                 <option value="เริ่มต้น">เริ่มต้น</option>
                                 <option value="พอใช้">พอใช้</option>

@@ -7,9 +7,9 @@
     </div>
 </ng-template>
 <ng-template #notLoading>
-        <div class="mx-sm-4 mx-0 fs-2">
+        <div class="fs-2">
             <div class="upperTitle d-flex justify-content-between">
-                <div class="my-lg-3 mainTitle"><b>ฝากประวัติ</b></div> 
+                <div class="mx-4 my-lg-3 mainTitle"><b>ฝากประวัติ</b></div> 
                 <div class="privacySection textProfileResponsive d-flex justify-content-center align-items-center">
                     <div style="text-align:center" class="me-3" *ngIf="privacyLoadingFlag">
                         <div class="spinner-border text-primary" role="status">
@@ -18,7 +18,7 @@
                     </div>
                     <i class="bi bi-question-lg me-3" (click)="openModal()" style="cursor:pointer"></i>
                     <div class="me-md-3">ระดับการเปิดเผยข้อมูล</div>
-                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex btn align-items-center ms-lg-3 dropdown-toggle">
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex btn align-items-center ms-lg-3 dropdown-toggle textProfileResponsive">
                         <div class="me-3">{{privacyLabel}}</div>
                     </button>
                     <ul class="dropdown-menu privacyDropdown">
@@ -60,7 +60,7 @@
                     <hr style="width: 100%" class="m-auto borderLine">
                 </ul>
             </div>
-            <div class="textProfileResponsive mx-lg-5">
+            <div class="textProfileResponsive">
                 <router-outlet></router-outlet>
             </div>
         </div>

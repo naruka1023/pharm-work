@@ -1,20 +1,30 @@
-<div class="p-md-4 p-2 textProfileResponsive">
-    <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
-    <ng-template #empty>
-        <div class="row d-flex justify-content-center">
-            <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
-                <img class="w-100" src="assets/empty/comingSoon.png">
+<div class="textProfileResponsive">
+    <ng-container *ngIf="innerProfileInformation.studentFlag; then student else notStudent"></ng-container>
+    <ng-template #student>
+        <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
+            <div style="color:red" class="mb-4">
+                *ระบบสมัครงานจะเปิดให้ใช้งานเมื่อท่านอัพเกรดบัญชีเป็นบัญชีเภสัชกร <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
             </div>
-        </div>
+          </div>
     </ng-template>
-    <ng-template #notEmpty>
-        <div class="row container">
-            <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
-                <div>
-                    <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+    <ng-template #notStudent>
+        <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
+        <ng-template #empty>
+            <div class="row d-flex justify-content-center">
+                <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
+                    <img class="w-100" src="assets/empty/emptyUser.png">
                 </div>
-            </ng-container>
-        </div>
+            </div>
+        </ng-template>
+        <ng-template #notEmpty>
+            <div class="row container pe-0">
+                <ng-container *ngFor="let jobRequest of jobRequests$ | async, index as i">
+                    <div class="pe-0">
+                        <app-job-post-normal-card [content]="jobRequest!" [urgentFlag]="jobRequest.Urgency" [fullTimeFlag]="jobRequest.TimeFrame =='Full-Time'"></app-job-post-normal-card>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-template>
     </ng-template>
 </div>
 

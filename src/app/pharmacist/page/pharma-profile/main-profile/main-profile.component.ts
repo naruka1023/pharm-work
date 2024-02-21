@@ -62,9 +62,7 @@ export class MainProfileComponent {
       }else{
         let extra = moment().month().toString().split('').length == 1?'0':''
         let date = moment().year() + '-' + extra + moment().month()   
-        console.log(group.get('dateEnded')!.value)
         group.get('dateEnded')?.patchValue(date)
-        console.log(group.get('dateEnded')!.value)
       }
     })
   }

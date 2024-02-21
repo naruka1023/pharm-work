@@ -241,12 +241,27 @@
 			<div class="dateUpdated">
 				<p class="lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}}</p>
 			</div>
-			<div class="choices d-flex justify-content-start">
-				<button type="button" class="btn border-input btn-outline-secondary me-5 customPadding">
-					<div style="display:flex" class="mb-0">
+			<div class="choices d-flex justify-content-start align-items-end">
+				<!-- <button type="button" class="btn border-input btn-outline-secondary me-5 customPadding">
+					<div style="display:flex" class="textProfileResponsive mb-0">
 						สมัครงาน
 					</div>
-				</button>
+				</button> -->
+				<ng-container *ngIf="studentFlag$ | async; then noRequest; else haveRequest"></ng-container>
+				<ng-template #noRequest></ng-template>
+				<ng-template #haveRequest>
+					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+					<ng-template #alreadyRequest>
+						<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
+							<div class="textProfileResponsive">{{profile.Urgency?"สนใจรับงาน": "สมัครงาน"}}</div>
+						</button>
+					</ng-template>
+					<ng-template #requestButton>
+						<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
+							<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
+						</button>
+					</ng-template>
+				</ng-template>
 				<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
 					<h1 style="display:flex">
 						<i class="bi bi-share-fill"></i>
@@ -276,24 +291,6 @@
 						</ng-template>
 					</h1>
 				</button>
-				<!-- <button type="button" class="btn me-3">
-					<h1>
-						<i class="bi bi-share"></i>
-					</h1>
-				</button> -->
-				<!-- <div *ngIf="!profile.Urgency">
-					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-					<ng-template #alreadyRequest>
-						<button (click)="requestJob()" class="btn text-center my-2 px-5" type="button" style="color:white; background-color:#7fd858">
-							<div class="fs-3">สมัครงาน</div>
-						</button>
-					</ng-template>
-					<ng-template #requestButton>
-						<button class="btn text-center my-2 px-5" style="color:white; background-color:#a6a6a6" type="button">
-							<div class="fs-3">สมัครแล้ว</div>
-						</button>
-					</ng-template>
-				</div> -->
 			</div>
 		</div>
 		<div class="card semi-border-input standard-shadow">
@@ -443,8 +440,8 @@
 					</div>
 				</div>
 				<div class="d-flex justify-content-around mt-3 ">
-					<button class="btn btn-light p-2 px-4 fs-3" (click)="onClose()">ยกเลิก</button>
-					<button class="btn btn-success p-2 px-4 fs-3" (click)="requestJobConfirm()">ตกลง</button>
+					<button class="btn btn-light p-2 px-4 textProfileResponsive border-input" (click)="onClose()">ยกเลิก</button>
+					<button class="btn btn-success p-2 px-4 textProfileResponsive border-input" (click)="requestJobConfirm()">ตกลง</button>
 				</div>
 			</div>
 			<div *ngIf="successFlag">
@@ -458,7 +455,7 @@
 					</div>
 				</div>
 				<div class="d-flex justify-content-around mt-3 ">
-					<button class="btn px-4 p-2 fs-3" style="border-color: #7fd858; background:#7fd858" (click)="onClose()">ตกลง</button>
+					<button class="btn px-4 p-2 textProfileResponsive border-input" style="border-color: #7fd858; background:#7fd858; color:white" (click)="onClose()">ตกลง</button>
 				</div>
 			</div>
       </div>

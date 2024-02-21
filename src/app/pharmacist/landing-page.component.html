@@ -2,7 +2,7 @@
     <div class="container-fluid">
       <div class="d-flex flex-row align-items-center">
         <div class="fs-3">
-          <a class="navbar-brand" routerLink="/pharma">
+          <a class="navbar-brand" (click)="goToHome()" style="cursor:pointer">
             <img src="/assets/logo.png" class="rounded-pill" alt="" width="200">
           </a>
         </div>
@@ -44,7 +44,32 @@
                 <li class="dropdown-item"><a (click)="redirectToList('CA')"><i class="bi bi-ui-radios-grid me-3"></i>งานอื่นๆ</a></li>
               </ul>
             </li>
-            <li class="nav-item fs-2 me-2"><a  data-bs-toggle="tooltip" title="ปุ่มแจ้งเตือน" class="nav-link"><i class="bi bi-bell-fill"></i></a></li>
+            <li class="nav-item dropdown fs-2 me-2">
+              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="bi bi-bell-fill">
+                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                  <span class="visually-hidden">New alerts</span>
+                </span>
+              </i></a>
+              <ul class="dropdown-menu dropdown-menu-end p-2 fs-3" >
+                <ng-container *ngIf="notificationsArchive.length == 0; then emptyNotification; else notEmptyNotification"></ng-container>
+                <ng-template #emptyNotification>
+                  <div style="white-space:nowrap">
+                    ไม่พบข้อความแจ้งเตือน
+                  </div>
+                </ng-template>
+                <ng-template #notEmptyNotification>
+                  <li *ngFor="let notification of notificationsArchive" class="dropdown-item" ariac-urrent="true">
+                      <div style="cursor:pointer" class="d-flex flex-row-start" (click)="goToNotifications(notification.url)">
+                        <img class="rounded-circle" width="50" height="50" src="{{notification.image}}"/>
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">{{notification.title}}</div>
+                          {{notification.body}}
+                        </div>
+                      </div>
+                  </li>
+                </ng-template>
+              </ul>
+            </li>
             <li class="nav-item fs-2">
               <div class="dropdown">
                 
@@ -266,7 +291,7 @@
 </div>
 
 <div class="modal fade" id="operatorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content semi-border-input standard-shadow">
       <div class="modal-body m-3">
         <div style="background-color:#f2f2f2" class="p-3 mb-3 text-center semi-border-input textResponsiveHeader">
@@ -275,6 +300,11 @@
         </div>
         <div class="textResponsive d-flex mb-3 justify-content-center">
           <b>สร้างประกาศงานใน Pharmwork ดียังไง?</b>
+        </div>
+        <div class="d-lg-flex d-block justify-content-between">
+          <div class="text-center mb-3"><img src="assets/perk1.png" class="imgWidth standard-shadow"></div>
+          <div class="text-center mb-3"><img src="assets/perk2.png" class="imgWidth standard-shadow"></div>
+          <div class="text-center mb-3"><img src="assets/perk3.png" class="imgWidth standard-shadow"></div>
         </div>
         <div style="background-color:#f2f2f2" class="p-3 text-center semi-border-input textProfileResponsive">
             <div><b>หรือเป็นสมาชิกกับ Pharmwork อยู่แล้ว?</b></div>

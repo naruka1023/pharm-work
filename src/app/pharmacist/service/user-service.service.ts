@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { delay, Observable, of, Subject, switchMap, timer } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { aggregationCount, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
-import { collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, query, updateDoc, where } from '@angular/fire/firestore';
+import { aggregationCount, notificationContent, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
+import { addDoc, collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, query, updateDoc, where } from '@angular/fire/firestore';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
 import { url } from 'src/environments/environment';
+import { removeNotifications, modifyNotifications, addNotifications } from '../state/actions/notifications.actions.';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,12 @@ export class UserServiceService {
       userOperatorCount: userOperatorCount.data().count
     }
     return result
+  }
+  deleteRequestChangeEmail(id: any){
+    return deleteDoc(doc(this.firestore, 'mail', id))
+  }
+  sendRequestChangeEmail(body: any){
+    return addDoc(collection(this.firestore, 'mail'), body)
   }
   upgradeToPharma(operatorUID: string, license: string){
     return updateDoc(doc(this.firestore, 'users',operatorUID!), {
@@ -77,6 +84,40 @@ export class UserServiceService {
   updateUser(user: Partial<User>){
     return updateDoc(doc(this.firestore, 'users', user.uid!), user)
   } 
+  getNotifications(userUID: string){
+    onSnapshot(query(collection(this.firestore, 'notification-archive'), where('userUID', '==', userUID)), (notification)=>{
+      return notification.docChanges().map((value)=>{
+        let notificationArray: notificationContent [] = []
+        let notificationPayload = {
+          payload: {
+            ...value.doc.data() as notificationContent,
+            notificationID: value.doc.id
+          },
+          type: value.type
+        }
+        switch(notificationPayload.type){
+          case 'added':
+            notificationArray.push(notificationPayload.payload)
+            break;
+          case 'removed':
+            this.store.dispatch(removeNotifications({notification: notificationPayload.payload}))
+            break;
+          case 'modified':
+            this.store.dispatch(modifyNotifications({notification: notificationPayload.payload}))
+            break;
+        }
+        if(notificationArray.length > 0){
+          let finalNotificationPayload: {
+            [key:string]: notificationContent
+          } = {}
+          notificationArray.forEach((notification)=>{
+            finalNotificationPayload[notification.notificationID] = notification;
+          })
+          this.store.dispatch(addNotifications({notifications:finalNotificationPayload}))
+        }
+      })
+    })
+  }
   getRequestView(userUID: string){
     onSnapshot(query(collection(this.firestore, 'request-view'), where('userUID', '==', userUID)), (requestView)=>{
       return requestView.docChanges().map((value)=>{

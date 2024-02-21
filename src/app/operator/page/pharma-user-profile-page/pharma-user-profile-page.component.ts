@@ -44,7 +44,7 @@ export class PharmaUserProfilePageComponent {
           this.requestStatus = requestView
         }
       }
-      console.log(flag)
+      (flag)
       return flag 
     })
     this.store.select((state:any)=>{

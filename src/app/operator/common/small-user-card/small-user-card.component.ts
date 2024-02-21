@@ -16,6 +16,8 @@ import { UtilService } from '../../service/util.service';
 export class SmallUserCardComponent {
   @Input()content!: UserPharma;
   @Input() type!: string;
+  @Input() requestUID!: string;
+  @Input() jobUID!: string;
   favoriteFlag$:Observable<boolean> = of(true);
   requestViewFlag$:Observable<boolean> = of(true);
   requestViewUID!: string
@@ -84,8 +86,10 @@ export class SmallUserCardComponent {
       {
         userUID: this.content.uid,
         categorySymbol:this.type,
-        pageType:'short',
-        profileLinkPage: true
+        pageType:'request-jobs',
+        profileLinkPage: false,
+        jobUID: this.jobUID,
+        requestUID: this.requestUID
       }
     })
   }

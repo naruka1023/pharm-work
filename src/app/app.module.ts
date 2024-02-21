@@ -10,6 +10,7 @@ import { usersReducer } from './state/reducer/users-reducers';
 import { addressReducer } from './state/reducer/address-reducer';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
@@ -66,6 +67,7 @@ import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-
     }),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+    provideMessaging(()=>getMessaging()),
     provideAuth(()=>getAuth()),
     provideStorage(()=>getStorage()),
   ],

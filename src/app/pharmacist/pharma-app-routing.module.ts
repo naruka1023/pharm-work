@@ -25,10 +25,12 @@ import { MainProfileComponent } from './page/pharma-profile/main-profile/main-pr
 import { PrivateProfileComponent } from './page/pharma-profile/private-profile/private-profile.component';
 import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/preferred-jobs.component';
 import { OperatorPageGuard } from './guards/operator-page.guard';
+import { NotificationsComponent } from './common/notifications/notifications.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
     { path: '', component: PharmaHomeComponent},
+    { path: 'notifications', component: NotificationsComponent},
     { path: 'job-post', component: JobPostDetailsComponent, canDeactivate:[UrgentJobsGuard]},
     { path: 'jobs-list', component: JobsListComponent},
     { path: 'operator-page', component: OperatorPageComponent,canActivate:[OperatorPageGuard]},

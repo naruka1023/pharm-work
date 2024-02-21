@@ -3,7 +3,7 @@
 <ng-template #displayPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
         <div style="color:red" class="mb-4">
-            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <div class="d-flex flex-row verticalKeyGap textResponsiveHeader">
@@ -79,7 +79,7 @@
 <ng-template #editPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
         <div style="color:red" class="mb-4">
-            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
@@ -165,7 +165,7 @@
                 <div class="keyValueGap">
                     <div><b>ชนิดของพนักงานที่สนใจ</b></div>
                 </div>
-                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="border-input form-select mb-3 "  [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredTimeFrame')!.errors! }">
+                <select formControlName="preferredTimeFrame" name="preferredTimeFrame" class="border-input form-select mb-3 textProfileResponsive"  [ngClass]="{ 'is-invalid': submitted && profileEdit.get('preferredTimeFrame')!.errors! }">
                     <option selected disabled value="">เลือกชนิดของพนักงาน</option>
                     <option value="Full-Time">Full-Time</option>
                     <option value="Part-Time">Part-Time</option>
@@ -183,7 +183,7 @@
                 <div class="keyValueGap">
                     <div><b>เงินเดือนขั้นต่ำที่ต้องการ</b></div>
                 </div>
-                <select formControlName="preferredSalary" name="preferredSalary" class="border-input form-select mb-3 " >
+                <select formControlName="preferredSalary" name="preferredSalary" class="border-input form-select mb-3 textProfileResponsive" >
                     <option value="" selected disabled>ระบุเงินเดือนขั้นต่ำที่ต้องการ</option>
                     <option value="20,000">20,000</option>
                     <option value="30,000">30,000</option>
@@ -203,7 +203,7 @@
                 <div class="keyValueGap">
                     <div><b>สามารถเริ่มงานได้เมื่อไหร่</b></div>
                 </div>
-                <select formControlName="preferredStartTime" name="preferredStartTime" class="border-input form-select mb-3 " >
+                <select formControlName="preferredStartTime" name="preferredStartTime" class="border-input form-select mb-3 textProfileResponsive" >
                     <option value="" selected disabled>เลือกวันที่ท่านสามารถเริ่มงานได้</option>
                     <option selected value="ทันที">ทันที</option>
                     <option selected value="ภายใน 1 สัปดาห์">ภายใน 1 สัปดาห์</option>

@@ -108,7 +108,7 @@ export class JobPostService {
 
   getJobFromJobRequest(id:string, jobRequest:jobRequest): Unsubscribe{
     return onSnapshot(doc(this.firestore,'job-post', id), (job)=>{
-      if(!job.exists){
+      if(!job.exists()){
         this.store.dispatch(removeJobRequest({jobRequest:{
           ...jobRequest,
         }}))
@@ -128,6 +128,19 @@ export class JobPostService {
     })
   }
 
+  getRequestJob2(userID:string){
+    return onSnapshot(query(collection(this.firestore, 'job-request'), where('userUID', '==', userID)), (jobRequest)=>{
+      return jobRequest.docChanges().map((value)=>{
+        let requestViewPayload = {
+          payload: {
+            ...value.doc.data() as jobRequest,
+            custom_doc_uid: value.doc.id
+          },
+          type: value.type
+        }
+      })
+    })
+  }
   getRequestJob(userID:string){
     return getDocs(query(collection(this.firestore, 'job-request'), where('userUID', '==', userID)))
   }

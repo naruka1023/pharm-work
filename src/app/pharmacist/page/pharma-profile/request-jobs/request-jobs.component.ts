@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { jobPostModel, JobRequestList } from 'src/app/pharmacist/model/typescriptModel/jobPost.model';
+import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
 
 @Component({
   selector: 'app-request-jobs',
@@ -11,9 +12,15 @@ import { jobPostModel, JobRequestList } from 'src/app/pharmacist/model/typescrip
 export class RequestJobsComponent {
   jobRequests$!:Observable<jobPostModel[]>
   emptyFlag$!:Observable<boolean>
+  innerProfileInformation!: User;
 
   constructor(private store:Store){}
   ngOnInit(){
+    this.store.select((state: any)=>{
+      return state.user
+    }).subscribe((value: User)=>{
+      this.innerProfileInformation = value
+    })
     this.jobRequests$ = this.store.select((state:any)=>{
       let jobPosts:JobRequestList = state.jobpost.JobRequests;
       let jobRequestsArray = [];

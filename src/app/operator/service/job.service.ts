@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { JobRequestList, jobPostModel, jobRequest } from '../model/jobPost.model';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 import _ from 'lodash';
-import { removeUserFromRequestedJob, populateJobRequestWithUser, setRequestedJobs, toggleJobRequestLoadingFlag } from '../state/actions/job-request-actions';
+import { setRequestedJobs, toggleJobRequestLoadingFlag, cancelRequest, checkIfEmptyUser } from '../state/actions/job-request-actions';
 import { Store } from '@ngrx/store';
 import { getCreatedJobSuccess, toggleCreatedJobLoading } from '../state/actions/job-post.actions';
 import { UsersService } from './users.service';
@@ -29,6 +29,11 @@ export class JobService {
   }
   editJob(job:any){
     return updateDoc(doc(this.db, 'job-post', job.custom_doc_id), job)
+  }
+  updateFirstNotification(jobUID: string){
+    return updateDoc(doc(this.db, 'job-post', jobUID), {
+      firstNotificationFlag: false
+    })
   }
   toggleActive(uid: string, active:boolean){
     if(!active){
@@ -69,20 +74,22 @@ export class JobService {
   }
 
   getRequestJob(operatorID:string){
-    return onSnapshot(query(collection(this.db, 'job-request'), where('operatorUID', '==', operatorID)), (jobs)=>{
-      if(!jobs.empty){
-        jobs.docChanges().forEach((job)=>{
-          let newJob = job.doc.data() as jobRequest
-          let id = job.doc.id;
-          let requestedJobs: jobRequest = {
-            ...newJob,
-            type:job.type,
-            custom_doc_id: id
-          }
-          if(Object.keys(requestedJobs).length !== 0){
-            let keys = requestedJobs.jobUID
-            let list = _.cloneDeep(this.collatedList);
-            if(list[keys] === undefined){
+    return onSnapshot(query(collection(this.db, 'job-request'), where('operatorUID', '==', operatorID)), { includeMetadataChanges: true }, (jobs)=>{
+      console.log(jobs.metadata.hasPendingWrites)
+      jobs.docChanges().forEach((job)=>{
+        let newJob = job.doc.data() as jobRequest
+        let id = job.doc.id;
+        let requestedJobs: jobRequest = {
+          ...newJob,
+          type:job.type,
+          custom_doc_id: id
+        }
+        console.log(requestedJobs)
+        if(Object.keys(requestedJobs).length !== 0){
+          let keys = requestedJobs.jobUID
+          let list = _.cloneDeep(this.collatedList);
+          if(list[keys] === undefined){
+            if(requestedJobs.type !== 'removed'){
               list[keys] = Object.create({})
               list[keys].jobRequest = {
                 ...requestedJobs,
@@ -90,29 +97,39 @@ export class JobService {
               list[keys].users = Object.create({});
               list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] = Object.create({})
               list[keys].flag = true
+              console.log(list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID])
+            }
+          }else{
+            if(requestedJobs.type == 'removed'){
+              this.store.dispatch(cancelRequest({ requestUID: requestedJobs.custom_doc_id!, userUID: requestedJobs.userUID, jobUID: keys}))
+              this.store.dispatch(checkIfEmptyUser({jobUID: keys!}))
+              delete list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID]
+              if(Object.keys(list[keys].users).length == 0){
+                delete list[keys]
+              }
+              this.collatedList = list;
             }else{
-              if(requestedJobs.type == 'removed'){
-                this.store.dispatch(removeUserFromRequestedJob({jobUIDForUser:{user:list[keys]['users'][requestedJobs.userUID], jobUID: keys}}))
-                delete list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID]
-                if(Object.keys(list[keys].users).length == 0){
-                  delete list[keys]
-                }
-              }else{
-                if(!list[keys].flag){
+              if(!list[keys].flag){
+                if(list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] == undefined){
+                  list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] = {something:'nothing'} as any
                   this.userService.getUserFromJobRequest(requestedJobs).then((user)=>{
                     list = _.cloneDeep(list);
                     list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] = user
                     this.collatedList = list;
-                    this.store.dispatch(populateJobRequestWithUser({jobUIDForUser:{user: user, jobUID:keys}}))
+                    console.log(list[keys].users)
+                    this.store.dispatch(setRequestedJobs({ jobRequest:this.collatedList }))
                   })
                 }
+              }else{
                 list[keys].users[requestedJobs.custom_doc_id! + '-' + requestedJobs.userUID] = Object.create({})
               }
             }
-            this.collatedList = list;
           }
-          this.store.dispatch(setRequestedJobs({ jobRequest:this.collatedList }))
-        })
+          this.collatedList = list;
+        }
+        this.store.dispatch(setRequestedJobs({ jobRequest:this.collatedList }))
+      })
+      if(!jobs.empty){
       }else{
         this.store.dispatch(toggleJobRequestLoadingFlag())
       }

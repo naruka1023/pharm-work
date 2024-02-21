@@ -25,15 +25,11 @@ arl = ["แอร์พอร์ตลิ้งค์",
 
 fs.writeFile('./arl.json', JSON.stringify(arl), 'utf8', function (err) {
     if (err) {
-      console.log('error')
-      console.log(err)
       return
     }
 })
 fs.writeFile('./srt.json', JSON.stringify(srt), 'utf8', function (err) {
     if (err) {
-      console.log('error')
-      console.log(err)
       return
     }
 })

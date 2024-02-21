@@ -6,7 +6,10 @@ import { removeDefaultKey } from './state/actions/address.action';
 import { setCurrentUser } from './state/actions/users.action';
 import { UserService } from './service/user.service';
 import { Auth, user } from '@angular/fire/auth';
-import { signOut } from 'firebase/auth';
+import { Messaging, getToken, onMessage } from '@angular/fire/messaging';
+import { Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { vapidKey } from 'src/environments/environment';
+
 
 
 @Component({
@@ -16,11 +19,18 @@ import { signOut } from 'firebase/auth';
 })
 export class AppComponent {
   currentUrl!:string
+  private _messaging = inject(Messaging);
   constructor(private store: Store ,private route: Router, private userService:UserService) {}
   private auth: Auth = inject(Auth)  
+  private db: Firestore = inject(Firestore)
+
   role!: string
   ngOnInit(){
+// Add the public key generated from the console here.
+
+    
     this.currentUrl = window.location.href;
+    console.log(window.location)
     // let de : any = document.documentElement;
     // if (de.requestFullscreen) { de.requestFullscreen(); }
     // else if (de.mozRequestFullScreen) { de.mozRequestFullScreen(); }
@@ -34,18 +44,33 @@ export class AppComponent {
       return state.user.role
     }).subscribe((role)=>{
       if(role !== '' && this.currentUrl.indexOf('landing') == -1){
+        const notificationFlag = this.currentUrl.indexOf('notifications') !== -1
+        console.log(this.currentUrl)
         if(role == 'เภสัชกร'){
-          this.route.navigate(['pharma']);
+          this.route.navigate(['pharma'],{
+            queryParams: 
+            {
+              notificationsFlag: notificationFlag,
+              url: this.currentUrl
+            }
+          });
         }else{
-          this.route.navigate(['operator']);
+          this.route.navigate(['operator'],{
+            queryParams: 
+            {
+              notificationsFlag: notificationFlag,
+              url: this.currentUrl
+            }
+          });
         }
       }else{
-        if(this.currentUrl.indexOf('landing') == -1){
+        if(this.currentUrl.indexOf('landing') == -1 && this.currentUrl.indexOf('notifications')  == -1){
           this.route.navigate([''])
         }
       }
     })
     if(this.currentUrl.indexOf('landing') == -1){
+      console.log()
       user(this.auth).subscribe((user)=>{
         if(user){
             const bool = true
@@ -77,6 +102,7 @@ export class AppComponent {
                     coverPhotoFlag: true
                   }
                 }))
+                this.requestPermission(user.uid)
               })
             }else{
               const emptyUser: User = {
@@ -148,4 +174,37 @@ export class AppComponent {
     }
   }
 
+  requestPermission(uid: string) {
+    console.log('Requesting permission...');
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        getToken(this._messaging, {vapidKey: vapidKey}).then((currentToken) => {
+          if (currentToken) {
+            onMessage(this._messaging,(payload)=>{
+              console.log('onMessage: ', payload)
+            })
+            getDocs(query(collection(this.db, "notification-token"), where('notificationToken', '==' , currentToken), where ('userUID', '==', uid))).then((users)=>{
+              if(users.empty){
+                addDoc(collection(this.db, "notification-token"), {
+                  userUID: uid,
+                  notificationToken: currentToken
+                })
+              }
+            })
+          } else {
+            // Show permission request UI
+            console.log('No registration token available. Request permission to generate one.');
+            // ...
+          }
+        }).catch((err) => {
+          console.log('An error occurred while retrieving token. ', err);
+          // ...
+        });
+        console.log('Notification permission granted.');
+      }
+    })
+  }
+
 }
+
+

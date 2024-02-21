@@ -24,7 +24,64 @@ declare var window: any;
 })
 export class AddNewJobComponent {
   constructor(private store: Store, private router:Router, private utilService: UtilService, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute, private landingPage: LandingPageComponent){}
-
+  emptyJobPostModel: Partial<jobPostModel> = {
+    Amount: 2,
+    CategorySymbol: 'fdsasd',
+    BTS: {
+      Near: false,
+      Station: 'fdsasd'
+    },
+    Establishment: 'fdsasd',
+    Franchise: 'fdsasd',
+    JobName: 'fdsasd',
+    JobType: 'fdsasd',
+    MRT: {
+      Near: false,
+      Station: ''
+    },
+    SRT: {
+      Near: false,
+      Station: ''
+    },
+    ARL: {
+      Near: false,
+      Station: ''
+    },
+    OnlineInterview: false,
+    WorkFromHome: false,
+    Salary: {
+      Amount: 30,
+      Cap: 50,
+      Suffix: 'fdsasd'
+    },
+    Contacts: {
+      nameRepresentative: 'fdsasd',
+      areaOfContact: 'fdsasd',
+      phone: '0818083007',
+      email: 'p.mua@gmail.com',
+      line: '',
+      website: '',
+      facebook: ''
+    },
+    JobDetails: 'fdsasd',
+    TravelInstructions: 'fdsasd',
+    qualityApplicants: 'fdsasd',
+    jobBenefits: 'fdsasd',
+    applyInstructions: 'fdsasd',
+    OperatorUID: '',
+    _geoloc: {
+      lat: 500,
+      lng: 500
+    },
+    TimeFrame: 'Part-Time',
+    Urgency: false,
+    Active: false,
+    DateOfJob: '',
+    dateCreated: '',
+    dateUpdated: '',
+    dateUpdatedUnix: 0,
+    custom_doc_id: ''
+  };
   user$!: Observable<User>;
   userState!: User
   timeFrame!:string  
@@ -129,7 +186,6 @@ export class AddNewJobComponent {
     this.scrollUp();
     this.utilService.getConfirmAddJobSubject().pipe(first()).subscribe((activeFlag)=>{
       this.onSave(activeFlag)
-      console.log('onsave')
     })
   }
 
@@ -229,6 +285,7 @@ searchMap(event: any){
 
   initializeFormGroup(){
     this.newJobForm = this.fb.group({
+      firstNotificationFlag: true,
       JobType: this.userState.jobType,
       Establishment: this.userState.companyName,
       CategorySymbol: this.mapJobTypeToCategorySymbol(),
@@ -353,7 +410,7 @@ searchMap(event: any){
         Active: activeBoolean,
         dateCreated: new Date().toISOString().split('T')[0],
         dateUpdated: new Date().toISOString().split('T')[0],
-        dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
+        dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),
       }
       this.newJobForm.patchValue(processedInfo)
       let postJobForm = this.newJobForm.value

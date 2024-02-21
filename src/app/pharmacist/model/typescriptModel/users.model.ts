@@ -1,4 +1,4 @@
-import { userOperator } from "./jobPost.model";
+import { jobPostModel, userOperator } from "./jobPost.model";
 
 export interface registerFormOperator{
     email: string,
@@ -37,7 +37,22 @@ export interface registerFormPharmacist{
 export interface requestViewList {
     [key: string]: requestView
 }
-
+export interface notifications{
+    job:{
+        content: jobPostModel,
+        loading: boolean
+    },
+    notificationsArchive: {
+        [key: string]: notificationContent
+    }
+}
+export interface notificationContent{
+    body: string;
+    image: string;
+    title: string;
+    url: string;
+    notificationID: string
+}
 export interface requestViewState{
     payload: requestView;
     type: string
@@ -90,6 +105,7 @@ export interface User{
     age?: string;
     _geoloc?: _geoloc;
     _geolocCurrent?: _geoloc;
+    requestChangeStatus?: any;
     showProfileFlag: boolean;
     otherSkills?: string;
     urgentTimeFrame: string;

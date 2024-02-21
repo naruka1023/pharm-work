@@ -1,6 +1,6 @@
 <div [ngSwitch]="profileType">
         <div *ngSwitchCase="'pharmacist-profile'" >
-            <div class="container semi-border-input standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
+            <div class="container standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
                 <div style="position:relative">
                     <div *ngIf="editCoverPhotoFlag" id="coverPhotoEditButtonPositionDropdown" class="dropdown me-md-3 d-sm-block d-none" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '6'}">
                         <button data-bs-toggle="dropdown" 
@@ -58,7 +58,8 @@
                                 <div class="mainHeader">
                                     <h3  class="mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName}}</h3>
                                      <h5 style='align-self:end' class="mainHeaderContent mb-0 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
-                                </div>
+                                    <span class="badge rounded-pill me-2 ms-lg-5 mt-3 fs-4" [ngClass]="result.studentFlag && result.studentFlag !== undefined?'blue-color': 'green-color'" style="line-break: auto" ><b>{{result.studentFlag && result.studentFlag !== undefined?'บัญชีนักศึกษาเภสัช':'บัญชีเภสัชกร'}}</b></span>
+                                    </div>
                             </ng-template>
                             <div>
                                 <!-- <h6 class="mx-4"><i>{{profileInformation.JobType}}</i ></h6> -->
@@ -70,15 +71,16 @@
                             <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-sm-3">
                                 <button *ngIf="!editFlag" class="editButtonText border-input btn btn-light textResponsive ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
                                     แก้ไขโปรไฟล์
                                 </button>
                             </div>
-                            <div>
-                                <button *ngIf="profileInformation$.studentFlag" class="btn-outline-primary border-input textResponsive btn ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="upgradeModalClick()">
+                            <div *ngIf="result.studentFlag && result.studentFlag !== undefined">
+                                <button class="btn-outline-primary border-input textResponsive btn ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="upgradeModalClick()">
                                     อัพเกรดบัญชี
                                 </button>
+                                <div class="textResponsiveSmaller text-warning" *ngIf="result.requestChangeStatus !== undefined">รอการตรวจสอบ</div>
                             </div>
                             <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>
                             <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
@@ -174,7 +176,7 @@
                     <div class="d-flex">
                         <div class="pb-5 ms-sm-5 mx-sm-0 mx-3">
                             <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
-                                <textarea class="form-control textProfileResponsive semi-border-input" formControlName="introText" id="exampleFormControlTextarea1" cols="50"></textarea>
+                                <textarea class="form-control textProfileResponsive quazi-border-input" formControlName="introText" id="exampleFormControlTextarea1" cols="50"></textarea>
                                 <div class="d-flex justify-content-sm-end justify-content-center mt-3">
                                     <button class="fs-3 btn btn-light"  (click)="cancelIntroText()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
                                     <button type="submit" class="ms-3 btn fs-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
@@ -331,20 +333,26 @@
     </div>
     <div class="modal fade" id="studentUpgradeModal" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content semi-border-input standard-shadow">
-            <div class="modal-body">
-                <div [ngSwitch]="upgradeStage">
+          <div class="modal-content quazi-border-input standard-shadow">
+              <div class="modal-body">
+                  <div [ngSwitch]="upgradeStage">
+                    <div class="text-center textProfileResponsive mt-5 mb-3">อัพเกรดบัญชีเภสัชกร</div>
                     <div *ngSwitchCase="'first'" class="m-3">
-                        <div class="p-5 fs-3">
-                            หากท่านได้รับใบประกอบวิชาชีพเภสัชกรรมแล้ว ท่านสามารถขออัพเกรดบัญชีเป็นเภสัชกรเพื่อฝากประวัติกับเราได้ ท่านต้องการอัพเกรดบัญชีเป็นเภสัชกรใช่ไหม?
+                        <div class="p-2 textProfileResponsive">
+                            <img style="width:90%" src="assets/upgradeStudentWeb.png" class="d-md-block d-none">
+                            <img style="width:90%" src="assets/upgradeStudentMobile.png" class="d-md-none d-block">
                         </div>
-                        <div class="d-flex gap-3 justify-content-center">
-                            <button class="btn-modal fs-3 btn btn-light" (click)="upgradeModal.hide()">ยกเลิก</button>
-                            <button class="btn-modal fs-3 btn btn-success"(click)="changeStage('second')">ตกลง</button>
+                        <div class="p-4 textProfileResponsive my-5 cyan-color quazi-border-input text-center">
+                            <div style="color:blue" class="mb-4">
+                                *หากท่านมีเลขใบประกอบแล้ว เราแนะนำให้ท่าน
+                                อัพเกรดบัญชีเป็นบัญชีเภสัชกรเลย!
+                            </div>
+                            <div class="d-flex my-3 justify-content-center">
+                                <button class="btn-modal textProfileResponsive btn btn-outline-primary"(click)="changeStage('second')">อัพเกรดบัญชี</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="p-5 fs-3" *ngSwitchCase="'second'">
-                        <div class="text-center fs-2">ส่งข้อมูลอัพเกรดบัญชีเป็นเภสัชกร</div>
+                    <div class="m-3 textProfileResponsive" *ngSwitchCase="'second'">
                         <div class="loading" [ngStyle]="{'visibility': upgradeLoadingFlag?'unset': 'hidden'}">
                             <div style="text-align:center">
                                 <div class="spinner-border text-primary" role="status">
@@ -352,43 +360,184 @@
                                 </div>
                             </div>
                         </div>
-                        <form [formGroup]="upgradeToPharmaForm">
-                            <div class="mb-3">ชื่อ: {{result.name}}</div>
-                            <div class="mb-3">นามสกุล: {{result.surname}}</div>
-                            <div class="form-group mb-3">
-                                <label for="license" class="form-label">เลขใบประกอบวิชาชีพเภสัชกรรม ภ.<label class="text-danger">*</label></label>
-                                <input
-                                    type="number"
-                                    formControlName="license"
-                                    class="form-control"
-                                    [ngClass]="{ 'is-invalid': submitted && getUpgradeForm['license'].errors }"
-                                    style='background-color:#f2f2f2'
-                                />
-                                <div *ngIf="submitted && getUpgradeForm['license'].errors" class="invalid-feedback">
-                                    <div *ngIf="getUpgradeForm['license'].errors['required']">ตรวจสอบข้อมูลให้ถูกต้องก่อนขออัพเกรดบัญชี</div>
-                                    <div *ngIf="getUpgradeForm['license'].errors['minlength'] || getUpgradeForm['license'].errors['maxlength']">กรุณาใส่เลขใบประกอบวิชาชีพ 5 หลัก</div>
+                        <div class="p-4 textProfileResponsive mb-5 cyan-color quazi-border-input">
+                            <div class="my-3 text-center">ส่งข้อมูลการขออัพเกรดบัญชีเป็นบัญชีเภสัชกร</div>
+                            <form [formGroup]="upgradeToPharmaForm">
+                                <ul class="textResponsive">
+                                    <li class="mb-3">
+                                        <b>ชื่อจริงตามบัตรประชาชน </b><span class="text-danger textResponsive">*ยึดตามข้อมูลที่ลงทะเบียน</span><br>
+                                    </li>
+                                    <li class="d-block mb-3">
+                                        {{result.name}}
+                                    </li>
+                                    <li class="mb-3">
+                                        <b>นามสกุลจริงตามบัตรประชาชน </b><span class="text-danger textResponsive">*ยึดตามข้อมูลที่ลงทะเบียน</span><br>
+                                    </li>
+                                    <li class="d-block mb-3">
+                                        {{result.surname}}
+                                    </li>
+                                    <li>
+                                        <b>เลขที่ใบประกอบวิชาชีพเภสัชกรรม (เลข ภ.)</b>
+                                    </li>
+                                    <input
+                                        type="number"
+                                        formControlName="license"
+                                        class="form-control border-input textResponsive"
+                                        [ngClass]="{ 'is-invalid': submitted && getUpgradeForm['license'].errors }"
+                                        style='background-color:#f2f2f2'
+                                    />
+                                    <div *ngIf="submitted && getUpgradeForm['license'].errors" class="invalid-feedback">
+                                        <div *ngIf="getUpgradeForm['license'].errors['required']">ตรวจสอบข้อมูลให้ถูกต้องก่อนขออัพเกรดบัญชี</div>
+                                        <div *ngIf="getUpgradeForm['license'].errors['minlength'] || getUpgradeForm['license'].errors['maxlength']">กรุณาใส่เลขใบประกอบวิชาชีพ 5 หลัก</div>
+                                    </div>
+                                </ul>    
+                                <label class="my-5 text-danger text-start textResponsive">*กรุณาตรวจสอบข้อมูลทั้งหมดให้ถูกต้อง หากพบข้อมูลที่ไม่ถูกต้องท่านสามารถทำการติดต่อขอแก้ไขข้อมูลได้ด้วยการกดปุ่ม “คำขอแก้ไขข้อมูล” พร้อมส่งหลักฐานประกอบการแก้ไขข้อมูลตามที่กำหนด</label>
+                                <div class="d-flex justify-content-evenly">
+                                    <button class="btn-modal textResponsive btn btn-outline-danger" (click)="changeStage('requestChange')">คำขอแก้ไขข้อมูล</button>
+                                    <button class="btn-modal textResponsive btn btn-success"(click)="authenticateLicense()">ขออัพเกรดบัญชี</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="'requestChange'" class="m-3">
+                        <div class="p-2 px-4 textResponsive my-5 light-red-color quazi-border-input text-center" [formGroup]="requestChangeForm">
+                            <div class="my-4 textProfileResponsive">คำขอแก้ไขข้อมูลที่ผิดพลาด</div>
+                            <div class="p-3 textResponsive quazi-border-input mb-3" style="border:1px solid red">
+                                <ul>
+                                    <li class="text-start mb-3">
+                                        <b>ชื่อจริงตามบัตรประชาชน </b><span class="text-danger textResponsive">*ยึดตามข้อมูลที่ลงทะเบียน</span><br>
+                                    </li>
+                                    <li class="text-start d-block mb-3">
+                                        {{result.name}}
+                                    </li>
+                                    <li class="text-start mb-3">
+                                        <b>นามสกุลจริงตามบัตรประชาชน </b><span class="text-danger textResponsive">*ยึดตามข้อมูลที่ลงทะเบียน</span><br>
+                                    </li>
+                                    <li class="text-start d-block mb-3">
+                                        {{result.surname}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <ng-container>
+                                <div class="my-4" style=text-align:-webkit-left>
+                                    <b>ส่งหลักฐานภาพถ่ายหรือสำเนาบัตรประชาชนเพื่อขอแก้ไข
+                                        ข้อมูลชื่อ-นามสกุล</b>
+                                    </div>
+                                    <div class="d-flex flex-row-start align-items-center mb-3">
+                                        <button style="white-space:nowrap" class="btn me-3 btn-outline-secondary textResponsive border-input" (click)="uploadIdentityClick()">แนบสำเนาบัตรประชาชน</button>
+                                        <input type="file" accept="image/*" formControlName="identityFile" (change)="identityRecieve($event)" id="identityCardInput" hidden [ngClass]="{ 'is-invalid': submittedRequestChange && getRequestChangeForm['identityFile'].errors }">
+                                        <div style="line-break:anywhere" *ngIf="submittedRequestChange && getRequestChangeForm['identityFile'].errors" class="invalid-feedback">
+                                            <div *ngIf="getRequestChangeForm['identityFile'].errors['required']">ตรวจสอบข้อมูลให้ถูกต้องก่อนขออัพเกรดบัญชี</div>
+                                        </div>
+                                        <div style="line-break:anywhere">{{ identityName }}</div>
+                                    </div>
+                                    <div class="d-flex justify-content-center my-3">
+                                        <img src="assets/identity-card.png" id="resultIdentity" style="width:100%">
+                                    </div>
+                                </ng-container>
+                                <div class="form-check textResponsive my-4 text-start">
+                                <input class="form-check-input" accept="image/*" (change)="nameValid($event)" type="checkbox" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    ชื่อ-นามสกุลของฉันถูกต้องตามบัตรประชาชนอยู่แล้ว
+                                </label>
+                            </div>
+                            <div class="p-3 textResponsive quazi-border-input mb-3" style="border:1px solid red">
+                                <ul class="mt-3">
+                                    <li class="text-start">
+                                        <b>เลขที่ใบประกอบวิชาชีพเภสัชกรรม (เลข ภ.)</b>
+                                        </li>
+                                        <input
+                                          type="number"
+                                          class="form-control border-input textResponsive"
+                                          [ngClass]="{ 'is-invalid': submittedRequestChange && getRequestChangeForm['license'].errors }"
+                                          style='background-color:#f2f2f2'
+                                          formControlName="license"
+                                      />
+                                      <div *ngIf="submittedRequestChange && getRequestChangeForm['license'].errors" class="invalid-feedback text-start">
+                                        <div *ngIf="getRequestChangeForm['license'].errors['required']">ตรวจสอบข้อมูลให้ถูกต้องก่อนขออัพเกรดบัญชี</div>
+                                    </div>
+                                    </ul>
+                                </div>
+                                <div class="my-4" style=text-align:-webkit-left>
+                                    <b>ส่งหลักฐานภาพถ่ายหรือสำเนาใบประกอบวิชาชีพเพื่อขอแก้ไข
+                                        เลขที่ใบประกอบวิชาชีพเภสัชกรรม</b>
+                                    </div>
+                                    <div class="d-flex flex-row-start align-items-center">
+                                        <button style="white-space:nowrap" class="d-flex me-3 justify-content-start btn btn-outline-secondary textResponsive border-input align-items-center" (click)="uploadLicenseClick()">แนบสำเนาใบประกอบวิชาชีพ</button>
+                                        <input type="file" accept="image/*" formControlName="licenseFile" (change)="licenseReceive($event)" id="licenseInput" hidden [ngClass]="{ 'is-invalid': submittedRequestChange && getRequestChangeForm['licenseFile'].errors }">
+                                        <div style="line-break:anywhere" *ngIf="submittedRequestChange && getRequestChangeForm['licenseFile'].errors" class="invalid-feedback">
+                                            <div *ngIf="getRequestChangeForm['licenseFile'].errors['required']">ตรวจสอบข้อมูลให้ถูกต้องก่อนขออัพเกรดบัญชี</div>
+                                        </div>
+                                        <div style="line-break:anywhere">{{ licenseName }}</div>
+                                    </div>
+                            <div class="d-flex justify-content-center my-3">
+                                <img src="assets/license.png" style="width:100%">
+                            </div>
+                            <div class="my-3" *ngIf="requestChangeLoadingFlag">
+                                <div style="text-align:center">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex gap-3 justify-content-center">
-                                <button class="btn-modal fs-3 btn btn-light" (click)="upgradeModal.hide()">ยกเลิก</button>
-                                <button class="btn-modal fs-3 btn btn-success"(click)="authenticateLicense()">ขออัพเกรดบัญชี</button>
+                            <div class="d-flex justify-content-evenly my-5">
+                                <button class="btn border-input textResponsive btn-light"(click)="upgradeModal.hide()">ยกเลิก</button>
+                                <button class="btn textResponsive green-color border-input"style="color:white" (click)="requestChange()">ส่งข้อมูล</button>
                             </div>
-                        </form>
-                    </div>
-                    <div *ngSwitchCase="'secondSuccess'">
-                        <div class="p-5 fs-3">
-                            บัญชีของท่านผ่านการตรวจสอบและได้รับการอัพเกรดเป็นบัญชีเภสัชกรเรียบร้อย ผู้ประกอบการจะสามารถค้นเจอประวัติของท่านได้นับจากนี้
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btn-modal fs-3 btn btn-primary" (click)="upgradeModal.hide()">ตกลง</button>
                         </div>
                     </div>
-                    <div *ngSwitchCase="'secondFail'">
-                        <div class="p-5 fs-3">
-                            บัญชีของท่านไม่ผ่านการตรวจสอบเนื่องจากข้อมูลชื่อ-นามสกุล หรือเลขใบประกอบวิชาชีพไม่ตรงตามฐานข้อมูลในระบบ หากท่านคิดว่านี่คือความผิดพลาดของระบบฐานข้อมูล กรุณา ติดต่อเรา
+                    <div *ngSwitchCase="'secondSuccess'" class="m-3">
+                        <div class="p-4 textResponsive my-5 light-green-color quazi-border-input text-center">
+                            <div class="my-3 text-center">ยินดีด้วย บัญชีของท่านได้รับการอัพเกรด
+                                เป็นบัญชีเภสัชกรแล้ว!</div>
+                            <div class="mb-4 d-flex justify-content-center">
+                                <img src="assets/accept.png" style="width: 25%">
+                            </div>
+                            <div class="mt-textResponsive text-center">
+                                การตรวจสอบเสร็จสิ้น เราขอแจ้งให้ท่านทราบว่าบัญชีของท่าน
+                                ผ่านการตรวจสอบแล้วเรียบร้อย
+                            </div>
+                            <div class="my-5 textProfileResponsive"><b>เริ่มต้นฝากประวัติกับเราเพื่อเพิ่มโอกาส
+                                ในการได้งานที่ตรงใจสิ!</b></div>
+                            <button class="btn textResponsive green-color border-input" style="color:white" (click)="upgradeModal.hide()">เริ่มฝากประวัติ</button>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btn-modal fs-3 btn btn-primary" (click)="upgradeModal.hide()">ตกลง</button>
+                    </div>
+                    <div *ngSwitchCase="'pending'" class="m-3">
+                        <div class="p-4 textResponsive my-5">
+                            <div class="mb-4 d-flex justify-content-center">
+                                <img src="assets/loading.png" style="width: 25%">
+                            </div>
+                            <div class="my-3 text-center">รอตรวจสอบ!</div>
+                            <div class="mt-textResponsive text-center">
+                                ข้อมูลของท่านถูกส่งไปยังผู้ดูแลระบบเรียบร้อย จะใช้เวลาไม่เกิน 
+                                3 วันเพื่อตรวจสอบและยืนยันข้อมูลของท่าน พร้อมกับแจ้งผลให้ทราบ
+                            </div>
+                            <div class="d-flex justify-content-evenly mt-4">
+                                <button class="btn textResponsive green-color border-input" style="color:white" (click)="upgradeModal.hide()">ตกลง</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="'secondFail'" class="m-3">
+                        <div class="p-4 textResponsive my-5 light-red-color quazi-border-input text-center">
+                            <div class="my-3 text-center">ขออภัย บัญชีของท่านไ่ม่ผ่านการตรวจสอบ!!</div>
+                            <div class="mb-4 d-flex justify-content-center">
+                                <img src="assets/reject.png" style="width: 25%">
+                            </div>
+                            <div class="mt-textResponsive text-center">
+                            บัญชีของท่านจะไม่ได้รับการอัพเกรดเนื่องจากไม่
+                                ผ่านการตรวจสอบ <br>
+
+                                ซึ่งอาจเกิดจากความผิดพลาดของข้อมูลที่ไม่ตรงกับ
+                                ฐานข้อมูลในระบบ <br>
+
+                                ท่านสามารถส่ง “คำขอแก้ไขข้อมูล” เพื่อแก้ไขข้อมูลที่ผิดพลาดได้ <br>
+
+                                หากข้อมูลที่ผิดพลาดได้รับการแก้ไขเรียบร้อย ท่านสามารถยื่นคำขออัพเกรดบัญชีได้อีกครั้ง
+                            </div>
+                            <div class="d-flex justify-content-evenly mt-4">
+                                <button class="btn border-input textResponsive btn-outline-danger" (click)="changeStage('requestChange')">คำขอแก้ไขข้อมูล</button>
+                                <button class="btn textResponsive green-color border-input" style="color:white" (click)="upgradeModal.hide()">ตกลง</button>
+                            </div>
                         </div>
                     </div>
                 </div>

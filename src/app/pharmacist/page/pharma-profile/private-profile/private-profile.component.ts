@@ -5,9 +5,8 @@ import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
-import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
-import { PharmaProfileComponent } from '../pharma-profile.component';
+import { ProfileheaderComponent } from 'src/app/pharmacist/common/profileheader/profileheader.component';
 
 @Component({
   selector: 'app-private-profile',
@@ -20,7 +19,7 @@ export class PrivateProfileComponent {
   loadingFlag: boolean = false
   profileEdit!:FormGroup
 
-  constructor(private store: Store, private fb: FormBuilder,  private userService: UserServiceService, private pharmaProfile:PharmaProfileComponent){
+  constructor(private store: Store, private fb: FormBuilder,  private userService: UserServiceService){
   }
   ngOnInit(){
     this.store.select((state: any)=>{

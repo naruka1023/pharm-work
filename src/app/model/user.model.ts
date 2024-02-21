@@ -96,6 +96,7 @@ export interface User{
     education?: string;
     birthday?: string;
     age?: string;
+    requestChangeStatus?: any;
     _geoloc?: _geoloc;
     _geolocCurrent?: _geoloc;
     showProfileFlag: boolean;

@@ -7,7 +7,7 @@ import { retrievedJobSuccess } from '../../state/actions/job-post.actions';
 import { JobPostService } from '../../service/job-post.service';
 import headerArray from '../../model/data/uiKeys';
 import _ from 'lodash';
-// import { selectJobPost, selectLoading } from 'src/app/state/selectors/job-post.selectors';
+import { ActivatedRoute, Router } from '@angular/router';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 
@@ -21,6 +21,8 @@ export class PharmaHomeComponent {
   allJobs!: jobPostModel[]
   loadingFlag$!: Observable<boolean>;
   localItem: filterConditions[] = []
+  jobPostUID!: string
+  type!: string 
   content$!: Observable<filterConditions[]>; 
   items$!: Observable<filterConditions[]>;
     breakingPointOperator = {
@@ -37,11 +39,12 @@ export class PharmaHomeComponent {
       slidesPerView: 1.5,
     },
   }
-  constructor(private jobPostService:JobPostService, private store: Store){
+  constructor(private route:Router, private activatedRoute:ActivatedRoute, private jobPostService:JobPostService, private store: Store){
   }
   
   ngOnInit(){
-  
+    this.type = localStorage.getItem('type')!
+    this.jobPostUID = localStorage.getItem('jobUID')!
     this.loadingFlag$ = this.store.select((state: any)=>
     state.jobpost.loading);
     this.loadingFlag$.subscribe((flag)=>{
@@ -57,6 +60,15 @@ export class PharmaHomeComponent {
       this.localItem = item;
     })
     this.scrollUp()
+    if(this.type != null){
+      this.route.navigate(['notifications'], {
+        relativeTo: this.activatedRoute,
+        queryParams:{
+          jobUID: this.jobPostUID,
+          type: this.type
+        }
+      })
+    }
   }
 
   dispatchJobs() {

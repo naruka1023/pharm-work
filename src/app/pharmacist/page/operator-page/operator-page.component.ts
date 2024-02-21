@@ -130,7 +130,6 @@ export class OperatorPageComponent implements OnDestroy{
         }
       }).subscribe((allJobs)=>{
         this.allJobs = allJobs
-        console.log(this.allJobs)
       })
     )
     this.store.select((state:any)=>{

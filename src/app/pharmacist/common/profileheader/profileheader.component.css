@@ -53,11 +53,6 @@
   right: 40.2px;
 }
 
-.btn-outline-primary{
-  color:#5cdfe4;
-  border-color: #5cdfe4
-}
-
 .btn-outline-secondary:hover{
   color: #6c757d;
   background:white
@@ -67,16 +62,6 @@
   border-radius: 50px !important
 }
 
-.btn-outline-primary:hover{
-  color: red;
-  border-color: red;
-  background:white
-}
-
-.btn-primary, btn-primary:hover{
-  background:#5cdfe4;
-  border-color: #5cdfe4
-}
 .btn-success{
   background:#7fd858;
   border-color: #7fd858

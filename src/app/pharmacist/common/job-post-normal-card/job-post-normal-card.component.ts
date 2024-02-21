@@ -22,6 +22,7 @@ export class JobPostNormalCardComponent{
   subscription: Subscription = new Subscription();
   bookmarkLoadingFlag: boolean = false;
   bookmarkFlag$:Observable<boolean> = of(true);
+  studentFlag$!: Observable<boolean>;
   requestFlag$!:Observable<boolean>;  
   userID!: string
   Active$!:Observable<boolean>;
@@ -43,6 +44,9 @@ export class JobPostNormalCardComponent{
         this.userID = value
       }
     })
+    this.studentFlag$ = this.store.select((state:any)=>{
+      return state.user.studentFlag  
+    })
     this.childrenPath = this.activatedRoute.snapshot.routeConfig!.path!;
     switch(this.activatedRoute.snapshot.routeConfig?.path){
       case 'operator-page':
@@ -58,7 +62,9 @@ export class JobPostNormalCardComponent{
     }
     this.store.select((state:any)=>{
       if(state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID] !== undefined){
-        return state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID].custom_doc_id
+        return state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID].custom_doc_uid == undefined?
+          state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID].custom_doc_id : 
+          state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID].custom_doc_uid
       }
       return '';
     }).subscribe((jobRequestUID:string)=>{

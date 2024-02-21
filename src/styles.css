@@ -7,14 +7,23 @@
 .textProfileResponsive{
     font-size:xx-large !important;
 }
-.textResponsive{
+.smallUserWidthResponsive{
+    width:40vw
+}
+.smallUserTextResponsive{
     font-size:1.5rem !important
 }
-.textResponsiveOperator{
+.smallUserTextResponsiveSmaller{
+    font-size:1rem 
+}
+.textResponsive{
     font-size:1.5rem !important
 }
 .textResponsiveSmaller{
     font-size:1rem 
+}
+.textResponsiveOperator{
+    font-size:1.5rem !important
 }
 .textResponsiveHeader{
     font-size:2.5rem 
@@ -31,6 +40,12 @@
     }
 }
 @media only screen and (max-width: 1500px) {
+    .smallUserTextResponsive{
+        font-size:large !important;
+    }
+    .smallUserTextResponsiveSmaller{
+        font-size: small !important
+    }
     .textResponsiveHeader{
         font-size:2rem !important 
     }
@@ -38,7 +53,25 @@
         width: 11vw !important
     }
 }
+@media only screen and (max-width: 1300px) {
+    .smallUserTextResponsive{
+        font-size:medium !important;
+    }
+    .smallUserTextResponsiveSmaller{
+        font-size: smaller !important
+    }
+    .smallUserWidthResponsive{
+        width: 50vw
+    }
+}
+
 @media only screen and (max-width: 1200px) {
+    .smallUserTextResponsive{
+        font-size:small !important;
+    }
+    .smallUserTextResponsiveSmaller{
+        font-size: x-small !important
+    }
     .widthResponsive{
         width:12vw !important;   
     }
@@ -57,6 +90,9 @@
     }
     .textResponsiveHeader{
         font-size:1.8rem !important 
+    }
+    .smallUserWidthResponsive{
+        width: 60vw
     }
 }
 
@@ -88,9 +124,20 @@
         width:18vw !important;   
     }
 }
+@media only screen and (max-width: 600px) {
+    .smallUserTextResponsive{
+        font-size:x-small !important;
+    }
+    .smallUserTextResponsiveSmaller{
+        font-size: xx-small !important
+    }
+}
 @media only screen and (max-width: 576px) {
     .widthResponsive{
         width:16vw !important;   
+    }
+    .smallUserWidthResponsive{
+        width: 70vw
     }
     .textProfileResponsive{
         font-size:medium !important
@@ -137,6 +184,9 @@
 }
 .semi-border-input{
     border-radius:40px !important
+}
+.quazi-border-input{
+    border-radius:20px !important
 }
 .standard-shadow{
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

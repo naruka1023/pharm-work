@@ -1,7 +1,7 @@
 <!-- <div class="d-flex justify-content-start m-2 ">
 	{{content.dateUpdated}}
 </div> -->
-<div class="card textResponsive textResponsive2 w-100 standard-shadow" style="border-radius:40px" [ngClass]="activeFlag?'green-border-color':''">
+<div class="card textResponsive textResponsive2 w-100 standard-shadow" style="border-radius:40px" [ngClass]="!usersRequestList && activeFlag?'green-border-color':''">
 	<div class="row">
 		<div class="mainImage col-lg-2 col-3 p-4 py-5">
 			<div class="text-center align-self-center">
@@ -191,7 +191,20 @@
 					<button type="button" class="btn btn-secondary textresponsive">Inactive</button>
 				</ng-template> -->
 			</div>
-			<button *ngIf="usersRequestList" class="btn btn-primary textresponsive" (click)="getUsers()">เภสัชที่สมัคร</button>
 		</div>
 	</div>
+</div>
+<div *ngIf="usersRequestList">
+	<div class="d-flex flex-row-start align-items-center" style="overflow-x:scroll">
+		<div *ngFor="let user of populatedUsersList">
+			<app-small-user-card [content]="user.content" [type]="content.CategorySymbol" [jobUID]="content.custom_doc_id" [requestUID]="user.requestID"></app-small-user-card>
+		</div>
+	</div>
+<div class="d-flex justify-content-between align-items-center my-3">
+	<div>
+		จำนวนผู้สมัครงานทั้งหมด {{amountRequested}} ราย <br>
+		คำขอสมัครงานล่าสุดเมื่อ {{latestDate}}
+	</div>
+	<button *ngIf="usersRequestList" style="color:white" class="btn textProfileResponsive border-input green-color px-4" (click)="openDetailModal()">ดูผู้สมัครงานทั้งหมด</button>
+</div>
 </div>

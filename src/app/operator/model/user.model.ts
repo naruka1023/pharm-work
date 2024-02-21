@@ -77,6 +77,7 @@ export interface UserPharma{
     license: string;
     objectID?: string;
     _geoloc?: _geoloc;
+    requestChangeStatus?: any;
     gender?: string;
     education?: string;
     birthday?: string;

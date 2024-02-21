@@ -75,13 +75,10 @@
         margin-left: 0.3rem !important
     }
     .historyContainer{
-        padding: 1rem !important
+        padding: 2rem !important
     }
 }
 @media only screen and (max-width: 400px) {
-    .historyContainer{
-        padding:1rem !important
-    }
     .fourPointKeyValuePreferred{
         font-size:3.5vw!important
     }

@@ -154,6 +154,7 @@ export class RegisterComponent implements AfterViewInit {
         District: [''],
         Province: [''], 
       }),
+      
       preferredStartTime: [''],
       dateUpdated: new Date().toISOString().split('T')[0],
       dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),

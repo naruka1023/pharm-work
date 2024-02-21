@@ -2,7 +2,7 @@
     <ng-template #displayPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
         <div style="color:red" class="mb-4">
-            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <div class="p-lg-5 p-4  my-4 cyan-color semi-border-input">
@@ -98,7 +98,7 @@
     <ng-template #editPage>
         <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
             <div style="color:red" class="mb-4">
-                *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+                *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
             </div>
         </div>
         <form [formGroup]="profileEdit">
@@ -115,7 +115,7 @@
                                 <div><b>ชื่อ-นามสกุล</b></div>
                             </div>
                             <div class="col d-flex">
-                                <input disabled class="border-input form-control" style="width:-webkit-fill-available; width:-moz-available" placeholder="{{innerProfileInformation.name + ' ' + innerProfileInformation.surname | emptyFieldPipe}}">
+                                <input disabled class="border-input form-control textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available" placeholder="{{innerProfileInformation.name + ' ' + innerProfileInformation.surname | emptyFieldPipe}}">
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                                 <div><b>เพศ</b></div>
                             </div>
                             <div class="col d-flex">
-                                <select formControlName="gender" class="form-select  border-input" style="width:-webkit-fill-available; width:-moz-available">
+                                <select formControlName="gender" class="form-select  border-input textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available">
                                     <option value="ชาย">ชาย</option>
                                     <option selected value="หญิง">หญิง</option>
                                 </select>
@@ -141,8 +141,8 @@
                                 <div class="keyValueGap">
                                     <div><b>ข้อมูลติดต่อ</b></div>
                                 </div>
-                                <input formControlName="phone" type="text" placeholder="ใส่เบอร์โทรติดต่อ" class="border-input mb-3 form-control " style="width:-webkit-fill-available; width:-moz-available">
-                                <input formControlName="email" type="text" class="border-input mb-3 form-control " placeholder="ใส่อีเมล" style="width:-webkit-fill-available; width:-moz-available">
+                                <input formControlName="phone" type="text" placeholder="ใส่เบอร์โทรติดต่อ" class="border-input mb-3 form-control  textProfileResponsive" style="width:-webkit-fill-available; width:-moz-available">
+                                <input formControlName="email" type="text" class="border-input mb-3 form-control  textProfileResponsive" placeholder="ใส่อีเมล" style="width:-webkit-fill-available; width:-moz-available">
                             </div>
                         </div>
                     </div>

@@ -93,8 +93,8 @@ export class NormalUserCardComponent {
 
   cancelRequest(){
     this.userService.cancelRequest(this.content.requestUID!).then(()=>{
-      this.store.dispatch(cancelRequest({requestUID: this.content.requestUID!, jobUID: this.jobUID!, userUID: this.content.uid}))
-      this.store.dispatch(checkIfEmptyUser({jobUID: this.jobUID!}))
+      // this.store.dispatch(cancelRequest({requestUID: this.content.requestUID!, jobUID: this.jobUID!, userUID: this.content.uid}))
+      // this.store.dispatch(checkIfEmptyUser({jobUID: this.jobUID!}))
     })
   }
 

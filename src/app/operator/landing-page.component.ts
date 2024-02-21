@@ -167,7 +167,6 @@ export class LandingPageComponent implements AfterViewInit {
   
   selectAddJob(activeFlag: boolean){
     this.closeAddJobConfirmModal()
-    console.log('flag: ' + activeFlag)
     this.utilService.sendConfirmAddJobSubject(activeFlag)
   }
   openAddJobConfirmModal(){

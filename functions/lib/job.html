@@ -1,0 +1,324 @@
+<div class="container">
+    <div style="position:relative">
+       <div id="coverPhoto"  class="coverPhoto img-container mh-100">
+          <img id="innerPhoto" class="innerCoverPhoto" draggable='false' src="${profile.coverPhotoPictureUrl}" />
+       </div>
+    </div>
+    <div class="outerHeader2 d-lg-flex justify-content-between pb-md-0 pb-1 mb-md-5" style="background: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+       <div class="outerHeader d-flex justify-content-lg-between">
+          <img class="job-post_profile-picture border border-5 border-white rounded-circle" src="${profile.cropProfilePictureUrl !== undefined? profile.cropProfilePictureUrl: profile.profilePictureUrl}" alt="Profile Picture" width="150" height="150" />
+          <div>
+             <div class="mainHeader">
+                <h3 class="mainHeaderContent m-4 ms-lg-5 mb-0 me-lg-2">${emptyFieldPipe(profile.Establishment)}</h3>
+             </div>
+             <div class="d-lg-flex mt-md-4 ms-lg-5">
+                <h4 class="mainHeaderContent ms-lg-0 ms-md-4 me-md-3 my-md-0 my-2 align-self-center"><i>${emptyFieldPipe(profile.JobType)}</i></h4>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <div class="container">
+     <div class="card rounded">
+        <div class="card-body p-4">
+           <div class="panelHeader d-flex justify-content-between border-bottom pb-4">
+              <div class="fs-1 jobName" style="padding-right:2.5rem">${profile.JobName}</div>
+              <div class="fs-1" style="display:${profile.TimeFrame === 'Part-Time'?'':'none'}">
+                ${ profile.Urgency?
+                    '<span class="badge bg-secondary urgentLabel">ทำงานวันที่ {{profile.DateOfJob}}</span>':
+                    '<span class="badge text-light" style="background:#5cdfe4;">Part-Time</span>'
+                    }
+            </div>
+              <div class="fs-1" style="display:${profile.TimeFrame === 'Full-Time'?'':'none'}">
+                 ${ profile.Urgency?
+                 '<span class="badge bg-secondary urgentLabel">ทำงานวันที่ {{profile.DateOfJob}}</span>':
+                 '<span class="badge text-light" style="background:#5cdfe4;">Full-Time</span>'
+                 }
+              </div>
+              <div class="fs-1" style="display:${profile.TimeFrame === 'Full-Time และ Part-Time'?'':'none'}">
+                 ${ profile.Urgency?
+                 '<span class="badge bg-secondary urgentLabel">ทำงานวันที่ {{profile.DateOfJob}}</span>':
+                 '<span class="badge text-light" style="background:#dfa5d6;">Full-Time และ Part-Time</span>'
+                 }
+              </div>
+           </div>
+           <div class="mx-sm-3 mb-sm-3 fs-4">
+              <div class="row twoRows">
+                <div class="col-12 col-md-6 border-end p-0 pt-4 leftPanelDetails">
+                    <div style="display:${profile.JobType === 'ร้านยาแบรนด์'?'':'none'}" class="row pb-3">
+                        <div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+                            <b>สาขา</b>
+                        </div>
+                        <div class="col" style="display:${profile.JobType === 'ร้านยาแบรนด์'?'':'none'}">${emptyFieldPipe(profile.Franchise)}</div>
+                    </div>
+                    <div style="display:${profile.Duration !== ''?'':'none'}" class="row pb-3">
+                        <div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+                        <i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
+                        </div>
+                        <div class="col">
+                        <div class="valuePart" style="display:${profile.Duration !== ' - '?'':'none'}">${profile.Duration} น.</div>
+                        <div class="valuePart" style="display:${profile.Duration == ' - '?'':'none'}">ไม่ระบุ</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row pb-3" style="display:${profile.TimeFrame == 'Full-Time'?'':'none'}">
+                        <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                            <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                        </div>
+                        <div class="col">
+                            <div class="valuePart" style="display:${profile.Salary.Suffix == 'SalaryNumbers'?'':'none'}">${emptyFieldPipe(profile.Salary.Amount)} - ${emptyFieldPipe(profile.Salary.Amount + profile.Salary.Cap)} บาท/เดือน</div>
+                            <div class="valuePart" style="display:${profile.Salary.Suffix !== 'SalaryNumbers'?'':'none'}">${salaryType(profile.Salary.Suffix)}</div>
+                        </div>
+                        </div>
+                        <div class="row pb-3" style="display:${profile.Salary.TimeFrame == 'Full-Time และ Part-Time'?'':'none'}">
+                        <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                            <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                        </div>
+                        <div class="col">
+                            <div class="valuePart" style="display:${profile.Salary.Suffix == 'SalaryNumbers'?'':'none'}">${emptyFieldPipe(profile.Salary.Amount)} - ${emptyFieldPipe(profile.Salary.Amount + profile.Salary.Cap)}</div>
+                            <div class="valuePart" style="display:${profile.Salary.Suffix !== 'SalaryNumbers'?'':'none'}">${salaryType(profile.Salary.Suffix)}</div>
+                        </div>
+                        </div>
+                        <div class="row pb-3" style="display:${profile.Salary.TimeFrame == 'Part-Time'?'':'none'}">
+                        <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                            <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                        </div>
+                        <div class="col">
+                            <div class="valuePart" style="display:${profile.Salary.Suffix == 'SalaryNumbers'?'':'none'}">${emptyFieldPipe(profile.Salary.Amount)} - ${emptyFieldPipe(profile.Salary.Amount + profile.Salary.Cap)} บาท/ชม</div>
+                            <div class="valuePart" style="display:${profile.Salary.Suffix !== 'SalaryNumbers'?'':'none'}">${salaryType(profile.Salary.Suffix)}</div>
+                        </div>
+                        </div>
+                    </div>
+                 <div style="display:${profile.BTS.Near?'':'none'}" class="pb-3 row">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                       <i class="bi bi-train-front me-2"></i> <b>BTS</b>
+                    </div>
+                    <div class="col valuePart"> ${emptyFieldPipe(profile.BTS.Station)}</div>
+                 </div>
+                 <div style="display:${profile.ARL.Near?'':'none'}"  class="pb-3 row">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                       <i class="bi bi-train-front me-2"></i> <b>ARL</b>
+                    </div>
+                    <div class="col valuePart"> ${emptyFieldPipe(profile.ARL.Station)}</div>
+                 </div>
+                 <div class="pb-3 row" style="display:${profile.OnlineInterview?'':'none'}">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                       <i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
+                    </div>
+                 </div>
+                </div>
+                 <div class="col-12 col-md-6 pt-md-4 rightPanelDetails">
+                    <div class="row pb-3" style="display:${profile.Amount !== ''?'':'none'}">
+                       <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                          <i class="bi bi-person me-2"></i><b>รับสมัคร</b>
+                       </div>
+                       <div class="col valuePart">${emptyFieldPipe(profile.Amount)} ตำแหน่ง</div>
+                    </div>
+                    <div class="row pb-3" style="display:${profile.Location.Section !== '' || profile.Location.Province !== ''?'': 'none'}">
+                       <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                       <i class="bi bi-geo me-2"></i><b>พื้นที่</b>
+                    </div>
+                    <div class="col valuePart"> ${emptyFieldPipe(profile.Location.District)}, ${emptyFieldPipe(profile.Location.Province)}</div>
+                 </div>
+              </div>
+              <div style="display:${profile.MRT.Near?'':'none'}"  class="pb-3 row">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>MRT</b>
+                 </div>
+                 <div class="col valuePart"> ${emptyFieldPipe(profile.MRT.Station)}</div>
+              </div>
+              <div style="display:${profile.SRT.Near?'':'none'}" class="pb-3 row">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>SRT</b>
+                 </div>
+                 <div class="col valuePart"> ${emptyFieldPipe(profile.SRT.Station)}</div>
+              </div>
+              <div class="d-flex flex-row" style="display:${profile.WorkFromHome?'':'none !important'}">
+                 <i class="bi bi-house me-2"></i><b>Work from home</b>
+              </div>
+           </div>
+           <div class="row oneRow">
+              <div style="display:${profile.JobType === 'ร้านยาแบรนด์'?'':'none'}" class="row pb-3">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+                    <b>สาขา</b>
+                 </div>
+                 <div class="col" style="display:${profile.JobType === 'ร้านยาแบรนด์'?'':'none'}">${emptyFieldPipe(profile.Franchise)}</div>
+              </div>
+              <div class="row pb-3" style="display:${profile.Duration !== ''?'':'none'}">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5">
+                    <i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
+                 </div>
+                 <div class="col">
+                    <div class="valuePart" style="display:${profile.Duration !== ' - '?'':'none'}">${profile.Duration} น.</div>
+                    <div class="valuePart" style="display:${profile.Duration == ' - '?'':'none'}">ไม่ระบุ</div>
+                 </div>
+              </div>
+              <div>
+                 <div class="row pb-3" style="display:${profile.TimeFrame == 'Full-Time'?'':'none'}">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                       <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                       <div class="valuePart" style="display:${profile.Salary.Suffix == 'SalaryNumbers'?'':'none'}">${emptyFieldPipe(profile.Salary.Amount)} - ${emptyFieldPipe(profile.Salary.Amount + profile.Salary.Cap)} บาท/เดือน</div>
+                       <div class="valuePart" style="display:${profile.Salary.Suffix !== 'SalaryNumbers'?'':'none'}">${salaryType(profile.Salary.Suffix)}</div>
+                    </div>
+                 </div>
+                 <div class="row pb-3" style="display:${profile.Salary.TimeFrame == 'Full-Time และ Part-Time'?'':'none'}">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                       <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                       <div class="valuePart" style="display:${profile.Salary.Suffix == 'SalaryNumbers'?'':'none'}">${emptyFieldPipe(profile.Salary.Amount)} - ${emptyFieldPipe(profile.Salary.Amount + profile.Salary.Cap)}</div>
+                       <div class="valuePart" style="display:${profile.Salary.Suffix !== 'SalaryNumbers'?'':'none'}">${salaryType(profile.Salary.Suffix)}</div>
+                    </div>
+                 </div>
+                 <div class="row pb-3" style="display:${profile.Salary.TimeFrame == 'Part-Time'?'':'none'}">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                       <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                       <div class="valuePart" style="display:${profile.Salary.Suffix == 'SalaryNumbers'?'':'none'}">${emptyFieldPipe(profile.Salary.Amount)} - ${emptyFieldPipe(profile.Salary.Amount + profile.Salary.Cap)} บาท/ชม</div>
+                       <div class="valuePart" style="display:${profile.Salary.Suffix !== 'SalaryNumbers'?'':'none'}">${salaryType(profile.Salary.Suffix)}</div>
+                    </div>
+                 </div>
+              </div>
+              <div class="row pb-3" style="display:${profile.Amount !== null || profile.Amount !== 0?'':'none'}">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-person me-2"></i><b>รับสมัคร</b>
+                 </div>
+                 <div class="col valuePart">${emptyFieldPipe(profile.Amount)} ตำแหน่ง</div>
+              </div>
+              <div class="row pb-3">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-geo me-2"></i><b>พื้นที่</b>
+                 </div>
+                 <div class="col valuePart"> ${emptyFieldPipe(profile.Location.Section)}, ${emptyFieldPipe(profile.Location.Province)}</div>
+              </div>
+              <div style="display:${profile.BTS.Near?'':'none'}" class="pb-3 row">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>BTS</b>
+                 </div>
+                 <div class="col valuePart"> ${emptyFieldPipe(profile.BTS.Station)}</div>
+              </div>
+              <div style="display:${profile.MRT.Near?'':'none'}" class="pb-3 row">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>MRT</b>
+                 </div>
+                 <div class="col valuePart"> ${emptyFieldPipe(profile.MRT.Station)}</div>
+              </div>
+              <div style="display:${profile.SRT.Near?'':'none'}"class="pb-3 row">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>SRT</b>
+                 </div>
+                 <div class="col valuePart"> ${emptyFieldPipe(profile.SRT.Station)}</div>
+              </div>
+              <div style="display:${profile.ARL.Near?'':'none'}" class="pb-3 row">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>ARL</b>
+                 </div>
+                 <div class="col valuePart"> ${emptyFieldPipe(profile.ARL.Station)}</div>
+              </div>
+              <div class="pb-3 row" style="display:${profile.OnlineInterview?'':'none'}">
+                 <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
+                 </div>
+              </div>
+              <div class="d-flex flex-row" style="display:${profile.WorkFromHome?'':'none'}">
+                 <i class="bi bi-house me-2"></i><b>Work from home</b>
+              </div>
+           </div>
+        </div>
+     </div>
+     </div>
+     <div class="footerMainHeader my-3 d-flex justify-content-between">
+        <div class="choices d-flex justify-content-start">
+            <div class="dateUpdated">
+                <p class="lead ms-3"> อัพเดทล่าสุด ${profile.dateUpdated}</p>
+            </div>
+        </div>
+    </div>
+    <div class="card rounded">
+       <div class="card-body p-4">
+          <div class="my-5 mt-3">
+             <h2>หน้าที่ความรับผิดชอบ</h2>
+             <div class="fs-4" [innerHtml]="profile.JobDetails | emptyFieldPipe"></div>
+             <ng-container *ngIf="profile.Urgency === false">
+                <h2 class="mt-5">คุณสมบัติผู้สมัคร</h2>
+                <div class="fs-4" [innerHtml]="profile.qualityApplicants | emptyFieldPipe"></div>
+                <h2 class="mt-5">สวัสดิการ</h2>
+                <div class="fs-4" [innerHtml]="profile.jobBenefits | emptyFieldPipe"></div>
+                <h2 class="mt-5">วิธีสมัครงาน</h2>
+                <div class="fs-4" [innerHtml]="profile.applyInstructions | emptyFieldPipe"></div>
+             </ng-container>
+          </div>
+          <div class="my-5 mb-3">
+             <h2 class="my-5 mb-3">ช่องทางติดต่อ</h2>
+             <div class="d-sm-flex fs-4">
+                <div class="me-3">
+                   <b>ชื่อผู้ติดต่อ: </b>
+                </div>
+                <div class="col ms-2">{{profile.Contacts.nameRepresentative | emptyFieldPipe}}</div>
+             </div>
+             <div class="d-sm-flex fs-4">
+                <div class="me-3">
+                   <b>สถานที่ติดต่อ: </b>
+                </div>
+                <div class="col ms-2">{{profile.Contacts.areaOfContact | emptyFieldPipe}}</div>
+             </div>
+             <div class="d-sm-flex fs-4">
+                <div class="me-3">
+                   <b>โทร: </b>
+                </div>
+                <div class="col ms-2">{{profile.Contacts.phone | emptyFieldPipe}}</div>
+             </div>
+             <div class="d-sm-flex fs-4">
+                <div class="me-3">
+                   <b>Email: </b>
+                </div>
+                <div class="col ms-2">{{profile.Contacts.email | emptyFieldPipe}}</div>
+             </div>
+             <div class="d-sm-flex fs-4">
+                <div class="me-3">
+                   <b>Line: </b>
+                </div>
+                <div class="col ms-2">{{profile.Contacts.line | emptyFieldPipe}}</div>
+             </div>
+             <div class="d-sm-flex fs-4">
+                <div class="me-3">
+                   <b>Facebook: </b>
+                </div>
+                <div class="col ms-2">{{profile.Contacts.facebook | emptyFieldPipe}}</div>
+             </div>
+             <div class="d-sm-flex fs-4">
+                <div class="me-3">
+                   <b>Website: </b>
+                </div>
+                <div class="col ms-2">{{profile.Contacts.website | emptyFieldPipe}}</div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div class="card rounded mt-5">
+       <div class="card-body px-4">
+          <div class="my-3">
+             <h2>สถานที่ปฏิบัติการ/วิธีเดินทาง</h2>
+             <div class="fs-4 d-flex justify-content-between">
+                <div class=" fs-4" [innerHtml]="profile.TravelInstructions | emptyFieldPipe"></div>
+             </div>
+             <!-- <div class="d-flex justify-content-center" style="overflow: scroll;">
+                <google-map 
+                  *ngIf="profile._geoloc !== undefined"
+                  height="500px"
+                  width="65vw"
+                  [options]="none"
+                  [center]="center"
+                  [zoom]="zoom">
+                  <map-marker
+                    [position]="markerPosition"
+                    >
+                  </map-marker>
+                </google-map>
+                </div> -->
+          </div>
+       </div>
+    </div>

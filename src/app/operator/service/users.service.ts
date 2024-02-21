@@ -10,6 +10,8 @@ import algoliasearch, { SearchIndex }from 'algoliasearch';
 import { algoliaEnvironment } from 'src/environments/environment';
 import { UtilService } from './util.service';
 import { FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { url } from 'src/environments/environment';
 
 const client = algoliasearch(algoliaEnvironment.app_id, algoliaEnvironment.user_api_key);
 @Injectable({
@@ -18,7 +20,15 @@ const client = algoliasearch(algoliaEnvironment.app_id, algoliaEnvironment.user_
 export class UsersService {
   hitsPerPage: number = 8
   private db: Firestore = inject(Firestore) 
-  constructor(private converter:JobTypeConverterService, private store: Store, private utilService:UtilService) { }
+  constructor(private converter:JobTypeConverterService, private store: Store, private utilService:UtilService, private http: HttpClient) { }
+
+  propagateNotifications(jobUID: string){
+    return this.http.get(url.jobPostNotification + '/' + jobUID, {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+    })
+  }
 
   async searchPharmaUsersByPreferredJobType(form:UserSearchForm){
     let newForm = this.utilService.populateObjectWithLocationFields(form)

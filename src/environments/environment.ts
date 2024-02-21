@@ -11,6 +11,7 @@ export const environment = {
     measurementId: 'G-TKMY6WTWZN',
   }
   };
+export const vapidKey = "BD_b_VCmV9UpEr7f_EVYDJI0BAUMB1iTR_nFgy9-8LLbLedGhWKKDyI2EhSYMbgFvg9tsjYe-AeaGidm0QGtOu4"
 export const algoliaEnvironment = {
   app_id:'OY4NA7JZ4M',
   api_key: '41292c1f6520cc8d83b9fbdc044fbc0d',
@@ -18,6 +19,7 @@ export const algoliaEnvironment = {
 }
 export const url = {
   licenseAuthentication: 'https://us-central1-pharm-work.cloudfunctions.net/authenticateLicense/start',
+  jobPostNotification: 'https://us-central1-pharm-work.cloudfunctions.net/requestPropagateFollowersNotification',
   shareJob: 'https://public.pharm-work.com/job-post/',
 }
 export const serviceAccountEnvironment = {

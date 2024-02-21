@@ -32,7 +32,7 @@
 			<div class="pt-sm-3 pt-1 card-body ps-md-0 ps-xl-5 ps-4">
 				<div class="row">
 					<div class="col-12 w-100">
-						<div class="d-flex justify-content-between me-2 mb-md-0 mb-3 subImageContainer">
+						<div class="d-flex justify-content-between me-md-2 mb-md-0 mb-sm-3 subImageContainer">
 							<div class="subImage text-center align-self-center me-md-0 me-3">
 								<img (click)="goToOperatorProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
 							</div>
@@ -145,35 +145,22 @@
 		</div>
 	</div>
 	<div class="footer d-flex justify-content-end">
-		<!-- <div *ngIf="cancelJobFlag">
-			<button (click)="cancelRequestJob()" class="btn btn-danger text-center my-2" type="button">
-				<div class="fs-5">ยกเลิกสมัคร</div>
-			</button>
-		</div> -->
-		<!-- <div *ngIf="urgentFlag === false && requestButtonFlag" class="justify-content-center my-2 align-items-center d-flex">
-			<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-			<ng-template #alreadyRequest>
-				<button (click)="requestJob()" class="btn text-center" style="color: white; background-color:#7fd858" type="button">
-					<div class="fs-5" style="width:6rem">รับงาน</div>
-				</button>
-			</ng-template>
-			<ng-template #requestButton>
-				<button class="btn text-center btn-warning" type="button">
-					<div class="fs-5" style="width:6rem">รอ confirm</div>
-				</button>
-			</ng-template>
-		</div> -->
 		<div class="d-flex justify-content-end my-sm-2 my-0" style="align-items:baseline">
-			<!-- <button type="button" class="btn">
-				<h1>
-					<i class="fs-3 bi bi-share"></i>
-				</h1>
-			</button> -->
-			<button type="button" class="applyJobBtn btn border-input btn-outline-secondary me-lg-5 me-3" style="padding:0 3rem">
-				<div style="display:flex" class="mb-0 textResponsive textResponsive2">
-					สมัครงาน
-				</div>
-			</button>
+			<ng-container *ngIf="studentFlag$ | async; then noRequest; else haveRequest"></ng-container>
+			<ng-template #noRequest></ng-template>
+			<ng-template #haveRequest>
+				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+				<ng-template #alreadyRequest>
+					<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
+						<div class="textProfileResponsive">{{urgentFlag?"สนใจรับงาน": "สมัครงาน"}}</div>
+					</button>
+				</ng-template>
+				<ng-template #requestButton>
+					<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
+						<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
+					</button>
+				</ng-template>
+			</ng-template>
 			<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
 				<h1 style="display:flex" class=mb-0>
 					<i class="bi bi-share-fill textResponsive textResponsive2"></i>
@@ -206,6 +193,13 @@
 						</h1>
 					</ng-template>
 			</button>
+			<div *ngIf="cancelJobFlag">
+				<button (click)="cancelRequestJob()" class="btn px-0 my-2" type="button">
+					<h1 style="display:flex" class=mb-0>
+						<i class="bi bi-trash textResponsive textResponsive2"></i>
+					</h1>
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

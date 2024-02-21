@@ -1,15 +1,25 @@
-<ng-container *ngIf="emptyFlag$ | async; then emptyNormal; else notEmptyNormal"></ng-container>
-<ng-template #emptyNormal>
-    <div class="row d-flex justify-content-center">
-        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
-            <img class="w-100" src="assets/empty/emptyViewRequest.png">
+<ng-container *ngIf="innerProfileInformation.studentFlag; then student else notStudent"></ng-container>
+<ng-template #student>
+    <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input textProfileResponsive" *ngIf="innerProfileInformation.studentFlag">
+        <div style="color:red" class="mb-4">
+            *ระบบสมัครงานจะเปิดให้ใช้งานเมื่อท่านอัพเกรดบัญชีเป็นบัญชีเภสัชกร <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
-    </div>
+      </div>
 </ng-template>
-<ng-template #notEmptyNormal>
-    <div class="row row-cols-xl-2 container">
-        <ng-container *ngFor="let requestView of requestViews$ | async; index as i">
-                <app-operator-normal-card [content]="requestView.content!" [requestViewFlag]="requestViewFlag"></app-operator-normal-card>
-        </ng-container>
-    </div>
-</ng-template>  
+<ng-template #notStudent>
+    <ng-container *ngIf="emptyFlag$ | async; then emptyNormal; else notEmptyNormal"></ng-container>
+    <ng-template #emptyNormal>
+        <div class="row d-flex justify-content-center">
+            <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
+                <img class="w-100" src="assets/empty/emptyViewRequest.png">
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #notEmptyNormal>
+        <div class="row row-cols-xl-2 container">
+            <ng-container *ngFor="let requestView of requestViews$ | async; index as i">
+                    <app-operator-normal-card [content]="requestView.content!" [requestViewFlag]="requestViewFlag"></app-operator-normal-card>
+            </ng-container>
+        </div>
+    </ng-template>  
+</ng-template>

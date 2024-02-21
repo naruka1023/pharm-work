@@ -8,15 +8,15 @@
                     <div class="verticalKeyGap"><b>มองหางานรายวันพื้นที่ใด?</b></div>
                 </div>
                 <div class="form-group" [formGroupName]="formGroupName">
-                    <select formControlName="Province" (change)="provinceSelected()" name="province" class="border-input form-select  mb-3">
+                    <select formControlName="Province" (change)="provinceSelected()" name="province" class="border-input form-select  mb-3 textProfileResponsive">
                         <option value="" disabled selected>จังหวัด</option>
                         <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
                     </select>
-                    <select formControlName="District" (change)="districtSelected()" name="district" class="border-input form-select  mb-3">
+                    <select formControlName="District" (change)="districtSelected()" name="district" class="border-input form-select  mb-3 textProfileResponsive">
                         <option value="" disabled selected>เขต</option>
                         <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
                     </select>
-                    <select formControlName="Section" (change)="sectionSelected()" name="section" class="border-input form-select  mb-3">
+                    <select formControlName="Section" (change)="sectionSelected()" name="section" class="border-input form-select  mb-3 textProfileResponsive">
                         <option value="" disabled selected>แขวง</option>
                         <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
                     </select>
@@ -49,15 +49,15 @@
                         <div><b>พื้นที่ที่อาศัยอยู่ในปัจจุบัน</b></div>
                     </div>
                     <div [formGroupName]="formGroupName">
-                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="mb-3 form-select border-input">
+                        <select formControlName="Province" (change)="provinceSelected()" name="province" class="mb-3 form-select border-input textProfileResponsive">
                             <option selected disabled value="">เลือกจังหวัด</option>
                             <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
                         </select>
-                        <select formControlName="District" (change)="districtSelected()" name="district" class="mb-3 form-select border-input">
+                        <select formControlName="District" (change)="districtSelected()" name="district" class="mb-3 form-select border-input textProfileResponsive">
                             <option selected disabled value="">เลือกเขต</option>
                             <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
                         </select>
-                        <select formControlName="Section" (change)="sectionSelected()" name="section" class="mb-3 form-select border-input">
+                        <select formControlName="Section" (change)="sectionSelected()" name="section" class="mb-3 form-select border-input textProfileResponsive">
                             <option selected disabled value="">เลือกแขวง</option>
                             <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
                         </select>

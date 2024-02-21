@@ -57,6 +57,8 @@ import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
+import { NotificationsComponent } from './common/notifications/notifications.component';
+import { notificationsReducer } from './state/reducers/notifications.reducers.';
 
 
 @NgModule({
@@ -82,6 +84,7 @@ import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
     StoreModule.forFeature('operator', operatorReducer),
     StoreModule.forFeature('urgentJobs', urgentJobsReducer),
     StoreModule.forFeature('requestView', requestViewReducer),
+    StoreModule.forFeature('notifications', notificationsReducer),
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports: [InfiniteScrollModule],
@@ -122,7 +125,8 @@ import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
     EmptyFieldPipe,
     SalaryTypePipe,
     WorkExperiencePipe,
-    ProvinceFilterPipe
+    ProvinceFilterPipe,
+    NotificationsComponent
   ],
   providers:[PharmaProfileComponent, LandingPageComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]

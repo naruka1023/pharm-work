@@ -438,7 +438,7 @@
 					<div class="fs-4 d-flex justify-content-between">
 						<div class=" fs-4" [innerHtml]="profile.TravelInstructions | emptyFieldPipe"></div>
 					</div>
-					<div class="d-flex justify-content-center" style="overflow: scroll;">
+					<div>
 						<google-map 
 							*ngIf="profile._geoloc !== undefined"
 							height="500px"

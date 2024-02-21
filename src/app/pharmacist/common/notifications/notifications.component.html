@@ -1,0 +1,10 @@
+<div class="w-100 d-flex justify-content-center" style="padding:5vh 0; width: 100vw">
+    <div [ngSwitch]="pageStatus">
+        <div *ngSwitchCase="'loading'">
+            <img src="assets/loading-loader.gif"/>
+        </div>
+        <div *ngSwitchCase="'emptyJob'" class="text-center">
+            <img class="w-50" src="assets/empty/emptyJobHistory.png">
+        </div>
+    </div>
+</div>

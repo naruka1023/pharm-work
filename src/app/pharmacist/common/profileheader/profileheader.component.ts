@@ -25,14 +25,19 @@ private storage: Storage = inject(Storage);
 @Input() profileType! : string;
 @Input() followerFlag = false;
 @Input() requestViewFlag = false;
+requestChangeLoadingFlag: boolean = false
 submitted: boolean = false;
+submittedRequestChange: boolean = false;
 followingFlag: boolean = true
+needIDFlag: boolean = true
 result!: any
 upgradeStage!: string
 jobCount!: {
   urgentJobs: number,
   normalJobs: number
 }
+identityName: string = ''
+licenseName: string = ''
 operatorExistFlag!: boolean 
 editFlag: boolean = false
 upgradeLoadingFlag: boolean = false
@@ -45,6 +50,8 @@ followFlag$!:any
 introTextLoadingFlag: boolean = false
 coverListenerObservable: Observable<string> = this.coverListenerSubject.asObservable();
 file!: File
+fileIdentity!: File
+fileLicense!: File
 id!: string
 coverPhotoVerticalPosition!: number;
 followedText: string = 'ติดตามแล้ว'
@@ -53,6 +60,7 @@ formModal: any
 upgradeModal: any
 introTextForm!: FormGroup
 upgradeToPharmaForm!: FormGroup
+requestChangeForm!: FormGroup
 operator!:userOperator;
 followerUID!: string
 categorySymbol!: string
@@ -76,6 +84,8 @@ pageSrc!: string
 constructor(private fb: FormBuilder, private store: Store, private userService: UserServiceService, private jobPostService: JobPostService, private router: Router, private route: ActivatedRoute){}
 
   ngOnInit(){
+    this.initializeUpgradeFormGroup()
+    this.initializeRequestChange()
     this.upgradeStage = 'first'
     this.upgradeModal = new window.bootstrap.Modal(
       document.getElementById('studentUpgradeModal')
@@ -84,6 +94,12 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModal')
     );
+
+    document.getElementById('studentUpgradeModal')?.addEventListener('hidden.bs.modal', ()=>{
+      this.changeStage('first')
+      this.initializeRequestChange()
+      this.licenseName, this.identityName = ''
+    })
 
     document.getElementById('myModal')?.addEventListener('hidden.bs.modal', ()=>{
       this.dynamicScale = 0.5
@@ -143,6 +159,9 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
                 case 'request-jobs':
                   newJob = state.jobpost.JobRequests[this.id + '-' + state.user.uid].JobPost
                   break;
+                case 'notification':
+                  newJob = state.notifications.job.content
+                break;
                 case 'bookmark':
                   newJob = state.jobpost.Bookmarks[this.id + '-' + state.user.uid].JobPost
                   break;
@@ -262,7 +281,6 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
           this.operator =  operator;
           this.operatorUID = operator.uid;
           this.result = operator
-          console.log(this.result)
           if(this.result.cropProfilePictureUrl == ''){
             delete this.result.cropProfilePictureUrl
           }
@@ -323,6 +341,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
             nickName: this.profileInformation$.nickName!,
             name: this.profileInformation$.name!,
             surname: this.profileInformation$.surname!,
+            requestChangeStatus: this.profileInformation$.requestChangeStatus,
             Location: this.profileInformation$.Location,
             profilePictureUrl: this.profileInformation$.profilePictureUrl,
             coverPhotoPictureUrl: this.profileInformation$.coverPhotoPictureUrl,
@@ -373,6 +392,7 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       this.followingFlag = follow
     })
   }
+
 
   ngAfterViewInit(){
     const mouseTarget = document.getElementById("mouseTarget")!
@@ -566,13 +586,87 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       this.coverListenerSubject.next('enter')
     }
 
+    
+  initializeRequestChange(){
+    this.submittedRequestChange = false
+    this.requestChangeForm = this.fb.group({
+      license:['', [Validators.required]],
+      identityFile:[''],
+      licenseFile:['', [Validators.required]]
+    });
+  }
+
     initializeUpgradeFormGroup(){
+      this.submitted = false
       this.upgradeToPharmaForm = this.fb.group({
         license:['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]]
       });
     }
     get getUpgradeForm(): { [key: string]: AbstractControl } {
       return this.upgradeToPharmaForm.controls;
+    }
+    get getRequestChangeForm(): { [key: string]: AbstractControl } {
+      return this.requestChangeForm.controls;
+    }
+    requestChange(){
+      this.submittedRequestChange = true
+      if(this.requestChangeForm.invalid){
+        return
+      }else{
+        const reader = new FileReader();
+        const reader2 = new FileReader();
+        const self = this
+        reader.onload = (event) => {
+          reader2.readAsDataURL(this.fileLicense)
+          reader2.onload = (event2) =>{
+            let toSend;
+            if(!this.needIDFlag){
+              toSend = {
+                to: ['team-support@pharm-work.com'],
+                message: {
+                  subject: this.result.name + ' ' + this.result.surname + ' request change',
+                  html: this.result.name + ' ' + this.result.surname + '  license: ' + this.requestChangeForm.value.license + ' uid: ' + this.result.uid,
+                  attachments: [
+                    {filename: this.fileLicense.name,
+                    path: event2.target?.result}
+                  ]
+                }
+              }
+            }else{
+              toSend = {
+                to: ['team-support@pharm-work.com'],
+                message: {
+                  subject: this.result.name + ' ' + this.result.surname + ' request change',
+                  html: this.result.name + ' ' + this.result.surname + '  license: ' + this.requestChangeForm.value.license + ' uid: ' + this.result.uid,
+                  attachments: [
+                    {
+                    filename: this.fileIdentity.name,
+                    path: event.target?.result
+                    },
+                    {filename: this.fileLicense.name,
+                    path: event2.target?.result}
+                  ]
+                }
+              }
+            }
+            this.requestChangeLoadingFlag = true 
+            this.userService.sendRequestChangeEmail(toSend).then((email)=>{
+              let id = email.id
+              this.userService.deleteRequestChangeEmail(id).then(()=>{
+                this.userService.updateUser({
+                  uid: this.result.uid,
+                  requestChangeStatus: 'pending'
+                }).then(()=>{
+                  this.requestChangeLoadingFlag = false
+                  this.store.dispatch(setCurrentUser({user: {requestChangeStatus: 'pending'}}))
+                  this.changeStage('pending')
+                })
+              })
+            })
+          }
+        };
+        reader.readAsDataURL(this.fileIdentity);
+      }
     }
     authenticateLicense(){
       this.submitted = true
@@ -596,7 +690,9 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
         }
       })
     }
-
+    nameValid(event:any){
+      this.needIDFlag = !event.target.checked
+    }
     initializeFormGroup(){
       this.introTextForm = this.fb.group({
         introText:[''],
@@ -658,6 +754,24 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
       document.getElementById('profilePictureFile')?.click();
     }
     
+    uploadIdentityClick(){
+      document.getElementById('identityCardInput')?.click();
+    }
+    
+    uploadLicenseClick(){
+      document.getElementById('licenseInput')?.click();
+    }
+        
+    licenseReceive(event: any){
+        this.licenseName = event.target.files[0].name
+        this.fileLicense = event.target.files[0]
+    }
+        
+    identityRecieve(event: any){
+        this.identityName = event.target.files[0].name
+        this.fileIdentity = event.target.files[0]
+    }
+
     uploadNewPhotoClick(){
       document.getElementById('fileUpload')?.click();
     }
@@ -725,7 +839,15 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
 
 
     changeStage(stage: string){
-      this.upgradeStage = stage
+      if(stage == 'requestChange'){
+        if(this.result.requestChangeStatus !== undefined){
+          this.upgradeStage = 'pending'
+        }else{
+          this.upgradeStage = stage
+        }
+      }else{
+        this.upgradeStage = stage;
+      }
     }
 
     upgradeModalClick(){

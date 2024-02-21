@@ -1,7 +1,9 @@
 <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
   <div style="color:red" class="mb-4">
-      *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
+      *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
   </div>
+</div>
+<div>
   <div class="d-flex flex-row verticalKeyGap">
     <div class="keyValueGap"><i class="bi bi-calendar2-check-fill"></i></div>
     <div style="width:-webkit-fill-available; width:-moz-available">
@@ -30,31 +32,31 @@
               </div>
               <div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input" type="radio" value="ทำงานประจำ (full-time) เท่านั้น">
+                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำงานประจำ (full-time) เท่านั้น">
                       <label class="form-check-label" for="urgentTimeFrame">
                           ทำงานประจำ (full-time) เท่านั้น
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input" type="radio" value="ทำงานพาร์ทไทม์ (part-time) เท่านั้น">
+                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำงานพาร์ทไทม์ (part-time) เท่านั้น">
                       <label class="form-check-label" for="urgentTimeFrame">
                         ทำงานพาร์ทไทม์ (part-time) เท่านั้น
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input" type="radio" value="ทำทั้งงานประจำ (full-time) และพาร์ทไทม์ (part-time)">
+                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำทั้งงานประจำ (full-time) และพาร์ทไทม์ (part-time)">
                       <label class="form-check-label" for="urgentTimeFrame">
                           ทำทั้งงานประจำ (full-time) และพาร์ทไทม์ (part-time)
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input" type="radio" value="ทำแค่งานฟรีแลนซ์ (freelance) เท่านั้น">
+                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำแค่งานฟรีแลนซ์ (freelance) เท่านั้น">
                       <label class="form-check-label" for="urgentTimeFrame">
                         ทำแค่งานฟรีแลนซ์ (freelance) เท่านั้น
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input" type="radio" value="ว่างงาน">
+                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ว่างงาน">
                       <label class="form-check-label" for="urgentTimeFrame">
                         ว่างงาน
                       </label>
@@ -70,25 +72,25 @@
               </div>
               <div formGroupName="urgentPreferredDay">
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="M" class="me-3 form-check-input" type="checkbox">
+                      <input formControlName="M" class="me-3 form-check-input textProfileResponsive" type="checkbox">
                       <label class="form-check-label" for="urgentTimeFrame">
                         จันทร์
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="T" class="me-3 form-check-input" type="checkbox">
+                      <input formControlName="T" class="me-3 form-check-input textProfileResponsive" type="checkbox">
                       <label class="form-check-label" for="urgentTimeFrame">
                         อังคาร
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="W" class="me-3 form-check-input" type="checkbox">
+                      <input formControlName="W" class="me-3 form-check-input textProfileResponsive" type="checkbox">
                       <label class="form-check-label" for="urgentTimeFrame">
                         พุธ
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="TH" class="me-3 form-check-input" type="checkbox">
+                      <input formControlName="TH" class="me-3 form-check-input textProfileResponsive" type="checkbox">
                       <label class="form-check-label" for="urgentTimeFrame">
                         พฤหัส
                       </label>
@@ -100,19 +102,19 @@
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="SA" class="me-3 form-check-input" type="checkbox">
+                      <input formControlName="SA" class="me-3 form-check-input textProfileResponsive" type="checkbox">
                       <label class="form-check-label" for="urgentTimeFrame">
                         เสาร์
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="SU" class="me-3 form-check-input" type="checkbox">
+                      <input formControlName="SU" class="me-3 form-check-input textProfileResponsive" type="checkbox">
                       <label class="form-check-label" for="urgentTimeFrame">
                         อาทิตย์
                       </label>
                   </div>
                   <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="NA" class="me-3 form-check-input" type="checkbox">
+                      <input formControlName="NA" class="me-3 form-check-input textProfileResponsive" type="checkbox">
                       <label class="form-check-label" for="urgentTimeFrame">
                         เวลาว่างไม่แน่นอน
                       </label>
@@ -129,7 +131,7 @@
               </div>
             </div>
           </div>
-          <ckeditor formControlName="urgentDescription" class="border-input mb-3" [editor]="descriptionEditor" name="editor"></ckeditor>
+          <ckeditor formControlName="urgentDescription" class="border-input mb-3 textProfileResponsive" [editor]="descriptionEditor" name="editor"></ckeditor>
           <div class="verticalKeyGap">
             <div class="p-lg-5 p-4 my-4 light-red-color semi-border-input">
                 <div style="color:red" class="mb-4">
@@ -177,13 +179,7 @@
         </div>
       </form>
     </ng-template>
-
     <ng-template #displayPage>
-      <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
-        <div style="color:red" class="mb-4">
-            *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a class="mx-2">ดูวิธีอัพเกรดบัญชี</a>
-        </div>
-      </div>
       <div class="d-flex flex-row verticalKeyGap">
         <div class="keyValueGap"><i class="bi bi-asterisk"></i></div>
         <div style="width:-webkit-fill-available; width:-moz-available">

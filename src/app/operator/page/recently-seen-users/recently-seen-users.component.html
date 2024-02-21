@@ -11,7 +11,7 @@
     <ng-template #notEmpty>
         <div class="row mx-sm-3 mx-1">
             <ng-container *ngFor="let user of recentlySeen$ | async ; index as i" >
-                <app-normal-user-card [content]="user!" [type]="user.soleJobType!"></app-normal-user-card>
+                <app-normal-user-card class="px-0" [content]="user!" [type]="user.soleJobType!"></app-normal-user-card>
                 <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">
             </ng-container>
         </div>

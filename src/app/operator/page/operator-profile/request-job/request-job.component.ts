@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { map, Observable, Subscription } from 'rxjs';
-import { collatedJobRequest, jobPostModel,  JobRequestList, jobUIDForUser } from 'src/app/operator/model/jobPost.model';
-import {  UserPharma, requestView, requestViewList } from 'src/app/operator/model/user.model';
+import { jobPostModel,  JobRequestList, jobUIDForUser } from 'src/app/operator/model/jobPost.model';
+import {  User, UserPharma, requestView, requestViewList } from 'src/app/operator/model/user.model';
 import { JobService } from 'src/app/operator/service/job.service';
 import { UsersService } from 'src/app/operator/service/users.service';
 import { UtilService } from 'src/app/operator/service/util.service';
-import { removeUserFromRequestedJob, populateJobRequestWithUser, setRequestedJobs, populateJobRequestWithUsers, toggleUserList } from 'src/app/operator/state/actions/job-request-actions';
+import { populateJobRequestWithUsers, toggleUserList } from 'src/app/operator/state/actions/job-request-actions';
 import { OperatorProfileComponent } from '../operator-profile.component';
 declare var window: any;
 
@@ -18,7 +18,7 @@ declare var window: any;
   styleUrls: ['./request-job.component.css']
 })
 export class RequestJobComponent  implements OnDestroy, AfterViewInit {
-  constructor(private operatorProfileComponent: OperatorProfileComponent,private route: ActivatedRoute,private store:Store, private utilService:UtilService, private userService:UsersService, private jobService:JobService){}
+  constructor(private operatorProfileComponent: OperatorProfileComponent, private route: ActivatedRoute,private store:Store, private utilService:UtilService, private userService:UsersService, private jobService:JobService){}
   jobRequests$!: Observable<jobPostModel[]>
   usersPayload!: UserPharma[]
   profileLinkFlag: boolean = false;
@@ -82,7 +82,9 @@ export class RequestJobComponent  implements OnDestroy, AfterViewInit {
             let job = state.createdJobs.JobPost.find((job: jobPostModel)=>{
               return job.custom_doc_id == value.jobRequest.jobUID
             }) as jobPostModel
-            jobRequestsArray.push(job)
+            if(job != undefined){
+              jobRequestsArray.push(job)
+            }
           }
           return jobRequestsArray;
         }
@@ -103,38 +105,23 @@ export class RequestJobComponent  implements OnDestroy, AfterViewInit {
     }).subscribe((users:any)=>{
       let payload: any = []
       Object.keys(users).forEach((userKey:string) =>{
-        payload.push(users[userKey])
+        payload.push({
+          ...users[userKey],
+          requestUID: userKey.split('-')[0] 
+        })
       })
       this.usersPayload = payload
       this.modalLoadingFlag = false;
     })
     this.subscription.add(
       this.utilService.getUserRequestSubject().subscribe((jobUIDForUser: jobUIDForUser)=>{
-        this.modalLoadingFlag = jobUIDForUser.flag!;
         this.jobID = jobUIDForUser.jobUID
-        if(jobUIDForUser.flag){
-          this.userService.getListOfUsersFromJobRequests(jobUIDForUser.userArray!).then((users:UserPharma[])=>{
-            let usersList: any = {};
-            users.forEach((user: UserPharma)=>{
-              usersList[user.requestUID + '-' + user.uid] = user;
-            })
-            this.store.dispatch(populateJobRequestWithUsers({jobUIDForUsers:{userList: usersList, jobUID:jobUIDForUser.jobUID }}))
-            let list = _.cloneDeep(this.jobService.getCollatedList());
-            list[jobUIDForUser.jobUID]['flag'] = false;
-            Object.keys(usersList).forEach((key: string)=>{
-              list[jobUIDForUser.jobUID].users[key] = usersList[key];
-            })
-            this.jobService.setCollatedList(list)
-          })
-          this.modal.show()
-        }else{
-          this.store.dispatch(toggleUserList({jobUIDForUsers:{
-            jobUID: jobUIDForUser.jobUID,
-            flag: jobUIDForUser.flag,
-          }}))
-          this.modal.show()
-        }
-        })
+        this.store.dispatch(toggleUserList({jobUIDForUsers:{
+          jobUID: jobUIDForUser.jobUID,
+          flag: jobUIDForUser.flag,
+        }}))
+        this.modal.show()
+      })
     )
   }
   selectTab(target:string){

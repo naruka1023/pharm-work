@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { Observable, map } from 'rxjs';
 import { OperatorNormalCardComponent } from 'src/app/pharmacist/common/operator-normal-card/operator-normal-card.component';
-import { requestView, requestViewList } from 'src/app/pharmacist/model/typescriptModel/users.model';
+import { User, requestView, requestViewList } from 'src/app/pharmacist/model/typescriptModel/users.model';
 declare var window: any;
 
 @Component({
@@ -15,10 +15,16 @@ export class RequestViewComponent {
   requestViews$!: Observable<requestView[]>
   requestViewFlag: boolean = true;
   emptyFlag$!: Observable<boolean>
+  innerProfileInformation!: User;
   
   constructor(private store: Store){}
   
   ngOnInit(){
+    this.store.select((state: any)=>{
+      return state.user
+    }).subscribe((value: User)=>{
+      this.innerProfileInformation = value
+    })
     this.emptyFlag$ = this.store.select((state: any)=>{
       return Object.keys(state.requestView).length == 0
     })
