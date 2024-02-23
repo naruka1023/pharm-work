@@ -154,7 +154,7 @@ export class RegisterComponent implements AfterViewInit {
         District: [''],
         Province: [''], 
       }),
-      
+
       preferredStartTime: [''],
       dateUpdated: new Date().toISOString().split('T')[0],
       dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),
@@ -176,6 +176,7 @@ export class RegisterComponent implements AfterViewInit {
       companyID: ['', [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
       nameOfPerson: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
+      showProfileFlag: true,
       Agreement: [false, [Validators.requiredTrue]]
     },
     {

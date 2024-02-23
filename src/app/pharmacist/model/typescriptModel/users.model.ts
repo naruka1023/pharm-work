@@ -51,6 +51,7 @@ export interface notificationContent{
     image: string;
     title: string;
     url: string;
+    newFlag: boolean;
     notificationID: string
 }
 export interface requestViewState{

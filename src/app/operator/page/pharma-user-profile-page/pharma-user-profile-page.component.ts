@@ -55,6 +55,9 @@ export class PharmaUserProfilePageComponent {
             return user.uid == this.userUID
           })
           return newState        
+        case 'notification':
+          newState = state.notifications.user.content
+          return newState
         case 'favorites':
           newState = state.users.Favorites[state.user.uid + '-' + this.userUID]
           newState = newState.content

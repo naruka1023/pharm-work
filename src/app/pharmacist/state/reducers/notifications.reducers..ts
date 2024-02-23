@@ -95,7 +95,10 @@ export const notificationsReducer = createReducer(
   }),
   on(modifyNotifications, (state, { notification }) => {
     let newState = _.cloneDeep(state)
-    newState.notificationsArchive[notification.notificationID] = notification
+    newState.notificationsArchive[notification.notificationID] = {
+      ...newState.notificationsArchive[notification.notificationID],
+      ...notification
+    }
     return newState
   }),
 );

@@ -20,6 +20,7 @@ export const algoliaEnvironment = {
 export const url = {
   licenseAuthentication: 'https://us-central1-pharm-work.cloudfunctions.net/authenticateLicense/start',
   jobPostNotification: 'https://us-central1-pharm-work.cloudfunctions.net/requestPropagateFollowersNotification',
+  jobRequestNotification: 'https://us-central1-pharm-work.cloudfunctions.net/sendJobRequestToOperator',
   shareJob: 'https://public.pharm-work.com/job-post/',
 }
 export const serviceAccountEnvironment = {

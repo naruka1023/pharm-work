@@ -14,14 +14,15 @@ import { OperatorProfileComponent } from './page/operator-profile/operator-profi
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
 import { PharmaUserProfilePageComponent } from './page/pharma-user-profile-page/pharma-user-profile-page.component';
 import { RecentlySeenUsersComponent } from './page/recently-seen-users/recently-seen-users.component';
-import { UserListComponent } from './page/user-list/user-list.component';
 import { UrgentJobsComponent } from './page/operator-profile/urgent-jobs/urgent-jobs.component';
 import { UrgentJobsPageComponent } from './page/operator-profile/urgent-jobs-page/urgent-jobs-page.component';
 import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-history/urgent-jobs-history.component';
+import { NotificationsComponent } from './common/notifications/notifications.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
     { path: '', component: OperatorHomeComponent},
+    { path: 'notifications', component: NotificationsComponent},
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'edit-jobs', component: EditJobComponent},

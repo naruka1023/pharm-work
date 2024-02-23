@@ -48,6 +48,8 @@ import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 import { FooterComponent } from './common/footer/footer.component';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+import { notificationsReducer } from './state/reducer/notifications.reducers.';
+import { NotificationsComponent } from './common/notifications/notifications.component';
 
 
 
@@ -81,7 +83,8 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
     EmptyFieldPipe,
     ProvinceFilterPipe,
     SalaryTypePipe,
-    WorkExperiencePipe
+    WorkExperiencePipe,
+    NotificationsComponent
   ],
   imports: [
     CommonModule,
@@ -103,6 +106,7 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
     StoreModule.forFeature("recentlySeen", recentlySeenReducer),
     StoreModule.forFeature("requestView", requestViewReducer),
     StoreModule.forFeature("operatorProfile", operatorProfileReducer),
+    StoreModule.forFeature('notifications', notificationsReducer),
     OperatorAppRoutingModule,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

@@ -7,8 +7,9 @@ import { setCurrentUser } from './state/actions/users.action';
 import { UserService } from './service/user.service';
 import { Auth, user } from '@angular/fire/auth';
 import { Messaging, getToken, onMessage } from '@angular/fire/messaging';
-import { Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, doc, getDocs, query, where } from '@angular/fire/firestore';
 import { vapidKey } from 'src/environments/environment';
+import { updateDoc } from 'firebase/firestore';
 
 
 
@@ -180,9 +181,6 @@ export class AppComponent {
       if (permission === 'granted') {
         getToken(this._messaging, {vapidKey: vapidKey}).then((currentToken) => {
           if (currentToken) {
-            onMessage(this._messaging,(payload)=>{
-              console.log('onMessage: ', payload)
-            })
             getDocs(query(collection(this.db, "notification-token"), where('notificationToken', '==' , currentToken), where ('userUID', '==', uid))).then((users)=>{
               if(users.empty){
                 addDoc(collection(this.db, "notification-token"), {

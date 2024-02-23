@@ -129,6 +129,8 @@ export class JobPostDetailsComponent implements OnDestroy{
   localFlag: boolean = true;
   urgentJobs:jobPostModel[] = []
   subscription: Subscription = new Subscription;
+  fullName!: string 
+  profileImageUrl!: string
 
 
   ngOnInit(){
@@ -139,6 +141,12 @@ export class JobPostDetailsComponent implements OnDestroy{
     this.studentFlag$ = this.store.select((state:any)=>{
       return state.user.studentFlag  
     })
+    this.store.select((state: any) =>{
+      return state.user.cropProfilePictureUrl !== undefined && state.user.cropProfilePictureUrl !== ''? state.user.cropProfilePictureUrl : state.user.profilePictureUrl
+    }).subscribe((res)=>{ 
+      this.profileImageUrl = res
+    })
+    
     this.store.select((state: any)=>{
       return state.user.uid
     }).subscribe((value)=>{
@@ -156,6 +164,11 @@ export class JobPostDetailsComponent implements OnDestroy{
           this.router.navigate(['/pharma'])
         }
       })
+    })
+    this.store.select((state: any) =>{
+      return state.user.name + ' ' + state.user.surname
+    }).subscribe((res)=>{
+      this.fullName = res
     })
     this.subscription.add(this.store.select((state: any)=>{
       let newJob!:jobPostModel
@@ -299,7 +312,7 @@ export class JobPostDetailsComponent implements OnDestroy{
   
   requestJobConfirm(){
       this.loadingConfirmRequestFlag = true
-      this.jobPostService.requestJob(this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then((value: any)=>{
+      this.jobPostService.requestJob(this.fullName, this.profileImageUrl, this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then((value: any)=>{
         this.loadingConfirmRequestFlag = false
         this.successFlag = true
         const jobRequest:jobRequest = {

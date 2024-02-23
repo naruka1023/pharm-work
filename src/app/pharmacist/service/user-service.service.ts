@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { aggregationCount, notificationContent, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
+import { aggregationCount, notificationContent, notifications, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
 import { addDoc, collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, query, updateDoc, where } from '@angular/fire/firestore';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
 import { url } from 'src/environments/environment';
@@ -81,6 +81,9 @@ export class UserServiceService {
   getOperatorData(operatorUID:string){
     return getDoc(doc(this.firestore, 'users', operatorUID))
   }
+  updateNotifications(notification: Partial<notificationContent>){
+    return updateDoc(doc(this.firestore, 'notification-archive', notification.notificationID!), notification)
+  } 
   updateUser(user: Partial<User>){
     return updateDoc(doc(this.firestore, 'users', user.uid!), user)
   } 
@@ -93,7 +96,7 @@ export class UserServiceService {
             ...value.doc.data() as notificationContent,
             notificationID: value.doc.id
           },
-          type: value.type
+          type: value.type 
         }
         switch(notificationPayload.type){
           case 'added':

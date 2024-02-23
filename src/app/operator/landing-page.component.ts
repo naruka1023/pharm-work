@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription, from, map } from 'rxjs';
 import { removeCurrentUser, setCurrentUser } from '../state/actions/users.action';
@@ -10,17 +10,16 @@ import { clearFavorites, setFavorites } from './state/actions/users-actions';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UtilService } from './service/util.service';
-import { User, UserPharma, aggregationCount, requestView } from './model/user.model';
+import { User, UserPharma, aggregationCount, notificationContent, requestView } from './model/user.model';
 import { addRequestView } from './state/actions/request-view.actions';
 import { Auth, sendEmailVerification, user } from '@angular/fire/auth';
-import { Firestore, collection, getDocs, query, updateDoc, doc, where, addDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, updateDoc, doc, where, addDoc, deleteDoc, onSnapshot } from '@angular/fire/firestore';
 import _ from 'lodash';
-import { jobPostModel } from './model/jobPost.model';
 import { OperatorProfileComponent } from './page/operator-profile/operator-profile.component';
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
-import { userOperator } from '../pharmacist/model/typescriptModel/jobPost.model';
 import moment from 'moment';
 import { url } from 'src/environments/environment';
+import { Messaging, onMessage } from '@angular/fire/messaging';
 declare let window: any;
 
 @Component({
@@ -32,7 +31,8 @@ export class LandingPageComponent implements AfterViewInit {
   addJobConfirmModal: any
   display: any;
   private auth: Auth = inject(Auth)
-  private db:Firestore = inject(Firestore)
+  private _messaging:Messaging = inject(Messaging)
+  private db: Firestore = inject(Firestore)
   googleMapLoadingFlag: boolean = false
   subject!:Subscription
   requestViewForm!: FormGroup
@@ -47,6 +47,7 @@ export class LandingPageComponent implements AfterViewInit {
     userOperatorCount: 0,
     userPharmaCount: 0
   }
+  i: number = 0
   accuracy!: number;
   _geoLoc: any;
   zoom: number = 15
@@ -75,13 +76,42 @@ export class LandingPageComponent implements AfterViewInit {
     editorData: ''
   };
   addJobModal!: any
+  jobPostUID?: string
+  type!: string 
   shareModal!: any
   offCanvas!: any
+  notificationsFlag?: any 
+  notificationsArchive: notificationContent[] = []
 
-  constructor(private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
+  constructor(private activatedRoute: ActivatedRoute,private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
   
   ngOnInit(){
     this.initializeGoogleMapForm()
+    onMessage(this._messaging, (payload)=>{
+      console.log(payload)
+    })
+    this.store.select((state:any)=>{
+      return state.notifications.notificationsArchive
+    }).subscribe((notificationArchive)=>{
+      let temp: notificationContent[]= []
+      Object.keys(notificationArchive).map((key)=> {
+        temp.push(notificationArchive[key])
+      })
+      this.notificationsArchive = temp
+    })
+    this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
+    this.notificationsFlag = this.notificationsFlag == 'true'?true:false
+  if(this.notificationsFlag){
+    this.jobPostUID = this.activatedRoute.snapshot.queryParamMap.get('url')!  
+    let payload = this.jobPostUID.split('?')[this.jobPostUID.split('?').length - 1]
+    this.jobPostUID = payload.split('=')[1]
+    this.type = payload.split('=')[0]
+    localStorage.setItem('type', this.type)
+    localStorage.setItem('jobUID', this.jobPostUID)
+  }else{
+    localStorage.removeItem('type')
+    localStorage.removeItem('jobUID')
+  }
     this.addJobConfirmModal = new window.bootstrap.Modal(
       document.getElementById('addJobConfirmModal')
     )
@@ -114,6 +144,10 @@ export class LandingPageComponent implements AfterViewInit {
       })
       user(this.auth).subscribe((user)=>{
         if(user){
+          onMessage(this._messaging,(payload)=>{
+            this.appendAlert(payload.notification,'light', this.i, payload.fcmOptions!.link!)
+            this.i++
+          })
           this.emailVerifiedFlag = user.emailVerified
           this.store.select((state: any)=>{
           return state.recentlySeen
@@ -122,6 +156,7 @@ export class LandingPageComponent implements AfterViewInit {
             this.store.dispatch(removeRecentlySeen());
           }
         })
+        this.userService.getNotifications(user.uid)
         this.store.select((state: any)=>{
           return {
             followers: state.user.followers,
@@ -144,6 +179,16 @@ export class LandingPageComponent implements AfterViewInit {
         this.userService.getFavorites(user.uid).then((favorites1: any)=>{
           this.userService.getListOfUsersFromFavorites(favorites1).then((favorites)=>{
             this.store.dispatch(setFavorites({favorites:favorites as any}))
+          })
+        })
+        onSnapshot(query(collection(this.db, 'users'), where('uid', '==', user.uid)), (snapshot) =>{
+          snapshot.docChanges().forEach((value)=>{
+            if(value.type == 'modified'){
+              const data = value.doc.data() as User
+              this.store.dispatch(setCurrentUser({
+                user:{showProfileFlag: data.showProfileFlag}
+              }))
+            }
           })
         })
       }else{
@@ -182,6 +227,62 @@ export class LandingPageComponent implements AfterViewInit {
 
   move(event: google.maps.MapMouseEvent) {
     if (event.latLng != null) this.display = event.latLng.toJSON();
+  }
+
+  updateShowProfile(){
+    if(!this.user.showProfileFlag){
+      this.store.dispatch(setCurrentUser({user:{showProfileFlag: true}}))
+      this.userService.updateUser({
+        showProfileFlag: true,
+        uid: this.user.uid
+      })
+    }
+  }
+
+  goToNotifications(url: string, notificationID: string){
+    this.store.dispatch(setCurrentUser({user:{showProfileFlag: true}}))
+    this.userService.updateNotifications({
+      notificationID: notificationID,
+      newFlag: false
+    })
+    const payload = url.split('/')[url.split('/').length-1].split('?')[1].split('=')
+    this.route.navigate(['notifications'], {
+      relativeTo: this.activatedRoute,
+      queryParams:{
+        userUID: payload[1],
+        type: payload[0]
+      }
+    })
+  }
+  
+  appendAlert(message: any, type: any, i: number, link: string){
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')!
+    const localIndex = i
+    const wrapper = document.createElement('div')
+    wrapper.setAttribute('id', 'myAlert' + i);
+    wrapper.classList.add('semi-border-input')
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} mb-0 d-flex alert-dismissible textResponsive align-items-end" role="alert">`,
+      `   
+          <div><img src=${message.image} width=150 height=150 class="me-3"/></div>  
+          <div>
+            <div class="mb-3">
+              <b>${message.body}</b>
+            </div>
+            <div class="mb-3">
+              ${message.title}
+            </div>
+          </div>`,
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      '</div>'
+    ].join('')
+  
+    alertPlaceholder.append(wrapper)
+    setTimeout(()=>{
+      const dom = document.getElementById('myAlert' + i)
+      const alert = window.bootstrap.Alert.getOrCreateInstance(dom)
+      alert.close()
+    }, 5000)
   }
 
 moveMap(event: any){

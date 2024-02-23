@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import * as _ from 'lodash';
-import { Favorite, User, UserPharma, UserSearchForm, UserUrgentSearchForm, aggregationCount, requestView, requestViewList, requestViewState } from '../model/user.model';
-import { DocumentData, Firestore, QuerySnapshot, Unsubscribe, addDoc, collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from '@angular/fire/firestore';
+import { Favorite, User, UserPharma, UserSearchForm, UserUrgentSearchForm, aggregationCount, notificationContent, requestView, requestViewList, requestViewState } from '../model/user.model';
+import { DocumentData, Firestore, QuerySnapshot, Unsubscribe, addDoc, collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, onSnapshot, orderBy, query, updateDoc, where } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
 import { jobRequest } from '../model/jobPost.model';
@@ -12,6 +12,7 @@ import { UtilService } from './util.service';
 import { FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { url } from 'src/environments/environment';
+import { removeNotifications, modifyNotifications, addNotifications } from '../state/actions/notifications.actions.';
 
 const client = algoliasearch(algoliaEnvironment.app_id, algoliaEnvironment.user_api_key);
 @Injectable({
@@ -29,6 +30,8 @@ export class UsersService {
       },
     })
   }
+
+
 
   async searchPharmaUsersByPreferredJobType(form:UserSearchForm){
     let newForm = this.utilService.populateObjectWithLocationFields(form)
@@ -145,6 +148,47 @@ export class UsersService {
     }
   }
 
+  updateNotifications(notification: Partial<notificationContent>){
+    return updateDoc(doc(this.db, 'notification-archive', notification.notificationID!), notification)
+  } 
+  
+  getNotifications(userUID: string){
+    onSnapshot(query(collection(this.db, 'notification-archive'), where('userUID', '==', userUID)), (notification)=>{
+      return notification.docChanges().map((value)=>{
+        let notificationArray: notificationContent [] = []
+        let notificationPayload = {
+          payload: {
+            ...value.doc.data() as notificationContent,
+            notificationID: value.doc.id
+          },
+          type: value.type 
+        }
+        switch(notificationPayload.type){
+          case 'added':
+            notificationArray.push(notificationPayload.payload)
+            break;
+          case 'removed':
+            this.store.dispatch(removeNotifications({notification: notificationPayload.payload}))
+            break;
+          case 'modified':
+            this.store.dispatch(modifyNotifications({notification: notificationPayload.payload}))
+            break;
+        }
+        if(notificationArray.length > 0){
+          let finalNotificationPayload: {
+            [key:string]: notificationContent
+          } = {}
+          notificationArray.forEach((notification)=>{
+            finalNotificationPayload[notification.notificationID] = notification;
+          })
+          this.store.dispatch(addNotifications({notifications:finalNotificationPayload}))
+        }
+      })
+    })
+  }
+  updateUser(user: Partial<User>){
+    return updateDoc(doc(this.db, 'users', user.uid!), user)
+  } 
     async getAllPharmaUsers(){
       let promises: any = []
       this.converter.getPlaceHolderObject().forEach((placeHolder)=>{
@@ -281,6 +325,12 @@ export class UsersService {
       userUID: userUID,
     }
     return addDoc(collection(this.db, 'favorite'), payload)
+  }
+  async getUser(userUID:string): Promise<UserPharma>{
+    let job = await getDoc(doc(this.db, 'users', userUID)) 
+    return {
+      ...job.data(),
+    } as UserPharma
   }
 
   async getUserFromJobRequest(payload: jobRequest): Promise<UserPharma>{

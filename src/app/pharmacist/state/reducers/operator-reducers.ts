@@ -17,6 +17,7 @@ const emptyOperator = {
     Section: ''
   },
   jobType: '',
+  showProfileFlag: true,
   companyName: '',
   loadingOperator: true,
   companySize: '',

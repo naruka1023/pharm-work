@@ -34,6 +34,8 @@ export class JobPostSmallCardComponent  {
   establishmentLimit = 21;
   jobName!: string;
   establishmentName!: string;
+  fullName!: string 
+  profileImageUrl!: string
   ngOnInit(){
     this.modalID = 'shareModal' + this.content.custom_doc_id
     if(this.content.cropProfilePictureUrl == ''){
@@ -45,6 +47,16 @@ export class JobPostSmallCardComponent  {
       if(value !== ''){
         this.userID = value
       }
+    })
+    this.store.select((state: any) =>{
+      return state.user.name + ' ' + state.user.surname
+    }).subscribe((res)=>{
+      this.fullName = res
+    })
+    this.store.select((state: any) =>{
+      return state.user.cropProfilePictureUrl
+    }).subscribe((res)=>{
+      this.profileImageUrl = res
     })
     this.requestFlag$ = this.store.select((state:any)=>{
       return state.jobpost.JobRequests[this.content.custom_doc_id + '-' + this.userID] !== undefined?true:false
@@ -112,7 +124,7 @@ toggleShare(){
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['pharma/login'])
     }else{
-      this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
+      this.jobPostService.requestJob(this.fullName, this.profileImageUrl, this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
           const jobRequest:jobRequest = {
             operatorUID: this.content.OperatorUID,
             userUID: this.userID,

@@ -1,7 +1,7 @@
 import { UserPharma } from "./user.model";
 
 export interface jobPostModel {
-    Amount: 2;
+    Amount: number;
     CategorySymbol: string;
     BTS: {
         Near: boolean;

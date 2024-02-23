@@ -43,6 +43,7 @@ export interface userOperator{
     TravelInstructions: string,
     _geolocCurrent?: _geoloc;
     profilePictureUrl?:string,
+    showProfileFlag: boolean,
     operatorJobs?: jobPostModel[],
     benefits: string,
     cropProfilePictureUrl?: string,

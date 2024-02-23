@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs';
 import { JobPostService } from './service/job-post.service';
 import { updateFollowersList, EmptyJobPostAppState, removeJobRequest } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
-import { removeCurrentUser } from '../state/actions/users.action';
-import { Bookmark, Follow, jobPostModel, jobRequest } from './model/typescriptModel/jobPost.model';
+import { removeCurrentUser, setCurrentUser } from '../state/actions/users.action';
+import { Bookmark, Follow, jobPostModel, jobRequest, userOperator } from './model/typescriptModel/jobPost.model';
 import { UtilService } from './service/util.service';
 import { User } from '../model/user.model';
 import { UserServiceService } from './service/user-service.service';
@@ -15,7 +15,9 @@ import { Auth, user,sendEmailVerification } from '@angular/fire/auth';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import * as _ from 'lodash';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
-import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot, updateDoc } from '@angular/fire/firestore';
+import { Messaging, onMessage } from '@angular/fire/messaging';
+import { modifyNotifications } from './state/actions/notifications.actions.';
 declare var window: any;
 
 
@@ -67,6 +69,7 @@ export class LandingPageComponent {
   constructor(private meta: Meta, private pharmaProfileComponent: PharmaProfileComponent, private userService: UserServiceService, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router,  private utilService:UtilService) {
     
   }
+  private _messaging = inject(Messaging);
   private firestore = inject(Firestore)
   ngOnInit(){  
     this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
@@ -117,7 +120,6 @@ export class LandingPageComponent {
       temp.push(notificationArchive[key])
     })
     this.notificationsArchive = temp
-    console.log(notificationArchive)
   })
   this.store.select((state: any)=>{
     return state.recentlySeen
@@ -128,6 +130,10 @@ export class LandingPageComponent {
   })
   this.subject = user(this.auth).subscribe((user)=>{
     if(user){
+      onMessage(this._messaging,(payload)=>{
+        this.appendAlert(payload.notification,'light', this.i, payload.fcmOptions!.link!)
+        this.i++
+      })
       this.userService.getCountGroup().then((aggregation)=>{
         this.aggregationGroup = aggregation
       })
@@ -165,6 +171,16 @@ export class LandingPageComponent {
           this.store.dispatch(updateFollowersList({ followers:payload }))
         })
 
+      })
+      onSnapshot(query(collection(this.firestore, 'users'), where('uid', '==', user.uid)), (snapshot) =>{
+        snapshot.docChanges().forEach((value)=>{
+          if(value.type == 'modified'){
+            const data = value.doc.data() as User
+            this.store.dispatch(setCurrentUser({
+              user:{showProfileFlag: data.showProfileFlag}
+            }))
+          }
+        })
       })
       onSnapshot(query(collection(this.firestore, 'job-request'), where('userUID', '==', user.uid)), (jobRequest)=>{
         return jobRequest.docChanges().map((value)=>{
@@ -211,6 +227,47 @@ export class LandingPageComponent {
     this.requestView = requestView
     this.formModal.show()
   })
+  
+  
+}
+updateShowProfile(){
+  if(!this.user.showProfileFlag){
+    this.store.dispatch(setCurrentUser({user:{showProfileFlag: true}}))
+    this.userService.updateUser({
+      showProfileFlag: true,
+      uid: this.user.uid
+    })
+  }
+}
+
+appendAlert(message: any, type: any, i: number, link: string){
+  const alertPlaceholder = document.getElementById('liveAlertPlaceholder')!
+  const localIndex = i
+  const wrapper = document.createElement('div')
+  wrapper.setAttribute('id', 'myAlert' + i);
+  wrapper.classList.add('semi-border-input')
+  wrapper.innerHTML = [
+    `<div class="alert alert-${type} mb-0 d-flex alert-dismissible textResponsive align-items-end" role="alert">`,
+    `   
+        <div><img src=${message.image} width=150 height=150 class="me-3"/></div>  
+        <div>
+          <div class="mb-3">
+            <b>${message.body}</b>
+          </div>
+          <div class="mb-3">
+            ${message.title}
+          </div>
+        </div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+
+  alertPlaceholder.append(wrapper)
+  setTimeout(()=>{
+    const dom = document.getElementById('myAlert' + i)
+    const alert = window.bootstrap.Alert.getOrCreateInstance(dom)
+    alert.close()
+  }, 5000)
 }
 
 goToHome(){
@@ -219,7 +276,23 @@ goToHome(){
   this.route.navigate(['pharma'])
 }
 
-goToNotifications(url: string){
+goToNotificationsFromAlert(url: string){
+  const payload = url.split('/')[url.split('/').length-1].split('?')[1].split('=')
+  this.route.navigate(['notifications'], {
+    relativeTo: this.activatedRoute,
+    queryParams:{
+      jobUID: payload[1],
+      type: payload[0]
+    }
+  })
+}
+
+goToNotifications(url: string, notificationID: string){
+  this.store.dispatch(setCurrentUser({user:{showProfileFlag: true}}))
+  this.userService.updateNotifications({
+    notificationID: notificationID,
+    newFlag: false
+  })
   const payload = url.split('/')[url.split('/').length-1].split('?')[1].split('=')
   this.route.navigate(['notifications'], {
     relativeTo: this.activatedRoute,

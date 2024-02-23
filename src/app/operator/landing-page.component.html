@@ -21,7 +21,7 @@
     <div class="headerLabel d-flex justify-content-between">
       
       <div class="d-flex p-2 flex-row-reverse" id="collapsibleNavbar">
-          <ul style="list-style-type: none; margin-bottom:0" class="navClass fs-4 d-flex align-items-end">
+          <ul style="list-style-type: none; margin-bottom:0" class="navClass fs-3 d-flex align-items-end">
             <li class="nav-item ms-3" style="cursor:pointer">
               <a class="nav-link green-text">ประวัติเภสัชกร</a>
             </li>
@@ -38,8 +38,35 @@
                 </a>
               </div>
             </li>
-            <!-- <li class="nav-item me-2"><a  data-bs-toggle="tooltip" title="ประกาศงานทั้งหมด" routerLink="profile-operator/all-jobs-posts"class="nav-link"><i class="bi bi-inboxes"></i></a></li> -->
-            <li class="nav-item ms-3"><a  data-bs-toggle="tooltip" title="Coming Soon" class="nav-link"><i class="bi bi-bell-fill"></i></a></li>
+            <li class="nav-item dropdown ms-3">
+              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="bi bi-bell-fill" (click)="updateShowProfile()">
+                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle" *ngIf="!user.showProfileFlag">
+                  <span class="visually-hidden">New alerts</span>
+                </span>
+              </i></a>
+              <ul class="dropdown-menu dropdown-menu-end p-2 fs-3" style="overflow-y: scroll; max-height:80vh">
+                <ng-container *ngIf="notificationsArchive.length == 0; then emptyNotification; else notEmptyNotification"></ng-container>
+                <ng-template #emptyNotification>
+                  <div style="white-space:nowrap">
+                    ไม่พบข้อความแจ้งเตือน
+                  </div>
+                </ng-template>
+                <ng-template #notEmptyNotification>
+                  <li *ngFor="let notification of notificationsArchive" class="dropdown-item" aria-current="true">
+                      <div style="cursor:pointer" (click)="goToNotifications(notification.url, notification.notificationID)" class="align-items-center d-flex flex-row-start">
+                        <img class="rounded-circle" width="50" height="50" src="{{notification.image}}"/>
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">{{notification.title}}</div>
+                          {{notification.body}}
+                        </div>
+                        <span [ngClass]="notification.newFlag? '': 'visually-hidden'" class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle">
+                          <span class="visually-hidden">New alerts</span>
+                        </span>
+                      </div>
+                  </li>
+                </ng-template>
+              </ul>
+            </li>
             <li class="nav-item ms-3">
               <div class="dropdown">
                 
@@ -112,6 +139,7 @@
     <div class="d-flex my-2" (click)="signOut()"><i class="bi bi-box-arrow-right me-3"></i>Sign Out</div>
   </div>
 </div>
+<div id="liveAlertPlaceholder" class="position-fixed bottom-0 end-0 mb-4 me-4" style="z-index:10"></div>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
 <div class="modal fade" id="requestViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

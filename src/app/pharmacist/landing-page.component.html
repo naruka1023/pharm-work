@@ -45,12 +45,12 @@
               </ul>
             </li>
             <li class="nav-item dropdown fs-2 me-2">
-              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="bi bi-bell-fill">
-                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="bi bi-bell-fill" (click)="updateShowProfile()">
+                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle" *ngIf="!user.showProfileFlag">
                   <span class="visually-hidden">New alerts</span>
                 </span>
               </i></a>
-              <ul class="dropdown-menu dropdown-menu-end p-2 fs-3" >
+              <ul class="dropdown-menu dropdown-menu-end p-2 fs-3" style="overflow-y: scroll; max-height:80vh">
                 <ng-container *ngIf="notificationsArchive.length == 0; then emptyNotification; else notEmptyNotification"></ng-container>
                 <ng-template #emptyNotification>
                   <div style="white-space:nowrap">
@@ -58,13 +58,16 @@
                   </div>
                 </ng-template>
                 <ng-template #notEmptyNotification>
-                  <li *ngFor="let notification of notificationsArchive" class="dropdown-item" ariac-urrent="true">
-                      <div style="cursor:pointer" class="d-flex flex-row-start" (click)="goToNotifications(notification.url)">
+                  <li *ngFor="let notification of notificationsArchive" class="dropdown-item" aria-current="true">
+                      <div style="cursor:pointer" (click)="goToNotifications(notification.url, notification.notificationID)" class="align-items-center d-flex flex-row-start">
                         <img class="rounded-circle" width="50" height="50" src="{{notification.image}}"/>
                         <div class="ms-2 me-auto">
                           <div class="fw-bold">{{notification.title}}</div>
                           {{notification.body}}
                         </div>
+                        <span [ngClass]="notification.newFlag? '': 'visually-hidden'" class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle">
+                          <span class="visually-hidden">New alerts</span>
+                        </span>
                       </div>
                   </li>
                 </ng-template>
@@ -266,6 +269,8 @@
     </ng-template>
   </div>
 </div>
+<div id="liveAlertPlaceholder" class="position-fixed bottom-0 end-0 mb-4 me-4" style="z-index:10"></div>
+
 <router-outlet></router-outlet>
 <app-footer></app-footer>
 

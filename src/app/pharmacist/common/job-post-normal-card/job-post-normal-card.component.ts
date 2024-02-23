@@ -33,6 +33,8 @@ export class JobPostNormalCardComponent{
   bypassOperatorFlag: boolean = false
   cancelJobFlag: boolean = false
   jobRequestUID!: string;
+  fullName!: string 
+  profileImageUrl!: string
   
   constructor(private landingPageComponent: LandingPageComponent, private activatedRoute:ActivatedRoute, private store: Store,private utilService:UtilService, private jobPostService: JobPostService, private router: Router, private routeService:RoutingService){}
 
@@ -46,6 +48,16 @@ export class JobPostNormalCardComponent{
     })
     this.studentFlag$ = this.store.select((state:any)=>{
       return state.user.studentFlag  
+    })
+    this.store.select((state: any) =>{
+      return state.user.cropProfilePictureUrl !== undefined && state.user.cropProfilePictureUrl !== ''? state.user.cropProfilePictureUrl : state.user.profilePictureUrl
+    }).subscribe((res)=>{
+      this.profileImageUrl = res
+    })
+    this.store.select((state: any) =>{
+      return state.user.name + ' ' + state.user.surname
+    }).subscribe((res)=>{
+      this.fullName = res
     })
     this.childrenPath = this.activatedRoute.snapshot.routeConfig!.path!;
     switch(this.activatedRoute.snapshot.routeConfig?.path){
@@ -116,7 +128,7 @@ toggleShare(){
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['pharma/login'])
     }else{
-      this.jobPostService.requestJob(this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
+      this.jobPostService.requestJob(this.fullName, this.profileImageUrl, this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
         const jobRequest:jobRequest = {
           operatorUID: this.content.OperatorUID,
           userUID: this.userID,

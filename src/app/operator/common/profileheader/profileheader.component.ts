@@ -100,6 +100,10 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
                 return user.uid == this.route.snapshot.queryParamMap.get('userUID')
               })
               break;
+            case 'notification':
+              let newState = state.notifications.user.content
+              this.profileInformation$ = newState
+              break;
             case 'request-jobs':
               let profileLinkFlag = this.route.snapshot.queryParamMap.get('profileLinkPage')
               if(profileLinkFlag == 'true'){

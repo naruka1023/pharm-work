@@ -177,6 +177,7 @@ export class RegisterComponent implements AfterViewInit {
       companyID: ['', [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
       nameOfPerson: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
+      showProfileFlag: true,
       Agreement: ['', [Validators.requiredTrue]]
     },
     {

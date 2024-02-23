@@ -4,12 +4,13 @@ import { Observable, Subject } from 'rxjs';
 import { Bookmark, Follow, jobPostModel, jobPostPayload, jobRequest, JobSearchForm, userOperator } from '../model/typescriptModel/jobPost.model';
 import headerArray from '../model/data/uiKeys';
 import algoliasearch, { SearchIndex } from 'algoliasearch/lite';
-import { algoliaEnvironment } from 'src/environments/environment';
+import { algoliaEnvironment, url } from 'src/environments/environment';
 import { collection, getCountFromServer, Firestore, query, where, getDocs, doc, onSnapshot, Unsubscribe, addDoc, deleteDoc, getDoc, orderBy, limit} from '@angular/fire/firestore';
 import { addBookmark, addJobRequest, followOperator, removeBookmark, removeJobRequest } from '../state/actions/job-post.actions';
 import { Store } from '@ngrx/store';
 import { UtilService } from './util.service';
 import { FormGroup } from '@angular/forms';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 const client = algoliasearch(algoliaEnvironment.app_id, algoliaEnvironment.api_key);
 
@@ -20,7 +21,7 @@ export class JobPostService {
   hitsPerPage:number = 8
   RecentlySeenSubject: Subject<void> = new Subject();
   
-  constructor(private utilService:UtilService, private store:Store) { }
+  constructor(private http:HttpClient,private utilService:UtilService, private store:Store) { }
   private firestore = inject(Firestore)
   
   getRecentlySeenSubject(): Observable<void>{
@@ -145,7 +146,15 @@ export class JobPostService {
     return getDocs(query(collection(this.firestore, 'job-request'), where('userUID', '==', userID)))
   }
 
-  requestJob(jobID:string, operatorID:string, userID:string){
+  requestJob(fullName: string, imageUrl: string, jobID:string, operatorID:string, userID:string){
+    const params = new HttpParams().set('imageUrl', imageUrl).set('fullName', fullName).set('operatorUID', operatorID).set('userUID', userID)
+    this.http.get(url.jobRequestNotification, {
+      params:params,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+    }).subscribe(()=>{
+    })
     let payload: jobRequest = {
       operatorUID: operatorID,
       userUID: userID,

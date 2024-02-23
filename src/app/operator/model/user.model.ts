@@ -1,3 +1,4 @@
+
 export interface User{
     email: string,
     companyName?: string,
@@ -9,6 +10,7 @@ export interface User{
     TravelInstructions: string,
     _geolocCurrent?: _geoloc;
     profilePictureUrl?:string,
+    showProfileFlag: boolean;
     benefits: string,
     cropProfilePictureUrl?: string,
     followers: number,
@@ -27,6 +29,26 @@ export interface User{
     },
     uid: string;
 }
+
+export interface notifications{
+    user:{
+        content: UserPharma,
+        loading: boolean
+    },
+    notificationsArchive: {
+        [key: string]: notificationContent
+    }
+}
+
+export interface notificationContent{
+    body: string;
+    image: string;
+    title: string;
+    url: string;
+    newFlag: boolean;
+    notificationID: string
+}
+
 export interface aggregationCount{
     jobCount: number;
     userPharmaCount: number;
