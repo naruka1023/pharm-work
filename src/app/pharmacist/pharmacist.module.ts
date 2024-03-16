@@ -59,6 +59,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { notificationsReducer } from './state/reducers/notifications.reducers.';
+import { CheckoutComponent } from './page/checkout/checkout.component';
 
 
 @NgModule({
@@ -126,7 +127,8 @@ import { notificationsReducer } from './state/reducers/notifications.reducers.';
     SalaryTypePipe,
     WorkExperiencePipe,
     ProvinceFilterPipe,
-    NotificationsComponent
+    NotificationsComponent,
+    CheckoutComponent
   ],
   providers:[PharmaProfileComponent, LandingPageComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]

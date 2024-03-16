@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
+import { LandingPageComponent } from 'src/app/pharmacist/landing-page.component';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
 import { JobTypeConverterService } from 'src/app/pharmacist/service/job-type-converter.service';
 import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
@@ -29,7 +30,7 @@ export class InnerProfileComponent{
   privacyLoadingFlag: boolean = false;
   
   
-  constructor(private userService: UserServiceService, private store: Store){  
+  constructor(private userService: UserServiceService, private store: Store, private landingPageComponent:LandingPageComponent){  
   }
   
   ngOnInit(){
@@ -79,9 +80,9 @@ export class InnerProfileComponent{
   }
 
   confirmChangePrivacy(){
-
     this.privacyLevel = this.tempLevel
     this.privacyLabel = this.tempLabel
+    console.log('confirmchangeprivacy label', this.privacyLabel)
     this.resetTemp()
     this.confirmViewProfile.hide()
     let newJobPreferredType = this.innerProfileInformation.preferredJobType?.filter((jobType)=>{
@@ -89,10 +90,15 @@ export class InnerProfileComponent{
     })
     this.privacyLoadingFlag = true;
     this.userService.updateUser({uid: this.innerProfileInformation.uid, active:this.privacyLabel, preferredJobType: newJobPreferredType}).then(()=>{
+      this.landingPageComponent.appendAlertfromOutside({
+        body: '',
+        title:'ประวัติของคุณ ถูกตั้งค่าการเปิดเผยข้อมูลเป็น ' + this.privacyLabel + ' เรียบร้อย',
+        image: 'assets/accept.png',
+        url: 'empty',
+      })  
       this.privacyLoadingFlag = false;
       let payload: any = {
         preferredJobType: newJobPreferredType,
-        active: this.privacyLabel
       }
       this.store.dispatch(setCurrentUser({user:payload}))
     })
@@ -109,11 +115,13 @@ export class InnerProfileComponent{
       this.privacyLabel = privacyLabel
       this.privacyLoadingFlag = true;
       this.userService.updateUser({uid: this.innerProfileInformation.uid, active:this.privacyLabel}).then(()=>{
+        this.landingPageComponent.appendAlertfromOutside({
+          body: '',
+          title:'ประวัติของคุณ ถูกตั้งค่าการเปิดเผยข้อมูลเป็น ' + this.privacyLabel + ' เรียบร้อย',
+          image: 'assets/accept.png',
+          url: 'empty',
+        }) 
         this.privacyLoadingFlag = false;
-        let payload: any = {
-          active: this.privacyLabel
-        }
-        this.store.dispatch(setCurrentUser({user:payload}))
       })
     }
   }

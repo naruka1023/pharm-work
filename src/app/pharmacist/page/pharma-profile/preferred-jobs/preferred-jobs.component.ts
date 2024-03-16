@@ -54,7 +54,6 @@ export class PreferredJobsComponent {
         CA: new FormControl(false),
         CB: new FormControl(false),
       }, atLeastOneCheckboxCheckedValidator()),
-      showProfileFlag: true,
       preferredTimeFrame: [[''], Validators.required],
       preferredLocation: this.fb.group({
         Section: [''],

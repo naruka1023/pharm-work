@@ -10,6 +10,7 @@ import { Messaging, getToken, onMessage } from '@angular/fire/messaging';
 import { Firestore, addDoc, collection, doc, getDocs, query, where } from '@angular/fire/firestore';
 import { vapidKey } from 'src/environments/environment';
 import { updateDoc } from 'firebase/firestore';
+import { StringNullableChain } from 'lodash';
 
 
 
@@ -24,8 +25,10 @@ export class AppComponent {
   constructor(private store: Store ,private route: Router, private userService:UserService) {}
   private auth: Auth = inject(Auth)  
   private db: Firestore = inject(Firestore)
-
+  clickHandler!: any
+  userUID: string = ''
   role!: string
+  vapidKey: string = vapidKey
   ngOnInit(){
 // Add the public key generated from the console here.
 
@@ -40,19 +43,20 @@ export class AppComponent {
 
     // // (A2) THEN LOCK ORIENTATION
     // screen.orientation.lock('portrait');
+    console.log(navigator.userAgent)
     this.store.dispatch(removeDefaultKey())
     this.store.select((state: any)=>{
       return state.user.role
     }).subscribe((role)=>{
       if(role !== '' && this.currentUrl.indexOf('landing') == -1){
-        const notificationFlag = this.currentUrl.indexOf('notifications') !== -1
-        console.log(this.currentUrl)
+        const notificationFlag = this.currentUrl.indexOf('/notifications?') !== -1
+        const url = notificationFlag? this.currentUrl.split('?')[1]: 'empty'
         if(role == 'เภสัชกร'){
           this.route.navigate(['pharma'],{
             queryParams: 
             {
               notificationsFlag: notificationFlag,
-              url: this.currentUrl
+              url: url
             }
           });
         }else{
@@ -60,7 +64,7 @@ export class AppComponent {
             queryParams: 
             {
               notificationsFlag: notificationFlag,
-              url: this.currentUrl
+              url: url
             }
           });
         }
@@ -71,9 +75,9 @@ export class AppComponent {
       }
     })
     if(this.currentUrl.indexOf('landing') == -1){
-      console.log()
       user(this.auth).subscribe((user)=>{
         if(user){
+            this.userUID = user.uid
             const bool = true
             if(bool){
               this.userService.getUser(user.uid).then((user)=>{
@@ -103,7 +107,6 @@ export class AppComponent {
                     coverPhotoFlag: true
                   }
                 }))
-                this.requestPermission(user.uid)
               })
             }else{
               const emptyUser: User = {
@@ -139,6 +142,10 @@ export class AppComponent {
                 }
               })
             }
+            if(!this.clickHandler){
+              this.clickHandler = this.requestPermission.bind(this);
+            }
+            document.addEventListener('click', this.clickHandler)
             localStorage.setItem('loginState', 'true')
         }else{
           const emptyUser: User = {
@@ -174,17 +181,16 @@ export class AppComponent {
       })
     }
   }
-
-  requestPermission(uid: string) {
-    console.log('Requesting permission...');
-    Notification.requestPermission().then((permission) => {
+  requestPermission (uid: any) {
+    document.removeEventListener('click', this.clickHandler)
+    window.Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
-        getToken(this._messaging, {vapidKey: vapidKey}).then((currentToken) => {
+        getToken(this._messaging, {vapidKey: this.vapidKey}).then((currentToken) => {
           if (currentToken) {
             getDocs(query(collection(this.db, "notification-token"), where('notificationToken', '==' , currentToken), where ('userUID', '==', uid))).then((users)=>{
               if(users.empty){
                 addDoc(collection(this.db, "notification-token"), {
-                  userUID: uid,
+                  userUID: this.userUID,
                   notificationToken: currentToken
                 })
               }
@@ -196,12 +202,27 @@ export class AppComponent {
           }
         }).catch((err) => {
           console.log('An error occurred while retrieving token. ', err);
-          // ...
+            getToken(this._messaging, {vapidKey: this.vapidKey}).then((currentToken) => {
+              if (currentToken) {
+                getDocs(query(collection(this.db, "notification-token"), where('notificationToken', '==' , currentToken), where ('userUID', '==', this.userUID))).then((users)=>{
+                  if(users.empty){
+                    addDoc(collection(this.db, "notification-token"), {
+                      userUID: this.userUID,
+                      notificationToken: currentToken
+                    })
+                  }
+                })
+              } else {
+                // Show permission request UI
+                console.log('No registration token available. Request permission to generate one.');
+                // ...
+              }
+            })
         });
         console.log('Notification permission granted.');
       }
     })
-  }
+}
 
 }
 

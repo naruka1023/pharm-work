@@ -18,8 +18,28 @@ export class NotificationsComponent {
   ngOnInit(){
     this.userUID = this.activatedRoute.snapshot.queryParamMap.get('userUID')!
     this.type = this.activatedRoute.snapshot.queryParamMap.get('type')!
-    switch(this.type){
-      case 'user':
+    if(this.userUID.indexOf('false') == -1){
+      switch(this.type){
+        case 'user':
+            this.userService.getUser(this.userUID).then((user)=>{
+              if(Object.keys(user).length > 1){
+                this.store.dispatch(onSetUserNotifications({user:user}));
+                this.router.navigate(['/operator/pharma-user-profile'], {
+                  queryParams: 
+                  {
+                    userUID: this.userUID,
+                    pageType:'notification',
+                    profileLinkPage: false,
+                    requestUID: '',
+                    jobUID: ''
+                  }
+                })
+              }else{
+                this.pageStatus = 'emptyJob'
+              }
+            })
+            break;
+            case 'request-view':
           this.userService.getUser(this.userUID).then((user)=>{
             if(Object.keys(user).length > 1){
               this.store.dispatch(onSetUserNotifications({user:user}));
@@ -36,8 +56,11 @@ export class NotificationsComponent {
             }else{
               this.pageStatus = 'emptyJob'
             }
-        })
-      break;
+          })
+        break;
+      }
+    }else{
+      this.router.navigate(['/operator'])
     }
   }
 }

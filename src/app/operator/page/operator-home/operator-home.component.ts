@@ -1,16 +1,6 @@
-import { Component, OnDestroy, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Component } from '@angular/core';
 import SwiperCore, { Autoplay, Mousewheel, Navigation, Pagination } from "swiper";
-import { UserPharma } from '../../model/user.model';
-import { JobTypeConverterService } from '../../service/job-type-converter.service';
-import { UsersService } from '../../service/users.service';
-import { UtilService } from '../../service/util.service';
-import { toggleAddressChange } from '../../state/actions/address.actions';
-import { funnelUsers, toggleLoading } from '../../state/actions/users-actions';
 import { ActivatedRoute, Router } from '@angular/router';
-import { userOperator } from 'src/app/pharmacist/model/typescriptModel/jobPost.model';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 
@@ -20,9 +10,24 @@ SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
   styleUrls: ['./operator-home.component.css']
 })
 export class OperatorHomeComponent {
+  
+  type!: string 
+  userUID!: string
 
+  constructor(private route:Router, private activatedRoute:ActivatedRoute){}
   ngOnInit(){
-   
+      this.type = localStorage.getItem('type')!
+      this.userUID = localStorage.getItem('userUID')!
+      if(this.type !== null){
+        this.route.navigate(['notifications'], {
+          relativeTo: this.activatedRoute,
+          queryParams:{
+            userUID: this.userUID,
+            type: this.type
+          }
+        })
+      }
+    }
   }
-}
+   
   

@@ -159,11 +159,13 @@ export class JobPostNormalCardComponent{
 
   toggleActive(){
     if(!this.activeFlag && this.content.firstNotificationFlag){
-      this.userService.propagateNotifications(this.content.custom_doc_id).subscribe((notification)=>{
-        this.store.dispatch(toggleFirstNotificationJob({jobUID: this.content.custom_doc_id}))
-      })
+      this.userService.propagateNotifications(this.content.custom_doc_id).subscribe(()=>{})
+        this.jobService.updateFirstNotification(this.content.custom_doc_id, this.activeFlag).then(()=>{
+          this.store.dispatch(toggleFirstNotificationJob({jobUID: this.content.custom_doc_id}))
+        })
+    }else{
+      this.jobService.toggleActive(this.content.custom_doc_id, this.activeFlag)
     }
-    this.jobService.toggleActive(this.content.custom_doc_id, this.activeFlag)
   }
 
   editFlag(){

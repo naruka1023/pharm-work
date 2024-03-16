@@ -61,7 +61,6 @@ export class PrivateProfileComponent {
       }),
       license: [''],
       active: ['true'],
-      showProfileFlag: true,
     });
   }
 

@@ -22,6 +22,12 @@
       display: none !important
     }
   }
+@media only screen and (max-width: 500px){
+    .notificationImage{
+      width: 100px;
+      height: 100px
+    }
+  }
   .tooltip{
     font-size: 3rem !important;
  }

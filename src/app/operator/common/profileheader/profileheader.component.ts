@@ -131,11 +131,13 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
             delete this.result.cropProfilePictureUrl
           }
           this.sendUrgentJobsFlag = false;
-          this.result.preferredJobType.forEach((jobType: string)=>{
-            if(jobType == 'งานด่วนรายวัน'){
-              this.sendUrgentJobsFlag = true
-            }
-          })
+          if(this.result.preferredJobType !== undefined){
+            this.result.preferredJobType.forEach((jobType: string)=>{
+              if(jobType == 'งานด่วนรายวัน'){
+                this.sendUrgentJobsFlag = true
+              }
+            })
+          }
           this.coverPhotoVerticalPosition = header.coverPhotoOffset!
         })
         break;

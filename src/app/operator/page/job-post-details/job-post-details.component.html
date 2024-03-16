@@ -233,7 +233,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="footerMainHeader my-3 d-flex justify-content-start">
+	<div class="footerMainHeader my-3 d-flex justify-content-start align-items-center">
 		<div class="dateUpdated">
 			<div class="textResponsive lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}}</div>
 		</div>
@@ -265,8 +265,9 @@
 							</div>
 							<div>{{profile.Contacts.nameRepresentative | emptyField}}</div>
 						</div>
-						<div>
-							<span class="me-3">โทร</span>{{profile.Contacts.phone | emptyField}}
+						<div class="d-sm-flex mb-3">
+							<div class="me-3">โทร</div>
+							<div>{{profile.Contacts.phone | emptyField}}</div>
 						</div>
 					</div>
 				</div>

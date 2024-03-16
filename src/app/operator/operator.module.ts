@@ -50,6 +50,7 @@ import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { notificationsReducer } from './state/reducer/notifications.reducers.';
 import { NotificationsComponent } from './common/notifications/notifications.component';
+import { CheckoutComponent } from './page/checkout/checkout.component';
 
 
 
@@ -84,7 +85,8 @@ import { NotificationsComponent } from './common/notifications/notifications.com
     ProvinceFilterPipe,
     SalaryTypePipe,
     WorkExperiencePipe,
-    NotificationsComponent
+    NotificationsComponent,
+    CheckoutComponent
   ],
   imports: [
     CommonModule,

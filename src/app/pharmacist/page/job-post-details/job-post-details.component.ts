@@ -312,7 +312,7 @@ export class JobPostDetailsComponent implements OnDestroy{
   
   requestJobConfirm(){
       this.loadingConfirmRequestFlag = true
-      this.jobPostService.requestJob(this.fullName, this.profileImageUrl, this.profile.custom_doc_id, this.profile.OperatorUID, this.userID).then((value: any)=>{
+      this.jobPostService.requestJob(this.fullName, this.profileImageUrl, this.profile.custom_doc_id, this.profile.OperatorUID, this.userID, this.profile.JobName).then((value: any)=>{
         this.loadingConfirmRequestFlag = false
         this.successFlag = true
         const jobRequest:jobRequest = {
@@ -344,6 +344,14 @@ export class JobPostDetailsComponent implements OnDestroy{
         })
       }else{
         this.jobPostService.addBookmarkService(this.profile.custom_doc_id,this.userID).then((value)=>{
+          const jobName = this.profile.JobName
+          const establishment = this.profile.Establishment
+          this.landingPageComponent.appendAlertfromOutside({
+            url:'empty',
+            image: this.profile.cropProfilePictureUrl !== undefined? this.profile.cropProfilePictureUrl: this.profile.profilePictureUrl,
+            body:'',
+            title:'ประกาศงาน "' + jobName + '" ของ "' + establishment + '" ได้ถูกบันทึกไว้ใน งานที่บันทึก เรียบร้อย'
+          })
           this.bookmarkID = value.id
           this.utilService.sendListenJobBookmark(this.getBookmarkPayload())
           this.bookmarkLoadingFlag = false

@@ -237,9 +237,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="footerMainHeader my-3 d-flex justify-content-between">
+		<div class="footerMainHeader my-3 d-flex justify-content-between align-items-center">
 			<div class="dateUpdated">
-				<p class="lead ms-3"> อัพเดทล่าสุด {{profile.dateUpdated}}</p>
+				<p class="lead ms-3 mb-0"> อัพเดทล่าสุด {{profile.dateUpdated}}</p>
 			</div>
 			<div class="choices d-flex justify-content-start align-items-end">
 				<!-- <button type="button" class="btn border-input btn-outline-secondary me-5 customPadding">
@@ -320,8 +320,9 @@
 								</div>
 								<div>{{profile.Contacts.nameRepresentative | emptyFieldPipe}}</div>
 							</div>
-							<div>
-								<span class="me-3">โทร</span>{{profile.Contacts.phone | emptyFieldPipe}}
+							<div class="d-sm-flex mb-3">
+								<div class="me-3">โทร</div>
+								<div>{{profile.Contacts.phone | emptyFieldPipe}}</div>
 							</div>
 						</div>
 					</div>

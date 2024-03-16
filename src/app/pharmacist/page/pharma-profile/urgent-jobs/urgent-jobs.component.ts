@@ -8,6 +8,7 @@ import { UtilService } from 'src/app/pharmacist/service/util.service';
 import { JobTypeConverterService } from 'src/app/service/job-type-converter.service';
 import { setCurrentUser } from 'src/app/state/actions/users.action';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { LandingPageComponent } from 'src/app/pharmacist/landing-page.component';
 declare let window: any;
 
 @Component({
@@ -45,7 +46,7 @@ export class UrgentJobsComponent {
   }
   markerOptions: google.maps.MarkerOptions = {draggable: false};
 
-  constructor(private store: Store,  private converter: JobTypeConverterService, private userService: UserServiceService, private fb: FormBuilder, private utilService:UtilService){}
+  constructor(private landingPageComponent: LandingPageComponent, private store: Store,  private converter: JobTypeConverterService, private userService: UserServiceService, private fb: FormBuilder, private utilService:UtilService){}
   
   ngOnInit(){
     this.confirmationModal = new window.bootstrap.Modal(
@@ -107,16 +108,24 @@ export class UrgentJobsComponent {
     }) 
   }
   onSave(){
+    const preferred = this.converter.objectToArray(this.profileEdit.value.preferredJobType)
     let payload: Partial<User>= {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
-      preferredJobType: this.converter.objectToArray(this.profileEdit.value.preferredJobType),
+      preferredJobType: preferred,
       dateUpdated: new Date().toISOString().split('T')[0],
       dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
     }
     this.loadingFlag = true
     this.userService.updateUser(payload).then(()=>{
       this.loadingFlag = false
+      let flag = preferred.includes('งานด่วนรายวัน')?'เปิด':'ปิด'
+        this.landingPageComponent.appendAlertfromOutside({
+          body: '',
+          title:'บัญชีของคุณได้' + flag +'ใช้งานระบบงานรายวันเรียบร้อย',
+          image: 'assets/accept.png',
+          url: 'empty',
+        })  
       this.store.dispatch(setCurrentUser({user: payload}))
       this.closeModal()
     })

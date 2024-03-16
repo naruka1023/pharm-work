@@ -47,7 +47,7 @@ import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-
     SalaryTypePipe,
     WorkExperiencePipe,
     ProvinceFilterPipe,
-    JobPostSmallCardComponent
+    JobPostSmallCardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

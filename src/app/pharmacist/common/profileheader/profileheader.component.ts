@@ -12,6 +12,7 @@ import { JobPostService } from '../../service/job-post.service';
 import { UserServiceService } from '../../service/user-service.service';
 import { addFollowers, removeFollowers } from '../../state/actions/job-post.actions';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LandingPageComponent } from '../../landing-page.component';
 declare var window: any;
  
 @Component({
@@ -81,7 +82,7 @@ realWidth: number = 0;
 fixedScale: number = 0.5;
 dynamicScale: number = 0.5;
 pageSrc!: string
-constructor(private fb: FormBuilder, private store: Store, private userService: UserServiceService, private jobPostService: JobPostService, private router: Router, private route: ActivatedRoute){}
+constructor(private landingPageComponent: LandingPageComponent,private fb: FormBuilder, private store: Store, private userService: UserServiceService, private jobPostService: JobPostService, private router: Router, private route: ActivatedRoute){}
 
   ngOnInit(){
     this.initializeUpgradeFormGroup()
@@ -915,16 +916,29 @@ constructor(private fb: FormBuilder, private store: Store, private userService: 
             followUID:response.id,
             user:this.operator
           }
+          this.landingPageComponent.appendAlertfromOutside({
+            body:'',
+            image:this.operator.cropProfilePictureUrl !== undefined? this.operator.cropProfilePictureUrl: this.operator.profilePictureUrl,
+            title:'คุณกำลังติดตาม ' + this.operator.companyName,
+            url: 'empty'
+          })
           this.store.dispatch(addFollowers({operator:follower}));
         }else{
           this.jobPostService.getOperatorFromUID(this.operatorUID).then((responseOperator)=>{
             this.followedText = 'ติดตามแล้ว'
+            const newOperator = responseOperator.data() as userOperator
             this.followLoading = false
             follower = {
               ...follower,
               followUID:response.id,
-              user:responseOperator.data() as userOperator
+              user:newOperator
             }
+            this.landingPageComponent.appendAlertfromOutside({
+              body:'',
+              image:newOperator.cropProfilePictureUrl !== undefined? newOperator.cropProfilePictureUrl: newOperator.profilePictureUrl,
+              url:'empty',
+              title:'คุณกำลังติดตาม ' + newOperator.companyName,
+            })
             this.store.dispatch(addFollowers({operator:follower}));
           })
         }

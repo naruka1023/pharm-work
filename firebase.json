@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "dist/pharm-work",
+    "site": "pharm-work",
     "ignore": [
       "firebase.json",
       "**/.*",

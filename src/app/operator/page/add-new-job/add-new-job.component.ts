@@ -377,6 +377,7 @@ searchMap(event: any){
       let processedInfo: any = {};
         processedInfo = 
         {
+          firstNotificationFlag: !activeBoolean,
           Salary: {
             Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: Math.round(this.newJobForm.value.Salary.salaryStart),
             Suffix: this.newJobForm.value.Salary.Suffix,
@@ -422,6 +423,43 @@ searchMap(event: any){
       delete postJobForm.Salary.salaryEnd
 
       this.loadingFlag = true;
+      let notificationPayload = {}
+      if(this.urgency){
+        if(activeBoolean){
+          notificationPayload = {
+            title: 'สร้างประกาศงานรายวัน "' + this.newJobForm.value.JobName + '" สำเร็จ',
+            body: 'พร้อมปิดประกาศงานไว้ก่อน ผู้สมัครจะไม่สามารถค้นพบประกาศงานจนกว่าคุณจะทำการเปิดประกาศงาน',
+            image: this.userState.cropProfilePictureUrl !== ''? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
+            url: ''
+          }
+          
+        }else{
+          notificationPayload = {
+            title: 'สร้างประกาศงานรายวัน "' + this.newJobForm.value.JobName + '" สำเร็จ',
+            body: 'พร้อมเปิดประกาศงานให้ผู้สมัครสามารถค้นหาได',
+            image: this.userState.cropProfilePictureUrl !== ''? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
+            url: ''
+          }
+          
+        }
+      }else{
+        if(activeBoolean){
+          notificationPayload = {
+            title: 'สร้างประกาศงานทั่วไป "' + this.newJobForm.value.JobName + '" สำเร็จ',
+            body: 'พร้อมปิดประกาศงานไว้ก่อน ผู้สมัครจะไม่สามารถค้นพบประกาศงานจนกว่าคุณจะทำการเปิดประกาศงาน',
+            image: this.userState.cropProfilePictureUrl !== ''? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
+            url: ''
+          }
+          
+        }else{
+          notificationPayload = {
+            title: 'สร้างประกาศงานทั่วไป "' + this.newJobForm.value.JobName + '" สำเร็จ',
+            body: 'พร้อมเปิดประกาศงานให้ผู้สมัครสามารถค้นหาได้',
+            image: this.userState.cropProfilePictureUrl !== ''? this.userState.cropProfilePictureUrl: this.userState.profilePictureUrl,
+            url: ''
+          }
+        }
+      }
       if(this.urgency){
         if(postJobForm.DateOfJob.length > 1){
           this.sub = this.newJobService.addMultipleJobs(postJobForm)
@@ -439,6 +477,7 @@ searchMap(event: any){
         this.sub = this.newJobService.addOneJob(postJobForm)
       }
       this.sub.then((job)=>{
+        this.landingPage.appendAlertfromOutside(notificationPayload)
         this.loadingFlag = false;
         this.router.navigate(['operator/profile-operator/all-jobs-posts'])
       })

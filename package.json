@@ -41,6 +41,7 @@
     "bootstrap": "5.3.0-alpha3",
     "bootstrap-icons": "^1.10.3",
     "cropperjs": "^1.5.13",
+    "detectjs": "^1.0.0",
     "file-system": "^2.2.2",
     "firebase": "9.21.0",
     "firebase-functions": "^4.7.0",

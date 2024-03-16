@@ -146,14 +146,16 @@ export class JobPostService {
     return getDocs(query(collection(this.firestore, 'job-request'), where('userUID', '==', userID)))
   }
 
-  requestJob(fullName: string, imageUrl: string, jobID:string, operatorID:string, userID:string){
-    const params = new HttpParams().set('imageUrl', imageUrl).set('fullName', fullName).set('operatorUID', operatorID).set('userUID', userID)
+  requestJob(fullName: string, imageUrl: string, jobID:string, operatorID:string, userID:string, jobName: string){
+    const params = new HttpParams().set('imageUrl', imageUrl).set('fullName', fullName).set('operatorUID', operatorID).set('userUID', userID).set('jobName', jobName)
+    
     this.http.get(url.jobRequestNotification, {
       params:params,
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-    }).subscribe(()=>{
+    }).subscribe((dd)=>{
+      console.log(dd)
     })
     let payload: jobRequest = {
       operatorUID: operatorID,

@@ -112,6 +112,14 @@ toggleShare(){
         })
       }else{
         this.jobPostService.addBookmarkService(this.content.custom_doc_id,this.userID).then((value)=> {
+          const jobName = this.content.JobName
+          const establishment = this.content.Establishment
+          this.landingPageComponent.appendAlertfromOutside({
+            url:'empty',
+            image: this.content.cropProfilePictureUrl !== undefined? this.content.cropProfilePictureUrl: this.content.profilePictureUrl,
+            body:'',
+            title:'ประกาศงาน "' + jobName + '" ของ "' + establishment + '" ได้ถูกบันทึกไว้ใน งานที่บันทึก เรียบร้อย'
+          })
           this.bookmarkID = value.id
           this.utilService.sendListenJobBookmark(this.getBookmarkPayload())
           this.bookmarkLoadingFlag = false
@@ -124,7 +132,7 @@ toggleShare(){
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['pharma/login'])
     }else{
-      this.jobPostService.requestJob(this.fullName, this.profileImageUrl, this.content.custom_doc_id, this.content.OperatorUID, this.userID).then((value: any)=>{
+      this.jobPostService.requestJob(this.fullName, this.profileImageUrl, this.content.custom_doc_id, this.content.OperatorUID, this.userID, this.content.JobName).then((value: any)=>{
           const jobRequest:jobRequest = {
             operatorUID: this.content.OperatorUID,
             userUID: this.userID,

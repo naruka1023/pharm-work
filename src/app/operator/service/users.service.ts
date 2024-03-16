@@ -153,7 +153,7 @@ export class UsersService {
   } 
   
   getNotifications(userUID: string){
-    onSnapshot(query(collection(this.db, 'notification-archive'), where('userUID', '==', userUID)), (notification)=>{
+    onSnapshot(query(collection(this.db, 'notification-archive'), where('userUID', '==', userUID),orderBy('dateCreatedUnix', 'desc')), (notification)=>{
       return notification.docChanges().map((value)=>{
         let notificationArray: notificationContent [] = []
         let notificationPayload = {

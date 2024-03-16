@@ -34,6 +34,7 @@ export class LandingPageComponent implements AfterViewInit {
   private _messaging:Messaging = inject(Messaging)
   private db: Firestore = inject(Firestore)
   googleMapLoadingFlag: boolean = false
+  subscriptionFlag: boolean = true
   subject!:Subscription
   requestViewForm!: FormGroup
   idToShare: string = ''
@@ -87,9 +88,6 @@ export class LandingPageComponent implements AfterViewInit {
   
   ngOnInit(){
     this.initializeGoogleMapForm()
-    onMessage(this._messaging, (payload)=>{
-      console.log(payload)
-    })
     this.store.select((state:any)=>{
       return state.notifications.notificationsArchive
     }).subscribe((notificationArchive)=>{
@@ -102,15 +100,15 @@ export class LandingPageComponent implements AfterViewInit {
     this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
     this.notificationsFlag = this.notificationsFlag == 'true'?true:false
   if(this.notificationsFlag){
-    this.jobPostUID = this.activatedRoute.snapshot.queryParamMap.get('url')!  
-    let payload = this.jobPostUID.split('?')[this.jobPostUID.split('?').length - 1]
-    this.jobPostUID = payload.split('=')[1]
+    this.userUID = this.activatedRoute.snapshot.queryParamMap.get('url')!  
+    let payload = this.userUID.split('?')[this.userUID.split('?').length - 1]
+    this.userUID = payload.split('=')[1]
     this.type = payload.split('=')[0]
     localStorage.setItem('type', this.type)
-    localStorage.setItem('jobUID', this.jobPostUID)
+    localStorage.setItem('userUID', this.userUID)
   }else{
     localStorage.removeItem('type')
-    localStorage.removeItem('jobUID')
+    localStorage.removeItem('userUID')
   }
     this.addJobConfirmModal = new window.bootstrap.Modal(
       document.getElementById('addJobConfirmModal')
@@ -145,7 +143,7 @@ export class LandingPageComponent implements AfterViewInit {
       user(this.auth).subscribe((user)=>{
         if(user){
           onMessage(this._messaging,(payload)=>{
-            this.appendAlert(payload.notification,'light', this.i, payload.fcmOptions!.link!)
+            this.appendAlert({...payload.notification, image: payload.notification!.icon},'light', this.i, payload.fcmOptions!.link!)
             this.i++
           })
           this.emailVerifiedFlag = user.emailVerified
@@ -229,6 +227,12 @@ export class LandingPageComponent implements AfterViewInit {
     if (event.latLng != null) this.display = event.latLng.toJSON();
   }
 
+  goToHome(){
+    localStorage.removeItem('type')
+    localStorage.removeItem('userUID')
+    this.route.navigate(['operator'])
+  }
+
   updateShowProfile(){
     if(!this.user.showProfileFlag){
       this.store.dispatch(setCurrentUser({user:{showProfileFlag: true}}))
@@ -254,6 +258,22 @@ export class LandingPageComponent implements AfterViewInit {
       }
     })
   }
+
+  appendAlertfromOutside(message: any){
+    this.appendAlert(message, 'light', this.i, '')
+    this.i++
+    updateDoc(doc(this.db, 'users/' + this.user.uid), {
+      showProfileFlag: false
+    })
+    addDoc(collection(this.db, 'notification-archive'), {
+        userUID: this.user.uid,
+        body: message.body,
+        title:message.title,
+        image: message.image,
+        url: message.url,
+        newFlag: true
+    })
+  }
   
   appendAlert(message: any, type: any, i: number, link: string){
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder')!
@@ -262,15 +282,15 @@ export class LandingPageComponent implements AfterViewInit {
     wrapper.setAttribute('id', 'myAlert' + i);
     wrapper.classList.add('semi-border-input')
     wrapper.innerHTML = [
-      `<div class="alert alert-${type} mb-0 d-flex alert-dismissible textResponsive align-items-end" role="alert">`,
+      `<div class="alert alert-${type} mb-0 d-flex alert-dismissible textResponsive align-items-center" role="alert">`,
       `   
           <div><img src=${message.image} width=150 height=150 class="me-3"/></div>  
           <div>
             <div class="mb-3">
-              <b>${message.body}</b>
+              <b>${message.title}</b>
             </div>
             <div class="mb-3">
-              ${message.title}
+              ${message.body == undefined? '': message.body}
             </div>
           </div>`,
       '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',

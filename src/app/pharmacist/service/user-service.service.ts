@@ -3,10 +3,11 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { aggregationCount, notificationContent, notifications, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
-import { addDoc, collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, query, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, orderBy, query, updateDoc, where } from '@angular/fire/firestore';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
 import { url } from 'src/environments/environment';
 import { removeNotifications, modifyNotifications, addNotifications } from '../state/actions/notifications.actions.';
+import { userOperator } from '../model/typescriptModel/jobPost.model';
 
 @Injectable({
   providedIn: 'root'
@@ -88,7 +89,7 @@ export class UserServiceService {
     return updateDoc(doc(this.firestore, 'users', user.uid!), user)
   } 
   getNotifications(userUID: string){
-    onSnapshot(query(collection(this.firestore, 'notification-archive'), where('userUID', '==', userUID)), (notification)=>{
+    onSnapshot(query(collection(this.firestore, 'notification-archive'), where('userUID', '==', userUID), orderBy('dateCreatedUnix', 'desc')), (notification)=>{
       return notification.docChanges().map((value)=>{
         let notificationArray: notificationContent [] = []
         let notificationPayload = {
@@ -120,6 +121,15 @@ export class UserServiceService {
         }
       })
     })
+  }
+  async getUser(uid: string){
+    const user = await getDoc(doc(this.firestore, 'users', uid))
+    const result: userOperator = {
+      ...user.data() as userOperator,
+      uid:uid
+    }
+    return result;
+    
   }
   getRequestView(userUID: string){
     onSnapshot(query(collection(this.firestore, 'request-view'), where('userUID', '==', userUID)), (requestView)=>{

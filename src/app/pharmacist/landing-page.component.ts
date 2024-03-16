@@ -15,7 +15,7 @@ import { Auth, user,sendEmailVerification } from '@angular/fire/auth';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import * as _ from 'lodash';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
-import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot, updateDoc, addDoc } from '@angular/fire/firestore';
 import { Messaging, onMessage } from '@angular/fire/messaging';
 import { modifyNotifications } from './state/actions/notifications.actions.';
 declare var window: any;
@@ -75,9 +75,8 @@ export class LandingPageComponent {
     this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
     this.notificationsFlag = this.notificationsFlag == 'true'?true:false
   if(this.notificationsFlag){
-    this.jobPostUID = this.activatedRoute.snapshot.queryParamMap.get('url')!  
-    let payload = this.jobPostUID.split('?')[this.jobPostUID.split('?').length - 1]
-    this.jobPostUID = payload.split('=')[1]
+    const payload = this.activatedRoute.snapshot.queryParamMap.get('url')!  
+    this.jobPostUID = payload.split('=')[1]  
     this.type = payload.split('=')[0]
     localStorage.setItem('type', this.type)
     localStorage.setItem('jobUID', this.jobPostUID)
@@ -131,7 +130,10 @@ export class LandingPageComponent {
   this.subject = user(this.auth).subscribe((user)=>{
     if(user){
       onMessage(this._messaging,(payload)=>{
-        this.appendAlert(payload.notification,'light', this.i, payload.fcmOptions!.link!)
+        this.appendAlert({
+          ...payload.notification,
+          image: payload.data!['image']
+        },'light', this.i)
         this.i++
       })
       this.userService.getCountGroup().then((aggregation)=>{
@@ -177,7 +179,7 @@ export class LandingPageComponent {
           if(value.type == 'modified'){
             const data = value.doc.data() as User
             this.store.dispatch(setCurrentUser({
-              user:{showProfileFlag: data.showProfileFlag}
+              user:{showProfileFlag: data.showProfileFlag, active: data.active}
             }))
           }
         })
@@ -219,7 +221,7 @@ export class LandingPageComponent {
       this.store.dispatch(EmptyJobPostAppState());
     }
     this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
-    this.route.navigate(['pharma']);
+    // this.route.navigate(['pharma']);
   })
   this.loginFlag = true;
   this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
@@ -239,23 +241,37 @@ updateShowProfile(){
     })
   }
 }
-
-appendAlert(message: any, type: any, i: number, link: string){
+appendAlertfromOutside(message: any){
+  this.appendAlert(message, 'light', this.i)
+  this.i++
+  updateDoc(doc(this.firestore, 'users/' + this.user.uid), {
+    showProfileFlag: false
+  })
+  addDoc(collection(this.firestore, 'notification-archive'), {
+      userUID: this.user.uid,
+      body: message.body,
+      title:message.title,
+      image: message.image,
+      url: message.url,
+      newFlag: true
+  })
+}
+appendAlert(message: any, type: any, i: number){
   const alertPlaceholder = document.getElementById('liveAlertPlaceholder')!
   const localIndex = i
   const wrapper = document.createElement('div')
   wrapper.setAttribute('id', 'myAlert' + i);
   wrapper.classList.add('semi-border-input')
   wrapper.innerHTML = [
-    `<div class="alert alert-${type} mb-0 d-flex alert-dismissible textResponsive align-items-end" role="alert">`,
+    `<div class="alert alert-${type} mb-0 d-flex alert-dismissible textResponsive align-items-center" role="alert">`,
     `   
-        <div><img src=${message.image} width=150 height=150 class="me-3"/></div>  
+        <div><img src=${message.image} width=100 height=100 class="notificationImage me-3"/></div>  
         <div>
           <div class="mb-3">
-            <b>${message.body}</b>
+            <b>${message.title}</b>
           </div>
           <div class="mb-3">
-            ${message.title}
+          ${message.body == undefined? '': message.body}
           </div>
         </div>`,
     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
@@ -263,11 +279,11 @@ appendAlert(message: any, type: any, i: number, link: string){
   ].join('')
 
   alertPlaceholder.append(wrapper)
-  setTimeout(()=>{
-    const dom = document.getElementById('myAlert' + i)
-    const alert = window.bootstrap.Alert.getOrCreateInstance(dom)
-    alert.close()
-  }, 5000)
+  // setTimeout(()=>{
+  //   const dom = document.getElementById('myAlert' + i)
+  //   const alert = window.bootstrap.Alert.getOrCreateInstance(dom)
+  //   alert.close()
+  // }, 5000)
 }
 
 goToHome(){
@@ -373,7 +389,7 @@ goToPage(page: string, queryFlag = false, queryParams:any = {}){
     }else{
       this.pharmaProfileComponent.setChildFlag(false)
     }
-    if(page.indexOf('profile-pharma') !== -1){
+    if(this.route.url.indexOf('profile-pharma') !== -1){
       finalTarget = splitTarget[splitTarget.length-1]
       this.pharmaProfileComponent.selectTab(finalTarget)
     }

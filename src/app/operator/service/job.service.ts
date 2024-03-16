@@ -30,8 +30,11 @@ export class JobService {
   editJob(job:any){
     return updateDoc(doc(this.db, 'job-post', job.custom_doc_id), job)
   }
-  updateFirstNotification(jobUID: string){
+  updateFirstNotification(jobUID: string, active:boolean){
     return updateDoc(doc(this.db, 'job-post', jobUID), {
+      Active: !active,
+      dateUpdated: new Date().toISOString().split('T')[0],
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),
       firstNotificationFlag: false
     })
   }

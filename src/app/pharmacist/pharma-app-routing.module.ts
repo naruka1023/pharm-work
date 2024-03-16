@@ -26,9 +26,11 @@ import { PrivateProfileComponent } from './page/pharma-profile/private-profile/p
 import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/preferred-jobs.component';
 import { OperatorPageGuard } from './guards/operator-page.guard';
 import { NotificationsComponent } from './common/notifications/notifications.component';
+import { CheckoutComponent } from './page/checkout/checkout.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
+    { path: 'pay', component: CheckoutComponent},
     { path: '', component: PharmaHomeComponent},
     { path: 'notifications', component: NotificationsComponent},
     { path: 'job-post', component: JobPostDetailsComponent, canDeactivate:[UrgentJobsGuard]},

@@ -1,0 +1,15 @@
+{
+    "name": "PharmWork",
+    "short_name": "PharmWork",
+    "icons": [
+        {
+            "src": "favicon2.ico",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "start_url": "/"
+}

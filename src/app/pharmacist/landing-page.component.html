@@ -59,6 +59,20 @@
                 </ng-template>
                 <ng-template #notEmptyNotification>
                   <li *ngFor="let notification of notificationsArchive" class="dropdown-item" aria-current="true">
+                    <ng-container *ngIf="notification.url == 'empty'; then emptyURL; else notEmptyURL"></ng-container>
+                    <ng-template #emptyURL>
+                      <div style="cursor:pointer" class="align-items-center d-flex flex-row-start">
+                        <img class="rounded-circle" width="50" height="50" src="{{notification.image}}"/>
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">{{notification.title}}</div>
+                          {{notification.body}}
+                        </div>
+                        <span [ngClass]="notification.newFlag? '': 'visually-hidden'" class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle">
+                          <span class="visually-hidden">New alerts</span>
+                        </span>
+                      </div>
+                    </ng-template>
+                    <ng-template #notEmptyURL>
                       <div style="cursor:pointer" (click)="goToNotifications(notification.url, notification.notificationID)" class="align-items-center d-flex flex-row-start">
                         <img class="rounded-circle" width="50" height="50" src="{{notification.image}}"/>
                         <div class="ms-2 me-auto">
@@ -69,6 +83,8 @@
                           <span class="visually-hidden">New alerts</span>
                         </span>
                       </div>
+                      
+                    </ng-template>
                   </li>
                 </ng-template>
               </ul>
@@ -91,7 +107,7 @@
                             {{user.nickName}}
                           </div>
                           <div class="fs-6">
-                            {{user.gender == "หญิง"?"ภญ.":"ภช."}}{{user.name}} {{user.surname}} <br>
+                            {{user.gender == "หญิง"?"ภญ.":"ภก."}}{{user.name}} {{user.surname}} <br>
                             ภ.{{user.license}}
                           </div>
                         </div>
@@ -269,7 +285,7 @@
     </ng-template>
   </div>
 </div>
-<div id="liveAlertPlaceholder" class="position-fixed bottom-0 end-0 mb-4 me-4" style="z-index:10"></div>
+<div id="liveAlertPlaceholder" class="position-fixed bottom-0 end-0 mb-4 me-sm-4 mx-2" style="z-index:50"></div>
 
 <router-outlet></router-outlet>
 <app-footer></app-footer>
