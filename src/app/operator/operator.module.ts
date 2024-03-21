@@ -114,6 +114,6 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [RequestJobComponent, OperatorProfileComponent, AllJobsPostsComponent],
   exports: [InfiniteScrollModule],
-  bootstrap:[LandingPageComponent]
+  bootstrap:[LandingPageComponent, CheckoutComponent]
 })
 export class OperatorModule { }

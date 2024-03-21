@@ -223,7 +223,26 @@ export class UsersService {
     let count = await getCountFromServer(query(collection(this.db, 'followers'), where('operatorUID', '==', operatorUID)))
     return count.data().count
   }
-
+  async getCheckout(lookupKey: string, userUID: string){
+    const docRef = await addDoc(collection(collection(this.db, 'users'), userUID, 'checkout_sessions'), {
+      price: lookupKey,
+      success_url: window.location.origin,
+      cancel_url: window.location.origin,
+      mode: "subscription"
+    })
+    onSnapshot(docRef, (snap: any) => {
+      const { error, url } = snap.data();
+      if (error) {
+        // Show an error to your customer and
+        // inspect your Cloud Function logs in the Firebase console.
+        alert(`An error occured: ${error.message}`);
+      }
+      if (url) {
+        // We have a Stripe Checkout URL, let's redirect.
+        window.location.assign(url);
+      }
+    })
+  }
   async getCountGroup(): Promise<aggregationCount>{
     const jobcount = await getCountFromServer(query(collection(this.db, 'job-post'), where('Active', '==', true)))
     const userPharmaCount = await getCountFromServer(query(collection(this.db, 'users'), where('role', '==', 'เภสัชกร')))

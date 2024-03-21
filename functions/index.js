@@ -60,28 +60,28 @@ app.get("/start", async (request, response) => {
   });
 });
 exports.imageGeneration = functions.https.onRequest(app);
-// exports.propagateFollowersNotification = functions.firestore
-//     .document("job-post/{userId}")
-//     .onCreate(async (change, context) => {
+exports.propagateFollowersNotification = functions.firestore
+    .document("job-post/{userId}")
+    .onCreate(async (change, context) => {
 
-//       db.collection("notification-token").where("jobUID", "==", context.params.userId).get().then(async (doc) => {
-//         const batch = db.batch();
-//         doc.forEach((bookmark) => {
-//           batch.delete(db.collection("bookmark").doc(bookmark.id));
-//         });
-//         await batch.commit().then(() => {
-//           db.collection("job-request").where("jobUID", "==", context.params.userId).get().then(async (doc) => {
-//             const batch = db.batch();
-//             doc.forEach((jobRequest) => {
-//               batch.delete(db.collection("job-request").doc(jobRequest.id));
-//             });
-//             await batch.commit().then(() => {
-//               console.log("delete successful");
-//             });
-//           });
-//         });
-//       });
-//     });
+      db.collection("notification-token").where("jobUID", "==", context.params.userId).get().then(async (doc) => {
+        const batch = db.batch();
+        doc.forEach((bookmark) => {
+          batch.delete(db.collection("bookmark").doc(bookmark.id));
+        });
+        await batch.commit().then(() => {
+          db.collection("job-request").where("jobUID", "==", context.params.userId).get().then(async (doc) => {
+            const batch = db.batch();
+            doc.forEach((jobRequest) => {
+              batch.delete(db.collection("job-request").doc(jobRequest.id));
+            });
+            await batch.commit().then(() => {
+              console.log("delete successful");
+            });
+          });
+        });
+      });
+    });
 
 exports.removeDataResidue = functions.firestore
     .document("job-post/{userId}")
