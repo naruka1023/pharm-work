@@ -31,7 +31,7 @@
             <li class="nav-item ms-3">
               <a class="nav-link">ฟีดประกาศงาน</a>
             </li>
-            <li  *ngIf="!subscriptionFlag" class="nav-item ms-3" data-bs-toggle="tooltip" title="สร้างประกาศงาน">
+            <li class="nav-item ms-3" data-bs-toggle="tooltip" title="สร้างประกาศงาน">
               <div class="dropdown">
                 <a (click)="openAddModal()" class="nav-link" aria-expanded="false">
                     <i class="bi bi-file-earmark-plus-fill"></i>
@@ -97,7 +97,7 @@
                   <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs', true)"><i class="bi bi-person-lines-fill mx-3"></i>ขอดูข้อมูลผู้สมัคร</a></li>
                   <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/favorites')"><i class="bi bi-heart-fill mx-3"></i>ผู้สมัครที่ถูกใจ</a></li>
                   <hr style="width:100%" class="my-2 m-auto">
-                  <li  *ngIf="!subscriptionFlag"><a class="d-flex dropdown-item" (click)="openAddModal()"><i class="bi bi-file-earmark-plus-fill mx-3"></i>สร้างประกาศงาน</a></li>
+                  <li><a class="d-flex dropdown-item" (click)="openAddModal()"><i class="bi bi-file-earmark-plus-fill mx-3"></i>สร้างประกาศงาน</a></li>
                   <hr style="width:100%" class="my-2 m-auto">
                   <li><a class="d-flex dropdown-item"><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a></li>
                   <hr style="width:100%" class="my-2 m-auto">
@@ -134,19 +134,13 @@
     <div class="my-2 d-flex" (click)="goToPage('profile-operator/request-jobs')"><i class="bi bi-eye me-3"></i>คำขอสมัครงาน</div>
     <div class="my-2 d-flex" (click)="goToPage('profile-operator/request-jobs', true)"><i class="bi bi-file-earmark-check me-3"></i>ขอดูข้อมูลผู้สมัคร</div>
     <div class="my-2 d-flex" (click)="goToPage('profile-operator/favorites')"><i class="bi bi-person-plus me-3"></i>ผู้สมัครที่ถูกใจ</div>
-    <div  *ngIf="!subscriptionFlag" class="d-flex my-2" (click)='goToAddJob($event, false)'><i class="bi bi-file-earmark-plus me-3"></i>สร้างประกาศงานทั่วไป</div>
-    <div  *ngIf="!subscriptionFlag" class="d-flex my-2" (click)='goToAddJob($event, true)'><i class="bi bi-file-earmark-plus-fill me-3"></i>สร้างประกาศงานด่วนรายวัน</div>
+    <div class="d-flex my-2" (click)='goToAddJob($event, false)'><i class="bi bi-file-earmark-plus me-3"></i>สร้างประกาศงานทั่วไป</div>
+    <div class="d-flex my-2" (click)='goToAddJob($event, true)'><i class="bi bi-file-earmark-plus-fill me-3"></i>สร้างประกาศงานด่วนรายวัน</div>
     <div class="d-flex my-2" (click)="signOut()"><i class="bi bi-box-arrow-right me-3"></i>Sign Out</div>
   </div>
 </div>
 <div id="liveAlertPlaceholder" class="position-fixed bottom-0 end-0 mb-4 me-4" style="z-index:10"></div>
-<ng-container *ngIf="subscriptionFlag; then subscribe; else notSubscribe"></ng-container>
-<ng-template #subscribe>
-  <app-checkout></app-checkout>
-</ng-template>
-<ng-template #notSubscribe>
-  <router-outlet></router-outlet>
-</ng-template>
+<router-outlet></router-outlet>
 <app-footer></app-footer>
 <div class="modal fade" id="requestViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
