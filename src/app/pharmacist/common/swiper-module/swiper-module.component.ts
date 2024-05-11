@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Input, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filterConditions, jobPostModel, jobPostPayload } from '../../model/typescriptModel/jobPost.model';
@@ -6,6 +6,7 @@ import { JobPostService } from '../../service/job-post.service';
 import _ from 'lodash';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-swiper-module',
   templateUrl: './swiper-module.component.html',
@@ -18,25 +19,30 @@ export class SwiperModuleComponent {
   content!: jobPostModel[];
   filterVisibleFlag: boolean = false;
   urgentFlag: boolean = false;
+  subscriberFlag: any = {}
   subject!: Subscription;
   loading$!: Observable<boolean>;
   loading!: boolean;
   collapseButton!: string
   breakingPoint = {
     1400: {
+      spaceBetween: 25,
       slidesPerView: 5
     },
     1200: {
+      spaceBetween: 25,
       slidesPerView: 4
     },
     992: {
-      slidesPerView: 3
+      slidesPerView: 3,
+      spaceBetween: 25
     },
-    768: {
-      slidesPerView: 2
+    625: {
+      slidesPerView: 2,
+      spaceBetween: 25
     },
-    425: {
-      slidesPerView: 1.5,
+    420: {
+      spaceBetween: 20
     }
   }
   breakingPointOperator = {
@@ -49,22 +55,21 @@ export class SwiperModuleComponent {
     992: {
       slidesPerView: 3,
     },
-    768: {
-      slidesPerView: 2.5,
-    },
-    320: {
-      slidesPerView: 2,
-    }
   }
   
-  constructor(private jobPostService:JobPostService, private router: Router, private store: Store, private activatedRoute:ActivatedRoute){}
+  constructor(@Inject(DOCUMENT) private document: Document, private jobPostService:JobPostService, private router: Router, private store: Store, private activatedRoute:ActivatedRoute){}
 
   ngOnInit(){
+    this.store.select((state: any)=>{
+      return state.jobpost.Banners
+    }).subscribe((banner: any) =>{
+      this.subscriberFlag = banner
+    } )
     // this.loading$ = this.store.select((state:any)=>{
     //   let newState = state.jobpost.JobPost.find((jobPost: any)=>{
     //     return jobPost.CategorySymbol == this.filterFlags.CategorySymbol
     //   })
-    //   return newState.loading
+    //   return newState.loadingj
     // })
     // this.loading$.subscribe((result:any)=>{
     //   console.log(result)
@@ -83,6 +88,12 @@ export class SwiperModuleComponent {
     this.collapseButton = "#" + this.filterFlags.CategorySymbol;
     if(this.filterFlags.header === 'งานเภสัชด่วนรายวัน'){
       this.urgentFlag = true;
+    }
+  }
+
+  redirectExternal(link: string){
+    if(!link.includes('https://')){
+      this.document.location.href = !(link.includes('https://') || link.includes('http://'))? 'https://' + link : link
     }
   }
 

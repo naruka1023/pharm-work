@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Storage, getDownloadURL, getMetadata, getStorage, listAll, ref, uploadBytes, uploadString } from '@angular/fire/storage';
 import { Observable, Subject, of } from 'rxjs';
@@ -13,6 +13,9 @@ import { UsersService } from '../../service/users.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DocumentData, QuerySnapshot } from '@angular/fire/firestore';
 import _ from 'lodash';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { FirebaseApp } from '@angular/fire/app';
+
 declare var window: any;
 
 @Component({
@@ -22,6 +25,7 @@ declare var window: any;
 })
 export class ProfileHeaderComponent {
 private storage: Storage = inject(Storage)
+private firebaseApp: FirebaseApp = inject(FirebaseApp)
 @Input() profileType! : string;
 @Input() viewFlag: boolean = false;
 coverListenerSubject: Subject<string> = new Subject();
@@ -59,14 +63,22 @@ fixedScale: number = 0.5;
 loadProfilePictureFlag: boolean = true;
 photoFlag!: string;
 requestStatus!: requestView;
+portalLoadingFlag: boolean = false
 pathToUploadPicture: boolean = false;
 editExistingPhoto: boolean = true;
 cropper: any = '';
 realWidth: number = 0;
+functions = getFunctions(this.firebaseApp, 'us-central1');
+createPortalLink = httpsCallable(
+  this.functions, 
+  'ext-firestore-stripe-payments-createPortalLink');
 
-constructor(private fb: FormBuilder, private userService:UsersService, private route:ActivatedRoute, private store: Store, private profileService: UtilService){}
+constructor(private fb: FormBuilder, private userService:UsersService, private route:ActivatedRoute, private router: Router, private store: Store, private profileService: UtilService){}
 
   ngOnInit(){
+    // firebaseApp is object created using initializeApp()
+    // may need to change server location
+  
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModal')
     );
@@ -230,6 +242,19 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
     })
   }
 
+  goToPortal(){
+    // request Stripe to create a portal link, and redirect user there
+    this.portalLoadingFlag = true
+    this.createPortalLink({
+      returnUrl: window.location.origin // can set this to a custom page,
+    }).then((result: any) => {
+      this.portalLoadingFlag = false
+      window.location.assign(result.data.url);
+    }).catch((error) => {
+        // handle error
+    });
+  }
+
   initializeFormGroup(){
     this.introTextForm = this.fb.group({
       introText:[''],
@@ -283,6 +308,10 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
       this.store.dispatch(setCurrentUser({user: payload}))
       this.editIntroTextClicked()
     })
+  }
+
+  goToBanner(){
+    this.profileService.sendBuyBannerSubject()
   }
 
   editIntroTextClicked(){

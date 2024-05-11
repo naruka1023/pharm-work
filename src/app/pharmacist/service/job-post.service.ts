@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable, Subject } from 'rxjs';
-import { Bookmark, Follow, jobPostModel, jobPostPayload, jobRequest, JobSearchForm, userOperator } from '../model/typescriptModel/jobPost.model';
+import { Bookmark, filterConditions, Follow, jobPostModel, jobPostPayload, jobRequest, JobSearchForm, userOperator } from '../model/typescriptModel/jobPost.model';
 import headerArray from '../model/data/uiKeys';
 import algoliasearch, { SearchIndex } from 'algoliasearch/lite';
 import { algoliaEnvironment, url } from 'src/environments/environment';
@@ -31,7 +31,9 @@ export class JobPostService {
   sendRecentlySeenSubject(){
     return this.RecentlySeenSubject.next();
   }
-  
+  getBanners(){
+    return getDoc(doc(this.firestore,'banners', 'subs'))
+  }
   async getUserBookmark(userUID: string): Promise<Bookmark[]> {
     let bookmarkCol = await getDocs(query(collection(this.firestore, 'bookmark'), where('userUID', '==', userUID)))
     return bookmarkCol.docs.map((bookmark)=>{

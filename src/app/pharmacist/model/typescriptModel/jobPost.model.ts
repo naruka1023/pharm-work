@@ -5,6 +5,8 @@ export interface filterConditions{
     filterFlag?: boolean;
     header: string;
     idList?: string[];
+    packageType?: string;
+    bannerList?: {[key:string]: string}[],
     bannerFlag: boolean;
     bannerType?: string,
     count: number;
@@ -90,6 +92,9 @@ export interface AppState {
     JobPost: filterConditions[];
     Bookmarks: BookmarkList;
     Follows: FollowList;
+    Banners: {
+        [key:string]: string[]
+    }
     JobRequests: JobRequestList;
 }
 

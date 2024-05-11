@@ -1,6 +1,6 @@
 <div class="modal fade" id="loginModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content semi-border-input standard-shadow" style=border-radius:20px>
+    <div class="modal-content standard-shadow" style="border-radius:20px">
       <div>
         <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
@@ -17,8 +17,14 @@
       <div class="modal-body px-5">
         <div class="tab-content" style='background:white' id="myTabContent">
           <div class="loginPanel">
-                      <h3 class="text-center card-title" style="font-weight:bold" *ngIf="mainPageFlag" [innerHTML]="header"></h3>
-                      <h3 class="text-center card-title" style="font-weight:bold" *ngIf="!mainPageFlag">{{header}}</h3>
+                    <div class="d-flex justify-content-between">
+                      <div style="visibility:hidden"></div>
+                      <h3 class="card-title" style="font-weight:bold" *ngIf="mainPageFlag" [innerHTML]="header"></h3>
+                      <h3 class="card-title" style="font-weight:bold" *ngIf="!mainPageFlag">{{header}}</h3>
+                      <div>
+                        <i class="h3 bi bi-x-circle-fill" (click)="closeModal()" style="cursor:pointer"></i>
+                      </div>
+                    </div>
                       <div style="text-align:center" class="my-1" *ngIf="loginFlag">
                         <div class="spinner-border text-primary" role="status">
                             <div class="visually-hidden text-center">Loading...</div>
@@ -37,7 +43,6 @@
                               <div style='visibility:hidden'class=" text-center help-block">
                                 กรุณาใส่ข้อมูลที่ถูกต้อง
                              </div>
-      
                           </ng-template>   
                           <div class="row">
                             <div class="login-background col-lg-6 col-12" [ngStyle]="{'background-image': loginImage}" style="background-size: cover; background-position: center; background-repeat: no-repeat; height: auto">

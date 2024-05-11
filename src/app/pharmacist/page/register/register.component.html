@@ -1,13 +1,13 @@
 <div class="modal fade" id="registerModal" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered">
-      <div class="modal-content semi-border-input standard-shadow" style=border-radius:20px>
+      <div class="modal-content standard-shadow" style="border-radius:20px">
         <div>
             <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab2" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link nav-pharma active" style="border-top-left-radius: 20px" (click)="changeRoles('pharma')" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" type="button" role="tab" aria-controls="normal-job-pane" aria-selected="false">เภสัชกร</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link nav-student" (click)="changeRoles('student')" id="student" data-bs-toggle="tab" data-bs-target="#student-pane" type="button" role="tab" aria-controls="student-pane" aria-selected="false">นักศึกษาเภสัชกร</button>
+                    <button class="nav-link nav-student" style="border-top-right-radius: 20px" (click)="changeRoles('student')" id="student" data-bs-toggle="tab" data-bs-target="#student-pane" type="button" role="tab" aria-controls="student-pane" aria-selected="false">นักศึกษาเภสัชกร</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link nav-operator" style="border-top-right-radius: 20px" (click)="changeRoles('operator')" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">บริษัท</button>
@@ -15,7 +15,12 @@
             </ul>
         </div>
             <div class="modal-body">
-                <h3 class="text-center card-title my-3" style="font-weight:bold" [innerHTML]="header"></h3>
+                <div class="d-flex justify-content-between align-items-baseline">
+                    <div style="visibility:hidden">
+                    </div>
+                    <h3 class="text-center card-title my-3" style="font-weight:bold" [innerHTML]="header"></h3>
+                    <i class="bi bi-x-circle-fill h3" (click)="onCloseModal()"></i>
+                </div>
                 <div style="text-align:center" class="mt-3" *ngIf="loadingFlag">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -966,7 +971,7 @@
                         </div>
                     </div>
                     <div class="footer my-4 d-flex justify-content-center fs-5">
-                        <div>เป็นสมาชิกของ Pharmwork อยู่แล้ว? <a style="text-decoration:none; cursor:pointer" class="green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a></div>
+                        <div style="text-align:center">เป็นสมาชิกของ Pharmwork อยู่แล้ว? <a style="text-decoration:none; cursor:pointer" class="green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a></div>
                     </div>
                 </div>
             </div>

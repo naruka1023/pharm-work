@@ -12,7 +12,7 @@ const cors = require("cors");
 const path = require("path");
 const puppeteer = require("./puppeteer");
 const pt = require("puppeteer");
-
+const YOUR_DOMAIN = 'http://localhost:4242';
 
 admin.initializeApp({
   credential: admin.credential.cert(require("./service-account.json")),

@@ -1,11 +1,54 @@
+.profilePic{
+  cursor:pointer;
+  height: 70px;
+  width: 70px
+}
+.titleFontSize{
+  font-size:1.25rem 
+}
+.contentFontSize{
+  font-size:1rem
+}
+@media only screen and (max-width: 470px) {
+  .titleFontSize{
+    font-size:4vw 
+  }
+  .contentFontSize{
+    font-size:3.5vw !important
+  }
+  .timeFrameHeader{
+    font-size: 3.5vw !important
+  }
+  .profilePic{
+    height: 60px !important;
+    width: 60px !important
+  }
+}
+@media only screen and (max-width: 350px){
+  .profilePic{
+    height: 45px !important;
+    width: 45px !important
+  }
+  .bi-share-fill, .bi-bookmark, .bi-bookmark-fill{
+    font-size: 1rem !important
+  }
+  .titleFontSize{
+    font-size: 4.5vw
+  }
+  .contentFontSize{
+    font-size:4vw !important
+  }
+  .timeFrameHeader{
+    font-size: 3vw !important
+  }
+  .paddingContent{
+    margin-bottom: 0px !important;
+    padding: 0px !important
+  }
+}
 @media only screen and (max-width: 270px) {
     .urgentDisplay{
       display: flex !important
-    }
-  }
-@media only screen and (max-width: 370px) {
-    .timeFrameHeader{
-      font-size: small !important
     }
   }
 .card-body > .d-flex, .addressList > .d-flex{
@@ -14,9 +57,6 @@
 .rounded{
     border-radius: 20px !important;
   }
-.profilePic{
-    cursor:pointer
-}
 .bi{
     font-size:1.5rem
 }

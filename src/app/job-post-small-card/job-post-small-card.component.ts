@@ -31,6 +31,6 @@ export class JobPostSmallCardComponent {
   }
 
   goToProfile(){
-    this.router.navigate(['/landing/job-post/' + this.content.custom_doc_id])
+    this.router.navigate(['/job/' + this.content.custom_doc_id])
   }
 }

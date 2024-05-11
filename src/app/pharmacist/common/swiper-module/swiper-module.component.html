@@ -11,7 +11,7 @@
         *ngIf="filterFlags.filterFlag === false; then ifBlock; else elseBlock">
     </ng-container>
     <ng-template #ifBlock>
-		<div class="mt-3">
+		<div class="mt-sm-3">
 			<ng-container *ngIf="filterFlags.loading; then loading2; else notLoading2"></ng-container>
 			<ng-template #loading2>
 				<div style="text-align:center" class="my-5">
@@ -49,48 +49,75 @@
 							</div>
 						</ng-template>
 					</swiper>
-					<swiper
-						*ngIf="filterFlags.bannerType == 'long'"
-						[navigation]="true"
-						[loop]="true"
-						[slidesPerView]="1"
-						[centeredSlides]="true"
-						[pagination]="true"
-						[autoplay]="true"
-						style="margin-bottom: 3em; text-align: center"
-					>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
-							</div>
-						</ng-template>
-						<ng-template swiperSlide>
-							<div class="img-container">
-								<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
-							</div>
-						</ng-template>
-					</swiper>
+					<ng-container *ngIf="filterFlags.bannerList!.length > 0; then hasBanner2; else noBanner2"></ng-container>
+					<ng-template #hasBanner2>
+							<swiper
+								*ngIf="filterFlags.bannerType == 'long'"
+								[navigation]="true"
+								[loop]="filterFlags.bannerList!.length > 1"
+								[slidesPerView]="1"
+								[centeredSlides]="true"
+								[pagination]="true"
+								[autoplay]="true"
+								style="margin-bottom: 3em; text-align: center"
+							>
+							<ng-template swiperSlide *ngFor="let banner of filterFlags.bannerList">
+								<div class="img-container">
+									<ng-container *ngIf="banner['link'] !== ''; then link; else noLink"></ng-container>
+                                    <ng-template #link>
+                                        <img style="cursor:pointer" class="landing-page_img" [src]="banner['uid']" (click)="redirectExternal(banner['link'])">
+                                    </ng-template>
+                                    <ng-template #noLink>
+                                        <img class="landing-page_img" [src]="banner['uid']">
+                                    </ng-template>
+								</div>
+							</ng-template>
+						</swiper>
+					</ng-template>
+					<ng-template #noBanner2>
+						<swiper
+							*ngIf="filterFlags.bannerType == 'long'"
+							[navigation]="true"
+							[loop]="true"
+							[slidesPerView]="1"
+							[centeredSlides]="true"
+							[pagination]="true"
+							[autoplay]="true"
+							style="margin-bottom: 3em; text-align: center"
+							>
+							<ng-template swiperSlide>
+								<div class="img-container">
+									<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
+								</div>
+							</ng-template>
+							<ng-template swiperSlide>
+								<div class="img-container">
+									<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
+								</div>
+							</ng-template>
+							<ng-template swiperSlide>
+								<div class="img-container">
+									<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
+								</div>
+							</ng-template>
+						</swiper>
+					</ng-template>
 				</ng-template>
 				<ng-template #notBanner>
 					<swiper 
-							[slidesPerView]="1" 
-							style="height:550px"
+							[slidesPerView]="3" 
 							[autoplay]="true"
 							[spaceBetween]="25" 
 							[grid]="{
-								rows: 2
+								rows: 3,
+								fill:'row'
 							}"
 							[navigation]="true" 
 							[breakpoints]="breakingPointOperator"
-							class="swiper operatorBanner">
+							class="swiper operatorBanner mb-sm-4 mb-2">
 						<ng-template swiperSlide *ngFor="let items of filterFlags.content">
 							<app-operator-small-card *ngIf="items !== 'empty'" [content]="items"></app-operator-small-card>
-							<div class="img-container" *ngIf="items == 'empty'">
+							<div class="img-container mb-5" *ngIf="items == 'empty'">
 								<img class="landing-page_img" src="assets/emptybanner/emptyBannerSmall.png" width="150" height="150" style="border-radius:100%">
 							</div>
 						</ng-template>
@@ -113,8 +140,8 @@
 			<ng-template #notEmpty>
 				<swiper
 					[navigation]="true"
-					[slidesPerView]="1"
-					[spaceBetween]="25"
+					[slidesPerView]="2"
+					[spaceBetween]="5"
 					[breakpoints]="breakingPoint"
 					style="margin-top: 1em; text-align: center"
 				>

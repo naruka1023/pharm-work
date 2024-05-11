@@ -13,6 +13,7 @@ import { Firestore, doc, setDoc} from '@angular/fire/firestore';
 import { atLeastOneCheckboxCheckedValidator } from './require-checkboxes-to-be-checked.validator';
 import { UserServiceService } from '../../service/user-service.service';
 import { JobHistory } from '../../model/typescriptModel/users.model';
+declare let window: any;
 
 SwiperCore.use([Virtual]);
 
@@ -27,6 +28,7 @@ export class RegisterComponent implements AfterViewInit {
   constructor(private userService:UserServiceService, private converter:JobTypeConverterService, private utilService:UtilService, private store:Store, private route: ActivatedRoute, private fb: FormBuilder){}
   private auth: Auth = inject(Auth)
   private db: Firestore = inject(Firestore)
+  registerModal: any
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   isPharma: boolean = true
@@ -46,7 +48,14 @@ export class RegisterComponent implements AfterViewInit {
   @ViewChild('swiperFormStudent', { static: false }) swiperFormStudent!: SwiperComponent;
 
   ngOnInit(){
+    this.registerModal = new window.bootstrap.Modal(
+      document.getElementById('registerModal')
+    )
     this.initializeFormGroup()
+  }
+
+  onCloseModal(){
+    this.registerModal.hide()
   }
 
   onSwiper(params: any){

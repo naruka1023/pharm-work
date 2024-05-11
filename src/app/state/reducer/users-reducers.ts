@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { User } from 'src/app/model/user.model';
-import { coverPhotoLoadSuccessful, getCurrentUser, removeCurrentUser, setCurrentUser, toggleLoading, updateCoverPhoto, updateCoverPhotoOffset, updateCropProfilePicture, updateProfilePicture, upgradeToPharma } from '../actions/users.action';
+import { coverPhotoLoadSuccessful, getCurrentUser, removeCurrentUser, setCurrentUser, toggleLoading, updateCoverPhoto, updateCoverPhotoOffset, updateCropProfilePicture, updatePackage, updateProfilePicture, upgradeToPharma } from '../actions/users.action';
 
 // import { retrievedBookList } from './books.actions';
 // import { Book } from '../book-list/books.model';
@@ -12,6 +12,8 @@ export const initialState: User = {
   email: '',
   uid: '',
   name: '',
+  subscriptions: [],
+  packages: {},
   surname: '',
   showProfileFlag: true,
   profilePictureUrl: '',
@@ -49,6 +51,15 @@ export const usersReducer = createReducer(
       ...state,
       ...user,
       loading:false
+    }
+  }),
+  on(updatePackage, (state, { packageFlag, payload }) => {
+    return {
+      ...state,
+      packages: {
+        ...state.packages,
+        [packageFlag]: payload
+      }
     }
   }),
   on(upgradeToPharma, (state, {license})=>{

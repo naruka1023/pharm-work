@@ -1,6 +1,37 @@
+.profileOperatorImage{
+  width: 150px; 
+  height:150px; 
+}
 @media only screen and (max-width: 500px) {
   .companyName{
     font-size:1rem !important
+  }
+}
+@media only screen and (max-width: 480px) {
+  .profileOperatorImage{
+    width: 120px; 
+    height:120px; 
+  }
+  .companyName{
+    font-size:0.9rem !important
+  }
+}
+@media only screen and (max-width: 410px) {
+  .profileOperatorImage{
+    width: 100px; 
+    height:100px; 
+  }
+  .companyName{
+    font-size:0.8rem !important
+  }
+}
+@media only screen and (max-width: 360px) {
+  .profileOperatorImage{
+    width: 90px; 
+    height:90px; 
+  }
+  .companyName{
+    font-size:0.7rem !important
   }
 }
 .brandIcon > img{

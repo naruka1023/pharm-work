@@ -7,6 +7,7 @@ export interface User{
     companySize: string,
     coverPhotoOffset?: number,    
     productsAndServices: string,
+    operatorBanners?: { [key:string]:string}
     TravelInstructions: string,
     _geolocCurrent?: _geoloc;
     profilePictureUrl?:string,

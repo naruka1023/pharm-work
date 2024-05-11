@@ -41,6 +41,11 @@ export const EmptyJobPostAppState = createAction(
   '[Job-Post] Empty Job Post App State',
 )
 
+export const setBanner = createAction(
+  '[Job-Post] Set Banners',
+  props<{ banner: { [key: string]: string[] }}>()
+)
+
 export const removeBookmark = createAction(
   '[Job-Post] Remove Bookmark',
   props<{ jobUID: string, userUID: string}>()

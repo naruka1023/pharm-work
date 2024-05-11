@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 import SwiperCore, { Navigation } from 'swiper';
 import { Router } from '@angular/router';
 import { Auth, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
+declare let window: any;
 
 SwiperCore.use([Navigation]);
 @Component({
@@ -25,6 +26,7 @@ export class LoginPageComponent implements AfterViewInit{
   header: string = 'เข้าสู่ระบบ<span class="green-text">เภสัช</span>'
   loginForm!:FormGroup;
   email!: FormControl;
+  loginModal: any
   resetSuccessful: boolean = false;
   resetButtonFlag: boolean = true;
 
@@ -35,6 +37,9 @@ export class LoginPageComponent implements AfterViewInit{
       userName: ['',Validators.required],
       password: ['', Validators.required],
     });
+    this.loginModal = new window.bootstrap.Modal(
+      document.getElementById('loginModal')
+    )
     this.email = new FormControl('', [Validators.required,Validators.email]);
     const myModal = document.getElementById('exampleModal')
     
@@ -44,7 +49,7 @@ export class LoginPageComponent implements AfterViewInit{
     })
     this.scrollUp();
   }
-    
+  
   scrollUp(){
     window.scroll({ 
       top: 0, 
@@ -52,7 +57,9 @@ export class LoginPageComponent implements AfterViewInit{
       behavior:"auto"
     });
   }
-
+  closeModal(){
+    this.loginModal.hide()
+  }
   changeHeader(isPharma: boolean | string){
     this.mainPageFlag = true
     this.pharmaFlag = isPharma;

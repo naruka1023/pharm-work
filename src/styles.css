@@ -28,6 +28,9 @@
 .textResponsiveHeader{
     font-size:2.5rem 
 }
+.pAomPenTood{
+    width: 200px
+}
 @media only screen and (max-width: 1700px){
     .textResponsiveOperator{
         font-size:large !important;
@@ -159,8 +162,12 @@
     .textResponsive{
         font-size:x-small !important
     }
-}
-@media only screen and (max-width: 345px) {
+    .pAomPenTood{
+        width: 130px !important
+    }
+    .navbar-toggler-icon{
+        width: 1.1em !important
+    }
 }
 @media only screen and (max-width: 337px) {
     .textResponsive{

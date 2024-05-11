@@ -92,7 +92,7 @@ export class OperatorPageComponent implements OnDestroy{
     }
     this.loading$ = this.store.select((state:any) =>{
       if(this.operatorExistFlag){
-        const categorySymbol = this.jobType == 'ร้านยาทั่วไป' || this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
+        const categorySymbol = 'BA'
         const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
           return filterCondition.CategorySymbol == categorySymbol
         }) as filterConditions
@@ -105,7 +105,7 @@ export class OperatorPageComponent implements OnDestroy{
     this.subscription.add(
       this.store.select((state:any)=>{
         if(this.operatorExistFlag){
-          const categorySymbol = this.jobType == 'ร้านยาทั่วไป' || this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
+          const categorySymbol = 'BA'
             const jobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find((user: userOperator)=>{
@@ -134,7 +134,7 @@ export class OperatorPageComponent implements OnDestroy{
     )
     this.store.select((state:any)=>{
       if(this.operatorExistFlag){
-        const categorySymbol = this.jobType == 'ร้านยาทั่วไป' || this.jobType == 'ร้านยาแบรนด์' || this.jobType == 'โรงพยาบาล'? 'BA' : 'CB'
+        const categorySymbol = 'BA'
           const fC = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
             return filterCondition.CategorySymbol == categorySymbol
           }) as filterConditions
@@ -146,6 +146,7 @@ export class OperatorPageComponent implements OnDestroy{
       }
     }).subscribe((operator: userOperator)=>{
       if(operator.followers === undefined && operator.operatorJobs === undefined && this.operatorExistFlag){
+        console.log(operator)
         this.jobPostService.getJobOfOperator(this.operatorUID).then((jobs)=>{
           this.userService.getNumberOfFollowers(this.operatorUID).then((count)=>{
             this.allJobsFlag = jobs.length !== 0;

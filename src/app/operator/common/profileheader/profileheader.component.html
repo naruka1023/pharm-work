@@ -52,8 +52,20 @@
                         </div>
                     </div>
                     <div class="mt-lg-4 mt-0">
-                        <div class="editButton d-lg-flex d-none justify-content-end me-3">
+                        <div class="editButton d-lg-flex d-none justify-content-end me-3 mb-lg-4 mb-2">
                             <button class="btn btn-light textResponsive ms-lg-3 border-input button-width" type="button" *ngIf="!editFlag" (click)="editIntroTextClicked()">แก้ไขแนะนำตัว</button>
+                            <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div> -->
+                            <!-- <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
+                        </div>
+                        <div class="editButton d-lg-flex d-none justify-content-end me-3">
+                            <div class='d-flex align-items-center'>        
+                                <button class="btn btn-light textResponsive ms-lg-3 border-input button-width" type="button" (click)="goToPortal()">ข้อมูลการซื้อ</button>
+                                    <div style="text-align:center" *ngIf="portalLoadingFlag">
+                                        <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                            </div>
                             <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div> -->
                             <!-- <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
                         </div>
@@ -85,19 +97,31 @@
                   
                 </div>
                 <div class="mt-sm-4">
-                    <div class="editButton fs-2 d-sm-flex text-center justify-content-end align-items-center">
+                    <div class="editButton fs-2 d-lg-flex text-center justify-content-end align-items-center">
                         <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <button *ngIf="!editFlag" class="editButtonText border-input btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3 d-lg-none" type="button" (click)="editIntroTextClicked()" style="min-width:10em">
-                            แก้ไขแนะนำตัว
-                        </button>
+                        <div>
+                            <button *ngIf="!editFlag" class="editButtonText border-input btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3 d-lg-none" type="button" (click)="editIntroTextClicked()" style="min-width:10em">
+                                แก้ไขแนะนำตัว
+                            </button>
+                        </div>
+                        <div>
+                            <div class='d-flex d-lg-none align-items-center'>
+                                <button class="editButtonText border-input btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3 d-lg-none" type="button" style="min-width:10em" (click)="goToPortal()">ข้อมูลการซื้อ</button>
+                                <div class="ms-3" style="text-align:center" *ngIf="portalLoadingFlag">
+                                    <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>
                         <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
                         <div *ngIf="editCoverPhotoFlag" class="dropdown me-md-3 d-sm-none" [ngStyle]="{'visibility': photoFlag, 'z-index': '6'}">
                             <button data-bs-toggle="dropdown" 
                                     aria-expanded="false"  
-                                    class="btn btn-secondary fs-4 ms-3 coverPhotoEditButtonPosition border-input" style="min-width:10em">
+                                    class="btn btn-secondary fs-4 coverPhotoEditButtonPosition border-input" style="min-width:10em">
                                     ปรับแต่งรูป
                             </button>
                             <ul class="dropdown-menu p-2">

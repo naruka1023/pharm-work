@@ -170,7 +170,7 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
                   if(this.route.snapshot.queryParamMap.get('operatorExistFlag') !== null){
                     let flag = this.route.snapshot.queryParamMap.get('operatorExistFlag') == 'true'? true: false
                     if(flag){ 
-                      let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล' || this.route.snapshot.queryParamMap.get('jobType')! == 'ร้านยาแบรนด์'? 'BA' : 'CB'
+                      let categorySymbol = 'BA'
                       let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')
                       let filter : filterConditions = state.jobpost.JobPost.find((filter:filterConditions)=>{
                         return filter.CategorySymbol === categorySymbol
@@ -270,7 +270,7 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
                 return state.requestView[this.userUID + '-' + this.operatorUID].content
              }
             if(this.operatorExistFlag){
-              let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
+              let categorySymbol = 'BA'
               return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
                 return filterCondition.CategorySymbol == categorySymbol
               }).content.find((user:userOperator)=>{
@@ -288,7 +288,7 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
         })
         this.followers$ = this.store.select((state: any)=>{
           if(this.operatorExistFlag){
-            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
+            let categorySymbol = 'BA'
             return state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find((user:userOperator)=>{
@@ -305,7 +305,7 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
           let operatorJobs: any
           if(this.operatorExistFlag){
             let operatorUID = this.route.snapshot.queryParamMap.get('operatorUID')  
-            let categorySymbol = this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาทั่วไป' || this.route.snapshot.queryParamMap.get('jobType') == 'ร้านยาแบรนด์' || this.route.snapshot.queryParamMap.get('jobType')  == 'โรงพยาบาล'? 'BA' : 'CB'
+            let categorySymbol = 'BA'
             operatorJobs = state.jobpost.JobPost.find((filterCondition: filterConditions)=>{
               return filterCondition.CategorySymbol == categorySymbol
             }).content.find(((operator:userOperator)=>{

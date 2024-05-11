@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
 import { AppState, BookmarkList, Follow, filterConditions, userOperator } from '../../model/typescriptModel/jobPost.model';
-import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest, updateJobFromJobCategory, retrievedJobCategoryHomeSuccess, updateJobFromHome, paginateJobCategory, setExistingOperatorData, toggleJobs } from '../actions/job-post.actions';
+import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest, updateJobFromJobCategory, retrievedJobCategoryHomeSuccess, updateJobFromHome, paginateJobCategory, setExistingOperatorData, toggleJobs, setBanner } from '../actions/job-post.actions';
 
 const emptyOperator = {
   email: '',
@@ -27,6 +27,7 @@ const emptyOperator = {
 export const initialState: AppState = {
   loading: true,
   JobPost: headerArray,
+  Banners: {},
   Bookmarks: {},
   JobRequests:{},
   Follows:{},
@@ -36,6 +37,11 @@ export const jobPostReducer = createReducer(
   initialState,
   on(toggleJobs, (state) =>{
     return state
+  }),
+  on(setBanner, (state, {banner}) =>{
+    let newState: AppState =  _.cloneDeep(state);
+    newState.Banners = banner
+    return {...newState}
   }),
   on(removeBookmark, (state, {jobUID, userUID}) =>{
     let newState: AppState =  _.cloneDeep(state);
@@ -154,7 +160,7 @@ export const jobPostReducer = createReducer(
   }),
   on(setExistingOperatorData, (state, { jobType, operatorUID, jobs, followers }) => {
     let newState: AppState =  _.cloneDeep(state);
-    let categorySymbol = jobType == 'ร้านยาทั่วไป' || jobType == 'ร้านยาแบรนด์'|| jobType == 'โรงพยาบาล'? 'BA' : 'CB'
+    let categorySymbol = 'BA'
     let formattedJobs: any = {}
     jobs.forEach((job)=>{
       formattedJobs[job.custom_doc_id] = job

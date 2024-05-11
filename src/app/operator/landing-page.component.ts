@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription, from, map } from 'rxjs';
-import { removeCurrentUser, setCurrentUser } from '../state/actions/users.action';
+import { removeCurrentUser, setCurrentUser, updatePackage } from '../state/actions/users.action';
 import { UsersService } from './service/users.service';
 import { emptyRequestedJobs } from './state/actions/job-request-actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
@@ -13,7 +13,7 @@ import { UtilService } from './service/util.service';
 import { User, UserPharma, aggregationCount, notificationContent, requestView } from './model/user.model';
 import { addRequestView } from './state/actions/request-view.actions';
 import { Auth, sendEmailVerification, user } from '@angular/fire/auth';
-import { Firestore, collection, getDocs, query, updateDoc, doc, where, addDoc, deleteDoc, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, updateDoc, doc, where, addDoc, deleteDoc, onSnapshot, docData } from '@angular/fire/firestore';
 import _ from 'lodash';
 import { OperatorProfileComponent } from './page/operator-profile/operator-profile.component';
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
@@ -66,6 +66,7 @@ export class LandingPageComponent implements AfterViewInit {
   }
   geoLocFlag!: boolean
   googleMapModal: any;
+  subscribeFlag: boolean = true
   content!: UserPharma
   requestViewLoadingFlag = false;
   formModal!: any;
@@ -79,26 +80,39 @@ export class LandingPageComponent implements AfterViewInit {
   addJobModal!: any
   jobPostUID?: string
   type!: string 
+
   shareModal!: any
   offCanvas!: any
   notificationsFlag?: any 
+  cancelCheckoutFlag?: any 
+  successCheckoutFlag?: any 
   notificationsArchive: notificationContent[] = []
 
   constructor(private activatedRoute: ActivatedRoute,private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
   
   ngOnInit(){
     this.initializeGoogleMapForm()
+
     this.store.select((state:any)=>{
       return state.notifications.notificationsArchive
     }).subscribe((notificationArchive)=>{
       let temp: notificationContent[]= []
       Object.keys(notificationArchive).map((key)=> {
-        temp.push(notificationArchive[key])
+        temp.push(notificationArchive[key]) 
       })
       this.notificationsArchive = temp
     })
+    
     this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
+    this.successCheckoutFlag = this.activatedRoute.snapshot.queryParamMap.get('successCheckoutFlag') 
+    this.cancelCheckoutFlag = this.activatedRoute.snapshot.queryParamMap.get('cancelCheckoutFlag') 
     this.notificationsFlag = this.notificationsFlag == 'true'?true:false
+    if(this.successCheckoutFlag == 'true'){
+      this.route.navigate(['operator/success-checkout'])
+    }
+    if(this.cancelCheckoutFlag == 'true'){
+      this.route.navigate(['operator/cancel-checkout'])
+    }
   if(this.notificationsFlag){
     this.userUID = this.activatedRoute.snapshot.queryParamMap.get('url')!  
     let payload = this.userUID.split('?')[this.userUID.split('?').length - 1]
@@ -136,10 +150,42 @@ export class LandingPageComponent implements AfterViewInit {
         return state.user
       }).subscribe((user)=>{
         this.user = _.cloneDeep(user)
+        if(this.user.uid !== '' && this.subscribeFlag){
+          this.subscribeFlag = false
+          getDocs(query(collection(this.db, 'products'), where('name', 'in', ['A1', 'A2', 'A3', 'A4', 'B1', 'B2']))).then((value)=>{
+            let resultPayload: any = {}
+            value.docs.forEach((innerDoc)=>{
+              let ref = innerDoc.data() as any
+              resultPayload[ref.name] = {
+                name: ref.name,
+                description: ref.description
+              }
+              getDocs((query(collection(this.db, 'products', innerDoc.id, 'prices'), where('active', '==', true)))).then((price)=>{
+                let prices: any = price.docs[0].data()
+                let innerPayload = {
+                  ...resultPayload[ref.name],
+                  price: prices.unit_amount,
+                  priceID: price.docs[0].id
+                }
+                this.store.dispatch(updatePackage({packageFlag: ref.name, payload: innerPayload}))
+              })
+            })
+          })
+          getDocs(query(collection(this.db, 'users', this.user.uid,  'subscriptions'), where('status', 'in', ['trialing', 'active', 'incomplete', 'incomplete_expired', 'past_due', 'unpaid', 'pause']))).then((value)=>{
+            let subscriptions: any[] = []
+            value.docs.forEach((innerDoc)=>{
+              let ref = innerDoc.data()
+              subscriptions.push(ref['metadata'].package)
+            })
+            this.store.dispatch(setCurrentUser({user:{
+              subscriptions: subscriptions}}))
+          })
+        }
         if(this.user.cropProfilePictureUrl == ''){
           delete this.user.cropProfilePictureUrl
         }
       })
+      
       user(this.auth).subscribe((user)=>{
         if(user){
           onMessage(this._messaging,(payload)=>{
@@ -494,6 +540,7 @@ initializeGoogleMapForm(){
       })
     }
   }
+  
   
   confirmSignout(){
     this.auth.signOut().then(()=>{

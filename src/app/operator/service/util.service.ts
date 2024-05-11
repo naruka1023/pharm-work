@@ -21,6 +21,15 @@ export class UtilService {
   removeRequestSubject: Subject<jobUIDForUser> = new Subject();
   requestViewSubject: Subject<UserPharma> = new Subject();
   googleMapSubject: Subject<any> = new Subject();
+  buyBannerSubject: Subject<void> = new Subject();
+
+  getBuyBannerSubject(): Observable<any>{
+    return this.buyBannerSubject.asObservable()
+  }
+
+  sendBuyBannerSubject(){
+    return this.buyBannerSubject.next();
+  }
 
   getGoogleMapSubject(): Observable<any>{
     return this.googleMapSubject.asObservable()

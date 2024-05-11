@@ -1,61 +1,8 @@
-<div (click)="scrollUp()"class="position-fixed bottom-0 start-0 m-3" style="z-index: 10; font-size:5rem">
+<!-- <div (click)="scrollUp()"class="position-fixed bottom-0 start-0 m-3" style="z-index: 10; font-size:5rem">
 	<i class="pe-auto bi bi-arrow-up-square"></i>
-</div>
-<swiper
-    [navigation]="true"
-    [slidesPerView]="1"
-    [loop]="true"
-    [centeredSlides]="true"
-    [watchSlidesProgress] = "true"
-    [spaceBetween]="25"
-    [breakpoints]="breakingPointOperator"
-    [pagination]="true"
-    [autoplay]="true"
-    style="margin-top: 3em; text-align: center">
-    <ng-template swiperSlide>
-        <div class="img-container">
-            <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
-        </div>
-    </ng-template>
-    <ng-template swiperSlide>
-        <div class="img-container">
-            <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
-        </div>
-    </ng-template>
-    <ng-template swiperSlide>
-        <div class="img-container">
-            <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
-        </div>
-    </ng-template>
-    <ng-template swiperSlide>
-        <div class="img-container">
-            <img class="landing-page_img" src="assets/banner9.png">
-        </div>
-    </ng-template>
-    <ng-template swiperSlide>
-        <div class="img-container">
-            <img class="landing-page_img" src="assets/banner8.png">
-        </div>
-    </ng-template>
-</swiper>
+</div> -->
 <div>
-    <!-- <div class="d-flex justify-content-center my-5" [ngStyle]="{'visibility':!loadingFlag?'hidden':'unset'}">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center my-3">
-        <google-map 
-            height="500px"
-            width="65vw"
-            [center]="allJobs[0]._geoloc!"
-            [zoom]="15"
-            (mapClick)="moveMap($event)"
-        >
-            <map-marker *ngFor="let job of allJobs" [position]="job._geoloc!"></map-marker>
-        </google-map>
-    </div> -->
-    <div class="container pt-6 mt-5">
+    <div class="container pt-3 mt-3" >
         <ng-container *ngIf="loadingFlag$ | async; then loadBlock; else mainBlock"></ng-container>
         <ng-template #loadBlock>
             <div style="text-align:center">
@@ -65,7 +12,55 @@
             </div>
         </ng-template>
         <ng-template #mainBlock>
-            <div *ngFor="let header of items$ | async">
+            <div style="border-top:1px solid #cccccc" class="pb-3">
+                <swiper
+                    [navigation]="true"
+                    [slidesPerView]="1"
+                    [centeredSlides]="true"
+                    [loop]="a1Banner.length > 0"
+                    [spaceBetween]="30"
+                    [breakpoints]="breakingPointOperator"
+                    [pagination]="true"
+                    [autoplay]="true"
+                    class="mt-sm-4 mt-3 px-2"
+                    style="text-align: center">
+                    <ng-container *ngIf="a1Banner.length > 0; then hasBanner; else noBanner">
+                    </ng-container>
+                    <ng-template #hasBanner>
+                        <ng-container  *ngFor="let banner of a1Banner">
+                            <ng-template swiperSlide>
+                                <div class="img-container">
+                                    <ng-container *ngIf="banner.link !== ''; then link; else noLink"></ng-container>
+                                    <ng-template #link>
+                                        <img class="landing-page_img" [src]="banner.uid" (click)="redirectExternal(banner.link)" style="cursor:pointer">
+                                    </ng-template>
+                                    <ng-template #noLink>
+                                        <img class="landing-page_img" [src]="banner.uid">
+                                    </ng-template>
+                                </div>
+                            </ng-template>
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #noBanner>
+                        <ng-template swiperSlide>
+                            <div class="img-container">
+                                <img class="landing-page_img" src="assets/banner9.png">
+                            </div>
+                        </ng-template>
+                        <ng-template swiperSlide>
+                            <div class="img-container">
+                                <img class="landing-page_img" src="assets/banner8.png">
+                            </div>
+                        </ng-template>
+                        <ng-template swiperSlide>
+                            <div class="img-container">
+                                <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </swiper>
+            </div>
+            <div *ngFor="let header of items$ | async" class="mt-sm-2 mt-5">
                 <app-swiper-module [filterFlags]="header"></app-swiper-module>
             </div>
         </ng-template>

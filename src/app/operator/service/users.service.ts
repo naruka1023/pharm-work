@@ -31,8 +31,6 @@ export class UsersService {
     })
   }
 
-
-
   async searchPharmaUsersByPreferredJobType(form:UserSearchForm){
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''

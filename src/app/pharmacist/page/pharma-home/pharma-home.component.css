@@ -11,7 +11,6 @@
   width: 100%;
   margin: 0 auto;
   position: relative;
-  border-radius:50px;
   display: block;
   z-index: 1;
   overflow: hidden;
@@ -22,8 +21,8 @@
   border-radius: 1rem;
 }
 .landing-page_img{
-  border-radius: 20px;
-  width:100%;
+  width:-webkit-fill-available;
+  width: -moz-available;
 }
 .landing-page_img2{
   width:-webkit-fill-available;

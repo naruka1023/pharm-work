@@ -92,6 +92,9 @@ export interface User{
     email: string;
     uid: string;
     license: string;
+    packages?: {
+        [key:string]: any
+    };
     gender?: string;
     education?: string;
     birthday?: string;
@@ -109,6 +112,7 @@ export interface User{
     name: string;
     surname: string;
     Location?: Location,
+    subscriptions?: any,
     active?:string;
     educationHistory?: {
         universityName: string;

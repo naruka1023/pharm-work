@@ -1,10 +1,10 @@
 <div>
-	<div class="outerCard py-0">
+	<div class="py-0">
 		<div class="d-flex justify-content-start align-items-center">
-			<img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToOperatorProfile()"  class="profilePic card-img-top rounded-circle" style="width:5rem;height:5rem; padding-top:0.5rem" height="50" width="50">
+			<img [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl: content.profilePictureUrl"  (click)="goToOperatorProfile()"  class="profilePic card-img-top rounded-circle standard-shadow my-1">
 			<div>
 				<div class="d-flex justify-content-between">
-					<div class="fs-6" style="text-align:left; padding:1rem; padding-top:0.5rem; height: 3.5em; overflow:hidden; word-break: break-word; display:-webkit-box; -webkit-line-clamp: 2;">
+					<div class="contentFontSize" style="text-align:left; padding:1rem; padding-top:0.5rem; height: 3.5em; overflow:hidden; word-break: break-word; display:-webkit-box; -webkit-line-clamp: 2;">
 						{{ content.Establishment}}
 					</div>
 				</div>
@@ -23,8 +23,8 @@
 					</div>
 					<hr class="w-100 my-2">
 					<div class="d-flex justify-content-center">
-						<div class="urgentDisplay d-sm-flex d-block flex-row align-items-center py-2">
-							<b class="me-3">ทำงานวันที่</b>
+						<div class="urgentDisplay titleFontSize d-flex flex-row align-items-center py-2" style="white-space:nowrap">
+							<b class="me-3 d-sm-flex"><span class="m-0 p-0 d-sm-block d-none" style="white-space:nowrap">ทำงาน</span>วันที่</b>
 							<div>{{ content.DateOfJob }}</div>
 						</div>
 					</div>
@@ -39,37 +39,37 @@
 				</div>
 			</ng-template>
 			<div class="card-body py-0">
-				<div class="text-left fs-5" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'padding': urgentFlag?'0':'1rem', 'height': urgentFlag? '3.2em':'4em', 'word-break': 'break-word', 'overflow':'hidden', 'text-align': 'center', '-webkit-line-clamp': '2'}">
+				<div class="text-left titleFontSize" [id]="'jobName' + content.custom_doc_id" [ngStyle]="{'padding': urgentFlag?'0':'1rem', 'height': urgentFlag? '3.2em':'4em', 'word-break': 'break-word', 'overflow':'hidden', 'text-align': 'center', '-webkit-line-clamp': '2'}">
 					<b>{{content.JobName}}</b>
 				</div>
 				<div class="row my-2">
 					<p class="my-auto  col-2">
-						<i class="fs-6 my-auto bi bi-bootstrap"></i>
+						<i class="contentFontSize my-auto bi bi-bootstrap"></i>
 					</p>
-					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
+					<div class="col d-flex flex-row contentFontSize" style="align-self:center" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
 						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}} {{urgentFlag?'บาท/ชม': ''}}
 					</div>
-					<div class="col d-flex flex-row fs-6" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
+					<div class="col d-flex flex-row contentFontSize" style="align-self:center" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
 						{{content.Salary.Suffix | salaryType}}
 					</div>
 				</div>
 				<div *ngIf="urgentFlag" class="row my-2">
-					<i class="col-2 my-auto fs-6 bi bi-clock"></i>
-					<p class="my-auto text-start col fs-6">{{content.Duration}} น.</p>
+					<i class="col-2 my-auto contentFontSize bi bi-clock"></i>
+					<p class="my-auto text-start col contentFontSize">{{content.Duration}} น.</p>
 				</div>
 				<div *ngIf="!urgentFlag">
 					<div class="row d-flex flex-row my-2" *ngIf="content.Amount !== ''">
-						<i class="col-2 bi bi-person fs-6"></i>
-						<div class="col text-start fs-6">{{content.Amount}} อัตรา</div>
+						<i class="col-2 bi bi-person contentFontSize"></i>
+						<div class="col text-start contentFontSize">{{content.Amount}} อัตรา</div>
 					</div>
 				</div>
 				<div class="row my-2">
-					<i class="fs-6 my-auto  col-2 bi bi-geo"></i>
-					<p class="my-auto text-start col fs-6">{{content.Location.Province}}</p>
+					<i class="contentFontSize my-auto  col-2 bi bi-geo"></i>
+					<p class="my-auto text-start col contentFontSize">{{content.Location.Province}}</p>
 				</div>
 			</div>
 		</div>	
-		<div class="outerCard pt-0">
+		<div class="pt-0">
 			<div class="d-flex justify-content-between align-items-center">
 				<div style="font-size:0.75rem;">
 					{{content.dateUpdated}}

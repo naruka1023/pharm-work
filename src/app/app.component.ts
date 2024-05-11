@@ -50,11 +50,13 @@ export class AppComponent {
     }).subscribe((role)=>{
       if(role !== '' && this.currentUrl.indexOf('landing') == -1){
         const notificationFlag = this.currentUrl.indexOf('/notifications?') !== -1
+        const successCheckoutFlag = this.currentUrl.indexOf('/success-checkout') !== -1
+        const cancelCheckoutFlag = this.currentUrl.indexOf('/cancel-checkout') !== -1
         const url = notificationFlag? this.currentUrl.split('?')[1]: 'empty'
         if(role == 'เภสัชกร'){
           this.route.navigate(['pharma'],{
             queryParams: 
-            {
+            { 
               notificationsFlag: notificationFlag,
               url: url
             }
@@ -62,14 +64,16 @@ export class AppComponent {
         }else{
           this.route.navigate(['operator'],{
             queryParams: 
-            {
+            { 
+              successCheckoutFlag: successCheckoutFlag,
+              cancelCheckoutFlag: cancelCheckoutFlag,
               notificationsFlag: notificationFlag,
               url: url
             }
           });
         }
       }else{
-        if(this.currentUrl.indexOf('landing') == -1 && this.currentUrl.indexOf('notifications')  == -1){
+        if(this.currentUrl.indexOf('landing') == -1 && this.currentUrl.indexOf('notifications')  == -1 && this.currentUrl.indexOf('success-checkout')  == -1 && this.currentUrl.indexOf('cancel-checkout')  == -1){
           this.route.navigate([''])
         }
       }

@@ -18,16 +18,21 @@ import { UrgentJobsComponent } from './page/operator-profile/urgent-jobs/urgent-
 import { UrgentJobsPageComponent } from './page/operator-profile/urgent-jobs-page/urgent-jobs-page.component';
 import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-history/urgent-jobs-history.component';
 import { NotificationsComponent } from './common/notifications/notifications.component';
+import { BannerBuyComponent } from './page/banner-buy/banner-buy.component';
+import { SuccessCheckoutComponent } from './page/success-checkout/success-checkout.component';
+import { CancelCheckoutComponent } from './page/cancel-checkout/cancel-checkout.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
     { path: '', component: OperatorHomeComponent},
     { path: 'notifications', component: NotificationsComponent},
-    { path: 'add-new-jobs', component: AddNewJobComponent},
+    { path: 'success-checkout', component: SuccessCheckoutComponent},
+    { path: 'cancel-checkout', component: CancelCheckoutComponent},
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'edit-jobs', component: EditJobComponent},
     { path: 'job-detail', component: JobPostDetailsComponent},
     { path: 'pharma-user-profile', component: PharmaUserProfilePageComponent},
+    { path: 'buy-banner', component: BannerBuyComponent},
     { path: 'profile-operator', component: OperatorProfileComponent, canActivate:[ProfileOperatorGuard],children:[
       { path: '',   redirectTo: 'inner-profile', pathMatch: 'full' },
       { path: 'inner-profile', component: InnerProfileComponent ,canDeactivate:[InnerProfileGuard]},

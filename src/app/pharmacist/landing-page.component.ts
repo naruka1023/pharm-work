@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { JobPostService } from './service/job-post.service';
-import { updateFollowersList, EmptyJobPostAppState, removeJobRequest } from './state/actions/job-post.actions';
+import { updateFollowersList, EmptyJobPostAppState, removeJobRequest, setBanner } from './state/actions/job-post.actions';
 import { removeRecentlySeen } from './state/actions/recently-seen.actions';
 import { removeCurrentUser, setCurrentUser } from '../state/actions/users.action';
 import { Bookmark, Follow, jobPostModel, jobRequest, userOperator } from './model/typescriptModel/jobPost.model';
@@ -62,6 +62,8 @@ export class LandingPageComponent {
   operatorModal: any;
   jobPostUID?: string
   notificationsFlag?: any 
+  successCheckoutFlag?: any 
+  cancelCheckoutFlag?: any 
   type!: string 
   bookmarkSubscription: {
     [key:string]:Unsubscribe

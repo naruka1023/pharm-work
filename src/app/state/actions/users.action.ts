@@ -5,8 +5,14 @@ export const getCurrentUser = createAction(
     '[User] get Current User',
     props<{ uid: string }>()
 );
+export const updatePackage = createAction(
+    '[User] Update Package',
+    props<{ packageFlag: string, payload: {
+        name: string, description: string, price: string, priceID: string
+    } }>()
+);
 export const setCurrentUser = createAction(
-    '[User] set Current User',
+    '[User] Set Current User',
     props<{ user: Partial<User> }>()
 );
 export const upgradeToPharma = createAction(

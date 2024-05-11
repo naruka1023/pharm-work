@@ -51,6 +51,9 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { notificationsReducer } from './state/reducer/notifications.reducers.';
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { CheckoutComponent } from './page/checkout/checkout.component';
+import { BannerBuyComponent } from './page/banner-buy/banner-buy.component';
+import { SuccessCheckoutComponent } from './page/success-checkout/success-checkout.component';
+import { CancelCheckoutComponent } from './page/cancel-checkout/cancel-checkout.component';
 
 
 
@@ -86,7 +89,10 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
     SalaryTypePipe,
     WorkExperiencePipe,
     NotificationsComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    BannerBuyComponent,
+    SuccessCheckoutComponent,
+    CancelCheckoutComponent
   ],
   imports: [
     CommonModule,

@@ -10,6 +10,8 @@ import { OperatorPageComponent } from './pharmacist/page/operator-page/operator-
 
 const routes: Routes = [
   { path: 'notifications', component: DemoLandingComponent},
+  { path: 'success-checkout', component: DemoLandingComponent},
+  { path: 'cancel-checkout', component: DemoLandingComponent},
   { path: '', component: DemoLandingComponent},
   { path: 'landing', children:[
     {path:'register', component:RegisterComponent},
