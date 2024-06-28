@@ -150,6 +150,7 @@ export interface jobPostModel {
     Franchise: string;
     JobName: string;
     JobType: string;
+    Address?: string
     firstNotificationFlag?: boolean
     Location: {
         Section: string;

@@ -52,6 +52,11 @@ export class LocationSelectorComponent {
       return section
     })
   }
+
+  styleSelect(id: string){
+    document.getElementById(id)!.style.color = 'black'
+  }
+  
   provinceSelected($event:any){
     this.genericFormGroup.patchValue({
         ...this.genericFormGroup.value,

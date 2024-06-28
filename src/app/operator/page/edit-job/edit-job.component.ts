@@ -9,6 +9,7 @@ import { JobService } from '../../service/job.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as _ from 'lodash';
 import { jobPostModel } from '../../model/jobPost.model';
+import { UtilService } from '../../service/util.service';
 
 @Component({
   selector: 'app-edit-job',
@@ -16,12 +17,13 @@ import { jobPostModel } from '../../model/jobPost.model';
   styleUrls: ['./edit-job.component.css']
 })
 export class EditJobComponent implements OnDestroy{
-  constructor(private store: Store, private fb: FormBuilder,private editJobService : JobService, private router:Router, private route: ActivatedRoute){}
+  constructor(private store: Store,private utilService:UtilService, private fb: FormBuilder,private editJobService : JobService, private router:Router, private route: ActivatedRoute){}
 
   user$!: Observable<User>;
   userState!: User
   newJobForm!: FormGroup;
   urgency!: any;
+  customSuffix: string = '';
   display: any;
   zoom: number = 15
   none: google.maps.MapOptions = {
@@ -105,18 +107,22 @@ export class EditJobComponent implements OnDestroy{
         return uid === job.custom_doc_id
       })
     }).pipe(take(1)).subscribe((state: any)=>{
-      if(this.userState._geoloc !== undefined){
-        this.center = this.userState._geoloc
-      }else{
-        if(this.userState._geolocCurrent == undefined){
-          this.center = {
-            lat: 0,
-            lng:0
-          }
-        }else{
-          this.center = this.userState._geolocCurrent!
-          }
-      }
+       if(state._geoloc !== undefined){
+        this.center = state._geoloc
+       }else{
+         if(this.userState._geoloc !== undefined){
+           this.center = this.userState._geoloc
+         }else{
+           if(this.userState._geolocCurrent == undefined){
+             this.center = {
+               lat: 0,
+               lng:0
+             }
+           }else{
+             this.center = this.userState._geolocCurrent!
+             }
+         }
+       }
       this.markerPosition = this.center
       this.newJobForm.patchValue({
         ...state,
@@ -138,6 +144,16 @@ export class EditJobComponent implements OnDestroy{
           salaryEnd: job.Salary.Amount + job.Salary.Cap!
         }
       })
+      if(this.newJobForm.value.Salary.Suffix !== 'CorporateStructure' && this.newJobForm.value.Salary.Suffix !== 'SalaryNumbers' && this.newJobForm.value.Salary.Suffix !== 'Negotiable'){
+        this.customSuffix = this.newJobForm.value.Salary.Suffix
+        this.newJobForm.patchValue({
+          ...this.newJobForm.value,
+          Salary: {
+            ...this.newJobForm.value.Salary,
+            Suffix: 'CustomSuffix'
+          }
+        })
+      }
       this.salaryStart = job.Salary.Amount,
       this.salaryEnd = job.Salary.Amount + job.Salary.Cap!
       this.newJobForm.patchValue({
@@ -151,8 +167,8 @@ export class EditJobComponent implements OnDestroy{
     if(event.target.value !== 'SalaryNumbers'){
       this.newJobForm.get('Salary.salaryEnd')!.disable()
       this.newJobForm.get('Salary.salaryStart')!.disable()
-      this.newJobForm.get('Salary.salaryStart')?.patchValue(0)
-      this.newJobForm.get('Salary.salaryEnd')?.patchValue(0)
+      this.newJobForm.get('Salary.salaryStart')?.patchValue("")
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue("")
     }else{
       this.newJobForm.get('Salary.salaryStart')!.enable()
       this.newJobForm.get('Salary.salaryEnd')!.enable()
@@ -180,6 +196,9 @@ moveMap(event: any){
     lng: event.latLng.lng()
   }
   this.center = this.markerPosition
+  this.utilService.getMapAddress(this.markerPosition.lng.toString(), this.markerPosition.lat.toString()).subscribe((result: any)=>{
+    this.newJobForm.patchValue({Address: result.results[0].formatted_address})
+  })
   this.newJobForm.patchValue({_geoloc: this.markerPosition})
 }
 searchMap(event: any){
@@ -262,6 +281,7 @@ searchMap(event: any){
       dateUpdated: [''],
       dateUpdatedUnix: [''],
       TimeFrame: ['', [Validators.required]],
+      Address: [''],
       OperatorUID: [this.userState.uid],
       JobName: ['', [Validators.required]],
       Amount: ['', [Validators.required]],
@@ -275,8 +295,8 @@ searchMap(event: any){
         Amount:[''],
         Cap: [''],
         Suffix: [''],
-        salaryStart: [0, [Validators.required]],
-        salaryEnd: [0]
+        salaryStart: ['', [Validators.required]],
+        salaryEnd: ['']
       }),
       OnlineInterview: [false],
       WorkFromHome: [false],
@@ -341,7 +361,7 @@ searchMap(event: any){
         {
           Salary: {
             Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: Math.round(this.newJobForm.value.Salary.salaryStart),
-            Suffix: this.newJobForm.value.Salary.Suffix,
+            Suffix: this.newJobForm.value.Salary.Suffix == 'CustomSuffix'? this.customSuffix:this.newJobForm.value.Salary.Suffix,
             Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? Math.round(this.newJobForm.value.Salary.salaryEnd) - Math.round(this.newJobForm.value.Salary.salaryStart): 0
           }
         };

@@ -3,9 +3,11 @@
 </div> -->
 <ng-container *ngIf="loadingFlag; then loading; else notLoading"></ng-container>
 <ng-template #loading>
-	<div style="text-align:center" class="mt-5 me-3">
-		<div class="spinner-border text-primary" role="status">
-		<span class="visually-hidden">Loading...</span>
+	<div class="loading">
+		<div style="text-align:center" class="mt-5 me-3">
+			<div class="spinner-border text-primary" role="status">
+			<span class="visually-hidden">Loading...</span>
+			</div>
 		</div>
 	</div>
 </ng-template>
@@ -247,21 +249,23 @@
 						สมัครงาน
 					</div>
 				</button> -->
-				<ng-container *ngIf="studentFlag$ | async; then noRequest; else haveRequest"></ng-container>
-				<ng-template #noRequest></ng-template>
-				<ng-template #haveRequest>
-					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-					<ng-template #alreadyRequest>
-						<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
-							<div class="textProfileResponsive">{{profile.Urgency?"สนใจรับงาน": "สมัครงาน"}}</div>
-						</button>
+				<div *ngIf="loginState">
+					<ng-container *ngIf="studentFlag$ | async; then noRequest; else haveRequest"></ng-container>
+					<ng-template #noRequest></ng-template>
+					<ng-template #haveRequest>
+						<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+						<ng-template #alreadyRequest>
+							<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
+								<div class="textProfileResponsive">{{profile.Urgency?"สนใจรับงาน": "สมัครงาน"}}</div>
+							</button>
+						</ng-template>
+						<ng-template #requestButton>
+							<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
+								<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
+							</button>
+						</ng-template>
 					</ng-template>
-					<ng-template #requestButton>
-						<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
-							<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
-						</button>
-					</ng-template>
-				</ng-template>
+				</div>
 				<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
 					<h1 style="display:flex">
 						<i class="bi bi-share-fill"></i>
@@ -297,15 +301,15 @@
 			<div class="card-body textProfileResponsive p-4">
 				<div class="my-5 mt-3">
 					<h2 class="pb-2" style="border-bottom:2px solid lightgrey">หน้าที่ความรับผิดชอบ</h2>
-					<div class="" [innerHtml]="profile.JobDetails | emptyFieldPipe"></div>
+					<div class="" [innerHtml]="profile.JobDetails | emptyField"></div>
+					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">คุณสมบัติผู้สมัคร</h2>
+					<div class="" [innerHtml]="profile.qualityApplicants | emptyField"></div>
 					<ng-container *ngIf="profile.Urgency === false">
-						<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">คุณสมบัติผู้สมัคร</h2>
-							<div class="" [innerHtml]="profile.qualityApplicants | emptyFieldPipe"></div>
 						<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">สวัสดิการ</h2>
-							<div class="" [innerHtml]="profile.jobBenefits | emptyFieldPipe"></div>
-						<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">วิธีสมัครงาน</h2>
-							<div class="" [innerHtml]="profile.applyInstructions | emptyFieldPipe"></div>
+						<div class="" [innerHtml]="profile.jobBenefits | emptyField"></div>
 					</ng-container>
+					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">วิธีสมัครงาน</h2>
+					<div class="" [innerHtml]="profile.applyInstructions | emptyField"></div>
 				</div>
 				<div class="my-5 mb-3">
 					<h2 class="pb-2 mb-3" style="border-bottom:2px solid lightgrey">ช่องทางติดต่อ</h2>

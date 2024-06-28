@@ -156,7 +156,7 @@
                     <ng-container *ngIf="requestViewFlag$ | async; then requestView; else notRequestView"></ng-container>
                     <ng-template #requestView>
                         <div class="semi-border-input p-sm-4 p-2 mb-sm-5 mb-4" [ngClass]="requestStatus.status == 'Pending'?'cyan-color': 'light-green-color'" style="margin-bottom:5rem">
-                            <div class="textProfileResponsive my-md-5 my-sm-3 my-2 container d-flex justify-content-center" style="padding: 0 5vw">
+                            <div class="textProfileResponsive my-md-5 my-sm-3 my-2 container d-flex justify-content-center align-items-center" style="padding: 0 5vw">
                                 <div><i style="font-size:2em" class="bi me-3" [ngClass]="requestStatus.status == 'Pending'?'bi-file-earmark-arrow-down-fill': 'bi-file-earmark-check-fill'"></i></div>
                                 <div>{{requestStatus.status == 'Pending'? "เภสัชกรท่านนี้จำกัดการดูข้อมูลติดต่อท่านสามารถส่งคำขอดูข้อมูลได้": "ท่านได้รับอนุญาตให้ดูข้อมูลติดต่อของเภสัชกรท่านนี้แล้ว ท่านจะสามารถดูข้อมูลของเภสัชกรท่านนี้ได้จนกว่าจะมีการเปลี่ยนแปลงคำอนุญาต"}}</div>
                             </div>
@@ -167,7 +167,7 @@
                     </ng-template>
                     <ng-template #notRequestView>
                             <div class="semi-border-input p-sm-4 p-2 cyan-color mb-sm-5 mb-4" style="margin-bottom:5rem">
-                                <div class="textProfileResponsive my-md-5 my-sm-3 my-2 container d-flex justify-content-center" style="padding: 0 5vw">
+                                <div class="textProfileResponsive my-md-5 my-sm-3 my-2 container d-flex justify-content-center align-items-center" style="padding: 0 5vw">
                                     <div><i style="font-size:2em" class="bi me-3 bi-file-earmark-arrow-down-fill"></i></div>
                                     <div>เภสัชกรท่านนี้จำกัดการดูข้อมูลติดต่อท่านสามารถส่งคำขอดูข้อมูลได้</div>
                                 </div>

@@ -1,5 +1,5 @@
 <div class="container">
-    <div  style="background-color: white; border-bottom: 1px lightgrey solid; top: 62px; left: 0px; right: 0px; position: fixed; z-index: 5; margin: 2rem 0">
+    <div  style="background-color: white; border-bottom: 1px lightgrey solid; top: 62px; left: 0px; right: 0px; position: fixed; z-index: 5; margin: 2rem 0" class="jobTitle">
 		<div class="text-center h2 mb-0 py-3">
 			{{ header }}
 		</div>
@@ -234,7 +234,7 @@
 			</div>
 		</ng-template>
         <ng-template #notEmpty>
-			<div class="row" style="margin-top:13rem"
+			<div class="row jobContainer" style="margin-top:13rem"
 				infinite-scroll
                 [infiniteScrollDistance]="2"
                 [infiniteScrollThrottle]="500"

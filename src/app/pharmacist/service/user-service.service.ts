@@ -31,12 +31,13 @@ export class UserServiceService {
     }
     return result
   }
-  deleteRequestChangeEmail(id: any){
-    return deleteDoc(doc(this.firestore, 'mail', id))
-  }
+
   sendRequestChangeEmail(body: any){
-    return addDoc(collection(this.firestore, 'mail'), body)
+    return this.http.post(url.sendEmail, body, {
+      responseType: 'text'
+    })
   }
+
   upgradeToPharma(operatorUID: string, license: string){
     return updateDoc(doc(this.firestore, 'users',operatorUID!), {
       studentFlag: false,
@@ -47,9 +48,6 @@ export class UserServiceService {
     const params = new HttpParams().set('name', name).set('surname', surname).set('licenseID', license)
     return this.http.get(url.licenseAuthentication, {
       params:params,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
     })
   }
   async getNumberOfFollowers(operatorUID: string){
@@ -90,8 +88,9 @@ export class UserServiceService {
   } 
   getNotifications(userUID: string){
     onSnapshot(query(collection(this.firestore, 'notification-archive'), where('userUID', '==', userUID), orderBy('dateCreatedUnix', 'desc')), (notification)=>{
+      let size = notification.size
+      let notificationArray: notificationContent [] = []
       return notification.docChanges().map((value)=>{
-        let notificationArray: notificationContent [] = []
         let notificationPayload = {
           payload: {
             ...value.doc.data() as notificationContent,
@@ -101,7 +100,13 @@ export class UserServiceService {
         }
         switch(notificationPayload.type){
           case 'added':
-            notificationArray.push(notificationPayload.payload)
+            // if(notificationArray.length < size){
+              notificationArray.push(notificationPayload.payload)
+            // }else{
+            //   let temp: notificationContent[] = [notificationPayload.payload]
+            //   temp = temp.concat(notificationArray)
+            //   notificationArray = temp
+            // }
             break;
           case 'removed':
             this.store.dispatch(removeNotifications({notification: notificationPayload.payload}))
@@ -110,6 +115,7 @@ export class UserServiceService {
             this.store.dispatch(modifyNotifications({notification: notificationPayload.payload}))
             break;
         }
+        console.log('notification array length', notificationArray.length)
         if(notificationArray.length > 0){
           let finalNotificationPayload: {
             [key:string]: notificationContent
@@ -117,7 +123,7 @@ export class UserServiceService {
           notificationArray.forEach((notification)=>{
             finalNotificationPayload[notification.notificationID] = notification;
           })
-          this.store.dispatch(addNotifications({notifications:finalNotificationPayload}))
+          this.store.dispatch(addNotifications({notifications:finalNotificationPayload, size:size}))
         }
       })
     })

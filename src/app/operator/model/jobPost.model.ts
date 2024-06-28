@@ -13,6 +13,7 @@ export interface jobPostModel {
     JobName: string;
     JobType: string;
     firstNotificationFlag?: boolean
+    Address?: string
     Location: {
         Section: string;
         District: string;

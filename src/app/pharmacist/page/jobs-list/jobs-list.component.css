@@ -25,6 +25,7 @@
   padding: 10px;
   text-align: left;
 }
+
   @media only screen and (max-width: 768px) {
     /* .urgentForm, .notUrgentForm{
       height: 65vh !important;
@@ -37,6 +38,14 @@
     .headerContent{
       display: block !important;
       text-align:center !important 
+    }
+  }
+  @media only screen and (max-width: 384px) {
+    .jobTitle{
+      margin: 0 !important
+    }
+    .jobContainer{
+      margin-top:8rem!important
     }
   }
   .headerContent{

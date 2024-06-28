@@ -85,7 +85,7 @@
                                         <div><b>สินค้าและบริการ</b></div>
                                     </div>
                                     <div class="col d-flex">
-                                        <div class="me-2">{{innerProfileInformation.productsAndServices | emptyField}}</div>
+                                        <div class="me-2" [innerHTML]='innerProfileInformation.productsAndServices | emptyField'></div>
                                     </div>
                                 </div>
                             </div>

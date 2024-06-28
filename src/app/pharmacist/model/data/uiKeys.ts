@@ -9,10 +9,12 @@ export const headerArray: filterConditions [] = [
     CategorySymbol:"BA",
     idList:[
     'INGAXkwcFbbtQirdgRKMJW14Q7q1', 'DXZJU47ZyWe0duVys2kIqb19Jfq1', 'bmq4q1c5D7bMRTxuHDEXBml800o2' , 'eQPnLbi8z3e3G7ypwngwrOmDBLO2', 
-    'nDct5ztDnnObt4KEW2XxGZQNRwp2', '2TXopcELHIb26tlh1gEoJjD9eZD2', 'ot1gOqcz4MZs5VCBB3XaLZmH7423' , 'lTdZbAZenmPW88Ra15Qfbr5ArQ33',
+    'nDct5ztDnnObt4KEW2XxGZQNRwp2', '2TXopcELHIb26tlh1gEoJjD9eZD2', 'ot1gOqcz4MZs5VCBB3XaLZmH7423' , '6DkajGDTCOeIfNRfDMJTp4L8P1G2',
     'Iw1OVpV7jPN9EhABx3j7uJQQcv53', 'jqAb1bpJOONmsfORePtGjjpxWdE2', 'N7obV20LAIgiXYQSFKgr3FKOVMz2' , 'tIdvsSSTLLhPbwp1eR3EAwUYmth1', 
-    'Yf0nSGlwj7Ty5b6IDQYo8y1Kb282', 'N1JqQLcCLSfEQntq4Sl4e8IFOSt2', 'TwJV9DwkPbWj7mTRIhaWRFlueSY2' , 'DHibmLGqGOfkjJVd3PRQgbWHspR2',
-    '1U5HAQJLIvNUwC9IsrcY3oCRGqE2', 'fEOa3NY1uxWx8SDQDJWsXUPkVj32', 'QbZTJMev0KaCjwkcMg19TkazUsI2' , '6pSjZM6TGwbIEsq7rBoLf4d3y692' ],
+    'Yf0nSGlwj7Ty5b6IDQYo8y1Kb282', 'N1JqQLcCLSfEQntq4Sl4e8IFOSt2', 'lTdZbAZenmPW88Ra15Qfbr5ArQ33' , 'DHibmLGqGOfkjJVd3PRQgbWHspR2',
+    '1U5HAQJLIvNUwC9IsrcY3oCRGqE2', 'fEOa3NY1uxWx8SDQDJWsXUPkVj32', 'QbZTJMev0KaCjwkcMg19TkazUsI2' , '6pSjZM6TGwbIEsq7rBoLf4d3y692',
+    'TwJV9DwkPbWj7mTRIhaWRFlueSY2'
+    ],
     loading: true,
     allContent: [],
     count: 0,

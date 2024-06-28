@@ -1,12 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { JobRequestList, jobPostModel, jobRequest } from '../model/jobPost.model';
-import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
-import _ from 'lodash';
+import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
+import _, { get } from 'lodash';
 import { setRequestedJobs, toggleJobRequestLoadingFlag, cancelRequest, checkIfEmptyUser } from '../state/actions/job-request-actions';
 import { Store } from '@ngrx/store';
 import { getCreatedJobSuccess, toggleCreatedJobLoading } from '../state/actions/job-post.actions';
 import { UsersService } from './users.service';
 import moment from 'moment';
+import { Observable, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,12 @@ export class JobService {
   setCollatedList(list: any){
     this.collatedList = list
   }
-  addOneJob(job:jobPostModel){
-    return addDoc(collection(this.db, 'job-post'),job)
+  async addOneJob(job:jobPostModel){
+    let newJob = await addDoc(collection(this.db, 'job-post'),job)
+    if(job.Urgency){
+      this.userService.createRemoveUrgentJobTask(newJob.id, job.DateOfJob).subscribe();
+    }
+    return newJob
   }
   editJob(job:any){
     return updateDoc(doc(this.db, 'job-post', job.custom_doc_id), job)
@@ -54,19 +59,29 @@ export class JobService {
   async addMultipleJobs(job:jobPostModel){
     let jobsToAdd: jobPostModel[] = [];
     let dates: Date[] = job.DateOfJob as Date[];
+    let jobUIDtoDate = {}
     dates.forEach((date: Date)=>{
       jobsToAdd.push({
         ...job,
         DateOfJob:moment(date).format('yyyy-MM-DD')
       })
     })
-    let promises: Promise<any>[] = []
-
+    let promises: Promise<DocumentReference<DocumentData>>[] = []
+    let observables: Observable<Object>[] = []
     jobsToAdd.forEach((job)=>{
       promises.push(addDoc(collection(this.db, 'job-post'), job))
     })
-  
     let results = await Promise.all(promises)
+    results.forEach(async (result)=>{
+      let createdJob = await getDoc(doc(this.db, 'job-post', result.id))
+      let retrievedJob = createdJob.data() as jobPostModel
+      observables.push(this.userService.createRemoveUrgentJobTask(result.id, retrievedJob.DateOfJob.toString()))
+      if(observables.length == promises.length){
+        forkJoin(observables).subscribe((task)=>{
+          console.log(task)
+        })
+      }
+    })
     return 'success'
   }
   removeJob(jobID: string){

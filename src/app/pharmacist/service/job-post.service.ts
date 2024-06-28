@@ -153,9 +153,6 @@ export class JobPostService {
     
     this.http.get(url.jobRequestNotification, {
       params:params,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
     }).subscribe((dd)=>{
       console.log(dd)
     })

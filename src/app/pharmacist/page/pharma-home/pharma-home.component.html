@@ -5,24 +5,26 @@
     <div class="container pt-3 mt-3" >
         <ng-container *ngIf="loadingFlag$ | async; then loadBlock; else mainBlock"></ng-container>
         <ng-template #loadBlock>
-            <div style="text-align:center">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <div class="loading">
+                <div style="text-align:center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
         </ng-template>
         <ng-template #mainBlock>
-            <div style="border-top:1px solid #cccccc" class="pb-3">
+            <div class="pb-3">
                 <swiper
                     [navigation]="true"
                     [slidesPerView]="1"
                     [centeredSlides]="true"
-                    [loop]="a1Banner.length > 0"
+                    [loop]="true"
                     [spaceBetween]="30"
                     [breakpoints]="breakingPointOperator"
                     [pagination]="true"
                     [autoplay]="true"
-                    class="mt-sm-4 mt-3 px-2"
+                    class="mt-sm-4 mt-3"
                     style="text-align: center">
                     <ng-container *ngIf="a1Banner.length > 0; then hasBanner; else noBanner">
                     </ng-container>
@@ -52,15 +54,15 @@
                                 <img class="landing-page_img" src="assets/banner8.png">
                             </div>
                         </ng-template>
-                        <ng-template swiperSlide>
+                        <!-- <ng-template swiperSlide>
                             <div class="img-container">
                                 <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
                             </div>
-                        </ng-template>
+                        </ng-template> -->
                     </ng-template>
                 </swiper>
             </div>
-            <div *ngFor="let header of items$ | async" class="mt-sm-2 mt-5">
+            <div *ngFor="let header of items$ | async" class="mt-5">
                 <app-swiper-module [filterFlags]="header"></app-swiper-module>
             </div>
         </ng-template>

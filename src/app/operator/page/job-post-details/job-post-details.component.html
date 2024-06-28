@@ -243,14 +243,14 @@
 			<div class="my-5 mt-3">
 				<h2 class="pb-2" style="border-bottom:2px solid lightgrey">หน้าที่ความรับผิดชอบ</h2>
 				<div class="" [innerHtml]="profile.JobDetails | emptyField"></div>
+				<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">คุณสมบัติผู้สมัคร</h2>
+				<div class="" [innerHtml]="profile.qualityApplicants | emptyField"></div>
 				<ng-container *ngIf="profile.Urgency === false">
-					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">คุณสมบัติผู้สมัคร</h2>
-						<div class="" [innerHtml]="profile.qualityApplicants | emptyField"></div>
 					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">สวัสดิการ</h2>
-						<div class="" [innerHtml]="profile.jobBenefits | emptyField"></div>
-					<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">วิธีสมัครงาน</h2>
-						<div class="" [innerHtml]="profile.applyInstructions | emptyField"></div>
+					<div class="" [innerHtml]="profile.jobBenefits | emptyField"></div>
 				</ng-container>
+				<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">วิธีสมัครงาน</h2>
+				<div class="" [innerHtml]="profile.applyInstructions | emptyField"></div>
 			</div>
 			<div class="my-5 mb-3">
 				<h2 class="pb-2 mb-3" style="border-bottom:2px solid lightgrey">ช่องทางติดต่อ</h2>

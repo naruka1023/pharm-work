@@ -17,7 +17,7 @@ import * as _ from 'lodash';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
 import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot, updateDoc, addDoc } from '@angular/fire/firestore';
 import { Messaging, onMessage } from '@angular/fire/messaging';
-import { modifyNotifications } from './state/actions/notifications.actions.';
+import { NotificationsComponent } from './common/notifications/notifications.component';
 declare var window: any;
 
 
@@ -68,8 +68,7 @@ export class LandingPageComponent {
   bookmarkSubscription: {
     [key:string]:Unsubscribe
   } = {}
-  constructor(private meta: Meta, private pharmaProfileComponent: PharmaProfileComponent, private userService: UserServiceService, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router,  private utilService:UtilService) {
-    
+  constructor(private meta: Meta, private notificationsComponent: NotificationsComponent,private pharmaProfileComponent: PharmaProfileComponent, private userService: UserServiceService, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router,  private utilService:UtilService) {
   }
   private _messaging = inject(Messaging);
   private firestore = inject(Firestore)
@@ -121,6 +120,59 @@ export class LandingPageComponent {
       temp.push(notificationArchive[key])
     })
     this.notificationsArchive = temp
+    const currentDate: Date = new Date()
+    this.notificationsArchive = this.notificationsArchive.map((notification)=>{
+      const notificationDate: Date = new Date(notification.dateCreated)
+      let difference = (currentDate.valueOf() - notificationDate.valueOf())/1000
+      const objectTime: {
+        [key: string]: number
+      } = {
+        seconds: difference,
+        minutes: difference/60,
+        hours: difference/3600,
+        days: difference/(3600*24),
+        months: difference/(3600*24*31),
+        years: difference/(3600*24*31*12)
+      }
+      // วินาทีที่แล้ว
+      // นาทีที่แล้ว
+      // ชั่วโมงที่แล้ว
+      // วันที่แล้ว
+
+      let currentKey = ''
+      let currentValue = 0
+      Object.keys(objectTime).forEach((key)=>{
+        if(objectTime[key] >= 1){
+          currentKey = key
+          currentValue = Math.floor(objectTime[key])
+        }
+      })
+      let finalMessage = ''
+      switch(currentKey){
+        case 'seconds':
+          finalMessage = currentValue + ' วินาทีที่แล้ว'
+          break;
+        case 'minutes':
+          finalMessage = currentValue + ' นาทีที่แล้ว'
+          break;
+        case 'hours':
+          finalMessage = currentValue + ' ชั่วโมงที่แล้ว'
+          break;
+        case 'days':
+          finalMessage = currentValue + ' วันที่แล้ว'
+          break;
+        case 'months':
+          finalMessage = currentValue + ' เดือนที่แล้ว'
+          break;
+        case 'years':
+          finalMessage = currentValue + ' ปีที่แล้ว'
+          break;
+      }
+      return {
+        ...notification,
+        dateRange: finalMessage
+      }
+    })
   })
   this.store.select((state: any)=>{
     return state.recentlySeen
@@ -258,6 +310,9 @@ appendAlertfromOutside(message: any){
       newFlag: true
   })
 }
+onCloseModal(){
+  this.operatorModal.hide()
+}
 appendAlert(message: any, type: any, i: number){
   const alertPlaceholder = document.getElementById('liveAlertPlaceholder')!
   const localIndex = i
@@ -312,13 +367,17 @@ goToNotifications(url: string, notificationID: string){
     newFlag: false
   })
   const payload = url.split('/')[url.split('/').length-1].split('?')[1].split('=')
-  this.route.navigate(['notifications'], {
-    relativeTo: this.activatedRoute,
-    queryParams:{
-      jobUID: payload[1],
-      type: payload[0]
-    }
-  })
+  if(this.route.url.includes('notifications')){
+    this.notificationsComponent.initNoti(payload[1], payload[0])
+  }else{
+    this.route.navigate(['notifications'], {
+      relativeTo: this.activatedRoute,
+      queryParams:{
+        jobUID: payload[1],
+        type: payload[0]
+      }
+    })
+  }
 }
 
 toggleShare(jobPost: jobPostModel){

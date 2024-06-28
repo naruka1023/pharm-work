@@ -5,6 +5,7 @@ import { addNotifications, modifyNotifications, onSetJobNotifications, removeNot
 
 
 export const initialState: notifications = {
+  size: 'empty',
   job: {
   loading:true,
   content:{
@@ -81,11 +82,22 @@ export const notificationsReducer = createReducer(
       }
     }
   }),
-  on(addNotifications, (state, { notifications }) => {
+  on(addNotifications, (state, { notifications, size
+   }) => {
     let newState = _.cloneDeep(state)
-    Object.keys(notifications).forEach((key)=>{
-      newState.notificationsArchive[key] = notifications[key]
-    })
+    if(state.size == 'empty'){
+      newState.size = size.toString()
+    }
+    if(Object.keys(newState.notificationsArchive).length < Number(newState.size)){
+      Object.keys(notifications).forEach((key)=>{
+        newState.notificationsArchive[key] = notifications[key]
+      })
+    }else{
+      newState.notificationsArchive = {
+        ...notifications,
+        ...newState.notificationsArchive
+      }
+    }
     return newState
   }),
   on(removeNotifications, (state, { notification }) => {

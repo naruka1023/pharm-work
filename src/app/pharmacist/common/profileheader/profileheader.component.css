@@ -4,6 +4,9 @@
 .fourPointersPharma{
   padding-right:20rem;
 }
+.buttonWidth{
+  width:8em
+}
 .phantomPadding{
   display: none;
   visibility:hidden;

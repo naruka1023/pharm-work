@@ -28,9 +28,9 @@
             <li class="nav-item ms-3">
               <a class="nav-link landingContentFontSize">บอร์ดประกาศงาน</a>
             </li>
-            <li class="nav-item ms-3">
+            <!-- <li class="nav-item ms-3">
               <button style="border-radius: 50px !important; color: white" class="btn landingContentFontSize px-4 green-color" routerLink="/operator/buy-banner">ซื้อแบนเนอร์</button>
-            </li>
+            </li> -->
             <li class="nav-item ms-3" data-bs-toggle="tooltip" title="สร้างประกาศงาน">
               <div class="dropdown">
                 <a (click)="openAddModal()" class="nav-link" aria-expanded="false">
@@ -44,7 +44,7 @@
                   <span class="visually-hidden">New alerts</span>
                 </span>
               </i></a>
-              <ul class="dropdown-menu dropdown-menu-end p-2 fs-3" style="overflow-y: scroll; max-height:80vh">
+              <ul class="dropdown-menu dropdown-menu-end p-2 fs-6" style="width:25em; overflow-y: scroll; max-height:80vh">
                 <ng-container *ngIf="notificationsArchive.length == 0; then emptyNotification; else notEmptyNotification"></ng-container>
                 <ng-template #emptyNotification>
                   <div style="white-space:nowrap">
@@ -55,13 +55,17 @@
                   <li *ngFor="let notification of notificationsArchive" class="dropdown-item" aria-current="true">
                       <div style="cursor:pointer" (click)="goToNotifications(notification.url, notification.notificationID)" class="align-items-center d-flex flex-row-start">
                         <img class="rounded-circle" width="50" height="50" src="{{notification.image}}"/>
-                        <div class="ms-2 me-auto">
+                        <div class="ms-2 me-auto" style="white-space:wrap">
                           <div class="fw-bold">{{notification.title}}</div>
                           {{notification.body}}
                         </div>
                         <span [ngClass]="notification.newFlag? '': 'visually-hidden'" class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle">
                           <span class="visually-hidden">New alerts</span>
                         </span>
+                      </div>
+                      <div class="d-flex">
+                        <img class="rounded-circle visibility-hidden" width="60" height="0" src="{{notification.image}}"/>
+                        <div class="my-1 text-primary">{{notification.dateRange}}</div>
                       </div>
                   </li>
                 </ng-template>
@@ -75,13 +79,13 @@
                     <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle" width="50" height="50">
                   </div>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end fs-3" style="min-width: 15rem;">
+                <ul class="dropdown-menu dropdown-menu-end fs-3" style="width: 30rem;">
                   <li>
                     <div style="cursor:pointer" class="dropdown-header" (click)="goToPage('profile-pharma')">
                       <div class="d-flex flex-row-start align-items-center">
                         <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle me-3" width="50" height="50">
                         <div class="fs-3">
-                          <div>
+                          <div style="white-space:normal">
                             {{user.companyName}}
                           </div>
 
@@ -89,19 +93,43 @@
                       </div>
                     </div>
                   </li>
+                  
                   <hr style="width:100%" class="my-2 m-auto">
-                  <li><a class="dropdown-item" (click)="goToPage('profile-operator/inner-profile')"><i class="bi bi-file-post mx-3"></i>โปรไฟล์บริษัท</a></li>
-                  <li><a class="dropdown-item" (click)="goToPage('profile-operator/all-jobs-posts')"><i class="bi bi-file-earmark-text-fill mx-3"></i>ประกาศงานทั้งหมด</a></li>
-                  <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs')"><i class="bi bi-inboxes-fill mx-3"></i>คำขอสมัครงาน</a></li>
+                  
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="dropdown-item" (click)="goToPage('profile-operator/inner-profile')"><i class="bi bi-file-post mx-3"></i>โปรไฟล์บริษัท</a>
+                  </li>
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="dropdown-item" (click)="goToPage('profile-operator/all-jobs-posts')"><i class="bi bi-file-earmark-text-fill mx-3"></i>ประกาศงานทั้งหมด</a>
+                  </li>
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs')"><i class="bi bi-inboxes-fill mx-3"></i>คำขอสมัครงาน</a>
+                  </li>
                   <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
-                  <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs', true)"><i class="bi bi-person-lines-fill mx-3"></i>ขอดูข้อมูลผู้สมัคร</a></li>
-                  <li><a class="d-flex dropdown-item" (click)="goToPage('profile-operator/favorites')"><i class="bi bi-heart-fill mx-3"></i>ผู้สมัครที่ถูกใจ</a></li>
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="goToPage('profile-operator/request-jobs', true)"><i class="bi bi-person-lines-fill mx-3"></i>ขอดูข้อมูลผู้สมัคร</a>
+                  </li>
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="goToPage('profile-operator/favorites')"><i class="bi bi-heart-fill mx-3"></i>ผู้สมัครที่ถูกใจ</a>
+                  </li>
+                  
                   <hr style="width:100%" class="my-2 m-auto">
-                  <li><a class="d-flex dropdown-item" (click)="openAddModal()"><i class="bi bi-file-earmark-plus-fill mx-3"></i>สร้างประกาศงาน</a></li>
+                  
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="openAddModal()"><i class="bi bi-file-earmark-plus-fill mx-3"></i>สร้างประกาศงาน</a>
+                  </li>
+                  
                   <hr style="width:100%" class="my-2 m-auto">
-                  <li><a class="d-flex dropdown-item"><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a></li>
+                  
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item"><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a>
+                  </li>
+                  
                   <hr style="width:100%" class="my-2 m-auto">
-                  <li><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right mx-3"></i>Sign Out</a></li>
+                  
+                  <li>
+                    <a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right mx-3"></i>Sign Out</a>
+                  </li>
                 </ul>
               </div>
             </li>
@@ -129,7 +157,7 @@
     <button type="button" class="d-flex flex-row-reverse btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body container-fluid fs-3 pt-0">
-    <div class="text-center my-5"><button style="border-radius: 50px !important; color: white" class="btn fs-3 px-4 green-color" routerLink="/operator/buy-banner">ซื้อแบนเนอร์</button></div>
+    <!-- <div class="text-center my-5"><button style="border-radius: 50px !important; color: white" class="btn fs-3 px-4 green-color" routerLink="/operator/buy-banner">ซื้อแบนเนอร์</button></div> -->
     <div class="d-flex my-2" (click)='goToPage("profile-operator")'><i class="bi bi-person-circle me-3"></i>ปุ่ม profile</div>
     <div class="d-flex my-2" (click)='goToPage("profile-operator/all-jobs-posts")'><i class="bi bi-inboxes me-3"></i>ประกาศงานทั้งหมด</div>
     <div class="my-2 d-flex" (click)="goToPage('profile-operator/request-jobs')"><i class="bi bi-eye me-3"></i>คำขอสมัครงาน</div>

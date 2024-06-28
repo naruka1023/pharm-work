@@ -21,12 +21,17 @@ export class NotificationsComponent {
   ngOnInit(){
     this.jobPostUID = this.activatedRoute.snapshot.queryParamMap.get('jobUID')!
     this.type = this.activatedRoute.snapshot.queryParamMap.get('type')!
-    if(this.jobPostUID.indexOf('false') !== -1){
-      this.router.navigate(['pharma'])
-    }else{
-      switch(this.type){
-        case 'job-post':
-            this.jobService.getJob(this.jobPostUID).then((job)=>{
+    this.initNoti(this.jobPostUID, this.type)
+  }
+
+  initNoti(jobPost: string, type: string){
+    this.pageStatus = 'loading'
+    switch(type){
+      case 'job-post':
+        if(jobPost.indexOf('false') !== -1){
+          this.router.navigate(['pharma'])
+        }else{
+          this.jobService.getJob(jobPost).then((job)=>{
               if(Object.keys(job).length > 1 && job.Active){
                 this.store.dispatch(onSetJobNotifications({jobPost:job}));
                 this.routeService.goToJobProfile(job.custom_doc_id, job.CategorySymbol, 'notification')
@@ -34,11 +39,10 @@ export class NotificationsComponent {
                 this.pageStatus = 'emptyJob'
               }
           })
-        break;
-        case 'request-view':
-          this.router.navigate(['pharma/profile-pharma/register-jobs/request-views'])
-      }
+        }
+      break;
+      case 'request-view':
+        this.router.navigate(['pharma/profile-pharma/register-jobs/request-views'])
     }
-
   }
 }

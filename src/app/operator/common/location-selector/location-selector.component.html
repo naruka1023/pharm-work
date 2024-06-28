@@ -13,21 +13,21 @@
                         <div *ngIf="submitted && getParentFormGroup['Province']!.errors" class="invalid-feedback2">
                             <div *ngIf="getParentFormGroup['Province']!.errors!['required']">กรุณาระบุจังหวัด</div>
                         </div>
-                        <select formControlName="Province" (change)="provinceSelected($event)" name="province" class="mb-3 form-select textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['Province']!.errors}">
+                        <select formControlName="Province" style="color:#949191" (change)="styleSelect('Province')" id='Province' (change)="provinceSelected($event)" name="province" class="mb-3 form-select textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['Province']!.errors}">
                             <option selected disabled value="">เลือกจังหวัด</option>
                             <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
                         </select>
                         <div *ngIf="submitted && getParentFormGroup['District']!.errors" class="invalid-feedback2">
                             <div *ngIf="getParentFormGroup['District']!.errors!['required']">กรุณาระบุเขต</div>
                         </div>
-                        <select formControlName="District" (change)="districtSelected($event)" name="district" class="mb-3 form-select textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['District']!.errors}">
+                        <select formControlName="District" style="color:#949191" (change)="styleSelect('District')" id='District' (change)="districtSelected($event)" name="district" class="mb-3 form-select textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['District']!.errors}">
                             <option selected disabled value="">เลือกเขต</option>
                             <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
                         </select>
                         <div *ngIf="submitted && getParentFormGroup['Section']!.errors" class="invalid-feedback2">
                             <div *ngIf="getParentFormGroup['Section']!.errors!['required']">กรุณาระบุแขวง</div>
                         </div>
-                        <select formControlName="Section" (change)="sectionSelected($event)" name="section" class="mb-3 form-select textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['Section']!.errors}">
+                        <select formControlName="Section" style="color:#949191" (change)="styleSelect('Section')" id='Section' (change)="sectionSelected($event)" name="section" class="mb-3 form-select textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getParentFormGroup['Section']!.errors}">
                             <option selected disabled value="">เลือกแขวง</option>
                             <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
                         </select>

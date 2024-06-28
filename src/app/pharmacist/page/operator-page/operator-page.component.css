@@ -28,18 +28,7 @@
         text-align:center
     }
 }
-@media only screen and (max-width: 515px) {
-    .contentContainer{
-        padding: 1rem !important
-    }
-}
-.loading {
-    position: relative;
-    margin-top: 45vh;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    height: 50vh;
-  }
+
   .nav-item{
     padding:0 1rem
 }

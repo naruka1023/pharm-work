@@ -617,43 +617,46 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
         const reader = new FileReader();
         const reader2 = new FileReader();
         const self = this
-        reader.onload = (event) => {
-          reader2.readAsDataURL(this.fileLicense)
-          reader2.onload = (event2) =>{
+        if(!this.needIDFlag){
+          reader.readAsDataURL(this.fileLicense);
+          reader.onload = (event2) =>{
             let toSend;
-            if(!this.needIDFlag){
               toSend = {
-                to: ['team-support@pharm-work.com'],
-                message: {
-                  subject: this.result.name + ' ' + this.result.surname + ' request change',
-                  html: this.result.name + ' ' + this.result.surname + '  license: ' + this.requestChangeForm.value.license + ' uid: ' + this.result.uid,
-                  attachments: [
-                    {filename: this.fileLicense.name,
-                    path: event2.target?.result}
-                  ]
-                }
+                subject: this.result.name + ' ' + this.result.surname + ' request change',
+                html: this.result.name + ' ' + this.result.surname + '  license: ' + this.requestChangeForm.value.license + ' uid: ' + this.result.uid,
+                attachments: [
+                  {filename: this.fileLicense.name,
+                  path: event2.target?.result?.toString()}
+                ]
               }
-            }else{
-              toSend = {
-                to: ['team-support@pharm-work.com'],
-                message: {
-                  subject: this.result.name + ' ' + this.result.surname + ' request change',
-                  html: this.result.name + ' ' + this.result.surname + '  license: ' + this.requestChangeForm.value.license + ' uid: ' + this.result.uid,
-                  attachments: [
-                    {
-                    filename: this.fileIdentity.name,
-                    path: event.target?.result
-                    },
-                    {filename: this.fileLicense.name,
-                    path: event2.target?.result}
-                  ]
-                }
-              }
-            }
             this.requestChangeLoadingFlag = true 
-            this.userService.sendRequestChangeEmail(toSend).then((email)=>{
-              let id = email.id
-              this.userService.deleteRequestChangeEmail(id).then(()=>{
+            this.userService.sendRequestChangeEmail(JSON.stringify(toSend)).subscribe((email)=>{
+              this.userService.updateUser({
+                uid: this.result.uid,
+                requestChangeStatus: 'pending'
+              }).then(()=>{
+                this.requestChangeLoadingFlag = false
+                this.store.dispatch(setCurrentUser({user: {requestChangeStatus: 'pending'}}))
+                this.changeStage('pending')
+              })
+            })
+          }
+          
+        }else{
+          if(this.fileIdentity == undefined){
+            reader2.readAsDataURL(this.fileLicense)
+            reader2.onload = (event2) =>{
+              let toSend;
+                toSend = {
+                  subject: this.result.name + ' ' + this.result.surname + ' request change',
+                  html: this.result.name + ' ' + this.result.surname + '  license: ' + this.requestChangeForm.value.license + ' uid: ' + this.result.uid,
+                  attachments: [
+                    {filename: this.fileLicense.name,
+                    path: event2.target?.result?.toString()},
+                  ]
+                }
+              this.requestChangeLoadingFlag = true 
+              this.userService.sendRequestChangeEmail(JSON.stringify(toSend)).subscribe((email)=>{
                 this.userService.updateUser({
                   uid: this.result.uid,
                   requestChangeStatus: 'pending'
@@ -663,10 +666,40 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
                   this.changeStage('pending')
                 })
               })
-            })
+            }
+          }else{
+            reader.readAsDataURL(this.fileIdentity)
+            reader.onload = (event) => {
+              reader2.readAsDataURL(this.fileLicense)
+              reader2.onload = (event2) =>{
+                let toSend;
+                  toSend = {
+                    subject: this.result.name + ' ' + this.result.surname + ' request change',
+                    html: this.result.name + ' ' + this.result.surname + '  license: ' + this.requestChangeForm.value.license + ' uid: ' + this.result.uid,
+                    attachments: [
+                      {filename: this.fileLicense.name,
+                      path: event2.target?.result?.toString()},
+                      {
+                      filename: this.fileIdentity.name,
+                      path: event.target?.result?.toString()
+                      },
+                    ]
+                  }
+                this.requestChangeLoadingFlag = true 
+                this.userService.sendRequestChangeEmail(JSON.stringify(toSend)).subscribe((email)=>{
+                  this.userService.updateUser({
+                    uid: this.result.uid,
+                    requestChangeStatus: 'pending'
+                  }).then(()=>{
+                    this.requestChangeLoadingFlag = false
+                    this.store.dispatch(setCurrentUser({user: {requestChangeStatus: 'pending'}}))
+                    this.changeStage('pending')
+                  })
+                })
+              }
+            };
           }
-        };
-        reader.readAsDataURL(this.fileIdentity);
+        }
       }
     }
     authenticateLicense(){
@@ -844,6 +877,7 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
         if(this.result.requestChangeStatus !== undefined){
           this.upgradeStage = 'pending'
         }else{
+          this.needIDFlag = true
           this.upgradeStage = stage
         }
       }else{

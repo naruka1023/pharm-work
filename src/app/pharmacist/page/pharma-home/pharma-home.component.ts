@@ -122,10 +122,10 @@ export class PharmaHomeComponent {
               )
               break;
             case 'BA':
-              let idList : string[] = ref['B1'].concat(ref['B2'])
-              // let idList : string[] = headerArray.find((header)=>{
-              //   return header.CategorySymbol == 'BA'
-              // })!.idList!
+              // let idList : string[] = ref['B1'].concat(ref['B2'])
+              let idList : string[] = headerArray.find((header)=>{
+                return header.CategorySymbol == 'BA'
+              })!.idList!
               promises.push(
                 this.jobPostService.getOperatorsByType(idList).then((operators)=>{
                   let res: jobPostPayload = {

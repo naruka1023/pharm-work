@@ -36,18 +36,23 @@ export interface notifications{
         content: UserPharma,
         loading: boolean
     },
+    size: string,
     notificationsArchive: {
         [key: string]: notificationContent
     }
 }
 
 export interface notificationContent{
-    body: string;
-    image: string;
-    title: string;
-    url: string;
-    newFlag: boolean;
-    notificationID: string
+    dateCreated: string,
+    dateRange?: string,
+    title: string,
+    notificationID: string,
+    image: string,
+    dateCreatedUnix: string,
+    userUID: string,
+    body: string,
+    url: string,
+    newFlag?: boolean
 }
 
 export interface aggregationCount{

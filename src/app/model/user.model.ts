@@ -31,6 +31,7 @@ export interface jobPostModel {
     };
     Establishment: string;
     Franchise: string;
+    Address?: string
     JobName: string;
     JobType: string;
     Location: {

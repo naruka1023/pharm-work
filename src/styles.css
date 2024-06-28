@@ -4,6 +4,32 @@
     font-weight: normal;
     font-style: normal;
 }
+.loading {
+    position: relative;
+    margin-top: 45vh;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    height: 50vh;
+  }
+.dropdown-header{
+    color:black !important
+}
+
+.studentTabMobileView{
+    display: none !important
+  }
+  .studentTabWebView{
+    display: block 
+  }
+  .operatorTabMobileView{
+    display: none
+  }
+  .operatorTabWebView{
+    display: flex !important  
+  }
+.form-check-input{
+    border:1px solid grey !important
+}
 .textProfileResponsive{
     font-size:xx-large !important;
 }
@@ -135,6 +161,7 @@
         font-size: xx-small !important
     }
 }
+
 @media only screen and (max-width: 576px) {
     .widthResponsive{
         width:16vw !important;   
@@ -155,6 +182,20 @@
         font-size:3.5vw !important
     }
 }
+@media only screen and (max-width: 396px) {
+    .studentTabMobileView{
+      display: flex !important
+    }
+    .studentTabWebView{
+      display: none !important
+    }
+    .operatorTabMobileView{
+      display: block !important
+    }
+    .operatorTabWebView{
+      display: none !important
+    }
+  }
 @media only screen and (max-width: 384px) {
     .textResponsiveSmaller{
         font-size:1.9vw !important 

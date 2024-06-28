@@ -35,10 +35,3 @@
     font-size: 0.875em;
     color: #dc3545
   }
-  .loading {
-    position: relative;
-    margin-top: 45vh;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    height: 50vh;
-  }

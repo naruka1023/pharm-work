@@ -1,8 +1,10 @@
 <ng-container *ngIf="loadingFlag; then loading; else notLoading"></ng-container>
 <ng-template #loading>
-    <div style="text-align:center" class="mt-5 me-3">
-		<div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+	<div class="loading">
+		<div style="text-align:center" class="mt-5 me-3">
+			<div class="spinner-border text-primary" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
 		</div>
 	</div>
 </ng-template>

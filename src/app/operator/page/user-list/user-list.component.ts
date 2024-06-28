@@ -31,7 +31,7 @@ export class UserListComponent {
 
   query: string = ''
   stuff!: string;
-  indexName: string = 'pharm-work_user_index'
+  indexName: string = 'pharm-work_index_user_dateUpdatedUnix_desc'
   emptyResultFlag: boolean = false;
   geoLocFlag!: boolean;
   infiniteScrollingLoadingFlag: boolean = false;

@@ -57,7 +57,7 @@
                     <div><b>ชื่อตำแหน่งงาน</b></div>
                 </div>
                 <div class="col">
-                    <input type="text" formControlName="JobName" class="form-control textProfileResponsive semi-border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['JobName'].errors }">
+                    <input type="text" formControlName="JobName" placeholder="ระบุชื่อตำแหน่ง"  class="form-control textProfileResponsive semi-border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['JobName'].errors }">
                     <div *ngIf="submitted && getEditNewForm['JobName'].errors" class="invalid-feedback">
                         <div *ngIf="getEditNewForm['JobName'].errors['required']">กรุณาระบุชื่อตำแหน่งงาน</div>
                     </div>                
@@ -74,6 +74,7 @@
                     <input
                           type="text"
                           mwlFlatpickr
+                          placeholder="เลือกวันที่ท่านต้องการเภสัชกรมาร่วมงาน"
                           mode="multiple"
                           class="form-control textProfileResponsive border-input"
                           [convertModelValue]="true"
@@ -94,6 +95,7 @@
                 </div>
                 <div>
                     <select formControlName="TimeFrame" name="timeFrame" class="form-select textProfileResponsive border-input mb-3" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['TimeFrame'].errors }">
+                        <option style="color: black !important" disabled selected value="" >เลือกประเภทพนักงาน</option>
                         <option selected value="Full-Time">Full-Time</option>
                         <option value="Part-Time">Part-Time</option>
                         <option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
@@ -111,7 +113,7 @@
                     <div><b>จำนวนที่รับสมัคร</b></div>
                 </div>
                 <div>
-                    <input formControlName="Amount" type="number" [min]="0" class="form-control textProfileResponsive border-input mb-3" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Amount'].errors }">
+                    <input formControlName="Amount" type="number" placeholder="จำนวนที่รับสมัคร" [min]="0" class="form-control textProfileResponsive border-input mb-3" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Amount'].errors }">
                     <div *ngIf="submitted && getEditNewForm['Amount'].errors" class="invalid-feedback">
                         <div *ngIf="getEditNewForm['Amount'].errors['required']">กรุณาระบุจำนวนที่รับสมัคร</div>
                     </div>
@@ -128,9 +130,9 @@
                 <ng-template #required>
                     <div>
                         <div class="d-flex flex-row verticalKeyGap">
-                            <input formControlName="timeStart" name="time" type="time" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['timeStart'].errors }">
+                            <input formControlName="timeStart" name="time" type="time" placeholder="เวลาเข้างาน" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['timeStart'].errors }">
                             <div class=mx-3>-</div>
-                            <input  formControlName="timeEnd" name="time" type="time" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['timeEnd'].errors }">
+                            <input  formControlName="timeEnd" name="time" type="time" placeholder="เวลาเลิกงาน" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['timeEnd'].errors }">
                         </div>
                         <div *ngIf="submitted && getEditNewForm['timeStart'].errors" class="invalid-feedback2">
                             <div *ngIf="getEditNewForm['timeStart'].errors!['required']">กรุณาระบุช่วงเวลาเข้าทำงาน</div>
@@ -143,9 +145,9 @@
                 <ng-template #notRequired>
                     <div>
                         <div class="d-flex flex-row verticalKeyGap">
-                            <input formControlName="timeStart" name="time" type="time" class="form-control textProfileResponsive border-input">
+                            <input formControlName="timeStart" name="time" type="time" placeholder="เวลาเข้างาน" class="form-control textProfileResponsive border-input">
                             <div class=mx-3>-</div>
-                            <input  formControlName="timeEnd" name="time" type="time" class="form-control textProfileResponsive border-input">
+                            <input  formControlName="timeEnd" name="time" type="time" placeholder="เวลาเลิกงาน" class="form-control textProfileResponsive border-input">
                         </div>
                     </div>
                 </ng-template>
@@ -161,9 +163,9 @@
                     <div class="d-xl-flex d-block">
                         <input class="form-check-input textProfileResponsive border-input" (change)="salaryRadioChange($event)" formControlName="Suffix" value="SalaryNumbers" type="radio">
                         <div class="ms-3 d-flex flex-row verticalKeyGap">
-                            <input [min]="0" formControlName="salaryStart" type="number" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Salary'].get('salaryStart')!.errors! }">
+                            <input [min]="0" formControlName="salaryStart" placeholder="เลือดเรทค่าจ้างต่ำสุด" type="number" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Salary'].get('salaryStart')!.errors! }">
                             <div class=mx-3>-</div>
-                            <input [min]="0" formControlName="salaryEnd" type="number" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Salary'].get('salaryEnd')!.errors! }">
+                            <input [min]="0" formControlName="salaryEnd" placeholder="เลือดเรทค่าจ้างสูงสุด" type="number" class="form-control textProfileResponsive border-input" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Salary'].get('salaryEnd')!.errors! }">
                         </div>
                         <div class="ms-xl-3 d-xl-block d-flex justify-content-end">
                             {{ getEditNewForm['TimeFrame'].value == 'Part-Time'?"บาท / ชั่วโมง":"บาท / เดือน"}}
@@ -188,6 +190,12 @@
                         <label class="ms-3" for="CorporateStructure">ตามโครงสร้างองค์กร</label>
                     </div>
                 </div>
+                <div class="form-check">
+                    <div class="d-flex verticalKeyGap">                        
+                        <input class="form-check-input textProfileResponsive border-input"  (change)="salaryRadioChange($event)" formControlName="Suffix" value="CustomSuffix" type="radio">
+                        <input class="ms-3 form-control border-input textProfileResponsive" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="customSuffix" placeholder="กำหนดเอง">
+                    </div>
+                </div>
             </div>
         </div>         
         <app-location-selector [parentFormGroup]="newJobForm" [requiredFlag]="true" [submitted]="locationSubmitted" col="col-12 col-md-3"></app-location-selector>
@@ -197,11 +205,12 @@
                 <div class="d-flex justify-content-between">
                     <div><b>ใกล้ BTS</b></div>
                     <div class="form-switch">
-                        <input type="checkbox" formControlName="Near" class="form-check-input textProfileResponsive border-input" name="nearBTS" id="nearBTS">
+                        <input type="checkbox" formControlName="Near"  class="form-check-input textProfileResponsive border-input" placeholder="" name="nearBTS" id="nearBTS">
                     </div>
                 </div>
                 <div class="col verticalKeyGap">
-                    <select *ngIf="checkboxBTS" formControlName="Station" name="nearBTS" class="form-select textProfileResponsive border-input">
+                    <select *ngIf="checkboxBTS" formControlName="Station"  style="color:#949191" name="nearBTS" class="form-select textProfileResponsive border-input">
+                        <option style="color: black !important" selected disabled value="">เลือกสถานี BTS</option>
                         <option *ngFor="let btsStations of btsStations$ | async" [value]="btsStations">{{btsStations}}</option>
                     </select>
                 </div>
@@ -209,15 +218,16 @@
         </div> 
         <div class="d-flex flex-row verticalKeyGap">
             <div class="keyValueGap"><i class="bi bi-person" style="visibility:hidden"></i></div>
-            <div style="width:-webkit-fill-available; width:-moz-available" formGroupName="BTS">
+            <div style="width:-webkit-fill-available; width:-moz-available" formGroupName="MRT">
                 <div class="d-flex justify-content-between">
                     <div><b>ใกล้ MRT</b></div>
                     <div class="form-switch">
-                        <input type="checkbox" formControlName="Near" class="form-check-input textProfileResponsive border-input" name="nearMRTFlag" id="nearMRT">
+                        <input type="checkbox" formControlName="Near"  class="form-check-input textProfileResponsive border-input" name="nearMRTFlag" id="nearMRT">
                     </div>
                 </div>
                 <div class="col verticalKeyGap">
-                    <select *ngIf="checkboxMRT" formControlName="Station" name="nearMRT" class="form-select textProfileResponsive border-input">
+                    <select *ngIf="checkboxMRT" formControlName="Station"  style="color:#949191" name="nearMRT" class="form-select textProfileResponsive border-input">
+                        <option style="color: black !important" selected disabled value="">เลือกสถานี MRT</option>
                         <option *ngFor="let mrtStations of mrtStations$ | async" [value]="mrtStations">{{mrtStations}}</option>
                     </select>
                 </div>
@@ -257,28 +267,28 @@
             <div *ngIf="submitted && getEditNewForm['JobDetails'].errors" class="invalid-feedback2 mb-3">
                 <div *ngIf="getEditNewForm['JobDetails'].errors['required']">กรุณาระบุหน้าที่ความรับผิดชอบ</div>
             </div>
-            <ckeditor formControlName="JobDetails" [editor]="jobDetailsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['JobDetails']!.errors! }"></ckeditor>
+            <ckeditor formControlName="JobDetails" [config]="{placeholder:'หน้าที่ความรับผิดชอบของผู้สมัครงาน....'}" [editor]="jobDetailsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['JobDetails']!.errors! }"></ckeditor>
         </div>
         <div class="row mt-3 verticalKeyGap" *ngIf="!urgency">
             <div class="my-3"><b>คุณสมบัติผู้สมัคร</b></div>
             <div *ngIf="submitted && getEditNewForm['qualityApplicants'].errors" class="invalid-feedback2 mb-3">
                 <div *ngIf="getEditNewForm['qualityApplicants'].errors['required']">กรุณาระบุคุณสมบัติผู้สมัคร</div>
             </div>
-            <ckeditor formControlName="qualityApplicants" [editor]="qualityEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['qualityApplicants']!.errors! }"></ckeditor>
+            <ckeditor formControlName="qualityApplicants" [config]="{placeholder:'คุณสมบัติของผู้สมัครงาน....'}" [editor]="qualityEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['qualityApplicants']!.errors! }"></ckeditor>
         </div>
         <div class="row mt-3 verticalKeyGap" *ngIf="!urgency">
             <div class="my-3"><b>สวัสดิการ</b></div>
             <div *ngIf="submitted && getEditNewForm['jobBenefits'].errors" class="invalid-feedback2 mb-3">
                 <div *ngIf="getEditNewForm['jobBenefits'].errors['required']">กรุณาระบุสวัสดิการ</div>
             </div>
-            <ckeditor formControlName="jobBenefits" [editor]="jobBenefitsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['jobBenefits']!.errors! }"></ckeditor>
+            <ckeditor formControlName="jobBenefits" [config]="{placeholder:'สวัสดิการสำหรับผู้สมัครงาน....'}" [editor]="jobBenefitsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['jobBenefits']!.errors! }"></ckeditor>
         </div>
         <div class="row mt-3 verticalKeyGap" *ngIf="!urgency">
             <div class="my-3"><b>วิธีสมัครงาน</b></div>
             <div *ngIf="submitted && getEditNewForm['applyInstructions'].errors" class="invalid-feedback2 mb-3">
                 <div *ngIf="getEditNewForm['applyInstructions'].errors['required']">กรุณาระบุวิธีสมัครงาน</div>
             </div>
-            <ckeditor formControlName="applyInstructions" [editor]="applyInstructionsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['applyInstructions']!.errors! }"></ckeditor>
+            <ckeditor formControlName="applyInstructions" [config]="{placeholder:'วิธีสมัครงาน....'}" [editor]="applyInstructionsEditor" name="editor" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['applyInstructions']!.errors! }"></ckeditor>
         </div>
     </div>
     <div class="semi-border-input standard-shadow container p-sm-5 p-3 mt-5 textProfileResponsive" style="background-color:white">
@@ -311,7 +321,7 @@
                         <div><b>Email</b></div>
                     </div>
                     <div>
-                        <input formControlName="email" class="form-control textProfileResponsive border-input" name="email" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Contacts'].get('email')!.errors! }">
+                        <input formControlName="email" placeholder="Email" class="form-control textProfileResponsive border-input" name="email" [ngClass]="{ 'is-invalid': submitted && getEditNewForm['Contacts'].get('email')!.errors! }">
                         <div *ngIf="submitted && getEditNewForm['Contacts'].get('email')!.errors" class="invalid-feedback mb-3">
                             <div *ngIf="getEditNewForm['Contacts'].get('email')!.errors!['required']">กรุณาระบุEmail</div>
                         </div>
@@ -325,7 +335,7 @@
                         <div><b>Website</b></div>
                     </div>
                     <div>
-                        <input formControlName="website" class="form-control textProfileResponsive border-input" name="website">
+                        <input formControlName="website" placeholder="Web" class="form-control textProfileResponsive border-input" name="website">
                     </div>
                 </div>
             </div>   
@@ -336,7 +346,7 @@
                         <div><b>LINE</b></div>
                     </div>
                     <div>
-                        <input formControlName="line" class="form-control textProfileResponsive border-input" name="website">
+                        <input formControlName="line" placeholder="Line" class="form-control textProfileResponsive border-input" name="website">
                     </div>
                 </div>
             </div>   
@@ -347,7 +357,7 @@
                         <div><b>Facebook</b></div>
                     </div>
                     <div>
-                        <input formControlName="facebook" class="form-control textProfileResponsive border-input" name="website">
+                        <input formControlName="facebook" placeholder="Facebook" class="form-control textProfileResponsive border-input" name="website">
                     </div>
                 </div>
             </div>   
@@ -360,11 +370,11 @@
                 </div>
             </div>
         </div>   
-        <div>
-            <div *ngIf="submitted && getEditNewForm['TravelInstructions']!.errors" class="invalid-feedback2 mb-3">
+        <div class="verticalKeyGap">
+            <div *ngIf="submitted && getEditNewForm['TravelInstructions']!.errors"  class="invalid-feedback2 mb-3">
                 <div *ngIf="getEditNewForm['TravelInstructions']!.errors!['required']">กรุณาระบุวิธีเดินทาง</div>
             </div>
-            <ckeditor [ngClass]="{ 'is-invalid': submitted && getEditNewForm['TravelInstructions'] }" [editor]="travelEditor" formControlName="TravelInstructions" name="editor"></ckeditor>
+            <ckeditor [ngClass]="{ 'is-invalid': submitted && getEditNewForm['TravelInstructions'] }" [config]="{ placeholder:'ที่อยู่ที่ทำงานและวิธีเดินทาง...'}" [editor]="travelEditor" formControlName="TravelInstructions" name="editor"></ckeditor>
         </div>
         <div class="d-flex flex-row verticalKeyGap">
             <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
@@ -379,6 +389,8 @@
                 type="text"
                 class="form-control my-3 textProfileResponsive border-input"
                 ngx-google-places-autocomplete 
+                formControlName="Address"
+                placeholder=""
                 (onAddressChange)="searchMap($event)" 
             />
             <div>

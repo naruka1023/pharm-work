@@ -130,7 +130,7 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
     NotificationsComponent,
     CheckoutComponent
   ],
-  providers:[PharmaProfileComponent, LandingPageComponent, RegisterJobsComponent],
+  providers:[PharmaProfileComponent, NotificationsComponent, LandingPageComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]
 })
 export class PharmacistModule { }

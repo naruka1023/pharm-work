@@ -5,8 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "watch": "ng build --watch --configuration development"
   },
   "main": "src/main.ts",
   "private": true,
@@ -54,6 +53,8 @@
     "ngrx-store-localstorage": "^15.0.0",
     "ngx-infinite-scroll": "^15.0.0",
     "ngx-sharebuttons": "^13.0.0",
+    "nodemailer": "^6.9.14",
+    "phantomjs-prebuilt": "^2.1.16",
     "popper": "^1.0.1",
     "react-multi-date-picker": "^3.3.4",
     "requests": "^0.3.0",

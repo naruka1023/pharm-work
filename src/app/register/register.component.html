@@ -335,7 +335,8 @@
                                                                 <label class="form-label">(เฉพาะนศภ.ที่จบการศึกษาแล้วแต่ยังไม่ได้รับใบประกอบวิชาชีพ)</label>
                                                                 <div class="col">
                                                                     <select formControlName="yearGraduated" class="form-select " style="background-color:#f2f2f2">
-                                                                        <option selected value="2023">2023</option>
+                                                                        <option selected value="2024">2024</option>
+                                                                        <option value="2023">2023</option>
                                                                         <option value="2022">2022</option>
                                                                         <option value="2021">2021</option>
                                                                         <option value="2020">2020</option>
@@ -596,18 +597,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3">
+                                        <div class="mb-3" formGroupName="contacts">
                                             <div class="form-group">
-                                                <label for="phoneNumber" class="form-label">เบอร์โทรผู้ติดต่อ<label class="text-danger">*</label></label>
+                                                <label for="phone" class="form-label">เบอร์โทรผู้ติดต่อ</label>
+                                                <label class="text-danger">*</label>
                                                 <input
                                                     type="text"
-                                                    formControlName="phoneNumber"
-                                                    class="form-control"
+                                                    formControlName="phone"
+                                                    class="form-control border-input"
+                                                    placeholder="เบอร์โทรผู้ติดต่อ"
                                                     style="background-color:#f2f2f2"
-                                                    [ngClass]="{ 'is-invalid': submitted && fO['phoneNumber'].errors }"
+                                                    [ngClass]="{ 'is-invalid': submitted && pharmaFormContact['phone'].errors }"
                                                 />
-                                                <div *ngIf="submitted && fO['phoneNumber'].errors" class="invalid-feedback">
-                                                    <div *ngIf="fO['phoneNumber'].errors['required']">กรุณาใส่เบอร์โทรศัพท์ของเจ้าของธุรกิจหรือผู้ดำเนินการจัดหาบุคลากร</div>
+                                                <div *ngIf="submitted && pharmaFormContact['phone'].errors" class="invalid-feedback">
+                                                    <div *ngIf="pharmaFormContact['phone'].errors['required']">กรุณาใส่เบอร์โทรศัพท์ของเจ้าของธุรกิจหรือผู้ดำเนินการจัดหาบุคลากร</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -702,6 +705,18 @@
                                                             </select>
                                                             <div *ngIf="submitted && fS['gender'].errors" class="invalid-feedback">
                                                                 <div *ngIf="fS['gender'].errors['required']">กรุณาระบุเพศของท่าน</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-group excessFormStudent">
+                                                            <label for="phone" class="form-label">เพศ<label class="text-danger">*</label></label>
+                                                            <select formControlName="phone" class="form-select" style="background-color:#f2f2f2" [ngClass]="{ 'is-invalid': submitted && fS['phone'].errors }" aria-label="Default select example">
+                                                                <option selected value="ชาย">ชาย</option>
+                                                                <option value="หญิง">หญิง</option>
+                                                            </select>
+                                                            <div *ngIf="submitted && fS['phone'].errors" class="invalid-feedback">
+                                                                <div *ngIf="fS['phone'].errors['required']">กรุณาระบุเพศของท่าน</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -835,7 +850,8 @@
                                                                 <label class="form-label">(เฉพาะนศภ.ที่จบการศึกษาแล้วแต่ยังไม่ได้รับใบประกอบวิชาชีพ)</label>
                                                                 <div class="col">
                                                                     <select formControlName="yearGraduated" class="form-select " style="background-color:#f2f2f2">
-                                                                        <option selected value="2023">2023</option>
+                                                                        <option selected value="2024">2024</option>
+                                                                        <option value="2023">2023</option>
                                                                         <option value="2022">2022</option>
                                                                         <option value="2021">2021</option>
                                                                         <option value="2020">2020</option>

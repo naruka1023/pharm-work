@@ -101,6 +101,55 @@ export class LandingPageComponent implements AfterViewInit {
         temp.push(notificationArchive[key]) 
       })
       this.notificationsArchive = temp
+      const currentDate: Date = new Date()
+    this.notificationsArchive = this.notificationsArchive.map((notification)=>{
+      const notificationDate: Date = new Date(notification.dateCreated)
+      let difference = (currentDate.valueOf() - notificationDate.valueOf())/1000
+      const objectTime: {
+        [key: string]: number
+      } = {
+        seconds: difference,
+        minutes: difference/60,
+        hours: difference/3600,
+        days: difference/(3600*24),
+        months: difference/(3600*24*31),
+        years: difference/(3600*24*31*365)
+      }
+
+      let currentKey = ''
+      let currentValue = 0
+      Object.keys(objectTime).forEach((key)=>{
+        if(objectTime[key] >= 1){
+          currentKey = key
+          currentValue = Math.floor(objectTime[key])
+        }
+      })
+      let finalMessage = ''
+      switch(currentKey){
+        case 'seconds':
+          finalMessage = currentValue + ' วินาทีที่แล้ว'
+          break;
+        case 'minutes':
+          finalMessage = currentValue + ' นาทีที่แล้ว'
+          break;
+        case 'hours':
+          finalMessage = currentValue + ' ชั่วโมงที่แล้ว'
+          break;
+        case 'days':
+          finalMessage = currentValue + ' วันที่แล้ว'
+          break;
+        case 'months':
+          finalMessage = currentValue + ' เดือนที่แล้ว'
+          break;
+        case 'years':
+          finalMessage = currentValue + ' ปีที่แล้ว'
+          break;
+      }
+      return {
+        ...notification,
+        dateRange: finalMessage
+      }
+    })
     })
     
     this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
@@ -161,13 +210,21 @@ export class LandingPageComponent implements AfterViewInit {
                 description: ref.description
               }
               getDocs((query(collection(this.db, 'products', innerDoc.id, 'prices'), where('active', '==', true)))).then((price)=>{
-                let prices: any = price.docs[0].data()
-                let innerPayload = {
-                  ...resultPayload[ref.name],
-                  price: prices.unit_amount,
-                  priceID: price.docs[0].id
+                if(price.docs.length > 0){
+                  let prices: any = price.docs[0].data()
+                  let innerPayload = {
+                    ...resultPayload[ref.name],
+                    price: prices.unit_amount,
+                    priceID: price.docs[0].id
+                  }
+                  this.store.dispatch(updatePackage({packageFlag: ref.name, payload: innerPayload}))
+                }else{
+                  let innerPayload = {
+                    ...resultPayload[ref.name],
+                  }
+                  this.store.dispatch(updatePackage({packageFlag: ref.name, payload: innerPayload}))
+
                 }
-                this.store.dispatch(updatePackage({packageFlag: ref.name, payload: innerPayload}))
               })
             })
           })
@@ -308,9 +365,9 @@ export class LandingPageComponent implements AfterViewInit {
   appendAlertfromOutside(message: any){
     this.appendAlert(message, 'light', this.i, '')
     this.i++
-    updateDoc(doc(this.db, 'users/' + this.user.uid), {
-      showProfileFlag: false
-    })
+    // updateDoc(doc(this.db, 'users/' + this.user.uid), {
+    //   showProfileFlag: false
+    // })
     addDoc(collection(this.db, 'notification-archive'), {
         userUID: this.user.uid,
         body: message.body,

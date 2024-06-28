@@ -123,6 +123,10 @@ toggleShare(){
       this.store.dispatch(removeJobRequest({jobRequest:jobRequest}))
     })
   }
+  
+  get loginState(){
+    return localStorage.getItem('loginState') == 'true'
+  }
 
   requestJob(){
     if(localStorage.getItem('loginState') == 'false'){

@@ -134,6 +134,12 @@ export class RegisterComponent implements AfterViewInit {
         dateEnded: ['', [Validators.required]],
       })]),
       name: ['', [Validators.required]],
+      contacts: this.fb.group({
+        phone: ['', [Validators.required]],
+        email: [''],
+        line: [''],
+        facebook: [''],
+      }),
       gender: ['', [Validators.required]],
       nickName: [''],
       surname: ['', [Validators.required]],
@@ -221,6 +227,10 @@ export class RegisterComponent implements AfterViewInit {
   }
   get fO(): { [key: string]: AbstractControl } {
     return this.registerFormOperator.controls;
+  }
+  get pharmaFormContact(): any{
+    let entity = this.registerFormPharmacist.get('contacts') as FormGroup
+    return entity.controls
   }
   get FormEduData(): any{
     let entity = this.registerFormStudent.get('educationHistory') as FormArray;

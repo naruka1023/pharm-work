@@ -4,6 +4,8 @@ import { Subject, Observable } from 'rxjs';
 import { jobUIDForUser } from '../model/jobPost.model';
 import { UserPharma, User, userPharmaList, UserSearchForm, UserUrgentSearchForm } from '../model/user.model';
 import { DocumentData, Firestore, QuerySnapshot, collection, doc, getDocs, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
+import { HttpClient } from '@angular/common/http';
+import { apiKey } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +24,8 @@ export class UtilService {
   requestViewSubject: Subject<UserPharma> = new Subject();
   googleMapSubject: Subject<any> = new Subject();
   buyBannerSubject: Subject<void> = new Subject();
+
+  constructor(private http:HttpClient){}
 
   getBuyBannerSubject(): Observable<any>{
     return this.buyBannerSubject.asObservable()
@@ -107,7 +111,10 @@ export class UtilService {
     })
     return batch.commit();
   }
-
+  getMapAddress(lng: string, lat: string){
+    let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=' + apiKey.google_map
+    return this.http.get(url)
+  }
   getUID(uid: string){
     return getDocs(query(collection(this.db, 'job-post'), where('OperatorUID', '==', uid)))
     

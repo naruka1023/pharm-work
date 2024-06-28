@@ -14,6 +14,7 @@ import Validation from 'src/app/utils/validation';
 import moment from 'moment';
 import { UtilService } from '../../service/util.service';
 import { LandingPageComponent } from '../../landing-page.component';
+import { UsersService } from '../../service/users.service';
 declare var window: any;
 
 
@@ -24,6 +25,8 @@ declare var window: any;
 })
 export class AddNewJobComponent {
   constructor(private store: Store, private router:Router, private utilService: UtilService, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute, private landingPage: LandingPageComponent){}
+  currentDate: Date = new Date()
+  maxDate: Date = new Date()
   emptyJobPostModel: Partial<jobPostModel> = {
     Amount: 2,
     CategorySymbol: 'fdsasd',
@@ -33,6 +36,7 @@ export class AddNewJobComponent {
     },
     Establishment: 'fdsasd',
     Franchise: 'fdsasd',
+    Address: '',
     JobName: 'fdsasd',
     JobType: 'fdsasd',
     MRT: {
@@ -86,6 +90,7 @@ export class AddNewJobComponent {
   userState!: User
   timeFrame!:string  
   newJobForm!: FormGroup;
+  customSuffix: string = '';
   urgency!: any;
   sub!: Promise<any>;
   submitted: boolean = false
@@ -140,6 +145,7 @@ export class AddNewJobComponent {
   ngOnInit(){ 
     this.urgency = this.route.snapshot.queryParamMap.get('urgency')!;
     
+    this.maxDate.setDate(this.maxDate.getDate() + 29)
     this.urgency = (this.urgency == 'false')?false: true;
 
     this.srtStations$ = this.store.select((state: any)=>{
@@ -201,8 +207,8 @@ export class AddNewJobComponent {
     if(event.target.value !== 'SalaryNumbers'){
       this.newJobForm.get('Salary.salaryEnd')!.disable()
       this.newJobForm.get('Salary.salaryStart')!.disable()
-      this.newJobForm.get('Salary.salaryStart')?.patchValue(0)
-      this.newJobForm.get('Salary.salaryEnd')?.patchValue(0)
+      this.newJobForm.get('Salary.salaryStart')?.patchValue('')
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue('')
     }else{
       this.newJobForm.get('Salary.salaryStart')!.enable()
       this.newJobForm.get('Salary.salaryEnd')!.enable()
@@ -232,6 +238,9 @@ moveMap(event: any){
     lng: event.latLng.lng()
   }
   this.center = this.markerPosition
+  this.utilService.getMapAddress(this.markerPosition.lng.toString(), this.markerPosition.lat.toString()).subscribe((result: any)=>{
+    this.newJobForm.patchValue({Address: result.results[0].formatted_address})
+  })
   this.newJobForm.patchValue({_geoloc: this.markerPosition})
 }
 
@@ -283,6 +292,10 @@ searchMap(event: any){
     return this.newJobForm.controls;
   }
 
+  styleSelect(id: string){
+    document.getElementById(id)!.style.color = 'black'
+  }
+
   initializeFormGroup(){
     this.newJobForm = this.fb.group({
       firstNotificationFlag: true,
@@ -291,6 +304,7 @@ searchMap(event: any){
       CategorySymbol: this.mapJobTypeToCategorySymbol(),
       dateCreated: [''],
       dateUpdated: [''],
+      Address: [''],
       dateUpdatedUnix: [''],
       TimeFrame: [this.urgency?'Part-Time': '', [Validators.required]],
       OperatorUID: [this.userState.uid],
@@ -306,8 +320,8 @@ searchMap(event: any){
         Amount:[''],
         Cap: [''],
         Suffix: 'SalaryNumbers',
-        salaryStart: [0, [Validators.required]],
-        salaryEnd: [0, [Validators.required]]
+        salaryStart: ['', [Validators.required]],
+        salaryEnd: ['', [Validators.required]]
       }, 
      ),
       OnlineInterview: [false],
@@ -358,10 +372,10 @@ searchMap(event: any){
       })
       this.newJobForm.addControl('DateOfJob', this.fb.control('', Validators.required))
     }else{
-      this.newJobForm.addControl('qualityApplicants', this.fb.control('', Validators.required)); 
       this.newJobForm.addControl('jobBenefits', this.fb.control('', Validators.required)); 
-      this.newJobForm.addControl('applyInstructions', this.fb.control('', Validators.required)); 
     } 
+    this.newJobForm.addControl('qualityApplicants', this.fb.control('', Validators.required)); 
+    this.newJobForm.addControl('applyInstructions', this.fb.control('', Validators.required)); 
   }
   onSaveOpenModal(){
     this.submitted = true;
@@ -380,7 +394,7 @@ searchMap(event: any){
           firstNotificationFlag: !activeBoolean,
           Salary: {
             Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: Math.round(this.newJobForm.value.Salary.salaryStart),
-            Suffix: this.newJobForm.value.Salary.Suffix,
+            Suffix: this.newJobForm.value.Salary.Suffix == 'CustomSuffix'? this.customSuffix: this.newJobForm.value.Salary.Suffix,
             Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? Math.round(this.newJobForm.value.Salary.salaryEnd) - Math.round(this.newJobForm.value.Salary.salaryStart): 0
           }
         };
@@ -390,7 +404,7 @@ searchMap(event: any){
           Duration: this.newJobForm.value.timeStart + ' - ' + this.newJobForm.value.timeEnd
         }
         processedInfo.Salary!.Amount = Math.round(processedInfo.Salary!.Amount);
-        processedInfo.Salary!.Cap = Math.round(processedInfo.Salary!.Cap);
+        processedInfo.Salary!.Cap = Math.round(processedInfo.Salary!.Cap!);
         // this.newJobForm.removeControl('timeStart')
         // this.newJobForm.removeControl('timeEnd')
       processedInfo = {

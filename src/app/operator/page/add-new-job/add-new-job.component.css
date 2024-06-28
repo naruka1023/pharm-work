@@ -1,3 +1,22 @@
+.timeInput::placeholder{
+  color: #949191;
+  opacity: 1; 
+  
+}
+::placeholder {
+  color: #949191;
+  opacity: 1; 
+}
+option:disabled{
+  color: #949191;
+}
+::-ms-input-placeholder {
+  color: #949191;
+}
+select > option{
+  color: black
+}
+
 .keyValueGap{
   margin-right:2.5rem
 }

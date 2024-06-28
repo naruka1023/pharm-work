@@ -299,7 +299,9 @@ export class JobPostDetailsComponent implements OnDestroy{
   onClose(){
     this.formModal.hide()
   }
-
+  get loginState(){
+    return localStorage.getItem('loginState') == 'true'
+  }
   requestJob(){
     if(localStorage.getItem('loginState') == 'false'){
       this.router.navigate(['pharma/login'])

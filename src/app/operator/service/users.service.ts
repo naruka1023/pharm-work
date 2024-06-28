@@ -10,7 +10,7 @@ import algoliasearch, { SearchIndex }from 'algoliasearch';
 import { algoliaEnvironment } from 'src/environments/environment';
 import { UtilService } from './util.service';
 import { FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { url } from 'src/environments/environment';
 import { removeNotifications, modifyNotifications, addNotifications } from '../state/actions/notifications.actions.';
 
@@ -19,15 +19,19 @@ const client = algoliasearch(algoliaEnvironment.app_id, algoliaEnvironment.user_
   providedIn: 'root'
 })
 export class UsersService {
-  hitsPerPage: number = 8
+    hitsPerPage: number = 8
   private db: Firestore = inject(Firestore) 
   constructor(private converter:JobTypeConverterService, private store: Store, private utilService:UtilService, private http: HttpClient) { }
 
   propagateNotifications(jobUID: string){
-    return this.http.get(url.jobPostNotification + '/' + jobUID, {
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
+    return this.http.get(url.jobPostNotification + '/' + jobUID)
+  }
+
+  createRemoveUrgentJobTask(jobUID: string = '', dateOfExpiry: any = ''){
+    const params = new HttpParams().set('jobUID', jobUID).set('dateOfExpiry', dateOfExpiry)
+    const urls = url.addUrgentJob
+    return this.http.get(url.addUrgentJob, {
+      params:params,
     })
   }
 
@@ -152,8 +156,9 @@ export class UsersService {
   
   getNotifications(userUID: string){
     onSnapshot(query(collection(this.db, 'notification-archive'), where('userUID', '==', userUID),orderBy('dateCreatedUnix', 'desc')), (notification)=>{
+      let size = notification.size
+      let notificationArray: notificationContent [] = []
       return notification.docChanges().map((value)=>{
-        let notificationArray: notificationContent [] = []
         let notificationPayload = {
           payload: {
             ...value.doc.data() as notificationContent,
@@ -179,7 +184,7 @@ export class UsersService {
           notificationArray.forEach((notification)=>{
             finalNotificationPayload[notification.notificationID] = notification;
           })
-          this.store.dispatch(addNotifications({notifications:finalNotificationPayload}))
+          this.store.dispatch(addNotifications({notifications:finalNotificationPayload, size:size}))
         }
       })
     })

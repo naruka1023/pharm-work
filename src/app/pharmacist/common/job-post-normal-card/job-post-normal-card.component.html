@@ -2,7 +2,7 @@
 	<div id="overlay" *ngIf="Active$ | async">
 		<div id="text">Inactive</div>
 	</div>
-	<div class="row">
+	<div class="row" style="margin-left:0 !important">
 		<div class="mainImage col-lg-2 col-3 p-4 py-5">
 			<div class="text-center align-self-center">
 				<img (click)="goToOperatorProfile()" style="width:70%" class="border border-3 border-black rounded-circle" [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl : content.profilePictureUrl" alt="Profile Picture"/>
@@ -149,17 +149,19 @@
 			<ng-container *ngIf="studentFlag$ | async; then noRequest; else haveRequest"></ng-container>
 			<ng-template #noRequest></ng-template>
 			<ng-template #haveRequest>
-				<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-				<ng-template #alreadyRequest>
-					<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
-						<div class="textProfileResponsive">{{urgentFlag?"สนใจรับงาน": "สมัครงาน"}}</div>
-					</button>
-				</ng-template>
-				<ng-template #requestButton>
-					<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
-						<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
-					</button>
-				</ng-template>
+				<div *ngIf="loginState">
+					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
+					<ng-template #alreadyRequest>
+						<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
+							<div class="textProfileResponsive">{{urgentFlag?"สนใจรับงาน": "สมัครงาน"}}</div>
+						</button>
+					</ng-template>
+					<ng-template #requestButton>
+						<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
+							<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
+						</button>
+					</ng-template>
+				</div>
 			</ng-template>
 			<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
 				<h1 style="display:flex" class=mb-0>

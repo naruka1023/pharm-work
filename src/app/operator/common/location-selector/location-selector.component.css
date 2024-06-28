@@ -28,6 +28,9 @@
         font-size:medium !important
     }
 }
+select > option{
+    color: black
+  }
 .invalid-feedback2{
     width: 100%;
     margin-top: 0.25rem;

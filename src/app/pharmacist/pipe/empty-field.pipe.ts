@@ -6,7 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class EmptyFieldPipe implements PipeTransform {
 
   transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
+    if(value == '' || value == undefined || value == null){
+      return 'ไม่ระบุ'
+    }
+    return value;
   }
 
 }

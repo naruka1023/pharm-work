@@ -1,4 +1,14 @@
-.form-group{
+
+  @media only screen and (max-width: 992px) {
+    .border-line{
+        border-right:unset !important
+    }
+    .background-height{
+      height:30vh !important
+    }
+  }
+
+  .form-group{
     text-align:left
 }
 .nav-link{
@@ -10,15 +20,8 @@
   .nav-tabs .nav-student.active{
     color:#5cdfe4 !important
   }
-  @media only screen and (max-width: 992px) {
-    .border-line{
-        border-right:unset !important
-    }
-    .background-height{
-      height:30vh !important
-    }
-}
 
+  
 .nav-item > button{
   color:#949191
 }

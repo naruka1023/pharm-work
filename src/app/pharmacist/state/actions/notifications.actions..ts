@@ -16,8 +16,10 @@ export const removeNotifications = createAction(
   export const addNotifications = createAction(
   '[Notifications] Add Notifications',
   props<{ notifications: {
-    [key:string]: notificationContent
-  } }>()
+    [key:string]: notificationContent,
+  }
+  size: number
+ }>()
   );
 
   export const modifyNotifications = createAction(

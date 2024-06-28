@@ -4,21 +4,23 @@
   </div>
 </div>
 <div>
-  <div class="d-flex flex-row verticalKeyGap">
-    <div class="keyValueGap"><i class="bi bi-calendar2-check-fill"></i></div>
-    <div style="width:-webkit-fill-available; width:-moz-available">
-        <div>
-            <div><b>ข้อมูลหางานเภสัชรายวันของท่าน</b></div>
-        </div>
+  <div *ngIf="!innerProfileInformation.studentFlag">
+    <div class="d-flex flex-row verticalKeyGap">
+      <div class="keyValueGap"><i class="bi bi-calendar2-check-fill"></i></div>
+      <div style="width:-webkit-fill-available; width:-moz-available">
+          <div>
+              <div><b>ข้อมูลหางานเภสัชรายวันของท่าน</b></div>
+          </div>
+      </div>
     </div>
+    <!-- <form [formGroup]="profileEdit" (ngSubmit)="onSave()"> -->
+    <form [formGroup]="profileEdit">
+      <div formGroupName="preferredJobType" class="my-5 align-items-baseline d-flex justify-content-center verticalKeyGap form-check form-switch">
+        <input class="form-check-input" (change)="openModal()" formControlName="S" type="checkbox" role="switch" id="S">
+        <label class="form-check-label ms-5" for="flexSwitchCheckDefault">เปิดใช้ระบบหางานรายวัน</label>
+      </div>
+    </form>
   </div>
-  <!-- <form [formGroup]="profileEdit" (ngSubmit)="onSave()"> -->
-  <form [formGroup]="profileEdit">
-    <div formGroupName="preferredJobType" class="my-5 align-items-baseline d-flex justify-content-center verticalKeyGap form-check form-switch">
-      <input class="form-check-input" (change)="openModal()" formControlName="S" type="checkbox" role="switch" id="S">
-      <label class="form-check-label ms-5" for="flexSwitchCheckDefault">เปิดใช้ระบบหางานรายวัน</label>
-    </div>
-  </form>
   <div class="my-3" *ngIf="urgentJobFlag">
     <ng-container *ngIf="editFlag; then editPage; else displayPage"></ng-container>
   </div>
@@ -272,7 +274,7 @@
       <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5"><button (click)="editClick()" type="button" class="btn  green-color textProfileResponsive" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไข</button></div>
     </ng-template>
   </div>
-  <div class=" verticalKeyGap">
+  <div *ngIf="!innerProfileInformation.studentFlag" class=" verticalKeyGap">
     *เมื่อเปิดใช้งานระบบหางานรายวันแล้ว<span class="green-text">ระดับการเปิดเผยข้อมูล</span>จะถูกปรับเป็น 
   <span class="green-text">อนุญาตให้ดูข้อมูล</span>โดยอัตโนมัติ และ<span style="color:red">ข้อมูลหางานเภสัชรายวัน</span>ของท่าน
   จะปรากฏต่อผู้ประกอบการ ช่วยให้ท่านได้รับการติดต่อเสนองานรายวันจาก

@@ -197,7 +197,7 @@
                                 <ul class="mb-0">
                                     <ng-container *ngFor="let school of content.educationHistory , index as i">
                                         <li>
-                                            <b>ปีที่จบ {{school.yearGraduated}}</b> {{school.educationLevel}} {{school.universityName}} คณะ{{school.major}} สาขา{{school.franchise}}
+                                            <b>ปีที่จบ {{school.yearGraduated | emptyField}}</b> {{school.educationLevel}} {{school.universityName}} คณะ{{school.major}} สาขา{{school.franchise}}
                                             <div *ngIf="i == 1" style="color:lightgrey" class="textResponsiveSmaller"><i class="bi bi-arrow-right-short me-3"></i>ดูเพิ่มเติมในโปรไฟล์</div>
                                         </li>
                                     </ng-container>
@@ -225,7 +225,7 @@
                                         <li *ngIf="i < 2">
                                             <div>
                                                 <b>{{job.dateStarted}} - {{job.activeFlag? "ปัจจุบัน":job.dateEnded | emptyField}}</b>
-                                                ({{job.workExperience}})
+                                                ({{job.workExperience == '' || job.workExperience == 0?0: job.workExperience}})
                                             </div>
                                             บริษัท {{job.companyName}} ตำแหน่ง {{job.jobName}}
                                             <div *ngIf="i == 1" style="color:lightgrey" class="textResponsiveSmaller"><i class="bi bi-arrow-right-short me-3"></i>ดูเพิ่มเติมในโปรไฟล์</div>
@@ -416,7 +416,7 @@
                                 <ul>
                                     <ng-container *ngFor="let school of content.educationHistory , index as i">
                                         <li>
-                                            <b>ปีที่จบ {{school.yearGraduated}}</b> {{school.educationLevel}} {{school.universityName}} คณะ{{school.major}} สาขา{{school.franchise}}
+                                            <b>ปีที่จบ {{school.yearGraduated | emptyField}}</b> {{school.educationLevel}} {{school.universityName}} คณะ{{school.major}} สาขา{{school.franchise}}
                                             <div *ngIf="i == 1" style="color:lightgrey" class="textResponsiveSmaller"><i class="bi bi-arrow-right-short me-3"></i>ดูเพิ่มเติมในโปรไฟล์</div>
                                         </li>
                                     </ng-container>
@@ -444,7 +444,7 @@
                                         <li *ngIf="i < 2">
                                             <div>
                                                 <b>{{job.dateStarted}} - {{job.activeFlag? "ปัจจุบัน":job.dateEnded | emptyField}}</b>
-                                                ({{job.workExperience}})
+                                                ({{job.workExperience == '' || job.workExperience == 0?0: job.workExperience}})
                                             </div>
                                             บริษัท {{job.companyName}} ตำแหน่ง {{job.jobName}}
                                             <div *ngIf="i == 1" style="color:lightgrey" class="textResponsiveSmaller"><i class="bi bi-arrow-right-short me-3"></i>ดูเพิ่มเติมในโปรไฟล์</div>

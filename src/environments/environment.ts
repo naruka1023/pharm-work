@@ -19,9 +19,15 @@ export const algoliaEnvironment = {
 }
 export const url = {
   licenseAuthentication: 'https://us-central1-pharm-work.cloudfunctions.net/authenticateLicense/start',
+  addUrgentJob: 'https://us-central1-pharm-work.cloudfunctions.net/addUrgentJob',
+  sendEmail: 'https://us-central1-pharm-work.cloudfunctions.net/sendEmail/send-email',
   jobPostNotification: 'https://us-central1-pharm-work.cloudfunctions.net/requestPropagateFollowersNotification',
   jobRequestNotification: 'https://us-central1-pharm-work.cloudfunctions.net/sendJobRequestToOperator',
   shareJob: 'https://public.pharm-work.com/job-post/',
+  urgentJobCreation: 'yay',
+}
+export const apiKey = {
+  google_map: 'AIzaSyA-jJ_KwDMqcS3iaX_ecv-dyJ2yLRBFz8w'
 }
 export const serviceAccountEnvironment = {
   type: "service_account",

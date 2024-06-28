@@ -1,12 +1,27 @@
-@media only screen and (max-width: 576px) {
-    .keyValueGap{
-        margin-right: 1rem !important
-    }
+.historyHeader{
+    align-items:end
 }
-@media only screen and (max-width: 500px) {
-    .contacts{
-        margin-left: 2rem !important
-    }
+.subHeader{
+    margin-left:5rem
+}
+.phantom{
+    display:none
+}
+.keyValueGap{
+    margin-right:2rem
+}
+.btn-primary, btn-primary:hover{
+    background:#5cdfe4;
+    border-color: #5cdfe4
+}
+.contacts > .verticalKeyGap > .keyValueGap{
+    margin-right:1rem
+}
+.contacts > .verticalKeyGap{
+    margin-bottom:2rem
+}
+.verticalKeyGap{
+    margin-bottom:2rem
 }
 @media only screen and (max-width: 1400px) {
     .responsiveButton{
@@ -45,6 +60,9 @@
     }
 }
 @media only screen and (max-width: 768px) {
+    .mobileGap{
+        display: none !important
+    }
     .educationCell{
         margin-bottom: 2rem !important
     }
@@ -55,28 +73,18 @@
         font-size:medium !important
     }
 }
-.historyHeader{
-    align-items:end
+@media only screen and (max-width: 576px) {
+    .keyValueGap{
+        margin-right: 1rem !important
+    }
 }
-.subHeader{
-    margin-left:5rem
+@media only screen and (max-width: 500px) {
+    .contacts{
+        margin-left: 2rem !important
+    }
 }
-.phantom{
-    display:none
-}
-.keyValueGap{
-    margin-right:2rem
-}
-.btn-primary, btn-primary:hover{
-    background:#5cdfe4;
-    border-color: #5cdfe4
-}
-.contacts > .verticalKeyGap > .keyValueGap{
-    margin-right:1rem
-}
-.contacts > .verticalKeyGap{
-    margin-bottom:2rem
-}
-.verticalKeyGap{
-    margin-bottom:2rem
+@media only screen and (max-width: 400px) {
+    .compList{
+        font-size:0.8rem !important
+    }
 }

@@ -113,6 +113,7 @@ export class UrgentJobsComponent {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       preferredJobType: preferred,
+      active: 'อนุญาตให้ดูข้อมูล',
       dateUpdated: new Date().toISOString().split('T')[0],
       dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
     }
