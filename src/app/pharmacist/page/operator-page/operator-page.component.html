@@ -10,318 +10,320 @@
 </ng-template>
 <ng-template #notLoading>
     <app-profileheader  [requestViewFlag]="requestViewFlag" [followerFlag]="followFlag" profileType="operator-profile"></app-profileheader>
-    <div id="navToScroll2" class="semi-border-input standard-shadow container my-4 sticky-top mainTabList textProfileResponsive" style="z-index: 1; top:97px; border-radius:60px; background:white">
-        <ul class="nav nav-underline py-3 mb-2  flex-row" style="width: max-content; top:180px; --bs-nav-underline-gap:0 1rem">
-            <li class="nav-item">
-                <a class="flex-md-fill text-md-center nav-link active" id="active-jobs" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงาน</a>
-            </li>
-            <li class="nav-item">
-              <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="company-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">โปรไฟล์บริษัท</a>
-            </li>
-        </ul>
-    </div>
-    <div class="semi-border-input standard-shadow container mt-4 pt-3 textProfileResponsive contentContainer" style="padding:2rem 0; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
-        <div class="container tab-content">
-            <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
-                <div class="jobTabList sticky-top" style="top:180px; z-index:2; background:white">
-                    <ul class="nav nav-underline py-3 mb-2 flex-row" style="width: max-content; background:white; --bs-nav-underline-gap:0 1rem">
-                        <li class="nav-item">
-                            <a class="flex-md-fill text-md-center nav-link active" data-bs-toggle="tab" id="Both" data-bs-target="#tabNine" aria-controls="tabNine" type="button" role="tab">ทั้งหมด </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="Urgent" data-bs-target="#tabSeven" aria-controls="tabSeven" type="button" role="tab">เฉพาะงานด่วน</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="notUrgent" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab" aria-current="page">เฉพาะงานทั่วไป</a>
-                        </li>
-                        <hr style="width: 100%" class="m-auto">
-                    </ul>
-                </div>
-                <div class="tab-content mx-sm-5">
-                    <div class="tab-pane active" id="tabNine" role="tabpanel" aria-labelledby="tabNine-tab">
-                        <ng-container *ngIf="allJobsFlag; then notEmpty; else empty"></ng-container>
-                        <ng-template #notEmpty>
-                            <div class="row mb-5">
-                            <ng-container *ngFor="let job of allJobs">
-                                <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
-                            </ng-container>
-                            </div>
-                        </ng-template>
-                        <ng-template #empty>
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
-                                    <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
-                                </div>
-                            </div>
-                        </ng-template>
+    <div class="container">
+        <div id="navToScroll2" class="semi-border-input standard-shadow my-4 sticky-top mainTabList textProfileResponsive" style="z-index: 1; top:97px; border-radius:60px; background:white">
+            <ul class="nav nav-underline py-3 mb-2  flex-row" style="width: max-content; top:180px; --bs-nav-underline-gap:0 1rem">
+                <li class="nav-item">
+                    <a class="flex-md-fill text-md-center nav-link active" id="active-jobs" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ประกาศงาน</a>
+                </li>
+                <li class="nav-item">
+                  <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="company-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">โปรไฟล์บริษัท</a>
+                </li>
+            </ul>
+        </div>
+        <div class="semi-border-input standard-shadow mt-4 pt-3 textProfileResponsive contentContainer" style="padding:2rem 0; background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
+            <div class="container tab-content">
+                <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
+                    <div class="jobTabList sticky-top" style="top:180px; z-index:2; background:white">
+                        <ul class="nav nav-underline py-3 mb-2 flex-row" style="width: max-content; background:white; --bs-nav-underline-gap:0 1rem">
+                            <li class="nav-item">
+                                <a class="flex-md-fill text-md-center nav-link active" data-bs-toggle="tab" id="Both" data-bs-target="#tabNine" aria-controls="tabNine" type="button" role="tab">ทั้งหมด </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="Urgent" data-bs-target="#tabSeven" aria-controls="tabSeven" type="button" role="tab">เฉพาะงานด่วน</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="flex-md-fill text-md-center nav-link" data-bs-toggle="tab" id="notUrgent" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab" aria-current="page">เฉพาะงานทั่วไป</a>
+                            </li>
+                            <hr style="width: 100%" class="m-auto">
+                        </ul>
                     </div>
-                </div>
-                <div class="tab-content mx-sm-5">
-                    <div class="tab-pane" id="tabSeven" role="tabpanel" aria-labelledby="tabSeven-tab">
-                        <ng-container *ngIf="allJobsFlagUrgent; then notEmptyUrgent; else emptyUrgent"></ng-container>
-                        <ng-template #notEmptyUrgent>
-                            <div class="row mb-5">
+                    <div class="tab-content mx-sm-5">
+                        <div class="tab-pane active" id="tabNine" role="tabpanel" aria-labelledby="tabNine-tab">
+                            <ng-container *ngIf="allJobsFlag; then notEmpty; else empty"></ng-container>
+                            <ng-template #notEmpty>
+                                <div class="row mb-5">
                                 <ng-container *ngFor="let job of allJobs">
-                                    <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="job.Urgency"></app-job-post-normal-card>
+                                    <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'"></app-job-post-normal-card>
                                 </ng-container>
-                            </div>
-                        </ng-template>
-                        <ng-template #emptyUrgent>
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
-                                    <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
                                 </div>
-                            </div>
-                        </ng-template>
+                            </ng-template>
+                            <ng-template #empty>
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                                        <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
                     </div>
-                </div>
-                <div class="tab-content mx-sm-5">
-                    <div class="tab-pane" id="tabEight" role="tabpanel" aria-labelledby="tabEight-tab">
-                        <ng-container *ngIf="allJobsFlagNormal; then notEmptyNormal; else emptyNormal"></ng-container>
-                        <ng-template #notEmptyNormal>
-                            <div class="row mb-5">
-                                <ng-container *ngFor="let job of allJobs">
-                                    <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="!job.Urgency"></app-job-post-normal-card>
-                                </ng-container>
-                            </div>
-                        </ng-template>
-                        <ng-template #emptyNormal>
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
-                                    <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
+                    <div class="tab-content mx-sm-5">
+                        <div class="tab-pane" id="tabSeven" role="tabpanel" aria-labelledby="tabSeven-tab">
+                            <ng-container *ngIf="allJobsFlagUrgent; then notEmptyUrgent; else emptyUrgent"></ng-container>
+                            <ng-template #notEmptyUrgent>
+                                <div class="row mb-5">
+                                    <ng-container *ngFor="let job of allJobs">
+                                        <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="job.Urgency"></app-job-post-normal-card>
+                                    </ng-container>
                                 </div>
-                            </div>
-                        </ng-template>
+                            </ng-template>
+                            <ng-template #emptyUrgent>
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                                        <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="tab-content mx-sm-5">
+                        <div class="tab-pane" id="tabEight" role="tabpanel" aria-labelledby="tabEight-tab">
+                            <ng-container *ngIf="allJobsFlagNormal; then notEmptyNormal; else emptyNormal"></ng-container>
+                            <ng-template #notEmptyNormal>
+                                <div class="row mb-5">
+                                    <ng-container *ngFor="let job of allJobs">
+                                        <app-job-post-normal-card [content]="job!" [urgentFlag]="job.Urgency" [fullTimeFlag]="job.TimeFrame =='Full-Time'" *ngIf="!job.Urgency"></app-job-post-normal-card>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+                            <ng-template #emptyNormal>
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+                                        <img class="w-100" src="assets/emptyOperator/emptyJobs.png">
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container tab-content">
-            <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
-                <div class="companyProfileTabList sticky-top" style="top: 185px; z-index: 0; background:white">
-                    <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row" style="width: max-content; background:white; --bs-nav-underline-gap:0 1rem">
-                        <li class="nav-item">
-                          <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" id="overall-info"  data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">ข้อมูลทั่วไป</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="flex-sm-fill text-sm-center nav-link" id="contact" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">ติดต่อ</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" id="benefits"  data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab" aria-current="page">สวัสดิการ</a>
-                        </li>
-                        <hr style="width: 100%" class="m-auto">
-                    </ul>
-                </div>
-                <div class="tab-content mx-sm-5 ">
-                    <div class="tab-pane active" id="tabFour" role="tabpanel" aria-labelledby="tabFour-tab">
-                        <div class="d-flex flex-row verticalKeyGap keyLabel">
-                            <div class="d-flex">
-                                <div class="keyValueGap"><i class="bi bi-check-circle-fill"></i></div>
-                                <div>
-                                    <div class="keyValueGap"><b>ชื่อบริษัท/ชื่อธุรกิจที่จดทะเบียนการค้า</b></div>
-                                    <div class="valueLabel">{{operator?.companyName | emptyFieldPipe}}</div>
-                                </div>
-                            </div>
-                            <!-- <div class="d-flex">
-                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-briefcase"></i></div>
-                            </div> -->
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap keyLabel">
-                            <div class="d-flex">
-                                <div class="keyValueGap"><i class="bi bi-bank2"></i></div>
-                                <div class="keyValueGap">
-                                    <div><b>ประเภทธุรกิจ</b></div>
-                                    <div class="valueLabel">{{operator?.jobType | emptyFieldPipe}}</div>
-                                </div>
-                            </div>
-                            <!-- <div class="d-flex">
-                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-building"></i></div>
-                            </div> -->
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap keyLabel">
-                            <div class="d-flex">
-                                <div class="keyValueGap"><i class="bi bi-bag-plus-fill"></i></div>
-                                <div class="keyValueGap">
-                                    <div><b>สินค้าและบริการ</b></div>
-                                    <div class="valueLabel" [innerHTML]='operator?.productsAndServices | emptyFieldPipe'></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap keyLabel">
-                            <div class="d-flex">
-                                <div class="keyValueGap"><i class="bi bi-geo-fill"></i></div>
-                                <div class="keyValueGap">
-                                    <div><b>พื้นที่ตั้งของบริษัท</b></div>
-                                    <div class="valueLabel">{{operator!.Location?.Province | emptyFieldPipe }}, {{operator!.Location?.District | emptyFieldPipe }}</div>                    
-                                </div>
-                            </div>
-                            <!-- <div class="d-flex flex-row">
-                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-car-front"></i></div>
-                            </div> -->
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap keyLabel">
-                            <div class="d-flex">
-                                <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
-                                <div class="keyValueGap">
-                                    <div><b>วิธีเดินทาง</b></div>
-                                    <div class="valueLabel" [innerHTML]='operator?.TravelInstructions | emptyFieldPipe'></div>
-                                </div>
-                            </div>
-                            <!-- <div class="d-flex">
-                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-car-front"></i></div>
-                            </div> -->
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap keyLabel">
-                            <div class="d-flex">
-                                <div class="keyValueGap"><i class="bi bi-building"></i></div>
-                                <div class="keyValueGap">
-                                    <div><b>สถานที่ติดต่อ</b></div>
-                                    <div class="valueLabel">{{operator?.areaOfContact | emptyFieldPipe}}</div>
-                                </div>
-                            </div>
-                            <!-- <div class="d-flex">
-                                <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-building"></i></div>
-                            </div> -->
-                        </div>
-                        <div class="verticalKeyGap keyLabel" *ngIf="geolocFlag">
-                            <div class="d-flex mb-3">
-                                <div class="keyValueGap"><i class="bi bi-geo"></i></div>
-                                <div class="keyValueGap"><b>ปักหมุดที่ตั้งบริษัท</b></div>
-                            </div>
-                            <div>
-                                <google-map 
-                                    height="500px"
-                                    width="100%"
-                                    [center]="center"
-                                    [options]="none"
-                                    [zoom]="zoom">
-                                    <map-marker
-                                    [position]="markerPosition"></map-marker>
-                                </google-map>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-content mx-sm-5">
-                    <div class="tab-pane" id="tabFive" role="tabpanel" aria-labelledby="tabFive-tab">
-                        <div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-telephone-fill"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>เบอร์โทร</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.phone | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-telephone"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-house-door-fill"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>สถานที่ติดต่อ</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.areaOfContact | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-telephone"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-envelope-fill"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>Email</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.email | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-envelope"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-line"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>LINE</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.line | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-line"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>Website</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.website | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-globe2"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>Facebook</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.facebook | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-facebook"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>Twitter</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.twitter | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-twitter"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-skype"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>Skype</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.skype | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-skype"></i></div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row verticalKeyGap keyLabel">
-                                <div class="d-flex">
-                                    <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
-                                    <div>
-                                        <div class="keyValueGap"><b>Youtube</b></div>
-                                        <div style="line-break: auto">{{operator?.contacts?.youtube | emptyFieldPipe}}</div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-youtube"></i></div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="container tab-content">
+                <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
+                    <div class="companyProfileTabList sticky-top" style="top: 185px; z-index: 0; background:white">
+                        <ul class="nav nav-underline py-3 mb-2 fs-3 flex-row" style="width: max-content; background:white; --bs-nav-underline-gap:0 1rem">
+                            <li class="nav-item">
+                              <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" id="overall-info"  data-bs-target="#tabFour" aria-controls="tabFour" type="button" role="tab" aria-current="page">ข้อมูลทั่วไป</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="flex-sm-fill text-sm-center nav-link" id="contact" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">ติดต่อ</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" id="benefits"  data-bs-target="#tabSix" aria-controls="tabSix" type="button" role="tab" aria-current="page">สวัสดิการ</a>
+                            </li>
+                            <hr style="width: 100%" class="m-auto">
+                        </ul>
                     </div>
                     <div class="tab-content mx-sm-5 ">
-                        <div class="tab-pane" id="tabSix" role="tabpanel" aria-labelledby="tabSix-tab">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
+                        <div class="tab-pane active" id="tabFour" role="tabpanel" aria-labelledby="tabFour-tab">
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-check-circle-fill"></i></div>
+                                    <div>
+                                        <div class="keyValueGap"><b>ชื่อบริษัท/ชื่อธุรกิจที่จดทะเบียนการค้า</b></div>
+                                        <div class="valueLabel">{{operator?.companyName | emptyFieldPipe}}</div>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-briefcase"></i></div>
+                                </div> -->
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-bank2"></i></div>
+                                    <div class="keyValueGap">
+                                        <div><b>ประเภทธุรกิจ</b></div>
+                                        <div class="valueLabel">{{operator?.jobType | emptyFieldPipe}}</div>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-building"></i></div>
+                                </div> -->
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-bag-plus-fill"></i></div>
+                                    <div class="keyValueGap">
+                                        <div><b>สินค้าและบริการ</b></div>
+                                        <div class="valueLabel" [innerHTML]='operator?.productsAndServices | emptyFieldPipe'></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-geo-fill"></i></div>
+                                    <div class="keyValueGap">
+                                        <div><b>พื้นที่ตั้งของบริษัท</b></div>
+                                        <div class="valueLabel">{{operator!.Location?.Province | emptyFieldPipe }}, {{operator!.Location?.District | emptyFieldPipe }}</div>                    
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex flex-row">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-car-front"></i></div>
+                                </div> -->
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
+                                    <div class="keyValueGap">
+                                        <div><b>วิธีเดินทาง</b></div>
+                                        <div class="valueLabel" [innerHTML]='operator?.TravelInstructions | emptyFieldPipe'></div>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-car-front"></i></div>
+                                </div> -->
+                            </div>
+                            <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                <div class="d-flex">
+                                    <div class="keyValueGap"><i class="bi bi-building"></i></div>
+                                    <div class="keyValueGap">
+                                        <div><b>สถานที่ติดต่อ</b></div>
+                                        <div class="valueLabel">{{operator?.areaOfContact | emptyFieldPipe}}</div>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex">
+                                    <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-building"></i></div>
+                                </div> -->
+                            </div>
+                            <div class="verticalKeyGap keyLabel" *ngIf="geolocFlag">
+                                <div class="d-flex mb-3">
+                                    <div class="keyValueGap"><i class="bi bi-geo"></i></div>
+                                    <div class="keyValueGap"><b>ปักหมุดที่ตั้งบริษัท</b></div>
+                                </div>
                                 <div>
-                                    <div class="keyValueGap"><b>สวัสดิการ </b></div>
-                                    <div [innerHTML]="operator?.benefits | emptyFieldPipe"></div>
+                                    <google-map 
+                                        height="500px"
+                                        width="100%"
+                                        [center]="center"
+                                        [options]="none"
+                                        [zoom]="zoom">
+                                        <map-marker
+                                        [position]="markerPosition"></map-marker>
+                                    </google-map>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content mx-sm-5">
+                        <div class="tab-pane" id="tabFive" role="tabpanel" aria-labelledby="tabFive-tab">
+                            <div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-telephone-fill"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>เบอร์โทร</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.phone | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-telephone"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-house-door-fill"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>สถานที่ติดต่อ</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.areaOfContact | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-telephone"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-envelope-fill"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>Email</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.email | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-envelope"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-line"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>LINE</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.line | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-line"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>Website</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.website | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-globe2"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>Facebook</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.facebook | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-facebook"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>Twitter</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.twitter | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-twitter"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-skype"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>Skype</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.skype | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-skype"></i></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row verticalKeyGap keyLabel">
+                                    <div class="d-flex">
+                                        <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
+                                        <div>
+                                            <div class="keyValueGap"><b>Youtube</b></div>
+                                            <div style="line-break: auto">{{operator?.contacts?.youtube | emptyFieldPipe}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="keyValueGap phantomPadding" style="display: none; visibility:hidden"><i class="bi bi-youtube"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content mx-sm-5 ">
+                            <div class="tab-pane" id="tabSix" role="tabpanel" aria-labelledby="tabSix-tab">
+                                <div class="d-flex flex-row verticalKeyGap">
+                                    <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
+                                    <div>
+                                        <div class="keyValueGap"><b>สวัสดิการ </b></div>
+                                        <div [innerHTML]="operator?.benefits | emptyFieldPipe"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

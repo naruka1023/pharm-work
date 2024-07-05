@@ -104,7 +104,7 @@
                     <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle" width="50" height="50">
                   </div>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end fs-3" style="width: 30rem;">
+                <ul class="dropdown-menu dropdown-menu-end fs-3" style="overflow-y: scroll; max-height:80vh; width: 30rem;">
                   <li>
                     <div style="cursor:pointer; white-space:normal" class="dropdown-header" (click)="goToPage('profile-pharma')">
                       <div class="d-flex flex-row-start align-items-center">

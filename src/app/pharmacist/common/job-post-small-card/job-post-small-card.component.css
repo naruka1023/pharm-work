@@ -14,7 +14,7 @@
     font-size:4vw 
   }
   .contentFontSize{
-    font-size:3.5vw !important
+    font-size:3.3vw !important
   }
   .timeFrameHeader{
     font-size: 3.5vw !important
@@ -22,6 +22,11 @@
   .profilePic{
     height: 60px !important;
     width: 60px !important
+  }
+}
+@media only screen and (max-width: 360px){
+  .contentFontSize{
+    font-size:3vw !important
   }
 }
 @media only screen and (max-width: 350px){
@@ -34,9 +39,6 @@
   }
   .titleFontSize{
     font-size: 4.5vw
-  }
-  .contentFontSize{
-    font-size:4vw !important
   }
   .timeFrameHeader{
     font-size: 3vw !important

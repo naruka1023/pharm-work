@@ -646,12 +646,17 @@
             <ng-template #editProfileThree>
                 <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
                     <div class="container tab-content">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>สวัสดิการ</b></div>
+                        <div class="verticalKeyGap">
+                            <div class="d-flex flex-row mb-md-0 mb-3">
+                                <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
+                                <div style="width:-webkit-fill-available; width:-moz-available">
+                                    <div class="keyValueGap">
+                                        <div><b>สวัสดิการ</b></div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div style="width:100%">
+                                <div class="keyValueGap d-md-block d-none" style="visibility:hidden"><i class="bi bi-gift-fill"></i></div>
                                 <div class="col d-flex">
                                     <ckeditor formControlName="benefits" [editor]="benefitsEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
                                 </div>

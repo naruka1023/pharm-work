@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Firestore, addDoc, collection, doc, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { Store } from '@ngrx/store';
-import { UsersService } from '../../service/users.service';
+import { UserServiceService } from 'src/app/pharmacist/service/user-service.service';
 declare var window: any;
 
 @Component({
@@ -12,13 +12,17 @@ declare var window: any;
 })
 export class BannerBuyComponent {
   private storage: Storage = inject(Storage)
-  constructor(private store:Store, private profileService: UsersService){}
+  constructor(private store:Store, private profileService: UserServiceService){}
   private db: Firestore = inject(Firestore)
   currentUserUID!: string
+  bannerLimitLoadingFlag: boolean = true
   bannerUploadFlag: boolean = false
   uploadLoading: boolean = false
   subscriptionFlag: any[] = []
   dimensionFlag: boolean = true
+  bannersFlag: {
+    [key:string]:boolean
+  } = {}
   placeholderImage = 'assets/emptybanner/emptyBannerBig.png'
   file: any = undefined
   productPackage: string = ''
@@ -53,6 +57,12 @@ export class BannerBuyComponent {
       document.getElementById('uploadModal')
     );
     this.store.select((state: any)=>{
+      return state.jobpost.BannersFlag
+    }).subscribe((bannersFlag)=>{
+      this.bannersFlag = bannersFlag
+      console.log(this.bannersFlag)
+    })
+    this.store.select((state: any)=>{
       return state.user.packages
     }).subscribe((packages)=>{
       this.packageList = []
@@ -64,7 +74,6 @@ export class BannerBuyComponent {
       const b1 = this.packageList.splice(this.packageList.length -1, 1)
       const a1 = this.packageList.splice(0, 1)
       this.packageList = a1.concat(b1).concat(b2).concat(this.packageList)
-      console.log('packageList', this.packageList)
     })
     this.store.select((state: any)=>{
       return state.user.subscriptions
@@ -80,7 +89,11 @@ export class BannerBuyComponent {
   }
   
   subExists(sub: string){
-    return this.subscriptionFlag.includes(sub)
+    return this.subscriptionFlag.includes(sub) || this.bannersFlag[sub]
+  }
+
+  buttonName(sub: string){
+    return this.bannersFlag[sub]? 'SOLD OUT':'สมัครแพ็คเกจแล้ว'
   }
 
   uploadImage(){
@@ -153,45 +166,51 @@ export class BannerBuyComponent {
   buyPackage(price: string, productPackage: string){
     this.priceID = price
     this.productPackage = productPackage
-    if(productPackage == 'B1' || productPackage == 'B2'){
-      this.uploadLoading = true
-      addDoc(collection(this.db, 'users', this.currentUserUID, 'checkout_sessions'), 
-      { 
-          price: price,
-            metadata:{
-            uid: this.currentUserUID,
-            package: productPackage,
-            priceID: price
-          },
-          allow_promotion_codes: true,
-          locale:'th',
-          success_url: window.location.origin + '/success-checkout',
-          cancel_url: window.location.origin + '/cancel-checkout',
-        },
-      ).then((value)=>{
-        onSnapshot(doc(this.db, 'users', this.currentUserUID, 'checkout_sessions', value.id), (session)=>{
-          const { error, url } = session.data() as any;
-          if (error) {
-            // Show an error to your customer and
-            // inspect your Cloud Function logs in the Firebase console.
-            alert(`An error occured: ${error.message}`);
-          }
-          if (url) {
-            // We have a Stripe Checkout URL, let's redirect.
-            this.uploadLoading = false
-            window.location.assign(url);
-          }
-        })
-  
-      })
-    }else{
-      let form: any = document.getElementById('imageUploadForm')
-      this.file = null
-      form.reset()
-      this.dimensionFlag = true
-      this.placeholderImage = 'assets/' + productPackage + '.png'
-      this.uploadModal.show()
-    }
+    this.bannerLimitLoadingFlag = false
+    this.profileService.getLimitBanner().then(()=>{
+      this.bannerLimitLoadingFlag = true
+      if(!this.bannersFlag[productPackage]){
+        if(productPackage == 'B1' || productPackage == 'B2'){
+          this.uploadLoading = true
+          addDoc(collection(this.db, 'users', this.currentUserUID, 'checkout_sessions'), 
+          { 
+              price: price,
+                metadata:{
+                uid: this.currentUserUID,
+                package: productPackage,
+                priceID: price
+              },
+              allow_promotion_codes: true,
+              locale:'th',
+              success_url: window.location.origin + '/success-checkout',
+              cancel_url: window.location.origin + '/cancel-checkout',
+            },
+          ).then((value)=>{
+            onSnapshot(doc(this.db, 'users', this.currentUserUID, 'checkout_sessions', value.id), (session)=>{
+              const { error, url } = session.data() as any;
+              if (error) {
+                // Show an error to your customer and
+                // inspect your Cloud Function logs in the Firebase console.
+                alert(`An error occured: ${error.message}`);
+              }
+              if (url) {
+                // We have a Stripe Checkout URL, let's redirect.
+                this.uploadLoading = false
+                window.location.assign(url);
+              }
+            })
+      
+          })
+        }else{
+          let form: any = document.getElementById('imageUploadForm')
+          this.file = null
+          form.reset()
+          this.dimensionFlag = true
+          this.placeholderImage = 'assets/' + productPackage + '.png'
+          this.uploadModal.show()
+        }
+      }
+    })
   }
   scrollUp(){
     window.scroll({ 

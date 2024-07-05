@@ -22,7 +22,7 @@ export class OperatorSmallCardComponent {
         operatorUID: this.content.uid,
         followFlag: false,
         requestViewFlag: false,
-        operatorExistFlag: true,
+        operatorExistFlag: false,
         jobType: this.content.jobType
       }
     })

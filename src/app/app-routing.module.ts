@@ -13,8 +13,10 @@ const routes: Routes = [
   { path: 'success-checkout', component: DemoLandingComponent},
   { path: 'cancel-checkout', component: DemoLandingComponent},
   { path: '', component: DemoLandingComponent},
-  { path: 'landing', children:[
-    {path:'register', component:RegisterComponent},
+  { path: 'register', children:[
+    {path:'pharmacist', component: DemoLandingComponent},
+    {path:'operator', component: DemoLandingComponent},
+    {path:'student', component: DemoLandingComponent},
     {path:'operator-page/:operatorUID', component:OperatorPageComponent},
   ]},
   { path: 'confirm', component: ConfirmEmailComponent},

@@ -68,12 +68,15 @@ export class LandingPageComponent {
   bookmarkSubscription: {
     [key:string]:Unsubscribe
   } = {}
+  landingFlag: boolean = true
+  registerType: string | null = ''
   constructor(private meta: Meta, private notificationsComponent: NotificationsComponent,private pharmaProfileComponent: PharmaProfileComponent, private userService: UserServiceService, private activatedRoute:ActivatedRoute,private jobService:JobPostService, private store: Store ,private route: Router,  private utilService:UtilService) {
   }
   private _messaging = inject(Messaging);
   private firestore = inject(Firestore)
   ngOnInit(){  
     this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
+    this.landingFlag = Boolean(this.activatedRoute.snapshot.queryParamMap.get('landingFlag'))
     this.notificationsFlag = this.notificationsFlag == 'true'?true:false
   if(this.notificationsFlag){
     const payload = this.activatedRoute.snapshot.queryParamMap.get('url')!  
@@ -277,6 +280,9 @@ export class LandingPageComponent {
     this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
     // this.route.navigate(['pharma']);
   })
+  if(this.landingFlag){
+    this.registerModal.show()
+  }
   this.loginFlag = true;
   this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
   this.utilService.getRequestViewSubject().subscribe((requestView: requestView)=>{

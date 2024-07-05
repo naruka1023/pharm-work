@@ -28,6 +28,7 @@ export class RegisterComponent implements AfterViewInit {
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
   isPharma: boolean | string = true
+  buttonFlag: boolean = false
   registerFormPharmacist!:FormGroup;
   registerFormStudent!:FormGroup;
   registerFormOperator!:FormGroup;
@@ -330,6 +331,7 @@ export class RegisterComponent implements AfterViewInit {
           this.backSlide()
           return;
         }else{
+          this.buttonFlag = true
           this.loadingFlag = true;
           newUser = this.registerFormPharmacist.value;
           newUser = this.utilService.populateObjectWithLocationFields(newUser);
@@ -365,6 +367,7 @@ export class RegisterComponent implements AfterViewInit {
           if (this.registerFormOperator.invalid) {
           return;
         }else{
+          this.buttonFlag = true
           this.loadingFlag = true;
           newUser = this.registerFormOperator.value;
           newUser['role'] = 'ผู้ประกอบการ'
@@ -375,6 +378,7 @@ export class RegisterComponent implements AfterViewInit {
           this.backSlideStudent()
           return;
         }else{
+          this.buttonFlag = true
           this.loadingFlag = true;
           newUser = this.registerFormStudent.value;
           newUser['role'] = 'เภสัชกร';
@@ -391,6 +395,7 @@ export class RegisterComponent implements AfterViewInit {
           this.createAccount(newUser)
         }
         else{
+          this.buttonFlag = false
           this.loadingFlag = false
           this.backSlide()
           this.errorMessage = 'ชื่อหรือนามสกุลหรือเลขใบประกอบของท่านไม่ถูกต้องตามฐานข้อมูลรายชื่อผู้ประกอบวิชาชีพเภสัชกรรม'
@@ -443,6 +448,7 @@ export class RegisterComponent implements AfterViewInit {
         .catch((error)=>{
           this.loadingFlag = false;
           const code = error.code;
+          this.buttonFlag = false
           switch(code){
             case 'auth/weak-password':
               this.errorMessage = 'รหัสผ่านต้องอย่างน้อย 6 ตัวอักษร';

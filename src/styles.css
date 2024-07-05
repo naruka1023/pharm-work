@@ -4,6 +4,9 @@
     font-weight: normal;
     font-style: normal;
 }
+.title{
+    font-size: xxx-large
+  }
 .loading {
     position: relative;
     margin-top: 45vh;
@@ -14,6 +17,35 @@
 .dropdown-header{
     color:black !important
 }
+::ng-deep .modal { z-index: 3020 !important;} 
+
+::ng-deep .modal-backdrop {z-index: 3000 !important;}
+
+::ng-deep .pac-container {z-index: 3055 !important;}
+.swiper {
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: clip;
+    list-style: none;
+    padding: 0px;
+    z-index: 1;
+    display: block;
+    padding-bottom: 30px;  /* <-- added to show to bullets, other way they are hidden */
+}
+.swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: 0px;  /* <-- modified to show under de img */
+    top: var(--swiper-pagination-top, auto);
+    left: 0px;
+    width: 100%;
+}
+.profileOperatorImage{
+    margin:10px;
+    width: 150px; 
+    height:150px; 
+  }
 
 .studentTabMobileView{
     display: none !important
@@ -31,7 +63,7 @@
     border:1px solid grey !important
 }
 .textProfileResponsive{
-    font-size:xx-large !important;
+    font-size:x-large !important;
 }
 .smallUserWidthResponsive{
     width:40vw
@@ -52,7 +84,7 @@
     font-size:1.5rem !important
 }
 .textResponsiveHeader{
-    font-size:2.5rem 
+    font-size:2.3rem 
 }
 .pAomPenTood{
     width: 200px
@@ -76,7 +108,7 @@
         font-size: small !important
     }
     .textResponsiveHeader{
-        font-size:2rem !important 
+        font-size:1.7rem !important 
     }
     .widthResponsive{
         width: 11vw !important
@@ -94,6 +126,11 @@
     }
 }
 
+@media only screen and (max-width: 1250px) {
+    .title{
+        font-size: xx-large
+      }
+}
 @media only screen and (max-width: 1200px) {
     .smallUserTextResponsive{
         font-size:small !important;
@@ -115,10 +152,10 @@
 
 @media only screen and (max-width: 1000px) {
     .textProfileResponsive{
-        font-size:x-large !important;
+        font-size:large !important;
     }
     .textResponsiveHeader{
-        font-size:1.8rem !important 
+        font-size:1.5rem !important 
     }
     .smallUserWidthResponsive{
         width: 60vw
@@ -128,9 +165,6 @@
 @media only screen and (max-width: 992px) {
     .gapMobile{
         gap: 4vw !important
-    }
-    .textResponsiveHeader{
-        font-size:1.5rem !important 
     }
     .widthResponsive{
         width:14vw !important;   
@@ -182,6 +216,23 @@
         font-size:3.5vw !important
     }
 }
+@media only screen and (max-width: 480px) {
+    .title{
+        font-size:10vw !important 
+    }
+    .profileOperatorImage{
+      margin:5px;
+      width: 120px; 
+      height:120px; 
+    }
+  }
+@media only screen and (max-width: 410px) {
+    .profileOperatorImage{
+      margin:3px;
+      width: 100px; 
+      height:100px; 
+    }
+  }
 @media only screen and (max-width: 396px) {
     .studentTabMobileView{
       display: flex !important
@@ -208,6 +259,12 @@
     }
     .navbar-toggler-icon{
         width: 1.1em !important
+    }
+}
+@media only screen and (max-width: 360px) {
+    .profileOperatorImage{
+      width: 90px; 
+      height:90px; 
     }
 }
 @media only screen and (max-width: 337px) {

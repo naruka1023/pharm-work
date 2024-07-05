@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="col-sm col-9 my-sm-3 my-1 mx-auto textResponsiveOperator row px-0 pe-1">
-            <div class="py-2 px-0 textResponsiveHeader d-flex justify-content-between">
+            <div class="py-2 px-0 textResponsiveHeader d-lg-flex justify-content-between">
                 <ng-container  *ngIf="!profileLinkPage; then jobRequestTitle else notJobRequestTitle"></ng-container>
                 <ng-template #jobRequestTitle>
                     <div class="col-sm">
@@ -28,7 +28,7 @@
                         {{content.active === 'อนุญาตให้ดูข้อมูล'? content.name + ' ' + content.surname:content.active}}
                     </div>
                 </ng-template>
-                <button class="btn btn-outline-secondary border-input textResponsiveOperator button-width d-lg-block d-none" (click)="goToProfile()">ดูโปรไฟล์</button>
+                <button class="btn btn-outline-secondary border-input textResponsiveOperator button-width my-lg-0 my-2 d-lg-block" (click)="goToProfile()">ดูโปรไฟล์</button>
             </div>
             <div class="d-lg-none d-block px-0 pe-3">
                 <div class="py-1 d-lg-block d-md-flex d-block">

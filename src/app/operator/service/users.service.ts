@@ -32,6 +32,9 @@ export class UsersService {
     const urls = url.addUrgentJob
     return this.http.get(url.addUrgentJob, {
       params:params,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
     })
   }
 

@@ -3,7 +3,7 @@
 		<div class="text-center h2 mb-0 py-3">
 			{{ header }}
 		</div>
-        <div class="headerContent position py-sm-3 py-2 ps-3 d-flex justify-content-between">
+        <div class="headerContent position pb-sm-3 pb-2 ps-3 d-flex justify-content-sm-center justify-content-between">
             <div class="h2 mb-0 d-flex">
 				<button class="headerText btn badge rounded-pill text-black fs-3 mt-sm" style="font-weight: unset; background-color:#e6e6e6" data-bs-toggle="modal" data-bs-target="#searchModal" aria-expanded="false">
 					ตัวกรอง
@@ -228,7 +228,7 @@
 		<ng-container *ngIf="emptyResultFlag; then empty; else notEmpty"></ng-container>
         <ng-template #empty>
 			<div class="row d-flex justify-content-center">
-				<div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
+				<div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
 					<img class="w-100" src="assets/emptyPharmaSearchResults/notFound.png">
 				</div>
 			</div>

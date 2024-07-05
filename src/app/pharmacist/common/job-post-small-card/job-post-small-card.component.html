@@ -47,9 +47,9 @@
 						<i class="contentFontSize my-auto bi bi-bootstrap"></i>
 					</p>
 					<div class="col d-flex flex-row contentFontSize" style="align-self:center" *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
-						{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}} {{urgentFlag?'บาท/ชม': ''}}
+						{{content.Salary.Amount}}{{content.Salary.Cap != 0? ' - ': '' }}{{content.Salary.Cap != 0?content.Salary.Amount + content.Salary.Cap: ''}} {{urgentFlag?'บาท/ชม': ''}}
 					</div>
-					<div class="col d-flex flex-row contentFontSize" style="align-self:center" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
+					<div [ngStyle]="{'height': '1.5em', 'word-break': 'break-word', 'overflow':'hidden', 'text-align': 'center', '-webkit-line-clamp': '2'}" class="col d-flex flex-row contentFontSize" style="align-self:center" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
 						{{content.Salary.Suffix | salaryType}}
 					</div>
 				</div>

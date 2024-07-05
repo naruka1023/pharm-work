@@ -1,6 +1,6 @@
 import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
 import { EventsParams, SwiperComponent } from "swiper/angular";
-import SwiperCore, { Virtual } from 'swiper';
+import SwiperCore, { SwiperOptions, Virtual } from 'swiper';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Validation from 'src/app/utils/validation';
 import { Store } from '@ngrx/store';
@@ -31,6 +31,7 @@ export class RegisterComponent implements AfterViewInit {
   registerModal: any
   loginFlag: boolean = true;
   loadingFlag: boolean = false;
+  buttonFlag: boolean = false
   isPharma: boolean = true
   registerFormPharmacist!:FormGroup;
   registerFormStudent!:FormGroup;
@@ -40,9 +41,9 @@ export class RegisterComponent implements AfterViewInit {
   submitted:boolean = false;
   storage = getStorage();
   header: string = 'สมัครสมาชิก<span class="green-text">เภสัช</span>'
-  pharmaForm:boolean = true;
+  registerType: string = '';
   studentForm:boolean = true;
-  
+  pharmaForm: boolean = true
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   @ViewChild('swiperFormPharma', { static: false }) swiperFormPharma!: SwiperComponent;
   @ViewChild('swiperFormStudent', { static: false }) swiperFormStudent!: SwiperComponent;
@@ -52,6 +53,10 @@ export class RegisterComponent implements AfterViewInit {
       document.getElementById('registerModal')
     )
     this.initializeFormGroup()
+  }
+
+  styleSelect(id: string){
+    document.getElementById(id)!.style.color = 'black'
   }
 
   onCloseModal(){
@@ -66,12 +71,25 @@ export class RegisterComponent implements AfterViewInit {
   }
   
   ngAfterViewInit(){
-    if(this.route.snapshot.queryParamMap.get('isPharma') !== null){
-      this.isPharma = this.route.snapshot.queryParamMap.get('isPharma') == 'true'? true:false
-    }
-    if(!this.isPharma){
-      this.changeRoles('operator')
-      document.getElementById('urgent-job')?.click()
+    if(this.route.snapshot.queryParamMap.get('registerType') !== null){
+      this.registerType = this.route.snapshot.queryParamMap.get('registerType')!
+      
+      let tabToClick = null
+      if(this.registerType.includes('pharmacist')){
+        tabToClick = document.getElementById('normal-job')!
+        tabToClick.click()
+      }else{
+        if(this.registerType.includes('operator')){
+          tabToClick = document.getElementById('operator-tab')!
+          tabToClick.click()
+        }else{
+          if(this.registerType.includes('student')){
+            tabToClick = document.getElementById('student')!
+            tabToClick.click()
+          }
+        }
+      }
+      this.changeRoles(this.registerType)
     }
   }
 
@@ -163,7 +181,7 @@ export class RegisterComponent implements AfterViewInit {
         CB: new FormControl(false),
       }, atLeastOneCheckboxCheckedValidator()),
       showProfileFlag: true,
-      preferredTimeFrame: ['Full-Time และ Part-Time'],
+      preferredTimeFrame: [''],
       preferredLocation: this.fb.group({
         Section: [''],
         District: [''],
@@ -319,6 +337,7 @@ export class RegisterComponent implements AfterViewInit {
           this.backSlide()
           return;
         }else{
+          this.buttonFlag = true
           this.loadingFlag = true;
           newUser = this.registerFormPharmacist.value;
           newUser = this.utilService.populateObjectWithLocationFields(newUser);
@@ -330,6 +349,22 @@ export class RegisterComponent implements AfterViewInit {
           let totalYear : number = 0
           let jobHistoryList: JobHistory[] =this.registerFormPharmacist.get('jobHistory')?.value
           jobHistoryList.forEach((jobHistory, index)=>{
+            if(jobHistory.workExperience == 0){
+                let pr = jobHistory
+                if(pr.activeFlag){
+                  let date : any = new Date().toISOString().split('T')[0].split('-')
+                  pr.dateEnded = date[0] + '-' + date[1]
+                }
+                if(pr.dateStarted !== '' && pr.dateEnded !== ''){
+                  let dateDiff = this.calculateDateDiff(pr.dateStarted, pr.dateEnded)
+                  let years = Math.floor(dateDiff/12) > 0? Math.floor(dateDiff/12) + ' ปี': '';
+                  let months = dateDiff % 12 > 0? + dateDiff % 12 + ' เดือน': '';
+                  pr.workExperience =  years + " " + months
+                }
+                pr.dateStarted = pr.dateStarted.replace('-', '/') 
+                pr.dateEnded = pr.dateEnded.replace('-', '/')
+                jobHistoryList[index] = pr
+            }
             let workExp = jobHistory.workExperience.trim().split(' ')
             if(workExp.length > 2){
               totalMonths += Number(workExp[2])
@@ -354,6 +389,7 @@ export class RegisterComponent implements AfterViewInit {
           if (this.registerFormOperator.invalid) {
           return;
         }else{
+          this.buttonFlag = true
           this.loadingFlag = true;
           newUser = this.registerFormOperator.value;
           newUser['role'] = 'ผู้ประกอบการ'
@@ -364,6 +400,7 @@ export class RegisterComponent implements AfterViewInit {
           this.backSlideStudent()
           return;
         }else{
+          this.buttonFlag = true
           this.loadingFlag = true;
           newUser = this.registerFormStudent.value;
           newUser['role'] = 'เภสัชกร';
@@ -380,6 +417,7 @@ export class RegisterComponent implements AfterViewInit {
           this.createAccount(newUser)
         }
         else{
+          this.buttonFlag = false
           this.loadingFlag = false
           this.backSlide()
           this.errorMessage = 'ชื่อหรือนามสกุลหรือเลขใบประกอบของท่านไม่ถูกต้องตามฐานข้อมูลรายชื่อผู้ประกอบวิชาชีพเภสัชกรรม'
@@ -430,6 +468,7 @@ export class RegisterComponent implements AfterViewInit {
         .catch((error)=>{
           this.loadingFlag = false;
           const code = error.code;
+          this.buttonFlag = false
           switch(code){
             case 'auth/weak-password':
               this.errorMessage = 'รหัสผ่านต้องอย่างน้อย 6 ตัวอักษร';

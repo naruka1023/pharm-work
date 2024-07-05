@@ -46,6 +46,11 @@ export const setBanner = createAction(
   props<{ banner: { [key: string]: string[] }}>()
 )
 
+export const setBannersFlag = createAction(
+  '[Job-Post] Set Banners Flag',
+  props<{ bannersFlag: { [key: string]: boolean }}>()
+)
+
 export const removeBookmark = createAction(
   '[Job-Post] Remove Bookmark',
   props<{ jobUID: string, userUID: string}>()

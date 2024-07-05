@@ -79,6 +79,9 @@
     }
 }
 @media only screen and (max-width: 400px) {
+    .compList{
+        font-size:0.8rem !important
+    }
     .fourPointKeyValuePreferred{
         font-size:3.5vw!important
     }

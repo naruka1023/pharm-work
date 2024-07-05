@@ -3,12 +3,12 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { aggregationCount, notificationContent, notifications, requestView, requestViewList, User } from '../model/typescriptModel/users.model';
-import { addDoc, collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, onSnapshot, orderBy, query, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collection, deleteDoc, doc, Firestore, getCountFromServer, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from '@angular/fire/firestore';
 import { modifyRequestView, removeRequestView, setRequestView } from '../state/actions/request-view.actions';
-import { url } from 'src/environments/environment';
+import { url, limitBanner } from 'src/environments/environment';
 import { removeNotifications, modifyNotifications, addNotifications } from '../state/actions/notifications.actions.';
 import { userOperator } from '../model/typescriptModel/jobPost.model';
-
+import { setBannersFlag } from '../state/actions/job-post.actions';
 @Injectable({
   providedIn: 'root'
 })
@@ -83,6 +83,16 @@ export class UserServiceService {
   updateNotifications(notification: Partial<notificationContent>){
     return updateDoc(doc(this.firestore, 'notification-archive', notification.notificationID!), notification)
   } 
+  getLimitBanner(){
+    return getDocs(query(collection(this.firestore, 'banners'))).then((value: any)=>{
+      let resultPayload = value.docs.map((row: any)=> row.data())
+      resultPayload = resultPayload[0]
+      Object.keys(resultPayload).map((key)=>{
+        resultPayload[key] =  resultPayload[key].length < limitBanner[key]?false: true
+      })
+      this.store.dispatch(setBannersFlag({bannersFlag: resultPayload}))
+    })
+  }
   updateUser(user: Partial<User>){
     return updateDoc(doc(this.firestore, 'users', user.uid!), user)
   } 
@@ -115,7 +125,6 @@ export class UserServiceService {
             this.store.dispatch(modifyNotifications({notification: notificationPayload.payload}))
             break;
         }
-        console.log('notification array length', notificationArray.length)
         if(notificationArray.length > 0){
           let finalNotificationPayload: {
             [key:string]: notificationContent

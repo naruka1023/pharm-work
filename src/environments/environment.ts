@@ -17,6 +17,14 @@ export const algoliaEnvironment = {
   api_key: '41292c1f6520cc8d83b9fbdc044fbc0d',
   user_api_key:'578b006f28d32e3f156838d8ca6f55c5'
 }
+export const limitBanner: {[key:string]:number} = {
+  A1: 5,
+  A2: 3,
+  A3: 3,
+  A4: 3,
+  B1: 3,
+  B2: 42
+}
 export const url = {
   licenseAuthentication: 'https://us-central1-pharm-work.cloudfunctions.net/authenticateLicense/start',
   addUrgentJob: 'https://us-central1-pharm-work.cloudfunctions.net/addUrgentJob',

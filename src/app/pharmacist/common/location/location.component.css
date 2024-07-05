@@ -23,3 +23,6 @@
 .form-group{
     text-align:left
 }
+select > option{
+    color: black
+}

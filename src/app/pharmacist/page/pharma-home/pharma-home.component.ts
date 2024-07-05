@@ -9,6 +9,7 @@ import headerArray from '../../model/data/uiKeys';
 import _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { bannerOperator } from '../../model/typescriptModel/users.model';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Mousewheel]);
 
@@ -85,6 +86,17 @@ export class PharmaHomeComponent {
     }
   }
 
+  shuffle(inputArray: string[]){ 
+    let array = [...inputArray]
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array; 
+  }; 
+
   dispatchJobs() {
     let categorySymbols = headerArray.map((header:filterConditions)=> header.CategorySymbol)
     let promises: Promise<any>[] = []
@@ -93,7 +105,7 @@ export class PharmaHomeComponent {
       count: number;
     }>[] = []
     this.jobPostService.getBanners().then((banner)=>{
-      let ref = banner.data()!
+      let ref: any = banner.data()!
       this.store.dispatch(setBanner({banner: ref}))
       categorySymbols.forEach((categorySymbol: string)=>{
         countPromises.push(this.jobPostService.getCategorySymbolCount(categorySymbol))
@@ -122,10 +134,18 @@ export class PharmaHomeComponent {
               )
               break;
             case 'BA':
-              // let idList : string[] = ref['B1'].concat(ref['B2'])
-              let idList : string[] = headerArray.find((header)=>{
-                return header.CategorySymbol == 'BA'
-              })!.idList!
+              let resultBanner: string[] = ref['B2']
+              if(resultBanner.length > 0){
+                resultBanner = this.shuffle(resultBanner)
+                if(resultBanner.length > 12){
+                  resultBanner = resultBanner.slice(0, 12)
+                }
+                ref = {
+                  ...ref,
+                  B2: resultBanner
+                }
+              }
+              let idList : string[] = ref['B1'].concat(ref['B2'])
               promises.push(
                 this.jobPostService.getOperatorsByType(idList).then((operators)=>{
                   let res: jobPostPayload = {

@@ -81,10 +81,6 @@
 .fourPointKeyValuePreferred, .fourPointKeyValue{
   display:flex
 }
-.container{
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
 @media only screen and (max-width: 1400px) {
   .mainHeader > h2{
     font-size:2.5rem !important

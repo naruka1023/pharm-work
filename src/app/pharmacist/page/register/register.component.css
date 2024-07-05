@@ -14,6 +14,19 @@
 .nav-link{
     color:black
   }
+  select > option{
+    color: black
+  }
+  ::placeholder {
+    color: #949191;
+    opacity: 1; 
+  }
+  option:disabled{
+    color: #949191;
+  }
+  ::-ms-input-placeholder {
+    color: #949191;
+  }
   .nav-tabs .nav-pharma.active{
     color:#7fd858 !important
   }

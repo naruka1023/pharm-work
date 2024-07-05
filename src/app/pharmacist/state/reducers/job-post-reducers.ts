@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
 import { AppState, BookmarkList, Follow, filterConditions, userOperator } from '../../model/typescriptModel/jobPost.model';
-import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest, updateJobFromJobCategory, retrievedJobCategoryHomeSuccess, updateJobFromHome, paginateJobCategory, setExistingOperatorData, toggleJobs, setBanner } from '../actions/job-post.actions';
+import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest, updateJobFromJobCategory, retrievedJobCategoryHomeSuccess, updateJobFromHome, paginateJobCategory, setExistingOperatorData, toggleJobs, setBanner, setBannersFlag } from '../actions/job-post.actions';
 
 const emptyOperator = {
   email: '',
@@ -28,6 +28,7 @@ export const initialState: AppState = {
   loading: true,
   JobPost: headerArray,
   Banners: {},
+  BannersFlag: {},
   Bookmarks: {},
   JobRequests:{},
   Follows:{},
@@ -37,6 +38,11 @@ export const jobPostReducer = createReducer(
   initialState,
   on(toggleJobs, (state) =>{
     return state
+  }),
+  on(setBannersFlag, (state, {bannersFlag}) =>{
+    let newState: AppState =  _.cloneDeep(state);
+    newState.BannersFlag = bannersFlag
+    return {...newState}
   }),
   on(setBanner, (state, {banner}) =>{
     let newState: AppState =  _.cloneDeep(state);

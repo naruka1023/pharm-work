@@ -57,15 +57,10 @@
 											<i class="y-auto bi bi-bootstrap"></i>
 										</p>
 										<div class="d-flex flex-row my-auto"  *ngIf="content.Salary.Suffix == 'SalaryNumbers' && content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
-											<div class="mx-2"><b>{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</b></div>
+											<div class="mx-2"><b>{{content.Salary.Amount}}{{content.Salary.Cap != 0? ' - ': '' }}{{content.Salary.Cap != 0?content.Salary.Amount! + content.Salary.Cap!: ''}}</b></div>
 										</div>
 										<div class="d-flex flex-row my-auto"  *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
 											<div class="mx-2"><b>{{ content.Salary.Suffix | salaryType}}</b></div>
-										</div>
-										<div *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
-											<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
-											<ng-template #fullSub><b>บาท/เดือน</b></ng-template>
-											<ng-template #partSub><b>บาท/ชม</b></ng-template>
 										</div>
 									</div>
 									<div class="d-flex mb-sm-3 mb-1" *ngIf="urgentFlag">
@@ -73,13 +68,8 @@
 											<i class="my-auto bi bi-bootstrap"></i>
 										</p>
 										<div class="d-flex flex-row my-auto">
-											<div class="mx-2" *ngIf="content.Salary.Suffix == 'SalaryNumbers'"><b>{{content.Salary.Amount}} - {{content.Salary.Amount + content.Salary.Cap}}</b></div>
+											<div class="mx-2" *ngIf="content.Salary.Suffix == 'SalaryNumbers'"><b>{{content.Salary.Amount}}{{content.Salary.Cap != 0? ' - ': '' }}{{content.Salary.Cap != 0?content.Salary.Amount! + content.Salary.Cap!: ''}}</b></div>
 											<div class="mx-2" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'"><b>{{content.Salary.Suffix | salaryType}}</b></div>
-											<div *ngIf="content.Salary.Suffix == 'SalaryNumbers'">
-												<ng-container *ngIf="fullTimeFlag === true; then fullSub; else partSub"></ng-container>
-												<ng-template #fullSub><b>บาท/เดือน</b></ng-template>
-												<ng-template #partSub><b>บาท/ชม</b></ng-template>
-											</div>
 										</div>
 									</div>
 									<div class="d-flex mb-sm-3 mb-1">

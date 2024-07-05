@@ -1,8 +1,8 @@
-<div class="container" [ngSwitch]="profileType">
+<div [ngSwitch]="profileType" class="container">
     <div *ngSwitchCase="'operator-profile'">
-        <div class="container  standard-shadow px-0" style="background: white; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;">
+        <div class="standard-shadow px-0" style="background: white; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;">
             <div style="position:relative">
-                <div *ngIf="editCoverPhotoFlag"  id="coverPhotoEditButtonPositionDropdown"  class="dropdown me-md-3 d-sm-block d-none" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '6'}">
+                <div *ngIf="editCoverPhotoFlag"  id="coverPhotoEditButtonPositionDropdown"  class="dropdown me-md-3 d-sm-block d-none" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '-0.1rem', 'z-index': '6'}">
                     <button data-bs-toggle="dropdown" 
                             aria-expanded="false" 
                             aria-expanded="false" 
@@ -45,7 +45,7 @@
                             <input type="file" id="profilePictureFile" (change)="editProfilePictureClick($event, '')" hidden/>
                         <div>
                             <div class="operatorHeader">
-                                <div class="h3 companyName m-4 ms-lg-5 ms-md-3 mb-0 me-md-2" >{{result.companyName | emptyField}}</div>
+                                <div class="title m-4 ms-lg-5 ms-md-3 mb-0 me-md-2" >{{result.companyName | emptyField}}</div>
                                 <h5 style='align-self:end' class="h4 subheaderLocation my-2 ms-lg-5 ms-md-3 mb-0 me-md-2"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyField}}, {{result.Location?.Province | emptyField}}</h5>
                                 <span class="badge rounded-pill me-2 ms-lg-5 mt-3 fs-4 purple-color" style="line-break: auto" ><b>บัญชีผู้ประกอบการ</b></span>
                             </div>
@@ -58,14 +58,14 @@
                             <!-- <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
                         </div>
                         <div class="editButton d-lg-flex d-none justify-content-end me-3">
-                            <div class='d-flex align-items-center'>        
+                            <!-- <div class='d-flex align-items-center'>        
                                 <button class="btn btn-light textResponsive ms-lg-3 border-input button-width" type="button" (click)="goToPortal()">ข้อมูลการซื้อ</button>
                                     <div style="text-align:center" *ngIf="portalLoadingFlag">
                                         <div class="spinner-border text-primary" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                         </div>
                                     </div>
-                            </div>
+                            </div> -->
                             <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div> -->
                             <!-- <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
                         </div>
@@ -107,14 +107,14 @@
                             </button>
                         </div>
                         <div>
-                            <div class='d-flex d-lg-none justify-content-center align-items-center'>
+                            <!-- <div class='d-flex d-lg-none justify-content-center align-items-center'>
                                 <button class="editButtonText border-input btn btn-light fs-4 ms-sm-3 mb-sm-0 mb-1 me-md-3 d-lg-none" type="button" style="min-width:10em" (click)="goToPortal()">ข้อมูลการซื้อ</button>
                                 <div class="ms-3" style="text-align:center" *ngIf="portalLoadingFlag">
                                     <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- <div class="ms-3"><a (click)="openPageView()"><i data-bs-toggle="tooltip" title='ปุ่มมุมมองผู้อื่น' class="user-buttons bi bi-eye"></i></a></div>
                         <div class="mx-3"><a><i data-bs-toggle="tooltip" title='ตั้งค่า' class="user-buttons bi bi-gear"></i></a></div> -->
@@ -170,7 +170,7 @@
                 <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150"  style="z-index: 2; position: relative"/>
                 <div>
                     <div class="d-flex mainHeader">
-                        <h3 class="mainHeaderContent m-4 mb-0 me-md-2">{{result.Establishment | emptyField}}</h3> 
+                        <h3 class="mainHeaderContent title m-4 mb-0 me-md-2">{{result.Establishment | emptyField}}</h3> 
                     </div>
                     <div>
                         <h4 class="mainHeaderContent2 mx-4"><i>{{result.JobType | emptyField}}</i></h4>
@@ -189,7 +189,7 @@
                     <div class="d-flex flex-row innerHeaderPharma align-items-center">
                         <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" style="z-index: 2; position: relative"/>
                         <div class="mainHeader flex-start align-items-baseline">
-                            <div class="mb-0 ms-lg-5 me-0 mainHeaderContent h3">{{result.nickName | emptyField}}</div>
+                            <div class="mb-0 ms-lg-5 me-0 title mainHeaderContent title">{{result.nickName | emptyField}}</div>
                             <div class="mainHeaderContent h3 my-2 ms-lg-5">
                                 <div class="d-flex h4">
                                     <i class="bi bi-geo-fill me-3"></i><div style='align-self:end'>{{result.Location?.District | emptyField}}, {{result.Location?.Province | emptyField}}</div>

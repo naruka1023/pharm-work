@@ -166,15 +166,15 @@ export class EditJobComponent implements OnDestroy{
   salaryRadioChange(event: any){
     if(event.target.value !== 'SalaryNumbers'){
       this.newJobForm.get('Salary.salaryEnd')!.disable()
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue("")
       this.newJobForm.get('Salary.salaryStart')!.disable()
       this.newJobForm.get('Salary.salaryStart')?.patchValue("")
-      this.newJobForm.get('Salary.salaryEnd')?.patchValue("")
     }else{
-      this.newJobForm.get('Salary.salaryStart')!.enable()
       this.newJobForm.get('Salary.salaryEnd')!.enable()
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue(this.salaryEnd)
+      this.newJobForm.get('Salary.salaryStart')!.enable()
 
       this.newJobForm.get('Salary.salaryStart')?.patchValue(this.salaryStart)
-      this.newJobForm.get('Salary.salaryEnd')?.patchValue(this.salaryEnd)
     }
   }
   scrollUp(){
@@ -289,7 +289,7 @@ searchMap(event: any){
       _geoloc: [''],
       Duration: [''],
       timeStart: this.urgency?['', [Validators.required]]: [''],
-      timeEnd: this.urgency?['', [Validators.required]]: [''],
+      timeEnd: [''],
       Urgency: [this.urgency],
       Salary: this.fb.group({
         Amount:[''],
@@ -338,18 +338,22 @@ searchMap(event: any){
       this.newJobForm.addControl('Franchise', this.fb.control(['']));
     }
     if(!this.urgency){
-      this.newJobForm.addControl('qualityApplicants', this.fb.control('', Validators.required)); 
       this.newJobForm.addControl('jobBenefits', this.fb.control('', Validators.required)); 
-      this.newJobForm.addControl('applyInstructions', this.fb.control('', Validators.required)); 
     }else{
       this.newJobForm.addControl('DateOfJob', this.fb.control('', Validators.required))
     }
+    this.newJobForm.addControl('qualityApplicants', this.fb.control('', Validators.required)); 
+    this.newJobForm.addControl('applyInstructions', this.fb.control('', Validators.required)); 
   }
 
   get getEditNewForm(): { [key: string]: AbstractControl } {
     return this.newJobForm.controls;
   }
 
+  styleSelect(id: string){
+    document.getElementById(id)!.style.color = 'black'
+  }
+  
   onUpdate(){
     this.submitted = true;
     this.locationSubmitted = true
@@ -362,7 +366,7 @@ searchMap(event: any){
           Salary: {
             Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: Math.round(this.newJobForm.value.Salary.salaryStart),
             Suffix: this.newJobForm.value.Salary.Suffix == 'CustomSuffix'? this.customSuffix:this.newJobForm.value.Salary.Suffix,
-            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? Math.round(this.newJobForm.value.Salary.salaryEnd) - Math.round(this.newJobForm.value.Salary.salaryStart): 0
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== null &&this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '' && this.newJobForm.value.Salary.salaryEnd !== 0)? Math.round(this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart): 0
           }
         };
         processedInfo.Salary!.Amount = Math.round(processedInfo.Salary!.Amount);

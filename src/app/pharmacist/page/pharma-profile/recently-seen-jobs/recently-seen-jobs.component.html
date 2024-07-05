@@ -2,13 +2,13 @@
 <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
 <ng-template #empty>
     <div class="row d-flex justify-content-center">
-        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col mt-5">
+        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
             <img class="w-100" src="assets/empty/emptyRecent.png">
         </div>
     </div>
 </ng-template>
 <ng-template #notEmpty>
-    <div class="container">
+    <div>
         <ng-container *ngFor="let bookmark of recentlySeen$ | async, index as i">
             <app-job-post-normal-card  [content]="bookmark!" [urgentFlag]="bookmark!.Urgency" [fullTimeFlag]="bookmark!.TimeFrame =='Full-Time'"></app-job-post-normal-card>
             <hr style="width:95%; margin:auto; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0">

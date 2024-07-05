@@ -27,15 +27,15 @@
     <ng-template #register>
         <div class="form-group" [formGroupName]="formGroupName">
             <div class="my-3"><label class="text-danger" style="visibility:hidden">*</label>มองหางานพื้นที่</div>
-            <select formControlName="Province" (change)="provinceSelected()" name="province" class="border-input form-select mb-3" style="background-color:#f2f2f2">
+            <select formControlName="Province" (change)="provinceSelected()" name="province" class="border-input form-select mb-3" id="provinceID" (change)="styleSelect('provinceID')" style="color:#949191; background-color:#f2f2f2">
                 <option value="" disabled selected>จังหวัด</option>
                 <option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
             </select>
-            <select formControlName="District" (change)="districtSelected()" name="district" class="border-input form-select mb-3" style="background-color:#f2f2f2">
+            <select formControlName="District" (change)="districtSelected()" name="district" class="border-input form-select mb-3" id="districtID" (change)="styleSelect('districtID')" style="color:#949191; background-color:#f2f2f2">
                 <option value="" disabled selected>เขต</option>
                 <option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
             </select>
-            <select formControlName="Section" (change)="sectionSelected()" name="section" class="border-input form-select mb-3" style="background-color:#f2f2f2">
+            <select formControlName="Section" (change)="sectionSelected()" name="section" class="border-input form-select mb-3" id="sectionID" (change)="styleSelect('sectionID')" style="color:#949191; background-color:#f2f2f2">
                 <option value="" disabled selected>แขวง</option>
                 <option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
             </select>

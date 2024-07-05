@@ -1,8 +1,8 @@
-<div [ngSwitch]="profileType">
-        <div *ngSwitchCase="'pharmacist-profile'" >
-            <div class="container standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
+<div [ngSwitch]="profileType" class="container">
+        <div *ngSwitchCase="'pharmacist-profile'">
+            <div class="standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
                 <div style="position:relative">
-                    <div *ngIf="editCoverPhotoFlag" id="coverPhotoEditButtonPositionDropdown" class="dropdown me-md-3 d-sm-block d-none" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '0.5rem', 'bottom': '0.5rem', 'z-index': '6'}">
+                    <div *ngIf="editCoverPhotoFlag" id="coverPhotoEditButtonPositionDropdown" class="dropdown me-md-3 d-sm-block d-none" [ngStyle]="{'visibility': photoFlag, 'position': 'absolute', 'right': '-0.1rem', 'bottom': '0.5rem', 'z-index': '6'}">
                         <button data-bs-toggle="dropdown" 
                                 aria-expanded="false" 
                                 class="border-input btn btn-secondary textResponsive buttonWidth coverPhotoEditButtonPosition">
@@ -43,24 +43,11 @@
                             </ul>
                             <input type="file" id="profilePictureFile" (change)="editProfilePictureClick($event, '')" hidden/>
                         <div>
-                            <ng-container *ngIf="editFlag; then editNickName; else displayNickName"></ng-container>
-                            <ng-template #editNickName>
-                                <div class="ms-lg-5">
-                                    <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
-                                        <input class="form-control fs-3 mx-sm-0 text-center border-input" formControlName="nickName">
-                                    </form>
-                                </div>
-                                <div class="d-flex mainHeader">
-                                    <h5 style='align-self:end' class="mainHeaderContent mb-0 mt-1 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
-                                </div>
-                            </ng-template>
-                            <ng-template #displayNickName>
-                                <div class="mainHeader">
-                                    <h3  class="mb-0 ms-lg-5 me-0 mainHeaderContent">{{result.nickName}}</h3>
-                                     <h5 style='align-self:end' class="mainHeaderContent mb-0 ms-lg-5"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
-                                    <span class="badge rounded-pill me-2 ms-lg-5 mt-3 fs-4" [ngClass]="result.studentFlag && result.studentFlag !== undefined?'blue-color': 'green-color'" style="line-break: auto" ><b>{{result.studentFlag && result.studentFlag !== undefined?'บัญชีนักศึกษาเภสัช':'บัญชีเภสัชกร'}}</b></span>
-                                    </div>
-                            </ng-template>
+                        <div class="mainHeader">
+                            <div  class="mb-0 me-0 mainHeaderContent title">{{result.nickName}}</div>
+                                <h5 style='align-self:end' class="mainHeaderContent mb-0"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</h5>
+                            <span class="badge rounded-pill me-2 mt-3 textProfileResponsive" [ngClass]="result.studentFlag && result.studentFlag !== undefined?'blue-color': 'green-color'" style="line-break: auto" ><b>{{result.studentFlag && result.studentFlag !== undefined?'บัญชีนักศึกษาเภสัช':'บัญชีเภสัชกร'}}</b></span>
+                        </div>
                             <div>
                                 <!-- <h6 class="mx-4"><i>{{profileInformation.JobType}}</i ></h6> -->
                             </div>
@@ -68,16 +55,13 @@
                     </div>
                     <div>
                         <div class="editButton fs-2 text-center justify-content-end align-items-center">
-                            <div *ngIf="introTextLoadingFlag" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
                             <div class="mb-sm-3">
-                                <button *ngIf="!editFlag" class="editButtonText buttonWidth border-input btn btn-light textResponsive ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
+                                <button *ngIf="!editFlag" class="editButtonText buttonWidth border-input btn btn-outline-secondary textResponsive ms-md-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="editIntroTextClicked()">
                                     แก้ไขโปรไฟล์
                                 </button>
                             </div>
                             <div *ngIf="result.studentFlag && result.studentFlag !== undefined">
-                                <button class="btn-outline-primary buttonWidth border-input textResponsive coverPhotoEditButtonPosition btn ms-sm-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="upgradeModalClick()">
+                                <button class="btn-outline-primary buttonWidth border-input textResponsive coverPhotoEditButtonPosition btn ms-md-3 mb-sm-0 mb-1 me-md-3" type="button" (click)="upgradeModalClick()">
                                     อัพเกรดบัญชี
                                 </button>
                                 <div class="textResponsiveSmaller text-warning" *ngIf="result.requestChangeStatus !== undefined">รอการตรวจสอบ</div>
@@ -171,28 +155,12 @@
     
                     </div>
                 </div>
-                <ng-container *ngIf="editFlag; then edit; else display"></ng-container>
-                <ng-template #edit>
-                    <div class="d-flex">
-                        <div class="pb-5 ms-sm-5 mx-sm-0 mx-3">
-                            <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
-                                <textarea class="form-control textProfileResponsive quazi-border-input" formControlName="introText" id="exampleFormControlTextarea1" cols="50"></textarea>
-                                <div class="d-flex justify-content-sm-end justify-content-center mt-3">
-                                    <button class="fs-3 btn btn-light"  (click)="cancelIntroText()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                                    <button type="submit" class="ms-3 btn fs-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </ng-template>
-                <ng-template #display>
-                    <div class="d-flex ms-sm-5">
-                        <div class="textProfileResponsive pb-5 introText" [ngStyle]="{'display':result.introText == undefined?'none':'block'}">{{result.introText}}</div>
-                    </div>
-                </ng-template>
+                <div class="d-flex ms-sm-5">
+                    <div class="textProfileResponsive pb-5 introText" [ngStyle]="{'display':result.introText == undefined?'none':'block'}">{{result.introText}}</div>
+                </div>
             </div>
         </div>
-        <div *ngSwitchCase="'job-post'" class="container standard-shadow" style="border-bottom-left-radius:40px; border-bottom-right-radius:40px">
+        <div *ngSwitchCase="'job-post'" class="standard-shadow" style="border-bottom-left-radius:40px; border-bottom-right-radius:40px">
             <div style="position:relative">
                 
                 <div id="coverPhoto"  class="coverPhoto img-container mh-100">
@@ -204,7 +172,7 @@
                     <img class="job-post_profile-picture border border-5 border-white rounded-circle" (click)="goToOperatorProfile()" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                     <div>
                         <div class="mainHeader">
-                            <h3 class="ms-lg-5 me-0 mainHeaderContent">{{result.Establishment | emptyFieldPipe}}</h3> 
+                            <div class="ms-lg-5 me-0 mainHeaderContent title">{{result.Establishment | emptyFieldPipe}}</div> 
                         </div>
                         <div class="d-lg-flex ms-lg-5"> 
                             <h4 class="mainHeaderContent ms-lg-0 ms-md-4 me-md-3 my-md-0 my-2 align-self-center"><i>{{result.JobType | emptyFieldPipe}}</i></h4>
@@ -238,7 +206,7 @@
                 </div>
             </div>
         </div>
-        <div *ngSwitchCase="'operator-profile'"  class="container px-0 pb-2 standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
+        <div *ngSwitchCase="'operator-profile'"  class="px-0 pb-2 standard-shadow" style="background: white; border-bottom-left-radius:40px; border-bottom-right-radius:40px;">
             <div id="coverPhoto"  class="coverPhoto img-container mh-100">
                 <img id="innerPhoto" class="innerCoverPhoto" [src]="result.coverPhotoPictureUrl" />
             </div>
@@ -246,7 +214,7 @@
                 <div class="outerHeader m-4 d-flex justify-content-between align-items-center">
                     <img class="job-post_profile-picture border border-5 border-white rounded-circle" [src]="result.cropProfilePictureUrl !== undefined? result.cropProfilePictureUrl: result.profilePictureUrl" alt="Profile Picture" width="150" height="150" />
                         <div class="align-items-center mainHeader">
-                            <div class="h3 companyName m-4 ms-lg-5 ms-md-3 mb-0 me-md-2">{{result.companyName | emptyFieldPipe}}</div> 
+                            <div class="title m-4 ms-lg-5 ms-md-3 mb-0 me-md-2">{{result.companyName | emptyFieldPipe}}</div> 
                             <div style='align-self:end' class="h4 subheaderLocation my-2 ms-lg-5 ms-md-3 mb-0 me-md-2"><i class="bi bi-pin-map-fill me-1"></i> {{result.Location?.District | emptyFieldPipe}}, {{result.Location?.Province | emptyFieldPipe}}</div>
                         </div>
                         <!-- <div>
@@ -336,7 +304,7 @@
           <div class="modal-content quazi-border-input standard-shadow">
               <div class="modal-body">
                   <div [ngSwitch]="upgradeStage">
-                    <div class="text-center textProfileResponsive mt-5 mb-3">อัพเกรดบัญชีเภสัชกร</div>
+                    <div class="text-center textProfileResponsive mt-sm-5 mt-1 mb-3">อัพเกรดบัญชีเภสัชกร</div>
                     <div *ngSwitchCase="'first'" class="m-3">
                         <div class="p-2 textProfileResponsive">
                             <img style="width:90%" src="assets/upgradeStudentWeb.png" class="d-md-block d-none">
@@ -352,15 +320,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="m-3 textProfileResponsive" *ngSwitchCase="'second'">
-                        <div class="loading" [ngStyle]="{'visibility': upgradeLoadingFlag?'unset': 'hidden'}">
-                            <div style="text-align:center">
+                    <div class="m-sm-3 textProfileResponsive" *ngSwitchCase="'second'">
+                        <div [ngStyle]="{'display': upgradeLoadingFlag?'unset': 'none'}">
+                            <div style="text-align:center" class="mb-3">
                                 <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading...</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-4 textProfileResponsive mb-5 cyan-color quazi-border-input">
+                        <div class="p-4 textProfileResponsive mb-sm-5 cyan-color quazi-border-input">
                             <div class="my-3 text-center">ส่งข้อมูลการขออัพเกรดบัญชีเป็นบัญชีเภสัชกร</div>
                             <form [formGroup]="upgradeToPharmaForm">
                                 <ul class="textResponsive">
@@ -399,8 +367,8 @@
                             </form>
                         </div>
                     </div>
-                    <div *ngSwitchCase="'requestChange'" class="m-3">
-                        <div class="p-2 px-4 textResponsive my-5 light-red-color quazi-border-input text-center" [formGroup]="requestChangeForm">
+                    <div *ngSwitchCase="'requestChange'" class="m-sm-3">
+                        <div class="p-2 px-4 textResponsive my-sm-5 light-red-color quazi-border-input text-center" [formGroup]="requestChangeForm">
                             <div class="my-4 textProfileResponsive">คำขอแก้ไขข้อมูลที่ผิดพลาด</div>
                             <div class="p-3 textResponsive quazi-border-input mb-3" style="border:1px solid red">
                                 <ul>
@@ -545,12 +513,40 @@
           </div>
         </div>
       </div>
+    <div class="modal fade" id="editHeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content semi-border-input standard-shadow">
+            <div class="modal-body">
+                <div class="ms-lg-5">
+                    <form [formGroup]="introTextForm" (ngSubmit)="onSave()">
+                        <div class="textProfileResponsive text-center my-3"><b>แก้ไขโปรไฟล์</b></div>
+                        <div class="mb-3" [ngStyle]="{'visibility': introTextLoadingFlag?'unset': 'hidden', 'align-items':'center', 'display': 'flex', 'justify-content':'center', 'overflow': 'hidden'}">
+                            <div>
+                                <div style="text-align:center">
+                                    <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="form-control textProfileResponsive mb-3 mx-sm-0 quazi-border-input" formControlName="nickName">
+                        <textarea class="form-control textProfileResponsive mb-3 quazi-border-input" formControlName="introText" id="exampleFormControlTextarea1" cols="50"></textarea>
+                        <div class="d-flex justify-content-sm-end justify-content-center">
+                            <button class="textProfileResponsive btn btn-light"  (click)="cancelIntroText()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
+                            <button type="submit" class="ms-3 btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content semi-border-input standard-shadow">
             <div class="modal-body">
                 <div [ngStyle]="{'align-items':'center', 'display': 'flex', 'justify-content':'center', 'overflow': 'hidden', 'height' : '50vh'}">
-                        <div class="loading" *ngIf="loadProfilePictureFlag">
+                        <div *ngIf="loadProfilePictureFlag">
                             <div style="text-align:center">
                                 <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading...</span>

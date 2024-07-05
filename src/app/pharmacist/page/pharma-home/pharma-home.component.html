@@ -51,18 +51,18 @@
                         </ng-template>
                         <ng-template swiperSlide>
                             <div class="img-container">
+                                <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
+                            </div>
+                        </ng-template>
+                        <ng-template swiperSlide>
+                            <div class="img-container">
                                 <img class="landing-page_img" src="assets/banner8.png">
                             </div>
                         </ng-template>
-                        <!-- <ng-template swiperSlide>
-                            <div class="img-container">
-                                <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
-                            </div>
-                        </ng-template> -->
                     </ng-template>
                 </swiper>
             </div>
-            <div *ngFor="let header of items$ | async" class="mt-5">
+            <div *ngFor="let header of items$ | async">
                 <app-swiper-module [filterFlags]="header"></app-swiper-module>
             </div>
         </ng-template>

@@ -145,6 +145,13 @@
             </div>
             <div class="w-100">
                 <label class=" form-label my-3"><b>ประวัติการศึกษา</b></label>
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="m-3 ms-0 d-sm-block d-none" style="visibility:hidden">
+                <b><i class="bi bi-mortarboard-fill "></i></b>
+            </div>
+            <div class="w-100">
                 <div class="verticalKeyGap">
                     <div style="width:-webkit-fill-available; width:-moz-available">
                         <div class="keyValueGap">
@@ -294,7 +301,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-1 d-flex justify-content-center">
+                        <div class="col-1 d-flex justify-content-center mx-sm-0 mx-2">
                             <i *ngIf="i == 0" (click)="addEducation()" class="textProfileResponsive button bi bi-plus-circle"></i>
                             <i type="button" (click)="removeEducation(i)"  *ngIf='i !== 0' class=" textProfileResponsive button bi bi-trash"></i>
                         </div>
@@ -306,8 +313,13 @@
             <div class="m-3 ms-0">
                 <b><i class="bi bi-award-fill "></i></b>
             </div>
+            <label class=" form-label my-3"><b>ประวัติการทำงาน</b></label>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="m-3 ms-0 d-sm-block d-none" style="visibility:hidden">
+                <b><i class="bi bi-award-fill "></i></b>
+            </div>
             <div class="w-100">
-                <label class=" form-label my-3"><b>ประวัติการทำงาน</b></label>
                 <ng-container formArrayName="jobHistory">
                     <ng-container [formGroupName]="i" *ngFor="let number of FormJobData; let i = index">
                         <div class="row">
@@ -364,7 +376,7 @@
                                     <ckeditor formControlName="description" class="border-input textProfileResponsive" [editor]="descriptionEditor" name="editor"></ckeditor>
                                 </div>
                             </div>
-                            <div class="col-1 d-flex justify-content-center">
+                            <div class="col-1 d-flex justify-content-center mx-sm-0 mx-2">
                                 <div>
                                     <div class="d-flex flex-start responsiveButton">
                                         <i *ngIf="i == 0" (click)="addOccupation()" class="textProfileResponsive button bi bi-plus-circle"></i>
@@ -381,8 +393,13 @@
             <div class="m-3 ms-0">
                 <b><i class="bi bi-stars"></i></b>
             </div>
+            <label class="form-label my-3"><b>ความสามารถเพิ่มเติม</b></label>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="m-3 ms-0 d-sm-block d-none" style="visibility:hidden">
+                <b><i class="bi bi-stars"></i></b>
+            </div>
             <div class="w-100">
-                <label class="form-label my-3"><b>ความสามารถเพิ่มเติม</b></label>
                 <div class="verticalKeyGap" style="width: 50%">
                     <div class="keyValueGap">
                         <div>ภาษาอังกฤษ</div>

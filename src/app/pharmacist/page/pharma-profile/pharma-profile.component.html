@@ -1,25 +1,27 @@
 <app-profileheader profileType="pharmacist-profile"></app-profileheader>
-<div id="navToScroll" class="container contentContainer standard-shadow my-4  sticky-top" style="z-index: 3; top:92px; border-radius:60px; background:white">
-  <ul class="nav nav-underline py-3 fs-3 ms-3 tabList" style="width:max-content; --bs-nav-underline-gap: 0 1 rem">
-    <li class="nav-item">
-      <a class="flex-lg-fill text-lg-center  nav-link active" id="profile-pharma" routerLink="inner-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab" aria-current="page">ฝากประวัติ</a>
-    </li>
-    <li class="nav-item">
-      <a class="flex-lg-fill text-lg-center  nav-link" id="register-jobs" routerLink="register-jobs" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">สมัครงาน</a>
-    </li>
-    <li class="nav-item">
-      <a class="flex-lg-fill text-lg-center  nav-link" id="bookmark" routerLink="bookmark" data-bs-toggle="tab" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab">งานที่บันทึก</a>
-    </li>
-    <li class="nav-item">
-      <a class="flex-lg-fill text-lg-center  nav-link" id="recently-seen-job" routerLink="recently-seen-job" data-bs-toggle="tab" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab">งานที่ดูล่าสุด</a>
-    </li>
-    <li class="nav-item">
-      <a class="flex-lg-fill text-lg-center  nav-link"  id="followers" routerLink="followers" data-bs-toggle="tab" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab">กำลังติดตาม</a>
-    </li>
-  </ul>  
-</div>
-<div class="container semi-border-input standard-shadow mt-4 py-3 px-md-5" style="background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
-      <router-outlet></router-outlet>
+<div class="container">
+  <div id="navToScroll" class="container contentContainer standard-shadow my-4  sticky-top" style="z-index: 3; top:92px; border-radius:60px; background:white">
+    <ul class="nav nav-underline py-3 fs-4 ms-3 tabList" style="width:max-content; --bs-nav-underline-gap: 0 1 rem">
+      <li class="nav-item">
+        <a class="flex-lg-fill text-lg-center  nav-link active" id="profile-pharma" routerLink="inner-profile" data-bs-toggle="tab" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab" aria-current="page">ฝากประวัติ</a>
+      </li>
+      <li class="nav-item">
+        <a class="flex-lg-fill text-lg-center  nav-link" id="register-jobs" routerLink="register-jobs" data-bs-toggle="tab" data-bs-target="#tabFive" aria-controls="tabFive" type="button" role="tab">สมัครงาน</a>
+      </li>
+      <li class="nav-item">
+        <a class="flex-lg-fill text-lg-center  nav-link" id="bookmark" routerLink="bookmark" data-bs-toggle="tab" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab">งานที่บันทึก</a>
+      </li>
+      <li class="nav-item">
+        <a class="flex-lg-fill text-lg-center  nav-link" id="recently-seen-job" routerLink="recently-seen-job" data-bs-toggle="tab" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab">งานที่ดูล่าสุด</a>
+      </li>
+      <li class="nav-item">
+        <a class="flex-lg-fill text-lg-center  nav-link"  id="followers" routerLink="followers" data-bs-toggle="tab" data-bs-target="#tabEight" aria-controls="tabEight" type="button" role="tab">กำลังติดตาม</a>
+      </li>
+    </ul>  
+  </div>
+  <div class="container semi-border-input standard-shadow mt-4 py-3 px-md-5" style="background-color:white; border-top-left-radius:20px; border-top-right-radius: 20px">
+        <router-outlet></router-outlet>
+  </div>
 </div>
 <div class="modal fade" id="myModalPharma" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">

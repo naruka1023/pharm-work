@@ -59,6 +59,7 @@ followedText: string = 'ติดตามแล้ว'
 profilePictureFile!: any
 formModal: any
 upgradeModal: any
+editHeaderModal: any
 introTextForm!: FormGroup
 upgradeToPharmaForm!: FormGroup
 requestChangeForm!: FormGroup
@@ -94,6 +95,10 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
 
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModal')
+    );
+
+    this.editHeaderModal = new window.bootstrap.Modal(
+      document.getElementById('editHeaderModal')
     );
 
     document.getElementById('studentUpgradeModal')?.addEventListener('hidden.bs.modal', ()=>{
@@ -1013,11 +1018,10 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
   cancelIntroText(){
     this.editFlag = false;
     this.resetFormGroup()
+    this.editHeaderModal.hide()
   }
   editIntroTextClicked(){
-    this.editFlag = !this.editFlag
-    if(this.editFlag == false){
+    this.editHeaderModal.show()
       this.resetFormGroup();
-    }
   }
 }

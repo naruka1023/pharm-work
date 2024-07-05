@@ -11,6 +11,9 @@ export interface registerFormOperator{
     phoneNumber: string,
     role: string
 }
+export interface bannerOperator{
+    [key:string]: string []
+}
 export interface aggregationCount{
     jobCount: number;
     userPharmaCount: number;

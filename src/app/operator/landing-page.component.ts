@@ -20,6 +20,7 @@ import { RequestJobComponent } from './page/operator-profile/request-job/request
 import moment from 'moment';
 import { url } from 'src/environments/environment';
 import { Messaging, onMessage } from '@angular/fire/messaging';
+import { UserServiceService } from '../pharmacist/service/user-service.service';
 declare let window: any;
 
 @Component({
@@ -88,7 +89,7 @@ export class LandingPageComponent implements AfterViewInit {
   successCheckoutFlag?: any 
   notificationsArchive: notificationContent[] = []
 
-  constructor(private activatedRoute: ActivatedRoute,private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService,  private route:Router, private store:Store){}
+  constructor(private activatedRoute: ActivatedRoute,private requestJobsComponent:RequestJobComponent, private operatorProfileComponent: OperatorProfileComponent,private utilService: UtilService, private fb: FormBuilder, private userService: UsersService, private userServiceService:UserServiceService, private route:Router, private store:Store){}
   
   ngOnInit(){
     this.initializeGoogleMapForm()
@@ -201,7 +202,8 @@ export class LandingPageComponent implements AfterViewInit {
         this.user = _.cloneDeep(user)
         if(this.user.uid !== '' && this.subscribeFlag){
           this.subscribeFlag = false
-          getDocs(query(collection(this.db, 'products'), where('name', 'in', ['A1', 'A2', 'A3', 'A4', 'B1', 'B2']))).then((value)=>{
+          this.userServiceService.getLimitBanner()
+          getDocs(query(collection(this.db, 'products'), where('name', 'in', ['A1', 'A2', 'A3', 'A4', 'B1', 'B2']), where('active', '==', true))).then((value)=>{
             let resultPayload: any = {}
             value.docs.forEach((innerDoc)=>{
               let ref = innerDoc.data() as any

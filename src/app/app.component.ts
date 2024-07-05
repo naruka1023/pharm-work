@@ -48,7 +48,7 @@ export class AppComponent {
     this.store.select((state: any)=>{
       return state.user.role
     }).subscribe((role)=>{
-      if(role !== '' && this.currentUrl.indexOf('landing') == -1){
+      if(role !== ''){
         const notificationFlag = this.currentUrl.indexOf('/notifications?') !== -1
         const successCheckoutFlag = this.currentUrl.indexOf('/success-checkout') !== -1
         const cancelCheckoutFlag = this.currentUrl.indexOf('/cancel-checkout') !== -1
@@ -73,117 +73,128 @@ export class AppComponent {
           });
         }
       }else{
-        if(this.currentUrl.indexOf('landing') == -1 && this.currentUrl.indexOf('notifications')  == -1 && this.currentUrl.indexOf('success-checkout')  == -1 && this.currentUrl.indexOf('cancel-checkout')  == -1){
+        if(this.currentUrl.indexOf('notifications')  == -1 && this.currentUrl.indexOf('success-checkout')  == -1 && this.currentUrl.indexOf('cancel-checkout')  == -1){
           this.route.navigate([''])
         }
       }
     })
-    if(this.currentUrl.indexOf('landing') == -1){
-      user(this.auth).subscribe((user)=>{
-        if(user){
-            this.userUID = user.uid
-            const bool = true
-            if(bool){
-              this.userService.getUser(user.uid).then((user)=>{
-                if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition((position)=>{
-                    const _geoLoc = {
-                        lng: position.coords.longitude,
-                        lat: position.coords.latitude
-                    }
-                    this.store.dispatch(setCurrentUser({
-                      user:{
-                        ...user,
-                        _geolocCurrent: _geoLoc, 
-                      }
-                    }))
-                  }, (err) => {
-                    console.warn(`ERROR(${err.code}): ${err.message}`);
-                  },{
-                    enableHighAccuracy: true,
-                    timeout:10 * 1000 * 1000,
-                    maximumAge: 0
-                  });
-                }
-                this.store.dispatch(setCurrentUser({
-                  user:{
-                    ...user,
-                    coverPhotoFlag: true
+    user(this.auth).subscribe((user)=>{
+      if(user){
+          this.userUID = user.uid
+          const bool = true
+          if(bool){
+            this.userService.getUser(user.uid).then((user)=>{
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position)=>{
+                  const _geoLoc = {
+                      lng: position.coords.longitude,
+                      lat: position.coords.latitude
                   }
-                }))
-              })
-            }else{
-              const emptyUser: User = {
-                role: '',
-                email: '',
-                uid: '',
-                license: '',
-                name: '',
-                surname: '',
-                showProfileFlag: true,
-                loading: true,
-                AmountCompleted: 0,
-                urgentTimeFrame: '',
-                urgentPreferredDay: [],
-                preferredUrgentLocation: {
-                  Province: "",
-                  District: "",
-                  Section: ""
-                },
-                urgentDescription: '',
-                introText: '',
-                WorkExperience: 0,
-                yearFlag: true,
-                nickName: '',
-                coverPhotoFlag: true,
-                highestEducation: '',
-                dateUpdated: ''
-              };
-              this.store.dispatch(setCurrentUser({user: emptyUser}));
-              this.route.navigate(['confirm'], {
-                queryParams:{
-                  email: this.auth.currentUser?.email
+                  this.store.dispatch(setCurrentUser({
+                    user:{
+                      ...user,
+                      _geolocCurrent: _geoLoc, 
+                    }
+                  }))
+                }, (err) => {
+                  console.warn(`ERROR(${err.code}): ${err.message}`);
+                },{
+                  enableHighAccuracy: true,
+                  timeout:10 * 1000 * 1000,
+                  maximumAge: 0
+                });
+              }
+              this.store.dispatch(setCurrentUser({
+                user:{
+                  ...user,
+                  coverPhotoFlag: true
                 }
-              })
-            }
-            if(!this.clickHandler){
-              this.clickHandler = this.requestPermission.bind(this);
-            }
-            document.addEventListener('click', this.clickHandler)
-            localStorage.setItem('loginState', 'true')
+              }))
+            })
+          }else{
+            const emptyUser: User = {
+              role: '',
+              email: '',
+              uid: '',
+              license: '',
+              name: '',
+              surname: '',
+              showProfileFlag: true,
+              loading: true,
+              AmountCompleted: 0,
+              urgentTimeFrame: '',
+              urgentPreferredDay: [],
+              preferredUrgentLocation: {
+                Province: "",
+                District: "",
+                Section: ""
+              },
+              urgentDescription: '',
+              introText: '',
+              WorkExperience: 0,
+              yearFlag: true,
+              nickName: '',
+              coverPhotoFlag: true,
+              highestEducation: '',
+              dateUpdated: ''
+            };
+            this.store.dispatch(setCurrentUser({user: emptyUser}));
+            this.route.navigate(['confirm'], {
+              queryParams:{
+                email: this.auth.currentUser?.email
+              }
+            })
+          }
+          if(!this.clickHandler){
+            this.clickHandler = this.requestPermission.bind(this);
+          }
+          document.addEventListener('click', this.clickHandler)
+          localStorage.setItem('loginState', 'true')
+      }else{
+        const emptyUser: User = {
+          role: '',
+          email: '',
+          uid: '',
+          license: '',
+          urgentTimeFrame: '',
+          urgentPreferredDay: [],
+          preferredUrgentLocation: {
+            Province: "",
+            District: "",
+            Section: ""
+          },
+          urgentDescription: '',
+          name: '',
+          surname: '',
+          showProfileFlag: true,
+          loading: true,
+          AmountCompleted: 0,
+          introText: '',
+          WorkExperience: 0,
+          yearFlag: true,
+          nickName: '',
+          coverPhotoFlag: true,
+          highestEducation: '',
+          dateUpdated: ''
+        };
+        this.store.dispatch(setCurrentUser({user: emptyUser}));
+        localStorage.setItem('loginState', 'false')
+        const landingFlag = this.currentUrl.indexOf('/register') !== -1
+        let registerType = ''
+        if(landingFlag){
+          registerType = this.currentUrl.split('/register/')[1]
+          this.route.navigate(['pharma'],{
+            queryParams: 
+            { 
+              landingFlag: landingFlag,
+              registerType: registerType
+            }}
+          )
         }else{
-          const emptyUser: User = {
-            role: '',
-            email: '',
-            uid: '',
-            license: '',
-            urgentTimeFrame: '',
-            urgentPreferredDay: [],
-            preferredUrgentLocation: {
-              Province: "",
-              District: "",
-              Section: ""
-            },
-            urgentDescription: '',
-            name: '',
-            surname: '',
-            showProfileFlag: true,
-            loading: true,
-            AmountCompleted: 0,
-            introText: '',
-            WorkExperience: 0,
-            yearFlag: true,
-            nickName: '',
-            coverPhotoFlag: true,
-            highestEducation: '',
-            dateUpdated: ''
-          };
-          this.store.dispatch(setCurrentUser({user: emptyUser}));
-          localStorage.setItem('loginState', 'false')
           this.route.navigate(['pharma'])
         }
-      })
-    }
+      }
+    })
   }
   requestPermission (uid: any) {
     document.removeEventListener('click', this.clickHandler)

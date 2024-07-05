@@ -27,6 +27,32 @@ export class AddNewJobComponent {
   constructor(private store: Store, private router:Router, private utilService: UtilService, private fb: FormBuilder,private newJobService : JobService, private route: ActivatedRoute, private landingPage: LandingPageComponent){}
   currentDate: Date = new Date()
   maxDate: Date = new Date()
+  user$!: Observable<User>;
+  userState!: User
+  timeFrame!:string  
+  newJobForm!: FormGroup;
+  customSuffix: string = '';
+  urgency!: any;
+  sub!: Promise<any>;
+  submitted: boolean = false
+  locationSubmitted: boolean = false
+  disabledFlag: boolean = true
+  nearBTSFlag: boolean = false
+  nearARLFlag: boolean = false
+  nearMRTFlag: boolean = false
+  nearSRTFlag: boolean = false
+  phone$!:Observable<string>;
+  email$!:Observable<string>;
+  line$!:Observable<string>;
+  facebook$!:Observable<string>;
+  salaryRadioFlag: boolean = false
+  flag!: Instance[] | Instance;
+  arlStations$!: Observable<string[]>;
+  srtStations$!: Observable<string[]>;
+  btsStations$!: Observable<string[]>;
+  mrtStations$!: Observable<string[]>;
+  display: any;
+  zoom: number = 15.
   emptyJobPostModel: Partial<jobPostModel> = {
     Amount: 2,
     CategorySymbol: 'fdsasd',
@@ -86,32 +112,6 @@ export class AddNewJobComponent {
     dateUpdatedUnix: 0,
     custom_doc_id: ''
   };
-  user$!: Observable<User>;
-  userState!: User
-  timeFrame!:string  
-  newJobForm!: FormGroup;
-  customSuffix: string = '';
-  urgency!: any;
-  sub!: Promise<any>;
-  submitted: boolean = false
-  locationSubmitted: boolean = false
-  disabledFlag: boolean = true
-  nearBTSFlag: boolean = false
-  nearARLFlag: boolean = false
-  nearMRTFlag: boolean = false
-  nearSRTFlag: boolean = false
-  phone$!:Observable<string>;
-  email$!:Observable<string>;
-  line$!:Observable<string>;
-  facebook$!:Observable<string>;
-  salaryRadioFlag: boolean = false
-  flag!: Instance[] | Instance;
-  arlStations$!: Observable<string[]>;
-  srtStations$!: Observable<string[]>;
-  btsStations$!: Observable<string[]>;
-  mrtStations$!: Observable<string[]>;
-  display: any;
-  zoom: number = 15.
   none: google.maps.MapOptions = {
     gestureHandling:'greedy'
   };
@@ -206,10 +206,11 @@ export class AddNewJobComponent {
   salaryRadioChange(event: any){
     if(event.target.value !== 'SalaryNumbers'){
       this.newJobForm.get('Salary.salaryEnd')!.disable()
+      this.newJobForm.get('Salary.salaryEnd')?.patchValue('')
       this.newJobForm.get('Salary.salaryStart')!.disable()
       this.newJobForm.get('Salary.salaryStart')?.patchValue('')
-      this.newJobForm.get('Salary.salaryEnd')?.patchValue('')
     }else{
+      this.newJobForm.get('Salary.salaryEnd')!.enable()
       this.newJobForm.get('Salary.salaryStart')!.enable()
       this.newJobForm.get('Salary.salaryEnd')!.enable()
     }
@@ -321,7 +322,7 @@ searchMap(event: any){
         Cap: [''],
         Suffix: 'SalaryNumbers',
         salaryStart: ['', [Validators.required]],
-        salaryEnd: ['', [Validators.required]]
+        salaryEnd: ['']
       }, 
      ),
       OnlineInterview: [false],
@@ -395,7 +396,7 @@ searchMap(event: any){
           Salary: {
             Amount: this.newJobForm.value.Salary.salaryStart == undefined? 0: Math.round(this.newJobForm.value.Salary.salaryStart),
             Suffix: this.newJobForm.value.Salary.Suffix == 'CustomSuffix'? this.customSuffix: this.newJobForm.value.Salary.Suffix,
-            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== '')? Math.round(this.newJobForm.value.Salary.salaryEnd) - Math.round(this.newJobForm.value.Salary.salaryStart): 0
+            Cap: (this.newJobForm.value.Salary.salaryEnd !== undefined && this.newJobForm.value.Salary.salaryEnd !== null && this.newJobForm.value.Salary.salaryEnd !== '' && this.newJobForm.value.Salary.salaryEnd !== 0)? Math.round(this.newJobForm.value.Salary.salaryEnd - this.newJobForm.value.Salary.salaryStart): 0
           }
         };
         processedInfo = 
@@ -439,7 +440,7 @@ searchMap(event: any){
       this.loadingFlag = true;
       let notificationPayload = {}
       if(this.urgency){
-        if(activeBoolean){
+        if(!activeBoolean){
           notificationPayload = {
             title: 'สร้างประกาศงานรายวัน "' + this.newJobForm.value.JobName + '" สำเร็จ',
             body: 'พร้อมปิดประกาศงานไว้ก่อน ผู้สมัครจะไม่สามารถค้นพบประกาศงานจนกว่าคุณจะทำการเปิดประกาศงาน',
@@ -457,7 +458,7 @@ searchMap(event: any){
           
         }
       }else{
-        if(activeBoolean){
+        if(!activeBoolean){
           notificationPayload = {
             title: 'สร้างประกาศงานทั่วไป "' + this.newJobForm.value.JobName + '" สำเร็จ',
             body: 'พร้อมปิดประกาศงานไว้ก่อน ผู้สมัครจะไม่สามารถค้นพบประกาศงานจนกว่าคุณจะทำการเปิดประกาศงาน',

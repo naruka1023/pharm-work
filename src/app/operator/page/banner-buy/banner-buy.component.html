@@ -7,6 +7,13 @@
 </div>
 <div class="container-fluid">
     <div style="font-size:4em" class="text-center headerTitle my-sm-0 my-4">แพ็คเกจแบนเนอร์หน้าหลักของเว็บไซต์</div>
+    <div class="my-3" [style]="{'visibility':bannerLimitLoadingFlag? 'hidden' : 'visible'}">
+        <div style="text-align:center">
+            <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-4 col">
             <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
@@ -44,7 +51,14 @@
                                     <div class="m-3 buyBannerContentFontSize">{{package.description}}</div>
                                 </div>
                                 <div style="text-align:center; margin-bottom:2em">
-                                    <button [disabled]="subExists(package.name)" class="btn my-1 py-1 px-5 text-center fs-4" [ngClass]="!subExists(package.name)?'blue-color': 'btn-secondary'" style="border-radius:100px; color:white" (click)="buyPackage(package.priceID, package.name)">{{!subExists(package.name)?'ซื้อแพ็คเกจ': 'สมัครแพ็คเกจแล้ว'}}</button> 
+                                    <button 
+                                        class="btn my-1 py-1 px-5 text-center fs-4" 
+                                        style="border-radius:100px; color:white" 
+                                        (click)="buyPackage(package.priceID, package.name)"
+                                        [disabled]="subExists(package.name)" 
+                                        [ngClass]="!subExists(package.name)?'blue-color': 'btn-secondary'">
+                                            {{!subExists(package.name)?'ซื้อแพ็คเกจ': buttonName(package.name)}}
+                                    </button> 
                                 </div>
                             </div>
                         </div>

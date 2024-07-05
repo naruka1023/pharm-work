@@ -94,7 +94,10 @@ export interface AppState {
     Follows: FollowList;
     Banners: {
         [key:string]: string[]
-    }
+    };
+    BannersFlag: {
+        [key:string]: boolean
+    };
     JobRequests: JobRequestList;
 }
 
