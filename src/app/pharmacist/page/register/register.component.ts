@@ -39,6 +39,7 @@ export class RegisterComponent implements AfterViewInit {
   role: string = 'เภสัชกร';
   errorMessage: string = '';
   submitted:boolean = false;
+  jobHistoryFlag: boolean = false
   storage = getStorage();
   header: string = 'สมัครสมาชิก<span class="green-text">เภสัช</span>'
   registerType: string = '';
@@ -144,6 +145,7 @@ export class RegisterComponent implements AfterViewInit {
       name: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       highestEducation: ['ปริญญาตรี'],
+      employmentFlag: false,
       contacts: this.fb.group({
         phone: ['', [Validators.required]],
         email: [''],
@@ -215,6 +217,23 @@ export class RegisterComponent implements AfterViewInit {
     {
       validators: [Validation.match('password', 'confirmPassword')]
     });
+    this.registerFormPharmacist.get('employmentFlag')?.valueChanges.subscribe((flag: any)=>{
+      if(flag){
+        this.registerFormPharmacist.patchValue({
+          jobHistory:[{
+          jobName: '-',
+          activeFlag: false,
+          companyName: '-',
+          description: '-',
+          dateStarted: '-',
+          workExperience: 0,
+          dateEnded: '-',
+        }]})
+        this.registerFormPharmacist.get('jobHistory')?.disable()
+      }else{
+        this.registerFormPharmacist.get('jobHistory')?.enable()
+      }
+    })
     this.registerFormPharmacist.get('jobHistory')?.valueChanges.subscribe((profile: any)=>{
       profile.forEach((pr:JobHistory)=>{
         if(pr.activeFlag){
@@ -347,40 +366,42 @@ export class RegisterComponent implements AfterViewInit {
 
           let totalMonths: number = 0 
           let totalYear : number = 0
-          let jobHistoryList: JobHistory[] =this.registerFormPharmacist.get('jobHistory')?.value
-          jobHistoryList.forEach((jobHistory, index)=>{
-            if(jobHistory.workExperience == 0){
-                let pr = jobHistory
-                if(pr.activeFlag){
-                  let date : any = new Date().toISOString().split('T')[0].split('-')
-                  pr.dateEnded = date[0] + '-' + date[1]
-                }
-                if(pr.dateStarted !== '' && pr.dateEnded !== ''){
-                  let dateDiff = this.calculateDateDiff(pr.dateStarted, pr.dateEnded)
-                  let years = Math.floor(dateDiff/12) > 0? Math.floor(dateDiff/12) + ' ปี': '';
-                  let months = dateDiff % 12 > 0? + dateDiff % 12 + ' เดือน': '';
-                  pr.workExperience =  years + " " + months
-                }
-                pr.dateStarted = pr.dateStarted.replace('-', '/') 
-                pr.dateEnded = pr.dateEnded.replace('-', '/')
-                jobHistoryList[index] = pr
+          if(!this.registerFormPharmacist.value.employmentFlag){
+            let jobHistoryList: JobHistory[] =this.registerFormPharmacist.get('jobHistory')?.value
+            jobHistoryList.forEach((jobHistory, index)=>{
+              if(jobHistory.workExperience == 0){
+                  let pr = jobHistory
+                  if(pr.activeFlag){
+                    let date : any = new Date().toISOString().split('T')[0].split('-')
+                    pr.dateEnded = date[0] + '-' + date[1]
+                  }
+                  if(pr.dateStarted !== '' && pr.dateEnded !== ''){
+                    let dateDiff = this.calculateDateDiff(pr.dateStarted, pr.dateEnded)
+                    let years = Math.floor(dateDiff/12) > 0? Math.floor(dateDiff/12) + ' ปี': '';
+                    let months = dateDiff % 12 > 0? + dateDiff % 12 + ' เดือน': '';
+                    pr.workExperience =  years + " " + months
+                  }
+                  pr.dateStarted = pr.dateStarted.replace('-', '/') 
+                  pr.dateEnded = pr.dateEnded.replace('-', '/')
+                  jobHistoryList[index] = pr
+              }
+              let workExp = jobHistory.workExperience.trim().split(' ')
+              if(workExp.length > 2){
+                totalMonths += Number(workExp[2])
+                totalYear += Number(workExp[0])
+              }else{
+                totalMonths += Number(workExp[0])
+              }
+            })
+            totalYear += Math.floor(totalMonths/12)
+            newUser = {
+              ...newUser,
+              jobHistory: jobHistoryList,
+              WorkExperience: totalYear == 0? totalMonths: totalYear,
+              yearFlag: totalYear !== 0, 
+              dateUpdatedUnix: Math.floor(new Date().getTime() / 1000), 
+              dateUpdated: new Date().toISOString().split('T')[0]
             }
-            let workExp = jobHistory.workExperience.trim().split(' ')
-            if(workExp.length > 2){
-              totalMonths += Number(workExp[2])
-              totalYear += Number(workExp[0])
-            }else{
-              totalMonths += Number(workExp[0])
-            }
-          })
-          totalYear += Math.floor(totalMonths/12)
-          newUser = {
-            ...newUser,
-            jobHistory: jobHistoryList,
-            WorkExperience: totalYear == 0? totalMonths: totalYear,
-            yearFlag: totalYear !== 0, 
-            dateUpdatedUnix: Math.floor(new Date().getTime() / 1000), 
-            dateUpdated: new Date().toISOString().split('T')[0]
           }
         }
         newUser.preferredJobType = this.converter.objectToArray(newUser.preferredJobType);

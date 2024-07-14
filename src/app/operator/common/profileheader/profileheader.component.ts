@@ -46,6 +46,7 @@ editFlag: boolean = false
 favoriteFlag$:Observable<boolean> = of(true);
 favoriteLoadingFlag!: boolean;
 localFlag: boolean = true;
+editHeaderModal: any
 followers$!: Observable<number>
 favoriteID!: string;
 sendUrgentJobsFlag!: boolean;
@@ -78,6 +79,11 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
   ngOnInit(){
     // firebaseApp is object created using initializeApp()
     // may need to change server location
+    this.initializeFormGroup()
+
+    this.editHeaderModal = new window.bootstrap.Modal(
+      document.getElementById('editHeaderModal')
+    );
   
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('myModal')
@@ -186,7 +192,6 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
           if(this.result.cropProfilePictureUrl == ''){
             delete this.result.cropProfilePictureUrl
           }
-            this.resetFormGroup();
           this.coverPhotoVerticalPosition = header.coverPhotoOffset!
         })
         this.followers$ = this.store.select((state: any)=>{
@@ -275,7 +280,7 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
   }
 
   cancelIntroText(){
-    this.editFlag = false;
+    this.editHeaderModal.hide()
     this.resetFormGroup()
   }
 
@@ -306,7 +311,8 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
     this.profileService.updateUser(payload).then(()=>{
       this.introTextLoadingFlag = false
       this.store.dispatch(setCurrentUser({user: payload}))
-      this.editIntroTextClicked()
+      this.editHeaderModal.hide()
+      this.resetFormGroup()
     })
   }
 
@@ -315,10 +321,8 @@ constructor(private fb: FormBuilder, private userService:UsersService, private r
   }
 
   editIntroTextClicked(){
-    this.editFlag = !this.editFlag
-    if(this.editFlag == false){
-      this.resetFormGroup();
-    }
+    this.resetFormGroup();
+    this.editHeaderModal.show()
   }
 
   ngAfterViewInit(){

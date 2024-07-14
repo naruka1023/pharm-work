@@ -110,7 +110,7 @@
     justify-content:center !important;
   }
   .outerHeader2{
-    height:16rem !important;
+    height:15rem !important;
   }
   .outerHeaderOperator{
     height:14rem !important;
@@ -159,7 +159,7 @@
   }
   .outerHeader2{
     position: relative;
-    height:20em !important;
+    height:16rem;
     top: -75px;
     display:block !important
   }
@@ -195,18 +195,15 @@
 }
 
 @media only screen and (max-width: 450px) {
+  .editButton{
+    display: block !important
+  }
   .preferredJobs{
     display: block !important;
     text-align: center
   }
-  .coverPhotoEditButtonPosition{
-    font-size: medium !important
-  }
   .fourPointers{
-    margin: 0 2rem !important
-  }
-  .editButtonText{
-    font-size: medium !important
+    margin: 0 1.5rem !important
   }
   .jobCounts2, .jobCounts{
     font-size:medium !important;

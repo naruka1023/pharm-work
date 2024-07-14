@@ -23,12 +23,12 @@
             <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
                 <div class="verticalKeyGap">
                     <div class="historyHeader d-flex verticalKeyGap flex-row">
-                        <div class="d-flex flex-row mb-md-0 mb-3">
-                            <div class="keyValueGap" style="display: flex; align-items:center"><i class="textProfileResponsive bi bi-mortarboard-fill me-2"></i></div>
-                            <div class="textProfileResponsive"><b>ประวัติการศึกษา</b></div>
+                        <div class="d-flex flex-row mb-md-0 mb-3 verticalKeyGap">
+                            <div class="keyValueGap" style="display: flex; align-items:center"><i class="textResponsiveHeader bi bi-mortarboard-fill me-2"></i></div>
+                            <div class="textResponsiveHeader"><b>ประวัติการศึกษา</b></div>
                         </div>
                         <div class="d-flex">
-                            <div style="border:1px solid red" class="border-input textProfileResponsive subHeader px-3">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyField}}</div>
+                            <div style="border:1px solid red" class="d-flex align-items-center border-input textProfileResponsive subHeader px-3">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyField}}</div>
                         </div>
                     </div>
                     <div class="historyContent textProfileResponsive">
@@ -48,12 +48,12 @@
                 </div>
                 <div class="verticalKeyGap">
                     <div class="d-flex flex-row historyHeader verticalKeyGap">
-                        <div class="d-flex flex-row mb-md-0 mb-3">
-                            <div class="keyValueGap textProfileResponsive" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
-                            <div class="textProfileResponsive"><b>ประวัติการทำงาน</b></div>
+                        <div class="d-flex flex-row mb-md-0 mb-3 textResponsiveHeader verticalKeyGap" style="text-wrap:nowrap">
+                            <div class="keyValueGap" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
+                            <div><b>ประวัติการทำงาน</b></div>
                         </div>
                         <div class="d-flex">
-                            <div style="border:1px solid red" class="border-input subHeader textProfileResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
+                            <div style="border:1px solid red; text-wrap:nowrap" class="border-input subHeader textProfileResponsive px-3 align-items-center d-flex">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
                         </div>
                     </div>
                     <div class="historyContent textProfileResponsive">
@@ -77,11 +77,11 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="d-flex flex-row">
-                        <div class="keyValueGap textProfileResponsive">
+                    <div class="d-flex flex-row verticalKeyGap textResponsiveHeader">
+                        <div class="keyValueGap">
                             <b><i class="bi bi-stars "></i></b>
                         </div>
-                        <label class="textProfileResponsive"><b>ความสามารถเพิ่มเติม</b></label>
+                        <label><b>ความสามารถเพิ่มเติม</b></label>
                     </div>
                     <div class="d-flex flex-row textProfileResponsive">
                         <div class="keyValueGap d-lg-flex d-none textProfileResponsive" style="visibility:hidden; display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>

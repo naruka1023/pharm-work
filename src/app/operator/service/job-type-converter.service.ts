@@ -90,10 +90,10 @@ export class JobTypeConverterService {
     let title = '';
     switch(categorySymbol){
       case "S":
-        title = 'เภสัชกรที่สนใจงานเภสัชรายวัน (freelance)'
+        title = 'ค้นหาเภสัชกรร่วมงานรายวันกับคุณ'
         break;
         case "N":
-        title = 'เภสัชกรที่สนใจงานทั่วไปทั้งหมด'
+        title = 'ค้นหาเภสัชกรร่วมงานกับคุณ'
         break;
     }
     return title;

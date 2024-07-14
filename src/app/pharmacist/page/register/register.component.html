@@ -386,6 +386,9 @@
                                                             <div class="col">
                                                                 <select formControlName="yearGraduated" id="yearGraduated" (change)="styleSelect('yearGraduated')" class="form-select border-input" style="background-color:#f2f2f2; color:#949191">
                                                                     <option value="" selected disabled>เลือกปีที่จบการศึกษา</option>
+                                                                    <option value="2027">2027</option>
+                                                                    <option value="2026">2026</option>
+                                                                    <option value="2025">2025</option>
                                                                     <option value="2024">2024</option>
                                                                     <option value="2023">2023</option>
                                                                     <option value="2022">2022</option>
@@ -468,7 +471,7 @@
                                             </ng-container>
                                         </div>
                                         <div class="col-lg-6 col-12">
-                                            <h3 style="background:white" class="d-flex flex-row-start mb-5 mt-lg-3 mt-5 text-center">
+                                            <h3 style="background:white" class="d-flex flex-row-start mt-lg-3 mt-5 text-center">
                                                 <div>
                                                     <i class="bi bi-award-fill"></i>
                                                 </div>
@@ -476,6 +479,16 @@
                                                     <b>ตำแหน่งงานปัจจุบันหรือตำแหน่งงานล่าสุดที่ท่านเคยทำ</b>
                                                 </div>
                                             </h3>
+                                            <div class="d-flex justify-content-start my-3">
+                                                <div class="mb-1">
+                                                    <div class="form-check fs-lg-5 fs-6  mt-1"> 
+                                                        <input formControlName="employmentFlag" class="border-input me-lg-3 form-check-input" type="checkbox" value="" id="employmentFlag">
+                                                        <label class="form-check-label" for="employmentFlag" style="color:black !important; text-align: left">
+                                                            ยังไม่เคยทำงานมาก่อน นี่คือการหางานครั้งแรกของฉัน
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <ng-container  formArrayName="jobHistory">
                                                 <div>
                                                     <div style="background-color:white" *ngFor="let number of pharmaFormJobData let i = index" [formGroupName] = "i">
@@ -942,6 +955,9 @@
                                                         <div class="col">
                                                             <select formControlName="yearGraduated" id="yearGraduated" (change)="styleSelect('yearGraduated')" class="form-select border-input" style="color:#949191; background-color:#f2f2f2">
                                                                 <option disabled selected value="">เลือกปีที่จบการศึกษา</option>
+                                                                <option value="2027">2027</option>
+                                                                <option value="2026">2026</option>
+                                                                <option value="2025">2025</option>                                                                
                                                                 <option value="2024">2024</option>
                                                                 <option value="2023">2023</option>
                                                                 <option value="2022">2022</option>

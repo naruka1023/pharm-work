@@ -1,15 +1,15 @@
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
 <ng-template #displayPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
-        <div style="color:red" class="mb-4">
+        <div style="color:red">
             *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <div class="verticalKeyGap">
-            <div class="historyHeader d-flex verticalKeyGap flex-row">
-                <div class="d-flex flex-row">
-                    <div class="keyValueGap" style="display: flex; align-items:center"><i class="textProfileResponsive bi bi-mortarboard-fill me-2"></i></div>
-                    <div class="textProfileResponsive"><b>ประวัติการศึกษา</b></div>
+            <div class="historyHeader d-flex verticalKeyGap flex-row"  style="align-items:baseline">
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap" style="display: flex; align-items:center"><i class="textResponsiveHeader bi bi-mortarboard-fill me-2"></i></div>
+                    <div class="textResponsiveHeader"><b>ประวัติการศึกษา</b></div>
                 </div>
                 <div class="d-flex">
                     <div style="border:1px solid red" class="border-input textProfileResponsive subHeader px-3">ระดับการศึกษาสูงสุด {{innerProfileInformation.highestEducation | emptyFieldPipe}}</div>
@@ -31,10 +31,10 @@
             </div>
         </div>
         <div class="verticalKeyGap">
-            <div class="d-flex flex-row historyHeader verticalKeyGap">
-                <div class="d-flex flex-row">
-                    <div class="keyValueGap textProfileResponsive" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
-                    <div class="textProfileResponsive"><b>ประวัติการทำงาน</b></div>
+            <div class="d-flex flex-row historyHeader verticalKeyGap" style="align-items:baseline">
+                <div class="d-flex flex-row verticalKeyGap">
+                    <div class="keyValueGap textResponsiveHeader" style="display: flex; align-items: center"><i class="bi bi-award-fill me-2"></i></div>
+                    <div class="textResponsiveHeader"><b>ประวัติการทำงาน</b></div>
                 </div>
                 <div class="d-flex">
                     <div style="border:1px solid red" class="border-input subHeader textProfileResponsive px-3">ประสบการณ์ทำงานทั้งหมด {{innerProfileInformation.WorkExperience | workExperience : innerProfileInformation.yearFlag}}</div>
@@ -61,11 +61,11 @@
                     </ul>
                 </div>
             </div>
-            <div class="d-flex flex-row">
-                <div class="keyValueGap testProfileResponsive">
+            <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap textResponsiveHeader">
                     <b><i class="bi bi-stars"></i></b>
                 </div>
-                <label class=""><b>ความสามารถเพิ่มเติม</b></label> 
+                <label class="textResponsiveHeader"><b>ความสามารถเพิ่มเติม</b></label> 
             </div>
             <div class="d-flex">
                 <div class="keyValueGap mobileGap textProfileResponsive" style="visibility:hidden">
@@ -134,12 +134,12 @@
 </ng-template>
 <ng-template #editPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
-        <div style="color:red" class="mb-4">
+        <div style="color:red">
             *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a  data-bs-toggle="modal" data-bs-target="#studentUpgradeModal"class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row textResponsiveHeader verticalKeyGap">
             <div class="m-3 ms-0">
                 <b><i class="bi bi-mortarboard-fill "></i></b>
             </div>
@@ -309,7 +309,7 @@
                 </ng-container>
             </div>
         </div>
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row verticalKeyGap textResponsiveHeader">
             <div class="m-3 ms-0">
                 <b><i class="bi bi-award-fill "></i></b>
             </div>
@@ -389,7 +389,7 @@
                 </ng-container>
             </div>
         </div>
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row verticalKeyGap textResponsiveHeader">
             <div class="m-3 ms-0">
                 <b><i class="bi bi-stars"></i></b>
             </div>

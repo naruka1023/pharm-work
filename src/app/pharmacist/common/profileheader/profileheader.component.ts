@@ -88,6 +88,7 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
   ngOnInit(){
     this.initializeUpgradeFormGroup()
     this.initializeRequestChange()
+    this.initializeFormGroup()
     this.upgradeStage = 'first'
     this.upgradeModal = new window.bootstrap.Modal(
       document.getElementById('studentUpgradeModal')
@@ -371,9 +372,6 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
         })
         this.headerInformation.subscribe((header)=>{
           this.result = header;
-          if(this.profileType == 'pharmacist-profile'){
-            this.resetFormGroup();
-          }
           this.coverPhotoVerticalPosition = header.coverPhotoOffset
         })
         break;
@@ -1012,13 +1010,14 @@ constructor(private landingPageComponent: LandingPageComponent,private fb: FormB
     this.userService.updateUser(payload).then(()=>{
       this.introTextLoadingFlag = false
       this.store.dispatch(setCurrentUser({user: payload}))
-      this.editIntroTextClicked()
+      this.editHeaderModal.hide()
+      this.resetFormGroup()
     })
   }
   cancelIntroText(){
     this.editFlag = false;
-    this.resetFormGroup()
     this.editHeaderModal.hide()
+    this.resetFormGroup()
   }
   editIntroTextClicked(){
     this.editHeaderModal.show()

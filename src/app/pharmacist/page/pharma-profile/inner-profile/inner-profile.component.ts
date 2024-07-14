@@ -24,6 +24,7 @@ export class InnerProfileComponent{
   confirmViewProfile!: any
   innerProfileInformation!: User
   privacyLevel: number = 0;
+  studentFlag: boolean = false
   privacyLabel: string = 'อนุญาตให้ดูข้อมูล'
   tempLevel: number = 0;
   tempLabel: string = 'อนุญาตให้ดูข้อมูล'
@@ -46,6 +47,7 @@ export class InnerProfileComponent{
       this.innerProfileInformation = _.cloneDeep(value);
       if(this.innerProfileInformation.role !== ''){
         this.privacyLabel = this.innerProfileInformation.active!
+        this.studentFlag = this.innerProfileInformation.studentFlag
         switch(this.innerProfileInformation.active){
           case 'อนุญาตให้ดูข้อมูล':
             this.privacyLevel = 0

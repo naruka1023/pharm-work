@@ -7,8 +7,8 @@
     </div>
 </ng-template>
 <ng-template #notLoading>
-    <div class="p-md-4 p-2 textProfileResponsive standard-shadow" style="border-radius:40px">
-        <div class="my-3 innerProfileTitle"><b>ประกาศงาน</b></div> 
+    <div class="p-md-4 p-2 standard-shadow" style="border-radius:40px">
+        <div class="my-3 innerProfileTitle textProfileResponsive"><b>ประกาศงาน</b></div> 
         <div class="allJobsTab sticky-top" style="top:180px; background:white; z-index: 3"> 
             <ul class="nav nav-underline py-3 mb-2 textProfileResponsive  flex-row tabList" style="width: max-content; --bs-nav-underline-gap:0 1rem">
                 <li class="nav-item">
@@ -34,7 +34,7 @@
                         </div>
                     </ng-template>
                     <ng-template #notEmpty>
-                        <div class="row textProfileResponsive mx-lg-5">
+                        <div class="row mx-lg-5">
                             <div *ngFor="let content of allCreatedJobs$ | async">
                                 <app-job-post-normal-card [content]="content" [urgentFlag]="content.Urgency" [fullTimeFlag]="content.TimeFrame == 'Full-Time'"></app-job-post-normal-card>            
                             </div>

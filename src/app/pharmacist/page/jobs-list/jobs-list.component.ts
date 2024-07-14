@@ -251,9 +251,6 @@ initializeGoogleMapForm(){
     if(finalForm.Salary !== '' && finalForm.Salary !== undefined){
       finalForm.Salary = Number(finalForm.Salary)
     }
-    if(this.urgentFilterForm.value.TimeFrame == 'Both'){
-      finalForm.TimeFrame = ''
-    }
     this.jobPostService.searchJobs(finalForm).then((jobs)=>{
       this.query = jobs.query
       this.paginationIndex = 1;
@@ -268,7 +265,7 @@ initializeGoogleMapForm(){
       const res: jobPostPayload = {
         JobsPost: newSrc,
         CategorySymbol: this.CategorySymbol,
-        count: newSrc.length
+        count: jobs.result.nbHits
       }
       this.store.dispatch(retrievedJobCategorySuccess({jobs:res}));
       this.loadingFlag = false
@@ -379,7 +376,7 @@ initializeGoogleMapForm(){
       const res: jobPostPayload = {
         JobsPost: newSrc,
         CategorySymbol: this.CategorySymbol,
-        count: newSrc.length
+        count: jobPosts.nbHits
       }
       this.store.dispatch(retrievedJobCategorySuccess({jobs:res}));
       this.loadingFlag = false

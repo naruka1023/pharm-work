@@ -21,7 +21,7 @@ export const headerArray: filterConditions [] = [
   //   bannerFlag: false
   // }, 
   { 
-    header: 'งานจากบริษัทยาและโรงงานยาชั้นนำ',
+    header: 'งานเภสัชกรรมจากบริษัทชั้นนำในประเทศไทย',
     filterFlag: false,
     CategorySymbol:"BA",
     idList:[],

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, take } from 'rxjs';
 import { UserPharma, userPharmaList } from '../../model/user.model';
@@ -9,7 +8,6 @@ import { UsersService } from '../../service/users.service';
 import { UtilService } from '../../service/util.service';
 import { toggleAddressChange } from '../../state/actions/address.actions';
 import { SetUsersByJobType, updateUsersByJobType } from '../../state/actions/users-actions';
-import { LandingPageComponent } from '../../landing-page.component';
 declare let window: any;
 @Component({
   selector: 'app-user-list',
@@ -26,6 +24,8 @@ export class UserListComponent {
   throttle: number = 500
   title!: string;
   paginationIndex:number = 0
+  searchList: string = ''
+  urgentSearchList: string = ''
   maxIndex: number = 0
   newTitle!: string;
 
@@ -35,6 +35,7 @@ export class UserListComponent {
   emptyResultFlag: boolean = false;
   geoLocFlag!: boolean;
   infiniteScrollingLoadingFlag: boolean = false;
+  count: number = 0;
   loadingFlag: boolean = true;
   Users$!: Observable<UserPharma[]>
   newUserFormList!: FormGroup;
@@ -50,7 +51,8 @@ export class UserListComponent {
   sectionUrgent$!: Observable<string[]>;
   
   ngOnInit(){
-
+    this.searchList = ''
+    this.urgentSearchList = ''
     this.loadingFlag = true;
     this.title = this.converter.getTitleFromCategorySymbol(this.type);
     this.type = this.type == 'S'?'S': 'N'
@@ -58,6 +60,7 @@ export class UserListComponent {
     if(this.type == 'S'){
       this.userService.getUrgentPharmaUserByJobType(this.paginationIndex).then((users)=>{
         this.query = users.query
+        this.count = users.count
         this.maxIndex = users.totalPage
         this.paginationIndex++
         this.store.dispatch(SetUsersByJobType({users:users.result, jobType:this.type}))
@@ -67,6 +70,7 @@ export class UserListComponent {
     }else{
       this.userService.getPharmaUserByJobType(this.paginationIndex).then((users)=>{
         this.query = users.query
+        this.count = users.count
         this.maxIndex = users.totalPage
         this.paginationIndex++
         this.store.dispatch(SetUsersByJobType({users:users.result, jobType:this.type}))
@@ -235,13 +239,45 @@ export class UserListComponent {
     this.store.dispatch(toggleAddressChange())
   }
 
+  // WorkExperience
+  // active
+  // highestEducation
+  // preferredJobType
+  // preferredLocation
+  // {Section: '', District: '', Province: ''}
+  // preferredTimeFrame
   searchUsers(){
     this.loadingFlag = true;
     this.paginationIndex = 0
+    let result : string[] = []
+    Object.keys(this.newUserFormList.value).forEach((key)=>{
+      if(this.newUserFormList.value[key] !== ''){
+        switch(key){
+          case 'preferredJobType':
+            result.push(this.converter.getTitleFromCategorySymbol(this.newUserFormList.value[key]).replace('งาน', ''))
+          break;
+          case 'WorkExperience':
+            result.push('มากกว่า ' + this.newUserFormList.value[key] +' ปี')
+          break;
+          case 'preferredLocation':
+            Object.keys(this.newUserFormList.value[key]).forEach((innerKey)=>{
+              if(this.newUserFormList.value[key][innerKey] !== ''){
+                result.push(this.newUserFormList.value.preferredLocation[innerKey])
+              }
+            })
+          break;
+          default:
+              result.push(this.newUserFormList.value[key])
+          break;
+        }
+      }
+    })
+    this.searchList = result.join(', ')
     this.userService.searchPharmaUsersByPreferredJobType(this.newUserFormList.value).then((users)=>{
       this.utilService.populateLocationFieldsWithObject(this.newUserFormList.value)
       this.maxIndex = users.totalPage
       this.query = users.query
+      this.count = users.count
       this.indexName = users.indexName
       this.paginationIndex++;
       this.store.dispatch(SetUsersByJobType({users:users.results, jobType:this.type}))
@@ -295,6 +331,24 @@ export class UserListComponent {
     this.newUserFormUrgent.patchValue({_geoloc:this._geoLoc})
     this.paginationIndex = 0
     this.loadingFlag = true
+    let result : string[] = []
+    Object.keys(this.newUserFormUrgent.value).forEach((key)=>{
+      if(key !== 'nearbyFlag' && key !== '_geoloc' && key !== 'radius' && this.newUserFormUrgent.value[key] !== ''){
+        switch(key){
+          case 'preferredUrgentLocation':
+            Object.keys(this.newUserFormUrgent.value[key]).forEach((innerKey)=>{
+              if(this.newUserFormUrgent.value[key][innerKey] !== ''){
+                result.push(this.newUserFormUrgent.value.preferredUrgentLocation[innerKey])
+              }
+            })
+          break;
+          default:
+              result.push(this.newUserFormUrgent.value[key])
+          break;
+        }
+      }
+    })
+    this.urgentSearchList = result.join(', ')
     if(this.newUserFormUrgent.value.nearbyFlag && this.newUserFormUrgent.value.radius == ''){
       this.newUserFormUrgent.patchValue({
         preferredUrgentLocation: {
@@ -308,6 +362,7 @@ export class UserListComponent {
       this.utilService.populateUrgentLocationFieldsWithObject(this.newUserFormUrgent.value)
       this.maxIndex = users.totalPage
       this.paginationIndex++
+      this.count = users.count
       this.query = users.query
       this.indexName = users.indexName
       this.store.dispatch(SetUsersByJobType({users:users.results, jobType:this.type}))

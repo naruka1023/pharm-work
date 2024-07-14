@@ -24,7 +24,7 @@
             <ng-template #notEmptyNormal>
                 <div class="row ">
                     <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
-                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1 || favorites.content!.preferredJobType!.length > 1" class="px-2">
+                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1 || favorites.content!.preferredJobType!.length > 1">
                             <app-normal-user-card  [content]="favorites.content!" [type]="'AA'"></app-normal-user-card>
                         </div>
                         <!-- <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0 && favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') === -1"> -->
@@ -44,7 +44,7 @@
             <ng-template #notEmptyUrgent>
                 <div class="row">
                     <ng-container *ngFor="let favorites of favorites$ | async ; index as i" >
-                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1" class="px-2">
+                        <div *ngIf="favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1">
                             <app-normal-user-card class="px-0" [content]="favorites.content!" [type]="'S'"></app-normal-user-card>
                         </div>
                         <!-- <hr style="width:100%; margin-bottom: 2rem" *ngIf="(i + 1) % 2 == 0 && favorites.content!.preferredJobType!.indexOf('งานด่วนรายวัน') !== -1"> -->

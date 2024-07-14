@@ -1,5 +1,5 @@
 <div class="p-md-4 p-2 textProfileResponsive semi-border-input standard-shadow">
-    <div class="my-3 text-center"><b>ที่ดูล่าสุด</b></div>
+    <div class="my-3 innerProfileTitle"><b>ที่ดูล่าสุด</b></div>
     <ng-container *ngIf="emptyFlag$ | async; then empty; else notEmpty"></ng-container>
     <ng-template #empty>
         <div class="row d-flex justify-content-center">

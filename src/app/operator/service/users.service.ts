@@ -42,9 +42,6 @@ export class UsersService {
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''
     let indexName = 'pharm-work_index_user_dateUpdatedUnix_desc'
-    if(newForm['preferredTimeFrame'] == 'Full-Time และ Part-Time'){
-      delete newForm['preferredTimeFrame']
-    }
     Object.keys(newForm).forEach((key, index)=>{
       if(key == 'WorkExperience' && newForm[key] !== ''){
         indexName = 'pharm-work_user_index_workExperience_desc'
@@ -62,7 +59,7 @@ export class UsersService {
           }
         }else{
           if(key == 'WorkExperience'){
-            query = query + ' AND ' + key + " <= " + newForm[key]
+            query = query + ' AND ' + key + " <= " + newForm[key] 
           }else{
             if(key == 'preferredJobType'){
               query = key + ":'" + this.converter.getTitleFromCategorySymbol(newForm[key]) + "'"
@@ -92,7 +89,8 @@ export class UsersService {
       results: allUsers,
       query: filter,
       indexName: indexName,
-      totalPage: user.nbPages
+      totalPage: user.nbPages,
+      count: user.nbHits,
     }
   }
   async searchPharmaUsersUrgentByPreferredJobType(form:UserUrgentSearchForm) {
@@ -149,6 +147,7 @@ export class UsersService {
       results: allUsers,
       query: filter,
       indexName: indexName,
+      count: users.nbHits,
       totalPage: users.nbPages
     }
   }
@@ -283,7 +282,8 @@ export class UsersService {
         return newHit
       }),
       totalPage: doc.nbPages,
-      query:filter
+      query:filter,
+      count: doc.nbHits
     }
   }
 
@@ -306,7 +306,8 @@ export class UsersService {
         return newHit
       }),
       totalPage: doc.nbPages,
-      query:filter
+      query:filter,
+      count: doc.nbHits
     }
   }
 

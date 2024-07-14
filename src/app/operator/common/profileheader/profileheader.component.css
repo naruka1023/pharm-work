@@ -190,6 +190,9 @@
   }
 }
 @media only screen and (max-width: 400px){
+  .editButton2{
+    display:block !important
+  }
   .jobCounts, .jobCounts2 {
     font-size:0.7rem !important
   }

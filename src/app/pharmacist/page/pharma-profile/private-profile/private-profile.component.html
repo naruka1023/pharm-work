@@ -1,16 +1,19 @@
 <ng-container *ngIf="!editFlag; then displayPage; else editPage"></ng-container>
     <ng-template #displayPage>
     <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
-        <div style="color:red" class="mb-4">
+        <div style="color:red">
             *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
         </div>
     </div>
     <div class="p-lg-5 p-4  my-4 cyan-color semi-border-input">
         <div style="color:blue" class="mb-4">
-            *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
-            เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
+            {{innerProfileInformation.studentFlag?
+            "*ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล (จะสามารถตั้งค่าระดับการเปิดเผยข้อมูลได้ก็ต่อเมื่อท่านอัพเกรดบัญชีเป็นบัญชีเภสัชกรเรียบร้อยแล้ว)"
+            :
+            "*ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกดเครื่องหมาย ? ที่ด้านหน้าตัวเลือกการตั้งค่า "}}
         </div>
-        <div class="px-4 ps-sm-4 ps-0">
+        <div class="px-4 ps-sm-4 ps-0"> 
+
             <div class="d-flex justify-content-between">
                 <div class="d-flex flex-row verticalKeyGap">
                     <div class="keyValueGap"><i class="bi bi-person-fill"></i></div>
@@ -74,11 +77,13 @@
     </div>
         <div class="p-lg-5 p-4  my-5 light-red-color semi-border-input">
             <div style="color:red" class="mb-4">
-                *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
-                เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
+                {{innerProfileInformation.studentFlag?
+                    "**ข้อมูลในส่วนกรอบสีแดงจะไม่ขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล (จะสามารถตั้งค่าระดับการเปิดเผยข้อมูลได้ก็ต่อเมื่อท่านอัพเกรดบัญชีเป็นบัญชีเภสัชกรเรียบร้อยแล้ว)"
+                    :
+                    "*ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้"}}
             </div>
             <div class="px-4 ps-sm-4 ps-0">
-                <div class="d-flex flex-row verticalKeyGap">
+                <div class="d-flex flex-row">
                     <div class="keyValueGap">
                         <i class="bi bi-check2-circle"></i>
                     </div>
@@ -97,15 +102,17 @@
     </ng-template>
     <ng-template #editPage>
         <div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
-            <div style="color:red" class="mb-4">
+            <div style="color:red">
                 *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
             </div>
         </div>
         <form [formGroup]="profileEdit">
             <div class="p-lg-5 p-4  my-5 cyan-color semi-border-input">
                 <div style="color:blue" class="mb-4">
-                    *ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกด
-                    เครื่องหมาย<i class="bi bi-question mx-3"></i>ที่ด้านหน้าตัวเลือกการตั้งค่า
+                    {{innerProfileInformation.studentFlag?
+                        "*ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล (จะสามารถตั้งค่าระดับการเปิดเผยข้อมูลได้ก็ต่อเมื่อท่านอัพเกรดบัญชีเป็นบัญชีเภสัชกรเรียบร้อยแล้ว)"
+                        :
+                        "*ข้อมูลในส่วนกรอบสีฟ้าจะขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล สามารถอ่านรายละเอียดของระดับการเปิดเผยข้อมูลได้โดยการกดเครื่องหมาย  ? ที่ด้านหน้าตัวเลือกการตั้งค่า "}}
                 </div>
                 <div class="px-4 ps-sm-4 ps-0">
                     <div class="d-flex flex-row verticalKeyGap">
@@ -150,10 +157,14 @@
             </div>
             <div class="p-lg-5 p-4  my-5 light-red-color semi-border-input">
                 <div style="color:red" class="mb-4">
-                    *ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
+                    
+                    {{innerProfileInformation.studentFlag?
+                        "**ข้อมูลในส่วนกรอบสีแดงจะไม่ขึ้นกับการตั้งค่าระดับการเปิดเผยข้อมูล (จะสามารถตั้งค่าระดับการเปิดเผยข้อมูลได้ก็ต่อเมื่อท่านอัพเกรดบัญชีเป็นบัญชีเภสัชกรเรียบร้อยแล้ว)"
+                        :
+                        "*ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้"}}
                 </div>
                 <div class="px-4 ps-sm-4 ps-0">
-                    <div class="d-flex flex-row verticalKeyGap">
+                    <div class="d-flex flex-row">
                         <div class="keyValueGap">
                             <i class="bi bi-check2-circle"></i>
                         </div>

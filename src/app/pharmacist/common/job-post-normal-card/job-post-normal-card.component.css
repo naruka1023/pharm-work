@@ -1,4 +1,9 @@
+.inactiveImage{
+  width: 400px;
+  height:400px
+}
 @media only screen and (max-width: 768px) {
+
   .borderRight{
     border-right:0 !important
   }
@@ -19,6 +24,12 @@
     width: 5rem !important
   }
 }
+@media only screen and (max-width: 650px) {
+  .inactiveImage{
+    width: 300px;
+    height:300px
+  }
+}
 @media only screen and (max-width: 576px) {
   .applyJobBtn{
     padding:0 1rem !important
@@ -32,6 +43,18 @@
 @media only screen and (max-width: 466px) {
   .list{
     padding-left:1.3rem !important
+  }
+}
+@media only screen and (max-width: 420px) {
+  .inactiveImage{
+    width: 200px;
+    height:200px
+  }
+}
+@media only screen and (max-width: 350px) {
+  .inactiveImage{
+    width: 100px;
+    height:100px
   }
 }
 .work-from-home-color{
@@ -82,8 +105,7 @@ border-color: #7fd858
     position: absolute;
     top: 50%;
     left: 50%;
-    font-size: 50px;
     color: white;
-    transform: translate(-50%,-50%) rotate(-30deg);
-    -ms-transform: translate(-50%,-50%) rotate(-30deg);
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
   }
