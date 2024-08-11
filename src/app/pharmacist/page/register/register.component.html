@@ -2,33 +2,26 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content standard-shadow" style="border-radius:20px">
         <div>
-            <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab2" role="tablist">
+            <ul class="headerNav nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab2" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link nav-pharma active" style="border-top-left-radius: 20px" (click)="changeRoles('pharma')" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane" type="button" role="tab" aria-controls="normal-job-pane" aria-selected="false">เภสัชกร</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link nav-student" style="border-top-right-radius: 20px" (click)="changeRoles('student')" id="student" data-bs-toggle="tab" data-bs-target="#student-pane" type="button" role="tab" aria-controls="student-pane" aria-selected="false">
+                    <button class="nav-link nav-student"  (click)="changeRoles('student')" id="student" data-bs-toggle="tab" data-bs-target="#student-pane" type="button" role="tab" aria-controls="student-pane" aria-selected="false">
                         <div class="studentTabWebView">
                             นักศึกษาเภสัชกร
                         </div>
                         <div class="studentTabMobileView justify-content-between">
-                            <div></div>
                             <div>นักศึกษาเภสัชกร</div>
-                            <div class="d-flex align-items-center ps-3 ps-sm-0 pe-sm-3">
-                                <i class="bi bi-x-circle-fill" style="color:#949191 !important" (click)="onCloseModal()"></i>
-                            </div>
                         </div>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link nav-operator" style="border-top-right-radius: 20px" (click)="changeRoles('operator')" id="operator-tab" data-bs-toggle="tab" data-bs-target="#urgent-job-pane" type="button" role="tab" aria-controls="urgent-job-pane" aria-selected="false">
-                        <div class="operatorTabMobileView">
-                            บริษัท
-                        </div>
-                        <div class="operatorTabWebView justify-content-between">
+                        <div class="d-flex justify-content-between">
                             <div></div>
                             <div>บริษัท</div>
-                            <div class="d-flex align-items-center pe-3">
+                            <div class="d-flex align-items-center">
                                 <i class="bi bi-x-circle-fill" style="color:#949191 !important" (click)="onCloseModal()"></i>
                             </div>
                         </div>

@@ -1,3 +1,5 @@
+import { JsonPipe } from "@angular/common";
+
 export interface filterConditions{
     dateFilter?: boolean;
     CategorySymbol: string;

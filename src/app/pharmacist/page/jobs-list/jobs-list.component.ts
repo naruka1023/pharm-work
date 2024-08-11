@@ -28,6 +28,7 @@ export class JobsListComponent implements OnDestroy{
   query: string = ''
   infiniteScrollingLoadingFlag: boolean = false;
   paginationIndex: number = 0;
+  loginFlag: boolean = false
   nearMapFlag: boolean = false
   maxIndex: number = 0
   count!: number; 
@@ -79,6 +80,7 @@ export class JobsListComponent implements OnDestroy{
           nearbyFlag: false
         })
       })
+    this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
     this.initializeGoogleMapForm()
     this.CategorySymbol = this.route.snapshot.queryParamMap.get('CategorySymbol')!;
     this.count$ = this.store.select((state: any) =>{

@@ -76,7 +76,7 @@
 					<b>ตัวกรอง</b>
 				</div>
 				<div class="mb-5 h4 text-center">{{ header }}</div>
-				<ng-container *ngIf="header == 'งานเภสัชด่วนรายวัน'; then urgentForm; else notUrgentForm"></ng-container>
+				<ng-container *ngIf="CategorySymbol == 'AA'; then urgentForm; else notUrgentForm"></ng-container>
 				<ng-template #urgentForm>
 					<form [formGroup]="urgentFilterForm" class="px-3 fs-5 urgentForm">
 						<!-- <div class="row my-3">
@@ -101,6 +101,7 @@
 							<input class="form-check-input me-3" type="checkbox" formControlName="nearbyFlag" (click)="onChangeEvent($event)" role="switch" id="flexSwitchCheckDefault">
 							<label class="form-check-label" for="flexSwitchCheckDefault">งานใกล้ฉัน</label>
 						</div>
+						<label  *ngIf="urgentFilterForm.value.nearbyFlag" for="radius" class="labelText form-label">ค้นหางานภายในระยะ</label>
 						<select *ngIf="urgentFilterForm.value.nearbyFlag" formControlName="radius" style="background-color:#f2f2f2" name="section" class="form-select mb-3 border-input">
 							<option value="" selected disabled>ค้นหาภายในระยะ</option>
 							<option value="300">ระยะ 300 m</option>
@@ -110,35 +111,41 @@
 							<option value="5000">ระยะ 5 km</option>
 						</select>
 						<div *ngIf="!urgentFilterForm.value.nearbyFlag" formGroupName="Location">
+							<label  for="Province" class="labelText form-label">จังหวัดที่ต้องการหางาน</label>
 							<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="mb-3 form-select border-input">
 								<option selected disabled value="">พื้นที่ : เลือกจังหวัด</option>
 								<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
 							</select>
+							<label  for="District" class="labelText form-label">เขตที่ต้องการหางาน</label>
 							<select formControlName="District"  style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="mb-3 form-select border-input">
 								<option selected disabled value="">พื้นที่ : เลือกเขต</option>
 								<option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
 							</select>
+							<label  for="Section" class="labelText form-label">แขวงที่ต้องการหางาน</label>
 							<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="mb-3 form-select border-input">
 								<option selected disabled value="">พื้นที่ : เลือกแขวง</option>
 								<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
 							</select>
 						</div>
+						<label  for="DateOfJob" class="labelText form-label">วันที่ต้องการหางาน</label>
 						<div class="input-icons mb-3">
 							<i class="icon bi bi-calendar4"></i>
 							<input
-								type="text"
-								mwlFlatpickr
+							type="text"
+							mwlFlatpickr
 								mode="multiple"
 								class="form-control input-field border-input"
 								formControlName="DateOfJob" 
 								placeholder="วันที่ต้องการหางาน"
 								style="background-color:#f2f2f2"
-							  />
-						</div>
+								/>
+							</div>
+						<label  for="nearBTS" class="labelText form-label">ใกล้ BTS</label>
 						<select formControlName="BTS" name="nearBTS" class="mb-3 form-select border-input" style="background-color:#f2f2f2">
 							<option selected disabled value="">ใกล้ BTS</option>
 							<option *ngFor="let btsStation of btsStations$ | async" [value]="btsStation">{{btsStation}}</option>
 						</select>
+						<label  for="nearMRT" class="labelText form-label">ใกล้ MRT</label>
 						<select formControlName="MRT" name="nearMRT" class="form-select border-input mb-3" style="background-color:#f2f2f2">
 							<option selected disabled value="">ใกล้ MRT</option>
 							<option *ngFor="let mrtStation of mrtStations$ | async" [value]="mrtStation">{{mrtStation}}</option>
@@ -151,15 +158,15 @@
 				</ng-template>
 				<ng-template #notUrgentForm>
 					<form [formGroup]="urgentFilterForm" class="px-3 fs-5 notUrgentForm">
-						<!-- <div class="row my-3">
-							<div class="col-1 text-center"><i class="bi bi-buildings"></i></div>
-							<div class="col-md-4 col-10">
-								<b>ประเภทงาน</b>
+						<div class="row my-3">
+							<div class="labelText col-md-4 col-10">
+								<b>ชนิดของงานด้านเภสัชกรรม</b>
 							</div>
 							<div class="col">
 								{{header}}
 							</div>
-						</div> -->
+						</div>
+						<label  for="TimeFrame" class="labelText form-label">ชนิดของงานด้านเภสัชกรรม</label>
 						<select formControlName="TimeFrame" style="background-color:#f2f2f2" name="timeFrame" class="border-input form-select mb-3">
 							<option selected disabled value="">ชนิดของพนักงาน</option>
 							<option selected value="Full-Time">Full-Time</option>
@@ -167,19 +174,23 @@
 							<option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
 						</select>
 						<div formGroupName="Location">
+							<label  for="Province" class="labelText form-label">จังหวัดที่ต้องการหางาน</label>
 							<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="border-input mb-3 form-select">
 								<option selected disabled value="">พื้นที่ : เลือกจังหวัด</option>
 								<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
 							</select>
+							<label  for="District" class="labelText form-label">เขตที่ต้องการหางาน</label>
 							<select formControlName="District"  style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="border-input mb-3 form-select">
 								<option selected disabled value="">พื้นที่ : เลือกเขต</option>
 								<option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
 							</select>
+							<label  for="Section" class="labelText form-label">แขวงที่ต้องการหางาน</label>
 							<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="border-input mb-3 form-select">
 								<option selected disabled value="">พื้นที่ : เลือกแขวง</option>
 								<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
 							</select>
 						</div>
+						<label  for="Salary" class="labelText form-label">เงินเดือนขั้นต่ำ</label>
 						<select formControlName="Salary" name="Salary" class="responsiveText form-select mb-3 border-input" style="background-color:#f2f2f2">
 							<option selected disabled value="">เงินเดือนขั้นต่ำ</option>
 							<option value="20000">20,000</option>
@@ -192,10 +203,12 @@
 							<option value="90000">90,000</option>
 							<option value="100000">100,000+</option>
 						</select>
+						<label  for="BTS" class="labelText form-label">ใกล้ BTS</label>
 						<select formControlName="BTS" name="nearBTS" class="form-select mb-3 border-input" style="background-color:#f2f2f2">
 							<option selected disabled value="">ใกล้ BTS</option>
 							<option *ngFor="let btsStation of btsStations$ | async" [value]="btsStation">{{btsStation}}</option>
 						</select>
+						<label  for="MRT" class="labelText form-label">ใกล้ MRT</label>
 						<select formControlName="MRT" name="nearMRT" class="form-select mb-3 border-input" style="background-color:#f2f2f2">
 							<option selected disabled value="">ใกล้ MRT</option>
 							<option *ngFor="let mrtStation of mrtStations$ | async" [value]="mrtStation">{{mrtStation}}</option>

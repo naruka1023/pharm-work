@@ -24,7 +24,7 @@
 
 ::ng-deep .modal-backdrop {z-index: 3000 !important;}
 
-::ng-deep .pac-container {z-index: 3055 !important;}
+::ng-deep .pac-container {z-index: 100000 !important;}
 .swiper {
     width: 100%;
     height: 100%;
@@ -58,9 +58,6 @@
   }
   .operatorTabMobileView{
     display: none
-  }
-  .operatorTabWebView{
-    display: flex !important  
   }
 .form-check-input{
     border:1px solid grey !important
@@ -203,6 +200,7 @@
     ul{
         padding-left: 1rem !important
     }
+    .headerNav{ padding-left: 0 !important}
 }
 @media only screen and (max-width: 600px) {
     .smallUserTextResponsive{
@@ -270,11 +268,9 @@
     .operatorTabMobileView{
       display: block !important
     }
-    .operatorTabWebView{
-      display: none !important
-    }
-  }
+}
 @media only screen and (max-width: 384px) {
+    .headerNav > li > button { font-size:0.7em !important}
     .pAomPenTood{
         width: 130px !important
     }
@@ -284,7 +280,7 @@
 }
 @media only screen and (max-width: 360px) {
     .profileOperatorImage{
-      width: 90px; 
+        width: 90px; 
       height:90px; 
     }
     .textResponsiveOperator2{
@@ -300,6 +296,9 @@
 }
 .online-interview-color{
     background:#FFD4D4 !important;
+}
+@media only screen and (max-width: 320px) {
+    .headerNav > li > button { font-size:0.6em !important}
 }
 
 /* You can add global styles to this file, and also import other style files */

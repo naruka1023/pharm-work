@@ -33,7 +33,6 @@ export class UserListComponent {
   stuff!: string;
   indexName: string = 'pharm-work_index_user_dateUpdatedUnix_desc'
   emptyResultFlag: boolean = false;
-  geoLocFlag!: boolean;
   infiniteScrollingLoadingFlag: boolean = false;
   count: number = 0;
   loadingFlag: boolean = true;
@@ -80,19 +79,22 @@ export class UserListComponent {
     this.store.select((state: any)=>{
       return state.user
     }).subscribe((user: any)=>{
-      if(user._geoloc == undefined){
-        if(user._geolocCurrent == undefined){
-          this._geoLoc = {
-            lat: 0,
-            lng: 0
+      if(user.selectGeoLoc == undefined){
+        if(user._geoloc == undefined){
+          if(user._geolocCurrent == undefined){
+            this._geoLoc = {
+              lat: 0,
+              lng: 0
+            }
+          }else{
+            this._geoLoc = user._geolocCurrent
           }
         }else{
-          this._geoLoc = user._geolocCurrent
+          this._geoLoc = user._geoloc
         }
       }else{
-        this._geoLoc = user._geoloc
+        this._geoLoc = user.selectGeoLoc
       }
-      this.geoLocFlag = user._geoloc == undefined
     })
 
     this.utilService.getRevertGoogleMapSubject().subscribe(()=>{
@@ -157,7 +159,9 @@ export class UserListComponent {
     this.scrollUp();
   }
 
-  
+  searchMap(event: any){
+   console.log(event)
+  }
   onOpen(){
     this.utilService.sendGoogleMapSubject(this._geoLoc)
   }
@@ -196,9 +200,6 @@ export class UserListComponent {
 
   onChangeEvent(event: any){
     this.locationRadiusFlag = event.target.checked;
-    if(this.locationRadiusFlag && this.geoLocFlag){
-     this.onOpen()
-    }
   }
   
   revertNearbyFlag(){
@@ -333,7 +334,7 @@ export class UserListComponent {
     this.loadingFlag = true
     let result : string[] = []
     Object.keys(this.newUserFormUrgent.value).forEach((key)=>{
-      if(key !== 'nearbyFlag' && key !== '_geoloc' && key !== 'radius' && this.newUserFormUrgent.value[key] !== ''){
+      if(key !== '_geoloc' && key !== 'radius' && this.newUserFormUrgent.value[key] !== ''){
         switch(key){
           case 'preferredUrgentLocation':
             Object.keys(this.newUserFormUrgent.value[key]).forEach((innerKey)=>{
@@ -342,6 +343,27 @@ export class UserListComponent {
               }
             })
           break;
+          case 'nearbyFlag':
+            if(this.newUserFormUrgent.value[key] && this.newUserFormUrgent.value.radius !== ''){
+              switch(this.newUserFormUrgent.value.radius){
+                case "300":
+                  result.push('ระยะ 300 m')
+                  break;
+                case "500":
+                  result.push('ระยะ 500 m')
+                  break;
+                case "1000":
+                  result.push('ระยะ 1 km')
+                  break;
+                case "3000":
+                  result.push('ระยะ 3 km')
+                  break;
+                case "5000":
+                  result.push('ระยะ 5 km')
+                  break;
+              }
+            }
+          break;
           default:
               result.push(this.newUserFormUrgent.value[key])
           break;
@@ -349,7 +371,7 @@ export class UserListComponent {
       }
     })
     this.urgentSearchList = result.join(', ')
-    if(this.newUserFormUrgent.value.nearbyFlag && this.newUserFormUrgent.value.radius == ''){
+    if(this.newUserFormUrgent.value.nearbyFlag && this.newUserFormUrgent.value.radius !== ''){
       this.newUserFormUrgent.patchValue({
         preferredUrgentLocation: {
           Section: '',

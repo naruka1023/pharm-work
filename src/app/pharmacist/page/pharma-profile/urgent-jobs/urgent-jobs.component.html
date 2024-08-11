@@ -169,6 +169,7 @@
                             [position]="markerPosition"></map-marker>
                         </google-map>
                     </div>
+                    <div class="text-danger" *ngIf="!googleMapFlag"><i>*ท่านยังไม่ได้ปักหมุดในแผนที่ กรุณาปักหมุดเพื่อเปิดใช้งานตัวกรองใกล้ฉัน</i></div>
                 </div>
               </div>
         </div>
@@ -269,6 +270,7 @@
                       [position]="markerPosition"></map-marker>
                   </google-map>
               </div>
+              <div class="text-danger" *ngIf="!googleMapFlag"><i>*ท่านยังไม่ได้ปักหมุดในแผนที่ กรุณาปักหมุดเพื่อเปิดใช้งานตัวกรองใกล้ฉัน</i></div>
             </div>
         </div>
       <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5"><button (click)="editClick()" type="button" class="btn  green-color textProfileResponsive" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไข</button></div>

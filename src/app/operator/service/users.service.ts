@@ -107,6 +107,15 @@ export class UsersService {
       page:0,
     }
     
+    if(newForm.urgentTimeFrame !== ''){
+      query += ' AND urgentTimeFrame:' + "'" + newForm.urgentTimeFrame + "'"
+    }
+    if(newForm.urgentPreferredDay !== ''){
+      query += ' AND urgentPreferredDay:' + "'" + newForm.urgentPreferredDay + "'"
+    }
+    if(newForm.highestEducation !== ''){
+      query += ' AND highestEducation:' + "'" + newForm.highestEducation + "'"
+    }
     if(!newForm.nearbyFlag){
       if(newForm.preferredUrgentSection !== ''){
         query += ' AND preferredUrgentSection:' + "'" + newForm.preferredUrgentSection + "'"
@@ -116,15 +125,6 @@ export class UsersService {
       }
       if(newForm.preferredUrgentProvince !== ''){
         query += ' AND preferredUrgentProvince:' + "'" + newForm.preferredUrgentProvince + "'"
-      }
-      if(newForm.urgentTimeFrame !== ''){
-        query += ' AND urgentTimeFrame:' + "'" + newForm.urgentTimeFrame + "'"
-      }
-      if(newForm.urgentPreferredDay !== ''){
-        query += ' AND urgentPreferredDay:' + "'" + newForm.urgentPreferredDay + "'"
-      }
-      if(newForm.highestEducation !== ''){
-        query += ' AND highestEducation:' + "'" + newForm.highestEducation + "'"
       }
 
     }else{

@@ -2,33 +2,23 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content standard-shadow" style="border-radius:20px">
       <div>
-        <ul class="nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab" role="tablist">
+        <ul class="headerNav nav justify-content-center fs-5 nav-tabs nav-fill" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link nav-pharma active" style="border-top-left-radius: 20px" id="normal-job" data-bs-toggle="tab" data-bs-target="#normal-job-pane-login" (click)='changeHeader(true)' type="button" role="tab" aria-controls="normal-job-pane-login" aria-selected="true">เภสัชกร</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link nav-student" id="urgent-job" data-bs-toggle="tab" data-bs-target="#student-pane-login" (click)='changeHeader("student")' type="button" role="tab" aria-controls="student-pane-login" aria-selected="false">
-              <div class="studentTabWebView">
-                นักศึกษาเภสัชกร
-              </div>
-              <div class="studentTabMobileView justify-content-between">
-                <div></div>
+              <div class="justify-content-between">
                 <div>นักศึกษาเภสัชกร</div>
-                <div class="d-flex align-items-center ps-3 ps-sm-0 pe-sm-3">
-                    <i class="bi bi-x-circle-fill" style="color:#949191 !important" (click)="closeModal()"></i>
-                </div>
             </div>
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link nav-operator" style="border-top-right-radius: 20px" id="urgent-job" data-bs-toggle="tab" data-bs-target="#urgent-job-pane-login" (click)='changeHeader(false)' type="button" role="tab" aria-controls="urgent-job-pane-login" aria-selected="false">
-              <div class="operatorTabMobileView">
-                บริษัท
-            </div>
-            <div class="operatorTabWebView justify-content-between">
+            <div class="d-flex justify-content-between">
                 <div></div>
                 <div>บริษัท</div>
-                <div class="d-flex align-items-center pe-3">
+                <div class="d-flex align-items-center">
                     <i class="bi bi-x-circle-fill" style="color:#949191 !important" (click)="closeModal()"></i>
                 </div>
             </div>

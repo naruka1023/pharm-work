@@ -7,9 +7,9 @@
             <form [formGroup]="newUserFormUrgent" class="textProfileResponsive mx-lg-5">
                 <div class="row">
                     <div class="col-lg-6 col-12 border-end mb-lg-0 mb-3">
-                        <div class="d-flex mb-3 align-items-baseline">
-                            <i class="bi bi-search me-3"></i>
-                            <div class="me-3" (click)="onOpen()">ค้นหาเภสัชกรใกล้ฉัน</div>
+                        <div class="d-flex mb-3 align-items-baseline" style="padding:0.375rem 2.25rem 0.375rem 0rem"> 
+                            <i class="bi bi-search me-3"></i> 
+                            <div class="me-3">ค้นหาเภสัชกรใกล้ฉัน</div>
                             <div class="form-switch">
                                 <input class="form-check-input textProfileResponsive me-3" type="checkbox" formControlName="nearbyFlag" (click)="onChangeEvent($event)" [checked]="locationRadiusFlag" role="switch" id="flexSwitchCheckDefault">
                             </div>
@@ -38,11 +38,12 @@
                             </div>
                         </div>
                         <div *ngIf="locationRadiusFlag">
+                            <div class="d-flex align-items-baseline"> <i class="bi bi-geo-alt-fill me-3"></i> <input (click)="onOpen()" placeholder="ปักหมุดพื้นที่ๆต้องการหาเภสัชกร" class="form-control textProfileResponsive mb-3 border-input"/> </div>
                             <div class="d-flex align-items-baseline">
                                 <i class="bi bi-map-fill me-3"></i>
                                 <select  formControlName="radius" name="section" class="form-select textProfileResponsive mb-3 border-input">
                                     <option value="" selected disabled>ค้นหาภายในระยะ</option>
-                                    <option value="100">ระยะ 300 m</option>
+                                    <option value="300">ระยะ 300 m</option>
                                     <option value="500">ระยะ 500 m</option>
                                     <option value="1000">ระยะ 1 km</option>
                                     <option value="3000">ระยะ 3 km</option>

@@ -177,6 +177,26 @@ export class AppComponent {
           highestEducation: '',
           dateUpdated: ''
         };
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position)=>{
+            const _geoLoc = {
+                lng: position.coords.longitude,
+                lat: position.coords.latitude
+            }
+            this.store.dispatch(setCurrentUser({
+              user:{
+                ...emptyUser,
+                _geolocCurrent: _geoLoc, 
+              }
+            }))
+          }, (err) => {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+          },{
+            enableHighAccuracy: true,
+            timeout:10 * 1000 * 1000,
+            maximumAge: 0
+          });
+        }
         this.store.dispatch(setCurrentUser({user: emptyUser}));
         localStorage.setItem('loginState', 'false')
         const landingFlag = this.currentUrl.indexOf('/register') !== -1

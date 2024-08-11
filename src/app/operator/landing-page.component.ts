@@ -181,7 +181,8 @@ export class LandingPageComponent implements AfterViewInit {
       document.getElementById('googleMapModal')
     );
     document.getElementById('googleMapModal')?.addEventListener('hidden.bs.modal', ()=>{
-      this.initializeGoogleMapForm()
+      this.center = this.markerPosition
+      this.zoom = 15
     })
     this.offCanvas = new window.bootstrap.Offcanvas(
       document.getElementById('offcanvasExample')
@@ -308,9 +309,9 @@ export class LandingPageComponent implements AfterViewInit {
       })
     })
     this.initializeFormGroup()
-    document.getElementById('googleMapModal')?.addEventListener('hide.bs.modal', ()=>{
-      this.utilService.sendRevertGoogleMapSubject()
-    })
+    // document.getElementById('googleMapModal')?.addEventListener('hide.bs.modal', ()=>{
+
+    // })
   }
   
   selectAddJob(activeFlag: boolean){
@@ -416,7 +417,7 @@ moveMap(event: any){
     lng: event.latLng.lng()
   }
   this.center = this.markerPosition
-  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+  this.googleMapForm.patchValue({selectGeoLoc: this.markerPosition})
 }
 
   
@@ -451,7 +452,7 @@ searchMap(event: any){
     lng: event.geometry.location.lng()
   }
   this.center = this.markerPosition
-  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+  this.googleMapForm.patchValue({selectGeoLoc: this.markerPosition})
 }
 
 get getGoogleMapForm(): { [key: string]: AbstractControl } {
@@ -460,7 +461,7 @@ get getGoogleMapForm(): { [key: string]: AbstractControl } {
 
 initializeGoogleMapForm(){
   this.googleMapForm = this.fb.group({
-    _geoloc: ['', [Validators.required]],
+    selectGeoLoc: ['', [Validators.required]],
   })
 }
 
