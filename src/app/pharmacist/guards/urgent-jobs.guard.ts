@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { emptyUrgentJobs } from '../state/actions/urgent-jobs.actions';
@@ -7,7 +7,7 @@ import { emptyUrgentJobs } from '../state/actions/urgent-jobs.actions';
 @Injectable({
   providedIn: 'root'
 })
-export class UrgentJobsGuard implements CanDeactivate<any> {
+export class UrgentJobsGuard  {
   constructor(private store:Store){}
   canDeactivate(
     component: any,

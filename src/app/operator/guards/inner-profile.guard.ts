@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { InnerProfileComponent } from '../page/operator-profile/inner-profile/inner-profile.component';
 import { UtilService } from '../service/util.service';
@@ -7,7 +7,7 @@ import { UtilService } from '../service/util.service';
 @Injectable({
   providedIn: 'root'
 })
-export class InnerProfileGuard implements CanDeactivate<unknown> {
+export class InnerProfileGuard  {
   constructor(private profileService:UtilService){}
   canDeactivate(
     component: InnerProfileComponent,

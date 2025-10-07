@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { emptyOperatorData } from '../state/actions/operator.actions';
@@ -7,7 +7,7 @@ import { emptyOperatorData } from '../state/actions/operator.actions';
 @Injectable({
   providedIn: 'root'
 })
-export class OperatorPageGuard implements CanActivate {
+export class OperatorPageGuard  {
   constructor(private store: Store){}
   canActivate(
     route: ActivatedRouteSnapshot,

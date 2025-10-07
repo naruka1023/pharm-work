@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { setURL } from '../state/actions/operator-profile.actions';
@@ -9,7 +9,7 @@ import { UserServiceService } from '../service/user-service.service';
 @Injectable({
   providedIn: 'root'
 })
-export class InnerProfileGuard implements CanActivate {
+export class InnerProfileGuard  {
   constructor(private store: Store, private userService: UserServiceService){}
   canActivate(
     route: ActivatedRouteSnapshot,
