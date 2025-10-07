@@ -33,7 +33,6 @@
     "@ngrx/store": "^15.1.0",
     "@ngrx/store-devtools": "^15.1.0",
     "@popperjs/core": "^2.11.8",
-    "@yuvarajv/ngx-google-places-autocomplete": "^1.0.1",
     "algoliasearch": "^4.17.0",
     "angular-instantsearch": "^4.4.1",
     "angularx-flatpickr": "^7.0.0",
