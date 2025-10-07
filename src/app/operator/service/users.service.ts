@@ -38,6 +38,13 @@ export class UsersService {
     })
   }
 
+  
+  sendRequestChangeEmail(body: any){
+    return this.http.post(url.sendEmail, body, {
+      responseType: 'text'
+    })
+  }
+
   async searchPharmaUsersByPreferredJobType(form:UserSearchForm){
     let newForm = this.utilService.populateObjectWithLocationFields(form)
     let query = ''

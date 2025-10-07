@@ -2,7 +2,6 @@
 	<i class="pe-auto bi bi-arrow-up-square"></i>
 </div> -->
 <div>
-    <div class="container pt-3 mt-3" >
         <ng-container *ngIf="loadingFlag$ | async; then loadBlock; else mainBlock"></ng-container>
         <ng-template #loadBlock>
             <div class="loading">
@@ -19,7 +18,7 @@
                     [navigation]="true"
                     [slidesPerView]="1"
                     [centeredSlides]="true"
-                    [loop]="true"
+                    [loop]="a1Banner.length > 1"
                     [spaceBetween]="30"
                     [breakpoints]="breakingPointOperator"
                     [pagination]="true"
@@ -34,10 +33,10 @@
                                 <div class="img-container">
                                     <ng-container *ngIf="banner.link !== ''; then link; else noLink"></ng-container>
                                     <ng-template #link>
-                                        <img class="landing-page_img" [src]="banner.uid" (click)="redirectExternal(banner.link)" style="cursor:pointer">
+                                        <img class="landing-page_img" [src]="banner.bannerPictureLink" (click)="redirectExternal(banner.link)" style="cursor:pointer">
                                     </ng-template>
                                     <ng-template #noLink>
-                                        <img class="landing-page_img" [src]="banner.uid">
+                                        <img class="landing-page_img" [src]="banner.bannerPictureLink">
                                     </ng-template>
                                 </div>
                             </ng-template>
@@ -46,25 +45,31 @@
                     <ng-template #noBanner>
                         <ng-template swiperSlide>
                             <div class="img-container">
-                                <img class="landing-page_img" src="assets/banner9.png">
-                            </div>
-                        </ng-template>
-                        <ng-template swiperSlide>
-                            <div class="img-container">
-                                <img class="landing-page_img" src="assets/emptybanner/emptyBannerBig.png">
-                            </div>
-                        </ng-template>
-                        <ng-template swiperSlide>
-                            <div class="img-container">
                                 <img class="landing-page_img" src="assets/banner8.png">
+                            </div>
+                        </ng-template>
+                        <ng-template swiperSlide>
+                            <div class="img-container">
+                                <img class="landing-page_img" routerLink="buy" style="cursor:pointer" src="assets/bannerOperator.png">
+                            </div>
+                        </ng-template>
+                        <ng-template swiperSlide>
+                            <div class="img-container">
+                                <img class="landing-page_img" routerLink="buy-banner" style="cursor:pointer" src="assets/banner9.png">
+                            </div>
+                        </ng-template>
+                        <ng-template swiperSlide>
+                            <div class="img-container">
+                                <img class="landing-page_img" routerLink="buy-social" style="cursor:pointer" src="assets/bannerSocial.png">
                             </div>
                         </ng-template>
                     </ng-template>
                 </swiper>
             </div>
-            <div *ngFor="let header of items$ | async">
-                <app-swiper-module [filterFlags]="header"></app-swiper-module>
+            <div class="container pt-3 mt-3">
+                <div *ngFor="let header of items$ | async">
+                    <app-swiper-module [filterFlags]="header"></app-swiper-module>
+                </div>
             </div>
         </ng-template>
-    </div>
 </div>

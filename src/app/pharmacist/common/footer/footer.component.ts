@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {  ActivatedRoute, Router } from '@angular/router';
+import { LandingPageComponent } from '../../landing-page.component';
 
 @Component({
   selector: 'app-footer',
@@ -8,8 +9,16 @@ import {  ActivatedRoute, Router } from '@angular/router';
 })
 export class FooterComponent {
 
-  constructor(private route: Router, private activatedRoute:ActivatedRoute){}
+  constructor(private route: Router, private activatedRoute:ActivatedRoute, private landingPageComponent: LandingPageComponent){}
   loginFlag: boolean  =  (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
+    
+  openEmail(){
+    this.landingPageComponent.openContactUsModal()
+  }
+  
+  redirectToLogin(){
+      this.landingPageComponent.onLoginClick()
+  }
   
   redirectToList(categorySymbol: string){
     if(localStorage.getItem('loginState') == 'true'){
@@ -22,10 +31,7 @@ export class FooterComponent {
         }
       })
     }else{
-      this.route.navigate(['login'],
-      {
-        relativeTo:this.activatedRoute
-      })
+      this.landingPageComponent.onLoginClick()
     }
   }
 }

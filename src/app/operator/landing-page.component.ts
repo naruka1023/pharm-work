@@ -38,6 +38,10 @@ export class LandingPageComponent implements AfterViewInit {
   subscriptionFlag: boolean = true
   subject!:Subscription
   requestViewForm!: FormGroup
+  emptyEmailFlag: boolean = false
+  contactUsLoadingFlag: boolean = false
+  loginFlag: boolean = true
+  contactUsModal: any
   idToShare: string = ''
   nameToShare!: string
   user!: User;
@@ -179,6 +183,9 @@ export class LandingPageComponent implements AfterViewInit {
     )
     this.googleMapModal = new window.bootstrap.Modal(
       document.getElementById('googleMapModal')
+    );
+    this.contactUsModal = new window.bootstrap.Modal(
+      document.getElementById('contactUsModal')
     );
     document.getElementById('googleMapModal')?.addEventListener('hidden.bs.modal', ()=>{
       this.center = this.markerPosition
@@ -329,6 +336,10 @@ export class LandingPageComponent implements AfterViewInit {
     this.addJobModal.show()
   }
 
+  openContactUsModal(){
+    this.contactUsModal.show()
+  }
+
   move(event: google.maps.MapMouseEvent) {
     if (event.latLng != null) this.display = event.latLng.toJSON();
   }
@@ -345,6 +356,36 @@ export class LandingPageComponent implements AfterViewInit {
       this.userService.updateUser({
         showProfileFlag: true,
         uid: this.user.uid
+      })
+    }
+  }
+
+  submitEmail(){
+    let emailContent: any = document.getElementById('contactUsEmail')
+    emailContent = emailContent.value
+    if(emailContent == null || emailContent == ''){
+      this.emptyEmailFlag = true
+      return;
+    }else{
+      this.contactUsLoadingFlag = true
+      this.emptyEmailFlag = false
+      let toSend = {}
+      if(this.loginFlag){
+        toSend = {
+          subject:this.user.uid + " : " +  this.user.nameOfPerson + ' from company ' + this.user.companyName + ' have sent a message from PharmWork contact us form',
+          html: emailContent,
+        }
+      }else{
+        toSend = {
+          subject:'เมลติดต่อของผู้ใช้งานจากเว็บไซต์ Pharmwork โดยตรง',
+          html: emailContent,
+        }
+      }
+      this.userService.sendRequestChangeEmail(JSON.stringify(toSend)).subscribe((email)=>{
+        this.contactUsModal.hide()
+        this.contactUsLoadingFlag = false
+        let emailContent: any = document.getElementById('contactUsEmail')
+        emailContent.value = ''
       })
     }
   }

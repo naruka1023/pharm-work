@@ -21,6 +21,9 @@ import { NotificationsComponent } from './common/notifications/notifications.com
 import { BannerBuyComponent } from './page/banner-buy/banner-buy.component';
 import { SuccessCheckoutComponent } from './page/success-checkout/success-checkout.component';
 import { CancelCheckoutComponent } from './page/cancel-checkout/cancel-checkout.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { TosComponent } from './tos/tos.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
@@ -31,6 +34,9 @@ const routes: Routes = [
     { path: 'add-new-jobs', component: AddNewJobComponent},
     { path: 'edit-jobs', component: EditJobComponent},
     { path: 'job-detail', component: JobPostDetailsComponent},
+    { path: 'privacy-policy', component: PrivacyPolicyComponent},
+    { path: 'cookie-policy', component: CookiePolicyComponent},
+    { path: 'terms-of-service', component: TosComponent},
     { path: 'pharma-user-profile', component: PharmaUserProfilePageComponent},
     { path: 'buy-banner', component: BannerBuyComponent},
     { path: 'profile-operator', component: OperatorProfileComponent, canActivate:[ProfileOperatorGuard],children:[

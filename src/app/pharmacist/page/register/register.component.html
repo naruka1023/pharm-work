@@ -542,7 +542,7 @@
                                             <div class="form-check fs-lg-5 fs-6  mt-1"> 
                                                 <input formControlName="Agreement" class="border-input me-lg-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fP['Agreement'].errors }">
                                                 <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
-                                                    ฉันยอมรับ<span class="green-text">เงื่อนไข</span>และ<span class="green-text">ข้อตกลง</span>ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label>*</label>
+                                                    ยอมรับ เงื่อนไขข้อตกลงการใช้บริการ และ <span (click)="onPrivacyPolicy()" style="cursor:pointer" class="green-text custom-link">นโยบายความเป็นส่วนตัว</span> ของ Pharmwork
                                                 </label>
                                                 <div *ngIf="submitted && fP['Agreement'].errors" style="width:auto" class="invalid-feedback">
                                                     <div *ngIf="fP['Agreement'].errors['required']" style="text-align: left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
@@ -718,7 +718,7 @@
                                 <div class="form-check fs-lg-5  mt-1"> 
                                     <input formControlName="Agreement" class="me-lg-3 border-input form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fO['Agreement'].errors }">
                                     <label class="form-check-label" for="Agreement" style="color:black !important; text-align:left">
-                                        ฉันยอมรับ<span class="purple-text">เงื่อนไข</span>และ<span class="purple-text">ข้อตกลง</span>ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label>*</label>
+                                        ยอมรับ เงื่อนไขข้อตกลงการใช้บริการ และ <span class="purple-text custom-link" (click)="onPrivacyPolicy()" style="cursor:pointer">นโยบายความเป็นส่วนตัว</span> ของ Pharmwork
                                     </label>
                                     <div *ngIf="submitted && fO['Agreement'].errors" style="width:auto" class="invalid-feedback">
                                         <div *ngIf="fO['Agreement'].errors['required']" style="text-align:left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>
@@ -1038,7 +1038,7 @@
                                             <div class="form-check fs-lg-5 fs-6  mt-1"> 
                                                 <input formControlName="Agreement" class="border-input me-lg-3 form-check-input" type="checkbox" value="" id="Agreement" [ngClass]="{ 'is-invalid': submitted && fS['Agreement'].errors }">
                                                 <label class="form-check-label" for="Agreement" style="color:black !important; text-align: left">
-                                                    ฉันยอมรับ<span class="blue-text">เงื่อนไข</span>และ<span class="blue-text">ข้อตกลง</span>ของ pharmwork ในการเป็นสมาชิกผู้หางานทุกประการ<label>*</label>
+                                                    ยอมรับ เงื่อนไขข้อตกลงการใช้บริการ และ <span (click)="onPrivacyPolicy()" style="cursor:pointer" class="custom-link blue-text">นโยบายความเป็นส่วนตัว</span> ของ Pharmwork
                                                 </label>
                                                 <div *ngIf="submitted && fS['Agreement'].errors" style="width:auto" class="invalid-feedback">
                                                     <div *ngIf="fS['Agreement'].errors['required']" style="text-align: left">กรุณาทำเครื่องหมายยอมรับเงื่อนไข</div>

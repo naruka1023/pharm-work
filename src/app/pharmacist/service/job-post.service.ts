@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import * as _ from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { Bookmark, filterConditions, Follow, jobPostModel, jobPostPayload, jobRequest, JobSearchForm, userOperator } from '../model/typescriptModel/jobPost.model';
 import headerArray from '../model/data/uiKeys';
 import algoliasearch, { SearchIndex } from 'algoliasearch/lite';
@@ -204,16 +204,21 @@ export class JobPostService {
   getOperatorsByType(idList: string[]){
     let promises : Promise<any>[] = []
     idList.forEach((operatorID: string) => {
-      promises.push(getDoc(doc(this.firestore, 'users', operatorID)))
+
+      promises.push(operatorID == ''? new Promise((resolve)=>{resolve('empty')}): getDoc(doc(this.firestore, 'users', operatorID)))
     })
     return Promise.all(promises).then((operator)=>{
-      let payload: userOperator[] = [];
+      let payload: any[]  = [];
       operator.forEach((value: any)=>{
-        payload.push({
-          ...value.data(),
-          uid: value.id, 
-          loadingOperator:true
-        })
+        if(value == 'empty'){
+          payload.push('empty')
+        }else{
+          payload.push({
+            ...value.data(),
+            uid: value.id, 
+            loadingOperator:true
+          })
+        }
       })
       return payload
     })

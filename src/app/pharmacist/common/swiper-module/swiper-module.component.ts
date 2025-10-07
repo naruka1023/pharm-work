@@ -52,14 +52,18 @@ export class SwiperModuleComponent {
     1200: {
       slidesPerView: 4,
     },
-    992: {
+    550: {
       slidesPerView: 3,
     },
+    300: {
+      slidesPerView:2,
+    }
   }
   
   constructor(@Inject(DOCUMENT) private document: Document, private jobPostService:JobPostService, private router: Router, private store: Store, private activatedRoute:ActivatedRoute){}
 
   ngOnInit(){
+    console.log(this.filterFlags.content)
     this.store.select((state: any)=>{
       return state.jobpost.Banners
     }).subscribe((banner: any) =>{
@@ -99,6 +103,13 @@ export class SwiperModuleComponent {
 
   toggleFilter(){
     this.filterVisibleFlag = !this.filterVisibleFlag
+  }
+  scrollUp(){
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior:"auto"
+    });
   }
   goToList(){
       this.router.navigate(['jobs-list'],

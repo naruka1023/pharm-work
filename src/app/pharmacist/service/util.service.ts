@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Bookmark, jobRequest } from '../model/typescriptModel/jobPost.model';
 import { User, requestView } from '../model/typescriptModel/users.model';
-import { UserMetadata } from 'firebase/auth';
+import { apiKey } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,13 @@ export class UtilService {
   removeRequestSubject: Subject<string> = new Subject();
   removeBookmarkSubject: Subject<string> = new Subject();
   requestViewSubject: Subject<requestView> = new Subject()
+
+  constructor(private http:HttpClient){}
+  
   getCallView(): Observable<void>{
     return this.callView.asObservable();
   }
+  
 
   getRequestViewSubject(): Observable<requestView>{
     return this.requestViewSubject.asObservable()
@@ -82,6 +87,10 @@ export class UtilService {
   
   sendEditSubject(){
     return this.editSubject.next(true);
+  }
+  getMapAddress(lng: string, lat: string){
+    let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=' + apiKey.google_map
+    return this.http.get(url)
   }
   populateObjectWithUrgentLocationFields(userForm:User){
     const newUser: any = userForm;

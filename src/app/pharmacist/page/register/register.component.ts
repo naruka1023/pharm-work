@@ -60,6 +60,10 @@ export class RegisterComponent implements AfterViewInit {
     document.getElementById(id)!.style.color = 'black'
   }
 
+  onPrivacyPolicy(){
+    window.open(window.location.origin + '/pharma/privacy-policy', '_blank')
+  }
+
   onCloseModal(){
     this.registerModal.hide()
   }

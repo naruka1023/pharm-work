@@ -28,7 +28,7 @@ export class UrgentJobsComponent {
   loadingFlag: boolean = false;
   urgentJobFlag: boolean = false;
   editFlag:boolean = false
-
+  address: string = ''
   confirmationModal!: any
   googleMapFlag!:boolean
   display: any;
@@ -169,6 +169,7 @@ export class UrgentJobsComponent {
       }),
       urgentDescription: [''],
       _geoloc: [''],
+      geoAddress: [''],
       preferredUrgentLocation: this.fb.group({
         Section: [''],
         District: [''],
@@ -189,6 +190,7 @@ export class UrgentJobsComponent {
       lat: event.geometry.location.lat(),
       lng: event.geometry.location.lng()
     }
+    this.urgentProfileEdit.patchValue({geoAddress: event})
     this.center = this.markerPosition
     this.urgentProfileEdit.patchValue({_geoloc: this.markerPosition})
   }
@@ -211,8 +213,8 @@ export class UrgentJobsComponent {
       }),
     });
   }
-  get (): { [key: string]: AbstractControl } { 
-    return this.profileEdit.controls;
+  get () { 
+    return this.urgentProfileEdit.controls;
   } 
   resetFormGroup(){
     this.initializeFormGroup();

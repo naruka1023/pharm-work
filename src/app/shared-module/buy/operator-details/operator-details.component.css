@@ -1,0 +1,80 @@
+@media only screen and (max-width: 1500px){
+    .customHeight > img{
+        width:85% !important
+    }
+    .bottomRes{
+        bottom: 5rem !important;
+        right: 5rem !important;
+    }
+}
+@media only screen and (max-width: 1400px){
+    .customHeight > img{
+        width:100% !important
+    }
+    .bottomRes{
+        bottom: 4rem !important;
+        right: 4rem !important;
+    }
+}
+@media only screen and (max-width: 1200px){
+    .customHeight{
+        height:280px !important
+    }
+    .bottomRes{
+        bottom: 3.3rem !important;
+        right: 16px !important;
+    }
+}
+@media only screen and (max-width: 1000px){
+    .customOperatingHeader{
+        display:block !important
+    }
+    .headerText{
+        text-align:center !important
+    }
+    .customHeight{
+        display:none !important
+    }
+}
+@media only screen and (max-width: 992px){
+    .innerBlueText{
+        font-size:smaller !important
+    }
+}
+@media only screen and (max-width: 768px){
+    .innerBlueText{
+        font-size:large !important
+    }
+    .horizontalPadding{
+        padding: 0 !important
+    }
+}
+@media only screen and (max-width: 576px){
+    .innerBlueText{
+        font-size:medium !important
+    }
+}
+@media only screen and (max-width: 427px){
+    .customBR{
+        display:inline !important
+    }
+    .headerText{
+        margin-bottom:40px !important
+    }
+}
+@media only screen and (max-width: 420px){
+    .customHeader{
+        font-size:smaller !important
+    }
+}
+@media only screen and (max-width: 350px){
+    .customHeader{
+        font-size:large !important
+    }
+    .innerBlueText{
+        font-size:small !important
+    }
+}
+.customBR{
+    display:none
+}

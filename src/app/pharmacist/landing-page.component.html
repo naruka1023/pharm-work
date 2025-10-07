@@ -1,192 +1,482 @@
-<nav class="navbar navbar-expand-xl navbar-light sticky-top" style="background:white; border-bottom:1px solid #cccccc">
-    <div class="container-fluid">
-      <div class="d-flex flex-row align-items-center">
-        <div class="fs-3">
-          <a class="navbar-brand" (click)="goToHome()" style="cursor:pointer">
-            <img src="/assets/logo.png" class="pAomPenTood" alt="">
-          </a>
+<nav
+  class="navbar navbar-expand-xl navbar-light sticky-top"
+  style="background: white; border-bottom: 1px solid #cccccc"
+>
+  <div class="container-fluid">
+    <div class="d-flex flex-row align-items-center">
+      <div class="fs-3">
+        <a class="navbar-brand" (click)="goToHome()" style="cursor: pointer">
+          <img src="/assets/logo.png" class="pAomPenTood" alt="" />
+        </a>
+      </div>
+      <div class="navText d-xl-flex d-none flex-row align-items-center">
+        <div class="d-lg-block d-none me-3">
+          <i class="bi bi-file-earmark-text-fill"></i>
+          {{ aggregationGroup.jobCount }}
         </div>
-        <div class="d-xl-flex d-none flex-row align-items-center">
-          <div class="d-lg-block d-none fs-2 me-3">
-            <i class="bi bi-file-earmark-text-fill"></i> {{ aggregationGroup.jobCount }}
-          </div>
-          <div class="fs-2 me-3">
-            <i class="bi bi-bank2"></i> {{ aggregationGroup.userOperatorCount }}
-          </div>
-          <div class="fs-2 me-3">
-            <i class="bi bi-people-fill"></i>  {{ aggregationGroup.userPharmaCount }}
-          </div>
+        <div class="me-3">
+          <i class="bi bi-bank2"></i> {{ aggregationGroup.userOperatorCount }}
+        </div>
+        <div class="me-3">
+          <i class="bi bi-people-fill"></i>
+          {{ aggregationGroup.userPharmaCount }}
         </div>
       </div>
-      <div class="d-xl-block d-none d-flex p-2 justify-content-between" style="justify-content:space-between">
-        <ng-container *ngIf="loginFlag; then loginNav; else normalNav"></ng-container>
-        <ng-template #loginNav>
-          <ul style="list-style-type: none; margin-bottom:0" class="navClass fs-3 d-flex align-items-end">
-            <li class="nav-item ms-3" style="cursor:pointer">
-              <a class="nav-link green-text">บอร์ดประกาศงาน</a>
-            </li>
-            <li class="nav-item ms-3">
-              <a class="nav-link">ฟีดประกาศงาน</a>
-            </li>
-            <li class="nav-item dropdown fs-2 me-2">
-              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="bi bi-search"></i></a>
-              <ul class="dropdown-menu dropdown-menu2 dropdown-menu-right p-2 fs-3">
-                <div class="dropdown-item d-flex flex-row-start">
-                  <i class="bi bi-search me-3"></i>
-                  <input class="border-input" style="width:-webkit-fill-available; width:-moz-available">
-                </div>
-                <div class="dropdown-divider"></div>
-                <li class="dropdown-item"><a (click)="redirectToList('AA')"><i class="bi bi-calendar-check-fill me-3"></i>งานเภสัชรายวัน (freelance)</a></li>
-                <li class="dropdown-item"><a (click)="redirectToList('AB')"><i class="bi bi-house-fill me-3"></i>ร้านยาเดี่ยว (Stand alone)</a></li>
-                <li class="dropdown-item"><a (click)="redirectToList('AC')"><i class="bi bi-basket3-fill me-3"></i>ร้านยาแบรนด์ (Chain)</a></li>
-                <li class="dropdown-item"><a (click)="redirectToList('BB')"><i class="bi bi-bandaid-fill me-3"></i>โรงพยาบาล/คลินิก</a></li>
-                <li class="dropdown-item"><a (click)="redirectToList('BC')"><i class="bi bi-bank2 me-3"></i>โรงงาน/บริษัท/วิจัย</a></li>
-                <li class="dropdown-item"><a (click)="redirectToList('CA')"><i class="bi bi-ui-radios-grid me-3"></i>งานอื่นๆ</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown fs-2 me-2">
-              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="bi bi-bell-fill" (click)="updateShowProfile()">
-                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle" *ngIf="!user.showProfileFlag">
+    </div>
+    <div
+      class="d-xl-block d-none d-flex p-2 justify-content-between"
+      style="justify-content: space-between"
+    >
+      <ng-container
+        *ngIf="loginFlag; then loginNav; else normalNav"
+      ></ng-container>
+      <ng-template #loginNav>
+        <ul
+          style="list-style-type: none; margin-bottom: 0"
+          class="navClass fs-3 d-flex align-items-end"
+        >
+          <li class="nav-item ms-3" style="cursor: pointer">
+            <a class="nav-link green-text">บอร์ดประกาศงาน</a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link">ฟีดประกาศงาน</a>
+          </li>
+          <li class="nav-item dropdown fs-2 me-2">
+            <a
+              class="nav-link dropdown-toggle"
+              role="button"
+              data-bs-toggle="dropdown"
+              ><i class="bi bi-search"></i
+            ></a>
+            <ul
+              class="dropdown-menu dropdown-menu2 dropdown-menu-right p-2 fs-3"
+            >
+              <div class="dropdown-item d-flex flex-row-start">
+                <i class="bi bi-search me-3"></i>
+                <input
+                  class="border-input"
+                  style="width: -webkit-fill-available; width: -moz-available"
+                />
+              </div>
+              <div class="dropdown-divider"></div>
+              <li class="dropdown-item">
+                <a (click)="redirectToList('AA')"
+                  ><i class="bi bi-calendar-check-fill me-3"></i>งานเภสัชรายวัน
+                  (freelance)</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a (click)="redirectToList('AB')"
+                  ><i class="bi bi-house-fill me-3"></i>ร้านยาเดี่ยว (Stand
+                  alone)</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a (click)="redirectToList('AC')"
+                  ><i class="bi bi-basket3-fill me-3"></i>ร้านยาแบรนด์
+                  (Chain)</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a (click)="redirectToList('BB')"
+                  ><i class="bi bi-bandaid-fill me-3"></i>โรงพยาบาล/คลินิก</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a (click)="redirectToList('BC')"
+                  ><i class="bi bi-bank2 me-3"></i>โรงงาน/บริษัท/วิจัย</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a (click)="redirectToList('CA')"
+                  ><i class="bi bi-ui-radios-grid me-3"></i>งานอื่นๆ</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown fs-2 me-2">
+            <a
+              class="nav-link dropdown-toggle"
+              role="button"
+              data-bs-toggle="dropdown"
+              ><i class="bi bi-bell-fill" (click)="updateShowProfile()">
+                <span
+                  class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
+                  *ngIf="!user.showProfileFlag"
+                >
                   <span class="visually-hidden">New alerts</span>
                 </span>
-              </i></a>
-              <ul class="dropdown-menu dropdown-menu-end p-2 fs-6" style="width:25em; overflow-y: scroll; max-height:80vh">
-                <ng-container *ngIf="notificationsArchive.length == 0; then emptyNotification; else notEmptyNotification"></ng-container>
-                <ng-template #emptyNotification>
-                  <div style="white-space:nowrap">
-                    ไม่พบข้อความแจ้งเตือน
-                  </div>
-                </ng-template>
-                <ng-template #notEmptyNotification>
-                  <li *ngFor="let notification of notificationsArchive" class="dropdown-item" aria-current="true">
-                    <ng-container *ngIf="notification.url == 'empty'; then emptyURL; else notEmptyURL"></ng-container>
-                    <ng-template #emptyURL>
-                      <div style="cursor:pointer" class="align-items-center d-flex flex-row-start">
-                        <img class="rounded-circle" width="50" height="50" src="{{notification.image}}"/>
-                        <div class="ms-2 me-auto" style="white-space:wrap">
-                          <div class="fw-bold">{{notification.title}}</div>
-                          {{notification.body}}
+              </i></a
+            >
+            <ul
+              class="dropdown-menu dropdown-menu-end p-2 fs-6"
+              style="width: 25em; overflow-y: scroll; max-height: 80vh"
+            >
+              <ng-container
+                *ngIf="
+                  notificationsArchive.length == 0;
+                  then emptyNotification;
+                  else notEmptyNotification
+                "
+              ></ng-container>
+              <ng-template #emptyNotification>
+                <div style="white-space: nowrap">ไม่พบข้อความแจ้งเตือน</div>
+              </ng-template>
+              <ng-template #notEmptyNotification>
+                <li
+                  *ngFor="let notification of notificationsArchive"
+                  class="dropdown-item"
+                  aria-current="true"
+                >
+                  <ng-container
+                    *ngIf="
+                      notification.url == 'empty';
+                      then emptyURL;
+                      else notEmptyURL
+                    "
+                  ></ng-container>
+                  <ng-template #emptyURL>
+                    <div
+                      style="cursor: pointer"
+                      class="align-items-center d-flex flex-row-start"
+                    >
+                      <img
+                        class="rounded-circle"
+                        width="50"
+                        height="50"
+                        src="{{ notification.image }}"
+                      />
+                      <div class="ms-2 me-auto" style="white-space: wrap">
+                        <div class="fw-bold">{{ notification.title }}</div>
+                        {{ notification.body }}
+                      </div>
+                      <span
+                        [ngClass]="
+                          notification.newFlag ? '' : 'visually-hidden'
+                        "
+                        class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle"
+                      >
+                        <span class="visually-hidden">New alerts</span>
+                      </span>
+                    </div>
+                    <div class="d-flex">
+                      <img
+                        class="rounded-circle visibility-hidden"
+                        width="60"
+                        height="0"
+                        src="{{ notification.image }}"
+                      />
+                      <div class="my-1 text-primary">
+                        {{ notification.dateRange }}
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template #notEmptyURL>
+                    <div
+                      style="cursor: pointer"
+                      (click)="
+                        goToNotifications(
+                          notification.url,
+                          notification.notificationID
+                        )
+                      "
+                      class="align-items-center d-flex flex-row-start"
+                    >
+                      <img
+                        class="rounded-circle"
+                        width="60"
+                        height="60"
+                        src="{{ notification.image }}"
+                      />
+                      <div class="ms-2 me-auto" style="white-space: wrap">
+                        <div class="fw-bold">{{ notification.title }}</div>
+                        {{ notification.body }}
+                      </div>
+                      <span
+                        [ngClass]="
+                          notification.newFlag ? '' : 'visually-hidden'
+                        "
+                        class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle"
+                      >
+                        <span class="visually-hidden">New alerts</span>
+                      </span>
+                    </div>
+                    <div class="d-flex">
+                      <img
+                        class="rounded-circle visibility-hidden"
+                        width="60"
+                        height="0"
+                        src="{{ notification.image }}"
+                      />
+                      <div class="my-1 text-primary">
+                        {{ notification.dateRange }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+              </ng-template>
+            </ul>
+          </li>
+          <li class="nav-item fs-2">
+            <div class="dropdown">
+              <a
+                data-bs-toggle="tooltip"
+                title="ปุ่ม profile"
+                class="nav-link dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <div class="d-flex flex-column justify-content-center">
+                  <img
+                    [src]="
+                      user.cropProfilePictureUrl !== undefined
+                        ? user.cropProfilePictureUrl
+                        : user.profilePictureUrl
+                    "
+                    class="rounded-circle"
+                    width="50"
+                    height="50"
+                  />
+                </div>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end fs-3"
+                style="overflow-y: scroll; max-height: 80vh; width: 30rem"
+              >
+                <li>
+                  <div
+                    style="cursor: pointer; white-space: normal"
+                    class="dropdown-header"
+                    (click)="goToPage('profile-pharma')"
+                  >
+                    <div class="d-flex flex-row-start align-items-center">
+                      <img
+                        [src]="
+                          user.cropProfilePictureUrl !== undefined
+                            ? user.cropProfilePictureUrl
+                            : user.profilePictureUrl
+                        "
+                        class="rounded-circle me-3"
+                        width="50"
+                        height="50"
+                      />
+                      <div class="fs-3">
+                        <div>
+                          {{ user.nickName }}
                         </div>
-                        <span [ngClass]="notification.newFlag? '': 'visually-hidden'" class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle">
-                          <span class="visually-hidden">New alerts</span>
-                        </span>
-                      </div>
-                      <div class="d-flex">
-                        <img class="rounded-circle visibility-hidden" width="60" height="0" src="{{notification.image}}"/>
-                        <div class="my-1 text-primary">{{notification.dateRange}}</div>
-                      </div>
-                    </ng-template>
-                    <ng-template #notEmptyURL>
-                      <div style="cursor:pointer" (click)="goToNotifications(notification.url, notification.notificationID)" class="align-items-center d-flex flex-row-start">
-                        <img class="rounded-circle" width="60" height="60" src="{{notification.image}}"/>
-                        <div class="ms-2 me-auto" style="white-space:wrap">
-                          <div class="fw-bold">{{notification.title}}</div>
-                          {{notification.body}}
-                        </div>
-                        <span [ngClass]="notification.newFlag? '': 'visually-hidden'" class="position-relative ms-3 p-2 bg-primary border border-light rounded-circle">
-                          <span class="visually-hidden">New alerts</span>
-                        </span>
-                      </div>
-                      <div class="d-flex">
-                        <img class="rounded-circle visibility-hidden" width="60" height="0" src="{{notification.image}}"/>
-                        <div class="my-1 text-primary">{{notification.dateRange}}</div>
-                      </div>
-                    </ng-template>
-                  </li>
-                </ng-template>
-              </ul>
-            </li>
-            <li class="nav-item fs-2">
-              <div class="dropdown">
-                
-                <a  data-bs-toggle="tooltip"title="ปุ่ม profile" class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <div class="d-flex flex-column justify-content-center">
-                    <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle" width="50" height="50">
-                  </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end fs-3" style="overflow-y: scroll; max-height:80vh; width: 30rem;">
-                  <li>
-                    <div style="cursor:pointer; white-space:normal" class="dropdown-header" (click)="goToPage('profile-pharma')">
-                      <div class="d-flex flex-row-start align-items-center">
-                        <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle me-3" width="50" height="50">
-                        <div class="fs-3">
-                          <div>
-                            {{user.nickName}}
-                          </div>
-                          <div class="fs-6">
-                            {{user.gender == "หญิง"?"ภญ.":"ภก."}}{{user.name}} {{user.surname}} <br>
-                            ภ.{{user.license}}
-                          </div>
+                        <div class="fs-6">
+                          {{ user.gender == "หญิง" ? "ภญ." : "ภก."
+                          }}{{ user.name }} {{ user.surname }} <br />
+                          ภ.{{ user.license }}
                         </div>
                       </div>
                     </div>
-                  </li>
-                  <hr style="width:100%" class="my-2 m-auto">
-                  <li><a style="padding-top:15px; padding-bottom:15px" class="dropdown-item" (click)="goToPage('profile-pharma', true, {scrollFlag:true})"><i class="bi bi-file-earmark-text-fill mx-3"></i>ฝากประวัติ</a></li>
-                  <li><a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-jobs')"><i class="bi bi-briefcase-fill mx-3"></i>งานที่กดสมัคร</a></li>
-                  <li><a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-views')"><i class="bi bi-inboxes-fill mx-3"></i>คำขอดูข้อมูล</a></li>
-                  <li><a style="padding-top:15px; padding-bottom:15px" class="dropdown-item" (click)="goToPage('profile-pharma/bookmark')"><i class="bi bi-bookmark-fill mx-3"></i>งานที่บันทึก</a></li>
-                  <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
-                  <li><a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="goToPage('profile-pharma/followers')"><i class="bi bi-person-plus-fill mx-3"></i>กำลังติดตาม</a></li>
-                  <hr style="width:100%" class="my-2 m-auto">
-                  <li><a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item"><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a></li>
-                  <hr style="width:100%" class="my-2 m-auto">
-                  <li><a style="padding-top:15px; padding-bottom:15px" class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right mx-3"></i>Sign Out</a></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </ng-template>
-        <ng-template #normalNav>
-          <ul class="fs-3 navbar-nav d-flex align-items-center">
-              <li class="nav-item dropdown ms-3">
-                  <a style="cursor:pointer" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">หางานเภสัช</a>
-                  <ul class="dropdown-menu p-2 fs-3">
-                    <li><a class="dropdown-item" (click)="redirectToList('AA')"><i class="bi bi-calendar-check-fill me-3"></i>งานเภสัชรายวัน (freelance)</a></li>
-                    <li><a class="dropdown-item" (click)="redirectToList('AB')"><i class="bi bi-house-fill me-3"></i>ร้านยาเดี่ยว (Stand alone)</a></li>
-                    <li><a class="dropdown-item" (click)="redirectToList('AC')"><i class="bi bi-basket3-fill me-3"></i>ร้านยาแบรนด์ (Chain)</a></li>
-                    <li><a class="dropdown-item" (click)="redirectToList('BB')"><i class="bi bi-bandaid-fill me-3"></i>โรงพยาบาล/คลินิก</a></li>
-                    <li><a class="dropdown-item" (click)="redirectToList('BC')"><i class="bi bi-bank2 me-3"></i>โรงงาน/บริษัท/วิจัย</a></li>
-                    <li><a class="dropdown-item" (click)="redirectToList('CA')"><i class="bi bi-ui-radios-grid me-3"></i>งานอื่นๆ</a></li>
-                  </ul>
+                  </div>
+                </li>
+                <hr style="width: 100%" class="my-2 m-auto" />
+                <li>
+                  <a
+                    style="padding-top: 15px; padding-bottom: 15px"
+                    class="dropdown-item"
+                    (click)="
+                      goToPage('profile-pharma', true, { scrollFlag: true })
+                    "
+                    ><i class="bi bi-file-earmark-text-fill mx-3"></i
+                    >ฝากประวัติ</a
+                  >
+                </li>
+                <li>
+                  <a
+                    style="padding-top: 15px; padding-bottom: 15px"
+                    class="d-flex dropdown-item"
+                    (click)="
+                      goToPage('profile-pharma/register-jobs/request-jobs')
+                    "
+                    ><i class="bi bi-briefcase-fill mx-3"></i>งานที่กดสมัคร</a
+                  >
+                </li>
+                <li>
+                  <a
+                    style="padding-top: 15px; padding-bottom: 15px"
+                    class="d-flex dropdown-item"
+                    (click)="
+                      goToPage('profile-pharma/register-jobs/request-views')
+                    "
+                    ><i class="bi bi-inboxes-fill mx-3"></i>คำขอดูข้อมูล</a
+                  >
+                </li>
+                <li>
+                  <a
+                    style="padding-top: 15px; padding-bottom: 15px"
+                    class="dropdown-item"
+                    (click)="goToPage('profile-pharma/bookmark')"
+                    ><i class="bi bi-bookmark-fill mx-3"></i>งานที่บันทึก</a
+                  >
+                </li>
+                <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
+                <li>
+                  <a
+                    style="padding-top: 15px; padding-bottom: 15px"
+                    class="d-flex dropdown-item"
+                    (click)="goToPage('profile-pharma/followers')"
+                    ><i class="bi bi-person-plus-fill mx-3"></i>กำลังติดตาม</a
+                  >
+                </li>
+                <hr style="width: 100%" class="my-2 m-auto" />
+                <li>
+                  <a
+                    style="padding-top: 15px; padding-bottom: 15px"
+                    class="d-flex dropdown-item"
+                    data-bs-toggle="modal"
+                    data-bs-target="#contactUsModal"
+                    ><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a
+                  >
+                </li>
+                <hr style="width: 100%" class="my-2 m-auto" />
+                <li>
+                  <a
+                    style="padding-top: 15px; padding-bottom: 15px"
+                    class="d-flex dropdown-item"
+                    (click)="signOut()"
+                    ><i class="bi bi-box-arrow-right mx-3"></i>Sign Out</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </ng-template>
+      <ng-template #normalNav>
+        <ul class="fs-3 navbar-nav d-flex align-items-center">
+          <li class="nav-item dropdown ms-3">
+            <a
+              style="cursor: pointer"
+              class="navText nav-link dropdown-toggle"
+              role="button"
+              data-bs-toggle="dropdown"
+              >หางานเภสัช</a
+            >
+            <ul class="dropdown-menu p-2 fs-3">
+              <li>
+                <a class="dropdown-item" (click)="redirectToList('AA')"
+                  ><i class="bi bi-calendar-check-fill me-3"></i>งานเภสัชรายวัน
+                  (freelance)</a
+                >
               </li>
-              <li class="nav-item ms-3" style="cursor:pointer">
-                <a style="cursor:pointer" class="nav-link green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a>
+              <li>
+                <a class="dropdown-item" (click)="redirectToList('AB')"
+                  ><i class="bi bi-house-fill me-3"></i>ร้านยาเดี่ยว (Stand
+                  alone)</a
+                >
               </li>
-              <li class="nav-item ms-3">
-                <a style="cursor:pointer" class="nav-link"  data-bs-toggle="modal" data-bs-target="#registerModal">สมัครสมาชิก</a>
+              <li>
+                <a class="dropdown-item" (click)="redirectToList('AC')"
+                  ><i class="bi bi-basket3-fill me-3"></i>ร้านยาแบรนด์
+                  (Chain)</a
+                >
               </li>
-              <li class="nav-item ms-3">
-                <a style="cursor:pointer" class="nav-link"  data-bs-toggle="modal" data-bs-target="#operatorModal">ผู้ประกอบการ</a>
+              <li>
+                <a class="dropdown-item" (click)="redirectToList('BB')"
+                  ><i class="bi bi-bandaid-fill me-3"></i>โรงพยาบาล/คลินิก</a
+                >
               </li>
-              <li class="nav-item ms-3">
-                <a style="cursor:pointer" class="nav-link">ติดต่อเรา</a>
+              <li>
+                <a class="dropdown-item" (click)="redirectToList('BC')"
+                  ><i class="bi bi-bank2 me-3"></i>โรงงาน/บริษัท/วิจัย</a
+                >
               </li>
-          </ul>
-        </ng-template>
-      </div>
-      <button class="navbar-toggler d-xl-none " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+              <li>
+                <a class="dropdown-item" (click)="redirectToList('CA')"
+                  ><i class="bi bi-ui-radios-grid me-3"></i>งานอื่นๆ</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item ms-3" style="cursor: pointer">
+            <a
+              style="cursor: pointer"
+              class="navText nav-link green-text"
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal"
+              >เข้าสู่ระบบ</a
+            >
+          </li>
+          <li class="nav-item ms-3">
+            <a
+              style="cursor: pointer"
+              class="navText nav-link"
+              data-bs-toggle="modal"
+              data-bs-target="#registerModal"
+              >สมัครสมาชิก</a
+            >
+          </li>
+          <li class="nav-item ms-3">
+            <a style="cursor: pointer" class="navText nav-link" routerLink="buy"
+              >ผู้ประกอบการ</a
+            >
+          </li>
+          <li class="nav-item ms-3">
+            <a
+              style="cursor: pointer"
+              class="navText nav-link"
+              data-bs-toggle="modal"
+              data-bs-target="#bannerMenuModal"
+              >ติดต่อลงโฆษณา</a
+            >
+          </li>
+          <li class="nav-item ms-3">
+            <a
+              style="cursor: pointer"
+              class="navText nav-link"
+              data-bs-toggle="modal"
+              data-bs-target="#contactUsModal"
+              >ติดต่อเรา</a
+            >
+          </li>
+        </ul>
+      </ng-template>
     </div>
-  </nav>
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <button
+      class="navbar-toggler d-xl-none"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasExample"
+      aria-controls="offcanvasExample"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+>
   <div class="offcanvas-header">
     <div class="d-flex flex-row align-items-center justify-content-center">
       <div class="fs-2 me-3">
         <i class="bi bi-file-earmark-text"></i> {{ aggregationGroup.jobCount }}
       </div>
       <div class="fs-2 me-3">
-        <i class="bi bi-person"></i>  {{ aggregationGroup.userPharmaCount }}
+        <i class="bi bi-person"></i> {{ aggregationGroup.userPharmaCount }}
       </div>
       <div class="fs-2 me-3">
         <i class="bi bi-building"></i> {{ aggregationGroup.userOperatorCount }}
       </div>
     </div>
-    <button type="button" class="d-flex flex-row-reverse btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <button
+      type="button"
+      class="d-flex flex-row-reverse btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
   </div>
   <div class="offcanvas-body">
-    <ng-container *ngIf="loginFlag; then loggedNav; else notLoggedNav"></ng-container>
+    <ng-container
+      *ngIf="loginFlag; then loggedNav; else notLoggedNav"
+    ></ng-container>
     <ng-template #loggedNav>
       <!-- <ul class="nav nav-pills nav-fill fs-2 mb-3" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -202,102 +492,320 @@
           <button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab" aria-controls="notifications" aria-selected="false"><i class="bi bi-bell"></i></button>
         </li>
       </ul> -->
-      
+
       <!-- Tab panes -->
       <div class="tab-content">
-        <div class="tab-pane active" id="Profile" role="tabpanel" aria-labelledby="Profile-tab" tabindex="0">
-          <ul class="ps-0 fs-3" style="list-style-type:none">
+        <div
+          class="tab-pane active"
+          id="Profile"
+          role="tabpanel"
+          aria-labelledby="Profile-tab"
+          tabindex="0"
+        >
+          <ul class="ps-0 fs-3" style="list-style-type: none">
             <li>
-              <div style="cursor:pointer" class="dropdown-header" (click)="goToPage('profile-pharma')">
+              <div
+                style="cursor: pointer"
+                class="dropdown-header"
+                (click)="goToPage('profile-pharma')"
+              >
                 <div class="d-flex flex-row-start align-items-center">
-                  <img [src]="user.cropProfilePictureUrl !== undefined? user.cropProfilePictureUrl: user.profilePictureUrl" class="rounded-circle me-3" width="50" height="50">
+                  <img
+                    [src]="
+                      user.cropProfilePictureUrl !== undefined
+                        ? user.cropProfilePictureUrl
+                        : user.profilePictureUrl
+                    "
+                    class="rounded-circle me-3"
+                    width="50"
+                    height="50"
+                  />
                   <div class="fs-3">
                     <div>
-                      {{user.nickName}}
+                      {{ user.nickName }}
                     </div>
                     <div class="fs-6">
-                      {{user.gender == "หญิง"?"ภญ.":"ภช."}}{{user.name}} {{user.surname}} <br>
-                      ภ.{{user.license}}
+                      {{ user.gender == "หญิง" ? "ภญ." : "ภช."
+                      }}{{ user.name }} {{ user.surname }} <br />
+                      ภ.{{ user.license }}
                     </div>
-
                   </div>
                 </div>
               </div>
             </li>
             <li class="my-3">
-              <a class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#pharmaJobs" role="button"><i class="bi bi-ui-checks-grid mx-3"></i>งานด้านเภสัชกรรม</a>
+              <a
+                class="dropdown-item"
+                data-bs-toggle="collapse"
+                data-bs-target="#pharmaJobs"
+                role="button"
+                ><i class="bi bi-ui-checks-grid mx-3"></i>งานด้านเภสัชกรรม</a
+              >
               <div class="collapse py-2 fs-3" id="pharmaJobs">
                 <ul class="ps-0">
-                  <li class="my-3 dropdown-item"><a (click)="redirectToList('AA')"><i style="visibility:hidden" class="bi bi-calendar-check-fill mx-3"></i>งานเภสัชรายวัน (freelance)</a></li>
-                  <li class="my-3 dropdown-item"><a (click)="redirectToList('AB')"><i style="visibility:hidden" class="bi bi-house-fill mx-3"></i>ร้านยาเดี่ยว (Stand alone)</a></li>
-                  <li class="my-3 dropdown-item"><a (click)="redirectToList('AC')"><i style="visibility:hidden" class="bi bi-basket3-fill mx-3"></i>ร้านยาแบรนด์ (Chain)</a></li>
-                  <li class="my-3 dropdown-item"><a (click)="redirectToList('BB')"><i style="visibility:hidden" class="bi bi-bandaid-fill mx-3"></i>โรงพยาบาล/คลินิก</a></li>
-                  <li class="my-3 dropdown-item"><a (click)="redirectToList('BC')"><i style="visibility:hidden" class="bi bi-bank2 mx-3"></i>โรงงาน/บริษัท/วิจัย</a></li>
-                  <li class="my-3 dropdown-item"><a (click)="redirectToList('CA')"><i style="visibility:hidden" class="bi bi-ui-radios-grid mx-3"></i>งานอื่นๆ</a></li>
+                  <li class="my-3 dropdown-item">
+                    <a (click)="redirectToList('AA')"
+                      ><i
+                        style="visibility: hidden"
+                        class="bi bi-calendar-check-fill mx-3"
+                      ></i
+                      >งานเภสัชรายวัน (freelance)</a
+                    >
+                  </li>
+                  <li class="my-3 dropdown-item">
+                    <a (click)="redirectToList('AB')"
+                      ><i
+                        style="visibility: hidden"
+                        class="bi bi-house-fill mx-3"
+                      ></i
+                      >ร้านยาเดี่ยว (Stand alone)</a
+                    >
+                  </li>
+                  <li class="my-3 dropdown-item">
+                    <a (click)="redirectToList('AC')"
+                      ><i
+                        style="visibility: hidden"
+                        class="bi bi-basket3-fill mx-3"
+                      ></i
+                      >ร้านยาแบรนด์ (Chain)</a
+                    >
+                  </li>
+                  <li class="my-3 dropdown-item">
+                    <a (click)="redirectToList('BB')"
+                      ><i
+                        style="visibility: hidden"
+                        class="bi bi-bandaid-fill mx-3"
+                      ></i
+                      >โรงพยาบาล/คลินิก</a
+                    >
+                  </li>
+                  <li class="my-3 dropdown-item">
+                    <a (click)="redirectToList('BC')"
+                      ><i
+                        style="visibility: hidden"
+                        class="bi bi-bank2 mx-3"
+                      ></i
+                      >โรงงาน/บริษัท/วิจัย</a
+                    >
+                  </li>
+                  <li class="my-3 dropdown-item">
+                    <a (click)="redirectToList('CA')"
+                      ><i
+                        style="visibility: hidden"
+                        class="bi bi-ui-radios-grid mx-3"
+                      ></i
+                      >งานอื่นๆ</a
+                    >
+                  </li>
                 </ul>
               </div>
             </li>
-            <hr style="width:100%" class="my-2 m-auto">
-            <li class="my-3"><a class="dropdown-item" (click)="goToPage('profile-pharma', true, {scrollFlag:true})"><i class="bi bi-file-earmark-text-fill mx-3"></i>ฝากประวัติ</a></li>
-            <li class="my-3"><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-jobs')"><i class="bi bi-briefcase-fill mx-3"></i>งานที่กดสมัคร</a></li>
-            <li class="my-3"><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/register-jobs/request-views')"><i class="bi bi-inboxes-fill mx-3"></i>คำขอดูข้อมูล</a></li>
-            <li class="my-3"><a class="dropdown-item" (click)="goToPage('profile-pharma/bookmark')"><i class="bi bi-bookmark-fill mx-3"></i>งานที่บันทึก</a></li>
+            <hr style="width: 100%" class="my-2 m-auto" />
+            <li class="my-3">
+              <a
+                class="dropdown-item"
+                (click)="goToPage('profile-pharma', true, { scrollFlag: true })"
+                ><i class="bi bi-file-earmark-text-fill mx-3"></i>ฝากประวัติ</a
+              >
+            </li>
+            <li class="my-3">
+              <a
+                class="d-flex dropdown-item"
+                (click)="goToPage('profile-pharma/register-jobs/request-jobs')"
+                ><i class="bi bi-briefcase-fill mx-3"></i>งานที่กดสมัคร</a
+              >
+            </li>
+            <li class="my-3">
+              <a
+                class="d-flex dropdown-item"
+                (click)="goToPage('profile-pharma/register-jobs/request-views')"
+                ><i class="bi bi-inboxes-fill mx-3"></i>คำขอดูข้อมูล</a
+              >
+            </li>
+            <li class="my-3">
+              <a
+                class="dropdown-item"
+                (click)="goToPage('profile-pharma/bookmark')"
+                ><i class="bi bi-bookmark-fill mx-3"></i>งานที่บันทึก</a
+              >
+            </li>
             <!-- <li><a class="d-flex dropdown-item" routerLink="jobs-list" [queryParams]="{CategorySymbol: 'AA'}"><i class="bi bi-file-earmark-richtext me-3"></i>งานด่วนรานวัน</a></li> -->
-            <li class="my-3"><a class="d-flex dropdown-item" (click)="goToPage('profile-pharma/followers')"><i class="bi bi-person-plus-fill mx-3"></i>กำลังติดตาม</a></li>
-            <hr style="width:100%" class="my-2 m-auto">
-            <li class="my-3"><a class="d-flex dropdown-item"><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a></li>
-            <hr style="width:100%" class="my-2 m-auto">
-            <li class="my-3"><a class="d-flex dropdown-item" (click)="signOut()"><i class="bi bi-box-arrow-right mx-3"></i>Sign Out</a></li>
+            <li class="my-3">
+              <a
+                class="d-flex dropdown-item"
+                (click)="goToPage('profile-pharma/followers')"
+                ><i class="bi bi-person-plus-fill mx-3"></i>กำลังติดตาม</a
+              >
+            </li>
+            <hr style="width: 100%" class="my-2 m-auto" />
+            <li class="my-3">
+              <a
+                class="d-flex dropdown-item"
+                data-bs-toggle="modal"
+                data-bs-target="#contactUsModal"
+                ><i class="bi bi-headset mx-3"></i>ติดต่อเรา</a
+              >
+            </li>
+            <hr style="width: 100%" class="my-2 m-auto" />
+            <li class="my-3">
+              <a class="d-flex dropdown-item" (click)="signOut()"
+                ><i class="bi bi-box-arrow-right mx-3"></i>Sign Out</a
+              >
+            </li>
           </ul>
         </div>
-        <div class="tab-pane" id="search" role="tabpanel" aria-labelledby="search-tab" tabindex="0">
-          <div style="width:fit-content">Search</div>
+        <div
+          class="tab-pane"
+          id="search"
+          role="tabpanel"
+          aria-labelledby="search-tab"
+          tabindex="0"
+        >
+          <div style="width: fit-content">Search</div>
         </div>
-        <!-- <div class="tab-pane" id="chat" role="tabpanel" aria-labelledby="chat-tab" tabindex="0">
-          <app-chat-confirm></app-chat-confirm>
-        </div> -->
-        <div class="tab-pane" id="notifications" role="tabpanel" aria-labelledby="notifications-tab" tabindex="0">
+        <div
+          class="tab-pane"
+          id="notifications"
+          role="tabpanel"
+          aria-labelledby="notifications-tab"
+          tabindex="0"
+        >
           Notifications
         </div>
       </div>
     </ng-template>
     <ng-template #notLoggedNav>
       <ul class="fs-3 navbar-nav">
-        <li class="nav-item ms-3" style="cursor:pointer">
-          <a class="nav-link green-text" data-bs-toggle="modal" data-bs-target="#loginModal">เข้าสู่ระบบ</a>
+        <li class="nav-item ms-3" style="cursor: pointer">
+          <a
+            class="nav-link green-text"
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+            >เข้าสู่ระบบ</a
+          >
         </li>
         <li class="nav-item ms-3">
-          <a class="nav-link"  data-bs-toggle="modal" data-bs-target="#registerModal">สมัครสมาชิก</a>
+          <a
+            class="nav-link"
+            data-bs-toggle="modal"
+            data-bs-target="#registerModal"
+            >สมัครสมาชิก</a
+          >
         </li>
-        <!-- <li class="nav-item ms-3">
-          <a class="nav-link">ผู้ประกอบการ</a>
-        </li> -->
         <li class="nav-item ms-3">
-          <a class="nav-link">ติดต่อเรา</a>
+          <a
+            style="cursor: pointer"
+            class="nav-link"
+            routerLink="buy"
+            data-bs-dismiss="offcanvas"
+            >ผู้ประกอบการ</a
+          >
+        </li>
+        <li class="nav-item ms-3">
+          <a
+            style="cursor: pointer"
+            class="nav-link"
+            data-bs-toggle="modal"
+            data-bs-dismiss="offcanvas"
+            data-bs-target="#bannerMenuModal"
+            >ติดต่อลงโฆษณา</a
+          >
+        </li>
+        <li class="nav-item ms-3">
+          <a
+            class="nav-link"
+            data-bs-toggle="modal"
+            data-bs-target="#contactUsModal"
+            >ติดต่อเรา</a
+          >
         </li>
         <li class="my-3">
-          <a class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#pharmaJobsMobile" role="button"><i class="bi bi-ui-checks-grid mx-3"></i>งานด้านเภสัชกรรม</a>
-          <div class="collapse py-2 textProfileResponsive" id="pharmaJobsMobile">
+          <a
+            class="dropdown-item"
+            data-bs-toggle="collapse"
+            data-bs-target="#pharmaJobsMobile"
+            role="button"
+            ><i class="bi bi-ui-checks-grid mx-3"></i>งานด้านเภสัชกรรม</a
+          >
+          <div
+            class="collapse py-2 textProfileResponsive"
+            id="pharmaJobsMobile"
+          >
             <ul class="ps-0 redirectFont">
-              <li class="my-3 dropdown-item"><a (click)="redirectToList('AA')"><i style="visibility:hidden" class="bi bi-calendar-check-fill mx-3"></i>งานเภสัชรายวัน (freelance)</a></li>
-              <li class="my-3 dropdown-item"><a (click)="redirectToList('AB')"><i style="visibility:hidden" class="bi bi-house-fill mx-3"></i>ร้านยาเดี่ยว (Stand alone)</a></li>
-              <li class="my-3 dropdown-item"><a (click)="redirectToList('AC')"><i style="visibility:hidden" class="bi bi-basket3-fill mx-3"></i>ร้านยาแบรนด์ (Chain)</a></li>
-              <li class="my-3 dropdown-item"><a (click)="redirectToList('BB')"><i style="visibility:hidden" class="bi bi-bandaid-fill mx-3"></i>โรงพยาบาล/คลินิก</a></li>
-              <li class="my-3 dropdown-item"><a (click)="redirectToList('BC')"><i style="visibility:hidden" class="bi bi-bank2 mx-3"></i>โรงงาน/บริษัท/วิจัย</a></li>
-              <li class="my-3 dropdown-item"><a (click)="redirectToList('CA')"><i style="visibility:hidden" class="bi bi-ui-radios-grid mx-3"></i>งานอื่นๆ</a></li>
+              <li class="my-3 dropdown-item">
+                <a (click)="redirectToList('AA')"
+                  ><i
+                    style="visibility: hidden"
+                    class="bi bi-calendar-check-fill mx-3"
+                  ></i
+                  >งานเภสัชรายวัน (freelance)</a
+                >
+              </li>
+              <li class="my-3 dropdown-item">
+                <a (click)="redirectToList('AB')"
+                  ><i
+                    style="visibility: hidden"
+                    class="bi bi-house-fill mx-3"
+                  ></i
+                  >ร้านยาเดี่ยว (Stand alone)</a
+                >
+              </li>
+              <li class="my-3 dropdown-item">
+                <a (click)="redirectToList('AC')"
+                  ><i
+                    style="visibility: hidden"
+                    class="bi bi-basket3-fill mx-3"
+                  ></i
+                  >ร้านยาแบรนด์ (Chain)</a
+                >
+              </li>
+              <li class="my-3 dropdown-item">
+                <a (click)="redirectToList('BB')"
+                  ><i
+                    style="visibility: hidden"
+                    class="bi bi-bandaid-fill mx-3"
+                  ></i
+                  >โรงพยาบาล/คลินิก</a
+                >
+              </li>
+              <li class="my-3 dropdown-item">
+                <a (click)="redirectToList('BC')"
+                  ><i style="visibility: hidden" class="bi bi-bank2 mx-3"></i
+                  >โรงงาน/บริษัท/วิจัย</a
+                >
+              </li>
+              <li class="my-3 dropdown-item">
+                <a (click)="redirectToList('CA')"
+                  ><i
+                    style="visibility: hidden"
+                    class="bi bi-ui-radios-grid mx-3"
+                  ></i
+                  >งานอื่นๆ</a
+                >
+              </li>
             </ul>
           </div>
         </li>
-    </ul>
+      </ul>
     </ng-template>
   </div>
 </div>
-<div id="liveAlertPlaceholder" class="position-fixed bottom-0 end-0 mb-4 me-sm-4 mx-2" style="z-index:50"></div>
-
+<div
+  id="liveAlertPlaceholder"
+  class="position-fixed bottom-0 end-0 mb-4 me-sm-4 mx-2"
+  style="z-index: 50"
+></div>
+<app-cookie-popup></app-cookie-popup>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
 
-<div class="modal fade" id="operatorId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="operatorId"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-lg textResponsive">
     <div class="modal-content semi-border-input standard-shadow">
       <div class="modal-header justify-content-center">
@@ -305,90 +813,312 @@
       </div>
       <div class="modal-body m-3">
         <ul class="mb-3">
-          <li>ธุรกิจที่จดทะเบียนพาณิชย์แบบ นิติบุคคล บริษัท หรือ ห้างหุ้นส่วน ใช้เลขทะเบียนบริษัทหรือ<b>เลขทะเบียนนิติ
-            บุคคล 13 หลัก</b>ที่ออกโดยกรมพัฒนาธุรกิจการค้า
-           เป็นเลขทะเบียนพาณิชย์์</li>
-          <li>ธุรกิจที่จดทะเบียนพาณิชย์แบบ บุคคลธรรมดา ใช้<b>เลขประจำตัวประชาชน 13 หลัก</b>เป็นเลขทะเบียนพาณิชย์</li>
+          <li>
+            ธุรกิจที่จดทะเบียนพาณิชย์แบบ นิติบุคคล บริษัท หรือ ห้างหุ้นส่วน
+            ใช้เลขทะเบียนบริษัทหรือ<b>เลขทะเบียนนิติ บุคคล 13 หลัก</b
+            >ที่ออกโดยกรมพัฒนาธุรกิจการค้า เป็นเลขทะเบียนพาณิชย์์
+          </li>
+          <li>
+            ธุรกิจที่จดทะเบียนพาณิชย์แบบ บุคคลธรรมดา ใช้<b
+              >เลขประจำตัวประชาชน 13 หลัก</b
+            >เป็นเลขทะเบียนพาณิชย์
+          </li>
         </ul>
         <div class="d-flex justify-content-center">
-          <button class="border-input btn green-color p-3" style="color:white" data-bs-toggle="modal" data-bs-target="#registerModal">กลับสู่หน้าสมัครสมาชิก</button>
+          <button
+            class="border-input btn green-color p-3"
+            style="color: white"
+            data-bs-toggle="modal"
+            data-bs-target="#registerModal"
+          >
+            กลับสู่หน้าสมัครสมาชิก
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="operatorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="operatorModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content semi-border-input standard-shadow">
       <div class="modal-body m-3">
-        <div style="background-color:#f2f2f2" class="p-3 mb-3 text-center semi-border-input textResponsiveHeader">
-            <div class="d-flex flex-row-reverse align-items-center pe-3 textResponsive">
-              <i class="bi bi-x-circle-fill" style="color:#949191 !important" (click)="onCloseModal()"></i>
-            </div>
-            <div class="d-flex justify-content-center align-items-center"><b>หา<span style="color:red">เภสัชกร</span>กับ <img style="width:8em" src="/assets/logo.png"> สิ!</b></div>
-            <div class="d-flex justify-content-center"><button (click)="onRegisterClick()" class="btn textProfileResponsive green-color border-input px-5 py-2" style="min-width:14em; color:white">สมัครสมาชิกผู้ประกอบการ</button></div>
+        <div
+          style="background-color: #f2f2f2"
+          class="p-3 mb-3 text-center semi-border-input textResponsiveHeader"
+        >
+          <div
+            class="d-flex flex-row-reverse align-items-center pe-3 textResponsive"
+          >
+            <i
+              class="bi bi-x-circle-fill"
+              style="color: #949191 !important"
+              (click)="onCloseModal()"
+            ></i>
+          </div>
+          <div class="d-flex justify-content-center align-items-center">
+            <b
+              >หา<span style="color: red">เภสัชกร</span>กับ
+              <img style="width: 8em" src="/assets/logo.png" /> สิ!</b
+            >
+          </div>
+          <div class="d-flex justify-content-center">
+            <button
+              (click)="onRegisterClick()"
+              class="btn textProfileResponsive green-color border-input px-5 py-2"
+              style="min-width: 14em; color: white"
+            >
+              สมัครสมาชิกผู้ประกอบการ
+            </button>
+          </div>
         </div>
         <div class="textResponsive d-flex mb-3 justify-content-center">
           <b>สร้างประกาศงานใน Pharmwork ดียังไง?</b>
         </div>
         <div class="d-lg-flex d-block justify-content-between">
-          <div class="text-center mb-3"><img src="assets/perk1.png" class="imgWidth standard-shadow"></div>
-          <div class="text-center mb-3"><img src="assets/perk2.png" class="imgWidth standard-shadow"></div>
-          <div class="text-center mb-3"><img src="assets/perk3.png" class="imgWidth standard-shadow"></div>
+          <div class="text-center mb-3">
+            <img src="assets/perk1.png" class="imgWidth standard-shadow" />
+          </div>
+          <div class="text-center mb-3">
+            <img src="assets/perk2.png" class="imgWidth standard-shadow" />
+          </div>
+          <div class="text-center mb-3">
+            <img src="assets/perk3.png" class="imgWidth standard-shadow" />
+          </div>
         </div>
-        <div style="background-color:#f2f2f2" class="p-3 text-center semi-border-input textProfileResponsive">
-            <div><b>หรือเป็นสมาชิกกับ Pharmwork อยู่แล้ว?</b></div>
-            <div class="d-flex justify-content-center"><button (click)="onLoginClick()" class="btn textProfileResponsive purple-color border-input px-5 py-2" style="min-width:14em; color:white">เข้าสู่ระบบผู้ประกอบการ</button></div>
+        <div
+          style="background-color: #f2f2f2"
+          class="p-3 text-center semi-border-input textProfileResponsive"
+        >
+          <div><b>หรือเป็นสมาชิกกับ Pharmwork อยู่แล้ว?</b></div>
+          <div class="d-flex justify-content-center">
+            <button
+              (click)="onLoginClick()"
+              class="btn textProfileResponsive purple-color border-input px-5 py-2"
+              style="min-width: 14em; color: white"
+            >
+              เข้าสู่ระบบผู้ประกอบการ
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="requestViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="requestViewModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content semi-border-input standard-shadow">
       <!-- <div class="modal-header">
         <h5 class="modal-title fs-3">เขียนข้อความแนบ</h5>
         <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
       </div> -->
-          <div class="modal-body">
-            <ng-container *ngIf="requestView.requestView == ''; then empty; else notEmpty"></ng-container>
-            <ng-template #empty>
-              <div class="fs-3" style="text-align:center">ไม่มีข้อความแนบ</div>
-            </ng-template>
-            <ng-template #notEmpty>
-              <div class="fs-3" [innerHTML]="requestView.requestView"></div>
-            </ng-template>
-        </div>
+      <div class="modal-body">
+        <ng-container
+          *ngIf="requestView.requestView == ''; then empty; else notEmpty"
+        ></ng-container>
+        <ng-template #empty>
+          <div class="fs-3" style="text-align: center">ไม่มีข้อความแนบ</div>
+        </ng-template>
+        <ng-template #notEmpty>
+          <div class="fs-3" [innerHTML]="requestView.requestView"></div>
+        </ng-template>
+      </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
+<div
+  class="modal fade"
+  id="bannerMenuModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-xl modal-dialog modal-dialog-centered">
+    <div class="modal-content semi-border-input standard-shadow">
+      <div class="modal-header p-4">
+        <span style="visibility: hidden">ff</span>
+        <h5 class="modal-title"><b>ลงโฆษณาแบนเนอร์กับ Pharmwork สิ!</b></h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-banner-menu></app-banner-menu>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="contactUsModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content semi-border-input standard-shadow">
+      <div class="modal-header d-flex justify-content-between py-3">
+        <div style="visibility: hidden">fdsa</div>
+        <div class="textProfileResponsive modal-title">
+          <div class="text-center">
+            <b>ติดต่อทีมงาน Pharmwork</b>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div
+        class="modal-body textProfileResponsive mx-md-5 mx-sm-3 mx-2 px-sm-4 px-2"
+      >
+        <div class="text-center my-3 mt-sm-3 mt-1" style="font-weight: bold">
+          <img style="width: 30%" src="assets/buy/gmail.png" />
+          <br />
+          Email<br />
+          <span>แจ้งปัญหาหรือสอบถามรายละเอียดต่างๆผ่านทางอีเมล</span>
+        </div>
+        <div>
+          <div style="text-align: center" *ngIf="contactUsLoadingFlag">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div
+          style="color: red"
+          *ngIf="emptyEmailFlag"
+          class="textProfileResponsive my-3 text-center"
+        >
+          please fill up form
+        </div>
+        <div class="d-flex justify-content-center my-3">
+          <textarea
+            placeholder="แจ้งหรือสอบถามปัญหาเรื่อง..."
+            class="textProfileResponsive quazi-border-input"
+            style="height: 150px; padding: 20px"
+            id="contactUsEmail"
+            rows="4"
+            cols="100"
+          ></textarea>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button
+            class="green-color green-mini-border-color border-input px-4 py-1 my-md-3 my-1"
+            style="color: white"
+            (click)="submitEmail()"
+          >
+            ส่งข้อความ
+          </button>
+        </div>
+        <div class="my-3 text-center" style="font-weight: bold">
+          ช่องทางการติดต่ออื่นๆ
+        </div>
+        <div
+          class="d-flex justify-content-center"
+          style="gap: 40px; font-weight: bold"
+        >
+          <div class="text-sm-end text-center">
+            <a
+              href="https://www.facebook.com/profile.php?id=100093436122280"
+              style="color: black"
+            >
+              <img
+                style="width: 30%"
+                class="customImg mb-3"
+                src="assets/buy/facebook.png"
+              /><br />
+              Facebook
+            </a>
+          </div>
+          <div class="text-sm-start text-center">
+            <a
+              style="color: black"
+              href="https://liff.line.me/1645278921-kWRPP32q/?accountId=417cyhwi"
+            >
+              <img
+                style="width: 30%"
+                class="customImg mb-3"
+                src="assets/buy/line.png"
+              /><br />
+              Line official
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="shareModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content semi-border-input standard-shadow">
       <div class="modal-header">
         <h5 class="modal-title">แชร์งานที่คุณถูกใจเลย!</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
-			<div class="modal-body">
+      <div class="modal-body">
         <div class="input-group mb-3">
-          <input type="text" [value]="nameToShare" id="myInput" class="form-control">
+          <input
+            type="text"
+            [value]="nameToShare"
+            id="myInput"
+            class="form-control"
+          />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary"  type="button" (click)="copyString()">{{copy}}</button>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="copyString()"
+            >
+              {{ copy }}
+            </button>
           </div>
         </div>
-        <share-buttons theme="circles-dark"
-          [include]="[ 'facebook', 'messenger', 'line', 'twitter']"
+        <share-buttons
+          theme="circles-dark"
+          [include]="['facebook', 'messenger', 'line', 'twitter']"
           [url]="nameToShare"
           image="assets/banner11.png"
           [showIcon]="true"
-          [showText]="false">
+          [showText]="false"
+        >
         </share-buttons>
-		  </div>
-	  </div>
-	</div>
-</div>  
+      </div>
+    </div>
+  </div>
+</div>
 <app-login-page></app-login-page>
 <app-register></app-register>

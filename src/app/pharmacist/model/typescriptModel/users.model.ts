@@ -107,6 +107,7 @@ export interface User{
     email: string;
     uid: string;
     license: string;
+    geoAddress?: string;
     gender?: string;
     education?: string;
     studentFlag: boolean;

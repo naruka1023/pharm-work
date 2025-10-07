@@ -1,9 +1,25 @@
+.brandIcon > img{
+  /* width: -webkit-fill-available !important;
+  height: -webkit-fill-available;
+    width: -moz-available !important;
+    height: -moz-available; */
+    border-radius: 100%;
+    border-radius:100%
+  }
+  .brandIcon{
+    margin-bottom: 1rem
+  }
 @media only screen and (max-width: 768px) {
   .letSideHeader{
     display: block !important
   }
   .jobCount{
     margin-left: 0 !important
+  }
+}
+@media only screen and (max-width: 500px) {
+  .companyName{
+    font-size:1rem !important
   }
 }
 @media only screen and (max-width: 470px){
@@ -61,6 +77,44 @@
   .swiper-button-prev{
     opacity:0 !important
   } */
+   
+  @media (max-width: 1200px) {
+    .pin-icon {
+      width: 40px !important;
+      right: 80px !important;
+      top: 3px !important;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .pin-icon {
+      right: 40px !important;
+      top: 5px !important
+    }
+  }
+  
+  @media (max-width: 770px) {
+    .pin-icon {
+      right: 10px !important;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .pin-icon {
+      top: 13px !important;
+      right: 9vw !important
+    }
+  }
+  @media (max-width: 450px) {
+    .pin-icon {
+      right: 5vw !important
+    }
+  }
+  @media (max-width: 360px) {
+    .pin-icon {
+      right: 3vw !important
+    }
+  }
 
 
 

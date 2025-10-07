@@ -17,6 +17,24 @@
 .imgWidth{
   width: 90%
 }
+.navText{
+  font-size:1.75rem !important
+}
+@media only screen and (max-width: 1600px){
+    .navText{
+      font-size:1.5rem !important
+    }
+  }
+@media only screen and (max-width: 1450px){
+    .navText{
+      font-size:1.3rem !important
+    }
+  }
+@media only screen and (max-width: 1300px){
+    .navText{
+      font-size:1rem !important
+    }
+  }
 @media only screen and (max-width: 992px){
     .headerLabel{
       display: none !important
@@ -26,6 +44,9 @@
     .notificationImage{
       width: 100px;
       height: 100px
+    }
+    .customImg{
+      width: 40% !important
     }
   }
   .tooltip{

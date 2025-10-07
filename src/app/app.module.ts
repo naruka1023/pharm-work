@@ -31,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { operatorReducer } from './pharmacist/state/reducers/operator-reducers';
 import { jobPostReducer } from './pharmacist/state/reducers/job-post-reducers';
 import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-card/job-post-normal-card.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-
     AppRoutingModule,
     GoogleMapsModule,
     HttpClientModule,
+
     ReactiveFormsModule,
     SwiperModule,
     StoreModule.forRoot({
@@ -71,7 +73,7 @@ import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-
     provideAuth(()=>getAuth()),
     provideStorage(()=>getStorage()),
   ],
-  providers: [LandingPageComponent],  // add this line
+  providers: [LandingPageComponent, CookieService],  // add this line
   bootstrap: [AppComponent]
 })
 export class AppModule { }

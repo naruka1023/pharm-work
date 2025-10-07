@@ -211,7 +211,11 @@ export class AppComponent {
             }}
           )
         }else{
-          this.route.navigate(['pharma'])
+          if(this.currentUrl.indexOf('privacy-policy')  == -1){
+            this.route.navigate(['pharma'])
+          }else{
+            this.route.navigate(['pharma/privacy-policy'])
+          }
         }
       }
     })

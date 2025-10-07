@@ -10,6 +10,7 @@ export interface User{
     operatorBanners?: { [key:string]:string}
     TravelInstructions: string,
     _geolocCurrent?: _geoloc;
+    addressValue?: string;
     profilePictureUrl?:string,
     showProfileFlag: boolean;
     benefits: string,

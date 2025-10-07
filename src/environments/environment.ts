@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+  production: true,
   firebase: {
     projectId: 'pharm-work',
     appId: '1:797947649067:web:bad0f4f64244e37f249e6e',
@@ -10,7 +10,7 @@ export const environment = {
     messagingSenderId: '797947649067',
     measurementId: 'G-TKMY6WTWZN',
   }
-  };
+};
 export const vapidKey = "BD_b_VCmV9UpEr7f_EVYDJI0BAUMB1iTR_nFgy9-8LLbLedGhWKKDyI2EhSYMbgFvg9tsjYe-AeaGidm0QGtOu4"
 export const algoliaEnvironment = {
   app_id:'OY4NA7JZ4M',

@@ -1,6 +1,29 @@
+.footerResponsive{
+    font-size:1.2vw
+}
+.footerResponsiveHeader{
+    font-size:1.7vw
+}
+
+.footerJob:hover{
+    background-color:"lightgrey"
+}
+@media only screen and (max-width: 1670px) {
+    .emailResponsive{
+        font-size:1vw !important
+    }
+}
 @media only screen and (max-width: 540px) {
+    .mobileFooterResponsive{
+        font-size:1.1rem !important
+    }
     .imageLogoFooter{
         width: -webkit-fill-available !important;
         width: -moz-available !important;
+    }
+}
+@media only screen and (max-width: 380px) {
+    .mobileFooterResponsive{
+        font-size:0.9rem !important
     }
 }

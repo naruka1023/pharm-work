@@ -1,0 +1,122 @@
+<div class="my-5 textProfileResponsive">
+  <div class="row">
+    <div class="col-lg-6 col-12 customHorizontal" style="padding: 0 4rem">
+      <div
+        class="overlayHover mb-lg-5 mb-3 text-center p-3 px-5 semi-border-input"
+        style="background-color: #d3ffe7"
+        (click)="onClick()"
+      >
+        <div>
+          <img
+            src="assets/buy/adComputer.png"
+            class="responsiveAdComputer"
+            style="height: 20vh"
+          />
+        </div>
+        <div>
+          <b>โฆษณาแบนเนอร์เว็บไซต์<br />(Website banners)</b>
+        </div>
+      </div>
+      <div
+        style="font-weight: bold; border-left: 5px solid #231977"
+        class="ps-sm-5 ps-3 py-lg-0 py-3 align-self-center responsiveFontSize"
+      >
+        ลงประกาศหาเภสัชกรด้วย รูปภาพแบนเนอร์ขนาดใหญ่
+        ดึงดูดผู้สมัครงานเข้าชมบัญชี หรือเว็บไซต์ส่วนตัวของท่าน
+        เองในราคาย่อมเยาว์
+      </div>
+      <div>
+        <div
+          class="btn textProfileResponsive overlayHover p-2 border-input my-3"
+          (click)="
+            downloadContract(
+              '[ติดบนเว็บและใส่อีเมล] ไฟล์แพ็คเกตราคาแบนเนอร์ 7-04-25.pdf'
+            )
+          "
+          style="
+            border: solid 1px;
+            background-color: #d3ffe7;
+            width: -webkit-fill-available;
+            width: -moz-available;
+          "
+        >
+          ไฟล์อัตราค่าโฆษณาแบนเนอร์
+        </div>
+        <div>
+          <button
+            class="textProfileResponsive overlayHover p-2 border-input mb-lg-3 my-3 mb-5"
+            style="
+              border: solid 1px;
+              background-color: #d3ffe7;
+              width: -webkit-fill-available;
+              width: -moz-available;
+            "
+            (click)="onClickBannerProcess()"
+          >
+            ขั้นตอนการลงโฆษณาแบนเนอร์
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-12 customHorizontal" style="padding: 0 4rem">
+      <div
+        class="overlayHover mb-lg-5 mb-3 text-center p-3 px-5 semi-border-input"
+        style="background-color: #f2dffd"
+        (click)="onClickSocial()"
+      >
+        <div>
+          <img
+            src="assets/buy/adMobile.png"
+            class="responsiveAdMobile"
+            style="height: 20vh"
+          />
+        </div>
+        <div class="customTitle">
+          <b>โฆษณาผ่านช่องทาง social media<br />(Social media Ads)</b>
+        </div>
+      </div>
+      <div
+        style="font-weight: bold; border-left: 5px solid #231977"
+        class="ps-sm-5 ps-3 py-lg-0 py-3 align-self-center responsiveFontSize"
+      >
+        ลงโพสประกาศหาเภสัชกร ผ่านช่องทางโซเชียลมีเดีย ต่างๆของ Pharmwork ช่วย
+        เพิ่มประสิทธิ์ในการหาบุคลากร ให้กับองค์กรของท่าน
+      </div>
+      <div>
+        <div>
+          <button
+            class="textProfileResponsive overlayHover p-2 border-input my-3"
+            style="
+              border: solid 1px;
+              background-color: #f2dffd;
+              width: -webkit-fill-available;
+              width: -moz-available;
+            "
+            (click)="
+              downloadContract(
+                'ราคา ads social media ของ pharmwork ปี 2568.pdf'
+              )
+            "
+          >
+            ไฟล์อัตราค่าโฆษณา Ads
+          </button>
+        </div>
+        <div>
+          <button
+            class="textProfileResponsive overlayHover p-2 border-input mb-lg-3 my-3 mb-5"
+            style="
+              border: solid 1px;
+              background-color: #f2dffd;
+              width: -webkit-fill-available;
+              width: -moz-available;
+            "
+            (click)="onClickSocialMediaProcess()"
+          >
+            ขั้นตอนการลงโฆษณา Ads
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-contact-details></app-contact-details>

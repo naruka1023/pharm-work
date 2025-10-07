@@ -1,0 +1,119 @@
+.list > li {
+    padding-bottom:2rem
+}
+ol {
+    list-style-type: none;
+    counter-reset: item;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ol > li {
+    display: table;
+    counter-increment: item;
+    margin-bottom: 0.6em;
+  }
+  
+  ol > li:before {
+    content: counters(item, ".") ". ";
+    display: table-cell;
+    padding-right: 0.6em;    
+  }
+  
+  li ol > li {
+    margin: 0;
+  }
+  
+  li ol > li:before {
+    content: counters(item, ".") " ";
+  }
+  .customResponsiveHeader{
+    font-size:2.3rem 
+}
+.customProfileResponsive{
+  font-size:x-large !important;
+}
+@media only screen and (max-width: 1400px){
+  .customResponsiveHeader, .customProfileResponsive{
+    font-size:large !important
+  }
+  .smallestResponsiveText{
+    font-size:small !important
+  }
+  .customImage{
+    width:6rem !important
+  }
+  .circlePadding{
+    padding:3rem !important
+  }
+  .secondPadding{
+    padding: 1.5rem 5rem !important
+  }
+}
+@media only screen and (max-width: 1200px){
+  .circlePadding{
+    padding:2rem !important
+  }
+  .secondPadding{
+    padding: 1.5rem 1rem !important
+  }
+}
+@media only screen and (max-width: 992px){
+  .circlePadding{
+    width:50% !important;
+    margin:auto !important
+  }
+  .customLineHeight{
+    line-height:100% !important
+  }
+}
+@media only screen and (max-width: 760px){
+  .circlePadding{
+    width:70% !important;
+  }
+  .topPadding{
+    padding:0px !important
+  }
+}
+@media only screen and (max-width: 576px){
+  .topPadding{
+    padding:0px !important
+  }
+}
+@media only screen and (max-width: 510px){
+  .adComputer{
+    height:15vh !important;
+  }
+  .customPicClass{
+    height:12vh !important
+  }
+  .circlePadding{
+    width: 89% !important;
+    padding-top: 1rem !important;
+  }
+}
+@media only screen and (max-width: 400px){
+  .customLineHeight{
+    line-height:150% !important
+  }
+  .customResponsiveHeader, .customProfileResponsive{
+    font-size:medium !important
+  }
+  .smallestResponsiveText{
+    font-size:x-small !important
+  }
+  .customImage{
+    width:4rem !important
+  }
+}
+@media only screen and (max-width: 375px){
+  .circlePadding{
+    width: 100% !important;
+    padding: 3rem !important;
+  }
+}
+@media only screen and (max-width: 350px){
+  .circlePadding{
+    padding: 1rem !important;
+  }
+}

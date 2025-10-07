@@ -1,0 +1,6 @@
+<div class="cookie-popup" *ngIf="!cookieAccepted">
+    <div class="cookie-message">
+      <label style="align-self:center">เว็บไซต์ของเรามีการจัดเก็บคุกกี้โดยมีวัตถุประสงค์เพื่อพัฒนาเว็บไซต์ของเราให้สะดวกต่อการใช้งาน โปรดอ่านรายละเอียดเพิ่มเติมที่ <a routerLink="cookie-policy">นโยบายคุกกี้</a></label>
+      <button class="btn green-color" style="border-radius:100px" (click)="acceptCookies()">ยอมรับ</button>
+    </div>
+  </div>

@@ -51,8 +51,6 @@ import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
-import { FooterComponent } from './common/footer/footer.component';
-import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -60,6 +58,14 @@ import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { notificationsReducer } from './state/reducers/notifications.reducers.';
 import { CheckoutComponent } from './page/checkout/checkout.component';
+import { SharedModuleModule } from '../shared-module/shared-module.module';
+import { BannerMenuComponent } from '../shared-module/buy/banner-menu/banner-menu.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { CookiePopupComponent } from './cookie-popup/cookie-popup.component';
+import { TosComponent } from './tos/tos.component';
+import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
+import { FooterComponent } from './common/footer/footer.component';
 
 
 @NgModule({
@@ -70,7 +76,9 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
     InfiniteScrollModule,
     ReactiveFormsModule,
     GoogleMapsModule,
+    SharedModuleModule,
     GooglePlaceModule,
+    BannerMenuComponent,
     ShareButtonsModule,
     ShareIconsModule,
     FontAwesomeModule,
@@ -93,7 +101,6 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
     LandingPageComponent,
     PharmaHomeComponent,
     SwiperModuleComponent,
-    FooterComponent,
     JobPostDetailsComponent,
     JobPostNormalCardComponent,
     JobPostSmallCardComponent,
@@ -107,6 +114,7 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
     InnerProfileComponent,
     BookmarkComponent,
     RecentlySeenJobsComponent,
+    FooterComponent,
     RequestJobsComponent,
     LocationComponent,
     OperatorPageComponent,
@@ -128,9 +136,14 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
     WorkExperiencePipe,
     ProvinceFilterPipe,
     NotificationsComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    PrivacyPolicyComponent,
+    CookiePolicyComponent,
+    CookiePopupComponent,
+    TosComponent
   ],
-  providers:[PharmaProfileComponent, NotificationsComponent, LandingPageComponent, RegisterJobsComponent],
+  
+  providers:[PharmaProfileComponent,  NotificationsComponent, LandingPageComponent, RegisterJobsComponent],
   bootstrap:[LandingPageComponent]
 })
 export class PharmacistModule { }

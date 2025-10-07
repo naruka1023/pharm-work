@@ -27,15 +27,27 @@ import { PreferredJobsComponent } from './page/pharma-profile/preferred-jobs/pre
 import { OperatorPageGuard } from './guards/operator-page.guard';
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { CheckoutComponent } from './page/checkout/checkout.component';
+import { OperatorDetailsComponent } from '../shared-module/buy/operator-details/operator-details.component';
+import { BannerSellPageComponent } from '../shared-module/buy/banner-sell-page/banner-sell-page.component';
+import { SocialMediaSellPageComponent } from '../shared-module/buy/social-media-sell-page/social-media-sell-page.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { TosComponent } from './tos/tos.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent,children:[
     { path: 'pay', component: CheckoutComponent},
     { path: '', component: PharmaHomeComponent},
+    { path: 'buy', component: OperatorDetailsComponent },
+    { path: 'buy-banner', component: BannerSellPageComponent },
+    { path: 'buy-social', component: SocialMediaSellPageComponent },
     { path: 'notifications', component: NotificationsComponent},
     { path: 'job-post', component: JobPostDetailsComponent, canDeactivate:[UrgentJobsGuard]},
     { path: 'jobs-list', component: JobsListComponent},
     { path: 'operator-page', component: OperatorPageComponent,canActivate:[OperatorPageGuard]},
+    { path: 'privacy-policy', component: PrivacyPolicyComponent},
+    { path: 'cookie-policy', component: CookiePolicyComponent},
+    { path: 'terms-of-service', component: TosComponent},
     { path: 'profile-pharma', component: PharmaProfileComponent,canActivate:[InnerProfileGuard], children:[
       { path: '',   redirectTo: 'inner-profile', pathMatch: 'full' },
       {path:'inner-profile', component:InnerProfileComponent, canDeactivate:[ProfilePharmaGuard], children: [

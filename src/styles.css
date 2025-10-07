@@ -20,11 +20,6 @@
 .dropdown-header{
     color:black !important
 }
-::ng-deep .modal { z-index: 3020 !important;} 
-
-::ng-deep .modal-backdrop {z-index: 3000 !important;}
-
-::ng-deep .pac-container {z-index: 100000 !important;}
 .swiper {
     width: 100%;
     height: 100%;
@@ -44,8 +39,12 @@
     left: 0px;
     width: 100%;
 }
+.custom-link:hover{
+    text-decoration:underline;
+}
 .profileOperatorImage{
     margin:10px;
+    margin-top: 0px;
     width: 150px; 
     height:150px; 
   }
@@ -353,7 +352,10 @@ html { scroll-behavior: smooth; }
     background-color: #CBFFD9 !important;
     /* border-color: rgb(127, 216, 88) !important */
 }
-
+.overlayHover:hover{
+    cursor:pointer;
+    background-color:silver !important
+}
 .green-border-color{
     border: 4px solid rgb(127, 216, 88) !important
 }
@@ -364,3 +366,8 @@ html { scroll-behavior: smooth; }
   background-color:#5cdfe4 !important;
   border-color: #5cdfe4 !important;
 }
+::ng-deep .modal { z-index: 3020 !important;} 
+
+::ng-deep .modal-backdrop {z-index: 3000 !important;}
+
+::ng-deep .pac-container {z-index: 100000 !important;}

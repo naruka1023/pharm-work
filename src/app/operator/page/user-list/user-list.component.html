@@ -38,7 +38,10 @@
                             </div>
                         </div>
                         <div *ngIf="locationRadiusFlag">
-                            <div class="d-flex align-items-baseline"> <i class="bi bi-geo-alt-fill me-3"></i> <input (click)="onOpen()" placeholder="ปักหมุดพื้นที่ๆต้องการหาเภสัชกร" class="form-control textProfileResponsive mb-3 border-input"/> </div>
+                            <div class="d-flex align-items-baseline">
+                                <i class="bi bi-geo-alt-fill me-3"></i>
+                                <input (click)="onOpen()" placeholder="ปักหมุดพื้นที่ๆต้องการหาเภสัชกร" class="form-control textProfileResponsive mb-3 border-input" style="cursor:pointer"/> 
+                            </div>
                             <div class="d-flex align-items-baseline">
                                 <i class="bi bi-map-fill me-3"></i>
                                 <select  formControlName="radius" name="section" class="form-select textProfileResponsive mb-3 border-input">

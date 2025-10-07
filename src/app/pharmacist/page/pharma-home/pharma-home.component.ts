@@ -145,7 +145,23 @@ export class PharmaHomeComponent {
                   B2: resultBanner
                 }
               }
-              let idList : string[] = ref['B1'].concat(ref['B2'])
+              let B1Banner: string[] = []
+              switch(ref['B1'].length){
+                case 0:
+                  B1Banner = B1Banner.concat(ref['B1']).concat(['','', ''])
+                break;
+                case 1:
+                  B1Banner = B1Banner.concat(ref['B1']).concat(['', ''])
+                break;
+                case 2:
+                  B1Banner = B1Banner.concat(ref['B1']).concat([''])
+                break;
+                case 3:
+                  B1Banner = B1Banner.concat(ref['B1'])
+                break;
+                default: B1Banner = B1Banner.concat(ref['B1'])
+              }
+              let idList : string[] = B1Banner.concat(ref['B2'])
               promises.push(
                 this.jobPostService.getOperatorsByType(idList).then((operators)=>{
                   let res: jobPostPayload = {

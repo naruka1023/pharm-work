@@ -15,7 +15,7 @@ import { Auth, user,sendEmailVerification } from '@angular/fire/auth';
 import { PharmaProfileComponent } from './page/pharma-profile/pharma-profile.component';
 import * as _ from 'lodash';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
-import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot, updateDoc, addDoc } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, where, Unsubscribe, doc, onSnapshot, updateDoc, addDoc, getDoc } from '@angular/fire/firestore';
 import { Messaging, onMessage } from '@angular/fire/messaging';
 import { NotificationsComponent } from './common/notifications/notifications.component';
 declare var window: any;
@@ -30,7 +30,9 @@ export class LandingPageComponent {
   private auth: Auth = inject(Auth);
   address: any = {}
   loginFlag: boolean = false;
+  emptyEmailFlag: boolean = false
   subject!: Subscription;
+  contactUsLoadingFlag: boolean = false
   user!: User;
   emailVerifiedFlag: boolean = true
   notificationsArchive: notificationContent[] = []
@@ -57,6 +59,8 @@ export class LandingPageComponent {
   } = {} as any
   formModal!: any;
   loginModal!: any;
+  bannerMenuModal!: any;
+  contactUsModal!: any;
   registerModal!: any
   offCanvas: any;
   operatorModal: any;
@@ -74,7 +78,42 @@ export class LandingPageComponent {
   }
   private _messaging = inject(Messaging);
   private firestore = inject(Firestore)
-  ngOnInit(){  
+  async getData(){
+    let A1: any = await getDoc(doc(this.firestore, 'banners', 'subs'))
+    let result: any = A1.data()!
+    let operatorB1: any[] = []
+    let operatorB2: any[] = []
+    delete result['A2']
+    delete result['A3']
+    delete result['A4']
+    result['A1'] = result['A1'].map((value: any) => value.bannerPictureLink)
+    if(result['B1'].length > 0){
+      result['B1'].forEach((banner:any)=>{
+        operatorB1.push(getDoc(doc(this.firestore, 'users', banner)))
+      })
+      let operatorData = await Promise.all(operatorB1)
+      operatorData = operatorData.map((data)=>{
+        let result = data.data() as userOperator
+        return result.cropProfilePictureUrl
+      })
+      result['B1'] = operatorData
+    }
+    if(result['B2'].length > 0){
+      result['B2'].forEach((banner:any)=>{
+        operatorB2.push(getDoc(doc(this.firestore, 'users', banner)))
+      })
+      let operatorData = await Promise.all(operatorB2)
+      operatorData = operatorData.map((data)=>{
+        let result = data.data() as userOperator
+        return result.cropProfilePictureUrl
+      })
+      result['B2'] = operatorData
+    }
+    console.log(JSON.stringify(result))
+  }
+  
+
+  async ngOnInit(){  
     this.notificationsFlag = this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag') 
     this.landingFlag = Boolean(this.activatedRoute.snapshot.queryParamMap.get('landingFlag'))
     this.notificationsFlag = this.notificationsFlag == 'true'?true:false
@@ -98,6 +137,14 @@ export class LandingPageComponent {
   this.loginModal = new window.bootstrap.Modal(
     document.getElementById('loginModal')
   );
+
+  this.contactUsModal = new window.bootstrap.Modal(
+    document.getElementById('contactUsModal')
+  );
+
+  this.bannerMenuModal = new window.bootstrap.Modal(
+    document.getElementById('bannerMenuModal')
+  );
   this.registerModal = new window.bootstrap.Modal(
     document.getElementById('registerModal')
   );
@@ -107,6 +154,7 @@ export class LandingPageComponent {
   this.offCanvas = new window.bootstrap.Offcanvas(
     document.getElementById('offcanvasExample')
   )
+
   this.store.select((state: any)=>{
     return state.user
   }).subscribe((user)=>{
@@ -115,6 +163,7 @@ export class LandingPageComponent {
       delete this.user.cropProfilePictureUrl
     }
   })
+  
   this.store.select((state:any)=>{
     return state.notifications.notificationsArchive
   }).subscribe((notificationArchive)=>{
@@ -177,6 +226,7 @@ export class LandingPageComponent {
       }
     })
   })
+
   this.store.select((state: any)=>{
     return state.recentlySeen
   }).subscribe((recentlySeen)=>{
@@ -184,6 +234,7 @@ export class LandingPageComponent {
       this.store.dispatch(removeRecentlySeen());
     }
   })
+
   this.subject = user(this.auth).subscribe((user)=>{
     if(user){
       onMessage(this._messaging,(payload)=>{
@@ -280,9 +331,11 @@ export class LandingPageComponent {
     this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
     // this.route.navigate(['pharma']);
   })
+  
   if(this.landingFlag){
     this.registerModal.show()
   }
+  
   this.loginFlag = true;
   this.loginFlag = (localStorage.getItem('loginState') === null || localStorage.getItem('loginState') === 'false')? false: true 
   this.utilService.getRequestViewSubject().subscribe((requestView: requestView)=>{
@@ -291,6 +344,49 @@ export class LandingPageComponent {
   })
   
   
+}
+
+openContactUsModal(){
+  this.contactUsModal.show()
+}
+
+submitEmail(){
+  let emailContent: any = document.getElementById('contactUsEmail')
+  emailContent = emailContent.value
+  if(emailContent == null || emailContent == ''){
+    this.emptyEmailFlag = true
+    return;
+  }else{
+    this.contactUsLoadingFlag = true
+    this.emptyEmailFlag = false
+    let toSend = {}
+    if(this.loginFlag){
+      toSend = {
+        subject:this.user.uid + " : " +  this.user.name + ' ' + this.user.surname + ' have sent a message from PharmWork contact us form',
+        html: emailContent,
+        email: 'team-support@pharm-work.com'
+      }
+    }else{
+      toSend = {
+        subject:'เมลติดต่อของผู้ใช้งานจากเว็บไซต์ Pharmwork โดยตรง',
+        html: emailContent,
+        email: 'team-support@pharm-work.com'
+      }
+    }
+    this.userService.sendRequestChangeEmail(JSON.stringify(toSend)).subscribe((email)=>{
+      this.contactUsModal.hide()
+      this.contactUsLoadingFlag = false
+      let emailContent: any = document.getElementById('contactUsEmail')
+      emailContent.value = ''
+    })
+  }
+}
+
+bannerMenu(){
+  this.bannerMenuModal.show()
+}
+hideBannerMenu(){
+  this.bannerMenuModal.hide()
 }
 updateShowProfile(){
   if(!this.user.showProfileFlag){

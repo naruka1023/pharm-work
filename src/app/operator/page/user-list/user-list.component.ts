@@ -240,13 +240,6 @@ export class UserListComponent {
     this.store.dispatch(toggleAddressChange())
   }
 
-  // WorkExperience
-  // active
-  // highestEducation
-  // preferredJobType
-  // preferredLocation
-  // {Section: '', District: '', Province: ''}
-  // preferredTimeFrame
   searchUsers(){
     this.loadingFlag = true;
     this.paginationIndex = 0

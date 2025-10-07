@@ -1,0 +1,71 @@
+.list > li {
+    padding-bottom:2rem
+}
+.innerProfileResponsive{
+  font-size:x-large !important;
+}
+@media only screen and (max-width: 1400px){
+  .relativeFacebook{
+    left: 130px !important;
+    width: 7rem !important
+  }
+  .growthPadding{
+    padding: 0 9rem !important
+  }
+}
+@media only screen and (max-width: 1200px){
+  .relativeFacebook{
+    left: 100px !important;
+  }
+  .growthPadding{
+    padding: 0 7rem !important
+  }
+}
+@media only screen and (max-width: 1000px){
+  .innerProfileResponsive{
+    font-size:large !important;
+  }
+}
+@media only screen and (max-width: 992px){
+  .relativeFacebook{
+    left: 0 !important;
+    width: 6rem !important
+  }
+  .growthPadding{
+    padding: 0 !important
+  }
+}
+@media only screen and (max-width: 768px){
+  .relativeFacebook{
+    top: 90px !important;
+    left: 50px !important;
+    width: 8rem !important
+  }
+  .customPadding{
+    padding: 0 !important
+  }
+}
+@media only screen and (max-width: 760px){
+    .topPadding{
+      padding:0px !important
+    }
+  }
+  @media only screen and (max-width: 576px){
+    .innerProfileResponsive{
+      font-size:3.5vw !important
+    }
+    .redText{
+      font-size:3vw !important
+    }
+    .growthPadding > img{
+      width: -webkit-fill-available !important
+    }
+    .relativeFacebook{
+      display: none !important
+    }
+  }
+  @media only screen and (max-width: 510px){
+    .adMobile{
+      height:15vh !important;
+    }
+}

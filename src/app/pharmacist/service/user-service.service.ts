@@ -37,6 +37,7 @@ export class UserServiceService {
       responseType: 'text'
     })
   }
+  
 
   upgradeToPharma(operatorUID: string, license: string){
     return updateDoc(doc(this.firestore, 'users',operatorUID!), {

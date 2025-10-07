@@ -102,19 +102,23 @@ export class JobsListComponent implements OnDestroy{
       return state.user
     }).subscribe((user: any)=>{
       this.id = user.uid
-      if(user._geoloc == undefined){
-        if(user._geolocCurrent == undefined){
-          this._geoLoc = {
-            lat: 0,
-            lng: 0
+      if(user.selectGeoLoc == undefined){
+        if(user._geoloc == undefined){
+          if(user._geolocCurrent == undefined){
+            this._geoLoc = {
+              lat: 0,
+              lng: 0
+            }
+          }else{
+            this._geoLoc = user._geolocCurrent
           }
         }else{
-          this._geoLoc = user._geolocCurrent
+          this._geoLoc = user._geoloc
         }
+        this.geoLocFlag = user._geoloc == undefined
       }else{
-        this._geoLoc = user._geoloc
+        this._geoLoc = user.selectGeoLoc
       }
-      this.geoLocFlag = user._geoloc == undefined
     })
     this.btsStations$ = this.store.select((state: any)=>{
       return state.address.bts
@@ -140,10 +144,13 @@ moveMap(event: any){
     lng: event.latLng.lng()
   }
   this.center = this.markerPosition
-  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+  this.googleMapForm.patchValue({selectGeoLoc: this.markerPosition})
 }
 
-  
+  onOpen(){
+    this.searchModal.hide()
+    this.openGoogleMapModal()
+  }
   openGoogleMapModal(){
     this.center = this._geoLoc
     this.markerPosition = this._geoLoc
@@ -157,14 +164,23 @@ moveMap(event: any){
       ...this.googleMapForm.value,
       uid: this.id
     }
-    this.userService.updateUser(payload).then(()=>{
+    if(this.loginFlag){
+      this.userService.updateUser(payload).then(()=>{
+        this.googleMapLoadingFlag = false;
+        this.store.dispatch(setCurrentUser({user: payload}))
+        this.urgentFilterForm.patchValue({
+          nearbyFlag: false
+        })
+        this.googleMapModal.hide()
+      })
+    }else{
       this.googleMapLoadingFlag = false;
       this.store.dispatch(setCurrentUser({user: payload}))
       this.urgentFilterForm.patchValue({
         nearbyFlag: false
       })
       this.googleMapModal.hide()
-    })
+    }
     
   }
 
@@ -178,7 +194,7 @@ searchMap(event: any){
     lng: event.geometry.location.lng()
   }
   this.center = this.markerPosition
-  this.googleMapForm.patchValue({_geoloc: this.markerPosition})
+  this.googleMapForm.patchValue({selectGeoLoc: this.markerPosition})
 }
 
 get getGoogleMapForm(): { [key: string]: AbstractControl } {
@@ -187,16 +203,9 @@ get getGoogleMapForm(): { [key: string]: AbstractControl } {
 
 initializeGoogleMapForm(){
   this.googleMapForm = this.fb.group({
-    _geoloc: ['', [Validators.required]],
+    selectGeoLoc: ['', [Validators.required]],
   })
 }
-
-  onChangeEvent(event: any){
-    if(event.target.checked && this.geoLocFlag){
-      this.searchModal.hide()
-      this.openGoogleMapModal()
-    }
-  }
 
   scrollUp(){
     window.scroll({ 
@@ -247,8 +256,8 @@ initializeGoogleMapForm(){
             District: '',
             Province: ''
           }
-      })
-    }
+        })
+      }
     const finalForm = this.urgentFilterForm.value
     if(finalForm.Salary !== '' && finalForm.Salary !== undefined){
       finalForm.Salary = Number(finalForm.Salary)

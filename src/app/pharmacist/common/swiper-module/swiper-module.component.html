@@ -1,7 +1,10 @@
-<div [ngClass]="filterFlags.content.length > 0? 'mt-5': ''">
-
-	<div *ngIf="!filterFlags.bannerFlag && filterFlags.CategorySymbol !== 'CA'" class="d-flex justify-content-between" [id]='filterFlags.CategorySymbol + "toScroll"'>
-		<!-- <ng-container *ngIf="filterFlags.CategorySymbol == 'AA'; then isAA; else notAA"></ng-container>
+<div [ngClass]="filterFlags.content.length > 0 ? 'mt-5' : ''">
+  <div
+    *ngIf="!filterFlags.bannerFlag && filterFlags.CategorySymbol !== 'CA'"
+    class="d-flex justify-content-between"
+    [id]="filterFlags.CategorySymbol + 'toScroll'"
+  >
+    <!-- <ng-container *ngIf="filterFlags.CategorySymbol == 'AA'; then isAA; else notAA"></ng-container>
 		<ng-template #isAA>
 			<div *ngIf='filterFlags.content.length > 0' class="letSideHeader d-flex flex-row align-items-end mb-0">
 					<p class="headerTitle h2 d-flex align-items-end">{{ filterFlags.header }}</p>
@@ -12,166 +15,290 @@
 			</div>
 		</ng-template>
 		<ng-template #notAA> -->
-			<div class="letSideHeader d-flex flex-row align-items-end mb-0">
-					<p class="headerTitle h2 d-flex align-items-end">{{ filterFlags.header }}</p>
-				<div class="fs-4 jobCount align-self-center ms-3 d-md-block d-none" *ngIf="filterFlags.CategorySymbol !== 'CB' && filterFlags.CategorySymbol !== 'BA'">{{ filterFlags.count }} ตำแหน่งงาน</div>
-			</div>
-			<div *ngIf="filterFlags.filterFlag"  style="cursor: pointer" (click)="goToList()"class="goToListText d-flex flex-row align-items-center">
-				<p class="green-text mb-0 goToListText h3 d-flex align-items-center me-3">ดูทั้งหมด</p>
-			</div>
-		<!-- </ng-template> -->
-	</div>
-		<ng-container
-			*ngIf="filterFlags.filterFlag === false; then ifBlock; else elseBlock">
-		</ng-container>
-		<ng-template #ifBlock>
-			<div class="mt-sm-3">
-				<ng-container *ngIf="filterFlags.loading; then loading2; else notLoading2"></ng-container>
-				<ng-template #loading2>
-					<div style="text-align:center" class="my-5" style="height:-webkit-fill-available">
-						<div class="spinner-border text-primary" role="status">
-							<span class="visually-hidden">Loading...</span>
-						</div>
-					</div>
-				</ng-template>
-				<ng-template #notLoading2>
-					<ng-container *ngIf="filterFlags.bannerFlag; then banner; else notBanner"></ng-container>
-					<ng-template #banner>
-						<swiper
-							*ngIf="filterFlags.bannerType == 'short'"
-							[navigation]="true"
-							[loop]="true"
-							[slidesPerView]="1"
-							[centeredSlides]="true"
-							[pagination]="true"
-							[autoplay]="true"
-							style="margin-bottom: 3em; text-align: center"
-						>
-							<ng-template swiperSlide>
-								<div class="img-container">
-									<img class="landing-page_img" src="assets/bannerShort1.webp" style="width:-webkit-fill-available; width:-moz-available">
-								</div>
-							</ng-template>
-							<ng-template swiperSlide>
-								<div class="img-container">
-									<img class="landing-page_img" src="assets/bannerShort2.webp" style="width:-webkit-fill-available; width:-moz-available">
-								</div>
-							</ng-template>
-							<ng-template swiperSlide>
-								<div class="img-container">
-									<img class="landing-page_img" src="assets/bannerShort2.webp" style="width:-webkit-fill-available; width:-moz-available">
-								</div>
-							</ng-template>
-						</swiper>
-						<ng-container *ngIf="filterFlags.bannerList!.length > 0; then hasBanner2; else noBanner2"></ng-container>
-						<ng-template #hasBanner2>
-								<swiper
-									*ngIf="filterFlags.bannerType == 'long'"
-									[navigation]="true"
-									[loop]="filterFlags.bannerList!.length > 1"
-									[slidesPerView]="1"
-									[centeredSlides]="true"
-									[pagination]="true"
-									[autoplay]="true"
-									style="margin-bottom: 3em; text-align: center"
-								>
-								<ng-template swiperSlide *ngFor="let banner of filterFlags.bannerList">
-									<div class="img-container">
-										<ng-container *ngIf="banner['link'] !== ''; then link; else noLink"></ng-container>
-										<ng-template #link>
-											<img style="cursor:pointer" class="landing-page_img" [src]="banner['uid']" (click)="redirectExternal(banner['link'])">
-										</ng-template>
-										<ng-template #noLink>
-											<img class="landing-page_img" [src]="banner['uid']">
-										</ng-template>
-									</div>
-								</ng-template>
-							</swiper>
-						</ng-template>
-						<ng-template #noBanner2>
-							<swiper
-								*ngIf="filterFlags.bannerType == 'long'"
-								[navigation]="true"
-								[loop]="true"
-								[slidesPerView]="1"
-								[centeredSlides]="true"
-								[pagination]="true"
-								[autoplay]="true"
-								style="margin-bottom: 3em; text-align: center"
-								>
-								<ng-template swiperSlide>
-									<div class="img-container">
-										<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
-									</div>
-								</ng-template>
-								<ng-template swiperSlide>
-									<div class="img-container">
-										<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
-									</div>
-								</ng-template>
-								<ng-template swiperSlide>
-									<div class="img-container">
-										<img class="landing-page_img" src="assets/emptybanner/emptyBannerLong.png" style="width:-webkit-fill-available; width:-moz-available">
-									</div>
-								</ng-template>
-							</swiper>
-						</ng-template>
-					</ng-template>
-					<ng-template #notBanner>
-						<swiper 
-								[slidesPerView]="3" 
-								[autoplay]="false"
-								[spaceBetween]="25" 
-								[grid]="{
-									rows: 3,
-									fill:'row'
-								}"
-								[navigation]="true" 
-								[pagination]="true"
-								[breakpoints]="breakingPointOperator"
-								class="swiper operatorBanner mb-sm-4 mb-2">
-							<ng-template swiperSlide *ngFor="let items of filterFlags.content">
-								<app-operator-small-card *ngIf="items !== 'empty'" [content]="items"></app-operator-small-card>
-								<div *ngIf="items == 'empty'">
-									<img class="landing-page_img profileOperatorImage" src="assets/emptybanner/emptyBannerSmall.png" style="border-radius:100%">
-								</div>
-							</ng-template>
-						</swiper>
-					</ng-template>
-				</ng-template>
-			</div>
-		</ng-template>
-		<ng-template #elseBlock>
-			<ng-container *ngIf="filterFlags.loading; then loading; else notLoading"></ng-container>
-			<ng-template #loading>
-				<div style="text-align:center" class="my-5" style="height:-webkit-fill-available">
-					<div class="spinner-border text-primary" role="status">
-						<span class="visually-hidden">Loading...</span>
-					</div>
-				</div>
-			</ng-template>
-			<ng-template #notLoading>
-				<ng-container *ngIf="filterFlags.count > 0; then notEmpty; else empty"></ng-container>
-				<ng-template #notEmpty>
-					<swiper
-						[navigation]="true"
-						[slidesPerView]="2"
-						[spaceBetween]="20"
-						[breakpoints]="breakingPoint"
-						style="margin-top: 1em; text-align: center"
-					>
-						<ng-template swiperSlide *ngFor="let item of filterFlags.content">
-							<app-job-post-small-card 
-								[urgentFlag]="item.CategorySymbol == 'AA'" 
-								[fullTimeFlag]="item.TimeFrame === 'Full-Time'?true:false"
-								[content]="item">
-							</app-job-post-small-card>
-						</ng-template>
-					</swiper>
-				</ng-template>
-				<ng-template #empty>
-					<img *ngIf="filterFlags.CategorySymbol !== 'CA'" src="assets/empty/transparentPharma.png" style="width:-webkit-fill-available; width:-moz-available">
-				</ng-template>
-			</ng-template>
-		</ng-template>
+    <div class="letSideHeader d-flex flex-row align-items-end mb-0">
+      <p class="headerTitle h2 d-flex align-items-end">
+        {{ filterFlags.header }}
+      </p>
+      <div
+        class="fs-4 jobCount align-self-center ms-3 d-md-block d-none"
+        *ngIf="
+          filterFlags.CategorySymbol !== 'CB' &&
+          filterFlags.CategorySymbol !== 'BA'
+        "
+      >
+        {{ filterFlags.count }} ตำแหน่งงาน
+      </div>
+    </div>
+    <div
+      *ngIf="filterFlags.filterFlag"
+      style="cursor: pointer"
+      (click)="goToList()"
+      class="goToListText d-flex flex-row align-items-center"
+    >
+      <p class="green-text mb-0 goToListText h3 d-flex align-items-center me-3">
+        ดูทั้งหมด
+      </p>
+    </div>
+    <!-- </ng-template> -->
+  </div>
+  <ng-container
+    *ngIf="filterFlags.filterFlag === false; then ifBlock; else elseBlock"
+  >
+  </ng-container>
+  <ng-template #ifBlock>
+    <div class="mt-sm-3">
+      <ng-container
+        *ngIf="filterFlags.loading; then loading2; else notLoading2"
+      ></ng-container>
+      <ng-template #loading2>
+        <div
+          style="text-align: center"
+          class="my-5"
+          style="height: -webkit-fill-available"
+        >
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #notLoading2>
+        <ng-container
+          *ngIf="filterFlags.bannerFlag; then banner; else notBanner"
+        ></ng-container>
+        <ng-template #banner>
+          <swiper
+            *ngIf="filterFlags.bannerType == 'short'"
+            [navigation]="true"
+            [loop]="true"
+            [slidesPerView]="1"
+            [centeredSlides]="true"
+            [pagination]="true"
+            [autoplay]="true"
+            style="margin-bottom: 3em; text-align: center"
+          >
+            <ng-template swiperSlide>
+              <div class="img-container">
+                <img
+                  class="landing-page_img"
+                  src="assets/bannerShort1.webp"
+                  style="width: -webkit-fill-available; width: -moz-available"
+                />
+              </div>
+            </ng-template>
+            <ng-template swiperSlide>
+              <div class="img-container">
+                <img
+                  class="landing-page_img"
+                  src="assets/bannerShort2.webp"
+                  style="width: -webkit-fill-available; width: -moz-available"
+                />
+              </div>
+            </ng-template>
+            <ng-template swiperSlide>
+              <div class="img-container">
+                <img
+                  class="landing-page_img"
+                  src="assets/bannerShort2.webp"
+                  style="width: -webkit-fill-available; width: -moz-available"
+                />
+              </div>
+            </ng-template>
+          </swiper>
+          <ng-container
+            *ngIf="
+              filterFlags.bannerList!.length > 0;
+              then hasBanner2;
+              else noBanner2
+            "
+          ></ng-container>
+          <ng-template #hasBanner2>
+            <swiper
+              *ngIf="filterFlags.bannerType == 'long'"
+              [navigation]="true"
+              [loop]="filterFlags.bannerList!.length > 1"
+              [slidesPerView]="1"
+              [centeredSlides]="true"
+              [pagination]="true"
+              [autoplay]="true"
+              style="margin-bottom: 3em; text-align: center"
+            >
+              <ng-template
+                swiperSlide
+                *ngFor="let banner of filterFlags.bannerList"
+              >
+                <div class="img-container">
+                  <ng-container
+                    *ngIf="banner['link'] !== ''; then link; else noLink"
+                  ></ng-container>
+                  <ng-template #link>
+                    <img
+                      style="cursor: pointer"
+                      class="landing-page_img"
+                      [src]="banner['bannerPictureLink']"
+                      (click)="redirectExternal(banner['link'])"
+                    />
+                  </ng-template>
+                  <ng-template #noLink>
+                    <img
+                      class="landing-page_img"
+                      [src]="banner['bannerPictureLink']"
+                    />
+                  </ng-template>
+                </div>
+              </ng-template>
+            </swiper>
+          </ng-template>
+          <ng-template #noBanner2>
+            <swiper
+              *ngIf="filterFlags.bannerType == 'long'"
+              [navigation]="true"
+              [loop]="true"
+              [slidesPerView]="1"
+              [centeredSlides]="true"
+              [pagination]="true"
+              [autoplay]="true"
+              style="margin-bottom: 3em; text-align: center"
+            >
+              <ng-template swiperSlide>
+                <div class="img-container">
+                  <img
+                    class="landing-page_img"
+                    routerLink="buy-banner"
+                    (click)="scrollUp()"
+                    src="assets/emptybanner/emptyBannerLong.png"
+                    style="
+                      cursor: pointer;
+                      width: -webkit-fill-available;
+                      width: -moz-available;
+                    "
+                  />
+                </div>
+              </ng-template>
+              <ng-template swiperSlide>
+                <div class="img-container">
+                  <img
+                    class="landing-page_img"
+                    routerLink="buy-social"
+                    (click)="scrollUp()"
+                    src="assets/emptybanner/emptyBannerLongSocial.png"
+                    style="
+                      cursor: pointer;
+                      width: -webkit-fill-available;
+                      width: -moz-available;
+                    "
+                  />
+                </div>
+              </ng-template>
+            </swiper>
+          </ng-template>
+        </ng-template>
+        <ng-template #notBanner>
+          <swiper
+            [slidesPerView]="3"
+            [autoplay]="false"
+            [spaceBetween]="25"
+            [grid]="{
+              rows: 3,
+              fill: 'row'
+            }"
+            [navigation]="true"
+            [pagination]="true"
+            [breakpoints]="breakingPointOperator"
+            class="swiper operatorBanner mb-sm-5 mb-2"
+          >
+            <ng-template
+              swiperSlide
+              *ngFor="let items of filterFlags.content; let i = index"
+            >
+              <img
+                *ngIf="i <= 2 && items !== 'empty'"
+                src="assets/pin.png"
+                class="pin-icon"
+                style="
+                  z-index: 100;
+                  width: 50px;
+                  position: absolute;
+                  right: 40px;
+                  top: 3px;
+                "
+              />
+              <app-operator-small-card
+                *ngIf="items !== 'empty'"
+                [content]="items"
+              ></app-operator-small-card>
+              <div *ngIf="items == 'empty'" style="line-break: anywhere">
+                <img
+                  *ngIf="i <= 2"
+                  src="assets/pin.png"
+                  class="pin-icon"
+                  style="
+                    z-index: 100;
+                    width: 50px;
+                    position: absolute;
+                    right: 40px;
+                    top: 3px;
+                  "
+                />
+                <img
+                  class="landing-page_img profileOperatorImage"
+                  src="assets/emptybanner/emptyBannerSmall.png"
+                  class="brandIcon"
+                  style="width: 150px; height: 150px; border-radius: 100%"
+                />
+                <div class="companyName fs-5" style="visibility: hidden">
+                  ff<br />gg
+                </div>
+              </div>
+            </ng-template>
+          </swiper>
+        </ng-template>
+      </ng-template>
+    </div>
+  </ng-template>
+  <ng-template #elseBlock>
+    <ng-container
+      *ngIf="filterFlags.loading; then loading; else notLoading"
+    ></ng-container>
+    <ng-template #loading>
+      <div
+        style="text-align: center"
+        class="my-5"
+        style="height: -webkit-fill-available"
+      >
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #notLoading>
+      <ng-container
+        *ngIf="filterFlags.count > 0; then notEmpty; else empty"
+      ></ng-container>
+      <ng-template #notEmpty>
+        <swiper
+          [navigation]="true"
+          [slidesPerView]="2"
+          [spaceBetween]="20"
+          [breakpoints]="breakingPoint"
+          style="margin-top: 1em; text-align: center"
+        >
+          <ng-template swiperSlide *ngFor="let item of filterFlags.content">
+            <app-job-post-small-card
+              [urgentFlag]="item.CategorySymbol == 'AA'"
+              [fullTimeFlag]="item.TimeFrame === 'Full-Time' ? true : false"
+              [content]="item"
+            >
+            </app-job-post-small-card>
+          </ng-template>
+        </swiper>
+      </ng-template>
+      <ng-template #empty>
+        <img
+          *ngIf="filterFlags.CategorySymbol !== 'CA'"
+          src="assets/empty/transparentPharma.png"
+          style="width: -webkit-fill-available; width: -moz-available"
+        />
+      </ng-template>
+    </ng-template>
+  </ng-template>
 </div>

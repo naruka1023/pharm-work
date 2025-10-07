@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="pb-5" style="border-bottom:2px solid lightgrey">
+        <div style="gap:40px" class="d-flex semi-border-input textResponsiveHeader my-5 justify-content-center customOperatingHeader">
+            <div style="height:370px" class="customHeight">
+                <img style="width:100%" src="/assets/operatorLogin2.png">
+                <div class="textProfileResponsive text-center bottomRes" style="position: relative; bottom:4rem">ค้นหาเภสัชกรที่ตรงใจ</div>
+            </div>
+            <div class="align-self-center">
+                <div class="mb-lg-4 text-center">
+                    <b>สมัครบัญชีผู้ประกอบการ</b>
+                </div>
+                <div class="align-items-center" style="text-wrap:nowrap">
+                    <div class="headerText"><b>แล้วหา<span class="green-text">เภสัชกร</span>กับ<span class="customBR"><br></span><img style="width:8em" src="/assets/logo.png">เลย!</b></div>
+                    <div class="text-center mt-lg-3 mt-1">
+                        <button class="btn textProfileResponsive green-color border-input px-5 py-2" (click)="operatorClick()" style="min-width:14em; color:white">สมัครสมาชิกผู้ประกอบการ</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        <div style="background-color:#f2f2f2; width:fit-content" class="m-auto d-md-flex d-block justify-content-center my-3 p-3 px-sm-5 px-3 semi-border-input textProfileResponsive align-items-center">
+            <div class="me-md-3 mb-md-0 mb-3"><b>หรือเป็นสมาชิกกับ Pharmwork อยู่แล้ว?</b></div>
+            <div class="d-flex justify-content-center">
+                <button class="btn textProfileResponsive purple-color border-input px-5 py-2" (click)="loginClick()" style="min-width:14em; color:white">เข้าสู่ระบบผู้ประกอบการ</button>
+            </div>
+        </div>
+    </div>
+    <div class="my-5 textResponsiveHeader" style="border-bottom:2px solid lightgrey">
+        <div class="mb-4 text-center customHeader">
+            <b>ลงประกาศงานกับ Pharmwork ดียังไง?</b>
+        </div>
+        <div class="horizontalPadding" style="padding: 0 5vw">
+            <div class="row">
+                <div class="col-5" style="border-right:2px solid #231977">
+                    <img style="width:100%" src="assets/buy/registrationImg.png">
+                </div>
+                <div style="font-weight:bold" class="ps-lg-5 ps-3 innerBlueText col-7 align-self-center">
+                    ระบบคัดกรองบัญชีเภสัชกรแบบ
+                    พิเศษช่วยแยกผู้ใช้งานที่เป็น
+                    เภสัชกรที่มีใบประกอบวิชาชีพและผู้ใช้งานอื่นๆออกจากกันชัดเจน
+                </div>
+            </div>
+       
+            <div class="row mt-5">
+                <div style="font-weight:bold" class="ps-lg-5 ps-3 innerBlueText col-7 align-self-center">
+                    ที่แรกที่ผู้ประกอบการสามารถสร้างประกาศงานรายวันได้ ช่วยท่านหาเภสัชกรมาปฏิบัติการในวันที่ต้องการ
+                </div>
+                <div class="col-5" style="border-left:2px solid #231977">
+                    <img style="width:100%" src="assets/buy/dailyJobImg.png">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-5" style="border-right:2px solid #231977">
+                    <img style="width:100%" src="assets/buy/dailyPharmaImg.png">
+                </div>
+                <div style="font-weight:bold" class="ps-lg-5 ps-3 innerBlueText col-7 align-self-center">
+                    ที่แรกที่เภสัชกรสามารถฝากประวัติหางานรายวันได้ ช่วยเพิ่มโอกาสให้ท่านได้เภสัชกรมาปฏิบัติการในวันที่ขาด
+                </div>
+            </div>
+       
+            <div class="row mt-5">
+                <div style="font-weight:bold" class="ps-lg-5 ps-3 innerBlueText col-7 align-self-center">
+                    เภสัชสามารถติดตามบัญชี
+                    ผู้ประกอบการได้ เพื่อรับ
+                    แจ้งเตือนประกาศงานของ
+                    ท่านก่อนใคร
+                </div>
+                <div class="col-5" style="border-left:2px solid #231977">
+                    <img style="width:100%" src="assets/buy/followImg.png">
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-5" style="border-right:2px solid #231977">
+                    <img style="width:100%" src="assets/buy/notiImg.png">
+                </div>
+                <div style="font-weight:bold" class="ps-lg-5 ps-3 innerBlueText col-7 align-self-center">
+                    ระบบแจ้งเตือนการประกาศงาน
+                    สำหรับผู้ติดตามบัญชีของท่าน 
+                    พร้อมแจ้งเตือนทั้งในเว็บไซต์และบนหน้าจอมือถือ!
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-banner-menu></app-banner-menu>
+</div>

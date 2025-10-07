@@ -45,7 +45,6 @@ import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
-import { FooterComponent } from './common/footer/footer.component';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { notificationsReducer } from './state/reducer/notifications.reducers.';
@@ -54,6 +53,11 @@ import { CheckoutComponent } from './page/checkout/checkout.component';
 import { BannerBuyComponent } from './page/banner-buy/banner-buy.component';
 import { SuccessCheckoutComponent } from './page/success-checkout/success-checkout.component';
 import { CancelCheckoutComponent } from './page/cancel-checkout/cancel-checkout.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { CookiePopupComponent } from './cookie-popup/cookie-popup.component';
+import { TosComponent } from './tos/tos.component';
+import { FooterComponent } from './common/footer/footer.component';
 
 
 
@@ -67,7 +71,6 @@ import { CancelCheckoutComponent } from './page/cancel-checkout/cancel-checkout.
     AllJobsPostsComponent,
     JobPostDetailsComponent,
     AddNewJobComponent,
-    FooterComponent,
     JobPostNormalCardComponent,
     OperatorHomeComponent,
     LocationSelectorComponent,
@@ -92,7 +95,12 @@ import { CancelCheckoutComponent } from './page/cancel-checkout/cancel-checkout.
     CheckoutComponent,
     BannerBuyComponent,
     SuccessCheckoutComponent,
-    CancelCheckoutComponent
+    CancelCheckoutComponent,
+    PrivacyPolicyComponent,
+    CookiePolicyComponent,
+    CookiePopupComponent,
+    FooterComponent,
+    TosComponent
   ],
   imports: [
     CommonModule,
