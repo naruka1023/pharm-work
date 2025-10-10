@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import _ from 'lodash';
 import { User } from 'src/app/pharmacist/model/typescriptModel/users.model';
@@ -14,158 +19,178 @@ declare let window: any;
 @Component({
   selector: 'app-urgent-jobs',
   templateUrl: './urgent-jobs.component.html',
-  styleUrls: ['./urgent-jobs.component.css']
+  styleUrls: ['./urgent-jobs.component.css'],
 })
 export class UrgentJobsComponent {
   innerProfileInformation!: User;
-  
-  urgentProfileEdit!:FormGroup
+
+  urgentProfileEdit!: FormGroup;
   loadingFlagUrgent: boolean = false;
 
-  profileEdit!:FormGroup
-  resultPayload:string[] = []
+  profileEdit!: FormGroup;
+  resultPayload: string[] = [];
   descriptionEditor = ClassicEditor;
   loadingFlag: boolean = false;
   urgentJobFlag: boolean = false;
-  editFlag:boolean = false
-  address: string = ''
-  confirmationModal!: any
-  googleMapFlag!:boolean
+  editFlag: boolean = false;
+  address: string = '';
+  confirmationModal!: any;
+  googleMapFlag!: boolean;
   display: any;
   zoom = 15;
   none: google.maps.MapOptions = {
-    gestureHandling:'greedy'
+    gestureHandling: 'greedy',
   };
   center: google.maps.LatLngLiteral = {
-      lat: 0,
-      lng: 0
+    lat: 0,
+    lng: 0,
   };
   markerPosition: google.maps.LatLngLiteral = {
     lat: 0,
-    lng: 0
-  }
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
+    lng: 0,
+  };
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
+  @ViewChild('searchInput', { static: false })
+  searchInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private landingPageComponent: LandingPageComponent, private store: Store,  private converter: JobTypeConverterService, private userService: UserServiceService, private fb: FormBuilder, private utilService:UtilService){}
-  
-  ngOnInit(){
+  constructor(
+    private landingPageComponent: LandingPageComponent,
+    private store: Store,
+    private converter: JobTypeConverterService,
+    private userService: UserServiceService,
+    private fb: FormBuilder,
+    private utilService: UtilService
+  ) {}
+
+  ngOnInit() {
     this.confirmationModal = new window.bootstrap.Modal(
       document.getElementById('confirmationModal')
-    )
-    this.store.select((state: any)=>{
-      return state.user
-    }).subscribe((value: User)=>{
-      
-      this.innerProfileInformation = _.cloneDeep(value);
-      if(this.innerProfileInformation._geoloc !== undefined){
-        this.center = this.innerProfileInformation._geoloc
-      }else{
-        if(this.innerProfileInformation._geolocCurrent == undefined){
-          this.center = {
-            lat: 0,
-            lng: 0
+    );
+    this.store
+      .select((state: any) => {
+        return state.user;
+      })
+      .subscribe((value: User) => {
+        this.innerProfileInformation = _.cloneDeep(value);
+        if (this.innerProfileInformation._geoloc !== undefined) {
+          this.center = this.innerProfileInformation._geoloc;
+        } else {
+          if (this.innerProfileInformation._geolocCurrent == undefined) {
+            this.center = {
+              lat: 0,
+              lng: 0,
+            };
+          } else {
+            this.center = this.innerProfileInformation._geolocCurrent!;
           }
-        }else{
-          this.center = this.innerProfileInformation._geolocCurrent!
         }
-      }
-      this.googleMapFlag = this.innerProfileInformation._geoloc !== undefined
-      this.markerPosition = this.center
-      if(this.innerProfileInformation.role !== ''){
-        this.resultPayload = this.innerProfileInformation.urgentPreferredDay!;
-        this.urgentJobFlag = this.converter.arrayToObject(this.innerProfileInformation.preferredJobType).S
+        this.googleMapFlag = this.innerProfileInformation._geoloc !== undefined;
+        this.markerPosition = this.center;
+        if (this.innerProfileInformation.role !== '') {
+          this.resultPayload = this.innerProfileInformation.urgentPreferredDay!;
+          this.urgentJobFlag = this.converter.arrayToObject(
+            this.innerProfileInformation.preferredJobType
+          ).S;
+          this.resetFormGroup();
+          this.resetUrgentFormGroup();
+        }
+      });
+    document
+      .getElementById('confirmationModal')
+      ?.addEventListener('hide.bs.modal', () => {
         this.resetFormGroup();
-        this.resetUrgentFormGroup();
-      }
-    })
-    document.getElementById('confirmationModal')?.addEventListener('hide.bs.modal', ()=>{
-      this.resetFormGroup()
-    })
+      });
   }
 
   move(event: google.maps.MapMouseEvent) {
     if (event.latLng != null) this.display = event.latLng.toJSON();
   }
 
-  onSaveUrgent(){
+  onSaveUrgent() {
     let payload = {
       ...this.urgentProfileEdit.value,
       uid: this.innerProfileInformation.uid,
-      urgentPreferredDay: this.converter.objectToArrayUrgent(this.urgentProfileEdit.value.urgentPreferredDay),
+      urgentPreferredDay: this.converter.objectToArrayUrgent(
+        this.urgentProfileEdit.value.urgentPreferredDay
+      ),
       dateUpdated: new Date().toISOString().split('T')[0],
-      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),
+    };
+    if (payload._geoloc == '') {
+      delete payload._geoloc;
     }
-    if(payload._geoloc == ''){
-      delete payload._geoloc
-    }
-    this.loadingFlagUrgent = true
+    this.loadingFlagUrgent = true;
     payload = this.utilService.populateObjectWithUrgentLocationFields(payload);
-    this.userService.updateUser(payload).then(()=>{
-      this.loadingFlagUrgent = false
-      this.store.dispatch(setCurrentUser({user: payload}))
+    this.userService.updateUser(payload).then(() => {
+      this.loadingFlagUrgent = false;
+      this.store.dispatch(setCurrentUser({ user: payload }));
       this.cancelClick();
-      this.closeModal()
-    }) 
+      this.closeModal();
+    });
   }
-  onSave(){
-    const preferred = this.converter.objectToArray(this.profileEdit.value.preferredJobType)
-    let payload: Partial<User>= {
+  onSave() {
+    const preferred = this.converter.objectToArray(
+      this.profileEdit.value.preferredJobType
+    );
+    let payload: Partial<User> = {
       ...this.profileEdit.value,
       uid: this.innerProfileInformation.uid,
       preferredJobType: preferred,
       active: 'อนุญาตให้ดูข้อมูล',
       dateUpdated: new Date().toISOString().split('T')[0],
-      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000)
-    }
-    this.loadingFlag = true
-    this.userService.updateUser(payload).then(()=>{
-      this.loadingFlag = false
-      let flag = preferred.includes('งานด่วนรายวัน')?'เปิด':'ปิด'
-        this.landingPageComponent.appendAlertfromOutside({
-          body: '',
-          title:'บัญชีของคุณได้' + flag +'ใช้งานระบบงานรายวันเรียบร้อย',
-          image: 'assets/accept.png',
-          url: 'empty',
-        })  
-      this.store.dispatch(setCurrentUser({user: payload}))
-      this.closeModal()
-    })
+      dateUpdatedUnix: Math.floor(new Date().getTime() / 1000),
+    };
+    this.loadingFlag = true;
+    this.userService.updateUser(payload).then(() => {
+      this.loadingFlag = false;
+      let flag = preferred.includes('งานด่วนรายวัน') ? 'เปิด' : 'ปิด';
+      this.landingPageComponent.appendAlertfromOutside({
+        body: '',
+        title: 'บัญชีของคุณได้' + flag + 'ใช้งานระบบงานรายวันเรียบร้อย',
+        image: 'assets/accept.png',
+        url: 'empty',
+      });
+      this.store.dispatch(setCurrentUser({ user: payload }));
+      this.closeModal();
+    });
   }
-  resetUrgentFormGroup(){
-    this.initializeUrgentFormGroup()
+  resetUrgentFormGroup() {
+    this.initializeUrgentFormGroup();
     this.urgentProfileEdit.patchValue({
       ...this.innerProfileInformation,
-    })
-    let resultObject = this.converter.arrayToObjectUrgent(this.innerProfileInformation.urgentPreferredDay)
+    });
+    let resultObject = this.converter.arrayToObjectUrgent(
+      this.innerProfileInformation.urgentPreferredDay
+    );
     this.urgentProfileEdit.patchValue({
       ...this.innerProfileInformation,
-      urgentPreferredDay:resultObject
-    })
+      urgentPreferredDay: resultObject,
+    });
   }
-  editClick(){
-    this.editFlag = !this.editFlag
-    if(this.editFlag == false){
+  editClick() {
+    this.editFlag = !this.editFlag;
+    if (this.editFlag == false) {
       this.resetUrgentFormGroup();
     }
   }
-  closeModal(){
-    this.confirmationModal.hide()
+  closeModal() {
+    this.confirmationModal.hide();
   }
-  openModal(){
-    this.confirmationModal.show()
+  openModal() {
+    this.confirmationModal.show();
   }
-  initializeUrgentFormGroup(){
+  initializeUrgentFormGroup() {
     this.urgentProfileEdit = this.fb.group({
       urgentTimeFrame: [''],
       urgentPreferredDay: new FormGroup({
-        M:  new FormControl(false),
-        T:  new FormControl(false),
-        W:  new FormControl(false),
+        M: new FormControl(false),
+        T: new FormControl(false),
+        W: new FormControl(false),
         TH: new FormControl(false),
-        F:  new FormControl(false),
+        F: new FormControl(false),
         SA: new FormControl(false),
         SU: new FormControl(false),
-        NA: new FormControl(false)
+        NA: new FormControl(false),
       }),
       urgentDescription: [''],
       _geoloc: [''],
@@ -173,32 +198,32 @@ export class UrgentJobsComponent {
       preferredUrgentLocation: this.fb.group({
         Section: [''],
         District: [''],
-        Province: [''], 
+        Province: [''],
       }),
     });
   }
-  moveMap(event: any){
+  moveMap(event: any) {
     this.markerPosition = {
       lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    }
-    this.center = this.markerPosition
-    this.urgentProfileEdit.patchValue({_geoloc: this.markerPosition})
+      lng: event.latLng.lng(),
+    };
+    this.center = this.markerPosition;
+    this.urgentProfileEdit.patchValue({ _geoloc: this.markerPosition });
   }
-  searchMap(event: any){
+  searchMap(event: any) {
     this.markerPosition = {
       lat: event.geometry.location.lat(),
-      lng: event.geometry.location.lng()
-    }
-    this.urgentProfileEdit.patchValue({geoAddress: event})
-    this.center = this.markerPosition
-    this.urgentProfileEdit.patchValue({_geoloc: this.markerPosition})
+      lng: event.geometry.location.lng(),
+    };
+    this.urgentProfileEdit.patchValue({ geoAddress: event });
+    this.center = this.markerPosition;
+    this.urgentProfileEdit.patchValue({ _geoloc: this.markerPosition });
   }
-  cancelClick(){
-    this.editFlag = false
+  cancelClick() {
+    this.editFlag = false;
     this.resetUrgentFormGroup();
   }
-  initializeFormGroup(){
+  initializeFormGroup() {
     this.profileEdit = this.fb.group({
       preferredJobType: new FormGroup({
         S: new FormControl(false),
@@ -213,19 +238,21 @@ export class UrgentJobsComponent {
       }),
     });
   }
-  get () { 
+  get() {
     return this.urgentProfileEdit.controls;
-  } 
-  resetFormGroup(){
+  }
+  resetFormGroup() {
     this.initializeFormGroup();
     this.profileEdit.patchValue({
       ...this.innerProfileInformation,
-    })
-    let resultObject = this.converter.arrayToObject(this.innerProfileInformation.preferredJobType)
+    });
+    let resultObject = this.converter.arrayToObject(
+      this.innerProfileInformation.preferredJobType
+    );
     this.profileEdit.patchValue({
       ...this.innerProfileInformation,
-      preferredJobType:resultObject
-    })
-    this.urgentJobFlag = resultObject.S
+      preferredJobType: resultObject,
+    });
+    this.urgentJobFlag = resultObject.S;
   }
 }

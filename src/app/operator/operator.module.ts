@@ -40,7 +40,6 @@ import { requestViewReducer } from './state/reducer/request-view.reducer';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
@@ -58,9 +57,6 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { CookiePopupComponent } from './cookie-popup/cookie-popup.component';
 import { TosComponent } from './tos/tos.component';
 import { FooterComponent } from './common/footer/footer.component';
-
-
-
 
 @NgModule({
   declarations: [
@@ -100,14 +96,13 @@ import { FooterComponent } from './common/footer/footer.component';
     CookiePolicyComponent,
     CookiePopupComponent,
     FooterComponent,
-    TosComponent
+    TosComponent,
   ],
   imports: [
     CommonModule,
     CKEditorModule,
     RouterModule,
     GoogleMapsModule,
-    GooglePlaceModule,
     InfiniteScrollModule,
     ShareButtonsModule,
     ShareIconsModule,
@@ -116,18 +111,22 @@ import { FooterComponent } from './common/footer/footer.component';
     FormsModule,
     FlatpickrModule.forRoot(),
     SwiperModule,
-    StoreModule.forFeature("createdJobs", jobPostReducer),
-    StoreModule.forFeature("requestedJobs", jobRequestReducer),
-    StoreModule.forFeature("users", usersReducer),
-    StoreModule.forFeature("recentlySeen", recentlySeenReducer),
-    StoreModule.forFeature("requestView", requestViewReducer),
-    StoreModule.forFeature("operatorProfile", operatorProfileReducer),
+    StoreModule.forFeature('createdJobs', jobPostReducer),
+    StoreModule.forFeature('requestedJobs', jobRequestReducer),
+    StoreModule.forFeature('users', usersReducer),
+    StoreModule.forFeature('recentlySeen', recentlySeenReducer),
+    StoreModule.forFeature('requestView', requestViewReducer),
+    StoreModule.forFeature('operatorProfile', operatorProfileReducer),
     StoreModule.forFeature('notifications', notificationsReducer),
     OperatorAppRoutingModule,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [RequestJobComponent, OperatorProfileComponent, AllJobsPostsComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    RequestJobComponent,
+    OperatorProfileComponent,
+    AllJobsPostsComponent,
+  ],
   exports: [InfiniteScrollModule],
-  bootstrap:[LandingPageComponent]
+  bootstrap: [LandingPageComponent],
 })
-export class OperatorModule { }
+export class OperatorModule {}

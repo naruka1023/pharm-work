@@ -1,304 +1,495 @@
-<div class="p-lg-5 p-4  my-4 light-red-color semi-border-input" *ngIf="innerProfileInformation.studentFlag">
-  <div style="color:red">
-      *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น “บัญชีเภสัชกร” <br> <a data-bs-toggle="modal" data-bs-target="#studentUpgradeModal" class="mx-2"style="cursor:pointer">ดูวิธีอัพเกรดบัญชี</a>
+<div
+  class="p-lg-5 p-4 my-4 light-red-color semi-border-input"
+  *ngIf="innerProfileInformation.studentFlag"
+>
+  <div style="color: red">
+    *บัญชีนักศึกษาเภสัช สามารถแก้ไขหัวข้อ “ข้อมูลส่วนตัว” ได้ตามปกติ
+    เมื่อกดบันทึก ข้อมูลจะถูกจัดเก็บไว้ในระบบ และจะไม่แสดงข้อมูลในหัวข้อ
+    “ข้อมูลส่วนตัว” ของท่านต่อผู้ประกอบการ จนกว่าท่านจะอัพกรดบัญชีเป็น
+    “บัญชีเภสัชกร” <br />
+    <a
+      data-bs-toggle="modal"
+      data-bs-target="#studentUpgradeModal"
+      class="mx-2"
+      style="cursor: pointer"
+      >ดูวิธีอัพเกรดบัญชี</a
+    >
   </div>
 </div>
 <div>
   <div *ngIf="!innerProfileInformation.studentFlag">
     <div class="d-flex flex-row verticalKeyGap">
       <div class="keyValueGap"><i class="bi bi-calendar2-check-fill"></i></div>
-      <div style="width:-webkit-fill-available; width:-moz-available">
-          <div>
-              <div><b>ข้อมูลหางานเภสัชรายวันของท่าน</b></div>
-          </div>
+      <div style="width: -webkit-fill-available; width: -moz-available">
+        <div>
+          <div><b>ข้อมูลหางานเภสัชรายวันของท่าน</b></div>
+        </div>
       </div>
     </div>
     <!-- <form [formGroup]="profileEdit" (ngSubmit)="onSave()"> -->
     <form [formGroup]="profileEdit">
-      <div formGroupName="preferredJobType" class="my-5 align-items-baseline d-flex justify-content-center verticalKeyGap form-check form-switch">
-        <input class="form-check-input" (change)="openModal()" formControlName="S" type="checkbox" role="switch" id="S">
-        <label class="form-check-label ms-5" for="flexSwitchCheckDefault">เปิดใช้ระบบหางานรายวัน</label>
+      <div
+        formGroupName="preferredJobType"
+        class="my-5 align-items-baseline d-flex justify-content-center verticalKeyGap form-check form-switch"
+      >
+        <input
+          class="form-check-input"
+          (change)="openModal()"
+          formControlName="S"
+          type="checkbox"
+          role="switch"
+          id="S"
+        />
+        <label class="form-check-label ms-5" for="flexSwitchCheckDefault"
+          >เปิดใช้ระบบหางานรายวัน</label
+        >
       </div>
     </form>
   </div>
   <div class="my-3" *ngIf="urgentJobFlag">
-    <ng-container *ngIf="editFlag; then editPage; else displayPage"></ng-container>
+    <ng-container
+      *ngIf="editFlag; then editPage; else displayPage"
+    ></ng-container>
   </div>
-    <ng-template #editPage>
-      <form [formGroup]="urgentProfileEdit" (ngSubmit)="onSaveUrgent()">
-        <div class="d-flex flex-row verticalKeyGap">
-          <div class="keyValueGap"><i class="bi bi-asterisk"></i></div>
-          <div style="width:-webkit-fill-available; width:-moz-available">
-              <div class="verticalKeyGap">
-                  <div><b>สถานะการทำงานของท่านในตอนนี้</b> (เลือกได้เพียง 1 ข้อ)</div>
-              </div>
-              <div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำงานประจำ (full-time) เท่านั้น">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                          ทำงานประจำ (full-time) เท่านั้น
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำงานพาร์ทไทม์ (part-time) เท่านั้น">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        ทำงานพาร์ทไทม์ (part-time) เท่านั้น
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำทั้งงานประจำ (full-time) และพาร์ทไทม์ (part-time)">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                          ทำทั้งงานประจำ (full-time) และพาร์ทไทม์ (part-time)
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ทำแค่งานฟรีแลนซ์ (freelance) เท่านั้น">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        ทำแค่งานฟรีแลนซ์ (freelance) เท่านั้น
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="urgentTimeFrame" class="me-3 form-check-input textProfileResponsive" type="radio" value="ว่างงาน">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        ว่างงาน
-                      </label>
-                  </div>
-              </div>
-            </div>
-        </div>
-        <div class="d-flex flex-row verticalKeyGap">
-          <div class="keyValueGap"><i class="bi bi-geo-fill"></i></div>
-          <div style="width:-webkit-fill-available; width:-moz-available">
-              <div class="verticalKeyGap">
-                  <div><b>ในหนึ่งสับดาห์ วันที่ท่านสะดวกรับงานคือ</b> (เลือกได้มากกว่า 1 ข้อ)</div>
-              </div>
-              <div formGroupName="urgentPreferredDay">
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="M" class="me-3 form-check-input textProfileResponsive" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        จันทร์
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="T" class="me-3 form-check-input textProfileResponsive" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        อังคาร
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="W" class="me-3 form-check-input textProfileResponsive" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        พุธ
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="TH" class="me-3 form-check-input textProfileResponsive" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        พฤหัส
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="F" class="me-3 form-check-input" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        ศุกร์
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="SA" class="me-3 form-check-input textProfileResponsive" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        เสาร์
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="SU" class="me-3 form-check-input textProfileResponsive" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        อาทิตย์
-                      </label>
-                  </div>
-                  <div class="d-flex flex-row-start mb-3 form-check">
-                      <input formControlName="NA" class="me-3 form-check-input textProfileResponsive" type="checkbox">
-                      <label class="form-check-label" for="urgentTimeFrame">
-                        เวลาว่างไม่แน่นอน
-                      </label>
-                  </div>
-              </div>
-            </div>
-        </div>
-        <app-location [parentFormGroup]="urgentProfileEdit" [formGroupName]="'preferredUrgentLocation'"></app-location>
-        <div class="d-flex flex-row verticalKeyGap">
-          <div class="keyValueGap"><i class="bi bi-arrow-up-right-square-fill"></i></div>
-          <div style="width:-webkit-fill-available; width:-moz-available">
-              <div class="verticalKeyGap">
-                  <div><b>ข้อมูลเกี่ยวกับเวลาว่างรับงานของท่านเพิ่มเติม</b></div>
-              </div>
-            </div>
-          </div>
-          <ckeditor formControlName="urgentDescription" class="border-input mb-3 textProfileResponsive" [editor]="descriptionEditor" name="editor"></ckeditor>
-          <div class="verticalKeyGap">
-            <div class="p-lg-5 p-4 my-4 light-red-color semi-border-input">
-                <div style="color:red" class="mb-4">
-                  *ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
-                </div>
-                <div class="px-lg-4">
-                  <div class="d-flex flex-row verticalKeyGap">
-                      <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
-                      <div>
-                        <div class="keyValueGap verticalKeyGap">
-                              <div><b>ปักหมุดในพื้นที่ๆท่านต้องการหางานเภสัชรายวัน (สามารถ
-                                ปักหมุดที่อยู่ปัจจุบันเพื่อหางานรายวันใกล้ๆคุณ)</b></div>
-                          </div>
-                        </div>
-                      </div>
-                      <input
-                          type="text"
-                          class="border-input textProfileResponsive form-control verticalKeyGap my-3"
-                          ngx-google-places-autocomplete 
-                          (onAddressChange)="searchMap($event)"
-                      />
-                    <div>
-                        <google-map 
-                            style="overflow: scroll"
-                            height="500px"
-                            width="100%"
-                            [center]="center"
-                            [zoom]="zoom"
-                            [options]="none"
-                            (mapClick)="moveMap($event)"
-                            (mapMousemove)="move($event)">
-                            <map-marker
-                            [position]="markerPosition"></map-marker>
-                        </google-map>
-                    </div>
-                </div>
-              </div>
-        </div>
-        <div class="align-items-baseline d-flex justify-content-center ms-3">
-          <div *ngIf="loadingFlagUrgent" class="spinner-border text-primary keyValueGap" style="color:white" role="status">
-              <span class="visually-hidden">Loading...</span>
-          </div>
-          <button class="btn  btn-light textProfileResponsive" (click)="cancelClick()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-          <button type="submit" class="btn  textProfileResponsive ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-        </div>
-      </form>
-    </ng-template>
-    <ng-template #displayPage>
+  <ng-template #editPage>
+    <form [formGroup]="urgentProfileEdit" (ngSubmit)="onSaveUrgent()">
       <div class="d-flex flex-row verticalKeyGap">
         <div class="keyValueGap"><i class="bi bi-asterisk"></i></div>
-        <div style="width:-webkit-fill-available; width:-moz-available">
-          <div class="keyValueGap">
-            <div><b>สถานะการทำงานของท่านในตอนนี้</b></div>
+        <div style="width: -webkit-fill-available; width: -moz-available">
+          <div class="verticalKeyGap">
+            <div><b>สถานะการทำงานของท่านในตอนนี้</b> (เลือกได้เพียง 1 ข้อ)</div>
           </div>
           <div>
-            {{innerProfileInformation.preferredTimeFrame | emptyFieldPipe}}
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="urgentTimeFrame"
+                class="me-3 form-check-input textProfileResponsive"
+                type="radio"
+                value="ทำงานประจำ (full-time) เท่านั้น"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                ทำงานประจำ (full-time) เท่านั้น
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="urgentTimeFrame"
+                class="me-3 form-check-input textProfileResponsive"
+                type="radio"
+                value="ทำงานพาร์ทไทม์ (part-time) เท่านั้น"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                ทำงานพาร์ทไทม์ (part-time) เท่านั้น
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="urgentTimeFrame"
+                class="me-3 form-check-input textProfileResponsive"
+                type="radio"
+                value="ทำทั้งงานประจำ (full-time) และพาร์ทไทม์ (part-time)"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                ทำทั้งงานประจำ (full-time) และพาร์ทไทม์ (part-time)
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="urgentTimeFrame"
+                class="me-3 form-check-input textProfileResponsive"
+                type="radio"
+                value="ทำแค่งานฟรีแลนซ์ (freelance) เท่านั้น"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                ทำแค่งานฟรีแลนซ์ (freelance) เท่านั้น
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="urgentTimeFrame"
+                class="me-3 form-check-input textProfileResponsive"
+                type="radio"
+                value="ว่างงาน"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                ว่างงาน
+              </label>
+            </div>
           </div>
         </div>
       </div>
       <div class="d-flex flex-row verticalKeyGap">
-        <div class="keyValueGap"><i class="bi bi-tags-fill"></i></div>
-        <div style="width:-webkit-fill-available; width:-moz-available">
-          <div class="keyValueGap verticalKeyGap">
-            <div><b>ในหนึ่งสับดาห์ วันที่ท่านสะดวกรับงานคือ</b></div>
-          </div>
-          <div class="" *ngIf="resultPayload.length == 0">ไม่ระบุ</div>
-          <div *ngIf="resultPayload.length > 0">
-              <ul class="">
-                  <li *ngFor="let preferredDays of resultPayload" class="verticalKeyGap">
-                      {{preferredDays}}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap"><i class="bi bi-pin-fill"></i></div>
-            <div style="width:-webkit-fill-available; width:-moz-available">
-              <div class="keyValueGap">
-                <div><b>มองหางานรายวันพื้นที่ใด?</b></div>
-              </div>
-              <div>
-                {{innerProfileInformation.preferredUrgentProvince| emptyFieldPipe}}, {{innerProfileInformation.preferredUrgentDistrict| emptyFieldPipe}}, {{innerProfileInformation.preferredUrgentSection| emptyFieldPipe}}
-              </div>
-            </div>
-          </div>
-          <div class="d-flex flex-row verticalKeyGap">
-            <div class="keyValueGap"><i class="bi bi-arrow-up-right-square-fill"></i></div>
-            <div style="width:-webkit-fill-available; width:-moz-available">
-              <div class="keyValueGap">
-                <div><b>ข้อมูลเกี่ยวกับเวลาว่างรับงานของท่านเพิ่มเติม</b></div>
-              </div>
-              <div [innerHTML]="innerProfileInformation.urgentDescription| emptyFieldPipe">
-              </div>
-            </div>
-          </div>
+        <div class="keyValueGap"><i class="bi bi-geo-fill"></i></div>
+        <div style="width: -webkit-fill-available; width: -moz-available">
           <div class="verticalKeyGap">
-            <div class="d-flex flex-row mb-4">
-                <div class="keyValueGap">
-                    <i class="bi bi-geo-fill"></i>
-                </div>
-                <div class="keyValueGap">
-                    <b>ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน</b>
-                </div>
+            <div>
+              <b>ในหนึ่งสับดาห์ วันที่ท่านสะดวกรับงานคือ</b> (เลือกได้มากกว่า 1
+              ข้อ)
             </div>
-            <div class="p-lg-5 p-4 my-4 light-red-color semi-border-input">
-              <div style="color:red" class="mb-4">
-                *ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
-              </div>
-              <div class="px-lg-4">
-                <div class="d-flex flex-row verticalKeyGap">
-                    <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
-                    <div>
-                        <div class="keyValueGap verticalKeyGap">
-                            <div><b>ปักหมุดในพื้นที่ๆท่านต้องการหางานเภสัชรายวัน (สามารถ
-                              ปักหมุดที่อยู่ปัจจุบันเพื่อหางานรายวันใกล้ๆคุณ)</b></div>
-                        </div>
-                        <div class="col d-flex">
-                          {{innerProfileInformation.geoAddress}}
-                        </div>
-                    </div>
-                </div>
-              </div>
-              <div id="googleMapScroll">
-                  <google-map 
-                      style="overflow: scroll"
-                      height="500px"
-                      width="100%"
-                      [options]="none"
-                      [center]="center"
-                      [zoom]="zoom">
-                      <map-marker
-                      [position]="markerPosition"></map-marker>
-                  </google-map>
-              </div>
+          </div>
+          <div formGroupName="urgentPreferredDay">
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="M"
+                class="me-3 form-check-input textProfileResponsive"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                จันทร์
+              </label>
             </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="T"
+                class="me-3 form-check-input textProfileResponsive"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                อังคาร
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="W"
+                class="me-3 form-check-input textProfileResponsive"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                พุธ
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="TH"
+                class="me-3 form-check-input textProfileResponsive"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                พฤหัส
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="F"
+                class="me-3 form-check-input"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                ศุกร์
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="SA"
+                class="me-3 form-check-input textProfileResponsive"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                เสาร์
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="SU"
+                class="me-3 form-check-input textProfileResponsive"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                อาทิตย์
+              </label>
+            </div>
+            <div class="d-flex flex-row-start mb-3 form-check">
+              <input
+                formControlName="NA"
+                class="me-3 form-check-input textProfileResponsive"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="urgentTimeFrame">
+                เวลาว่างไม่แน่นอน
+              </label>
+            </div>
+          </div>
         </div>
-      <div class="align-items-baseline d-flex justify-content-center ms-3  mb-5"><button (click)="editClick()" type="button" class="btn  green-color textProfileResponsive" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไข</button></div>
-    </ng-template>
-  </div>
-  <div *ngIf="!innerProfileInformation.studentFlag" class=" verticalKeyGap">
-    *เมื่อเปิดใช้งานระบบหางานรายวันแล้ว<span class="green-text">ระดับการเปิดเผยข้อมูล</span>จะถูกปรับเป็น 
-  <span class="green-text">อนุญาตให้ดูข้อมูล</span>โดยอัตโนมัติ และ<span style="color:red">ข้อมูลหางานเภสัชรายวัน</span>ของท่าน
+      </div>
+      <app-location
+        [parentFormGroup]="urgentProfileEdit"
+        [formGroupName]="'preferredUrgentLocation'"
+      ></app-location>
+      <div class="d-flex flex-row verticalKeyGap">
+        <div class="keyValueGap">
+          <i class="bi bi-arrow-up-right-square-fill"></i>
+        </div>
+        <div style="width: -webkit-fill-available; width: -moz-available">
+          <div class="verticalKeyGap">
+            <div><b>ข้อมูลเกี่ยวกับเวลาว่างรับงานของท่านเพิ่มเติม</b></div>
+          </div>
+        </div>
+      </div>
+      <ckeditor
+        formControlName="urgentDescription"
+        class="border-input mb-3 textProfileResponsive"
+        [editor]="descriptionEditor"
+        name="editor"
+      ></ckeditor>
+      <div class="verticalKeyGap">
+        <div class="p-lg-5 p-4 my-4 light-red-color semi-border-input">
+          <div style="color: red" class="mb-4">
+            *ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น
+            แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ
+            ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
+          </div>
+          <div class="px-lg-4">
+            <div class="d-flex flex-row verticalKeyGap">
+              <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
+              <div>
+                <div class="keyValueGap verticalKeyGap">
+                  <div>
+                    <b
+                      >ปักหมุดในพื้นที่ๆท่านต้องการหางานเภสัชรายวัน (สามารถ
+                      ปักหมุดที่อยู่ปัจจุบันเพื่อหางานรายวันใกล้ๆคุณ)</b
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input
+              type="text"
+              class="border-input textProfileResponsive form-control verticalKeyGap my-3"
+              #searchInput
+              (onAddressChange)="searchMap($event)"
+            />
+            <div>
+              <google-map
+                style="overflow: scroll"
+                height="500px"
+                width="100%"
+                [center]="center"
+                [zoom]="zoom"
+                [options]="none"
+                (mapClick)="moveMap($event)"
+                (mapMousemove)="move($event)"
+              >
+                <map-marker [position]="markerPosition"></map-marker>
+              </google-map>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-items-baseline d-flex justify-content-center ms-3">
+        <div
+          *ngIf="loadingFlagUrgent"
+          class="spinner-border text-primary keyValueGap"
+          style="color: white"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <button
+          class="btn btn-light textProfileResponsive"
+          (click)="cancelClick()"
+          style="padding: 0.5rem 2rem; border-radius: 50px !important"
+        >
+          ยกเลิก
+        </button>
+        <button
+          type="submit"
+          class="btn textProfileResponsive ms-3"
+          style="
+            border-color: rgb(127, 216, 88);
+            background-color: rgb(127, 216, 88);
+            padding: 0.5rem 2rem;
+            border-radius: 50px !important;
+            color: white;
+          "
+        >
+          บันทึก
+        </button>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #displayPage>
+    <div class="d-flex flex-row verticalKeyGap">
+      <div class="keyValueGap"><i class="bi bi-asterisk"></i></div>
+      <div style="width: -webkit-fill-available; width: -moz-available">
+        <div class="keyValueGap">
+          <div><b>สถานะการทำงานของท่านในตอนนี้</b></div>
+        </div>
+        <div>
+          {{ innerProfileInformation.preferredTimeFrame | emptyFieldPipe }}
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+      <div class="keyValueGap"><i class="bi bi-tags-fill"></i></div>
+      <div style="width: -webkit-fill-available; width: -moz-available">
+        <div class="keyValueGap verticalKeyGap">
+          <div><b>ในหนึ่งสับดาห์ วันที่ท่านสะดวกรับงานคือ</b></div>
+        </div>
+        <div class="" *ngIf="resultPayload.length == 0">ไม่ระบุ</div>
+        <div *ngIf="resultPayload.length > 0">
+          <ul class="">
+            <li
+              *ngFor="let preferredDays of resultPayload"
+              class="verticalKeyGap"
+            >
+              {{ preferredDays }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+      <div class="keyValueGap"><i class="bi bi-pin-fill"></i></div>
+      <div style="width: -webkit-fill-available; width: -moz-available">
+        <div class="keyValueGap">
+          <div><b>มองหางานรายวันพื้นที่ใด?</b></div>
+        </div>
+        <div>
+          {{
+            innerProfileInformation.preferredUrgentProvince | emptyFieldPipe
+          }},
+          {{
+            innerProfileInformation.preferredUrgentDistrict | emptyFieldPipe
+          }},
+          {{ innerProfileInformation.preferredUrgentSection | emptyFieldPipe }}
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row verticalKeyGap">
+      <div class="keyValueGap">
+        <i class="bi bi-arrow-up-right-square-fill"></i>
+      </div>
+      <div style="width: -webkit-fill-available; width: -moz-available">
+        <div class="keyValueGap">
+          <div><b>ข้อมูลเกี่ยวกับเวลาว่างรับงานของท่านเพิ่มเติม</b></div>
+        </div>
+        <div
+          [innerHTML]="
+            innerProfileInformation.urgentDescription | emptyFieldPipe
+          "
+        ></div>
+      </div>
+    </div>
+    <div class="verticalKeyGap">
+      <div class="d-flex flex-row mb-4">
+        <div class="keyValueGap">
+          <i class="bi bi-geo-fill"></i>
+        </div>
+        <div class="keyValueGap">
+          <b>ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน</b>
+        </div>
+      </div>
+      <div class="p-lg-5 p-4 my-4 light-red-color semi-border-input">
+        <div style="color: red" class="mb-4">
+          *ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น
+          แม้จะตั้งระดับการเปิดเผยข้อมูลเป็น ‘อนุญาตให้ดูข้อมูล’ หรือ
+          ‘จำกัดการดูข้อมูล’ มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
+        </div>
+        <div class="px-lg-4">
+          <div class="d-flex flex-row verticalKeyGap">
+            <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
+            <div>
+              <div class="keyValueGap verticalKeyGap">
+                <div>
+                  <b
+                    >ปักหมุดในพื้นที่ๆท่านต้องการหางานเภสัชรายวัน (สามารถ
+                    ปักหมุดที่อยู่ปัจจุบันเพื่อหางานรายวันใกล้ๆคุณ)</b
+                  >
+                </div>
+              </div>
+              <div class="col d-flex">
+                {{ innerProfileInformation.geoAddress }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="googleMapScroll">
+          <google-map
+            style="overflow: scroll"
+            height="500px"
+            width="100%"
+            [options]="none"
+            [center]="center"
+            [zoom]="zoom"
+          >
+            <map-marker [position]="markerPosition"></map-marker>
+          </google-map>
+        </div>
+      </div>
+    </div>
+    <div class="align-items-baseline d-flex justify-content-center ms-3 mb-5">
+      <button
+        (click)="editClick()"
+        type="button"
+        class="btn green-color textProfileResponsive"
+        style="
+          color: white;
+          padding: 0.5rem 2rem;
+          border-radius: 50px !important;
+        "
+      >
+        แก้ไข
+      </button>
+    </div>
+  </ng-template>
+</div>
+<div *ngIf="!innerProfileInformation.studentFlag" class="verticalKeyGap">
+  *เมื่อเปิดใช้งานระบบหางานรายวันแล้ว<span class="green-text"
+    >ระดับการเปิดเผยข้อมูล</span
+  >จะถูกปรับเป็น <span class="green-text">อนุญาตให้ดูข้อมูล</span>โดยอัตโนมัติ
+  และ<span style="color: red">ข้อมูลหางานเภสัชรายวัน</span>ของท่าน
   จะปรากฏต่อผู้ประกอบการ ช่วยให้ท่านได้รับการติดต่อเสนองานรายวันจาก
   ผู้ประกอบการได้รวดเร็วยิ่งขึ้น
-  </div>
-  
-  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content semi-border-input standard-shadow">
-          <div class="modal-header">
-            <h5 class="modal-title  text-center">งานเภสัชรายวัน</h5>
+</div>
+
+<div
+  class="modal fade"
+  id="confirmationModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content semi-border-input standard-shadow">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">งานเภสัชรายวัน</h5>
+      </div>
+      <div class="modal-body p-4">
+        <div *ngIf="loadingFlag" class="my-3 d-flex justify-content-center">
+          <div
+            class="spinner-border text-primary keyValueGap"
+            style="color: white"
+            role="status"
+          >
+            <span class="visually-hidden">Loading...</span>
           </div>
-            <div class="modal-body p-4">
-              <div *ngIf="loadingFlag" class="my-3 d-flex justify-content-center">
-                <div  class="spinner-border text-primary keyValueGap" style="color:white" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-              </div>
-                <div class="mb-5 text-center"><b>ท่านต้องการเปิดใช้ระบบหางานรายวัน?</b></div>
-                <div class="align-items-baseline d-flex justify-content-center ms-3">
-                  <button class="btn  btn-light textProfileResponsive" (click)="closeModal()" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                  <button (click)="onSave()" class="btn  textProfileResponsive ms-3" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">ตกลง</button>
-              </div>
-            </div>
         </div>
+        <div class="mb-5 text-center">
+          <b>ท่านต้องการเปิดใช้ระบบหางานรายวัน?</b>
+        </div>
+        <div class="align-items-baseline d-flex justify-content-center ms-3">
+          <button
+            class="btn btn-light textProfileResponsive"
+            (click)="closeModal()"
+            style="padding: 0.5rem 2rem; border-radius: 50px !important"
+          >
+            ยกเลิก
+          </button>
+          <button
+            (click)="onSave()"
+            class="btn textProfileResponsive ms-3"
+            style="
+              border-color: rgb(127, 216, 88);
+              background-color: rgb(127, 216, 88);
+              padding: 0.5rem 2rem;
+              border-radius: 50px !important;
+              color: white;
+            "
+          >
+            ตกลง
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

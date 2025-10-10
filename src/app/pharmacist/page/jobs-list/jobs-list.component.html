@@ -1,85 +1,148 @@
 <div class="container">
-    <div  style="background-color: white; border-bottom: 1px lightgrey solid; top: 62px; left: 0px; right: 0px; position: fixed; z-index: 5; margin: 2rem 0" class="jobTitle">
-		<div class="text-center h2 mb-0 py-3">
-			{{ header }}
-		</div>
-        <div class="headerContent position pb-sm-3 pb-2 ps-3 d-flex justify-content-sm-center justify-content-between">
-            <div class="h2 mb-0 d-flex">
-				<button class="headerText btn badge rounded-pill text-black fs-3 mt-sm" style="font-weight: unset; background-color:#e6e6e6" data-bs-toggle="modal" data-bs-target="#searchModal" aria-expanded="false">
-					ตัวกรอง
-					<i class="headerText bi bi-sliders h2"></i>
-				</button>
-				<div class="fs-4 align-self-center ms-3">{{count$ | async}} ตำแหน่งงาน</div>
-            </div>
-		</div>
+  <div
+    style="
+      background-color: white;
+      border-bottom: 1px lightgrey solid;
+      top: 62px;
+      left: 0px;
+      right: 0px;
+      position: fixed;
+      z-index: 5;
+      margin: 2rem 0;
+    "
+    class="jobTitle"
+  >
+    <div class="text-center h2 mb-0 py-3">
+      {{ header }}
     </div>
-	<div class="modal fade" id="googleMapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-		  <div class="modal-content semi-border-input">
-			<div class="modal-header justify-content-center">
-			  <div class="modal-title textProfileResponsive" id="exampleModalLabel">ปักหมุดแผนที่</div>
-			</div>
-			<div class="modal-body">
-			  <div class="d-flex justify-content-center">
-				<i class="bi bi-geo-alt-fill" style="font-size:6em"></i>
-			  </div>
-			  <div class="d-flex justify-content-center my-3 textResponsive">
-				กรุณาปักหมุดในพื้นที่ๆท่านต้องการให้เภสัชกรมาร่วมงานรายวัน
-			  </div>
-			  <div *ngIf="googleMapLoadingFlag" style="text-align:center" class="my-3">
-				<div class="spinner-border text-primary" role="status">
-				<span class="visually-hidden">Loading...</span>
-				</div>
-			  </div>
-			  <form [formGroup]="googleMapForm" (ngSubmit)="onSaveGoogleMap()">
-				  <div class="modal-body">
-					  <div>
-						  <input
-							  type="text"
-							  class="form-control my-3 textResponsive border-input"
-							  ngx-google-places-autocomplete 
-							  (onAddressChange)="searchMap($event)" 
-						  />
-						</div>
-					  <div>
-						  <div *ngIf="submitted && getGoogleMapForm['_geoloc']!.errors" class="invalid-feedback2 mb-3">
-							<div *ngIf="getGoogleMapForm['_geoloc']!.errors!['required']">กรุณาระบุปักหมุด google map</div>
-						</div>
-						  <google-map 
-							  height="500px"
-							  width="100%"
-							  [center]="center"
-							  [options]="none"
-							  [zoom]="zoom"
-							  (mapClick)="moveMap($event)"
-							  (mapMousemove)="move($event)">
-							  <map-marker
-							  [position]="markerPosition"></map-marker>
-						  </google-map>
-					  </div>
-				</div>
-			  </form>
-			  <div class="d-flex justify-content-evenly my-3">
-				<button type="button" class="btn btn-light textProfileResponsive border-input" data-dismiss="modal" (click)="onCloseGoogleMap()" style="min-width: 5em">ยกเลิก</button>
-				<button type="button" class="btn textProfileResponsive border-input green-color" style="color:white; min-width: 5em" (click)="onSaveGoogleMap()">ตกลง</button>
-			  </div>
-			</div>
-	  
-		  </div>
-		</div>
-	  </div>
-	<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius:20px">
-		<div class="modal-dialog modal-dialog-centered">
-		  <div class="modal-content semi-border-input standard-shadow">
-			<div class="px-md-3 px-1 pt-2 modal-body">
-				<div class="text-center h2 mb-0 py-1 pt-3">
-					<b>ตัวกรอง</b>
-				</div>
-				<div class="mb-5 h4 text-center">{{ header }}</div>
-				<ng-container *ngIf="CategorySymbol == 'AA'; then urgentForm; else notUrgentForm"></ng-container>
-				<ng-template #urgentForm>
-					<form [formGroup]="urgentFilterForm" class="px-3 fs-5 urgentForm">
-						<!-- <div class="row my-3">
+    <div
+      class="headerContent position pb-sm-3 pb-2 ps-3 d-flex justify-content-sm-center justify-content-between"
+    >
+      <div class="h2 mb-0 d-flex">
+        <button
+          class="headerText btn badge rounded-pill text-black fs-3 mt-sm"
+          style="font-weight: unset; background-color: #e6e6e6"
+          data-bs-toggle="modal"
+          data-bs-target="#searchModal"
+          aria-expanded="false"
+        >
+          ตัวกรอง
+          <i class="headerText bi bi-sliders h2"></i>
+        </button>
+        <div class="fs-4 align-self-center ms-3">
+          {{ count$ | async }} ตำแหน่งงาน
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="googleMapModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content semi-border-input">
+        <div class="modal-header justify-content-center">
+          <div class="modal-title textProfileResponsive" id="exampleModalLabel">
+            ปักหมุดแผนที่
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex justify-content-center">
+            <i class="bi bi-geo-alt-fill" style="font-size: 6em"></i>
+          </div>
+          <div class="d-flex justify-content-center my-3 textResponsive">
+            กรุณาปักหมุดในพื้นที่ๆท่านต้องการให้เภสัชกรมาร่วมงานรายวัน
+          </div>
+          <div
+            *ngIf="googleMapLoadingFlag"
+            style="text-align: center"
+            class="my-3"
+          >
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <form [formGroup]="googleMapForm" (ngSubmit)="onSaveGoogleMap()">
+            <div class="modal-body">
+              <div>
+                <input
+                  type="text"
+                  class="form-control my-3 textResponsive border-input"
+                  #searchInput
+                  (onAddressChange)="searchMap($event)"
+                />
+              </div>
+              <div>
+                <div
+                  *ngIf="submitted && getGoogleMapForm['_geoloc']!.errors"
+                  class="invalid-feedback2 mb-3"
+                >
+                  <div *ngIf="getGoogleMapForm['_geoloc']!.errors!['required']">
+                    กรุณาระบุปักหมุด google map
+                  </div>
+                </div>
+                <google-map
+                  height="500px"
+                  width="100%"
+                  [center]="center"
+                  [options]="none"
+                  [zoom]="zoom"
+                  (mapClick)="moveMap($event)"
+                  (mapMousemove)="move($event)"
+                >
+                  <map-marker [position]="markerPosition"></map-marker>
+                </google-map>
+              </div>
+            </div>
+          </form>
+          <div class="d-flex justify-content-evenly my-3">
+            <button
+              type="button"
+              class="btn btn-light textProfileResponsive border-input"
+              data-dismiss="modal"
+              (click)="onCloseGoogleMap()"
+              style="min-width: 5em"
+            >
+              ยกเลิก
+            </button>
+            <button
+              type="button"
+              class="btn textProfileResponsive border-input green-color"
+              style="color: white; min-width: 5em"
+              (click)="onSaveGoogleMap()"
+            >
+              ตกลง
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="searchModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    style="border-radius: 20px"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content semi-border-input standard-shadow">
+        <div class="px-md-3 px-1 pt-2 modal-body">
+          <div class="text-center h2 mb-0 py-1 pt-3">
+            <b>ตัวกรอง</b>
+          </div>
+          <div class="mb-5 h4 text-center">{{ header }}</div>
+          <ng-container
+            *ngIf="CategorySymbol == 'AA'; then urgentForm; else notUrgentForm"
+          ></ng-container>
+          <ng-template #urgentForm>
+            <form [formGroup]="urgentFilterForm" class="px-3 fs-5 urgentForm">
+              <!-- <div class="row my-3">
 							<div class="col-1 text-center"><i class="bi bi-geo"></i></div>
 							<div class="col-md-5 col-sm-7 col-8">
 								<div class="d-inline-flex gap-1">
@@ -97,176 +160,423 @@
 								สามารถเปลี่ยนปักหมุดได้ในหน้า profile หัวข้อ ฝากประวัติ >> ข้อมูลส่วนตัว >> ปักหมุดที่อยู่หรือปักหมุดในพื้นที่ๆต้องการหางาน
 							</div>
 						</div>-->
-						<div class="form-check form-switch mb-3">
-							<input class="form-check-input me-3" type="checkbox" formControlName="nearbyFlag" role="switch" id="flexSwitchCheckDefault">
-							<label class="form-check-label" for="flexSwitchCheckDefault">งานใกล้ฉัน</label>
-						</div>
-						
-						<label *ngIf="urgentFilterForm.value.nearbyFlag" class="labelText form-label">ปักหมุดพื้นที่ๆต้องการหางานเภสัชรายวัน</label>
-						<input *ngIf="urgentFilterForm.value.nearbyFlag" (click)="onOpen()" placeholder="ปักหมุดพื้นที่ๆต้องการหางานเภสัชรายวัน"  style="background-color:#f2f2f2; cursor:pointer"  class="form-control mb-3 border-input"/>
+              <div class="form-check form-switch mb-3">
+                <input
+                  class="form-check-input me-3"
+                  type="checkbox"
+                  formControlName="nearbyFlag"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                />
+                <label class="form-check-label" for="flexSwitchCheckDefault"
+                  >งานใกล้ฉัน</label
+                >
+              </div>
 
-						<label *ngIf="urgentFilterForm.value.nearbyFlag" for="radius" class="labelText form-label">ค้นหางานภายในระยะ</label>
-						<select *ngIf="urgentFilterForm.value.nearbyFlag" formControlName="radius" style="background-color:#f2f2f2" name="section" class="form-select mb-3 border-input">
-							<option value="" selected disabled>ค้นหาภายในระยะ</option>
-							<option value="300">ระยะ 300 m</option>
-							<option value="500">ระยะ 500 m</option>
-							<option value="1000">ระยะ 1 km</option>
-							<option value="3000">ระยะ 3 km</option>
-							<option value="5000">ระยะ 5 km</option>
-						</select>
-						<div *ngIf="!urgentFilterForm.value.nearbyFlag" formGroupName="Location">
-							<label  for="Province" class="labelText form-label">จังหวัดที่ต้องการหางาน</label>
-							<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="mb-3 form-select border-input">
-								<option selected disabled value="">พื้นที่ : เลือกจังหวัด</option>
-								<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
-							</select>
-							<label  for="District" class="labelText form-label">เขตที่ต้องการหางาน</label>
-							<select formControlName="District"  style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="mb-3 form-select border-input">
-								<option selected disabled value="">พื้นที่ : เลือกเขต</option>
-								<option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
-							</select>
-							<label  for="Section" class="labelText form-label">แขวงที่ต้องการหางาน</label>
-							<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="mb-3 form-select border-input">
-								<option selected disabled value="">พื้นที่ : เลือกแขวง</option>
-								<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
-							</select>
-						</div>
-						<label  for="DateOfJob" class="labelText form-label">วันที่ต้องการหางาน</label>
-						<div class="input-icons mb-3">
-							<i class="icon bi bi-calendar4"></i>
-							<input
-							type="text"
-							mwlFlatpickr
-								mode="multiple"
-								class="form-control input-field border-input"
-								formControlName="DateOfJob" 
-								placeholder="วันที่ต้องการหางาน"
-								style="background-color:#f2f2f2"
-								/>
-							</div>
-						<label  for="nearBTS" class="labelText form-label">ใกล้ BTS</label>
-						<select formControlName="BTS" name="nearBTS" class="mb-3 form-select border-input" style="background-color:#f2f2f2">
-							<option selected disabled value="">ใกล้ BTS</option>
-							<option *ngFor="let btsStation of btsStations$ | async" [value]="btsStation">{{btsStation}}</option>
-						</select>
-						<label  for="nearMRT" class="labelText form-label">ใกล้ MRT</label>
-						<select formControlName="MRT" name="nearMRT" class="form-select border-input mb-3" style="background-color:#f2f2f2">
-							<option selected disabled value="">ใกล้ MRT</option>
-							<option *ngFor="let mrtStation of mrtStations$ | async" [value]="mrtStation">{{mrtStation}}</option>
-						</select>
-						<div class="d-flex justify-content-center mt-5">
-							<button class="btn btn-light me-3 fs-5" style="border-radius: 50px !important; width:7rem" (click)="resetLight()">เคลียร์</button>
-							<button style="border-radius: 50px !important; color:white; background-color: #7fd858; width:7rem" data-bs-dismiss="modal" (click)="searchJobs()" class="btn fs-5">ค้นหา</button>
-						</div>
-					</form>
-				</ng-template>
-				<ng-template #notUrgentForm>
-					<form [formGroup]="urgentFilterForm" class="px-3 fs-5 notUrgentForm">
-						<div class="row my-3">
-							<div class="labelText col-md-5 col-10 align-content-center">
-								<b>ชนิดของงานด้านเภสัชกรรม</b>
-							</div>
-							<div class="col">
-								{{header}}
-							</div>
-						</div>
-						<label  for="TimeFrame" class="labelText form-label">ชนิดของงานด้านเภสัชกรรม</label>
-						<select formControlName="TimeFrame" style="background-color:#f2f2f2" name="timeFrame" class="border-input form-select mb-3">
-							<option selected disabled value="">ชนิดของพนักงาน</option>
-							<option selected value="Full-Time">Full-Time</option>
-							<option value="Part-Time">Part-Time</option>
-							<option value="Full-Time และ Part-Time">Full-Time และ Part-Time</option>
-						</select>
-						<div formGroupName="Location">
-							<label  for="Province" class="labelText form-label">จังหวัดที่ต้องการหางาน</label>
-							<select formControlName="Province"  style="background-color:#f2f2f2" (change)="provinceSelected($event)" name="province" class="border-input mb-3 form-select">
-								<option selected disabled value="">พื้นที่ : เลือกจังหวัด</option>
-								<option *ngFor="let province of province$ | async" [ngValue]="province">{{province}}</option>
-							</select>
-							<label  for="District" class="labelText form-label">เขตที่ต้องการหางาน</label>
-							<select formControlName="District"  style="background-color:#f2f2f2" (change)="districtSelected($event)" name="district" class="border-input mb-3 form-select">
-								<option selected disabled value="">พื้นที่ : เลือกเขต</option>
-								<option *ngFor="let district of district$ | async" [ngValue]="district">{{district}}</option>
-							</select>
-							<label  for="Section" class="labelText form-label">แขวงที่ต้องการหางาน</label>
-							<select formControlName="Section"  style="background-color:#f2f2f2" (change)="sectionSelected($event)" name="section" class="border-input mb-3 form-select">
-								<option selected disabled value="">พื้นที่ : เลือกแขวง</option>
-								<option *ngFor="let section of section$ | async" [ngValue]="section">{{section}}</option>
-							</select>
-						</div>
-						<label  for="Salary" class="labelText form-label">เงินเดือนขั้นต่ำ</label>
-						<select formControlName="Salary" name="Salary" class="responsiveText form-select mb-3 border-input" style="background-color:#f2f2f2">
-							<option selected disabled value="">เงินเดือนขั้นต่ำ</option>
-							<option value="20000">20,000</option>
-							<option value="30000">30,000</option>
-							<option value="40000">40,000</option>
-							<option value="50000">50,000</option>
-							<option value="60000">60,000</option>
-							<option value="70000">70,000</option>
-							<option value="80000">80,000</option>
-							<option value="90000">90,000</option>
-							<option value="100000">100,000+</option>
-						</select>
-						<label  for="BTS" class="labelText form-label">ใกล้ BTS</label>
-						<select formControlName="BTS" name="nearBTS" class="form-select mb-3 border-input" style="background-color:#f2f2f2">
-							<option selected disabled value="">ใกล้ BTS</option>
-							<option *ngFor="let btsStation of btsStations$ | async" [value]="btsStation">{{btsStation}}</option>
-						</select>
-						<label  for="MRT" class="labelText form-label">ใกล้ MRT</label>
-						<select formControlName="MRT" name="nearMRT" class="form-select mb-3 border-input" style="background-color:#f2f2f2">
-							<option selected disabled value="">ใกล้ MRT</option>
-							<option *ngFor="let mrtStation of mrtStations$ | async" [value]="mrtStation">{{mrtStation}}</option>
-						</select>
-						<div class="form-check form-switch mb-3 d-flex justify-content-center">
-							<input class="form-check-input me-3" type="checkbox" formControlName="OnlineInterview" role="switch" id="onlineInterview">
-							<label class="form-check-label" for="สัมภาษณ์งานออนไลน์">สัมภาษณ์งานออนไลน์</label>
-						</div>
-						<div class="d-flex justify-content-center" style="margin-top:2rem">
-							<button class="btn btn-light fs-5 px-4 me-3" style="border-radius: 50px !important" (click)="resetLight()">เคลียร์</button>
-							<button style="border-radius: 50px !important; color: white; background-color: #7fd858"  data-bs-dismiss="modal" (click)="searchJobs()" class="btn  px-4 fs-5">ค้นหา</button>
-						</div>
-					</form>
-				</ng-template>
-			</div>
-		  </div>
-		</div>
-	  </div>
-    <ng-container *ngIf="loadingFlag; then loadingScreen; else jobsList"></ng-container>
-    <ng-template #loadingScreen>
-        <div class="loading">
-            <div style="text-align:center">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+              <label
+                *ngIf="urgentFilterForm.value.nearbyFlag"
+                class="labelText form-label"
+                >ปักหมุดพื้นที่ๆต้องการหางานเภสัชรายวัน</label
+              >
+              <input
+                *ngIf="urgentFilterForm.value.nearbyFlag"
+                (click)="onOpen()"
+                placeholder="ปักหมุดพื้นที่ๆต้องการหางานเภสัชรายวัน"
+                style="background-color: #f2f2f2; cursor: pointer"
+                class="form-control mb-3 border-input"
+              />
+
+              <label
+                *ngIf="urgentFilterForm.value.nearbyFlag"
+                for="radius"
+                class="labelText form-label"
+                >ค้นหางานภายในระยะ</label
+              >
+              <select
+                *ngIf="urgentFilterForm.value.nearbyFlag"
+                formControlName="radius"
+                style="background-color: #f2f2f2"
+                name="section"
+                class="form-select mb-3 border-input"
+              >
+                <option value="" selected disabled>ค้นหาภายในระยะ</option>
+                <option value="300">ระยะ 300 m</option>
+                <option value="500">ระยะ 500 m</option>
+                <option value="1000">ระยะ 1 km</option>
+                <option value="3000">ระยะ 3 km</option>
+                <option value="5000">ระยะ 5 km</option>
+              </select>
+              <div
+                *ngIf="!urgentFilterForm.value.nearbyFlag"
+                formGroupName="Location"
+              >
+                <label for="Province" class="labelText form-label"
+                  >จังหวัดที่ต้องการหางาน</label
+                >
+                <select
+                  formControlName="Province"
+                  style="background-color: #f2f2f2"
+                  (change)="provinceSelected($event)"
+                  name="province"
+                  class="mb-3 form-select border-input"
+                >
+                  <option selected disabled value="">
+                    พื้นที่ : เลือกจังหวัด
+                  </option>
+                  <option
+                    *ngFor="let province of province$ | async"
+                    [ngValue]="province"
+                  >
+                    {{ province }}
+                  </option>
+                </select>
+                <label for="District" class="labelText form-label"
+                  >เขตที่ต้องการหางาน</label
+                >
+                <select
+                  formControlName="District"
+                  style="background-color: #f2f2f2"
+                  (change)="districtSelected($event)"
+                  name="district"
+                  class="mb-3 form-select border-input"
+                >
+                  <option selected disabled value="">พื้นที่ : เลือกเขต</option>
+                  <option
+                    *ngFor="let district of district$ | async"
+                    [ngValue]="district"
+                  >
+                    {{ district }}
+                  </option>
+                </select>
+                <label for="Section" class="labelText form-label"
+                  >แขวงที่ต้องการหางาน</label
+                >
+                <select
+                  formControlName="Section"
+                  style="background-color: #f2f2f2"
+                  (change)="sectionSelected($event)"
+                  name="section"
+                  class="mb-3 form-select border-input"
+                >
+                  <option selected disabled value="">
+                    พื้นที่ : เลือกแขวง
+                  </option>
+                  <option
+                    *ngFor="let section of section$ | async"
+                    [ngValue]="section"
+                  >
+                    {{ section }}
+                  </option>
+                </select>
+              </div>
+              <label for="DateOfJob" class="labelText form-label"
+                >วันที่ต้องการหางาน</label
+              >
+              <div class="input-icons mb-3">
+                <i class="icon bi bi-calendar4"></i>
+                <input
+                  type="text"
+                  mwlFlatpickr
+                  mode="multiple"
+                  class="form-control input-field border-input"
+                  formControlName="DateOfJob"
+                  placeholder="วันที่ต้องการหางาน"
+                  style="background-color: #f2f2f2"
+                />
+              </div>
+              <label for="nearBTS" class="labelText form-label">ใกล้ BTS</label>
+              <select
+                formControlName="BTS"
+                name="nearBTS"
+                class="mb-3 form-select border-input"
+                style="background-color: #f2f2f2"
+              >
+                <option selected disabled value="">ใกล้ BTS</option>
+                <option
+                  *ngFor="let btsStation of btsStations$ | async"
+                  [value]="btsStation"
+                >
+                  {{ btsStation }}
+                </option>
+              </select>
+              <label for="nearMRT" class="labelText form-label">ใกล้ MRT</label>
+              <select
+                formControlName="MRT"
+                name="nearMRT"
+                class="form-select border-input mb-3"
+                style="background-color: #f2f2f2"
+              >
+                <option selected disabled value="">ใกล้ MRT</option>
+                <option
+                  *ngFor="let mrtStation of mrtStations$ | async"
+                  [value]="mrtStation"
+                >
+                  {{ mrtStation }}
+                </option>
+              </select>
+              <div class="d-flex justify-content-center mt-5">
+                <button
+                  class="btn btn-light me-3 fs-5"
+                  style="border-radius: 50px !important; width: 7rem"
+                  (click)="resetLight()"
+                >
+                  เคลียร์
+                </button>
+                <button
+                  style="
+                    border-radius: 50px !important;
+                    color: white;
+                    background-color: #7fd858;
+                    width: 7rem;
+                  "
+                  data-bs-dismiss="modal"
+                  (click)="searchJobs()"
+                  class="btn fs-5"
+                >
+                  ค้นหา
+                </button>
+              </div>
+            </form>
+          </ng-template>
+          <ng-template #notUrgentForm>
+            <form
+              [formGroup]="urgentFilterForm"
+              class="px-3 fs-5 notUrgentForm"
+            >
+              <div class="row my-3">
+                <div class="labelText col-md-5 col-10 align-content-center">
+                  <b>ชนิดของงานด้านเภสัชกรรม</b>
                 </div>
-            </div>
+                <div class="col">
+                  {{ header }}
+                </div>
+              </div>
+              <label for="TimeFrame" class="labelText form-label"
+                >ชนิดของงานด้านเภสัชกรรม</label
+              >
+              <select
+                formControlName="TimeFrame"
+                style="background-color: #f2f2f2"
+                name="timeFrame"
+                class="border-input form-select mb-3"
+              >
+                <option selected disabled value="">ชนิดของพนักงาน</option>
+                <option selected value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Full-Time และ Part-Time">
+                  Full-Time และ Part-Time
+                </option>
+              </select>
+              <div formGroupName="Location">
+                <label for="Province" class="labelText form-label"
+                  >จังหวัดที่ต้องการหางาน</label
+                >
+                <select
+                  formControlName="Province"
+                  style="background-color: #f2f2f2"
+                  (change)="provinceSelected($event)"
+                  name="province"
+                  class="border-input mb-3 form-select"
+                >
+                  <option selected disabled value="">
+                    พื้นที่ : เลือกจังหวัด
+                  </option>
+                  <option
+                    *ngFor="let province of province$ | async"
+                    [ngValue]="province"
+                  >
+                    {{ province }}
+                  </option>
+                </select>
+                <label for="District" class="labelText form-label"
+                  >เขตที่ต้องการหางาน</label
+                >
+                <select
+                  formControlName="District"
+                  style="background-color: #f2f2f2"
+                  (change)="districtSelected($event)"
+                  name="district"
+                  class="border-input mb-3 form-select"
+                >
+                  <option selected disabled value="">พื้นที่ : เลือกเขต</option>
+                  <option
+                    *ngFor="let district of district$ | async"
+                    [ngValue]="district"
+                  >
+                    {{ district }}
+                  </option>
+                </select>
+                <label for="Section" class="labelText form-label"
+                  >แขวงที่ต้องการหางาน</label
+                >
+                <select
+                  formControlName="Section"
+                  style="background-color: #f2f2f2"
+                  (change)="sectionSelected($event)"
+                  name="section"
+                  class="border-input mb-3 form-select"
+                >
+                  <option selected disabled value="">
+                    พื้นที่ : เลือกแขวง
+                  </option>
+                  <option
+                    *ngFor="let section of section$ | async"
+                    [ngValue]="section"
+                  >
+                    {{ section }}
+                  </option>
+                </select>
+              </div>
+              <label for="Salary" class="labelText form-label"
+                >เงินเดือนขั้นต่ำ</label
+              >
+              <select
+                formControlName="Salary"
+                name="Salary"
+                class="responsiveText form-select mb-3 border-input"
+                style="background-color: #f2f2f2"
+              >
+                <option selected disabled value="">เงินเดือนขั้นต่ำ</option>
+                <option value="20000">20,000</option>
+                <option value="30000">30,000</option>
+                <option value="40000">40,000</option>
+                <option value="50000">50,000</option>
+                <option value="60000">60,000</option>
+                <option value="70000">70,000</option>
+                <option value="80000">80,000</option>
+                <option value="90000">90,000</option>
+                <option value="100000">100,000+</option>
+              </select>
+              <label for="BTS" class="labelText form-label">ใกล้ BTS</label>
+              <select
+                formControlName="BTS"
+                name="nearBTS"
+                class="form-select mb-3 border-input"
+                style="background-color: #f2f2f2"
+              >
+                <option selected disabled value="">ใกล้ BTS</option>
+                <option
+                  *ngFor="let btsStation of btsStations$ | async"
+                  [value]="btsStation"
+                >
+                  {{ btsStation }}
+                </option>
+              </select>
+              <label for="MRT" class="labelText form-label">ใกล้ MRT</label>
+              <select
+                formControlName="MRT"
+                name="nearMRT"
+                class="form-select mb-3 border-input"
+                style="background-color: #f2f2f2"
+              >
+                <option selected disabled value="">ใกล้ MRT</option>
+                <option
+                  *ngFor="let mrtStation of mrtStations$ | async"
+                  [value]="mrtStation"
+                >
+                  {{ mrtStation }}
+                </option>
+              </select>
+              <div
+                class="form-check form-switch mb-3 d-flex justify-content-center"
+              >
+                <input
+                  class="form-check-input me-3"
+                  type="checkbox"
+                  formControlName="OnlineInterview"
+                  role="switch"
+                  id="onlineInterview"
+                />
+                <label class="form-check-label" for="สัมภาษณ์งานออนไลน์"
+                  >สัมภาษณ์งานออนไลน์</label
+                >
+              </div>
+              <div
+                class="d-flex justify-content-center"
+                style="margin-top: 2rem"
+              >
+                <button
+                  class="btn btn-light fs-5 px-4 me-3"
+                  style="border-radius: 50px !important"
+                  (click)="resetLight()"
+                >
+                  เคลียร์
+                </button>
+                <button
+                  style="
+                    border-radius: 50px !important;
+                    color: white;
+                    background-color: #7fd858;
+                  "
+                  data-bs-dismiss="modal"
+                  (click)="searchJobs()"
+                  class="btn px-4 fs-5"
+                >
+                  ค้นหา
+                </button>
+              </div>
+            </form>
+          </ng-template>
         </div>
+      </div>
+    </div>
+  </div>
+  <ng-container
+    *ngIf="loadingFlag; then loadingScreen; else jobsList"
+  ></ng-container>
+  <ng-template #loadingScreen>
+    <div class="loading">
+      <div style="text-align: center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #jobsList>
+    <ng-container
+      *ngIf="emptyResultFlag; then empty; else notEmpty"
+    ></ng-container>
+    <ng-template #empty>
+      <div class="row d-flex justify-content-center">
+        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
+          <img
+            class="w-100"
+            style="margin-top: 90px"
+            src="assets/emptyPharmaSearchResults/notFound.png"
+          />
+        </div>
+      </div>
     </ng-template>
-    <ng-template #jobsList>
-		<ng-container *ngIf="emptyResultFlag; then empty; else notEmpty"></ng-container>
-        <ng-template #empty>
-			<div class="row d-flex justify-content-center">
-				<div class="col-xxl-6 col-xl-7 col-lg-8 col-md-9 col-sm-10 col">
-					<img class="w-100" style="margin-top:90px" src="assets/emptyPharmaSearchResults/notFound.png">
-				</div>
-			</div>
-		</ng-template>
-        <ng-template #notEmpty>
-			<div class="row jobContainer" style="margin-top:13rem"
-				infinite-scroll
-                [infiniteScrollDistance]="2"
-                [infiniteScrollThrottle]="500"
-                (scrolled)="onScroll()">
-				<ng-container *ngFor="let content of content$ | async ; index as i" >
-					<div>
-						<app-job-post-normal-card [content]="content" [urgentFlag]="content.CategorySymbol == 'AA'" [fullTimeFlag]="content.TimeFrame =='Full-Time'" class="col"></app-job-post-normal-card>
-					</div>
-				</ng-container>
-			</div>
-			<div *ngIf="infiniteScrollingLoadingFlag" style="text-align:center" class="my-5">
-                <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-		</ng-template>
+    <ng-template #notEmpty>
+      <div
+        class="row jobContainer"
+        style="margin-top: 13rem"
+        infinite-scroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="500"
+        (scrolled)="onScroll()"
+      >
+        <ng-container *ngFor="let content of content$ | async; index as i">
+          <div>
+            <app-job-post-normal-card
+              [content]="content"
+              [urgentFlag]="content.CategorySymbol == 'AA'"
+              [fullTimeFlag]="content.TimeFrame == 'Full-Time'"
+              class="col"
+            ></app-job-post-normal-card>
+          </div>
+        </ng-container>
+      </div>
+      <div
+        *ngIf="infiniteScrollingLoadingFlag"
+        style="text-align: center"
+        class="my-5"
+      >
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     </ng-template>
+  </ng-template>
 </div>

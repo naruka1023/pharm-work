@@ -16,13 +16,11 @@
             "allowedCommonJsDependencies": [
               "lodash",
               "ngx-google-places-autocomplete"
-           ],
-            "outputPath": "dist/pharm-work",
+            ],
+            "outputPath": "dist/pharm-work/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -46,7 +44,6 @@
               "node_modules/swiper/swiper-bundle.min.js",
               "node_modules/cropperjs/dist/cropper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-              
             ]
           },
           "configurations": {
@@ -97,18 +94,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         },

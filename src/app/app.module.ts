@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { DemoLandingComponent } from './demo-landing/demo-landing.component';
 import { usersReducer } from './state/reducer/users-reducers';
@@ -33,7 +35,6 @@ import { jobPostReducer } from './pharmacist/state/reducers/job-post-reducers';
 import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-card/job-post-normal-card.component';
 import { CookieService } from 'ngx-cookie-service';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,26 +55,27 @@ import { CookieService } from 'ngx-cookie-service';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     GoogleMapsModule,
+    MatAutocompleteModule,
+    MatInputModule,
     HttpClientModule,
-
     ReactiveFormsModule,
     SwiperModule,
     StoreModule.forRoot({
       user: usersReducer,
       address: addressReducer,
       operator: operatorReducer,
-      jobpost: jobPostReducer
+      jobpost: jobPostReducer,
     }),
     StoreDevtoolsModule.instrument({
       // logOnly: environment.production, // Restrict extension to log-only mode
     }),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
-    provideMessaging(()=>getMessaging()),
-    provideAuth(()=>getAuth()),
-    provideStorage(()=>getStorage()),
+    provideMessaging(() => getMessaging()),
+    provideAuth(() => getAuth()),
+    provideStorage(() => getStorage()),
   ],
-  providers: [LandingPageComponent, CookieService],  // add this line
-  bootstrap: [AppComponent]
+  providers: [LandingPageComponent, CookieService], // add this line
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

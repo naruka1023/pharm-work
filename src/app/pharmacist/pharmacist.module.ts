@@ -54,7 +54,6 @@ import { WorkExperiencePipe } from './pipe/work-experience.pipe';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { GooglePlaceModule } from "@yuvarajv/ngx-google-places-autocomplete";
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { notificationsReducer } from './state/reducers/notifications.reducers.';
 import { CheckoutComponent } from './page/checkout/checkout.component';
@@ -67,7 +66,6 @@ import { TosComponent } from './tos/tos.component';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { FooterComponent } from './common/footer/footer.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -77,7 +75,6 @@ import { FooterComponent } from './common/footer/footer.component';
     ReactiveFormsModule,
     GoogleMapsModule,
     SharedModuleModule,
-    GooglePlaceModule,
     BannerMenuComponent,
     ShareButtonsModule,
     ShareIconsModule,
@@ -95,7 +92,7 @@ import { FooterComponent } from './common/footer/footer.component';
     StoreModule.forFeature('requestView', requestViewReducer),
     StoreModule.forFeature('notifications', notificationsReducer),
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [InfiniteScrollModule],
   declarations: [
     LandingPageComponent,
@@ -140,11 +137,15 @@ import { FooterComponent } from './common/footer/footer.component';
     PrivacyPolicyComponent,
     CookiePolicyComponent,
     CookiePopupComponent,
-    TosComponent
+    TosComponent,
   ],
-  
-  providers:[PharmaProfileComponent,  NotificationsComponent, LandingPageComponent, RegisterJobsComponent],
-  bootstrap:[LandingPageComponent]
-})
-export class PharmacistModule { }
 
+  providers: [
+    PharmaProfileComponent,
+    NotificationsComponent,
+    LandingPageComponent,
+    RegisterJobsComponent,
+  ],
+  bootstrap: [LandingPageComponent],
+})
+export class PharmacistModule {}

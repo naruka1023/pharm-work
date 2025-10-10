@@ -1,674 +1,1055 @@
-<ng-container *ngIf="loading$ | async; then loading; else notLoading"></ng-container>
+<ng-container
+  *ngIf="loading$ | async; then loading; else notLoading"
+></ng-container>
 <ng-template #loading>
-    <div style="text-align:center" class="mt-5">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+  <div style="text-align: center" class="mt-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
+  </div>
 </ng-template>
 <ng-template #notLoading>
-    <div class="p-md-4 p-2 textProfileResponsive standard-shadow semi-border-input">
-        <div class="my-3 innerProfileTitle"><b>โปรไฟล์บริษัท</b></div> 
-        <div class="innerProfileTabList sticky-top" style="top:180px; background:white; z-index:4">
-            <ul class="nav nav-underline py-3 mb-2 flex-row tabList" style="width:max-content; --bs-nav-underline-gap:0 1rem">
-                <li class="nav-item">
-                    <a class="nav-link flex-lg-fill text-lg-center active" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="main-profile" data-bs-target="#tabOne" aria-controls="tabOne" type="button" role="tab">ข้อมูลทั่วไป</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="private-profile" data-bs-target="#tabTwo" aria-controls="tabTwo" type="button" role="tab" aria-current="page">ติดต่อ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link flex-lg-fill text-lg-center" data-bs-toggle="tab" (click)="profileEditState = false; resetFormGroup()" id="preferred-jobs" data-bs-target="#tabThree" aria-controls="tabThree" type="button" role="tab" aria-current="page">สวัสดิการ</a>
-                </li>
-                <hr style="width: 100%" class="m-auto">
-            </ul>
-        </div>
-        <div class="tab-content textProfileResponsive  mx-md-5" style="line-break: auto">
-            <div class="tab-pane active" id="tabOne" role="tabpanel" aria-labelledby="tabOne-tab">
-            <ng-container *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"></ng-container>
-            <ng-template #displayProfileOne>
-                <div class="p-md-5 p-sm-4 p-3 my-4 cyan-color semi-border-input">
-                    <div style="color:blue" class="mb-4">
-                        *ข้อมูลในส่วนกรอบสีฟ้าจะแสดงให้ผู้อื่นเห็นเป็นสาธารณะ
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex justify-content-between ">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap"><i class="bi bi-check-circle-fill"></i></div>
-                                <div>
-                                    <div class="keyValueGap">
-                                        <div><b>ชื่อบริษัท/ชื่อธุรกิจที่จดทะเบียนการค้า</b></div>
-                                    </div>
-                                    <div class="col d-flex">
-                                        <div class="me-2">{{innerProfileInformation.companyName | emptyField}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap"><i class="bi bi-bank2"></i></div>
-                                <div>
-                                    <div class="keyValueGap">
-                                        <div><b>ประเภทธุรกิจ</b></div>
-                                    </div>
-                                    <div class="col d-flex">
-                                        <div class="me-2">{{innerProfileInformation.jobType | emptyField}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap"><i class="bi bi-stack"></i></div>
-                                <div>
-                                    <div class="keyValueGap">
-                                        <div><b>ขนาดธุรกิจ</b></div>
-                                    </div>
-                                    <div class="col d-flex">
-                                        <div class="me-2">{{innerProfileInformation.companySize | emptyField}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap"><i class="bi bi-bag-plus-fill"></i></div>
-                                <div>
-                                    <div class="keyValueGap">
-                                        <div><b>สินค้าและบริการ</b></div>
-                                    </div>
-                                    <div class="col d-flex">
-                                        <div class="me-2" [innerHTML]='innerProfileInformation.productsAndServices | emptyField'></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap"><i class="bi bi-pin-map-fill"></i></div>
-                                <div>
-                                    <div class="keyValueGap">
-                                        <div><b>พื้นที่ตั้งของบริษัท</b></div>
-                                    </div>
-                                    <div class="col d-flex">
-                                        <div>{{innerProfileInformation.Location?.Province | emptyField}}, {{innerProfileInformation.Location?.District | emptyField}}, {{innerProfileInformation.Location?.Section | emptyField}}</div>                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
-                                <div>
-                                    <div class="keyValueGap">
-                                        <div><b>วิธีเดินทางไปบริษัท</b></div>
-                                    </div>
-                                    <div class="col d-flex">
-                                        <div class="me-2" [innerHTML]="innerProfileInformation.TravelInstructions | emptyField"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                            <div class="d-flex flex-row">
-                                <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
-                                <div style="width:-webkit-fill-available; width: -moz-available">
-                                    <div class="keyValueGap">
-                                        <div><b>ปักหมุดที่อยู่ของบริษัท</b></div>
-                                    </div>
-                                </div>
-                            </div>
-                                <div id="googleMapScroll" class="my-3">
-                                    <google-map 
-                                        height="500px"
-                                        width="100%"
-                                        [options]="none"
-                                        [center]="center"
-                                        [zoom]="zoom">
-                                        <map-marker
-                                            [position]="markerPosition">
-                                        </map-marker>
-                                    </google-map>
-                                </div>
-                    </div>
-                </div>
-                <div class="p-md-5 p-sm-4 p-3 my-4 light-red-color semi-border-input">
-                    <div style="color:red" class="mb-4 textResponsive">
-                        **ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น 
-                        มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap">
-                                <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <b>ชื่อผู้ติดต่อ</b>
-                                </div>
-                                <div class="col">
-                                    <div class="me-3">{{innerProfileInformation.nameOfPerson | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap">
-                                <i class="bi bi-bank2"></i>
-                            </div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <b>เบอร์โทรผู้ติดต่อ</b>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2">{{innerProfileInformation.phoneNumber | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap">
-                                <i class="bi bi-envelope-at"></i>
-                            </div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <b>Email ฝ่ายบัญชี</b>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2">{{innerProfileInformation.emailRepresentative | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container tab-content">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap">
-                                <i class="bi bi-bag-plus-fill"></i>
-                            </div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <b>เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา</b>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2">{{innerProfileInformation.companyID | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-            <ng-template #editProfileOne>
-                <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
-                    <div class="p-md-5 p-sm-4 p-3 my-4 cyan-color semi-border-input">
-                        <div style="color:blue" class="mb-4">
-                            *ข้อมูลในส่วนกรอบสีฟ้าจะแสดงให้ผู้อื่นเห็นเป็นสาธารณะ
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-check-circle-fill"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>ชื่อบริษัท/ชื่อธุรกิจที่จดทะเบียนการค้า</b></div>
-                                </div>
-                                <div class="col d-flex">
-                                    <input formControlName="companyName" type="text" class="form-control textProfileResponsive border-input"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-stack"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>ขนาดธุรกิจ</b></div>
-                                </div>
-                                <div class="col d-flex">
-                                    <select formControlName="companySize" name="companySize" class="form-select textProfileResponsive border-input">
-                                        <option value="" selected disabled>เลือกขนาดธุรกิจ</option>
-                                        <option value="ธุรกิจขนาดเล็ก (ไม่เกิน 50 คน)">ธุรกิจขนาดเล็ก (ไม่เกิน 50 คน)</option>
-                                        <option value="ธุรกิจขนาดกลาง (50 – 200 คน)">ธุรกิจขนาดกลาง (50 – 200 คน)</option>
-                                        <option value="ธุรกิจขนาดใหญ่ (200 คนขึ้นไป)">ธุรกิจขนาดใหญ่ (200 คนขึ้นไป)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-bag-plus-fill"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>สินค้าและบริการ</b></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col d-flex mb-3">
-                            <ckeditor formControlName="productsAndServices" [editor]="productsAndServicesEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
-                        </div>
-                        <app-location-selector [parentFormGroup]="profileEdit"></app-location-selector>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>วิธีเดินทางไปบริษัท</b></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col d-flex mb-3">
-                            <ckeditor formControlName="TravelInstructions" [editor]="TravelInstructionsEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
-                        </div>
-                        <div class="container tab-content">
-                            <div class="d-flex flex-row">
-                                <div class="keyValueGap"><i class="bi bi-geo-alt-fill"></i></div>
-                                <div>
-                                    <div class="keyValueGap mb-3">
-                                        <div><b>ปักหมุดที่อยู่ของบริษัท</b></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <input
-                                    type="text"
-                                    class="form-control textProfileResponsive border-input my-3"
-                                    ngx-google-places-autocomplete 
-                                    (onAddressChange)="searchMap($event)"/>
-                                <div id="googleMapScroll">
-                                    <google-map 
-                                        height="500px"
-                                        width="100%"
-                                        [center]="center"
-                                        [zoom]="zoom"
-                                        style="overflow-x:scroll"
-                                        [options]="none"
-                                        (mapClick)="moveMap($event)"
-                                        (mapMousemove)="move($event)">
-                                        <map-marker [position]="markerPosition"></map-marker>
-                                    </google-map>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-md-5 p-sm-4 p-3 my-4 light-red-color semi-border-input">
-                        <div style="color:red" class="mb-4 textResponsive">
-                            **ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น 
-                            มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
-                        </div>
-                        <div class="container tab-content">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap">
-                                    <i class="bi bi-check-circle-fill"></i>
-                                </div>
-                                <div style="width:-webkit-fill-available; width:-moz-available">
-                                    <div class="keyValueGap">
-                                        <b>ชื่อผู้ติดต่อ</b>
-                                    </div>
-                                    <div class="col">
-                                        <input formControlName="nameOfPerson" type="text" class="form-control textProfileResponsive border-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container tab-content">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap">
-                                    <i class="bi bi-bank2"></i>
-                                </div>
-                                <div style="width:-webkit-fill-available; width:-moz-available">
-                                    <div class="keyValueGap">
-                                        <b>เบอร์โทรผู้ติดต่อ</b>
-                                    </div>
-                                    <div class="col">
-                                        <input formControlName="phoneNumber" type="text" class="form-control textProfileResponsive border-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container tab-content">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap">
-                                    <i class="bi bi-stack"></i>
-                                </div>
-                                <div style="width:-webkit-fill-available; width:-moz-available">
-                                    <div class="keyValueGap">
-                                        <b>Email ฝ่ายบัญชี</b>
-                                    </div>
-                                    <div class="col">
-                                        <input formControlName="emailRepresentative" type="text" class="form-control textProfileResponsive border-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container tab-content">
-                            <div class="d-flex flex-row verticalKeyGap">
-                                <div class="keyValueGap">
-                                    <i class="bi bi-stack"></i>
-                                </div>
-                                <div>
-                                    <div class="keyValueGap">
-                                        <b>เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา</b>
-                                    </div>
-                                    <div class="col">
-                                        {{innerProfileInformation.companyID | emptyField}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="align-items-baseline d-flex justify-content-center ms-3">
-                    <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                    <button (click)="onSave()" class="btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-                </div>
-            </ng-template>
-        </div>
-        <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
-            <ng-container *ngIf="!profileEditState; then displayProfileTwo; else editProfileTwo"></ng-container>
-            <ng-template #displayProfileTwo>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-telephone-fill"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>ชื่อผู้ติดต่อและเบอร์โทร</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.phone | emptyField}}</div>
-                                    <div class="me-2">{{innerProfileInformation.contacts?.nameRepresentative | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-house-door-fill"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>สถานที่ติดต่อ</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.areaOfContact | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-envelope-open-fill"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>Email</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.email | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-line"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>LINE</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.line | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>Website</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.website | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>Facebook</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.facebook | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>Twitter</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.twitter | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-skype"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>Skype</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.skype | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between ">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>Youtube</b></div>
-                                </div>
-                                <div class="col">
-                                    <div class="me-2 mb-2">{{innerProfileInformation.contacts?.youtube | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-            <ng-template #editProfileTwo>
-                <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
-                    <div class="my-3" formGroupName="contacts">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-telephone-fill"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>ชื่อผู้ติดต่อและเบอร์โทร</b></div>
-                                </div>
-                                <div class="col">
-                                    <input formControlName="phone" placeholder="ชื่อบุคคลที่ผู้สมัครงานสามารถติดต่อได้" type="text" class="form-control textProfileResponsive border-input mb-3">
-                                    <input formControlName="nameRepresentative" placeholder="เบอร์โทรติดต่อสำหรับผู้สมัครงาน" type="text" class="form-control textProfileResponsive border-input"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-house-door-fill"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>สถานที่ติดต่อ</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="areaOfContact" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-envelope-open-fill"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>Email</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="email" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-line"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>line</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="line" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>Website</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="website" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>Facebook</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="facebook" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>Twitter</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="twitter" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-skype"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>Skype</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="skype" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
-                            <div style="width:-webkit-fill-available; width:-moz-available">
-                                <div class="keyValueGap">
-                                    <div><b>Youtube</b></div>
-                                </div>
-                                <div>
-                                    <input formControlName="youtube" type="text" class="form-control textProfileResponsive border-input">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>    
-                <div class="align-items-baseline d-flex justify-content-center ms-3">
-                    <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                    <button (click)="onSave()" class="btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-                </div>                
-            </ng-template>
-        </div>
-        <div class="tab-pane" id="tabThree" role="tabpanel" aria-labelledby="tabThree-tab">
-            <ng-container *ngIf="!profileEditState; then displayProfileThree; else editProfileThree"></ng-container>
-            <ng-template #displayProfileThree>
-                <div class="container tab-content">
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row verticalKeyGap">
-                            <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
-                            <div>
-                                <div class="keyValueGap">
-                                    <div><b>สวัสดิการ</b></div>
-                                </div>
-                                <div class="col d-flex">
-                                    <div class="me-2">{{innerProfileInformation.benefits | emptyField}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-            <ng-template #editProfileThree>
-                <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
-                    <div class="container tab-content">
-                        <div class="verticalKeyGap">
-                            <div class="d-flex flex-row mb-md-0 mb-3">
-                                <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
-                                <div style="width:-webkit-fill-available; width:-moz-available">
-                                    <div class="keyValueGap">
-                                        <div><b>สวัสดิการ</b></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="width:100%">
-                                <div class="keyValueGap d-md-block d-none" style="visibility:hidden"><i class="bi bi-gift-fill"></i></div>
-                                <div class="col d-flex">
-                                    <ckeditor formControlName="benefits" [editor]="benefitsEditor" name="editor" style="width:-webkit-fill-available; width:-moz-available"></ckeditor>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </form>
-            <div class="align-items-baseline d-flex justify-content-center ms-3">
-                <button (click)="cancelClick()" class="me-3 btn textProfileResponsive btn-light" style="padding: 0.5rem 2rem; border-radius: 50px !important">ยกเลิก</button>
-                <button (click)="onSave()" class="btn textProfileResponsive" style="border-color: rgb(127, 216, 88); background-color:rgb(127, 216, 88); padding: 0.5rem 2rem; border-radius: 50px !important; color:white">บันทึก</button>
-            </div>
-            </ng-template>
-        </div>
-                <div class="align-items-baseline d-flex justify-content-center textProfileResponsive mb-md-0 mb-3"><button [ngStyle]="{'visibility': !profileEditState?'unset':'hidden'}" (click)="toggleEdit()" type="button" class="btn mb-3 green-color textProfileResponsive" style="color:white; padding: 0.5rem 2rem; border-radius: 50px !important">แก้ไขข้อมูล</button></div>
-        </div>
+  <div
+    class="p-md-4 p-2 textProfileResponsive standard-shadow semi-border-input"
+  >
+    <div class="my-3 innerProfileTitle"><b>โปรไฟล์บริษัท</b></div>
+    <div
+      class="innerProfileTabList sticky-top"
+      style="top: 180px; background: white; z-index: 4"
+    >
+      <ul
+        class="nav nav-underline py-3 mb-2 flex-row tabList"
+        style="width: max-content; --bs-nav-underline-gap: 0 1rem"
+      >
+        <li class="nav-item">
+          <a
+            class="nav-link flex-lg-fill text-lg-center active"
+            data-bs-toggle="tab"
+            (click)="profileEditState = false; resetFormGroup()"
+            id="main-profile"
+            data-bs-target="#tabOne"
+            aria-controls="tabOne"
+            type="button"
+            role="tab"
+            >ข้อมูลทั่วไป</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link flex-lg-fill text-lg-center"
+            data-bs-toggle="tab"
+            (click)="profileEditState = false; resetFormGroup()"
+            id="private-profile"
+            data-bs-target="#tabTwo"
+            aria-controls="tabTwo"
+            type="button"
+            role="tab"
+            aria-current="page"
+            >ติดต่อ</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link flex-lg-fill text-lg-center"
+            data-bs-toggle="tab"
+            (click)="profileEditState = false; resetFormGroup()"
+            id="preferred-jobs"
+            data-bs-target="#tabThree"
+            aria-controls="tabThree"
+            type="button"
+            role="tab"
+            aria-current="page"
+            >สวัสดิการ</a
+          >
+        </li>
+        <hr style="width: 100%" class="m-auto" />
+      </ul>
     </div>
+    <div
+      class="tab-content textProfileResponsive mx-md-5"
+      style="line-break: auto"
+    >
+      <div
+        class="tab-pane active"
+        id="tabOne"
+        role="tabpanel"
+        aria-labelledby="tabOne-tab"
+      >
+        <ng-container
+          *ngIf="!profileEditState; then displayProfileOne; else editProfileOne"
+        ></ng-container>
+        <ng-template #displayProfileOne>
+          <div class="p-md-5 p-sm-4 p-3 my-4 cyan-color semi-border-input">
+            <div style="color: blue" class="mb-4">
+              *ข้อมูลในส่วนกรอบสีฟ้าจะแสดงให้ผู้อื่นเห็นเป็นสาธารณะ
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap">
+                    <i class="bi bi-check-circle-fill"></i>
+                  </div>
+                  <div>
+                    <div class="keyValueGap">
+                      <div><b>ชื่อบริษัท/ชื่อธุรกิจที่จดทะเบียนการค้า</b></div>
+                    </div>
+                    <div class="col d-flex">
+                      <div class="me-2">
+                        {{ innerProfileInformation.companyName | emptyField }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap"><i class="bi bi-bank2"></i></div>
+                  <div>
+                    <div class="keyValueGap">
+                      <div><b>ประเภทธุรกิจ</b></div>
+                    </div>
+                    <div class="col d-flex">
+                      <div class="me-2">
+                        {{ innerProfileInformation.jobType | emptyField }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap"><i class="bi bi-stack"></i></div>
+                  <div>
+                    <div class="keyValueGap">
+                      <div><b>ขนาดธุรกิจ</b></div>
+                    </div>
+                    <div class="col d-flex">
+                      <div class="me-2">
+                        {{ innerProfileInformation.companySize | emptyField }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap">
+                    <i class="bi bi-bag-plus-fill"></i>
+                  </div>
+                  <div>
+                    <div class="keyValueGap">
+                      <div><b>สินค้าและบริการ</b></div>
+                    </div>
+                    <div class="col d-flex">
+                      <div
+                        class="me-2"
+                        [innerHTML]="
+                          innerProfileInformation.productsAndServices
+                            | emptyField
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap">
+                    <i class="bi bi-pin-map-fill"></i>
+                  </div>
+                  <div>
+                    <div class="keyValueGap">
+                      <div><b>พื้นที่ตั้งของบริษัท</b></div>
+                    </div>
+                    <div class="col d-flex">
+                      <div>
+                        {{
+                          innerProfileInformation.Location?.Province
+                            | emptyField
+                        }},
+                        {{
+                          innerProfileInformation.Location?.District
+                            | emptyField
+                        }},
+                        {{
+                          innerProfileInformation.Location?.Section | emptyField
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
+                  <div>
+                    <div class="keyValueGap">
+                      <div><b>วิธีเดินทางไปบริษัท</b></div>
+                    </div>
+                    <div class="col d-flex">
+                      <div
+                        class="me-2"
+                        [innerHTML]="
+                          innerProfileInformation.TravelInstructions
+                            | emptyField
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex flex-row">
+                <div class="keyValueGap">
+                  <i class="bi bi-geo-alt-fill"></i>
+                </div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>ปักหมุดที่อยู่ของบริษัท</b></div>
+                  </div>
+                </div>
+              </div>
+              <div id="googleMapScroll" class="my-3">
+                <google-map
+                  height="500px"
+                  width="100%"
+                  [options]="none"
+                  [center]="center"
+                  [zoom]="zoom"
+                >
+                  <map-marker [position]="markerPosition"> </map-marker>
+                </google-map>
+              </div>
+            </div>
+          </div>
+          <div class="p-md-5 p-sm-4 p-3 my-4 light-red-color semi-border-input">
+            <div style="color: red" class="mb-4 textResponsive">
+              **ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น
+              มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div>
+                  <div class="keyValueGap">
+                    <b>ชื่อผู้ติดต่อ</b>
+                  </div>
+                  <div class="col">
+                    <div class="me-3">
+                      {{ innerProfileInformation.nameOfPerson | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-bank2"></i>
+                </div>
+                <div>
+                  <div class="keyValueGap">
+                    <b>เบอร์โทรผู้ติดต่อ</b>
+                  </div>
+                  <div class="col">
+                    <div class="me-2">
+                      {{ innerProfileInformation.phoneNumber | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-envelope-at"></i>
+                </div>
+                <div>
+                  <div class="keyValueGap">
+                    <b>Email ฝ่ายบัญชี</b>
+                  </div>
+                  <div class="col">
+                    <div class="me-2">
+                      {{
+                        innerProfileInformation.emailRepresentative | emptyField
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container tab-content">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-bag-plus-fill"></i>
+                </div>
+                <div>
+                  <div class="keyValueGap">
+                    <b
+                      >เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ
+                      เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา</b
+                    >
+                  </div>
+                  <div class="col">
+                    <div class="me-2">
+                      {{ innerProfileInformation.companyID | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #editProfileOne>
+          <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
+            <div class="p-md-5 p-sm-4 p-3 my-4 cyan-color semi-border-input">
+              <div style="color: blue" class="mb-4">
+                *ข้อมูลในส่วนกรอบสีฟ้าจะแสดงให้ผู้อื่นเห็นเป็นสาธารณะ
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>ชื่อบริษัท/ชื่อธุรกิจที่จดทะเบียนการค้า</b></div>
+                  </div>
+                  <div class="col d-flex">
+                    <input
+                      formControlName="companyName"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-stack"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>ขนาดธุรกิจ</b></div>
+                  </div>
+                  <div class="col d-flex">
+                    <select
+                      formControlName="companySize"
+                      name="companySize"
+                      class="form-select textProfileResponsive border-input"
+                    >
+                      <option value="" selected disabled>
+                        เลือกขนาดธุรกิจ
+                      </option>
+                      <option value="ธุรกิจขนาดเล็ก (ไม่เกิน 50 คน)">
+                        ธุรกิจขนาดเล็ก (ไม่เกิน 50 คน)
+                      </option>
+                      <option value="ธุรกิจขนาดกลาง (50 – 200 คน)">
+                        ธุรกิจขนาดกลาง (50 – 200 คน)
+                      </option>
+                      <option value="ธุรกิจขนาดใหญ่ (200 คนขึ้นไป)">
+                        ธุรกิจขนาดใหญ่ (200 คนขึ้นไป)
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-bag-plus-fill"></i>
+                </div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>สินค้าและบริการ</b></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col d-flex mb-3">
+                <ckeditor
+                  formControlName="productsAndServices"
+                  [editor]="productsAndServicesEditor"
+                  name="editor"
+                  style="width: -webkit-fill-available; width: -moz-available"
+                ></ckeditor>
+              </div>
+              <app-location-selector
+                [parentFormGroup]="profileEdit"
+              ></app-location-selector>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-send-fill"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>วิธีเดินทางไปบริษัท</b></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col d-flex mb-3">
+                <ckeditor
+                  formControlName="TravelInstructions"
+                  [editor]="TravelInstructionsEditor"
+                  name="editor"
+                  style="width: -webkit-fill-available; width: -moz-available"
+                ></ckeditor>
+              </div>
+              <div class="container tab-content">
+                <div class="d-flex flex-row">
+                  <div class="keyValueGap">
+                    <i class="bi bi-geo-alt-fill"></i>
+                  </div>
+                  <div>
+                    <div class="keyValueGap mb-3">
+                      <div><b>ปักหมุดที่อยู่ของบริษัท</b></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    #searchInputInnerProfile
+                    class="form-control textProfileResponsive border-input my-3"
+                  />
+                  <div id="googleMapScroll">
+                    <google-map
+                      height="500px"
+                      width="100%"
+                      [center]="center"
+                      [zoom]="zoom"
+                      style="overflow-x: scroll"
+                      [options]="none"
+                      (mapClick)="moveMap($event)"
+                      (mapMousemove)="move($event)"
+                    >
+                      <map-marker [position]="markerPosition"></map-marker>
+                    </google-map>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="p-md-5 p-sm-4 p-3 my-4 light-red-color semi-border-input"
+            >
+              <div style="color: red" class="mb-4 textResponsive">
+                **ข้อมูลในส่วนกรอบสีแดงนี้จะไม่แสดงให้ผู้อื่นเห็น
+                มีเพียงท่านเท่านั้นที่เห็นข้อมูลเหล่านี้
+              </div>
+              <div class="container tab-content">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap">
+                    <i class="bi bi-check-circle-fill"></i>
+                  </div>
+                  <div
+                    style="width: -webkit-fill-available; width: -moz-available"
+                  >
+                    <div class="keyValueGap">
+                      <b>ชื่อผู้ติดต่อ</b>
+                    </div>
+                    <div class="col">
+                      <input
+                        formControlName="nameOfPerson"
+                        type="text"
+                        class="form-control textProfileResponsive border-input"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container tab-content">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap">
+                    <i class="bi bi-bank2"></i>
+                  </div>
+                  <div
+                    style="width: -webkit-fill-available; width: -moz-available"
+                  >
+                    <div class="keyValueGap">
+                      <b>เบอร์โทรผู้ติดต่อ</b>
+                    </div>
+                    <div class="col">
+                      <input
+                        formControlName="phoneNumber"
+                        type="text"
+                        class="form-control textProfileResponsive border-input"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container tab-content">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap">
+                    <i class="bi bi-stack"></i>
+                  </div>
+                  <div
+                    style="width: -webkit-fill-available; width: -moz-available"
+                  >
+                    <div class="keyValueGap">
+                      <b>Email ฝ่ายบัญชี</b>
+                    </div>
+                    <div class="col">
+                      <input
+                        formControlName="emailRepresentative"
+                        type="text"
+                        class="form-control textProfileResponsive border-input"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container tab-content">
+                <div class="d-flex flex-row verticalKeyGap">
+                  <div class="keyValueGap">
+                    <i class="bi bi-stack"></i>
+                  </div>
+                  <div>
+                    <div class="keyValueGap">
+                      <b
+                        >เลขทะเบียนพาณิชย์สำหรับบริษัท หรือ
+                        เลขประจำตัวประชาชนสำหรับธุรกิจบุคคลธรรมดา</b
+                      >
+                    </div>
+                    <div class="col">
+                      {{ innerProfileInformation.companyID | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="align-items-baseline d-flex justify-content-center ms-3">
+            <button
+              (click)="cancelClick()"
+              class="me-3 btn textProfileResponsive btn-light"
+              style="padding: 0.5rem 2rem; border-radius: 50px !important"
+            >
+              ยกเลิก
+            </button>
+            <button
+              (click)="onSave()"
+              class="btn textProfileResponsive"
+              style="
+                border-color: rgb(127, 216, 88);
+                background-color: rgb(127, 216, 88);
+                padding: 0.5rem 2rem;
+                border-radius: 50px !important;
+                color: white;
+              "
+            >
+              บันทึก
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <div
+        class="tab-pane"
+        id="tabTwo"
+        role="tabpanel"
+        aria-labelledby="tabTwo-tab"
+      >
+        <ng-container
+          *ngIf="!profileEditState; then displayProfileTwo; else editProfileTwo"
+        ></ng-container>
+        <ng-template #displayProfileTwo>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>ชื่อผู้ติดต่อและเบอร์โทร</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{ innerProfileInformation.contacts?.phone | emptyField }}
+                    </div>
+                    <div class="me-2">
+                      {{
+                        innerProfileInformation.contacts?.nameRepresentative
+                          | emptyField
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-house-door-fill"></i>
+                </div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>สถานที่ติดต่อ</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{
+                        innerProfileInformation.contacts?.areaOfContact
+                          | emptyField
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-envelope-open-fill"></i>
+                </div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>Email</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{ innerProfileInformation.contacts?.email | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-line"></i></div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>LINE</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{ innerProfileInformation.contacts?.line | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>Website</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{
+                        innerProfileInformation.contacts?.website | emptyField
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>Facebook</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{
+                        innerProfileInformation.contacts?.facebook | emptyField
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>Twitter</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{
+                        innerProfileInformation.contacts?.twitter | emptyField
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-skype"></i></div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>Skype</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{ innerProfileInformation.contacts?.skype | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>Youtube</b></div>
+                  </div>
+                  <div class="col">
+                    <div class="me-2 mb-2">
+                      {{
+                        innerProfileInformation.contacts?.youtube | emptyField
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #editProfileTwo>
+          <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
+            <div class="my-3" formGroupName="contacts">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>ชื่อผู้ติดต่อและเบอร์โทร</b></div>
+                  </div>
+                  <div class="col">
+                    <input
+                      formControlName="phone"
+                      placeholder="ชื่อบุคคลที่ผู้สมัครงานสามารถติดต่อได้"
+                      type="text"
+                      class="form-control textProfileResponsive border-input mb-3"
+                    />
+                    <input
+                      formControlName="nameRepresentative"
+                      placeholder="เบอร์โทรติดต่อสำหรับผู้สมัครงาน"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-house-door-fill"></i>
+                </div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>สถานที่ติดต่อ</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="areaOfContact"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap">
+                  <i class="bi bi-envelope-open-fill"></i>
+                </div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>Email</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="email"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-line"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>line</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="line"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-globe2"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>Website</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="website"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-facebook"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>Facebook</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="facebook"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-twitter"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>Twitter</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="twitter"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-skype"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>Skype</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="skype"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-youtube"></i></div>
+                <div
+                  style="width: -webkit-fill-available; width: -moz-available"
+                >
+                  <div class="keyValueGap">
+                    <div><b>Youtube</b></div>
+                  </div>
+                  <div>
+                    <input
+                      formControlName="youtube"
+                      type="text"
+                      class="form-control textProfileResponsive border-input"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="align-items-baseline d-flex justify-content-center ms-3">
+            <button
+              (click)="cancelClick()"
+              class="me-3 btn textProfileResponsive btn-light"
+              style="padding: 0.5rem 2rem; border-radius: 50px !important"
+            >
+              ยกเลิก
+            </button>
+            <button
+              (click)="onSave()"
+              class="btn textProfileResponsive"
+              style="
+                border-color: rgb(127, 216, 88);
+                background-color: rgb(127, 216, 88);
+                padding: 0.5rem 2rem;
+                border-radius: 50px !important;
+                color: white;
+              "
+            >
+              บันทึก
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <div
+        class="tab-pane"
+        id="tabThree"
+        role="tabpanel"
+        aria-labelledby="tabThree-tab"
+      >
+        <ng-container
+          *ngIf="
+            !profileEditState;
+            then displayProfileThree;
+            else editProfileThree
+          "
+        ></ng-container>
+        <ng-template #displayProfileThree>
+          <div class="container tab-content">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row verticalKeyGap">
+                <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
+                <div>
+                  <div class="keyValueGap">
+                    <div><b>สวัสดิการ</b></div>
+                  </div>
+                  <div class="col d-flex">
+                    <div class="me-2">
+                      {{ innerProfileInformation.benefits | emptyField }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #editProfileThree>
+          <form [formGroup]="profileEdit" (ngSubmit)="onSave()">
+            <div class="container tab-content">
+              <div class="verticalKeyGap">
+                <div class="d-flex flex-row mb-md-0 mb-3">
+                  <div class="keyValueGap"><i class="bi bi-gift-fill"></i></div>
+                  <div
+                    style="width: -webkit-fill-available; width: -moz-available"
+                  >
+                    <div class="keyValueGap">
+                      <div><b>สวัสดิการ</b></div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <div
+                    class="keyValueGap d-md-block d-none"
+                    style="visibility: hidden"
+                  >
+                    <i class="bi bi-gift-fill"></i>
+                  </div>
+                  <div class="col d-flex">
+                    <ckeditor
+                      formControlName="benefits"
+                      [editor]="benefitsEditor"
+                      name="editor"
+                      style="
+                        width: -webkit-fill-available;
+                        width: -moz-available;
+                      "
+                    ></ckeditor>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="align-items-baseline d-flex justify-content-center ms-3">
+            <button
+              (click)="cancelClick()"
+              class="me-3 btn textProfileResponsive btn-light"
+              style="padding: 0.5rem 2rem; border-radius: 50px !important"
+            >
+              ยกเลิก
+            </button>
+            <button
+              (click)="onSave()"
+              class="btn textProfileResponsive"
+              style="
+                border-color: rgb(127, 216, 88);
+                background-color: rgb(127, 216, 88);
+                padding: 0.5rem 2rem;
+                border-radius: 50px !important;
+                color: white;
+              "
+            >
+              บันทึก
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <div
+        class="align-items-baseline d-flex justify-content-center textProfileResponsive mb-md-0 mb-3"
+      >
+        <button
+          [ngStyle]="{ visibility: !profileEditState ? 'unset' : 'hidden' }"
+          (click)="toggleEdit()"
+          type="button"
+          class="btn mb-3 green-color textProfileResponsive"
+          style="
+            color: white;
+            padding: 0.5rem 2rem;
+            border-radius: 50px !important;
+          "
+        >
+          แก้ไขข้อมูล
+        </button>
+      </div>
+    </div>
+  </div>
 </ng-template>
