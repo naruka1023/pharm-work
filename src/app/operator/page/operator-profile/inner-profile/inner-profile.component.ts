@@ -19,7 +19,6 @@ import {
   toggleLoading,
 } from 'src/app/state/actions/users.action';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Auth, updateProfile } from '@angular/fire/auth';
 import { OperatorProfileComponent } from '../operator-profile.component';
 @Component({
   selector: 'app-inner-profile',

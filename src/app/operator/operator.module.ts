@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SwiperModule } from 'swiper/angular';
 import { ProfileHeaderComponent } from './common/profileheader/profileheader.component';
 import { LandingPageComponent } from './landing-page.component';
 import { OperatorAppRoutingModule } from './operator-app-routing';
@@ -37,15 +36,12 @@ import { UrgentJobsComponent } from './page/operator-profile/urgent-jobs/urgent-
 import { UrgentJobsPageComponent } from './page/operator-profile/urgent-jobs-page/urgent-jobs-page.component';
 import { UrgentJobsHistoryComponent } from './page/operator-profile/urgent-jobs-history/urgent-jobs-history.component';
 import { requestViewReducer } from './state/reducer/request-view.reducer';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
-import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
-import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { notificationsReducer } from './state/reducer/notifications.reducers.';
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { CheckoutComponent } from './page/checkout/checkout.component';
@@ -104,13 +100,10 @@ import { FooterComponent } from './common/footer/footer.component';
     RouterModule,
     GoogleMapsModule,
     InfiniteScrollModule,
-    ShareButtonsModule,
-    ShareIconsModule,
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
     FlatpickrModule.forRoot(),
-    SwiperModule,
     StoreModule.forFeature('createdJobs', jobPostReducer),
     StoreModule.forFeature('requestedJobs', jobRequestReducer),
     StoreModule.forFeature('users', usersReducer),

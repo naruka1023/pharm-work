@@ -33,27 +33,24 @@ import {
   requestView,
 } from './model/user.model';
 import { addRequestView } from './state/actions/request-view.actions';
-import { Auth, sendEmailVerification, user } from '@angular/fire/auth';
+import { Auth, onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import {
   Firestore,
   collection,
   getDocs,
   query,
-  updateDoc,
-  doc,
   where,
   addDoc,
-  deleteDoc,
   onSnapshot,
-  docData,
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
 import _ from 'lodash';
 import { OperatorProfileComponent } from './page/operator-profile/operator-profile.component';
 import { RequestJobComponent } from './page/operator-profile/request-job/request-job.component';
 import moment from 'moment';
 import { url } from 'src/environments/environment';
-import { Messaging, onMessage } from '@angular/fire/messaging';
+import { Messaging, onMessage } from 'firebase/messaging';
 import { UserServiceService } from '../pharmacist/service/user-service.service';
+import { FirebaseService } from '../service/firebase.service';
 declare let window: any;
 
 @Component({
@@ -64,9 +61,9 @@ declare let window: any;
 export class LandingPageComponent implements AfterViewInit {
   addJobConfirmModal: any;
   display: any;
-  private auth: Auth = inject(Auth);
-  private _messaging: Messaging = inject(Messaging);
-  private db: Firestore = inject(Firestore);
+  private auth: Auth = this.firebaseService.auth;
+  private _messaging: Messaging = this.firebaseService.messaging;
+  private db: Firestore = this.firebaseService.firestore;
   googleMapLoadingFlag: boolean = false;
   subscriptionFlag: boolean = true;
   subject!: Subscription;
@@ -135,6 +132,7 @@ export class LandingPageComponent implements AfterViewInit {
     private utilService: UtilService,
     private fb: FormBuilder,
     private userService: UsersService,
+    private firebaseService: FirebaseService,
     private userServiceService: UserServiceService,
     private route: Router,
     private store: Store
@@ -357,7 +355,7 @@ export class LandingPageComponent implements AfterViewInit {
         }
       });
 
-    user(this.auth).subscribe((user) => {
+    onAuthStateChanged(this.auth, (user) => {
       if (user) {
         onMessage(this._messaging, (payload) => {
           this.appendAlert(

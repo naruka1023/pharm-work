@@ -1,25 +1,20 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { BrowserModule } from '@angular/platform-browser';
 import { DemoLandingComponent } from './demo-landing/demo-landing.component';
 import { usersReducer } from './state/reducer/users-reducers';
 import { addressReducer } from './state/reducer/address-reducer';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideMessaging, getMessaging } from '@angular/fire/messaging';
-import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getStorage, provideStorage } from '@angular/fire/storage';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { RegisterComponent } from './register/register.component';
 import { LocationComponent } from './location/location.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SwiperModule } from 'swiper/angular';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { JobPostComponent } from './job-post/job-post.component';
 import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
@@ -32,8 +27,8 @@ import { JobPostSmallCardComponent } from './job-post-small-card/job-post-small-
 import { HttpClientModule } from '@angular/common/http';
 import { operatorReducer } from './pharmacist/state/reducers/operator-reducers';
 import { jobPostReducer } from './pharmacist/state/reducers/job-post-reducers';
-import { JobPostNormalCardComponent } from './pharmacist/common/job-post-normal-card/job-post-normal-card.component';
 import { CookieService } from 'ngx-cookie-service';
+import { SwiperDirective } from './directive/swiper.directive.directive';
 
 @NgModule({
   declarations: [
@@ -45,21 +40,26 @@ import { CookieService } from 'ngx-cookie-service';
     LandingPageComponent,
     JobPostComponent,
     EmptyFieldPipePipe,
+    SwiperDirective,
     EmptyFieldPipe,
     SalaryTypePipe,
     WorkExperiencePipe,
     ProvinceFilterPipe,
     JobPostSmallCardComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     GoogleMapsModule,
     MatAutocompleteModule,
+    ShareButtonsModule.withConfig({
+      debug: true,
+    }),
+    ShareIconsModule,
     MatInputModule,
     HttpClientModule,
     ReactiveFormsModule,
-    SwiperModule,
     StoreModule.forRoot({
       user: usersReducer,
       address: addressReducer,
@@ -69,11 +69,10 @@ import { CookieService } from 'ngx-cookie-service';
     StoreDevtoolsModule.instrument({
       // logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-    provideMessaging(() => getMessaging()),
-    provideAuth(() => getAuth()),
-    provideStorage(() => getStorage()),
+    // AngularFireModule.initializeApp(environment.firebase),
+    // AngularFirestoreModule,
+    // AngularFireAuthModule,
+    // AngularFireStorageModule,
   ],
   providers: [LandingPageComponent, CookieService], // add this line
   bootstrap: [AppComponent],

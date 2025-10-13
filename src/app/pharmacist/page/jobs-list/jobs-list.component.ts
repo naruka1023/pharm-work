@@ -2,7 +2,6 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import SwiperCore, { Grid, Navigation, Pagination } from 'swiper';
 import {
   jobPostModel,
   filterConditions,
@@ -26,7 +25,6 @@ import { setCurrentUser } from 'src/app/state/actions/users.action';
 import { UserServiceService } from '../../service/user-service.service';
 import { UtilService } from '../../service/util.service';
 declare let window: any;
-SwiperCore.use([Grid, Pagination, Navigation]);
 
 @Component({
   selector: 'app-jobs-list',

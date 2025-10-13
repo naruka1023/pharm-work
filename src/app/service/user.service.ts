@@ -1,20 +1,22 @@
 import { Injectable, inject } from '@angular/core';
 import { User } from '../model/user.model';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { FirebaseService } from './firebase.service';
+import { doc, Firestore, getDoc } from 'firebase/firestore';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  private db: Firestore = inject(Firestore)
+  constructor(private firebaseService: FirebaseService) {}
 
-  async getUser(uid: string){
-    const user = await getDoc(doc(this.db, 'users', uid))
+  private db: Firestore = this.firebaseService.firestore;
+
+  async getUser(uid: string) {
+    const user = await getDoc(doc(this.db, 'users', uid));
     const result: User = {
-      ...user.data() as User,
-      uid:uid
-    }
+      ...(user.data() as User),
+      uid: uid,
+    };
     return result;
-    
   }
 }

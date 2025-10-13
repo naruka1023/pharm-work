@@ -22,7 +22,6 @@ import { recentlySeenReducer } from './state/reducers/recently-seen-reducers';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SwiperModule } from 'swiper/angular';
 import { CommonModule } from '@angular/common';
 import { RequestJobsComponent } from './page/pharma-profile/request-jobs/request-jobs.component';
 import { LocationComponent } from './common/location/location.component';
@@ -51,8 +50,6 @@ import { EmptyFieldPipePipe } from './pipe/empty-field-pipe.pipe';
 import { EmptyFieldPipe } from './pipe/empty-field.pipe';
 import { SalaryTypePipe } from './pipe/salary-type.pipe';
 import { WorkExperiencePipe } from './pipe/work-experience.pipe';
-import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
-import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { notificationsReducer } from './state/reducers/notifications.reducers.';
@@ -65,6 +62,8 @@ import { CookiePopupComponent } from './cookie-popup/cookie-popup.component';
 import { TosComponent } from './tos/tos.component';
 import { ProvinceFilterPipe } from './pipe/province-filter.pipe';
 import { FooterComponent } from './common/footer/footer.component';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
 @NgModule({
   imports: [
@@ -81,7 +80,6 @@ import { FooterComponent } from './common/footer/footer.component';
     FontAwesomeModule,
     CKEditorModule,
     FormsModule,
-    SwiperModule,
     PharmaAppRoutingModule,
     FlatpickrModule.forRoot(),
     StoreModule.forFeature('recentlySeen', recentlySeenReducer),

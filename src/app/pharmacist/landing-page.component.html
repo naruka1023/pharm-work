@@ -1115,6 +1115,14 @@
           </div>
         </div>
         <share-buttons
+          theme="material-dark"
+          [show]="5"
+          [url]="nameToShare"
+          [showText]="true"
+          image="https://loremflickr.com/320/240"
+        ></share-buttons>
+
+        <!-- <share-buttons
           theme="circles-dark"
           [include]="['facebook', 'messenger', 'line', 'twitter']"
           [url]="nameToShare"
@@ -1122,7 +1130,7 @@
           [showIcon]="true"
           [showText]="false"
         >
-        </share-buttons>
+        </share-buttons> -->
       </div>
     </div>
   </div>

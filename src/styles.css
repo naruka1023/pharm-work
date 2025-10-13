@@ -1,375 +1,399 @@
+/* @import "swiper/swiper.min.css"; */
+/* @import "swiper/modules/grid.min.css"; */
 @font-face {
-    font-family: 'NotoSans';
-    src: url('assets/fonts/NotoSansThai/NotoSansThai.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "NotoSans";
+  src: url("assets/fonts/NotoSansThai/NotoSansThai.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
-.textResponsiveOperator2{
-    font-size:1.5rem;
+.textResponsiveOperator2 {
+  font-size: 1.5rem;
 }
-.title{
-    font-size: xxx-large
-  }
+.title {
+  font-size: xxx-large;
+}
 .loading {
-    position: relative;
-    margin-top: 45vh;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    height: 50vh;
-  }
-.dropdown-header{
-    color:black !important
+  position: relative;
+  margin-top: 45vh;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  height: 50vh;
+}
+.dropdown-header {
+  color: black !important;
 }
 .swiper {
-    width: 100%;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    overflow: clip;
-    list-style: none;
-    padding: 0px;
-    z-index: 1;
-    display: block;
-    padding-bottom: 30px;  /* <-- added to show to bullets, other way they are hidden */
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: clip;
+  list-style: none;
+  padding: 0px;
+  z-index: 1;
+  display: block;
+  padding-bottom: 30px; /* <-- added to show to bullets, other way they are hidden */
 }
-.swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
-    bottom: 0px;  /* <-- modified to show under de img */
-    top: var(--swiper-pagination-top, auto);
-    left: 0px;
-    width: 100%;
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+  bottom: 0px; /* <-- modified to show under de img */
+  top: var(--swiper-pagination-top, auto);
+  left: 0px;
+  width: 100%;
 }
-.custom-link:hover{
-    text-decoration:underline;
+.custom-link:hover {
+  text-decoration: underline;
 }
-.profileOperatorImage{
-    margin:10px;
-    margin-top: 0px;
-    width: 150px; 
-    height:150px; 
-  }
+.profileOperatorImage {
+  margin: 10px;
+  margin-top: 0px;
+  width: 150px;
+  height: 150px;
+}
 
-.studentTabMobileView{
-    display: none !important
+.studentTabMobileView {
+  display: none !important;
+}
+.studentTabWebView {
+  display: block;
+}
+.operatorTabMobileView {
+  display: none;
+}
+.form-check-input {
+  border: 1px solid grey !important;
+}
+.textProfileResponsive {
+  font-size: x-large !important;
+}
+.smallUserWidthResponsive {
+  width: 40vw;
+}
+.smallUserTextResponsive {
+  font-size: 1.5rem !important;
+}
+.smallUserTextResponsiveSmaller {
+  font-size: 1rem;
+}
+.profileHeaderButton {
+  font-size: 1.5rem !important;
+}
+.textResponsive {
+  font-size: 1.5rem !important;
+}
+.textResponsiveSmaller {
+  font-size: 1rem;
+}
+.textResponsiveOperator {
+  font-size: 1.5rem !important;
+}
+.textResponsiveHeader {
+  font-size: 2.3rem;
+}
+.pAomPenTood {
+  width: 200px;
+}
+@media only screen and (max-width: 1700px) {
+  .textResponsiveOperator {
+    font-size: large !important;
   }
-  .studentTabWebView{
-    display: block 
+  .textResponsiveSmaller {
+    font-size: 0.8rem !important;
   }
-  .operatorTabMobileView{
-    display: none
+  .widthResponsive {
+    width: 10vw !important;
   }
-.form-check-input{
-    border:1px solid grey !important
-}
-.textProfileResponsive{
-    font-size:x-large !important;
-}
-.smallUserWidthResponsive{
-    width:40vw
-}
-.smallUserTextResponsive{
-    font-size:1.5rem !important
-}
-.smallUserTextResponsiveSmaller{
-    font-size:1rem 
-}
-.profileHeaderButton{
-    font-size:1.5rem !important
-}
-.textResponsive{
-    font-size:1.5rem !important
-}
-.textResponsiveSmaller{
-    font-size:1rem 
-}
-.textResponsiveOperator{
-    font-size:1.5rem !important
-}
-.textResponsiveHeader{
-    font-size:2.3rem 
-}
-.pAomPenTood{
-    width: 200px
-}
-@media only screen and (max-width: 1700px){
-    .textResponsiveOperator{
-        font-size:large !important;
-    }
-    .textResponsiveSmaller{
-        font-size: 0.8rem !important
-    }
-    .widthResponsive{
-        width: 10vw !important
-    }
 }
 @media only screen and (max-width: 1500px) {
-    .smallUserTextResponsive{
-        font-size:large !important;
-    }
-    .smallUserTextResponsiveSmaller{
-        font-size: small !important
-    }
-    .textResponsiveHeader{
-        font-size:1.7rem !important 
-    }
-    .widthResponsive{
-        width: 11vw !important
-    }
+  .smallUserTextResponsive {
+    font-size: large !important;
+  }
+  .smallUserTextResponsiveSmaller {
+    font-size: small !important;
+  }
+  .textResponsiveHeader {
+    font-size: 1.7rem !important;
+  }
+  .widthResponsive {
+    width: 11vw !important;
+  }
 }
 @media only screen and (max-width: 1300px) {
-    .smallUserTextResponsive{
-        font-size:medium !important;
-    }
-    .smallUserTextResponsiveSmaller{
-        font-size: smaller !important
-    }
-    .smallUserWidthResponsive{
-        width: 50vw
-    }
+  .smallUserTextResponsive {
+    font-size: medium !important;
+  }
+  .smallUserTextResponsiveSmaller {
+    font-size: smaller !important;
+  }
+  .smallUserWidthResponsive {
+    width: 50vw;
+  }
 }
 
 @media only screen and (max-width: 1250px) {
-    .textResponsiveOperator2{
-        font-size:1.3rem
-    }
-    .title{
-        font-size: xx-large
-      }
+  .textResponsiveOperator2 {
+    font-size: 1.3rem;
+  }
+  .title {
+    font-size: xx-large;
+  }
 }
 @media only screen and (max-width: 1200px) {
-    .smallUserTextResponsive{
-        font-size:small !important;
-    }
-    .smallUserTextResponsiveSmaller{
-        font-size: x-small !important
-    }
-    .widthResponsive{
-        width:12vw !important;   
-    }
-    .textResponsiveSmaller{
-        font-size: 0.7rem !important
-    }
-    
-    .textResponsiveOperator{
-        font-size:large !important;
-    }
-    .textResponsiveOperator2{
-        font-size:1.1rem
-    }
+  .smallUserTextResponsive {
+    font-size: small !important;
+  }
+  .smallUserTextResponsiveSmaller {
+    font-size: x-small !important;
+  }
+  .widthResponsive {
+    width: 12vw !important;
+  }
+  .textResponsiveSmaller {
+    font-size: 0.7rem !important;
+  }
+
+  .textResponsiveOperator {
+    font-size: large !important;
+  }
+  .textResponsiveOperator2 {
+    font-size: 1.1rem;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
-    .textProfileResponsive{
-        font-size:large !important;
-    }
-    .textResponsiveHeader{
-        font-size:1.5rem !important 
-    }
-    .smallUserWidthResponsive{
-        width: 60vw
-    }
+  .textProfileResponsive {
+    font-size: large !important;
+  }
+  .textResponsiveHeader {
+    font-size: 1.5rem !important;
+  }
+  .smallUserWidthResponsive {
+    width: 60vw;
+  }
 }
 
 @media only screen and (max-width: 992px) {
-    .gapMobile{
-        gap: 4vw !important
-    }
-    .widthResponsive{
-        width:14vw !important;   
-    }
-    .border-end-mobile{
-        border-right:unset !important
-    }
-    .textProfileResponsive{
-        font-size:large !important
-    }
-    .profileHeaderButton{
-        font-size:medium !important
-    }
+  .gapMobile {
+    gap: 4vw !important;
+  }
+  .widthResponsive {
+    width: 14vw !important;
+  }
+  .border-end-mobile {
+    border-right: unset !important;
+  }
+  .textProfileResponsive {
+    font-size: large !important;
+  }
+  .profileHeaderButton {
+    font-size: medium !important;
+  }
 }
 @media only screen and (max-width: 768px) {
-    .title{
-        font-size:20px !important 
-    }
+  .title {
+    font-size: 20px !important;
+  }
 }
 @media only screen and (max-width: 640px) {
-    .widthResponsive{
-        width:18vw !important;   
-    }
-    ul{
-        padding-left: 1rem !important
-    }
-    .headerNav{ padding-left: 0 !important}
+  .widthResponsive {
+    width: 18vw !important;
+  }
+  ul {
+    padding-left: 1rem !important;
+  }
+  .headerNav {
+    padding-left: 0 !important;
+  }
 }
 @media only screen and (max-width: 600px) {
-    .smallUserTextResponsive{
-        font-size:x-small !important;
-    }
-    .smallUserTextResponsiveSmaller{
-        font-size: xx-small !important
-    }
+  .smallUserTextResponsive {
+    font-size: x-small !important;
+  }
+  .smallUserTextResponsiveSmaller {
+    font-size: xx-small !important;
+  }
 }
 
 @media only screen and (max-width: 576px) {
-    .widthResponsive{
-        width:16vw !important;   
-    }
-    .smallUserWidthResponsive{
-        width: 70vw
-    }
-    .textProfileResponsive{
-        font-size:medium !important
-    }
-    .textResponsiveSmaller{
-        font-size:0.5rem !important 
-    }
-    .textResponsiveOperator{
-        font-size:3.5vw !important
-    }
+  .widthResponsive {
+    width: 16vw !important;
+  }
+  .smallUserWidthResponsive {
+    width: 70vw;
+  }
+  .textProfileResponsive {
+    font-size: medium !important;
+  }
+  .textResponsiveSmaller {
+    font-size: 0.5rem !important;
+  }
+  .textResponsiveOperator {
+    font-size: 3.5vw !important;
+  }
 }
 @media only screen and (max-width: 542px) {
-    .textResponsiveOperator2{
-        font-size:0.8rem
-    }
+  .textResponsiveOperator2 {
+    font-size: 0.8rem;
+  }
 }
 @media only screen and (max-width: 480px) {
-    .textResponsive{
-        font-size:0.8rem !important
-    }    
-    .profileOperatorImage{
-      margin:5px;
-      width: 120px; 
-      height:120px; 
-    }
+  .textResponsive {
+    font-size: 0.8rem !important;
   }
+  .profileOperatorImage {
+    margin: 5px;
+    width: 120px;
+    height: 120px;
+  }
+}
 @media only screen and (max-width: 410px) {
-    .profileOperatorImage{
-      margin:3px;
-      width: 100px; 
-      height:100px; 
-    }
+  .profileOperatorImage {
+    margin: 3px;
+    width: 100px;
+    height: 100px;
   }
+}
 @media only screen and (max-width: 400px) {
-    .textResponsive{
-        font-size:0.6rem !important
-    }  
-    .textResponsiveOperator2{
-        font-size: 0.65rem 
-    }
+  .textResponsive {
+    font-size: 0.6rem !important;
+  }
+  .textResponsiveOperator2 {
+    font-size: 0.65rem;
+  }
 }
 @media only screen and (max-width: 396px) {
-    .studentTabMobileView{
-      display: flex !important
-    }
-    .studentTabWebView{
-      display: none !important
-    }
-    .operatorTabMobileView{
-      display: block !important
-    }
+  .studentTabMobileView {
+    display: flex !important;
+  }
+  .studentTabWebView {
+    display: none !important;
+  }
+  .operatorTabMobileView {
+    display: block !important;
+  }
 }
 @media only screen and (max-width: 384px) {
-    .headerNav > li > button { font-size:0.7em !important}
-    .pAomPenTood{
-        width: 130px !important
-    }
-    .navbar-toggler-icon{
-        width: 1.1em !important
-    }
+  .headerNav > li > button {
+    font-size: 0.7em !important;
+  }
+  .pAomPenTood {
+    width: 130px !important;
+  }
+  .navbar-toggler-icon {
+    width: 1.1em !important;
+  }
 }
 @media only screen and (max-width: 360px) {
-    .profileOperatorImage{
-        width: 90px; 
-      height:90px; 
-    }
-    .textResponsiveOperator2{
-        font-size:0.6rem !important
-    }
+  .profileOperatorImage {
+    width: 90px;
+    height: 90px;
+  }
+  .textResponsiveOperator2 {
+    font-size: 0.6rem !important;
+  }
 }
-.cyan-color{
-    background: #CBEFFF;
-
+.cyan-color {
+  background: #cbefff;
 }
-.light-red-color{
-    background: #FFCBCB;
+.light-red-color {
+  background: #ffcbcb;
 }
-.online-interview-color{
-    background:#FFD4D4 !important;
+.online-interview-color {
+  background: #ffd4d4 !important;
 }
 @media only screen and (max-width: 320px) {
-    .headerNav > li > button { font-size:0.6em !important}
+  .headerNav > li > button {
+    font-size: 0.6em !important;
+  }
 }
 
 /* You can add global styles to this file, and also import other style files */
 .ck-editor__editable_inline {
-    min-height: 500px;
+  min-height: 500px;
 }
-.semi-border-input{
-    border-radius:40px !important
+.semi-border-input {
+  border-radius: 40px !important;
 }
-.quazi-border-input{
-    border-radius:20px !important
+.quazi-border-input {
+  border-radius: 20px !important;
 }
-.standard-shadow{
-    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.standard-shadow {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.circle-shadow{
-    box-shadow: 0 0 0 3px #e78267;
+.circle-shadow {
+  box-shadow: 0 0 0 3px #e78267;
 }
-html { scroll-behavior: smooth; }
-.green-text{
-    color: rgb(127, 216, 88) !important
+html {
+  scroll-behavior: smooth;
 }
-.purple-text{
-    color: #D3A1F7
+.green-text {
+  color: rgb(127, 216, 88) !important;
 }
-.border-input{
-    border-radius:100px !important
+.purple-text {
+  color: #d3a1f7;
 }
-.blue-text{
-    color: #5cdfe4
+.border-input {
+  border-radius: 100px !important;
 }
-.color-grey{
-    background:grey
+.blue-text {
+  color: #5cdfe4;
 }
-
-.color-lightgrey{
-    background:lightgrey
-}
-.button-width{
-    width: 10em
-}
-.purple-color{
-    background-color:  #D3A1F7 !important;
-    border-color:  #D3A1F7 !important
-}
-.green-color{
-    background-color: rgb(127, 216, 88) !important;
-    /* border-color: rgb(127, 216, 88) !important */
+.color-grey {
+  background: grey;
 }
 
-.light-green-color{
-    background-color: #CBFFD9 !important;
-    /* border-color: rgb(127, 216, 88) !important */
+.color-lightgrey {
+  background: lightgrey;
 }
-.overlayHover:hover{
-    cursor:pointer;
-    background-color:silver !important
+.button-width {
+  width: 10em;
 }
-.green-border-color{
-    border: 4px solid rgb(127, 216, 88) !important
+.purple-color {
+  background-color: #d3a1f7 !important;
+  border-color: #d3a1f7 !important;
 }
-.green-mini-border-color{
-    border: 1px solid rgb(127, 216, 88) !important
+.green-color {
+  background-color: rgb(127, 216, 88) !important;
+  /* border-color: rgb(127, 216, 88) !important */
 }
-.blue-color{
-  background-color:#5cdfe4 !important;
+
+.light-green-color {
+  background-color: #cbffd9 !important;
+  /* border-color: rgb(127, 216, 88) !important */
+}
+.overlayHover:hover {
+  cursor: pointer;
+  background-color: silver !important;
+}
+.green-border-color {
+  border: 4px solid rgb(127, 216, 88) !important;
+}
+.green-mini-border-color {
+  border: 1px solid rgb(127, 216, 88) !important;
+}
+.blue-color {
+  background-color: #5cdfe4 !important;
   border-color: #5cdfe4 !important;
 }
-::ng-deep .modal { z-index: 3020 !important;} 
+::ng-deep .modal {
+  z-index: 3020 !important;
+}
 
-::ng-deep .modal-backdrop {z-index: 3000 !important;}
+::ng-deep .modal-backdrop {
+  z-index: 3000 !important;
+}
 
-::ng-deep .pac-container {z-index: 100000 !important;}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+::ng-deep .pac-container {
+  z-index: 100000 !important;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

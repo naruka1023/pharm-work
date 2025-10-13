@@ -1,4 +1,4 @@
-import { Injectable, inject, NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { jobUIDForUser } from '../model/jobPost.model';
@@ -20,15 +20,22 @@ import {
   updateDoc,
   where,
   writeBatch,
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
 import { HttpClient } from '@angular/common/http';
 import { apiKey } from 'src/environments/environment';
+import { FirebaseService } from 'src/app/service/firebase.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilService {
-  private db: Firestore = inject(Firestore);
+  constructor(
+    private firebaseService: FirebaseService,
+    private http: HttpClient,
+    private ngZone: NgZone
+  ) {}
+
+  private db: Firestore = this.firebaseService.firestore;
   private placeSelectedSubject = new Subject<google.maps.places.PlaceResult>();
   placeSelected$: Observable<google.maps.places.PlaceResult> =
     this.placeSelectedSubject.asObservable();
@@ -47,8 +54,6 @@ export class UtilService {
 
   private autocomplete: google.maps.places.Autocomplete | null = null;
   private listener: google.maps.MapsEventListener | null = null;
-
-  constructor(private http: HttpClient, private ngZone: NgZone) {}
 
   destroyAutocomplete(): void {
     // Remove the listener if exists

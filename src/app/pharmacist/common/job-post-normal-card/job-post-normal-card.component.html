@@ -1,116 +1,245 @@
-<div class="card textResponsiveOperator2 textResponsive2 w-100 standard-shadow" style="border-radius:40px">
-	<div id="overlay" *ngIf="Active$ | async">
-		<div id="text"><img  class="inactiveImage" src="assets/inactive.png"></div>
-	</div>
-	<div class="row" style="margin-left:0 !important">
-		<div class="mainImage col-lg-2 col-3 p-4 py-5">
-			<div class="text-center align-self-center">
-				<img (click)="goToOperatorProfile()" style="width:70%" class="rounded-circle" [src]="content.cropProfilePictureUrl !== undefined? content.cropProfilePictureUrl : content.profilePictureUrl" alt="Profile Picture"/>
-			</div>
-			<div class="mt-3 text-center">{{content.JobType}}</div>
-			<div *ngIf="!urgentFlag">
-				<div class="border-input px-1 textResponsiveSmaller mt-2 text-center online-interview-color" style="width:-webkit-fill-available; width:-moz-available" *ngIf="content.OnlineInterview">สัมภาษณ์ออนไลน์</div>
-				<div class="border-input px-1 textResponsiveSmaller mt-2 text-center work-from-home-color" style="width:-webkit-fill-available; width:-moz-available" *ngIf="content.WorkFromHome">Work from Home</div>
-			</div>
-		</div>
-		<div class="col">
-			<div class="py-3 me-md-5" style="border-bottom: 2px solid lightgrey">
-				<div class="d-flex justify-content-center">
-					<div *ngIf="urgentFlag === true" class="row">
-						<div class="dateOfJob d-flex align-items-center">
-							<span class="me-3">ทำงานวันที่ </span><div>{{content.DateOfJob}}</div>
-						</div>
-						<!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
-					</div>
-					<div class="d-flex justify-content-center" style="width:-webkit-fill-available; width: -moz-available;" *ngIf="!urgentFlag">
-							<div class="py-2 text-center border-input" [ngClass]="content.TimeFrame == 'Full-Time'? 'green-color': content.TimeFrame == 'Part-Time'?'blue-color': 'purple-color'" style="min-width:70%; color:white">
-								<b>{{content.TimeFrame}}</b>
-							</div>
-					</div>
-				</div>
-			</div>
-			<div class="pt-sm-3 pt-1 card-body ps-md-0 ps-xl-5 ps-4">
-				<div class="row">
-					<div class="col-12 w-100">
-						<div class="d-flex justify-content-between me-md-2 mb-md-0 mb-sm-3 subImageContainer">
-							<div class="subImage text-center align-self-center me-md-0 me-3">
-								<img (click)="goToOperatorProfile()" style="width: -webkit-fill-available; width: -moz-available;" class="border border-5 border-white rounded-circle" [src]="content.profilePictureUrl" alt="Profile Picture"/>
-							</div>
-							<div>
-								<div class="text-left mb-2" [id]="'jobName' + content.custom_doc_id">
-									<b>{{content.JobName}}</b>
-								</div>
-								<p class="my-auto mb-3"><i>{{content.Establishment}}</i></p>
-							</div>
-						</div>
-						<div class="container text-center">
-							<div class="row">
-								<div class="me-md-3 me-2 pe-0 col-6 ps-0 border-end">
-									<div class="d-flex mb-sm-3 mb-1">
-										<p class="my-auto me-2">
-											<i class="bi bi-person my-auto"></i>
-										</p>
-										<p class="my-auto  ms-2"><b>{{content.Amount}} ตำแหน่ง</b></p>
-									</div>
-									<div class="d-flex mb-sm-3 mb-1 px-0" *ngIf="!urgentFlag">
-										<p class="my-auto me-2">
-											<i class="y-auto bi bi-bootstrap"></i>
-										</p>
-										<div class="d-flex flex-row my-auto"  *ngIf="content.Salary.Suffix == 'SalaryNumbers' && content.Salary.Amount !== 0 || content.Salary.Cap !== 0">
-											<div class="mx-2"><b>{{content.Salary.Amount}}{{content.Salary.Cap != 0? ' - ': '' }}{{content.Salary.Cap != 0?content.Salary.Amount! + content.Salary.Cap!: ''}}</b></div>
-										</div>
-										<div class="d-flex flex-row my-auto"  *ngIf="content.Salary.Suffix !== 'SalaryNumbers'">
-											<div class="mx-2"><b>{{ content.Salary.Suffix | salaryType}}</b></div>
-										</div>
-									</div>
-									<div class="d-flex mb-sm-3 mb-1" *ngIf="urgentFlag">
-										<p class="my-auto me-2">
-											<i class="my-auto bi bi-bootstrap"></i>
-										</p>
-										<div class="d-flex flex-row my-auto">
-											<div class="mx-2" *ngIf="content.Salary.Suffix == 'SalaryNumbers'"><b>{{content.Salary.Amount}}{{content.Salary.Cap != 0? ' - ': '' }}{{content.Salary.Cap != 0?content.Salary.Amount! + content.Salary.Cap!: ''}}</b></div>
-											<div class="mx-2" *ngIf="content.Salary.Suffix !== 'SalaryNumbers'"><b>{{content.Salary.Suffix | salaryType}}</b></div>
-										</div>
-									</div>
-									<div class="d-flex mb-sm-3 mb-1">
-										<p class="my-auto me-2">
-											<i class="my-auto  bi bi-clock"></i>
-										</p>
-										<p class="my-auto ms-2"><b>{{content.Duration | emptyFieldPipe}}</b></p>
-									</div>
-									<div class="d-flex mb-sm-3 mb-1" *ngIf="urgentFlag">
-										<p class="my-auto me-2" *ngIf="content.Location.Province !== ''">
-											<i class=" my-auto bi bi-geo"></i>
-										</p>
-										<div class="d-flex flex-row my-auto" *ngIf="content.Location.Province !== ''">
-											<div class="mx-2 "><b>{{content.Location.Province}}</b></div>
-										</div>
-									</div>
-									<div class="d-flex mb-sm-3 mb-1" *ngIf="!urgentFlag">
-										<p class="my-auto me-2" *ngIf="content.Location.Province !== ''">
-											<i class=" my-auto bi bi-geo"></i>
-										</p>
-										<div class="d-flex flex-row my-auto" *ngIf="content.Location.Province !== ''">
-											<div class="mx-2 "><b>{{content.Location.Province}}</b></div>
-										</div>
-									</div>
-								</div>
-								 <div class="col-5">
-									<div class="row">
-										<div class="col-1 me-md-1 mx-md-0 mx-2 d-flex justify-content-center px-0">
-											<i class="bi bi-check-circle"></i>
-										</div>
-										<div class="col px-0 text-start">
-											<div><b>หน้าที่ความรับผิดชอบ</b></div>
-											<div class="textResponsive2" [ngStyle]="{'height':'7.3em', 'word-break': 'break-word', 'overflow':'hidden','-webkit-line-clamp': '2'}" [innerHtml]="content.JobDetails | emptyFieldPipe"></div>
-											<div class="d-flex justify-content-end">
-												<button class="mt-3 btn btn-outline-secondary textResponsiveOperator2 border-input px-3" (click)="goToProfile()">ดูเพิ่มเติม</button>
-											</div>
-										</div>
-									</div>
-								 </div>
-							</div>
-							<!-- <div class="row mb-3">
+<div
+  class="card textResponsiveOperator2 textResponsive2 w-100 standard-shadow"
+  style="border-radius: 40px"
+>
+  <div id="overlay" *ngIf="Active$ | async">
+    <div id="text"><img class="inactiveImage" src="assets/inactive.png" /></div>
+  </div>
+  <div class="row" style="margin-left: 0 !important">
+    <div class="mainImage col-lg-2 col-3 p-4 py-5">
+      <div class="text-center align-self-center">
+        <img
+          (click)="goToOperatorProfile()"
+          style="width: 70%"
+          class="rounded-circle"
+          [src]="
+            content.cropProfilePictureUrl !== undefined
+              ? content.cropProfilePictureUrl
+              : content.profilePictureUrl
+          "
+          alt="Profile Picture"
+        />
+      </div>
+      <div class="mt-3 text-center">{{ content.JobType }}</div>
+      <div *ngIf="!urgentFlag">
+        <div
+          class="border-input px-1 textResponsiveSmaller mt-2 text-center online-interview-color"
+          style="width: -webkit-fill-available; width: -moz-available"
+          *ngIf="content.OnlineInterview"
+        >
+          สัมภาษณ์ออนไลน์
+        </div>
+        <div
+          class="border-input px-1 textResponsiveSmaller mt-2 text-center work-from-home-color"
+          style="width: -webkit-fill-available; width: -moz-available"
+          *ngIf="content.WorkFromHome"
+        >
+          Work from Home
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="py-3 me-md-5" style="border-bottom: 2px solid lightgrey">
+        <div class="d-flex justify-content-center">
+          <div *ngIf="urgentFlag === true" class="row">
+            <div class="dateOfJob d-flex align-items-center">
+              <span class="me-3">ทำงานวันที่ </span>
+              <div>{{ content.DateOfJob }}</div>
+            </div>
+            <!-- <p class="col-sm w-100 my-auto">อัพเดทล่าสุด {{content.dateUpdated}}"</p> -->
+          </div>
+          <div
+            class="d-flex justify-content-center"
+            style="width: -webkit-fill-available; width: -moz-available"
+            *ngIf="!urgentFlag"
+          >
+            <div
+              class="py-2 text-center border-input"
+              [ngClass]="
+                content.TimeFrame == 'Full-Time'
+                  ? 'green-color'
+                  : content.TimeFrame == 'Part-Time'
+                  ? 'blue-color'
+                  : 'purple-color'
+              "
+              style="min-width: 70%; color: white"
+            >
+              <b>{{ content.TimeFrame }}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pt-sm-3 pt-1 card-body ps-lg-0 ps-xl-5 ps-4">
+        <div class="row">
+          <div class="col-12 w-100">
+            <div
+              class="d-flex justify-content-between me-md-2 mb-md-0 mb-sm-3 subImageContainer"
+            >
+              <div class="subImage text-center align-self-center me-md-0 me-3">
+                <img
+                  (click)="goToOperatorProfile()"
+                  style="width: -webkit-fill-available; width: -moz-available"
+                  class="border border-5 border-white rounded-circle"
+                  [src]="content.profilePictureUrl"
+                  alt="Profile Picture"
+                />
+              </div>
+              <div>
+                <div
+                  class="text-left mb-2"
+                  [id]="'jobName' + content.custom_doc_id"
+                >
+                  <b>{{ content.JobName }}</b>
+                </div>
+                <p class="my-auto mb-3">
+                  <i>{{ content.Establishment }}</i>
+                </p>
+              </div>
+            </div>
+            <div class="container text-center">
+              <div class="row">
+                <div class="me-md-3 me-2 pe-0 col-6 ps-0 border-end">
+                  <div class="d-flex mb-sm-3 mb-1">
+                    <p class="my-auto me-2">
+                      <i class="bi bi-person my-auto"></i>
+                    </p>
+                    <p class="my-auto ms-2">
+                      <b>{{ content.Amount }} ตำแหน่ง</b>
+                    </p>
+                  </div>
+                  <div class="d-flex mb-sm-3 mb-1 px-0" *ngIf="!urgentFlag">
+                    <p class="my-auto me-2">
+                      <i class="y-auto bi bi-bootstrap"></i>
+                    </p>
+                    <div
+                      class="d-flex flex-row my-auto"
+                      *ngIf="
+                        (content.Salary.Suffix == 'SalaryNumbers' &&
+                          content.Salary.Amount !== 0) ||
+                        content.Salary.Cap !== 0
+                      "
+                    >
+                      <div class="mx-2">
+                        <b
+                          >{{ content.Salary.Amount
+                          }}{{ content.Salary.Cap != 0 ? " - " : ""
+                          }}{{
+                            content.Salary.Cap != 0
+                              ? content.Salary.Amount! + content.Salary.Cap!
+                              : ""
+                          }}</b
+                        >
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex flex-row my-auto"
+                      *ngIf="content.Salary.Suffix !== 'SalaryNumbers'"
+                    >
+                      <div class="mx-2">
+                        <b>{{ content.Salary.Suffix | salaryType }}</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mb-sm-3 mb-1" *ngIf="urgentFlag">
+                    <p class="my-auto me-2">
+                      <i class="my-auto bi bi-bootstrap"></i>
+                    </p>
+                    <div class="d-flex flex-row my-auto">
+                      <div
+                        class="mx-2"
+                        *ngIf="content.Salary.Suffix == 'SalaryNumbers'"
+                      >
+                        <b
+                          >{{ content.Salary.Amount
+                          }}{{ content.Salary.Cap != 0 ? " - " : ""
+                          }}{{
+                            content.Salary.Cap != 0
+                              ? content.Salary.Amount! + content.Salary.Cap!
+                              : ""
+                          }}</b
+                        >
+                      </div>
+                      <div
+                        class="mx-2"
+                        *ngIf="content.Salary.Suffix !== 'SalaryNumbers'"
+                      >
+                        <b>{{ content.Salary.Suffix | salaryType }}</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mb-sm-3 mb-1">
+                    <p class="my-auto me-2">
+                      <i class="my-auto bi bi-clock"></i>
+                    </p>
+                    <p class="my-auto ms-2">
+                      <b>{{ content.Duration | emptyFieldPipe }}</b>
+                    </p>
+                  </div>
+                  <div class="d-flex mb-sm-3 mb-1" *ngIf="urgentFlag">
+                    <p
+                      class="my-auto me-2"
+                      *ngIf="content.Location.Province !== ''"
+                    >
+                      <i class="my-auto bi bi-geo"></i>
+                    </p>
+                    <div
+                      class="d-flex flex-row my-auto"
+                      *ngIf="content.Location.Province !== ''"
+                    >
+                      <div class="mx-2">
+                        <b>{{ content.Location.Province }}</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex mb-sm-3 mb-1" *ngIf="!urgentFlag">
+                    <p
+                      class="my-auto me-2"
+                      *ngIf="content.Location.Province !== ''"
+                    >
+                      <i class="my-auto bi bi-geo"></i>
+                    </p>
+                    <div
+                      class="d-flex flex-row my-auto"
+                      *ngIf="content.Location.Province !== ''"
+                    >
+                      <div class="mx-2">
+                        <b>{{ content.Location.Province }}</b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="row">
+                    <div
+                      class="col-1 me-md-1 mx-md-0 mx-2 d-flex justify-content-center px-0"
+                    >
+                      <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="col px-0 text-start">
+                      <div><b>หน้าที่ความรับผิดชอบ</b></div>
+                      <div
+                        class="textResponsive2"
+                        [ngStyle]="{
+                          height: '7.3em',
+                          'word-break': 'break-word',
+                          overflow: 'hidden',
+                          '-webkit-line-clamp': '2'
+                        }"
+                        [innerHtml]="content.JobDetails | emptyFieldPipe"
+                      ></div>
+                      <div class="d-flex justify-content-end">
+                        <button
+                          class="mt-3 btn btn-outline-secondary textResponsiveOperator2 border-input px-3"
+                          (click)="goToProfile()"
+                        >
+                          ดูเพิ่มเติม
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row mb-3">
 								<div class="col d-flex" *ngIf="!urgentFlag && content.OnlineInterview">
 									<p class="my-auto me-2">
 										<i class="my-auto  bi bi-tv"></i>
@@ -118,80 +247,112 @@
 									<p class="my-auto ">สัมภาษณ์ออนไลน์</p>
 								</div>
 							</div> -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="mainFooter d-flex justify-content-between m-2"  style="align-items:center">
-	<div class="footer textResponsive2 d-lg-flex">
-		<div class="me-2">
-			อัพเดทล่าสุด 
-		</div>
-		<div>
-			{{content.dateUpdated}}
-		</div>
-	</div>
-	<div class="footer d-flex justify-content-end">
-		<div class="d-flex justify-content-end my-sm-2 my-0" style="align-items:baseline">
-			<ng-container *ngIf="studentFlag$ | async; then noRequest; else haveRequest"></ng-container>
-			<ng-template #noRequest></ng-template>
-			<ng-template #haveRequest>
-				<div *ngIf="loginState">
-					<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-					<ng-template #alreadyRequest>
-						<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
-							<div class="textProfileResponsive">{{urgentFlag?"สนใจรับงาน": "สมัครงาน"}}</div>
-						</button>
-					</ng-template>
-					<ng-template #requestButton>
-						<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
-							<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
-						</button>
-					</ng-template>
-				</div>
-			</ng-template>
-			<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
-				<h1 style="display:flex" class=mb-0>
-					<i class="bi bi-share-fill textResponsive2"></i>
-				</h1>
-			</button>
-			<button (click)="toggleBookmark()" type="button" class="btn">
-					<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
-					<ng-template #loading>
-						<div>
-							<div style="text-align:center">
-								<div class="spinner-border text-primary" role="status">
-									<span class="visually-hidden">Loading...</span>
-								</div>
-							</div>
-						</div>
-					</ng-template>
-					<ng-template #notLoading>
-						<h1 class="d-flex">
-							<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
-							<ng-template #black>
-								<h1>
-									<i class="textResponsive2 bi bi-bookmark"></i>
-								</h1>
-							</ng-template>
-							<ng-template #red>
-								<h1>
-									<i style="color:red" class="textResponsive2 bi bi-bookmark-fill"></i>
-								</h1>
-							</ng-template>
-						</h1>
-					</ng-template>
-			</button>
-			<div *ngIf="cancelJobFlag">
-				<button (click)="cancelRequestJob()" class="btn px-0 my-2" type="button">
-					<h1 style="display:flex" class=mb-0>
-						<i class="bi bi-trash textResponsive2"></i>
-					</h1>
-				</button>
-			</div>
-		</div>
-	</div>
+<div
+  class="mainFooter d-flex justify-content-between m-2"
+  style="align-items: center"
+>
+  <div class="footer textResponsive2 d-lg-flex">
+    <div class="me-2">อัพเดทล่าสุด</div>
+    <div>
+      {{ content.dateUpdated }}
+    </div>
+  </div>
+  <div class="footer d-flex justify-content-end">
+    <div
+      class="d-flex justify-content-end my-sm-2 my-0"
+      style="align-items: baseline"
+    >
+      <ng-container
+        *ngIf="studentFlag$ | async; then noRequest; else haveRequest"
+      ></ng-container>
+      <ng-template #noRequest></ng-template>
+      <ng-template #haveRequest>
+        <div *ngIf="loginState">
+          <ng-container
+            *ngIf="
+              requestFlag$ | async;
+              then requestButton;
+              else alreadyRequest
+            "
+          ></ng-container>
+          <ng-template #alreadyRequest>
+            <button
+              (click)="requestJob()"
+              class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5"
+              type="button"
+            >
+              <div class="textProfileResponsive">
+                {{ urgentFlag ? "สนใจรับงาน" : "สมัครงาน" }}
+              </div>
+            </button>
+          </ng-template>
+          <ng-template #requestButton>
+            <button
+              class="me-3 btn btn-secondary text-center border-input my-2 px-5"
+              type="button"
+            >
+              <div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
+            </button>
+          </ng-template>
+        </div>
+      </ng-template>
+      <button (click)="toggleShare()" type="button" class="btn px-0 me-3">
+        <h1 style="display: flex" class="mb-0">
+          <i class="bi bi-share-fill textResponsive2"></i>
+        </h1>
+      </button>
+      <button (click)="toggleBookmark()" type="button" class="btn">
+        <ng-container
+          *ngIf="bookmarkLoadingFlag; then loading; else notLoading"
+        ></ng-container>
+        <ng-template #loading>
+          <div>
+            <div style="text-align: center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #notLoading>
+          <h1 class="d-flex">
+            <ng-container
+              *ngIf="bookmarkFlag$ | async; then red; else black"
+            ></ng-container>
+            <ng-template #black>
+              <h1>
+                <i class="textResponsive2 bi bi-bookmark"></i>
+              </h1>
+            </ng-template>
+            <ng-template #red>
+              <h1>
+                <i
+                  style="color: red"
+                  class="textResponsive2 bi bi-bookmark-fill"
+                ></i>
+              </h1>
+            </ng-template>
+          </h1>
+        </ng-template>
+      </button>
+      <div *ngIf="cancelJobFlag">
+        <button
+          (click)="cancelRequestJob()"
+          class="btn px-0 my-2"
+          type="button"
+        >
+          <h1 style="display: flex" class="mb-0">
+            <i class="bi bi-trash textResponsive2"></i>
+          </h1>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

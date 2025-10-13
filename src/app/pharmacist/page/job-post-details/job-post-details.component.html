@@ -2,407 +2,680 @@
 	<i class="pe-auto bi bi-arrow-up-square"></i>
 </div> -->
 <div>
+  <ng-container
+    *ngIf="loadingFlag; then loading; else notLoading"
+  ></ng-container>
+  <ng-template #loading>
+    <div class="loading">
+      <div style="text-align: center" class="mt-5 me-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #notLoading>
+    <app-profileheader
+      [profileInformation]="profileHeader"
+      profileType="job-post"
+    ></app-profileheader>
+    <div class="container">
+      <div class="semi-border-input standard-shadow">
+        <div class="textProfileResponsive">
+          <ng-container
+            *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"
+          ></ng-container>
+          <ng-template #urgentFlag>
+            <div
+              class="bg-light text-center py-1 urgentLabel"
+              style="
+                border-top-left-radius: 40px !important;
+                border-top-right-radius: 40px !important;
+                width: -webkit-fill-available;
+                width: -moz-available;
+              "
+            >
+              ทำงานวันที่ {{ profile.DateOfJob }}
+            </div>
+          </ng-template>
+          <ng-template #notUrgentFlag>
+            <div
+              class="text-light text-center py-1"
+              style="
+                border-top-left-radius: 40px !important;
+                border-top-right-radius: 40px !important;
+                width: -webkit-fill-available;
+                width: -moz-available;
+              "
+              [ngClass]="
+                profile.TimeFrame === 'Full-Time'
+                  ? 'green-color'
+                  : profile.TimeFrame === 'Full-Time และ Part-Time'
+                  ? 'purple-color'
+                  : 'blue-color'
+              "
+            >
+              {{ profile.TimeFrame }}
+            </div>
+          </ng-template>
+        </div>
+        <div
+          class="card semi-border-input"
+          style="
+            border-top-left-radius: 0px !important;
+            border-top-right-radius: 0px !important;
+          "
+        >
+          <div class="card-body textProfileResponsive p-4 pt-0">
+            <div
+              class="panelHeader d-flex justify-content-between border-bottom py-2"
+            >
+              <div class="jobName" style="padding-right: 2.5rem">
+                {{ profile.JobName }}
+              </div>
+            </div>
+            <div class="mx-sm-3 mb-sm-3">
+              <div class="row twoRows">
+                <div
+                  class="col-12 col-md-6 border-end p-0 pt-4 leftPanelDetails"
+                >
+                  <div
+                    *ngIf="profile.JobType === 'ร้านยาแบรนด์'"
+                    class="row pb-3"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5"
+                      style="white-space: nowrap"
+                    >
+                      <b>สาขา</b>
+                    </div>
+                    <div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">
+                      {{ profile.Franchise | emptyFieldPipe }}
+                    </div>
+                  </div>
+                  <div *ngIf="profile.Duration !== ''" class="row pb-3">
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
+                    </div>
+                    <div class="col">
+                      <div *ngIf="profile.Duration !== ' - '">
+                        {{ profile.Duration }} น.
+                      </div>
+                      <div *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
+                    </div>
+                  </div>
+                  <div
+                    class="row pb-3"
+                    *ngIf="profile.TimeFrame == 'Full-Time'"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                      <div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">
+                        {{ profile.Salary.Amount | emptyFieldPipe }}
+                        {{ profile.Salary.Cap != 0 ? " - " : ""
+                        }}{{
+                          profile.Salary.Cap != 0
+                            ? profile.Salary.Amount! + profile.Salary.Cap!
+                            : ""
+                        }}
+                        บาท/เดือน
+                      </div>
+                      <div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">
+                        {{ profile.Salary.Suffix | salaryType }}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row pb-3"
+                    *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                      <div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">
+                        {{ profile.Salary.Amount | emptyFieldPipe }}
+                        {{ profile.Salary.Cap != 0 ? " - " : ""
+                        }}{{
+                          profile.Salary.Cap != 0
+                            ? profile.Salary.Amount! + profile.Salary.Cap!
+                            : ""
+                        }}
+                      </div>
+                      <div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">
+                        {{ profile.Salary.Suffix | salaryType }}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row pb-3"
+                    *ngIf="profile.TimeFrame == 'Part-Time'"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                      <div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">
+                        {{ profile.Salary.Amount | emptyFieldPipe }}
+                        {{ profile.Salary.Cap != 0 ? " - " : ""
+                        }}{{
+                          profile.Salary.Cap != 0
+                            ? profile.Salary.Amount! + profile.Salary.Cap!
+                            : ""
+                        }}
+                        บาท/ชม
+                      </div>
+                      <div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">
+                        {{ profile.Salary.Suffix | salaryType }}
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="profile.BTS.Near" class="pb-3 row">
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-train-front me-2"></i> <b>BTS</b>
+                    </div>
+                    <div class="col">
+                      {{ profile.BTS.Station | emptyFieldPipe }}
+                    </div>
+                  </div>
+                  <div *ngIf="profile.ARL.Near" class="pb-3 row">
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-train-front me-2"></i> <b>ARL</b>
+                    </div>
+                    <div class="col">
+                      {{ profile.ARL.Station | emptyFieldPipe }}
+                    </div>
+                  </div>
+                  <div class="pb-3 row" *ngIf="profile.OnlineInterview">
+                    <div
+                      class="col-10 border-input py-1 text-center online-interview-color"
+                    >
+                      <i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 pt-md-4 rightPanelDetails">
+                  <div
+                    class="row pb-3"
+                    *ngIf="profile.Amount !== null || profile.Amount !== 0"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-person me-2"></i><b>รับสมัคร</b>
+                    </div>
+                    <div class="col">
+                      {{ profile.Amount | emptyFieldPipe }} ตำแหน่ง
+                    </div>
+                  </div>
+                  <div
+                    class="row pb-3"
+                    *ngIf="
+                      profile.Location.Section !== '' ||
+                      profile.Location.Province !== ''
+                    "
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-geo me-2"></i><b>พื้นที่</b>
+                    </div>
+                    <div class="col">
+                      {{ profile.Location.District | emptyFieldPipe }},
+                      {{ profile.Location.Province | emptyFieldPipe }}
+                    </div>
+                  </div>
+                  <div *ngIf="profile.MRT.Near" class="pb-3 row">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                      <i class="bi bi-train-front me-2"></i> <b>MRT</b>
+                    </div>
+                    <div class="col">
+                      {{ profile.MRT.Station | emptyFieldPipe }}
+                    </div>
+                  </div>
+                  <div *ngIf="profile.SRT.Near" class="pb-3 row">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                      <i class="bi bi-train-front me-2"></i> <b>SRT</b>
+                    </div>
+                    <div class="col">
+                      {{ profile.SRT.Station | emptyFieldPipe }}
+                    </div>
+                  </div>
 
-	<ng-container *ngIf="loadingFlag; then loading; else notLoading"></ng-container>
-	<ng-template #loading>
-		<div class="loading">
-			<div style="text-align:center" class="mt-5 me-3">
-				<div class="spinner-border text-primary" role="status">
-				<span class="visually-hidden">Loading...</span>
-				</div>
-			</div>
-		</div>
-	</ng-template>
-	<ng-template #notLoading>
-		<app-profileheader [profileInformation]="profileHeader" profileType="job-post"></app-profileheader>
-		<div class="container">
-			<div class="semi-border-input standard-shadow">
-	
-				<div class="textProfileResponsive">
-					<ng-container *ngIf="profile.Urgency; then urgentFlag; else notUrgentFlag"></ng-container>
-					<ng-template #urgentFlag>
-						<div class="bg-light text-center py-1 urgentLabel" style="border-top-left-radius: 40px !important; border-top-right-radius: 40px !important; width:-webkit-fill-available; width:-moz-available;"
-						>
-							
-						ทำงานวันที่ {{profile.DateOfJob}}
-						</div>
-					</ng-template>
-					<ng-template #notUrgentFlag>
-						<div class="text-light text-center py-1" style="border-top-left-radius: 40px !important; border-top-right-radius: 40px !important; width:-webkit-fill-available; width:-moz-available;"
-							[ngClass]="profile.TimeFrame === 'Full-Time'?'green-color': profile.TimeFrame === 'Full-Time และ Part-Time'?'purple-color':'blue-color'" 
-						>
-							
-							{{profile.TimeFrame}}
-						</div>
-					</ng-template>
-				</div>	
-				<div class="card semi-border-input" style="border-top-left-radius:0px !important; border-top-right-radius: 0px !important">
-					<div class="card-body textProfileResponsive p-4 pt-0">
-						<div class="panelHeader d-flex justify-content-between border-bottom py-2">
-							<div class="jobName" style="padding-right:2.5rem">{{profile.JobName}}</div>
-						</div>
-						<div class="mx-sm-3 mb-sm-3">
-							<div class="row twoRows">
-								<div class="col-12 col-md-6 border-end p-0 pt-4 leftPanelDetails">
-									<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
-											<b>สาขา</b>
-										</div>
-										<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.Duration !== ''" class="row pb-3">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
-											<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
-										</div>
-										<div class="col">
-											<div  *ngIf="profile.Duration !== ' - '">{{profile.Duration}} น.</div>
-											<div  *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
-										</div>
-									</div>
-									<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-										</div>
-										<div class="col">
-											<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} {{profile.Salary.Cap != 0? ' - ': '' }}{{profile.Salary.Cap != 0?profile.Salary.Amount! + profile.Salary.Cap!: ''}} บาท/เดือน</div>
-											<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-										</div>
-									</div>
-									<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-										</div>
-										<div class="col">
-											<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} {{profile.Salary.Cap != 0? ' - ': '' }}{{profile.Salary.Cap != 0?profile.Salary.Amount! + profile.Salary.Cap!: ''}}</div>
-											<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-										</div>
-									</div>
-									<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-										</div>
-										<div class="col">
-											<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} {{profile.Salary.Cap != 0? ' - ': '' }}{{profile.Salary.Cap != 0?profile.Salary.Amount! + profile.Salary.Cap!: ''}} บาท/ชม</div>
-											<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-										</div>
-									</div>
-									<div *ngIf="profile.BTS.Near"  class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-train-front me-2"></i> <b>BTS</b>
-										</div>
-										<div class="col"> {{profile.BTS.Station | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.ARL.Near"  class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-train-front me-2"></i> <b>ARL</b>
-										</div>
-										<div class="col"> {{profile.ARL.Station | emptyFieldPipe}}</div>
-									</div>
-									<div class="pb-3 row" *ngIf="profile.OnlineInterview">
-										<div class="col-10 border-input py-1 text-center online-interview-color">
-											<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 col-md-6 pt-md-4 rightPanelDetails">
-									<div class="row pb-3"*ngIf="profile.Amount !== null || profile.Amount !== 0">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
-										</div>
-										<div class="col">{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
-									</div>
-									<div class="row pb-3" *ngIf="profile.Location.Section !== '' || profile.Location.Province !== ''">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
-										</div>
-										<div class="col"> {{profile.Location.District | emptyFieldPipe}}, {{profile.Location.Province | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.MRT.Near"  class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-											<i class="bi bi-train-front me-2"></i> <b>MRT</b>
-										</div>
-										<div class="col"> {{profile.MRT.Station | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.SRT.Near" class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-											<i class="bi bi-train-front me-2"></i> <b>SRT</b>
-										</div>
-										<div class="col"> {{profile.SRT.Station | emptyFieldPipe}}</div>
-									</div>
-			
-									<!-- <div class="d-flex flex-row" class="d-flex flex-row">
+                  <!-- <div class="d-flex flex-row" class="d-flex flex-row">
 										<b>แขวง:</b>
 										<div class="ms-2">{{profile.Location.District}}</div>
 									</div> -->
-									<!-- <div class="d-flex flex-row"> -->
-										<!-- <b>เขต:</b> -->
-										<!-- <div> {{profile.Location.Section}}, {{profile.Location.Province}}</div> -->
-									<!-- </div> -->
-									<!-- <div class="d-flex flex-row">
+                  <!-- <div class="d-flex flex-row"> -->
+                  <!-- <b>เขต:</b> -->
+                  <!-- <div> {{profile.Location.Section}}, {{profile.Location.Province}}</div> -->
+                  <!-- </div> -->
+                  <!-- <div class="d-flex flex-row">
 										<b>จังหวัด:</b>
 										<div class="ms-2"> </div>
 									</div> -->
-									<div class="d-flex flex-row border-input py-1 text-center work-from-home-color" *ngIf="profile.WorkFromHome">
-										<i class="bi bi-house me-2"></i><b>Work from home</b>
-									</div>
-								</div>
-							</div>
-							<div class="row oneRow">
-									<div *ngIf="profile.JobType === 'ร้านยาแบรนด์'" class="row pb-3">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
-											<b>สาขา</b>
-										</div>
-										<div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">{{profile.Franchise | emptyFieldPipe}}</div>
-									</div>
-									<div class="row pb-3" *ngIf="profile.Duration !== ''">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5" style="white-space:nowrap">
-											<i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
-										</div>
-										<div class="col">
-											<div  *ngIf="profile.Duration !== ' - '">{{profile.Duration}} น.</div>
-											<div  *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
-										</div>
-									</div>
-									<div>
-										<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time'">
-											<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-												<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-											</div>
-											<div class="col">
-												<div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}}{{profile.Salary.Cap != 0? ' - ': '' }}{{profile.Salary.Cap != 0?profile.Salary.Amount! + profile.Salary.Cap!: ''}} บาท/เดือน</div>
-												<div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-											</div>
-										</div>
-										<div class="row pb-3" *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'">
-											<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-												<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-											</div>
-											<div class="col">
-												<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}}{{profile.Salary.Cap != 0? ' - ': '' }}{{profile.Salary.Cap != 0?profile.Salary.Amount! + profile.Salary.Cap!: ''}}</div>
-												<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-											</div>
-										</div>
-										<div class="row pb-3" *ngIf="profile.TimeFrame == 'Part-Time'">
-											<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-												<i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
-											</div>
-											<div class="col">
-												<div  *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">{{profile.Salary.Amount | emptyFieldPipe}} - {{profile.Salary.Amount + profile.Salary.Cap! | emptyFieldPipe}} บาท/ชม</div>
-												<div  *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">{{profile.Salary.Suffix | salaryType}}</div>
-											</div>
-										</div>
-									</div>
-									<div class="row pb-3" *ngIf="profile.Amount !== null || profile.Amount !== 0">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5" style="white-space:nowrap">
-											<i class="bi bi-person me-2"></i><b>รับสมัคร</b>
-										</div>
-										<div class="col">{{profile.Amount | emptyFieldPipe}} ตำแหน่ง</div>
-									</div>
-									<div class="row pb-3">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-											<i class="bi bi-geo me-2"></i><b>พื้นที่</b>
-										</div>
-										<div class="col"> {{profile.Location.Section | emptyFieldPipe}}, {{profile.Location.Province | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.BTS.Near"  class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-											<i class="bi bi-train-front me-2"></i> <b>BTS</b>
-										</div>
-										<div class="col"> {{profile.BTS.Station | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.MRT.Near"  class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-											<i class="bi bi-train-front me-2"></i> <b>MRT</b>
-										</div>
-										<div class="col"> {{profile.MRT.Station | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.SRT.Near" class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-											<i class="bi bi-train-front me-2"></i> <b>SRT</b>
-										</div>
-										<div class="col"> {{profile.SRT.Station | emptyFieldPipe}}</div>
-									</div>
-									<div *ngIf="profile.ARL.Near"  class="pb-3 row">
-										<div class="col-12 col-sm-6 col-md-12 col-lg-5">
-											<i class="bi bi-train-front me-2"></i> <b>ARL</b>
-										</div>
-										<div class="col"> {{profile.ARL.Station | emptyFieldPipe}}</div>
-									</div>
-									<div class="pb-3 row" *ngIf="profile.OnlineInterview">
-										<div class="col-12 px-3 border-input py-1 text-center online-interview-color">
-											<i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
-										</div>
-									</div>
-									<div class="d-flex flex-row px-3 border-input py-1 text-center work-from-home-color" *ngIf="profile.WorkFromHome">
-										<i class="bi bi-house me-2"></i><b>Work from home</b>
-									</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="footerMainHeader my-3 d-flex justify-content-between align-items-center">
-				<div class="dateUpdated">
-					<p class="lead ms-3 mb-0"> อัพเดทล่าสุด {{profile.dateUpdated}}</p>
-				</div>
-				<div class="choices d-flex justify-content-start align-items-end">
-					<!-- <button type="button" class="btn border-input btn-outline-secondary me-5 customPadding">
+                  <div
+                    class="d-flex flex-row border-input py-1 text-center work-from-home-color"
+                    *ngIf="profile.WorkFromHome"
+                  >
+                    <i class="bi bi-house me-2"></i><b>Work from home</b>
+                  </div>
+                </div>
+              </div>
+              <div class="row oneRow">
+                <div
+                  *ngIf="profile.JobType === 'ร้านยาแบรนด์'"
+                  class="row pb-3"
+                >
+                  <div
+                    class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5"
+                    style="white-space: nowrap"
+                  >
+                    <b>สาขา</b>
+                  </div>
+                  <div class="col" *ngIf="profile.JobType === 'ร้านยาแบรนด์'">
+                    {{ profile.Franchise | emptyFieldPipe }}
+                  </div>
+                </div>
+                <div class="row pb-3" *ngIf="profile.Duration !== ''">
+                  <div
+                    class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-5"
+                    style="white-space: nowrap"
+                  >
+                    <i class="bi bi-clock me-2"></i><b>เวลาปฏิบัติงาน</b>
+                  </div>
+                  <div class="col">
+                    <div *ngIf="profile.Duration !== ' - '">
+                      {{ profile.Duration }} น.
+                    </div>
+                    <div *ngIf="profile.Duration == ' - '">ไม่ระบุ</div>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    class="row pb-3"
+                    *ngIf="profile.TimeFrame == 'Full-Time'"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                      <div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">
+                        {{ profile.Salary.Amount | emptyFieldPipe
+                        }}{{ profile.Salary.Cap != 0 ? " - " : ""
+                        }}{{
+                          profile.Salary.Cap != 0
+                            ? profile.Salary.Amount! + profile.Salary.Cap!
+                            : ""
+                        }}
+                        บาท/เดือน
+                      </div>
+                      <div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">
+                        {{ profile.Salary.Suffix | salaryType }}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row pb-3"
+                    *ngIf="profile.TimeFrame == 'Full-Time และ Part-Time'"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                      <div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">
+                        {{ profile.Salary.Amount | emptyFieldPipe
+                        }}{{ profile.Salary.Cap != 0 ? " - " : ""
+                        }}{{
+                          profile.Salary.Cap != 0
+                            ? profile.Salary.Amount! + profile.Salary.Cap!
+                            : ""
+                        }}
+                      </div>
+                      <div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">
+                        {{ profile.Salary.Suffix | salaryType }}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row pb-3"
+                    *ngIf="profile.TimeFrame == 'Part-Time'"
+                  >
+                    <div
+                      class="col-12 col-sm-6 col-md-12 col-lg-5"
+                      style="white-space: nowrap"
+                    >
+                      <i class="bi bi-bootstrap me-2"></i><b>ค่าตอบแทน</b>
+                    </div>
+                    <div class="col">
+                      <div *ngIf="profile.Salary.Suffix == 'SalaryNumbers'">
+                        {{ profile.Salary.Amount | emptyFieldPipe }} -
+                        {{
+                          profile.Salary.Amount + profile.Salary.Cap!
+                            | emptyFieldPipe
+                        }}
+                        บาท/ชม
+                      </div>
+                      <div *ngIf="profile.Salary.Suffix !== 'SalaryNumbers'">
+                        {{ profile.Salary.Suffix | salaryType }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="row pb-3"
+                  *ngIf="profile.Amount !== null || profile.Amount !== 0"
+                >
+                  <div
+                    class="col-12 col-sm-6 col-md-12 col-lg-5"
+                    style="white-space: nowrap"
+                  >
+                    <i class="bi bi-person me-2"></i><b>รับสมัคร</b>
+                  </div>
+                  <div class="col">
+                    {{ profile.Amount | emptyFieldPipe }} ตำแหน่ง
+                  </div>
+                </div>
+                <div class="row pb-3">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-geo me-2"></i><b>พื้นที่</b>
+                  </div>
+                  <div class="col">
+                    {{ profile.Location.Section | emptyFieldPipe }},
+                    {{ profile.Location.Province | emptyFieldPipe }}
+                  </div>
+                </div>
+                <div *ngIf="profile.BTS.Near" class="pb-3 row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>BTS</b>
+                  </div>
+                  <div class="col">
+                    {{ profile.BTS.Station | emptyFieldPipe }}
+                  </div>
+                </div>
+                <div *ngIf="profile.MRT.Near" class="pb-3 row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>MRT</b>
+                  </div>
+                  <div class="col">
+                    {{ profile.MRT.Station | emptyFieldPipe }}
+                  </div>
+                </div>
+                <div *ngIf="profile.SRT.Near" class="pb-3 row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>SRT</b>
+                  </div>
+                  <div class="col">
+                    {{ profile.SRT.Station | emptyFieldPipe }}
+                  </div>
+                </div>
+                <div *ngIf="profile.ARL.Near" class="pb-3 row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                    <i class="bi bi-train-front me-2"></i> <b>ARL</b>
+                  </div>
+                  <div class="col">
+                    {{ profile.ARL.Station | emptyFieldPipe }}
+                  </div>
+                </div>
+                <div class="pb-3 row" *ngIf="profile.OnlineInterview">
+                  <div
+                    class="col-12 px-3 border-input py-1 text-center online-interview-color"
+                  >
+                    <i class="bi bi-display me-2"></i><b>สัมภาษณ์ออนไลน์</b>
+                  </div>
+                </div>
+                <div
+                  class="d-flex flex-row px-3 border-input py-1 text-center work-from-home-color"
+                  *ngIf="profile.WorkFromHome"
+                >
+                  <i class="bi bi-house me-2"></i><b>Work from home</b>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footerMainHeader my-3 d-flex justify-content-between align-items-center"
+      >
+        <div class="dateUpdated">
+          <p class="lead ms-3 mb-0">อัพเดทล่าสุด {{ profile.dateUpdated }}</p>
+        </div>
+        <div class="choices d-flex justify-content-start align-items-end">
+          <!-- <button type="button" class="btn border-input btn-outline-secondary me-5 customPadding">
 						<div style="display:flex" class="textProfileResponsive mb-0">
 							สมัครงาน
 						</div>
 					</button> -->
-					<div *ngIf="loginState">
-						<ng-container *ngIf="studentFlag$ | async; then noRequest; else haveRequest"></ng-container>
-						<ng-template #noRequest></ng-template>
-						<ng-template #haveRequest>
-							<ng-container *ngIf="requestFlag$ | async; then requestButton; else alreadyRequest"></ng-container>
-							<ng-template #alreadyRequest>
-								<button (click)="requestJob()" class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5" type="button">
-									<div class="textProfileResponsive">{{profile.Urgency?"สนใจรับงาน": "สมัครงาน"}}</div>
-								</button>
-							</ng-template>
-							<ng-template #requestButton>
-								<button class="me-3 btn btn-secondary text-center border-input my-2 px-5" type="button">
-									<div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
-								</button>
-							</ng-template>
-						</ng-template>
-					</div>
-					<button (click)="toggleShare()" type="button" class="btn px-0 me-3">
-						<h1 style="display:flex">
-							<i class="bi bi-share-fill"></i>
-						</h1>
-					</button>
-					<button (click)="toggleBookmark()" type="button" class="btn">
-						<h1>
-							<ng-container *ngIf="bookmarkLoadingFlag; then loading; else notLoading"></ng-container>
-							<ng-template #loading>
-								<div>
-								<div style="text-align:center">
-									<div class="spinner-border text-primary" role="status">
-									<span class="visually-hidden">Loading...</span>
-									</div>
-								</div>
-								</div>
-							</ng-template>
-							<ng-template #notLoading>
-								<ng-container *ngIf="bookmarkFlag$ | async; then red; else black"></ng-container>
-								<ng-template #black>
-									<i class="bi bi-bookmark"></i>
-									
-								</ng-template>
-								<ng-template #red>
-									<i style="color:red" class="bi bi-bookmark-fill"></i>
-								</ng-template>
-							</ng-template>
-						</h1>
-					</button>
-				</div>
-			</div>
-			<div class="card semi-border-input standard-shadow">
-				<div class="card-body textProfileResponsive p-4">
-					<div class="my-5 mt-3">
-						<h2 class="pb-2" style="border-bottom:2px solid lightgrey">หน้าที่ความรับผิดชอบ</h2>
-						<div class="" [innerHtml]="profile.JobDetails | emptyField"></div>
-						<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">คุณสมบัติผู้สมัคร</h2>
-						<div class="" [innerHtml]="profile.qualityApplicants | emptyField"></div>
-						<ng-container *ngIf="profile.Urgency === false">
-							<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">สวัสดิการ</h2>
-							<div class="" [innerHtml]="profile.jobBenefits | emptyField"></div>
-						</ng-container>
-						<h2 class="mt-5  mb-3 pb-3" style="border-bottom: 2px solid lightgrey">วิธีสมัครงาน</h2>
-						<div class="" [innerHtml]="profile.applyInstructions | emptyField"></div>
-					</div>
-					<div class="my-5 mb-3">
-						<h2 class="pb-2 mb-3" style="border-bottom:2px solid lightgrey">ช่องทางติดต่อ</h2>
-						<div class="d-sm-flex mb-3 ">
-							<div class="me-3">
-								<i class="bi bi-telephone-fill"></i>
-							</div>
-							<div>
-								<div class="d-sm-flex mb-3 ">
-									<div class="me-3">
-										ชื่อผู้ติดต่อ
-									</div>
-									<div>{{profile.Contacts.nameRepresentative | emptyFieldPipe}}</div>
-								</div>
-								<div class="d-sm-flex mb-3">
-									<div class="me-3">โทร</div>
-									<div>{{profile.Contacts.phone | emptyFieldPipe}}</div>
-								</div>
-							</div>
-						</div>
-						<div class="d-sm-flex mb-3 ">
-							<div class="me-3">
-								<i class="bi bi-house-door-fill"></i>
-							</div>
-							<div class="me-3">
-								สถานที่ติดต่อ
-							</div>
-							<div>{{profile.Contacts.areaOfContact | emptyFieldPipe}}</div>
-						</div>
-						<div class="d-sm-flex mb-3 ">
-							<div class="me-3">
-								<i class="bi bi-envelope-open-fill"></i>
-							</div>
-							<div class="me-3">
-								Email
-							</div>
-							<div>{{profile.Contacts.email | emptyFieldPipe}}</div>
-						</div>
-						<div class="d-sm-flex mb-3 ">
-							<div class="me-3">
-								<i class="bi bi-line"></i>
-							</div>
-							<div class="me-3">
-								Line
-							</div>
-							<div>{{profile.Contacts.line | emptyFieldPipe}}</div>
-						</div>
-						<div class="d-sm-flex mb-3 ">
-							<div class="me-3">
-								<i class="bi bi-facebook"></i>
-							</div>
-							<div class="me-3">
-								Facebook
-							</div>
-							<div>{{profile.Contacts.facebook | emptyFieldPipe}}</div>
-						</div>
-						<div class="d-sm-flex mb-3 ">
-							<div class="me-3">
-								<i class="bi bi-globe2"></i>
-							</div>
-							<div class="me-3">
-								Website
-							</div>
-							<div style="line-break:anywhere">{{profile.Contacts.website | emptyFieldPipe}}</div>
-						</div>
-					</div>
-					<div class="card-body px-0 textProfileResponsive">
-						<div class="mb-5 mt-1">
-							<h2 class="mb-3 pb-3" style="border-bottom:2px solid lightgrey">สถานที่ปฏิบัติการ/วิธีเดินทาง</h2>
-							<div class=" d-flex justify-content-between">
-								<div style="line-break:anywhere" class="" [innerHtml]="profile.TravelInstructions | emptyFieldPipe"></div>
-							</div>
-								<google-map 
-									*ngIf="profile._geoloc !== undefined"
-									height="500px"
-									width="100%"
-									[options]="none"
-									[center]="center"
-									[zoom]="zoom">
-									<map-marker
-										[position]="markerPosition"
-										>
-									</map-marker>
-								</google-map>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="my-5 container" *ngIf="urgentJobs.length !== 0">
-				<div class="textProfileResponsive ms-sm-0 ms-3 my-5 mb-3 pb-3" style="border-bottom: 2px solid lightgrey">งานด่วนอื่นๆของผู้ประกอบการนี้</div>
-				<!-- <ng-container *ngIf="urgentJobs$ | async; then loadingUrgentJobs; else notLoadingUrgentJobs"></ng-container>
+          <div *ngIf="loginState">
+            <ng-container
+              *ngIf="studentFlag$ | async; then noRequest; else haveRequest"
+            ></ng-container>
+            <ng-template #noRequest></ng-template>
+            <ng-template #haveRequest>
+              <ng-container
+                *ngIf="
+                  requestFlag$ | async;
+                  then requestButton;
+                  else alreadyRequest
+                "
+              ></ng-container>
+              <ng-template #alreadyRequest>
+                <button
+                  (click)="requestJob()"
+                  class="me-3 btn btn-outline-secondary text-center border-input my-2 px-5"
+                  type="button"
+                >
+                  <div class="textProfileResponsive">
+                    {{ profile.Urgency ? "สนใจรับงาน" : "สมัครงาน" }}
+                  </div>
+                </button>
+              </ng-template>
+              <ng-template #requestButton>
+                <button
+                  class="me-3 btn btn-secondary text-center border-input my-2 px-5"
+                  type="button"
+                >
+                  <div class="textProfileResponsive">สมัครงานสำเร็จแล้ว</div>
+                </button>
+              </ng-template>
+            </ng-template>
+          </div>
+          <button (click)="toggleShare()" type="button" class="btn px-0 me-3">
+            <h1 style="display: flex">
+              <i class="bi bi-share-fill"></i>
+            </h1>
+          </button>
+          <button (click)="toggleBookmark()" type="button" class="btn">
+            <h1>
+              <ng-container
+                *ngIf="bookmarkLoadingFlag; then loading; else notLoading"
+              ></ng-container>
+              <ng-template #loading>
+                <div>
+                  <div style="text-align: center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template #notLoading>
+                <ng-container
+                  *ngIf="bookmarkFlag$ | async; then red; else black"
+                ></ng-container>
+                <ng-template #black>
+                  <i class="bi bi-bookmark"></i>
+                </ng-template>
+                <ng-template #red>
+                  <i style="color: red" class="bi bi-bookmark-fill"></i>
+                </ng-template>
+              </ng-template>
+            </h1>
+          </button>
+        </div>
+      </div>
+      <div class="card semi-border-input standard-shadow">
+        <div class="card-body textProfileResponsive p-4">
+          <div class="my-5 mt-3">
+            <h2 class="pb-2" style="border-bottom: 2px solid lightgrey">
+              หน้าที่ความรับผิดชอบ
+            </h2>
+            <div class="" [innerHtml]="profile.JobDetails | emptyField"></div>
+            <h2
+              class="mt-5 mb-3 pb-3"
+              style="border-bottom: 2px solid lightgrey"
+            >
+              คุณสมบัติผู้สมัคร
+            </h2>
+            <div
+              class=""
+              [innerHtml]="profile.qualityApplicants | emptyField"
+            ></div>
+            <ng-container *ngIf="profile.Urgency === false">
+              <h2
+                class="mt-5 mb-3 pb-3"
+                style="border-bottom: 2px solid lightgrey"
+              >
+                สวัสดิการ
+              </h2>
+              <div
+                class=""
+                [innerHtml]="profile.jobBenefits | emptyField"
+              ></div>
+            </ng-container>
+            <h2
+              class="mt-5 mb-3 pb-3"
+              style="border-bottom: 2px solid lightgrey"
+            >
+              วิธีสมัครงาน
+            </h2>
+            <div
+              class=""
+              [innerHtml]="profile.applyInstructions | emptyField"
+            ></div>
+          </div>
+          <div class="my-5 mb-3">
+            <h2 class="pb-2 mb-3" style="border-bottom: 2px solid lightgrey">
+              ช่องทางติดต่อ
+            </h2>
+            <div class="d-sm-flex mb-3">
+              <div class="me-3">
+                <i class="bi bi-telephone-fill"></i>
+              </div>
+              <div>
+                <div class="d-sm-flex mb-3">
+                  <div class="me-3">ชื่อผู้ติดต่อ</div>
+                  <div>
+                    {{ profile.Contacts.nameRepresentative | emptyFieldPipe }}
+                  </div>
+                </div>
+                <div class="d-sm-flex mb-3">
+                  <div class="me-3">โทร</div>
+                  <div>{{ profile.Contacts.phone | emptyFieldPipe }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="d-sm-flex mb-3">
+              <div class="me-3">
+                <i class="bi bi-house-door-fill"></i>
+              </div>
+              <div class="me-3">สถานที่ติดต่อ</div>
+              <div>{{ profile.Contacts.areaOfContact | emptyFieldPipe }}</div>
+            </div>
+            <div class="d-sm-flex mb-3">
+              <div class="me-3">
+                <i class="bi bi-envelope-open-fill"></i>
+              </div>
+              <div class="me-3">Email</div>
+              <div>{{ profile.Contacts.email | emptyFieldPipe }}</div>
+            </div>
+            <div class="d-sm-flex mb-3">
+              <div class="me-3">
+                <i class="bi bi-line"></i>
+              </div>
+              <div class="me-3">Line</div>
+              <div>{{ profile.Contacts.line | emptyFieldPipe }}</div>
+            </div>
+            <div class="d-sm-flex mb-3">
+              <div class="me-3">
+                <i class="bi bi-facebook"></i>
+              </div>
+              <div class="me-3">Facebook</div>
+              <div>{{ profile.Contacts.facebook | emptyFieldPipe }}</div>
+            </div>
+            <div class="d-sm-flex mb-3">
+              <div class="me-3">
+                <i class="bi bi-globe2"></i>
+              </div>
+              <div class="me-3">Website</div>
+              <div style="line-break: anywhere">
+                {{ profile.Contacts.website | emptyFieldPipe }}
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 textProfileResponsive">
+            <div class="mb-5 mt-1">
+              <h2 class="mb-3 pb-3" style="border-bottom: 2px solid lightgrey">
+                สถานที่ปฏิบัติการ/วิธีเดินทาง
+              </h2>
+              <div class="d-flex justify-content-between">
+                <div
+                  style="line-break: anywhere"
+                  class=""
+                  [innerHtml]="profile.TravelInstructions | emptyFieldPipe"
+                ></div>
+              </div>
+              <google-map
+                *ngIf="profile._geoloc !== undefined"
+                height="500px"
+                width="100%"
+                [options]="none"
+                [center]="center"
+                [zoom]="zoom"
+              >
+                <map-marker [position]="markerPosition"> </map-marker>
+              </google-map>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-5 container" *ngIf="urgentJobs.length !== 0">
+        <div
+          class="textProfileResponsive ms-sm-0 ms-3 my-5 mb-3 pb-3"
+          style="border-bottom: 2px solid lightgrey"
+        >
+          งานด่วนอื่นๆของผู้ประกอบการนี้
+        </div>
+        <!-- <ng-container *ngIf="urgentJobs$ | async; then loadingUrgentJobs; else notLoadingUrgentJobs"></ng-container>
 				<ng-template #loadingUrgentJobs>
 					<div>
 					<div style="text-align:center">
@@ -414,58 +687,94 @@
 				</ng-template>
 				
 				<ng-template #notLoadingUrgentJobs> -->
-					<swiper
-					[navigation]="true"
-					[slidesPerView]="1"
-					[spaceBetween]="25"
-					[pagination]="true"
-					[breakpoints]="breakingPoint"
-					style="margin-top: 3em; text-align: center"
-					>
-					<ng-template swiperSlide *ngFor="let item of urgentJobs">
-						<app-job-post-small-card 
-							[urgentFlag]="item.Urgency" 
-							[fullTimeFlag]="item.TimeFrame === 'Full-Time'?true:false"
-							[content]="item">
-						</app-job-post-small-card>
-					</ng-template>
-					</swiper>
-				<!-- </ng-template> -->
-			</div>
-		</div>
-	</ng-template>
-	<div class="modal fade" id="confirmRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-md  fs-4">
-		  <div class="modal-content semi-border-input standard-shadow p-5">
-				<div *ngIf="!successFlag">
-					<div class="d-flex justify-content-center fs-4">
-						คุณต้องการสมัครงานนี้ใช่หรือไม่
-					</div>
-					<div style="text-align:center" [ngStyle]="{'text-align': 'center', 'visibility': loadingConfirmRequestFlag? 'unset':'hidden'}" class="my-3">
-						<div class="spinner-border text-primary" role="status">
-						<span class="visually-hidden">Loading...</span>
-						</div>
-					</div>
-					<div class="d-flex justify-content-around mt-3 ">
-						<button class="btn btn-light p-2 px-4 textProfileResponsive border-input" (click)="onClose()">ยกเลิก</button>
-						<button class="btn btn-success p-2 px-4 textProfileResponsive border-input" (click)="requestJobConfirm()">ตกลง</button>
-					</div>
-				</div>
-				<div *ngIf="successFlag">
-					<div class="d-flex justify-content-center fs-4">
-						<i class="pe-auto bi bi-check-circle-fill" style="color:#7fd858"></i>
-						<div class="fs-5 ms-2">ระบบจัดส่งใบสมัครของคุณเรียบร้อยแล้ว</div>
-					</div>
-					<div style="text-align:center" [ngStyle]="{'text-align': 'center', 'visibility':'hidden'}" class="my-3">
-						<div class="spinner-border text-primary" role="status">
-						<span class="visually-hidden">Loading...</span>
-						</div>
-					</div>
-					<div class="d-flex justify-content-around mt-3 ">
-						<button class="btn px-4 p-2 textProfileResponsive border-input" style="border-color: #7fd858; background:#7fd858; color:white" (click)="onClose()">ตกลง</button>
-					</div>
-				</div>
-		  </div>
-		</div>
-	  </div>
+        <swiper-container
+          navigation="true"
+          slides-per-view="1"
+          space-between="25"
+          pagination="true"
+          [breakpoints]="breakingPoint"
+          style="margin-top: 3em; text-align: center"
+        >
+          <swiper-slide *ngFor="let item of urgentJobs">
+            <app-job-post-small-card
+              [urgentFlag]="item.Urgency"
+              [fullTimeFlag]="item.TimeFrame === 'Full-Time' ? true : false"
+              [content]="item"
+            >
+            </app-job-post-small-card>
+          </swiper-slide>
+        </swiper-container>
+      </div>
+    </div>
+  </ng-template>
+  <div
+    class="modal fade"
+    id="confirmRequest"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-md fs-4">
+      <div class="modal-content semi-border-input standard-shadow p-5">
+        <div *ngIf="!successFlag">
+          <div class="d-flex justify-content-center fs-4">
+            คุณต้องการสมัครงานนี้ใช่หรือไม่
+          </div>
+          <div
+            style="text-align: center"
+            [ngStyle]="{
+              'text-align': 'center',
+              visibility: loadingConfirmRequestFlag ? 'unset' : 'hidden'
+            }"
+            class="my-3"
+          >
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-around mt-3">
+            <button
+              class="btn btn-light p-2 px-4 textProfileResponsive border-input"
+              (click)="onClose()"
+            >
+              ยกเลิก
+            </button>
+            <button
+              class="btn btn-success p-2 px-4 textProfileResponsive border-input"
+              (click)="requestJobConfirm()"
+            >
+              ตกลง
+            </button>
+          </div>
+        </div>
+        <div *ngIf="successFlag">
+          <div class="d-flex justify-content-center fs-4">
+            <i
+              class="pe-auto bi bi-check-circle-fill"
+              style="color: #7fd858"
+            ></i>
+            <div class="fs-5 ms-2">ระบบจัดส่งใบสมัครของคุณเรียบร้อยแล้ว</div>
+          </div>
+          <div
+            style="text-align: center"
+            [ngStyle]="{ 'text-align': 'center', visibility: 'hidden' }"
+            class="my-3"
+          >
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-around mt-3">
+            <button
+              class="btn px-4 p-2 textProfileResponsive border-input"
+              style="border-color: #7fd858; background: #7fd858; color: white"
+              (click)="onClose()"
+            >
+              ตกลง
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

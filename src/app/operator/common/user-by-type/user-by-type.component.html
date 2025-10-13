@@ -1,22 +1,27 @@
 <div *ngIf="userFlag">
-    <div class="d-flex justify-content-between fs-3 my-sm-5 my-3">
-        <div class="title align-self-center">{{title}}</div>
-        <button style="background-color:#f2f2f2" class="btn d-flex fs-3" (click)="goToList()">
-            <span class="goToListText">ดูทั้งหมด</span>
-            <i class="arrow ms-3 bi bi-arrow-right-square align-self-center"></i>
-        </button>
-    </div>
-        <swiper
-            [navigation]="true"
-            [slidesPerView]="1.5"
-            [spaceBetween]="25"
-            [breakpoints]="breakingPoint"            
-            style="text-align: center"
-            class="mb-3 mt-sm-3 mt-1"
-        >
-        <ng-template swiperSlide *ngFor="let user of Users$ | async">
-            <app-small-user-card [content]="user" [type]="type"></app-small-user-card>
-        </ng-template>
-        </swiper>
-    <!-- </ng-template> -->
+  <div class="d-flex justify-content-between fs-3 my-sm-5 my-3">
+    <div class="title align-self-center">{{ title }}</div>
+    <button
+      style="background-color: #f2f2f2"
+      class="btn d-flex fs-3"
+      (click)="goToList()"
+    >
+      <span class="goToListText">ดูทั้งหมด</span>
+      <i class="arrow ms-3 bi bi-arrow-right-square align-self-center"></i>
+    </button>
+  </div>
+  <swiper-container
+    navigation="true"
+    slides-per-view="1.5"
+    space-between="25"
+    [breakpoints]="breakingPoint"
+    style="text-align: center"
+    class="mb-3 mt-sm-3 mt-1"
+  >
+    <swiper-slide *ngFor="let user of Users$ | async">
+      <app-small-user-card
+        [content]="user"
+        [type]="type"
+      ></app-small-user-card> </swiper-slide
+  ></swiper-container>
 </div>
