@@ -92,11 +92,7 @@
             tabindex="0"
           >
             <form [formGroup]="registerFormPharmacist">
-              <swiper-container
-                #swiperFormPharma
-                init="false"
-                class="swiperFormPharma"
-              >
+              <swiper-container #swiperFormPharma init="false">
                 <swiper-slide>
                   <div class="row">
                     <div
@@ -413,7 +409,7 @@
                         </div>
                       </div>
                       <div
-                        class="d-flex flex-column justify-content-between form-group mb-3 ps-lg-5 border-line"
+                        class="d-flex flex-column justify-content-between form-group mb-2 ps-lg-5 border-line"
                         formGroupName="preferredJobType"
                         [ngClass]="{
                           'is-invalid':
@@ -1505,11 +1501,7 @@
             tabindex="0"
           >
             <form [formGroup]="registerFormStudent">
-              <swiper-container
-                #swiperFormStudent
-                class="swiperFormStudent"
-                init="false"
-              >
+              <swiper-container #swiperFormStudent init="false">
                 <swiper-slide>
                   <div class="row">
                     <div

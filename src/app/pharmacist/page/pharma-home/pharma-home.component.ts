@@ -1,4 +1,10 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  PLATFORM_ID,
+  ViewChild,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
@@ -15,9 +21,10 @@ import { JobPostService } from '../../service/job-post.service';
 import headerArray from '../../model/data/uiKeys';
 import _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { bannerOperator } from '../../model/typescriptModel/users.model';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { SsrService } from 'src/app/service/ssr.service';
 
 @Component({
   selector: 'app-pharma-home',
@@ -55,6 +62,7 @@ export class PharmaHomeComponent {
     private activatedRoute: ActivatedRoute,
     private jobPostService: JobPostService,
     private el: ElementRef,
+    private ssrService: SsrService,
     private store: Store
   ) {}
   ngOnInit() {
@@ -67,16 +75,13 @@ export class PharmaHomeComponent {
           this.a1Banner = banner;
         }
       });
-    this.type = localStorage.getItem('type')!;
-    this.jobPostUID = localStorage.getItem('jobUID')!;
-
     this.loadingFlag$ = this.store.select(
       (state: any) => state.jobpost.loading
     );
 
     this.loadingFlag$.subscribe((flag) => {
       if (flag) {
-        this.dispatchJobs();
+        this.jobPostService.dispatchJobs();
       }
     });
 
@@ -86,18 +91,24 @@ export class PharmaHomeComponent {
     this.items$.subscribe((item) => {
       this.localItem = item;
     });
-    // this.scrollUp()
-    if (this.type != null) {
-      this.route.navigate(['notifications'], {
-        relativeTo: this.activatedRoute,
-        queryParams: {
-          jobUID: this.jobPostUID,
-          type: this.type,
-        },
-      });
+  }
+  ngAfterViewInit(): void {
+    if (this.ssrService.isBrowser()) {
+      this.type = localStorage.getItem('type')!;
+      this.jobPostUID = localStorage.getItem('jobUID')!;
+
+      // this.scrollUp()
+      if (this.type != null) {
+        this.route.navigate(['notifications'], {
+          relativeTo: this.activatedRoute,
+          queryParams: {
+            jobUID: this.jobPostUID,
+            type: this.type,
+          },
+        });
+      }
     }
   }
-
   redirectExternal(link: string) {
     if (!link.includes('https://')) {
       this.document.location.href = !link.includes('https://')
@@ -262,7 +273,7 @@ export class PharmaHomeComponent {
                 let i = 0;
                 while (i < complementaryCount) {
                   i++;
-                  payload.content!.push('empty');
+                  payload.content?.push('empty');
                 }
               }
               return payload;

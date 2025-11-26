@@ -6,6 +6,7 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { getMessaging, Messaging } from 'firebase/messaging';
 import { environment } from 'src/environments/environment';
+import { SsrService } from './ssr.service';
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseService {
@@ -15,7 +16,7 @@ export class FirebaseService {
   public storage: FirebaseStorage;
   public messaging!: Messaging;
 
-  constructor() {
+  constructor(private ssrService: SsrService) {
     // Initialize Firebase app once
     this.app = initializeApp(environment.firebase);
 
@@ -24,7 +25,7 @@ export class FirebaseService {
     this.auth = getAuth(this.app);
     this.storage = getStorage(this.app);
     // Messaging only works in browser (avoid SSR crash)
-    if (typeof window !== 'undefined') {
+    if (this.ssrService.isBrowser()) {
       this.messaging = getMessaging(this.app);
     }
   }

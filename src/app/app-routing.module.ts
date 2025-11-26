@@ -1,39 +1,35 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { DemoLandingComponent } from './demo-landing/demo-landing.component';
-import { LandingPageComponent as PharmaLanding } from './pharmacist/landing-page.component';
-import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
-import { RegisterComponent } from './register/register.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { JobPostComponent } from './job-post/job-post.component';
-import { OperatorPageComponent } from './pharmacist/page/operator-page/operator-page.component';
+import { Router, RouterModule, Routes } from '@angular/router';
+import { LandingPageRealComponent } from './landing-page/landing-page.component';
+import { PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { LandingPageComponent } from './pharmacist/landing-page.component';
+import { PharmaHomeComponent } from './pharmacist/page/pharma-home/pharma-home.component';
 
-const routes: Routes = [
-  { path: 'notifications', component: DemoLandingComponent},
-  { path: 'success-checkout', component: DemoLandingComponent},
-  { path: 'cancel-checkout', component: DemoLandingComponent},
-  { path: '', component: DemoLandingComponent},
-  { path: 'register', children:[
-    {path:'pharmacist', component: DemoLandingComponent},
-    {path:'operator', component: DemoLandingComponent},
-    {path:'student', component: DemoLandingComponent},
-    {path:'operator-page/:operatorUID', component:OperatorPageComponent},
-  ]},
-  { path: 'confirm', component: ConfirmEmailComponent},
+const ssrRoutes: Routes = [
   {
-    path: 'pharma',
-    loadChildren: () =>
-      import('./pharmacist/pharmacist.module').then((m) => m.PharmacistModule),
-  },
-  {
-    path: 'operator',
-    loadChildren: () =>
-      import('./operator/operator.module').then((m) => m.OperatorModule),
+    path: '',
+    component: LandingPageComponent, // ✅ SSR route
+    children: [{ path: '', component: PharmaHomeComponent }],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', initialNavigation: 'enabledBlocking' })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(ssrRoutes, {
+      initialNavigation: 'enabledBlocking', // Required for SSR
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  constructor(private router: Router) {
+    // Client-only routes are dynamically added after bootstrap
+    const platformId = inject(PLATFORM_ID);
+    if (isPlatformBrowser(platformId)) {
+      import('./app-routing.csr').then(({ addClientRoutes }) =>
+        addClientRoutes(router)
+      );
+    }
+  }
+}

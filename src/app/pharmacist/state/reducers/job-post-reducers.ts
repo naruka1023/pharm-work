@@ -1,262 +1,297 @@
 import { createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import headerArray from '../../model/data/uiKeys';
-import { AppState, BookmarkList, Follow, filterConditions, userOperator } from '../../model/typescriptModel/jobPost.model';
-import { addBookmark, removeBookmark, retrievedJobCategorySuccess, retrievedJobSuccess, retrievedUserBookmarkSuccess, updateFollowersList, addFollowers, removeFollowers, addJobRequest, EmptyJobPostAppState, removeJobRequest, updateJobFromJobCategory, retrievedJobCategoryHomeSuccess, updateJobFromHome, paginateJobCategory, setExistingOperatorData, toggleJobs, setBanner, setBannersFlag } from '../actions/job-post.actions';
+import {
+  AppState,
+  BookmarkList,
+  Follow,
+  filterConditions,
+  userOperator,
+} from '../../model/typescriptModel/jobPost.model';
+import {
+  addBookmark,
+  removeBookmark,
+  retrievedJobCategorySuccess,
+  retrievedJobSuccess,
+  retrievedUserBookmarkSuccess,
+  updateFollowersList,
+  addFollowers,
+  removeFollowers,
+  addJobRequest,
+  EmptyJobPostAppState,
+  removeJobRequest,
+  updateJobFromJobCategory,
+  retrievedJobCategoryHomeSuccess,
+  updateJobFromHome,
+  paginateJobCategory,
+  setExistingOperatorData,
+  toggleJobs,
+  setBanner,
+  setBannersFlag,
+} from '../actions/job-post.actions';
 
 const emptyOperator = {
   email: '',
   role: '',
   uid: '',
   Location: {
-    Province: "",
+    Province: '',
     District: '',
-    Section: ''
+    Section: '',
   },
   jobType: '',
   companyName: '',
-  contacts:{
+  contacts: {
     phone: '',
     email: '',
     line: '',
     facebook: '',
   },
   urgentJobs: [],
-}
+};
 
 export const initialState: AppState = {
-  loading: true,
+  loading: false,
   JobPost: headerArray,
   Banners: {},
   BannersFlag: {},
   Bookmarks: {},
-  JobRequests:{},
-  Follows:{},
+  JobRequests: {},
+  Follows: {},
 };
 
 export const jobPostReducer = createReducer(
   initialState,
-  on(toggleJobs, (state) =>{
-    return state
+  on(toggleJobs, (state) => {
+    return state;
   }),
-  on(setBannersFlag, (state, {bannersFlag}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    newState.BannersFlag = bannersFlag
-    return {...newState}
+  on(setBannersFlag, (state, { bannersFlag }) => {
+    let newState: AppState = _.cloneDeep(state);
+    newState.BannersFlag = bannersFlag;
+    return { ...newState };
   }),
-  on(setBanner, (state, {banner}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    newState.Banners = banner
-    return {...newState}
+  on(setBanner, (state, { banner }) => {
+    let newState: AppState = _.cloneDeep(state);
+    newState.Banners = banner;
+    return { ...newState };
   }),
-  on(removeBookmark, (state, {jobUID, userUID}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    let keys = jobUID + "-" + userUID
+  on(removeBookmark, (state, { jobUID, userUID }) => {
+    let newState: AppState = _.cloneDeep(state);
+    let keys = jobUID + '-' + userUID;
     delete newState.Bookmarks[keys];
-    return {...newState}
+    return { ...newState };
   }),
-  on(updateJobFromHome, (state, {categorySymbol, jobUID, jobPayload}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    const categories = newState.JobPost.map((job)=>{
-      if(job.CategorySymbol == categorySymbol){
+  on(updateJobFromHome, (state, { categorySymbol, jobUID, jobPayload }) => {
+    let newState: AppState = _.cloneDeep(state);
+    const categories = newState.JobPost.map((job) => {
+      if (job.CategorySymbol == categorySymbol) {
         return {
           ...job,
-          content: job?.content?.map((profile: any) =>{
-            if(profile.custom_doc_id == jobUID){
-              return jobPayload
-            }else{
-              return profile
+          content: job?.content?.map((profile: any) => {
+            if (profile.custom_doc_id == jobUID) {
+              return jobPayload;
+            } else {
+              return profile;
             }
-          })
-        }
-      }else{
-        return job
-      } 
-    })          
-    newState.JobPost = categories
-    return {...newState}
-  }),
-  on(updateJobFromJobCategory, (state, {categorySymbol, jobUID, jobPayload}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    const categories = newState.JobPost.map((job)=>{
-      if(job.CategorySymbol == categorySymbol){
-        return {
-          ...job,
-          allContent: job?.allContent?.map((profile: any) =>{
-            if(profile.custom_doc_id == jobUID){
-              return jobPayload
-            }else{
-              return profile
-            }
-          })
-        }
-      }else{
-        return job
-      } 
-    })          
-    newState.JobPost = categories
-    return {...newState}
-  }),
-  on(removeFollowers, (state, {userUID, operatorUID}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    let keys = userUID + "-" + operatorUID
-    delete newState.Follows[keys];
-    return {...newState}
-  }),
-  on(addFollowers, (state, {operator})=>{
-    let newState: AppState =  _.cloneDeep(state);
-    let keys = operator.userUID + "-" + operator.operatorUID
-    newState.Follows[keys] = operator
-    return {
-      ...newState
-    }
-  }),
-  on(updateFollowersList, (state, {followers}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    let newFollowers: any = {};
-    followers.forEach((jr: Follow)=>{
-      let keys = jr.userUID + '-' + jr.operatorUID
-      newFollowers[keys] = {
-        ...jr
+          }),
+        };
+      } else {
+        return job;
       }
-    })
+    });
+    newState.JobPost = categories;
+    return { ...newState };
+  }),
+  on(
+    updateJobFromJobCategory,
+    (state, { categorySymbol, jobUID, jobPayload }) => {
+      let newState: AppState = _.cloneDeep(state);
+      const categories = newState.JobPost.map((job) => {
+        if (job.CategorySymbol == categorySymbol) {
+          return {
+            ...job,
+            allContent: job?.allContent?.map((profile: any) => {
+              if (profile.custom_doc_id == jobUID) {
+                return jobPayload;
+              } else {
+                return profile;
+              }
+            }),
+          };
+        } else {
+          return job;
+        }
+      });
+      newState.JobPost = categories;
+      return { ...newState };
+    }
+  ),
+  on(removeFollowers, (state, { userUID, operatorUID }) => {
+    let newState: AppState = _.cloneDeep(state);
+    let keys = userUID + '-' + operatorUID;
+    delete newState.Follows[keys];
+    return { ...newState };
+  }),
+  on(addFollowers, (state, { operator }) => {
+    let newState: AppState = _.cloneDeep(state);
+    let keys = operator.userUID + '-' + operator.operatorUID;
+    newState.Follows[keys] = operator;
     return {
       ...newState,
-      Follows:newFollowers
-    }
+    };
   }),
-  on(addJobRequest, (state, {jobRequest})=>{
-    let newState: AppState =  _.cloneDeep(state);
-    let keys = jobRequest.jobUID + "-" + jobRequest.userUID
-    newState.JobRequests[keys] = jobRequest
+  on(updateFollowersList, (state, { followers }) => {
+    let newState: AppState = _.cloneDeep(state);
+    let newFollowers: any = {};
+    followers.forEach((jr: Follow) => {
+      let keys = jr.userUID + '-' + jr.operatorUID;
+      newFollowers[keys] = {
+        ...jr,
+      };
+    });
     return {
-      ...newState
-    }
+      ...newState,
+      Follows: newFollowers,
+    };
   }),
-  on(removeJobRequest, (state, {jobRequest}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    let keys = jobRequest.jobUID + "-" + jobRequest.userUID
+  on(addJobRequest, (state, { jobRequest }) => {
+    let newState: AppState = _.cloneDeep(state);
+    let keys = jobRequest.jobUID + '-' + jobRequest.userUID;
+    newState.JobRequests[keys] = jobRequest;
+    return {
+      ...newState,
+    };
+  }),
+  on(removeJobRequest, (state, { jobRequest }) => {
+    let newState: AppState = _.cloneDeep(state);
+    let keys = jobRequest.jobUID + '-' + jobRequest.userUID;
     delete newState.JobRequests[keys];
-    return {...newState}
+    return { ...newState };
   }),
-  on(addBookmark, (state, {jobUID, userUID, bookmarkUID, JobPost}) =>{
-    let newState: AppState =  _.cloneDeep(state);
-    let keys = jobUID + "-" + userUID
+  on(addBookmark, (state, { jobUID, userUID, bookmarkUID, JobPost }) => {
+    let newState: AppState = _.cloneDeep(state);
+    let keys = jobUID + '-' + userUID;
     newState.Bookmarks[keys] = {
       jobUID: jobUID,
       userUID: userUID,
       bookmarkUID: bookmarkUID,
-      JobPost: JobPost
-    }
+      JobPost: JobPost,
+    };
     return {
-      ...newState
-    }
-  } ),
+      ...newState,
+    };
+  }),
   on(retrievedJobSuccess, (state, { jobs }) => {
     return {
       ...state,
       loading: false,
-      JobPost: jobs
-    }
+      JobPost: jobs,
+    };
   }),
-  on(EmptyJobPostAppState, (state)=>{
+  on(EmptyJobPostAppState, (state) => {
     return {
-      ...initialState
-    }
+      ...initialState,
+    };
   }),
-  on(setExistingOperatorData, (state, { jobType, operatorUID, jobs, followers }) => {
-    let newState: AppState =  _.cloneDeep(state);
-    let categorySymbol = 'BA'
-    let formattedJobs: any = {}
-    jobs.forEach((job)=>{
-      formattedJobs[job.custom_doc_id] = job
-    })
-    let jobPost = newState.JobPost.map((filterCondition: filterConditions)=>{
-      if(filterCondition.CategorySymbol == categorySymbol){
-        let filterConditionPayload = filterCondition.content.map((user: userOperator)=>{
-          if(user.uid == operatorUID){
+  on(
+    setExistingOperatorData,
+    (state, { jobType, operatorUID, jobs, followers }) => {
+      let newState: AppState = _.cloneDeep(state);
+      let categorySymbol = 'BA';
+      let formattedJobs: any = {};
+      jobs.forEach((job) => {
+        formattedJobs[job.custom_doc_id] = job;
+      });
+      let jobPost = newState.JobPost.map(
+        (filterCondition: filterConditions) => {
+          if (filterCondition.CategorySymbol == categorySymbol) {
+            let filterConditionPayload = filterCondition.content.map(
+              (user: userOperator) => {
+                if (user.uid == operatorUID) {
+                  return {
+                    ...user,
+                    operatorJobs: formattedJobs,
+                    loadingOperator: false,
+                    followers: followers,
+                  };
+                } else {
+                  return user;
+                }
+              }
+            );
             return {
-              ...user,
-              operatorJobs: formattedJobs,
-              loadingOperator: false,
-              followers: followers
-            }
-          }else{
-            return user
+              ...filterCondition,
+              content: filterConditionPayload,
+            };
+          } else {
+            return filterCondition;
           }
-        })
-        return {
-          ...filterCondition,
-          content: filterConditionPayload
         }
-      }else{
-        return filterCondition
-      }
-    })
-    return {
-      ...newState,
-      JobPost: jobPost
+      );
+      return {
+        ...newState,
+        JobPost: jobPost,
+      };
     }
-  }),
+  ),
   on(retrievedUserBookmarkSuccess, (state, { Bookmarks }) => {
-    let newState: AppState =  _.cloneDeep(state);
-    let bookMarkList:BookmarkList = {}
-    _.cloneDeep(Bookmarks).forEach((bookmark)=>{
-      let string = bookmark.jobUID + '-' + bookmark.userUID
+    let newState: AppState = _.cloneDeep(state);
+    let bookMarkList: BookmarkList = {};
+    _.cloneDeep(Bookmarks).forEach((bookmark) => {
+      let string = bookmark.jobUID + '-' + bookmark.userUID;
       bookMarkList[string] = bookmark;
-    })
-    newState.Bookmarks = bookMarkList
+    });
+    newState.Bookmarks = bookMarkList;
     return {
-      ...newState
-    }
+      ...newState,
+    };
   }),
-  on(retrievedJobCategorySuccess, (state:AppState, { jobs }) => {
-    let newState: AppState =  _.cloneDeep(state);
-    newState.JobPost = newState.JobPost.map((job) =>{
+  on(retrievedJobCategorySuccess, (state: AppState, { jobs }) => {
+    let newState: AppState = _.cloneDeep(state);
+    newState.JobPost = newState.JobPost.map((job) => {
       let newJob = _.cloneDeep(job);
-      if(job.CategorySymbol == jobs.CategorySymbol){
-        newJob.allContent = jobs.JobsPost
-        newJob.count = jobs.count!
+      if (job.CategorySymbol == jobs.CategorySymbol) {
+        newJob.allContent = jobs.JobsPost;
+        newJob.count = jobs.count!;
         return newJob;
       }
       return job;
-    })
+    });
     return {
       ...newState,
-    }
+    };
   }),
-  on(paginateJobCategory, (state:AppState, { jobs }) => {
-    let newState: AppState =  _.cloneDeep(state);
-    newState.JobPost = newState.JobPost.map((job) =>{
+  on(paginateJobCategory, (state: AppState, { jobs }) => {
+    let newState: AppState = _.cloneDeep(state);
+    newState.JobPost = newState.JobPost.map((job) => {
       let newJob = _.cloneDeep(job);
-      if(job.CategorySymbol == jobs.CategorySymbol){
-        newJob.allContent = newJob.allContent?.concat(jobs.JobsPost!) 
+      if (job.CategorySymbol == jobs.CategorySymbol) {
+        newJob.allContent = newJob.allContent?.concat(jobs.JobsPost!);
         return newJob;
       }
       return job;
-    })
+    });
     return {
       ...newState,
-    }
+    };
   }),
-  on(retrievedJobCategoryHomeSuccess, (state:AppState, { jobs }) => {
-    let newState: AppState =  _.cloneDeep(state);
-    newState.JobPost = newState.JobPost.map((job) =>{
+  on(retrievedJobCategoryHomeSuccess, (state: AppState, { jobs }) => {
+    let newState: AppState = _.cloneDeep(state);
+    newState.JobPost = newState.JobPost.map((job) => {
       let newJob = _.cloneDeep(job);
-      if(job.CategorySymbol == jobs.CategorySymbol){
-        newJob.content = jobs.JobsPost
-        newJob.count = jobs.count!
-        newJob.loading = false
+      if (job.CategorySymbol == jobs.CategorySymbol) {
+        newJob.content = jobs.JobsPost;
+        newJob.count = jobs.count!;
+        newJob.loading = false;
         return newJob;
       }
       return job;
-    })
+    });
     return {
       ...newState,
-    }
+    };
   })
 );
-
 
 /*
 Use of this source code is governed by an MIT-style license that

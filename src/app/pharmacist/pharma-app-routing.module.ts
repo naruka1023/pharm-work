@@ -35,42 +35,68 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { TosComponent } from './tos/tos.component';
 
 const routes: Routes = [
-  { path: '', component: LandingPageComponent,children:[
-    { path: 'pay', component: CheckoutComponent},
-    { path: '', component: PharmaHomeComponent},
-    { path: 'buy', component: OperatorDetailsComponent },
-    { path: 'buy-banner', component: BannerSellPageComponent },
-    { path: 'buy-social', component: SocialMediaSellPageComponent },
-    { path: 'notifications', component: NotificationsComponent},
-    { path: 'job-post', component: JobPostDetailsComponent, canDeactivate:[UrgentJobsGuard]},
-    { path: 'jobs-list', component: JobsListComponent},
-    { path: 'operator-page', component: OperatorPageComponent,canActivate:[OperatorPageGuard]},
-    { path: 'privacy-policy', component: PrivacyPolicyComponent},
-    { path: 'cookie-policy', component: CookiePolicyComponent},
-    { path: 'terms-of-service', component: TosComponent},
-    { path: 'profile-pharma', component: PharmaProfileComponent,canActivate:[InnerProfileGuard], children:[
-      { path: '',   redirectTo: 'inner-profile', pathMatch: 'full' },
-      {path:'inner-profile', component:InnerProfileComponent, canDeactivate:[ProfilePharmaGuard], children: [
-        {path: '', redirectTo: 'private-profile', pathMatch: 'full'},
-        {path:'main-profile', component:MainProfileComponent},
-        {path:'private-profile', component:PrivateProfileComponent},
-        {path:'preferred-jobs', component:PreferredJobsComponent},
-        {path:'urgent-jobs', component:UrgentJobsComponent},
-      ]},
-      {path:'bookmark', component:BookmarkComponent},
-      { path: 'followers', component: FollowersPageComponent},
-      {path:'recently-seen-job', component:RecentlySeenJobsComponent},
-      {path:'register-jobs', component:RegisterJobsComponent, children: [
-        { path: '',   redirectTo: 'request-jobs', pathMatch: 'prefix' },
-        {path:'request-jobs', component:RequestJobsComponent},
-        {path:'request-views', component:RequestViewComponent}
-      ]},
-    ]},
-  ]},
+  {
+    path: '',
+    component: LandingPageComponent,
+    children: [
+      { path: 'pay', component: CheckoutComponent },
+      { path: '', component: PharmaHomeComponent },
+      { path: 'buy', component: OperatorDetailsComponent },
+      { path: 'buy-banner', component: BannerSellPageComponent },
+      { path: 'buy-social', component: SocialMediaSellPageComponent },
+      { path: 'notifications', component: NotificationsComponent },
+      {
+        path: 'job-post',
+        component: JobPostDetailsComponent,
+        canDeactivate: [UrgentJobsGuard],
+      },
+      { path: 'jobs-list', component: JobsListComponent },
+      {
+        path: 'operator-page',
+        component: OperatorPageComponent,
+        canActivate: [OperatorPageGuard],
+      },
+      { path: 'privacy-policy', component: PrivacyPolicyComponent },
+      { path: 'cookie-policy', component: CookiePolicyComponent },
+      { path: 'terms-of-service', component: TosComponent },
+      {
+        path: 'profile-pharma',
+        component: PharmaProfileComponent,
+        canActivate: [InnerProfileGuard],
+        children: [
+          { path: '', redirectTo: 'inner-profile', pathMatch: 'full' },
+          {
+            path: 'inner-profile',
+            component: InnerProfileComponent,
+            canDeactivate: [ProfilePharmaGuard],
+            children: [
+              { path: '', redirectTo: 'private-profile', pathMatch: 'full' },
+              { path: 'main-profile', component: MainProfileComponent },
+              { path: 'private-profile', component: PrivateProfileComponent },
+              { path: 'preferred-jobs', component: PreferredJobsComponent },
+              { path: 'urgent-jobs', component: UrgentJobsComponent },
+            ],
+          },
+          { path: 'bookmark', component: BookmarkComponent },
+          { path: 'followers', component: FollowersPageComponent },
+          { path: 'recently-seen-job', component: RecentlySeenJobsComponent },
+          {
+            path: 'register-jobs',
+            component: RegisterJobsComponent,
+            children: [
+              { path: '', redirectTo: 'request-jobs', pathMatch: 'prefix' },
+              { path: 'request-jobs', component: RequestJobsComponent },
+              { path: 'request-views', component: RequestViewComponent },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PharmaAppRoutingModule { }
+export class PharmaAppRoutingModule {}

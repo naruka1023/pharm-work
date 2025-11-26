@@ -1,9 +1,15 @@
-import { enableProdMode } from '@angular/core';
-import { register as registerSwiperElements } from 'swiper/element/bundle';
-registerSwiperElements();
+import { enableProdMode, inject, PLATFORM_ID } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-
-platformBrowserDynamic()
-  .bootstrapModule(AppModule, {})
-  .catch((err) => console.error(err));
+if (typeof window !== 'undefined') {
+  import('swiper/element/bundle')
+    .then(({ register }) => {
+      register();
+      return platformBrowserDynamic().bootstrapModule(AppModule);
+    })
+    .catch((err) => console.error(err));
+} else {
+  platformBrowserDynamic()
+    .bootstrapModule(AppModule)
+    .catch((err) => console.error(err));
+}

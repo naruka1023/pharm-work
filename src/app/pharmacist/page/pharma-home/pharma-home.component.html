@@ -15,7 +15,7 @@
     </div>
   </ng-template>
   <ng-template #mainBlock>
-    <div class="pb-3">
+    <!-- <div class="pb-3">
       <swiper-container
         navigation="true"
         slides-per-view="1"
@@ -95,7 +95,7 @@
           </swiper-slide>
         </ng-template>
       </swiper-container>
-    </div>
+    </div> -->
     <div class="container pt-3 mt-3">
       <div *ngFor="let header of items$ | async">
         <app-swiper-module [filterFlags]="header"></app-swiper-module>

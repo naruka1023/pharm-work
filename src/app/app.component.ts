@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { User } from './model/user.model';
@@ -6,6 +6,7 @@ import { removeDefaultKey } from './state/actions/address.action';
 import { setCurrentUser } from './state/actions/users.action';
 import { UserService } from './service/user.service';
 import { getToken } from 'firebase/messaging';
+import { Request } from 'express';
 import {
   Firestore,
   addDoc,
@@ -17,6 +18,8 @@ import {
 import { vapidKey } from 'src/environments/environment';
 import { FirebaseService } from './service/firebase.service';
 import { Auth, onAuthStateChanged } from 'firebase/auth';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { SsrService } from './service/ssr.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +28,9 @@ import { Auth, onAuthStateChanged } from 'firebase/auth';
 })
 export class AppComponent {
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private store: Store,
+    private ssrService: SsrService,
     private route: Router,
     private userService: UserService,
     private firebaseService: FirebaseService
@@ -41,219 +46,8 @@ export class AppComponent {
   role!: string;
   vapidKey: string = vapidKey;
 
-  ngOnInit() {
-    // Add the public key generated from the console here.
-
-    this.currentUrl = window.location.href;
-    console.log(window.location);
-    // let de : any = document.documentElement;
-    // if (de.requestFullscreen) { de.requestFullscreen(); }
-    // else if (de.mozRequestFullScreen) { de.mozRequestFullScreen(); }
-    // else if (de.webkitRequestFullscreen) { de.webkitRequestFullscreen(); }
-    // else if (de.msRequestFullscreen) { de.msRequestFullscreen(); }
-
-    // // (A2) THEN LOCK ORIENTATION
-    // screen.orientation.lock('portrait');
-    console.log(navigator.userAgent);
-    this.store.dispatch(removeDefaultKey());
-    this.store
-      .select((state: any) => {
-        return state.user.role;
-      })
-      .subscribe((role) => {
-        if (role !== '') {
-          const notificationFlag =
-            this.currentUrl.indexOf('/notifications?') !== -1;
-          const successCheckoutFlag =
-            this.currentUrl.indexOf('/success-checkout') !== -1;
-          const cancelCheckoutFlag =
-            this.currentUrl.indexOf('/cancel-checkout') !== -1;
-          const url = notificationFlag
-            ? this.currentUrl.split('?')[1]
-            : 'empty';
-          if (role == 'เภสัชกร') {
-            this.route.navigate(['pharma'], {
-              queryParams: {
-                notificationsFlag: notificationFlag,
-                url: url,
-              },
-            });
-          } else {
-            this.route.navigate(['operator'], {
-              queryParams: {
-                successCheckoutFlag: successCheckoutFlag,
-                cancelCheckoutFlag: cancelCheckoutFlag,
-                notificationsFlag: notificationFlag,
-                url: url,
-              },
-            });
-          }
-        } else {
-          if (
-            this.currentUrl.indexOf('notifications') == -1 &&
-            this.currentUrl.indexOf('success-checkout') == -1 &&
-            this.currentUrl.indexOf('cancel-checkout') == -1
-          ) {
-            this.route.navigate(['']);
-          }
-        }
-      });
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        this.userUID = user.uid;
-        const bool = true;
-        if (bool) {
-          this.userService.getUser(user.uid).then((user) => {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const _geoLoc = {
-                    lng: position.coords.longitude,
-                    lat: position.coords.latitude,
-                  };
-                  this.store.dispatch(
-                    setCurrentUser({
-                      user: {
-                        ...user,
-                        _geolocCurrent: _geoLoc,
-                      },
-                    })
-                  );
-                },
-                (err) => {
-                  console.warn(`ERROR(${err.code}): ${err.message}`);
-                },
-                {
-                  enableHighAccuracy: true,
-                  timeout: 10 * 1000 * 1000,
-                  maximumAge: 0,
-                }
-              );
-            }
-            this.store.dispatch(
-              setCurrentUser({
-                user: {
-                  ...user,
-                  coverPhotoFlag: true,
-                },
-              })
-            );
-          });
-        } else {
-          const emptyUser: User = {
-            role: '',
-            email: '',
-            uid: '',
-            license: '',
-            name: '',
-            surname: '',
-            showProfileFlag: true,
-            loading: true,
-            AmountCompleted: 0,
-            urgentTimeFrame: '',
-            urgentPreferredDay: [],
-            preferredUrgentLocation: {
-              Province: '',
-              District: '',
-              Section: '',
-            },
-            urgentDescription: '',
-            introText: '',
-            WorkExperience: 0,
-            yearFlag: true,
-            nickName: '',
-            coverPhotoFlag: true,
-            highestEducation: '',
-            dateUpdated: '',
-          };
-          this.store.dispatch(setCurrentUser({ user: emptyUser }));
-          this.route.navigate(['confirm'], {
-            queryParams: {
-              email: this.auth.currentUser?.email,
-            },
-          });
-        }
-        if (!this.clickHandler) {
-          this.clickHandler = this.requestPermission.bind(this);
-        }
-        document.addEventListener('click', this.clickHandler);
-        localStorage.setItem('loginState', 'true');
-      } else {
-        const emptyUser: User = {
-          role: '',
-          email: '',
-          uid: '',
-          license: '',
-          urgentTimeFrame: '',
-          urgentPreferredDay: [],
-          preferredUrgentLocation: {
-            Province: '',
-            District: '',
-            Section: '',
-          },
-          urgentDescription: '',
-          name: '',
-          surname: '',
-          showProfileFlag: true,
-          loading: true,
-          AmountCompleted: 0,
-          introText: '',
-          WorkExperience: 0,
-          yearFlag: true,
-          nickName: '',
-          coverPhotoFlag: true,
-          highestEducation: '',
-          dateUpdated: '',
-        };
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const _geoLoc = {
-                lng: position.coords.longitude,
-                lat: position.coords.latitude,
-              };
-              this.store.dispatch(
-                setCurrentUser({
-                  user: {
-                    ...emptyUser,
-                    _geolocCurrent: _geoLoc,
-                  },
-                })
-              );
-            },
-            (err) => {
-              console.warn(`ERROR(${err.code}): ${err.message}`);
-            },
-            {
-              enableHighAccuracy: true,
-              timeout: 10 * 1000 * 1000,
-              maximumAge: 0,
-            }
-          );
-        }
-        this.store.dispatch(setCurrentUser({ user: emptyUser }));
-        localStorage.setItem('loginState', 'false');
-        const landingFlag = this.currentUrl.indexOf('/register') !== -1;
-        let registerType = '';
-        if (landingFlag) {
-          registerType = this.currentUrl.split('/register/')[1];
-          this.route.navigate(['pharma'], {
-            queryParams: {
-              landingFlag: landingFlag,
-              registerType: registerType,
-            },
-          });
-        } else {
-          if (this.currentUrl.indexOf('privacy-policy') == -1) {
-            this.route.navigate(['pharma']);
-          } else {
-            this.route.navigate(['pharma/privacy-policy']);
-          }
-        }
-      }
-    });
-  }
   requestPermission(uid: any) {
+    if (this.ssrService.isServer()) return;
     document.removeEventListener('click', this.clickHandler);
     window.Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
@@ -314,5 +108,207 @@ export class AppComponent {
         console.log('Notification permission granted.');
       }
     });
+  }
+  async ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentUrl = window.location.href;
+      this.store.dispatch(removeDefaultKey());
+      this.store
+        .select((state: any) => {
+          return state.user.role;
+        })
+        .subscribe((role) => {
+          if (role !== '') {
+            const notificationFlag =
+              this.currentUrl.indexOf('/notifications?') !== -1;
+            const successCheckoutFlag =
+              this.currentUrl.indexOf('/success-checkout') !== -1;
+            const cancelCheckoutFlag =
+              this.currentUrl.indexOf('/cancel-checkout') !== -1;
+            const url = notificationFlag
+              ? this.currentUrl.split('?')[1]
+              : 'empty';
+            if (role == 'เภสัชกร') {
+              // this.route.navigate(['pharma'], {
+              //   queryParams: {
+              //     notificationsFlag: notificationFlag,
+              //     url: url,
+              //   },
+              // });
+            } else {
+              this.route.navigate(['operator'], {
+                queryParams: {
+                  successCheckoutFlag: successCheckoutFlag,
+                  cancelCheckoutFlag: cancelCheckoutFlag,
+                  notificationsFlag: notificationFlag,
+                  url: url,
+                },
+              });
+            }
+          } else {
+            if (
+              this.currentUrl.indexOf('notifications') == -1 &&
+              this.currentUrl.indexOf('success-checkout') == -1 &&
+              this.currentUrl.indexOf('cancel-checkout') == -1
+            ) {
+              this.route.navigate(['']);
+            }
+          }
+        });
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          this.userUID = user.uid;
+          const bool = true;
+          if (bool) {
+            this.userService.getUser(user.uid).then((user) => {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                  (position) => {
+                    const _geoLoc = {
+                      lng: position.coords.longitude,
+                      lat: position.coords.latitude,
+                    };
+                    this.store.dispatch(
+                      setCurrentUser({
+                        user: {
+                          ...user,
+                          _geolocCurrent: _geoLoc,
+                        },
+                      })
+                    );
+                  },
+                  (err) => {
+                    console.warn(`ERROR(${err.code}): ${err.message}`);
+                  },
+                  {
+                    enableHighAccuracy: true,
+                    timeout: 10 * 1000 * 1000,
+                    maximumAge: 0,
+                  }
+                );
+              }
+              this.store.dispatch(
+                setCurrentUser({
+                  user: {
+                    ...user,
+                    coverPhotoFlag: true,
+                  },
+                })
+              );
+            });
+          } else {
+            const emptyUser: User = {
+              role: '',
+              email: '',
+              uid: '',
+              license: '',
+              name: '',
+              surname: '',
+              showProfileFlag: true,
+              loading: true,
+              AmountCompleted: 0,
+              urgentTimeFrame: '',
+              urgentPreferredDay: [],
+              preferredUrgentLocation: {
+                Province: '',
+                District: '',
+                Section: '',
+              },
+              urgentDescription: '',
+              introText: '',
+              WorkExperience: 0,
+              yearFlag: true,
+              nickName: '',
+              coverPhotoFlag: true,
+              highestEducation: '',
+              dateUpdated: '',
+            };
+            this.store.dispatch(setCurrentUser({ user: emptyUser }));
+            this.route.navigate(['confirm'], {
+              queryParams: {
+                email: this.auth.currentUser?.email,
+              },
+            });
+          }
+          if (!this.clickHandler) {
+            this.clickHandler = this.requestPermission.bind(this);
+          }
+          document.addEventListener('click', this.clickHandler);
+          localStorage.setItem('loginState', 'true');
+        } else {
+          const emptyUser: User = {
+            role: '',
+            email: '',
+            uid: '',
+            license: '',
+            urgentTimeFrame: '',
+            urgentPreferredDay: [],
+            preferredUrgentLocation: {
+              Province: '',
+              District: '',
+              Section: '',
+            },
+            urgentDescription: '',
+            name: '',
+            surname: '',
+            showProfileFlag: true,
+            loading: true,
+            AmountCompleted: 0,
+            introText: '',
+            WorkExperience: 0,
+            yearFlag: true,
+            nickName: '',
+            coverPhotoFlag: true,
+            highestEducation: '',
+            dateUpdated: '',
+          };
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const _geoLoc = {
+                  lng: position.coords.longitude,
+                  lat: position.coords.latitude,
+                };
+                this.store.dispatch(
+                  setCurrentUser({
+                    user: {
+                      ...emptyUser,
+                      _geolocCurrent: _geoLoc,
+                    },
+                  })
+                );
+              },
+              (err) => {
+                console.warn(`ERROR(${err.code}): ${err.message}`);
+              },
+              {
+                enableHighAccuracy: true,
+                timeout: 10 * 1000 * 1000,
+                maximumAge: 0,
+              }
+            );
+          }
+          this.store.dispatch(setCurrentUser({ user: emptyUser }));
+          localStorage.setItem('loginState', 'false');
+          const landingFlag = this.currentUrl.indexOf('/register') !== -1;
+          let registerType = '';
+          // if (landingFlag) {
+          //   registerType = this.currentUrl.split('/register/')[1];
+          //   this.route.navigate(['pharma'], {
+          //     queryParams: {
+          //       landingFlag: landingFlag,
+          //       registerType: registerType,
+          //     },
+          //   });
+          // } else {
+          //   if (this.currentUrl.indexOf('privacy-policy') == -1) {
+          //     this.route.navigate(['pharma']);
+          //   } else {
+          //     this.route.navigate(['pharma/privacy-policy']);
+          //   }
+          // }
+        }
+      });
+    }
   }
 }

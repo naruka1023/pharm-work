@@ -49,6 +49,7 @@ import {
 import { Messaging, onMessage } from 'firebase/messaging';
 import { NotificationsComponent } from './common/notifications/notifications.component';
 import { FirebaseService } from '../service/firebase.service';
+import { SsrService } from '../service/ssr.service';
 declare var window: any;
 
 @Component({
@@ -110,13 +111,16 @@ export class LandingPageComponent {
     private activatedRoute: ActivatedRoute,
     private jobService: JobPostService,
     private store: Store,
+    private ssrService: SsrService,
     private firebaseService: FirebaseService,
     private route: Router,
     private utilService: UtilService
   ) {}
+
   private auth: Auth = this.firebaseService.auth;
   private _messaging = this.firebaseService.messaging;
   private firestore = this.firebaseService.firestore;
+
   async getData() {
     let A1: any = await getDoc(doc(this.firestore, 'banners', 'subs'));
     let result: any = A1.data()!;
@@ -152,291 +156,299 @@ export class LandingPageComponent {
   }
 
   async ngOnInit() {
-    this.notificationsFlag =
-      this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag');
-    this.landingFlag = Boolean(
-      this.activatedRoute.snapshot.queryParamMap.get('landingFlag')
-    );
-    this.notificationsFlag = this.notificationsFlag == 'true' ? true : false;
-    if (this.notificationsFlag) {
-      const payload = this.activatedRoute.snapshot.queryParamMap.get('url')!;
-      this.jobPostUID = payload.split('=')[1];
-      this.type = payload.split('=')[0];
-      localStorage.setItem('type', this.type);
-      localStorage.setItem('jobUID', this.jobPostUID);
-    } else {
-      localStorage.removeItem('type');
-      localStorage.removeItem('jobUID');
-    }
-    this.shareModal = new window.bootstrap.Modal(
-      document.getElementById('shareModal')
-    );
-    this.formModal = new window.bootstrap.Modal(
-      document.getElementById('requestViewModal')
-    );
+    if (this.ssrService.isBrowser()) {
+      this.notificationsFlag =
+        this.activatedRoute.snapshot.queryParamMap.get('notificationsFlag');
+      this.landingFlag = Boolean(
+        this.activatedRoute.snapshot.queryParamMap.get('landingFlag')
+      );
+      this.notificationsFlag = this.notificationsFlag == 'true' ? true : false;
+      if (this.notificationsFlag) {
+        const payload = this.activatedRoute.snapshot.queryParamMap.get('url')!;
+        this.jobPostUID = payload.split('=')[1];
+        this.type = payload.split('=')[0];
+        localStorage.setItem('type', this.type);
+        localStorage.setItem('jobUID', this.jobPostUID);
+      } else {
+        localStorage.removeItem('type');
+        localStorage.removeItem('jobUID');
+      }
+      this.shareModal = new window.bootstrap.Modal(
+        document.getElementById('shareModal')
+      );
+      this.formModal = new window.bootstrap.Modal(
+        document.getElementById('requestViewModal')
+      );
 
-    this.loginModal = new window.bootstrap.Modal(
-      document.getElementById('loginModal')
-    );
+      this.loginModal = new window.bootstrap.Modal(
+        document.getElementById('loginModal')
+      );
 
-    this.contactUsModal = new window.bootstrap.Modal(
-      document.getElementById('contactUsModal')
-    );
+      this.contactUsModal = new window.bootstrap.Modal(
+        document.getElementById('contactUsModal')
+      );
 
-    this.bannerMenuModal = new window.bootstrap.Modal(
-      document.getElementById('bannerMenuModal')
-    );
-    this.registerModal = new window.bootstrap.Modal(
-      document.getElementById('registerModal')
-    );
-    this.operatorModal = new window.bootstrap.Modal(
-      document.getElementById('operatorModal')
-    );
-    this.offCanvas = new window.bootstrap.Offcanvas(
-      document.getElementById('offcanvasExample')
-    );
+      this.bannerMenuModal = new window.bootstrap.Modal(
+        document.getElementById('bannerMenuModal')
+      );
+      this.registerModal = new window.bootstrap.Modal(
+        document.getElementById('registerModal')
+      );
+      this.operatorModal = new window.bootstrap.Modal(
+        document.getElementById('operatorModal')
+      );
+      this.offCanvas = new window.bootstrap.Offcanvas(
+        document.getElementById('offcanvasExample')
+      );
 
-    this.store
-      .select((state: any) => {
-        return state.user;
-      })
-      .subscribe((user) => {
-        this.user = _.cloneDeep(user);
-        if (this.user.cropProfilePictureUrl == '') {
-          delete this.user.cropProfilePictureUrl;
-        }
-      });
-
-    this.store
-      .select((state: any) => {
-        return state.notifications.notificationsArchive;
-      })
-      .subscribe((notificationArchive) => {
-        let temp: notificationContent[] = [];
-        Object.keys(notificationArchive).map((key) => {
-          temp.push(notificationArchive[key]);
-        });
-        this.notificationsArchive = temp;
-        const currentDate: Date = new Date();
-        this.notificationsArchive = this.notificationsArchive.map(
-          (notification) => {
-            const notificationDate: Date = new Date(notification.dateCreated);
-            let difference =
-              (currentDate.valueOf() - notificationDate.valueOf()) / 1000;
-            const objectTime: {
-              [key: string]: number;
-            } = {
-              seconds: difference,
-              minutes: difference / 60,
-              hours: difference / 3600,
-              days: difference / (3600 * 24),
-              months: difference / (3600 * 24 * 31),
-              years: difference / (3600 * 24 * 31 * 12),
-            };
-            // วินาทีที่แล้ว
-            // นาทีที่แล้ว
-            // ชั่วโมงที่แล้ว
-            // วันที่แล้ว
-
-            let currentKey = '';
-            let currentValue = 0;
-            Object.keys(objectTime).forEach((key) => {
-              if (objectTime[key] >= 1) {
-                currentKey = key;
-                currentValue = Math.floor(objectTime[key]);
-              }
-            });
-            let finalMessage = '';
-            switch (currentKey) {
-              case 'seconds':
-                finalMessage = currentValue + ' วินาทีที่แล้ว';
-                break;
-              case 'minutes':
-                finalMessage = currentValue + ' นาทีที่แล้ว';
-                break;
-              case 'hours':
-                finalMessage = currentValue + ' ชั่วโมงที่แล้ว';
-                break;
-              case 'days':
-                finalMessage = currentValue + ' วันที่แล้ว';
-                break;
-              case 'months':
-                finalMessage = currentValue + ' เดือนที่แล้ว';
-                break;
-              case 'years':
-                finalMessage = currentValue + ' ปีที่แล้ว';
-                break;
-            }
-            return {
-              ...notification,
-              dateRange: finalMessage,
-            };
+      this.store
+        .select((state: any) => {
+          return state.user;
+        })
+        .subscribe((user) => {
+          this.user = _.cloneDeep(user);
+          if (this.user.cropProfilePictureUrl == '') {
+            delete this.user.cropProfilePictureUrl;
           }
-        );
-      });
-
-    this.store
-      .select((state: any) => {
-        return state.recentlySeen;
-      })
-      .subscribe((recentlySeen) => {
-        if (recentlySeen.length > 10) {
-          this.store.dispatch(removeRecentlySeen());
-        }
-      });
-
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        onMessage(this._messaging, (payload) => {
-          this.appendAlert(
-            {
-              ...payload.notification,
-              image: payload.data!['image'],
-            },
-            'light',
-            this.i
-          );
-          this.i++;
         });
-        this.userService.getCountGroup().then((aggregation) => {
-          this.aggregationGroup = aggregation;
-        });
-        this.userService.getNotifications(user.uid);
-        this.jobService.getUserBookmark(user.uid).then((bookmarks) => {
-          bookmarks.forEach((bookmark: Bookmark) => {
-            this.bookmarkSubscription[bookmark.jobUID] =
-              this.jobService.getJobFromBookmark(bookmark) as Unsubscribe;
+      this.store
+        .select((state: any) => {
+          return state.notifications.notificationsArchive;
+        })
+        .subscribe((notificationArchive) => {
+          let temp: notificationContent[] = [];
+          Object.keys(notificationArchive).map((key) => {
+            temp.push(notificationArchive[key]);
           });
-        });
-        this.userService.getRequestView(user.uid);
-        this.utilService.getRemoveBookmarkSubject().subscribe((value: any) => {
-          this.bookmarkSubscription[value.jobUID]();
-          delete this.bookmarkSubscription[value.jobUID];
-        });
-        this.utilService.getListenJobBookmark().subscribe((value: Bookmark) => {
-          this.bookmarkSubscription[value.jobUID] =
-            this.jobService.getJobFromBookmark(value);
-        });
-
-        this.jobService.getFollowers(user.uid).then((followers: any) => {
-          followers = followers.docs.map((follower: any) => {
-            return {
-              ...follower.data(),
-              followUID: follower.id,
-            };
-          });
-          let followIDList = followers.map((request: Follow) => {
-            return request.operatorUID;
-          });
-          this.jobService
-            .getOperatorFromFollows(followIDList)
-            .then((operators) => {
-              let payload: Follow[] = followers.map((follower: Follow) => {
-                let job = {
-                  ...follower,
-                  user: operators[follower.operatorUID],
-                };
-                return job;
-              });
-              this.store.dispatch(updateFollowersList({ followers: payload }));
-            });
-        });
-        onSnapshot(
-          query(
-            collection(this.firestore, 'users'),
-            where('uid', '==', user.uid)
-          ),
-          (snapshot) => {
-            snapshot.docChanges().forEach((value) => {
-              if (value.type == 'modified') {
-                const data = value.doc.data() as User;
-                this.store.dispatch(
-                  setCurrentUser({
-                    user: {
-                      showProfileFlag: data.showProfileFlag,
-                      active: data.active,
-                    },
-                  })
-                );
-              }
-            });
-          }
-        );
-        onSnapshot(
-          query(
-            collection(this.firestore, 'job-request'),
-            where('userUID', '==', user.uid)
-          ),
-          (jobRequest) => {
-            return jobRequest.docChanges().map((value) => {
-              let requestJobPayload = {
-                payload: {
-                  ...(value.doc.data() as jobRequest),
-                  custom_doc_uid: value.doc.id,
-                },
-                type: value.type,
+          this.notificationsArchive = temp;
+          const currentDate: Date = new Date();
+          this.notificationsArchive = this.notificationsArchive.map(
+            (notification) => {
+              const notificationDate: Date = new Date(notification.dateCreated);
+              let difference =
+                (currentDate.valueOf() - notificationDate.valueOf()) / 1000;
+              const objectTime: {
+                [key: string]: number;
+              } = {
+                seconds: difference,
+                minutes: difference / 60,
+                hours: difference / 3600,
+                days: difference / (3600 * 24),
+                months: difference / (3600 * 24 * 31),
+                years: difference / (3600 * 24 * 31 * 12),
               };
-              switch (value.type) {
-                case 'added':
-                  this.subscription[requestJobPayload.payload.jobUID] =
-                    this.jobService.getJobFromJobRequest(
-                      requestJobPayload.payload.jobUID,
-                      requestJobPayload.payload
-                    );
+              // วินาทีที่แล้ว
+              // นาทีที่แล้ว
+              // ชั่วโมงที่แล้ว
+              // วันที่แล้ว
+
+              let currentKey = '';
+              let currentValue = 0;
+              Object.keys(objectTime).forEach((key) => {
+                if (objectTime[key] >= 1) {
+                  currentKey = key;
+                  currentValue = Math.floor(objectTime[key]);
+                }
+              });
+              let finalMessage = '';
+              switch (currentKey) {
+                case 'seconds':
+                  finalMessage = currentValue + ' วินาทีที่แล้ว';
                   break;
-                case 'removed':
+                case 'minutes':
+                  finalMessage = currentValue + ' นาทีที่แล้ว';
+                  break;
+                case 'hours':
+                  finalMessage = currentValue + ' ชั่วโมงที่แล้ว';
+                  break;
+                case 'days':
+                  finalMessage = currentValue + ' วันที่แล้ว';
+                  break;
+                case 'months':
+                  finalMessage = currentValue + ' เดือนที่แล้ว';
+                  break;
+                case 'years':
+                  finalMessage = currentValue + ' ปีที่แล้ว';
+                  break;
+              }
+              return {
+                ...notification,
+                dateRange: finalMessage,
+              };
+            }
+          );
+        });
+      this.store
+        .select((state: any) => {
+          return state.recentlySeen;
+        })
+        .subscribe((recentlySeen) => {
+          if (recentlySeen.length > 10) {
+            this.store.dispatch(removeRecentlySeen());
+          }
+        });
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          onMessage(this._messaging, (payload) => {
+            this.appendAlert(
+              {
+                ...payload.notification,
+                image: payload.data!['image'],
+              },
+              'light',
+              this.i
+            );
+            this.i++;
+          });
+          this.userService.getCountGroup().then((aggregation) => {
+            this.aggregationGroup = aggregation;
+          });
+          this.userService.getNotifications(user.uid);
+          this.jobService.getUserBookmark(user.uid).then((bookmarks) => {
+            bookmarks.forEach((bookmark: Bookmark) => {
+              this.bookmarkSubscription[bookmark.jobUID] =
+                this.jobService.getJobFromBookmark(bookmark) as Unsubscribe;
+            });
+          });
+          this.userService.getRequestView(user.uid);
+          this.utilService
+            .getRemoveBookmarkSubject()
+            .subscribe((value: any) => {
+              this.bookmarkSubscription[value.jobUID]();
+              delete this.bookmarkSubscription[value.jobUID];
+            });
+          this.utilService
+            .getListenJobBookmark()
+            .subscribe((value: Bookmark) => {
+              this.bookmarkSubscription[value.jobUID] =
+                this.jobService.getJobFromBookmark(value);
+            });
+
+          this.jobService.getFollowers(user.uid).then((followers: any) => {
+            followers = followers.docs.map((follower: any) => {
+              return {
+                ...follower.data(),
+                followUID: follower.id,
+              };
+            });
+            let followIDList = followers.map((request: Follow) => {
+              return request.operatorUID;
+            });
+            this.jobService
+              .getOperatorFromFollows(followIDList)
+              .then((operators) => {
+                let payload: Follow[] = followers.map((follower: Follow) => {
+                  let job = {
+                    ...follower,
+                    user: operators[follower.operatorUID],
+                  };
+                  return job;
+                });
+                this.store.dispatch(
+                  updateFollowersList({ followers: payload })
+                );
+              });
+          });
+          onSnapshot(
+            query(
+              collection(this.firestore, 'users'),
+              where('uid', '==', user.uid)
+            ),
+            (snapshot) => {
+              snapshot.docChanges().forEach((value) => {
+                if (value.type == 'modified') {
+                  const data = value.doc.data() as User;
                   this.store.dispatch(
-                    removeJobRequest({
-                      jobRequest: {
-                        ...requestJobPayload.payload,
+                    setCurrentUser({
+                      user: {
+                        showProfileFlag: data.showProfileFlag,
+                        active: data.active,
                       },
                     })
                   );
-                  this.subscription[requestJobPayload.payload.jobUID]();
-                  delete this.subscription[requestJobPayload.payload.jobUID];
-                  break;
-              }
-            });
-          }
-        );
-        this.utilService.getRemoveRequestSubject().subscribe((value: any) => {
-          this.subscription[value]();
-          delete this.subscription[value];
-        });
-        this.utilService.getListenJobRequest().subscribe((value: any) => {
-          this.subscription[value.jobUID] =
-            this.jobService.getJobFromJobRequest(value.jobUID, value);
-        });
-      } else {
-        this.userService.getCountGroup().then((aggregation) => {
-          this.aggregationGroup = aggregation;
-        });
-        this.store.dispatch(EmptyJobPostAppState());
+                }
+              });
+            }
+          );
+          onSnapshot(
+            query(
+              collection(this.firestore, 'job-request'),
+              where('userUID', '==', user.uid)
+            ),
+            (jobRequest) => {
+              return jobRequest.docChanges().map((value) => {
+                let requestJobPayload = {
+                  payload: {
+                    ...(value.doc.data() as jobRequest),
+                    custom_doc_uid: value.doc.id,
+                  },
+                  type: value.type,
+                };
+                switch (value.type) {
+                  case 'added':
+                    this.subscription[requestJobPayload.payload.jobUID] =
+                      this.jobService.getJobFromJobRequest(
+                        requestJobPayload.payload.jobUID,
+                        requestJobPayload.payload
+                      );
+                    break;
+                  case 'removed':
+                    this.store.dispatch(
+                      removeJobRequest({
+                        jobRequest: {
+                          ...requestJobPayload.payload,
+                        },
+                      })
+                    );
+                    this.subscription[requestJobPayload.payload.jobUID]();
+                    delete this.subscription[requestJobPayload.payload.jobUID];
+                    break;
+                }
+              });
+            }
+          );
+          this.utilService.getRemoveRequestSubject().subscribe((value: any) => {
+            this.subscription[value]();
+            delete this.subscription[value];
+          });
+          this.utilService.getListenJobRequest().subscribe((value: any) => {
+            this.subscription[value.jobUID] =
+              this.jobService.getJobFromJobRequest(value.jobUID, value);
+          });
+        } else {
+          this.userService.getCountGroup().then((aggregation) => {
+            this.aggregationGroup = aggregation;
+          });
+        }
+        this.loginFlag =
+          localStorage.getItem('loginState') === null ||
+          localStorage.getItem('loginState') === 'false'
+            ? false
+            : true;
+        // this.route.navigate(['pharma']);
+      });
+
+      if (this.landingFlag) {
+        this.registerModal.show();
       }
+
+      this.loginFlag = true;
       this.loginFlag =
         localStorage.getItem('loginState') === null ||
         localStorage.getItem('loginState') === 'false'
           ? false
           : true;
-      // this.route.navigate(['pharma']);
-    });
-
-    if (this.landingFlag) {
-      this.registerModal.show();
+      this.utilService
+        .getRequestViewSubject()
+        .subscribe((requestView: requestView) => {
+          this.requestView = requestView;
+          this.formModal.show();
+        });
     }
+  }
 
-    this.loginFlag = true;
-    this.loginFlag =
-      localStorage.getItem('loginState') === null ||
-      localStorage.getItem('loginState') === 'false'
-        ? false
-        : true;
-    this.utilService
-      .getRequestViewSubject()
-      .subscribe((requestView: requestView) => {
-        this.requestView = requestView;
-        this.formModal.show();
-      });
+  get isBrowser(): boolean {
+    return this.ssrService.isBrowser();
   }
 
   openContactUsModal() {

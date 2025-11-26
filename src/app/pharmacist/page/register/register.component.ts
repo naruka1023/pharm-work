@@ -4,6 +4,8 @@ import {
   inject,
   AfterViewInit,
   ElementRef,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -32,6 +34,7 @@ import { JobHistory } from '../../model/typescriptModel/users.model';
 import { SwiperContainer } from 'swiper/element';
 import Swiper from 'swiper';
 import { FirebaseService } from 'src/app/service/firebase.service';
+import { SsrService } from 'src/app/service/ssr.service';
 declare let window: any;
 
 @Component({
@@ -43,9 +46,11 @@ export class RegisterComponent implements AfterViewInit {
   swiperPharmaIndex: number = 0;
   swiperStudentIndex: number = 0;
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private userService: UserServiceService,
     private converter: JobTypeConverterService,
     private utilService: UtilService,
+    private ssrService: SsrService,
     private el: ElementRef,
     private firebaseService: FirebaseService,
     private route: ActivatedRoute,
@@ -80,9 +85,11 @@ export class RegisterComponent implements AfterViewInit {
   swiperFormOperatorInstance!: Swiper;
 
   ngOnInit() {
-    this.registerModal = new window.bootstrap.Modal(
-      document.getElementById('registerModal')
-    );
+    if (this.ssrService.isBrowser()) {
+      this.registerModal = new window.bootstrap.Modal(
+        document.getElementById('registerModal')
+      );
+    }
     this.initializeFormGroup();
   }
 
@@ -106,66 +113,77 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const swiperEl: SwiperContainer =
-      document.querySelector('.swiperFormPharma')!;
-    const swiperEl2: SwiperContainer =
-      document.querySelector('.swiperFormStudent')!;
+    if (this.ssrService.isBrowser()) {
+      const swiperEl = this.swiperFormPharma.nativeElement as HTMLElement & {
+        initialize?: () => void;
+      };
+      const swiperEl2 = this.swiperFormStudent.nativeElement as HTMLElement & {
+        initialize?: () => void;
+      };
+      if (
+        swiperEl &&
+        swiperEl.initialize &&
+        swiperEl2 &&
+        swiperEl2.initialize
+      ) {
+        Object.assign(swiperEl, {
+          slidesPerView: 1,
+          navigation: true,
+          autoHeight: true,
+        });
 
-    Object.assign(swiperEl, {
-      slidesPerView: 1,
-      navigation: true,
-      autoHeight: true,
-    });
+        Object.assign(swiperEl2, {
+          slidesPerView: 1,
+          navigation: true,
+          autoHeight: true,
+        });
+        swiperEl.initialize();
+        swiperEl2.initialize();
+        this.swiperFormPharmaInstance =
+          this.swiperFormPharma.nativeElement.swiper;
+        this.swiperFormStudentInstance =
+          this.swiperFormStudent.nativeElement.swiper;
 
-    Object.assign(swiperEl2, {
-      slidesPerView: 1,
-      navigation: true,
-      autoHeight: true,
-    });
+        this.swiperFormPharmaInstance.on('activeIndexChange', () => {
+          this.onSwiper();
+        });
+        this.swiperFormStudentInstance.on('activeIndexChange', () => {
+          this.onSwiperStudent();
+        });
+      }
 
-    swiperEl.initialize();
-    swiperEl2.initialize();
+      if (this.route.snapshot.queryParamMap.get('registerType') !== null) {
+        this.registerType =
+          this.route.snapshot.queryParamMap.get('registerType')!;
 
-    this.swiperFormPharmaInstance = this.swiperFormPharma.nativeElement.swiper;
-    this.swiperFormStudentInstance =
-      this.swiperFormStudent.nativeElement.swiper;
-
-    this.swiperFormPharmaInstance.on('activeIndexChange', () => {
-      this.onSwiper();
-    });
-    this.swiperFormStudentInstance.on('activeIndexChange', () => {
-      this.onSwiperStudent();
-    });
-
-    if (this.route.snapshot.queryParamMap.get('registerType') !== null) {
-      this.registerType =
-        this.route.snapshot.queryParamMap.get('registerType')!;
-
-      let tabToClick = null;
-      if (this.registerType.includes('pharmacist')) {
-        tabToClick = document.getElementById('normal-job')!;
-        tabToClick.click();
-      } else {
-        if (this.registerType.includes('operator')) {
-          tabToClick = document.getElementById('operator-tab')!;
+        let tabToClick = null;
+        if (this.registerType.includes('pharmacist')) {
+          tabToClick = document.getElementById('normal-job')!;
           tabToClick.click();
         } else {
-          if (this.registerType.includes('student')) {
-            tabToClick = document.getElementById('student')!;
+          if (this.registerType.includes('operator')) {
+            tabToClick = document.getElementById('operator-tab')!;
             tabToClick.click();
+          } else {
+            if (this.registerType.includes('student')) {
+              tabToClick = document.getElementById('student')!;
+              tabToClick.click();
+            }
           }
         }
+        this.changeRoles(this.registerType);
       }
-      this.changeRoles(this.registerType);
     }
   }
 
   scrollUp() {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'auto',
-    });
+    if (this.ssrService.isBrowser()) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'auto',
+      });
+    }
   }
 
   addEducation() {

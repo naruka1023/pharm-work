@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../service/firebase.service';
+import { SsrService } from '../service/ssr.service';
 
 @Component({
   selector: 'app-job-post',
@@ -54,6 +55,7 @@ export class JobPostComponent {
     lng: 0,
   };
   constructor(
+    private ssrService: SsrService,
     private firebaseService: FirebaseService,
     private activatedRoute: ActivatedRoute
   ) {}
@@ -86,10 +88,12 @@ export class JobPostComponent {
     });
   }
   scrollUp() {
+    // if (this.ssrService.isServer()) {
     window.scroll({
       top: 0,
       left: 0,
       behavior: 'auto',
     });
+    // }
   }
 }

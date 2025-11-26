@@ -114,6 +114,58 @@
             "firebaseProject": "pharm-work",
             "firebaseHostingSite": "pharm-work"
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/pharm-work/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "pharm-work:build:development",
+              "serverTarget": "pharm-work:server:development"
+            },
+            "production": {
+              "browserTarget": "pharm-work:build:production",
+              "serverTarget": "pharm-work:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "pharm-work:build:production",
+              "serverTarget": "pharm-work:server:production"
+            },
+            "development": {
+              "browserTarget": "pharm-work:build:development",
+              "serverTarget": "pharm-work:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

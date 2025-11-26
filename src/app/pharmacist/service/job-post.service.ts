@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, TransferState, inject, makeStateKey } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable, of, Subject } from 'rxjs';
 import {
@@ -35,17 +35,21 @@ import {
   followOperator,
   removeBookmark,
   removeJobRequest,
+  retrievedJobSuccess,
+  setBanner,
 } from '../state/actions/job-post.actions';
 import { Store } from '@ngrx/store';
 import { UtilService } from './util.service';
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { FirebaseService } from 'src/app/service/firebase.service';
+import { SsrService } from 'src/app/service/ssr.service';
 
 const client = algoliasearch(
   algoliaEnvironment.app_id,
   algoliaEnvironment.api_key
 );
+const JOBS_STATE_KEY = makeStateKey<any>('jobs-data');
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +62,8 @@ export class JobPostService {
     private firebaseService: FirebaseService,
     private http: HttpClient,
     private utilService: UtilService,
+    private ssrService: SsrService,
+    private transferState: TransferState,
     private store: Store
   ) {}
   private firestore = this.firebaseService.firestore;
@@ -85,6 +91,180 @@ export class JobPostService {
         bookmarkUID: bookmark.id,
       } as Bookmark;
     });
+  }
+
+  async dispatchJobs() {
+    if (
+      this.ssrService.isBrowser() &&
+      this.transferState.hasKey(JOBS_STATE_KEY)
+    ) {
+      this.store.dispatch(
+        retrievedJobSuccess({
+          jobs: this.transferState.get(JOBS_STATE_KEY, []),
+        })
+      );
+      this.transferState.remove(JOBS_STATE_KEY);
+      return;
+    }
+    let categorySymbols = headerArray.map(
+      (header: filterConditions) => header.CategorySymbol
+    );
+    let promises: Promise<any>[] = [];
+    let countPromises: Promise<{
+      categorySymbol: string;
+      count: number;
+    }>[] = [];
+    const banner = await this.getBanners();
+    let ref: any = banner.data()!;
+    this.store.dispatch(setBanner({ banner: ref }));
+    categorySymbols.forEach((categorySymbol: string) => {
+      countPromises.push(this.getCategorySymbolCount(categorySymbol));
+    });
+    const countPayload = await Promise.all(countPromises);
+    let newCountPayload: {
+      [key: string]: number;
+    } = {};
+    countPayload.forEach((cP) => {
+      newCountPayload[cP.categorySymbol] = cP.count;
+    });
+    categorySymbols.forEach((categorySymbol: string) => {
+      switch (categorySymbol) {
+        case 'CB':
+          let idList2: string[] = headerArray.find((header) => {
+            return header.CategorySymbol == 'CB';
+          })!.idList!;
+          promises.push(
+            this.getOperatorsByType(idList2).then((operators) => {
+              let res: jobPostPayload = {
+                UserOperator: operators,
+                CategorySymbol: categorySymbol,
+              };
+              return res;
+            })
+          );
+
+          break;
+        case 'BA':
+          let resultBanner: string[] = ref['B2'];
+          if (resultBanner.length > 0) {
+            resultBanner = this.shuffle(resultBanner);
+            if (resultBanner.length > 12) {
+              resultBanner = resultBanner.slice(0, 12);
+            }
+            ref = {
+              ...ref,
+              B2: resultBanner,
+            };
+          }
+          let B1Banner: string[] = [];
+          switch (ref['B1'].length) {
+            case 0:
+              B1Banner = B1Banner.concat(ref['B1']).concat(['', '', '']);
+              break;
+            case 1:
+              B1Banner = B1Banner.concat(ref['B1']).concat(['', '']);
+              break;
+            case 2:
+              B1Banner = B1Banner.concat(ref['B1']).concat(['']);
+              break;
+            case 3:
+              B1Banner = B1Banner.concat(ref['B1']);
+              break;
+            default:
+              B1Banner = B1Banner.concat(ref['B1']);
+          }
+          let idList: string[] = B1Banner.concat(ref['B2']);
+          promises.push(
+            this.getOperatorsByType(idList).then((operators) => {
+              let res: jobPostPayload = {
+                UserOperator: operators,
+                CategorySymbol: categorySymbol,
+              };
+              return res;
+            })
+          );
+          break;
+        default:
+          promises.push(
+            this.getJobCategoryServiceSmall(categorySymbol).then((jobPosts) => {
+              let res: jobPostPayload = {
+                JobsPost: jobPosts,
+                CategorySymbol: categorySymbol,
+                count: newCountPayload[categorySymbol],
+              };
+              return res;
+            })
+          );
+          break;
+      }
+    });
+    const jobs = await Promise.all(promises);
+
+    let newJobs: {
+      [key: string]: jobPostPayload;
+    } = {};
+    jobs.forEach((job: jobPostPayload) => {
+      newJobs[job.CategorySymbol] = job;
+    });
+    let finalPayload: filterConditions[] = headerArray.map(
+      (header: filterConditions) => {
+        let payload: filterConditions = {
+          ...header,
+          content:
+            newJobs[header.CategorySymbol].CategorySymbol == 'BA' ||
+            newJobs[header.CategorySymbol].CategorySymbol == 'CB'
+              ? newJobs[header.CategorySymbol].UserOperator
+              : newJobs[header.CategorySymbol].JobsPost,
+          loading: false,
+          count: newJobs[header.CategorySymbol].count!,
+        };
+        if (
+          header.CategorySymbol == 'A2' ||
+          header.CategorySymbol == 'A3' ||
+          header.CategorySymbol == 'A4'
+        ) {
+          if (ref[header.CategorySymbol] !== undefined) {
+            payload = {
+              ...payload,
+              bannerList: ref[header.CategorySymbol],
+            };
+          }
+        }
+        if (header.CategorySymbol == 'BA') {
+          payload = {
+            ...payload,
+            idList: ref['B1'].concat(ref['B2']),
+          };
+        }
+        if (
+          newJobs[header.CategorySymbol].CategorySymbol == 'BA' ||
+          newJobs[header.CategorySymbol].CategorySymbol == 'CB'
+        ) {
+          const complementaryCount = 15 - payload.content!.length;
+          let i = 0;
+          while (i < complementaryCount) {
+            i++;
+            payload.content?.push('empty');
+          }
+        }
+        return payload;
+      }
+    );
+    this.store.dispatch(retrievedJobSuccess({ jobs: finalPayload }));
+    if (this.ssrService.isServer()) {
+      this.transferState.set(JOBS_STATE_KEY, finalPayload);
+    }
+  }
+
+  shuffle(inputArray: string[]) {
+    let array = [...inputArray];
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
   }
 
   getJobFromBookmark(bookmark: Bookmark): Unsubscribe {

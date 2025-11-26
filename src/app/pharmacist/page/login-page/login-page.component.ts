@@ -12,6 +12,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { FirebaseService } from 'src/app/service/firebase.service';
+import { SsrService } from 'src/app/service/ssr.service';
 declare let window: any;
 
 @Component({
@@ -40,32 +41,39 @@ export class LoginPageComponent implements AfterViewInit {
   constructor(
     private route: Router,
     private fb: FormBuilder,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private ssrService: SsrService
   ) {}
   ngOnInit() {
     this.loginForm = this.fb.group({
       userName: ['', Validators.required],
       password: ['', Validators.required],
     });
-    this.loginModal = new window.bootstrap.Modal(
-      document.getElementById('loginModal')
-    );
-    this.email = new FormControl('', [Validators.required, Validators.email]);
-    const myModal = document.getElementById('exampleModal');
 
-    myModal?.addEventListener('show.bs.modal', (fds) => {
-      this.resetSuccessful = false;
-      this.resetButtonFlag = true;
-    });
-    this.scrollUp();
+    if (this.ssrService.isBrowser()) {
+      this.loginModal = new window.bootstrap.Modal(
+        document.getElementById('loginModal')
+      );
+      const myModal = document.getElementById('exampleModal');
+      myModal?.addEventListener('show.bs.modal', (fds) => {
+        this.resetSuccessful = false;
+        this.resetButtonFlag = true;
+      });
+
+      this.scrollUp();
+    }
+
+    this.email = new FormControl('', [Validators.required, Validators.email]);
   }
 
   scrollUp() {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'auto',
-    });
+    if (this.ssrService.isBrowser()) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'auto',
+      });
+    }
   }
   closeModal() {
     this.loginModal.hide();
@@ -87,7 +95,9 @@ export class LoginPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.swiper = document.querySelector('.swiper')!;
+    if (this.ssrService.isBrowser()) {
+      this.swiper = document.querySelector('.swiper')!;
+    }
   }
 
   onForgetPassword() {
