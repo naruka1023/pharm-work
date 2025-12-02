@@ -2,30 +2,29 @@
   "hosting": {
     "public": "dist/pharm-work",
     "site": "pharm-work",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "function": "ssr"
       }
     ]
   },
   "functions": [
     {
-      "source": "functions",
-      "codebase": "default",
+      "source": "ssr-functions",
+      "codebase": "ssr",
+      "runtime": "nodejs22",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log"
+        "firebase-debug.*.log",
+        "*.local"
       ]
     }
   ],
+
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
@@ -50,7 +49,8 @@
       "port": 9199
     },
     "ui": {
-      "enabled": true
+      "enabled": true,
+      "port": 4002
     },
     "singleProjectMode": true
   }

@@ -2,7 +2,9 @@ import {
   APP_INITIALIZER,
   CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -11,10 +13,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
-import {
-  BrowserModule,
-  provideClientHydration,
-} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { DemoLandingComponent } from './demo-landing/demo-landing.component';
 import { usersReducer } from './state/reducer/users-reducers';
 import { addressReducer } from './state/reducer/address-reducer';
@@ -42,8 +41,12 @@ import { notificationsReducer } from './pharmacist/state/reducers/notifications.
 import { INITIAL_STATE, rootReducers } from './state/store/app-store';
 import { JobPostService } from './pharmacist/service/job-post.service';
 
-export function serverPrefetchFactory(jobService: JobPostService) {
+export function serverPrefetchFactory(platformId: object, jobService: JobPostService) {
   return async () => {
+    // Only run in browser context, skip on server
+    if (!isPlatformBrowser(platformId)) {
+      return;
+    }
     // fetch and dispatch inside Angular DI
     console.log('dispatch');
     jobService.dispatchJobs();
@@ -96,7 +99,7 @@ export function serverPrefetchFactory(jobService: JobPostService) {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [JobPostService],
+      deps: [PLATFORM_ID, JobPostService],
       useFactory: serverPrefetchFactory,
     },
   ], // add this line

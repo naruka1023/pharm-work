@@ -59,6 +59,7 @@ export function app(): express.Express {
       res: { send: (arg0: string) => any },
       next: (arg0: any) => any
     ) => {
+      console.log('Handling request for: ', req.originalUrl);
       const { protocol, originalUrl, baseUrl, headers } = req;
       commonEngine
         .render({
@@ -88,7 +89,7 @@ function run(): void {
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
+    console.log(`Node Express server listenfdsing on http://localhost:${port}`);
   });
 }
 

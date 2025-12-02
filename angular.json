@@ -68,7 +68,7 @@
             },
             "development": {
               "buildOptimizer": false,
-              "optimization": false,
+              "optimization": true,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
@@ -120,11 +120,16 @@
           "options": {
             "outputPath": "dist/pharm-work/server",
             "main": "server.ts",
-            "tsConfig": "tsconfig.server.json"
+            "tsConfig": "tsconfig.server.json",
+            "watch": false
           },
           "configurations": {
             "production": {
-              "outputHashing": "media"
+              "outputHashing": "media",
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": true,
+              "namedChunks": true
             },
             "development": {
               "buildOptimizer": false,
