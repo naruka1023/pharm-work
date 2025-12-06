@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# Dependencies (Cloud Build will install via npm ci)
+node_modules
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Artifacts (will be rebuilt)
+dist
+.angular
+
+# Temporary files
+npm-debug.log
+.env
+.env.local
+
+# Testing
+coverage
+*.spec.ts
+
+# Firebase (not needed for Cloud Run)
+firebase-debug.log
+.firebaserc
+
+# Other
+.DS_Store
+README.md

@@ -94,18 +94,23 @@ export class JobPostService {
   }
 
   async dispatchJobs() {
-    if (
-      this.ssrService.isBrowser() &&
-      this.transferState.hasKey(JOBS_STATE_KEY)
-    ) {
-      this.store.dispatch(
-        retrievedJobSuccess({
-          jobs: this.transferState.get(JOBS_STATE_KEY, []),
-        })
+    if (this.ssrService.isBrowser()) {
+      console.log(
+        'checking transfer state for jobs ',
+        this.transferState.get(JOBS_STATE_KEY, 'empty')
       );
-      this.transferState.remove(JOBS_STATE_KEY);
-      return;
+      if (this.transferState.hasKey(JOBS_STATE_KEY)) {
+        console.log('dispatching jobs from transfer state');
+        this.store.dispatch(
+          retrievedJobSuccess({
+            jobs: this.transferState.get(JOBS_STATE_KEY, []),
+          })
+        );
+        this.transferState.remove(JOBS_STATE_KEY);
+        return;
+      }
     }
+    console.log('dispatching jobs');
     let categorySymbols = headerArray.map(
       (header: filterConditions) => header.CategorySymbol
     );
@@ -252,6 +257,7 @@ export class JobPostService {
     );
     this.store.dispatch(retrievedJobSuccess({ jobs: finalPayload }));
     if (this.ssrService.isServer()) {
+      console.log('set transfer state');
       this.transferState.set(JOBS_STATE_KEY, finalPayload);
     }
   }

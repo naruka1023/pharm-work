@@ -59,7 +59,6 @@ export function app(): express.Express {
       res: { send: (arg0: string) => any },
       next: (arg0: any) => any
     ) => {
-      console.log('Handling request for: ', req.originalUrl);
       const { protocol, originalUrl, baseUrl, headers } = req;
       commonEngine
         .render({

@@ -4,7 +4,7 @@ import {
   NgModule,
   PLATFORM_ID,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -40,17 +40,16 @@ import { recentlySeenReducer } from './pharmacist/state/reducers/recently-seen-r
 import { notificationsReducer } from './pharmacist/state/reducers/notifications.reducers.';
 import { INITIAL_STATE, rootReducers } from './state/store/app-store';
 import { JobPostService } from './pharmacist/service/job-post.service';
+import { Route, Router } from '@angular/router';
 
-export function serverPrefetchFactory(platformId: object, jobService: JobPostService) {
-  return async () => {
-    // Only run in browser context, skip on server
-    if (!isPlatformBrowser(platformId)) {
-      return;
-    }
-    // fetch and dispatch inside Angular DI
-    console.log('dispatch');
-    jobService.dispatchJobs();
-    // if your service dispatches internally, you don't need to do anything else
+export function serverPrefetchFactory(
+  jobService: JobPostService,
+  platformId: Object
+) {
+  // Return the Promise from dispatchJobs so Angular will wait for it.
+  return () => {
+    // fetch and dispatch inside Angular DI and return the promise
+    return jobService.dispatchJobs();
   };
 }
 
@@ -90,7 +89,6 @@ export function serverPrefetchFactory(platformId: object, jobService: JobPostSer
     }),
   ],
   providers: [
-    LandingPageRealComponent,
     CookieService,
     {
       provide: INITIAL_STATE,
@@ -99,7 +97,7 @@ export function serverPrefetchFactory(platformId: object, jobService: JobPostSer
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [PLATFORM_ID, JobPostService],
+      deps: [JobPostService],
       useFactory: serverPrefetchFactory,
     },
   ], // add this line
