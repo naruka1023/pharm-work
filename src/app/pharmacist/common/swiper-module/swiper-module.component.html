@@ -51,7 +51,12 @@
         <swiper-container
           *ngIf="_data!.bannerType === 'short'"
           #swiperShortBanner
-          style="margin-bottom: 3em; text-align: center"
+          style="
+            margin-bottom: 3em;
+            text-align: center;
+            display: flex;
+            overflow-x: hidden;
+          "
         >
           <swiper-slide>
             <div class="img-container">
@@ -92,7 +97,12 @@
             *ngIf="_data!.bannerType === 'long'"
             #swiperLongBanner
             init="false"
-            style="margin-bottom: 3em; text-align: center"
+            style="
+              margin-bottom: 3em;
+              text-align: center;
+              display: flex;
+              overflow-x: hidden;
+            "
           >
             <swiper-slide *ngFor="let banner of _data!.bannerList">
               <div class="img-container">
@@ -124,7 +134,12 @@
             *ngIf="_data!.bannerType === 'long'"
             #swiperEmptyLongBanner
             init="false"
-            style="margin-bottom: 3em; text-align: center"
+            style="
+              margin-bottom: 3em;
+              text-align: center;
+              display: flex;
+              overflow-x: hidden;
+            "
           >
             <swiper-slide>
               <div class="img-container">
@@ -163,31 +178,15 @@
         <swiper-container
           init="false"
           #swiperOperatorBanner
-          class="mb-sm-5 mb-2"
+          style="text-align: center"
+          class="swiper-operator-grid"
         >
-          <swiper-slide *ngFor="let items of items(); let i = index">
-            <img
-              *ngIf="i <= 2 && items !== 'empty'"
-              src="assets/pin.png"
-              class="pin-icon"
-              style="
-                z-index: 100;
-                width: 50px;
-                position: absolute;
-                right: 40px;
-                top: 3px;
-              "
-            />
-            <app-operator-small-card
-              *ngIf="items !== 'empty'"
-              [content]="items"
-            ></app-operator-small-card>
-
-            <div *ngIf="items === 'empty'" style="line-break: anywhere">
+          <ng-container>
+            <swiper-slide *ngFor="let items of items(); let i = index">
               <img
-                *ngIf="i <= 2"
+                *ngIf="i <= 2 && items !== 'empty'"
                 src="assets/pin.png"
-                class="pin-icon"
+                class="pin-icon pin"
                 style="
                   z-index: 100;
                   width: 50px;
@@ -196,16 +195,35 @@
                   top: 3px;
                 "
               />
-              <img
-                class="landing-page_img profileOperatorImage"
-                src="assets/emptybanner/emptyBannerSmall.png"
-                style="width: 150px; height: 150px; border-radius: 100%"
-              />
-              <div class="companyName fs-5" style="visibility: hidden">
-                ff<br />gg
+              <app-operator-small-card
+                *ngIf="items !== 'empty'"
+                [content]="items"
+              ></app-operator-small-card>
+
+              <div *ngIf="items === 'empty'" style="line-break: anywhere">
+                <img
+                  *ngIf="i <= 2"
+                  src="assets/pin.png"
+                  class="pin-icon"
+                  style="
+                    z-index: 100;
+                    width: 50px;
+                    position: absolute;
+                    right: 40px;
+                    top: 3px;
+                  "
+                />
+                <img
+                  class="landing-page_img profileOperatorImage"
+                  src="assets/emptybanner/emptyBannerSmall.png"
+                  style="width: 150px; height: 150px; border-radius: 100%"
+                />
+                <div class="companyName fs-5" style="visibility: hidden">
+                  ff<br />gg
+                </div>
               </div>
-            </div>
-          </swiper-slide>
+            </swiper-slide>
+          </ng-container>
         </swiper-container>
       </ng-template>
     </div>
@@ -233,9 +251,17 @@
         <swiper-container
           #swiperJobPost
           init="false"
-          style="margin-top: 1em; text-align: center"
+          style="
+            margin-top: 1em;
+            text-align: center;
+            display: -webkit-box;
+            overflow-x: hidden;
+          "
         >
-          <swiper-slide *ngFor="let item of items()">
+          <swiper-slide
+            *ngFor="let item of items()"
+            class="{{ swiperContainerClass }}"
+          >
             <app-job-post-small-card
               [urgentFlag]="item.CategorySymbol == 'AA'"
               [fullTimeFlag]="item.TimeFrame === 'Full-Time' ? true : false"

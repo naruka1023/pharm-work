@@ -92,7 +92,33 @@ export class PharmaHomeComponent {
       this.localItem = item;
     });
   }
+  injectSlideStyles() {
+    const _className = Object.entries(this.breakingPointOperator).map(
+      ([key, value]) => {
+        const { slidesPerView = 1, spaceBetween: gap = 20 } = value as {
+          slidesPerView?: number;
+          spaceBetween?: number;
+        };
+        return `
+       @media (min-width: ${key}px) {
+          .slide-head{ 
+            display:block;
+            width: calc((100% - ${
+              (slidesPerView - 1) * gap
+            }px) / ${slidesPerView});
+            margin-right: ${gap}px;
+          }            
+        }`;
+      }
+    );
+    const style = this.document.createElement('style');
+    style.innerHTML = _className.join('\n');
+    this.document.head.appendChild(style);
+  }
   ngAfterViewInit(): void {
+    if (this.ssrService.isServer()) {
+      this.injectSlideStyles();
+    }
     if (this.ssrService.isBrowser()) {
       this.type = localStorage.getItem('type')!;
       this.jobPostUID = localStorage.getItem('jobUID')!;

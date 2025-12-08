@@ -15,18 +15,17 @@
     </div>
   </ng-template>
   <ng-template #mainBlock>
-    <!-- <div class="pb-3">
+    <div class="pb-3">
       <swiper-container
         navigation="true"
         slides-per-view="1"
-        centered-slides="true"
         loop="true"
         space-between="30"
         pagination="true"
         autoplay='{"delay": 3000, "disableOnInteraction": false}'
         [breakpoints]="breakingPointOperator"
         class="mt-sm-4 mt-3"
-        style="text-align: center"
+        style="text-align: center; display: -webkit-box; overflow-x: hidden"
       >
         <ng-container
           *ngIf="a1Banner.length > 0; then hasBanner; else noBanner"
@@ -34,7 +33,7 @@
         </ng-container>
         <ng-template #hasBanner>
           <ng-container *ngFor="let banner of a1Banner">
-            <swiper-slide>
+            <swiper-slide class="slide-head">
               <div class="img-container">
                 <ng-container
                   *ngIf="banner.link !== ''; then link; else noLink"
@@ -58,12 +57,12 @@
           </ng-container>
         </ng-template>
         <ng-template #noBanner>
-          <swiper-slide>
+          <swiper-slide class="slide-head">
             <div class="img-container">
               <img class="landing-page_img" src="assets/banner8.png" />
             </div>
           </swiper-slide>
-          <swiper-slide>
+          <swiper-slide class="slide-head">
             <div class="img-container">
               <img
                 class="landing-page_img"
@@ -73,7 +72,7 @@
               />
             </div>
           </swiper-slide>
-          <swiper-slide>
+          <swiper-slide class="slide-head">
             <div class="img-container">
               <img
                 class="landing-page_img"
@@ -83,7 +82,7 @@
               />
             </div>
           </swiper-slide>
-          <swiper-slide>
+          <swiper-slide class="slide-head">
             <div class="img-container">
               <img
                 class="landing-page_img"
@@ -95,7 +94,7 @@
           </swiper-slide>
         </ng-template>
       </swiper-container>
-    </div> -->
+    </div>
     <div class="container pt-3 mt-3">
       <div *ngFor="let header of items$ | async">
         <app-swiper-module [filterFlags]="header"></app-swiper-module>

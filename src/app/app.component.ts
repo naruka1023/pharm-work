@@ -20,6 +20,7 @@ import { FirebaseService } from './service/firebase.service';
 import { Auth, onAuthStateChanged } from 'firebase/auth';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { SsrService } from './service/ssr.service';
+import { register } from 'swiper/element';
 
 @Component({
   selector: 'app-root',
@@ -48,6 +49,7 @@ export class AppComponent {
 
   requestPermission(uid: any) {
     if (this.ssrService.isServer()) return;
+    register();
     document.removeEventListener('click', this.clickHandler);
     window.Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {

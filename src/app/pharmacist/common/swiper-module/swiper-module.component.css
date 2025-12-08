@@ -132,3 +132,55 @@
   -webkit-align-items: center;
   align-items: center;
 }
+
+/* Grid fallback for operator swiper when init="false" */
+.swiper-operator-grid {
+  --operator-row-height: 220px; /* default row height (overrideable) */
+  display: grid;
+  grid-auto-flow: row;
+  gap: 30px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  /* fixed total height equal to 3 rows */
+  /* height: calc(var(--operator-row-height) * 3); */
+}
+
+/* Default (mobile) - 2 columns */
+.swiper-operator-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* grid-template-rows: repeat(3, var(--operator-row-height)); */
+  grid-template-rows: repeat(3, auto);
+}
+
+/* >= 550px -> 3 columns */
+@media (min-width: 550px) {
+  .swiper-operator-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* >= 1000px -> 4 columns */
+@media (min-width: 1000px) {
+  .swiper-operator-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* >= 1400px -> 5 columns */
+@media (min-width: 1400px) {
+  .swiper-operator-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* Ensure grid items behave as cells */
+.swiper-operator-grid > swiper-slide {
+  width: auto !important;
+  /* height: var(--operator-row-height) !important; */
+  display: block;
+}
+
+.swiper-operator-grid > swiper-slide > * {
+  width: 100%;
+  height: 100%;
+}

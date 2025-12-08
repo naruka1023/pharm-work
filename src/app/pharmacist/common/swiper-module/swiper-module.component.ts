@@ -6,6 +6,7 @@ import {
   Inject,
   Input,
   NgZone,
+  Renderer2,
   signal,
   ViewChild,
   ViewEncapsulation,
@@ -90,6 +91,7 @@ export class SwiperModuleComponent implements AfterViewInit {
   swiperJobPost!: ElementRef<SwiperContainer>;
 
   items = signal<any[]>([]);
+  operatorFlag = signal<boolean>(false);
 
   _data: filterConditions | null = null;
   @Input()
@@ -106,18 +108,57 @@ export class SwiperModuleComponent implements AfterViewInit {
     console.log('get loading: ', this._data?.loading);
     return this._data;
   }
-
+  style: string = '';
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private ngZone: NgZone,
     private router: Router,
     private store: Store,
+    private renderer: Renderer2,
     private ssrService: SsrService,
     private el: ElementRef,
     private activatedRoute: ActivatedRoute
   ) {}
+  // class assigned to each swiper-slide; compute deterministically so
+  // server-rendered HTML and client bootstrapping use the same value.
+  swiperContainerClass: string = '';
+  injectSlideStyles() {
+    const _className = Object.entries(this.breakingPoint).map(
+      ([key, value]) => {
+        const { slidesPerView = 1, spaceBetween: gap = 20 } = value as {
+          slidesPerView?: number;
+          spaceBetween?: number;
+        };
+        return `
+       @media (min-width: ${key}px) {
+          .${this.swiperContainerClass}{ 
+            display:block;
+            width: calc((100% - ${
+              (slidesPerView - 1) * gap
+            }px) / ${slidesPerView});
+            margin-right: ${gap}px;
+          }            
+        }`;
+      }
+    );
+    const style = this.document.createElement('style');
+    style.innerHTML = _className.join('\n');
+    this.document.head.appendChild(style);
+  }
 
   ngOnInit() {
+    // compute a stable class name for slides so SSR and client agree
+    try {
+      const cat = this._data?.CategorySymbol || 'anon';
+      const firstId =
+        (this.items && this.items()[0] && this.items()[0].custom_doc_id) ||
+        null;
+      this.swiperContainerClass = firstId
+        ? `swiper-${cat}-${firstId}`
+        : `swiper-${cat}`;
+    } catch (e) {
+      this.swiperContainerClass = 'swiper-unknown';
+    }
     this.store
       .select((state: any) => {
         return state.jobpost.Banners;
@@ -150,7 +191,16 @@ export class SwiperModuleComponent implements AfterViewInit {
       this.urgentFlag = true;
     }
   }
+
   ngAfterViewInit(): void {
+    if (this.ssrService.isServer()) {
+      if (this.swiperJobPost) {
+        console.log('swiperJobPost found, injecting styles');
+        this.injectSlideStyles();
+      } else {
+        console.log('no swiperJobPost');
+      }
+    }
     if (this.ssrService.isBrowser()) {
       queueMicrotask(() => {
         if (this.swiperOperatorBanner) {
@@ -174,7 +224,34 @@ export class SwiperModuleComponent implements AfterViewInit {
               breakpoints: this.breakingPointOperator,
             });
             this.swiperEl.initialize();
+            // Remove the grid fallback class after Swiper initializes so
+            // the interactive Swiper layout can take over.
+            try {
+              const el = this.swiperOperatorBanner.nativeElement as HTMLElement;
+              // remove pin classes from any images inside the operator swiper
+              try {
+                const pins = (el as any).querySelectorAll(
+                  'img.pin-icon, img.pin'
+                );
+                pins.forEach((p: any) => {
+                  try {
+                    this.renderer.removeClass(p, 'pin');
+                  } catch (_) {
+                    // ignore per-image errors
+                  }
+                });
+              } catch (_) {
+                // ignore query failures
+              }
+
+              this.renderer.removeClass(el, 'swiper-operator-grid');
+              this.renderer.removeClass(el, 'swiper-fading');
+              this.renderer.addClass(el, 'swiper-ready');
+            } catch (e) {
+              // ignore if renderer/class removal isn't possible
+            }
             // ✅ Use ResizeObserver to reinitialize safely on resize/orientation changes
+            this.operatorFlag.set(true);
             this.ngZone.runOutsideAngular(() => {
               this.resizeObserver = new ResizeObserver(() => {
                 this.reinitializeSwiper();
